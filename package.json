@@ -1,0 +1,34 @@
+{
+	"name": "@onerepo/root",
+	"packageManager": "yarn@3.3.1",
+	"private": true,
+	"type": "module",
+	"bin": {
+		"one": "./bin/one.js"
+	},
+	"workspaces": [
+		"apps/*",
+		"internal/*",
+		"modules/*",
+		"plugins/*"
+	],
+	"devDependencies": {
+		"@onerepo/eslint-plugin": "workspace:^",
+		"@onerepo/plugin-docgen": "workspace:^",
+		"@onerepo/plugin-eslint": "workspace:^",
+		"@onerepo/plugin-prettier": "workspace:^",
+		"@onerepo/plugin-vitest": "workspace:^",
+		"@onerepo/prettier-config": "workspace:^",
+		"@types/eslint": "^8",
+		"esbuild": "^0.17.5",
+		"esbuild-register": "^3.4.2",
+		"eslint": "^8.32.0",
+		"husky": "^8.0.0",
+		"prettier": "^2.8.2",
+		"typescript": "^4.9.4",
+		"vitest": "^0.27.1"
+	},
+	"scripts": {
+		"postinstall": "husky install"
+	}
+}

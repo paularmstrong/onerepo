@@ -1,0 +1,26 @@
+{
+	"name": "@onerepo/cli",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"dependencies": {
+		"@onerepo/graph": "workspace:^",
+		"@onerepo/logger": "workspace:^",
+		"cliui": "^8.0.1",
+		"glob": "^8.0.3",
+		"yargs": "^17.6.2",
+		"yargs-parser": "^21.1.1"
+	},
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/vitest": "workspace:^",
+		"@types/glob": "^8.0.0",
+		"@types/npmlog": "^4.1.4",
+		"@types/random-seed": "^0",
+		"@types/yargs": "^17",
+		"@types/yargs-parser": "^21",
+		"typescript": "^4.9.4",
+		"vitest": "^0.27.1"
+	}
+}

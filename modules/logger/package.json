@@ -1,0 +1,17 @@
+{
+	"name": "@onerepo/logger",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"dependencies": {
+		"log-update": "^5.0.1",
+		"picocolors": "^1.0.0"
+	},
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/vitest": "workspace:^",
+		"typescript": "^4.9.4",
+		"vitest": "^0.27.1"
+	}
+}

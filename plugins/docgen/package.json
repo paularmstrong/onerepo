@@ -1,0 +1,24 @@
+{
+	"name": "@onerepo/plugin-docgen",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"bin": {
+		"docgen": "./src/bin.cjs"
+	},
+	"dependencies": {
+		"@onerepo/cli": "workspace:^",
+		"mdast-builder": "^1.1.1",
+		"remark-gfm": "^3.0.1",
+		"remark-parse": "^10.0.1",
+		"remark-stringify": "^10.0.2",
+		"unified": "^10.1.2"
+	},
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/vitest": "workspace:^",
+		"typescript": "^4.9.4",
+		"vitest": "^0.27.1"
+	}
+}

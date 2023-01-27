@@ -1,0 +1,20 @@
+{
+	"name": "@onerepo/plugin-eslint",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"dependencies": {
+		"@onerepo/cli": "workspace:^"
+	},
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/vitest": "workspace:^",
+		"@types/eslint": "^8",
+		"eslint": "^8.32.0",
+		"typescript": "^4.9.4"
+	},
+	"peerDependencies": {
+		"eslint": "^8"
+	}
+}
