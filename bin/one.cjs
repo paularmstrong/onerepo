@@ -19,7 +19,7 @@ const { prettier } = require('@onerepo/plugin-prettier');
 			root: path.join(__dirname, '..'),
 			subcommandDir: 'commands',
 			core: {
-				tasks: { groups: ['pre-commit'] },
+				tasks: { lifecycles: ['pre-commit', 'pull-request'] },
 			},
 			plugins: [
 				vitest({ name: 'test' }),

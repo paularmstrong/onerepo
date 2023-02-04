@@ -1,0 +1,50 @@
+name: Pull request
+
+on: pull_request
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      tasks: ${{ steps.tasks.outputs.tasks }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: git fetch --no-tags --prune --depth=1 origin main
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn
+
+      - name: Get tasks
+        id: tasks
+        run: |
+          TASKS=$(./bin/one.cjs tasks --lifecycle=pull-request --list -vvvvv)
+          echo ${TASKS}
+          echo "tasks=${TASKS}" >> $GITHUB_OUTPUT
+  tasks:
+    runs-on: ubuntu-latest
+    needs: setup
+    strategy:
+      fail-fast: false
+      matrix:
+        task: ${{ fromJSON(needs.setup.outputs.tasks) }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: git fetch --no-tags --prune --depth=1 origin main
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn
+
+      - name: ${{ matrix.task.name }}
+        run: |
+          cd ${{ matrix.task.opts.cwd }}
+          ${{ matrix.task.cmd }} ${{ join(matrix.task.args, ' ') }}

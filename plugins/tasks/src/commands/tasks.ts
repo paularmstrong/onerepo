@@ -1,6 +1,6 @@
 import { minimatch } from 'minimatch';
 import type { Builder, Handler, RunSpec } from '@onerepo/cli';
-import type { Task, Workspace } from '@onerepo/graph';
+import type { Repository, Task, Workspace } from '@onerepo/graph';
 import { batch, git, logger, run } from '@onerepo/cli';
 
 export const command = 'tasks';
@@ -9,18 +9,24 @@ export const description = 'Run tasks';
 
 type Argv = {
 	lifecycle: string;
+	list?: boolean;
 };
 
 export const builder: Builder<Argv> = (yargs) =>
-	yargs.option('lifecycle', {
-		alias: 'c',
-		description: 'Task lifecycle to run',
-		demandOption: true,
-		type: 'string',
-	});
+	yargs
+		.option('lifecycle', {
+			alias: 'c',
+			description: 'Task lifecycle to run',
+			demandOption: true,
+			type: 'string',
+		})
+		.option('list', {
+			description: 'List found tasks. Implies dry run and will not actually run any tasks.',
+			type: 'boolean',
+		});
 
 export const handler: Handler<Argv> = async (argv, { graph }) => {
-	const { lifecycle } = argv;
+	const { lifecycle, list } = argv;
 
 	/**
 	 * Calculate change delta (files)
@@ -48,19 +54,26 @@ export const handler: Handler<Argv> = async (argv, { graph }) => {
 			const { parallel, sequential } = workspace.getTasks(lifecycle);
 
 			sequential.forEach((task) => {
-				const spec = taskToSpec(workspace, files, task);
+				const spec = taskToSpec(graph, workspace, files, task);
 				if (spec) {
 					sequentialTasks.push(spec);
 				}
 			});
 
 			parallel.forEach((task) => {
-				const spec = taskToSpec(workspace, files, task);
+				const spec = taskToSpec(graph, workspace, files, task);
 				if (spec) {
 					parallelTasks.push(spec);
 				}
 			});
 		}
+	}
+
+	if (list) {
+		const all = [...parallelTasks, ...sequentialTasks];
+		logger.debug(JSON.stringify(all, null, 2));
+		process.stdout.write(JSON.stringify(all));
+		return;
 	}
 
 	if (!parallelTasks.length && !sequentialTasks.length) {
@@ -85,7 +98,7 @@ export const handler: Handler<Argv> = async (argv, { graph }) => {
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(workspace: Workspace, files: Array<string>, task: Task): RunSpec | null {
+function taskToSpec(graph: Repository, workspace: Workspace, files: Array<string>, task: Task): RunSpec | null {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const [cmd, ...args] = command.split(' ');
 
@@ -103,10 +116,10 @@ function taskToSpec(workspace: Workspace, files: Array<string>, task: Task): Run
 
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
-		cmd: cmd === '$0' ? process.argv[1] : cmd,
+		cmd: cmd === '$0' ? graph.root.relative(process.argv[1]) : cmd,
 		args,
 		opts: {
-			cwd: workspace.location,
+			cwd: graph.root.relative(workspace.location) || '.',
 		},
 	};
 }

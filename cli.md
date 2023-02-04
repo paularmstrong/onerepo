@@ -38,10 +38,10 @@ Run tasks
 
 The `tasks` command does not accept any positional arguments.
 
-| Option              | Type     | Description           | Required |
-| ------------------- | -------- | --------------------- | -------- |
-| `--lifecycle`, `-c` | `string` | Task lifecycle to run | ✅       |
-| `--undefined`       | ``       |                       |          |
+| Option              | Type      | Description                                                            | Required |
+| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
+| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
+| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
 
 ### `one test`
 
@@ -100,6 +100,7 @@ The `format` command does not accept any positional arguments.
 | -------------------- | --------- | ------------------------------------------------------ | -------- |
 | `--add`              | `boolean` | Add modified files after write                         |          |
 | `--all`, `-a`        | `boolean` | Format all files unconditionally                       |          |
+| `--check`            | `boolean` | Check for changes.                                     |          |
 | `--files`, `-f`      | `array`   | Format specific files                                  |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to restrict formatting against |          |
 

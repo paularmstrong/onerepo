@@ -220,7 +220,8 @@ export async function batch(processes: Array<RunSpec>, parallel = true): Promise
 
 			if (!tasks.length && results.length === processes.length) {
 				if (failing) {
-					reject(results);
+					const error = new BatchError(results.filter((r) => r instanceof SubprocessError) as Array<SubprocessError>);
+					return reject(error);
 				}
 				resolve(results);
 			}
@@ -235,5 +236,13 @@ export async function batch(processes: Array<RunSpec>, parallel = true): Promise
 export class SubprocessError extends Error {
 	constructor(message: string, options?: ErrorOptions) {
 		super(message, options);
+	}
+}
+
+export class BatchError extends Error {
+	errors: Array<string | SubprocessError> = [];
+	constructor(errors: Array<string | SubprocessError>, options?: ErrorOptions) {
+		super('Batch process error', options);
+		this.errors = errors;
 	}
 }

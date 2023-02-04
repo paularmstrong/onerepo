@@ -80,7 +80,7 @@ export async function getModifiedFiles(since?: string, { step }: Options = {}) {
 				args:
 					hasUncommittedChanges || base === currentSha
 						? ['diff', '--name-status', base]
-						: ['diff-tree', '-r', '--name-status', '--no-commit-id', 'HEAD@{1}', 'HEAD'],
+						: ['diff-tree', '-r', '--name-status', '--no-commit-id', base, 'HEAD'],
 				step,
 			});
 			changes = modified;

@@ -56,6 +56,10 @@ export class Logger {
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
 	}
 
+	get hasError() {
+		return this.#logger.hasError;
+	}
+
 	runUpdater() {
 		if (!this.#logger.active || this.inherit) {
 			return;

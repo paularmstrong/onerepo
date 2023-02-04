@@ -9,6 +9,7 @@ export const description = 'Format files with prettier';
 type Args = {
 	add?: boolean;
 	all?: boolean;
+	check?: boolean;
 	files?: Array<string>;
 	workspaces?: Array<string>;
 };
@@ -18,12 +19,16 @@ export const builder: Builder<Args> = (yargs) =>
 		.option('add', {
 			type: 'boolean',
 			description: 'Add modified files after write',
-			conflicts: ['all'],
+			conflicts: ['all', 'check'],
 		})
 		.option('all', {
 			alias: 'a',
 			type: 'boolean',
 			description: 'Format all files unconditionally',
+		})
+		.option('check', {
+			description: 'Check for changes.',
+			type: 'boolean',
 		})
 		.option('files', {
 			alias: 'f',
@@ -41,7 +46,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { graph }) {
-	const { add, all, 'dry-run': isDry, files, workspaces: workspaceNames } = argv;
+	const { add, all, check, 'dry-run': isDry, files, workspaces: workspaceNames } = argv;
 
 	const paths: Array<string> = [];
 	if (all) {
@@ -60,7 +65,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	await run({
 		name: `Format files ${all ? '' : paths.join(', ').substring(0, 60)}…`,
 		cmd: 'npx',
-		args: ['prettier', '--ignore-unknown', isDry ? '--list-different' : '--write', ...paths],
+		args: ['prettier', '--ignore-unknown', isDry || check ? '--list-different' : '--write', ...paths],
 	});
 
 	if (add) {
