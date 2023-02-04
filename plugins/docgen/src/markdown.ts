@@ -187,7 +187,7 @@ function optionSorter(a: Option | Positional, b: Option | Positional) {
 	if (b.required && !a.required) {
 		return 1;
 	}
-	return a.name.localeCompare(b.name);
+	return a.name?.localeCompare(b.name) ?? 0;
 }
 
 function typeAndDefault(opt: Option | Positional) {

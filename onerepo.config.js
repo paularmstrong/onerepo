@@ -5,6 +5,6 @@ export default {
 		parallel: [{ match: '**/commands/**/*.ts', cmd: '$0 docgen --add' }],
 	},
 	'pull-request': {
-		sequential: ['$0 lint --all', '$0 format --check', '$0 test', '$0 build'],
+		sequential: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
 	},
 };

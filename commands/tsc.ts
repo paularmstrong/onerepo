@@ -51,9 +51,5 @@ export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
 		return memo;
 	}, [] as Array<RunSpec>);
 
-	try {
-		await batch(procs);
-	} catch (e) {
-		// caught by handler
-	}
+	await batch(procs);
 };

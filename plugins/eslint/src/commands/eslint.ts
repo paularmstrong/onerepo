@@ -74,7 +74,14 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	await run({
 		name: `Lint ${all ? '' : paths.join(', ').substring(0, 40)}…`,
 		cmd: 'npx',
-		args: ['eslint', '--ext', extensions.join(','), cache ? '--cache' : '', !isDry && fix ? '--fix' : '', ...paths],
+		args: [
+			'eslint',
+			'--ext',
+			extensions.join(','),
+			cache ? '--cache' : '',
+			!isDry && fix ? '--fix' : '',
+			...paths,
+		].filter(Boolean),
 	});
 
 	if (add) {

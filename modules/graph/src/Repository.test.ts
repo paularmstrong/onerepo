@@ -13,13 +13,21 @@ describe('Repository', () => {
 		const repo = new Repository(path.dirname(result.filePath), result.json);
 		expect(repo.dependencies('@onerepo/vitest')).toEqual(['@onerepo/tsconfig']);
 		expect(repo.dependencies()).toEqual([
+			'@onerepo/plugin-tasks',
+			'@onerepo/plugin-install',
+			'onerepo',
+			'@onerepo/root',
+			'@onerepo/prettier-config',
+			'@onerepo/plugin-vitest',
+			'@onerepo/plugin-prettier',
+			'@onerepo/plugin-eslint',
+			'@onerepo/plugin-docgen',
 			'@onerepo/cli',
+			'@onerepo/logger',
 			'@onerepo/graph',
 			'@onerepo/vitest',
 			'@onerepo/eslint-plugin',
 			'@onerepo/tsconfig',
-			'@onerepo/root',
-			'@onerepo/prettier-config',
 		]);
 		expect(repo.dependencies('@onerepo/vitest')).toEqual(['@onerepo/tsconfig']);
 	});

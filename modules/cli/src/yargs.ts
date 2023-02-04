@@ -3,7 +3,7 @@ import type { Argv as Yargv, CommandBuilder, RequireDirectoryOptions } from 'yar
 import type { Repository } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
 import { logger } from './logger';
-import { SubprocessError } from './functions/subprocess';
+import { BatchError, SubprocessError } from './functions/subprocess';
 import { version } from '../package.json';
 import { getAffected } from './affected';
 
@@ -139,7 +139,7 @@ ${JSON.stringify(argv, null, 2)}`);
 						fallbackHandler(argv);
 					}
 				} catch (err) {
-					if (err && !(err instanceof SubprocessError)) {
+					if (err && !(err instanceof SubprocessError) && !(err instanceof BatchError)) {
 						logger.error(err);
 						throw err;
 					}
@@ -151,6 +151,9 @@ ${JSON.stringify(argv, null, 2)}`);
 					logger.timing('one_startup', 'one_shutdown');
 					await logger.end();
 					setTimeout(() => {
+						if (logger.hasError) {
+							process.exitCode = 1;
+						}
 						process.exit(process.exitCode);
 					}, 16);
 				}
