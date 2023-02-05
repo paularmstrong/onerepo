@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { Builder, Handler } from '@onerepo/cli';
-import { git, run } from '@onerepo/cli';
+import { git, logger, run } from '@onerepo/cli';
 
 export const command = 'prettier';
 
@@ -60,6 +60,11 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 		const files = await git.getModifiedFiles();
 		const toCheck = [...files.added, ...files.modified];
 		paths.push(...toCheck);
+	}
+
+	if (paths.length === 0) {
+		logger.warn('No filepaths to check for formatting');
+		return;
 	}
 
 	await run({
