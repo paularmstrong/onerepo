@@ -8,6 +8,7 @@ import { getGraph } from '@onerepo/graph';
 import type { Repository, Workspace } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 
+export * from './builders';
 export * from './logger';
 export * from './functions';
 export * from './yargs';
