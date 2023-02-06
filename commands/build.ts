@@ -1,54 +1,33 @@
 import glob from 'glob';
-import { batch, file, logger } from '@onerepo/cli';
-import type { Builder, Handler, RunSpec } from '@onerepo/cli';
-import type { Workspace } from '@onerepo/graph';
+import { batch, file, logger, withAffected, withWorkspaces } from '@onerepo/cli';
+import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from '@onerepo/cli';
 
 export const command = 'build';
 
 export const description = 'Build public workspaces using esbuild.';
 
-type Args = {
-	all?: boolean;
-	workspaces?: Array<string>;
-};
+type Args = WithAffected & WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
-	yargs
-		.usage('$0 build [options]')
-		.option('all', {
-			alias: 'a',
-			type: 'boolean',
-			description: 'Build all workspaces',
-			conflicts: ['workspaces'],
-		})
-		.option('workspaces', {
-			alias: 'w',
-			type: 'array',
-			string: true,
-			description: 'List of workspace names to restrict building against',
-			conflicts: ['all'],
-		})
-		.example('$0 build', 'Build all workspaces.')
-		.example('$0 build -w graph', 'Build the `graph` workspace only.')
-		.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.');
+	withAffected(
+		withWorkspaces(
+			yargs
+				.usage('$0 build [options]')
+				.example('$0 build', 'Build all workspaces.')
+				.example('$0 build -w graph', 'Build the `graph` workspace only.')
+				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.')
+		)
+	);
 
-export const handler: Handler<Args> = async function handler(argv, { getAffected, graph }) {
-	const { all, workspaces: workspaceNames = graph.dependencies() } = argv;
-
-	let workspaces: Array<Workspace> = [];
-	if (all) {
-		workspaces = Object.values(graph.workspaces);
-	} else if (workspaceNames) {
-		logger.debug(graph.affected(workspaceNames));
-		workspaces = graph.getAllByName(graph.affected(workspaceNames));
-	} else {
-		workspaces = await getAffected();
-	}
-
+// TODO: workspaces vs affected as reusable builder bits
+export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
 	const existsStep = logger.createStep('Check for TSconfigs');
 	const removals: Array<string> = [];
 	const buildProcs: Array<RunSpec> = [];
 	const typesProcs: Array<RunSpec> = [];
+
+	const workspaces = await getWorkspaces();
+
 	for (const workspace of workspaces) {
 		if (workspace.private) {
 			logger.warn(`Not building \`${workspace.name}\` because it is private`);
@@ -87,8 +66,7 @@ export const handler: Handler<Args> = async function handler(argv, { getAffected
 	await batch(typesProcs);
 
 	const copyStep = logger.createStep('Copy package.json files');
-	for (const name of workspaceNames) {
-		const workspace = graph.getByName(name)!;
+	for (const workspace of workspaces) {
 		if (workspace.private) {
 			continue;
 		}

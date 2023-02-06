@@ -1,11 +1,13 @@
 import { performance } from 'node:perf_hooks';
-import type { Argv as Yargv, CommandBuilder, RequireDirectoryOptions } from 'yargs';
+import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Repository } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
 import { logger } from './logger';
 import { BatchError, SubprocessError } from './functions/subprocess';
 import { version } from '../package.json';
-import { getAffected } from './functions/affected';
+import { getAffected, getFilepaths, getWorkspaces } from './functions/getters';
+import type { GetterArgv } from './functions/getters';
+import type { Workspace } from '@onerepo/graph';
 
 export interface DefaultArgv {
 	ci: boolean;
@@ -15,16 +17,17 @@ export interface DefaultArgv {
 }
 
 // Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
-type Arguments<T = object> = { [key in keyof T as key]: T[key] } & {
+export type Arguments<T = object> = { [key in keyof T as key]: T[key] } & {
 	/** Non-option arguments */
 	_: Array<string | number>;
 	/** The script name or node command */
 	$0: string;
 };
 
-export type Yargs = Yargv<DefaultArgv>;
+export type Yargs<T = DefaultArgv> = Yargv<T>;
 export type Argv<T = object> = Arguments<T & DefaultArgv>;
-export type Builder<T = object> = CommandBuilder<Argv<DefaultArgv>, T>;
+// export type Builder<T = object> = CommandBuilder<Argv<DefaultArgv>, T>;
+export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
 
 export type HandlerExtra = {
@@ -32,6 +35,8 @@ export type HandlerExtra = {
 		since?: Parameters<typeof getAffected>[1],
 		opts?: Parameters<typeof getAffected>[2]
 	) => ReturnType<typeof getAffected>;
+	getFilepaths: () => Promise<Array<string>>;
+	getWorkspaces: () => Promise<Array<Workspace>>;
 	graph: Repository;
 	logger: Logger;
 };
@@ -135,6 +140,8 @@ ${JSON.stringify(argv, null, 2)}`);
 					since?: Parameters<typeof getAffected>[1],
 					opts?: Parameters<typeof getAffected>[2]
 				) => getAffected(graph, since, opts);
+				const wrappedGetWorkspaces = () => getWorkspaces(graph, argv as GetterArgv);
+				const wrappedGetFilepaths = () => getFilepaths(graph, argv as GetterArgv);
 
 				process.on('unhandledRejection', (reason, promise) => {
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
@@ -142,7 +149,13 @@ ${JSON.stringify(argv, null, 2)}`);
 
 				try {
 					if (handler) {
-						await handler(argv, { getAffected: wrappedGetAffected, graph, logger });
+						await handler(argv, {
+							getAffected: wrappedGetAffected,
+							getFilepaths: wrappedGetFilepaths,
+							getWorkspaces: wrappedGetWorkspaces,
+							graph,
+							logger,
+						});
 					} else {
 						fallbackHandler(argv);
 					}

@@ -79,14 +79,15 @@ one lint [options]
 
 The `lint` command does not accept any positional arguments.
 
-| Option               | Type                       | Description                                         | Required |
-| -------------------- | -------------------------- | --------------------------------------------------- | -------- |
-| `--add`              | `boolean`                  | Add modified files after write                      |          |
-| `--all`, `-a`        | `boolean`                  | Lint all files unconditionally                      |          |
-| `--cache`            | `boolean`, default: `true` | Use cache if available                              |          |
-| `--files`, `-f`      | `array`                    | Lint specific files                                 |          |
-| `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                        |          |
-| `--workspaces`, `-w` | `array`                    | List of workspace names to restrict linting against |          |
+| Option               | Type                       | Description                                                                                 | Required |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean`                  | Add modified files after write                                                              |          |
+| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                   |          |
+| `--cache`            | `boolean`, default: `true` | Use cache if available                                                                      |          |
+| `--files`, `-f`      | `array`                    | Determine workspaces from specific files                                                    |          |
+| `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                |          |
+| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                      |          |
 
 ### `one format`
 
@@ -98,13 +99,14 @@ one format [options]
 
 The `format` command does not accept any positional arguments.
 
-| Option               | Type      | Description                                            | Required |
-| -------------------- | --------- | ------------------------------------------------------ | -------- |
-| `--add`              | `boolean` | Add modified files after write                         |          |
-| `--all`, `-a`        | `boolean` | Format all files unconditionally                       |          |
-| `--check`            | `boolean` | Check for changes.                                     |          |
-| `--files`, `-f`      | `array`   | Format specific files                                  |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to restrict formatting against |          |
+| Option               | Type      | Description                                                                                 | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean` | Add modified files after write                                                              |          |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--check`            | `boolean` | Check for changes.                                                                          |          |
+| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 ### `one docgen`
 
@@ -154,10 +156,11 @@ one build [options]
 
 The `build` command does not accept any positional arguments.
 
-| Option               | Type      | Description                                          | Required |
-| -------------------- | --------- | ---------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean` | Build all workspaces                                 |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to restrict building against |          |
+| Option               | Type      | Description                                                                                 | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 Build all workspaces.
 
@@ -181,12 +184,17 @@ $0 build -w graph cli logger
 
 Run typescript checking across workspaces
 
+```sh
+one tsc [options]
+```
+
 The `tsc` command does not accept any positional arguments.
 
-| Option               | Type      | Description                                               | Required |
-| -------------------- | --------- | --------------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean` | Lint all files unconditionally                            |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to restrict type checking against |          |
+| Option               | Type      | Description                                                                                 | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 ### `one workspace`
 

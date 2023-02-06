@@ -3,7 +3,7 @@ import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
-import { getAffected, parserConfiguration, setupYargs } from '@onerepo/cli';
+import { getAffected, getFilepaths, getWorkspaces, parserConfiguration, setupYargs } from '@onerepo/cli';
 import { Logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/cli';
@@ -47,8 +47,8 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 
 	const { ...argv } = resolvedOut.argv;
 
-	middlewares.forEach((m) => {
-		m(argv);
+	middlewares.forEach((middleware) => {
+		middleware(argv);
 	});
 
 	return { ...argv, $0: 'root-bin' };
@@ -68,9 +68,31 @@ export async function runHandler<R = Record<string, unknown>>(
 ): Promise<void> {
 	const { graph = getGraph(path.join(__dirname, '__fixtures__', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
+
 	const wrappedGetAffected = (since?: Parameters<typeof getAffected>[1], opts?: Parameters<typeof getAffected>[2]) =>
 		getAffected(graph, since, opts);
-	await handler(argv, { logger, getAffected: wrappedGetAffected, graph });
+
+	const wrappedGetWorkspaces = () =>
+		getWorkspaces(
+			graph,
+			// @ts-ignore
+			argv
+		);
+
+	const wrappedGetFilepaths = () =>
+		getFilepaths(
+			graph,
+			// @ts-ignore
+			argv
+		);
+
+	await handler(argv, {
+		logger,
+		getAffected: wrappedGetAffected,
+		getFilepaths: wrappedGetFilepaths,
+		getWorkspaces: wrappedGetWorkspaces,
+		graph,
+	});
 }
 
 export function getCommand<R = Record<string, unknown>>({
@@ -86,4 +108,4 @@ export function getCommand<R = Record<string, unknown>>({
 	};
 }
 
-type Extras = Omit<HandlerExtra, 'getAffected' | 'logger'>;
+type Extras = Omit<HandlerExtra, 'getAffected' | 'getFilepaths' | 'getWorkspaces' | 'logger'>;
