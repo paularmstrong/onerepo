@@ -77,8 +77,8 @@ export class Workspace {
 
 	get tasks(): TaskConfig {
 		try {
-			const { default: tasks } = require(this.resolve('onerepo.config'));
-			return tasks;
+			const mod = require(this.resolve('onerepo.config'));
+			return mod.default ?? mod ?? {};
 		} catch (e) {
 			return {} as TaskConfig;
 		}
@@ -156,4 +156,4 @@ export type Tasks = {
 	parallel?: Array<Task>;
 };
 
-export type TaskConfig<T extends string = never> = Record<T, Tasks>;
+export type TaskConfig<T extends string = never> = Partial<Record<T, Tasks>>;

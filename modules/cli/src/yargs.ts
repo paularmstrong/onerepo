@@ -5,7 +5,7 @@ import type { Logger } from '@onerepo/logger';
 import { logger } from './logger';
 import { BatchError, SubprocessError } from './functions/subprocess';
 import { version } from '../package.json';
-import { getAffected } from './affected';
+import { getAffected } from './functions/affected';
 
 export interface DefaultArgv {
 	ci: boolean;
@@ -27,8 +27,11 @@ export type Argv<T = object> = Arguments<T & DefaultArgv>;
 export type Builder<T = object> = CommandBuilder<Argv<DefaultArgv>, T>;
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
 
-type HandlerExtra = {
-	getAffected: ReturnType<typeof getAffected>;
+export type HandlerExtra = {
+	getAffected: (
+		since?: Parameters<typeof getAffected>[1],
+		opts?: Parameters<typeof getAffected>[2]
+	) => ReturnType<typeof getAffected>;
 	graph: Repository;
 	logger: Logger;
 };
@@ -128,13 +131,18 @@ export const commandDirOptions = (
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
 
+				const wrappedGetAffected = (
+					since?: Parameters<typeof getAffected>[1],
+					opts?: Parameters<typeof getAffected>[2]
+				) => getAffected(graph, since, opts);
+
 				process.on('unhandledRejection', (reason, promise) => {
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
 				});
 
 				try {
 					if (handler) {
-						await handler(argv, { getAffected: getAffected(graph), graph, logger });
+						await handler(argv, { getAffected: wrappedGetAffected, graph, logger });
 					} else {
 						fallbackHandler(argv);
 					}

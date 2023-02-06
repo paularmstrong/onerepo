@@ -597,6 +597,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/test-cli@workspace:modules/test-cli":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/test-cli@workspace:modules/test-cli"
+  dependencies:
+    "@onerepo/cli": "workspace:^"
+    "@onerepo/graph": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/vitest": "workspace:^"
+    "@types/yargs-unparser": ^2.0.1
+    typescript: ^4.9.4
+    vitest: ^0.27.1
+    yargs: ^17.6.2
+    yargs-parser: ^21.1.1
+    yargs-unparser: ^2.0.0
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/tsconfig@workspace:^, @onerepo/tsconfig@workspace:internal/tsconfig":
   version: 0.0.0-use.local
   resolution: "@onerepo/tsconfig@workspace:internal/tsconfig"

@@ -38,10 +38,11 @@ Run tasks
 
 The `tasks` command does not accept any positional arguments.
 
-| Option              | Type      | Description                                                            | Required |
-| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
-| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
+| Option              | Type                                                                   | Description                                                               | Required |
+| ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅       |
+| `--ignore`          | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 
 ### `one test`
 

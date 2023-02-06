@@ -1,0 +1,10 @@
+{
+	"extends": "@onerepo/tsconfig/base.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"composite": true,
+		"types": ["vitest/globals"]
+	},
+	"include": ["./src", "./config", "package.json"],
+	"exclude": ["dist"]
+}

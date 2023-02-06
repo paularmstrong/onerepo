@@ -8,6 +8,7 @@ export const command = 'tasks';
 export const description = 'Run tasks';
 
 type Argv = {
+	ignore: Array<string>;
 	lifecycle: string;
 	list?: boolean;
 };
@@ -23,50 +24,50 @@ export const builder: Builder<Argv> = (yargs) =>
 		.option('list', {
 			description: 'List found tasks. Implies dry run and will not actually run any tasks.',
 			type: 'boolean',
+		})
+		.option('ignore', {
+			description: 'List of filepath strings or globs to ignore when matching tasks to files.',
+			type: 'array',
+			string: true,
+			default: [],
+			hidden: true,
 		});
 
-export const handler: Handler<Argv> = async (argv, { graph }) => {
-	const { lifecycle, list } = argv;
+export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
+	const { ignore, lifecycle, list } = argv;
 
-	/**
-	 * Calculate change delta (files)
-	 * Get affected workspaces & tasks
-	 * Get tasks matching globs across non-directly-affected workspaces
-	 *   -> eg, Have seen apps/docs want to run the `one docgen` task, but not depend on *every* workspace
-	 *
-	 * Running tasks:
-	 *  1. Batch parallelizable tasks
-	 *  2. Run non-parallel tasks individually
-	 *
-	 * Listing tasks (--list)
-	 *  --list --format=json
-	 *  --list --format=??
-	 */
+	const affected = await getAffected();
+	const runAll = affected.includes(graph.root);
+	logger.warn('Running all tasks because the root is in the affected list.');
 
-	const { all: files } = await git.getModifiedFiles();
+	const { all: allFiles } = await git.getModifiedFiles();
+	const files = allFiles.filter((file) => ignore.some((ignore) => !minimatch(file, ignore)));
 
 	const sequentialTasks: Array<RunSpec> = [];
 	const parallelTasks: Array<RunSpec> = [];
 
 	for (const workspace of Object.values(graph.workspaces)) {
 		logger.log(`Looking for tasks in ${workspace.name}`);
-		if (lifecycle in workspace.tasks) {
-			const { parallel, sequential } = workspace.getTasks(lifecycle);
+		const { parallel, sequential } = workspace.getTasks(lifecycle);
 
-			sequential.forEach((task) => {
-				const spec = taskToSpec(graph, workspace, files, task);
-				if (spec) {
-					sequentialTasks.push(spec);
-				}
-			});
+		const force = (task: Task) =>
+			runAll || (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
 
-			parallel.forEach((task) => {
-				const spec = taskToSpec(graph, workspace, files, task);
-				if (spec) {
-					parallelTasks.push(spec);
-				}
-			});
-		}
+		sequential.forEach((task) => {
+			const match = force(task) || matchTask(task, files);
+			if (match) {
+				const spec = taskToSpec(graph, workspace, task);
+				sequentialTasks.push(spec);
+			}
+		});
+
+		parallel.forEach((task) => {
+			const match = force(task) || matchTask(task, files);
+			if (match) {
+				const spec = taskToSpec(graph, workspace, task);
+				parallelTasks.push(spec);
+			}
+		});
 	}
 
 	if (list) {
@@ -98,19 +99,9 @@ export const handler: Handler<Argv> = async (argv, { graph }) => {
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(graph: Repository, workspace: Workspace, files: Array<string>, task: Task): RunSpec | null {
+function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const [cmd, ...args] = command.split(' ');
-
-	if (typeof task !== 'string') {
-		const match = files.find((file) => {
-			return minimatch(file, task.match);
-		});
-		if (!match) {
-			return null;
-		}
-		logger.debug(`Including \`${command}\` because \`${task.match}\` was satisfied by \`${match}\``);
-	}
 
 	const bin = cmd === '$0' ? process.argv[1] : cmd;
 
@@ -122,4 +113,12 @@ function taskToSpec(graph: Repository, workspace: Workspace, files: Array<string
 			cwd: graph.root.relative(workspace.location) || '.',
 		},
 	};
+}
+
+function matchTask(task: Task, files: Array<string>) {
+	if (typeof task === 'string') {
+		return false;
+	}
+
+	return minimatch.match(files, task.match);
 }
