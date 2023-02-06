@@ -11,8 +11,8 @@ type Options = {
 	 * Verbosity from 0 to 3
 	 * <= 0 - Silent. No output will be read or written.
 	 * >= 1 - Error
-	 * >= 2 - Log
-	 * >= 3 - Warnings
+	 * >= 2 - Warnings
+	 * >= 3 - Log
 	 * >= 4 - Debug
 	 * >= 5 - Timing
 	 */
@@ -258,17 +258,17 @@ export class Step {
 		}
 	}
 
-	log(contents: unknown) {
+	warn(contents: unknown) {
 		if (this.verbosity >= 2) {
-			const prefix = pc.cyan(pc.bold('LOG'));
-			this.#writeStream(this.#prefix(this.name ? prefix : '', stringify(contents)));
+			const prefix = pc.yellow(pc.bold('WRN'));
+			this.#writeStream(this.#prefix(prefix, stringify(contents)));
 		}
 	}
 
-	warn(contents: unknown) {
+	log(contents: unknown) {
 		if (this.verbosity >= 3) {
-			const prefix = pc.yellow(pc.bold('WRN'));
-			this.#writeStream(this.#prefix(prefix, stringify(contents)));
+			const prefix = pc.cyan(pc.bold('LOG'));
+			this.#writeStream(this.#prefix(this.name ? prefix : '', stringify(contents)));
 		}
 	}
 

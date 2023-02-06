@@ -1,8 +1,8 @@
 import path from 'node:path';
-import { platform } from 'os';
+import child_process from 'node:child_process';
+import os from 'node:os';
 import type { Builder, Handler } from '@onerepo/cli';
-import { file, logger, run } from '@onerepo/cli';
-import { userInfo } from 'os';
+import { file, logger, run, sudo } from '@onerepo/cli';
 
 export const command = 'install';
 
@@ -32,24 +32,25 @@ export const builder: Builder<Args> = (yargs) =>
 				'Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type.',
 		})
 		.middleware((argv) => {
-			const { shell } = userInfo();
+			const { shell } = os.userInfo();
 			if (!/\/(?:zsh|bash)$/.test(shell)) {
 				logger.warn(
 					`You are using an incompatible shell, "${shell}". To get the most out of ${argv.name}, switch to either zsh (preferred) or bash.`
 				);
 			}
-			if (platform() === 'win32') {
+			if (os.platform() === 'win32') {
 				logger.error(
 					new Error('Windows is not supported by oneRepo. Sorry, but there are not sufficient resources for that :(')
 				);
 				process.exit(1);
 			}
 		})
+		.default('verbosity', 2)
 		.middleware((argv) => {
 			const { location } = argv;
-			const { homedir } = userInfo();
+			const { homedir } = os.userInfo();
 			if (!location) {
-				argv.location = platform() === 'darwin' ? '/usr/local/bin' : `${homedir}/bin`;
+				argv.location = os.platform() === 'darwin' ? '/usr/local/bin' : `${homedir}/bin`;
 			}
 		})
 		.epilogue(
@@ -71,6 +72,7 @@ export const handler: Handler<Args> = async function handler(argv) {
 				cmd: 'which',
 				args: [name],
 				step,
+				skipFailures: true,
 			});
 			which = out;
 		} catch (e) {
@@ -88,11 +90,20 @@ To force installation, re-run this command with \`--force\`:
 		}
 	}
 
-	await file.writeFile(path.join(location!, name), `#!/bin/zsh\n\n${process.argv[1]} $@`);
-	await run({
+	const installLocation = path.join(location!, name);
+
+	logger.warn(
+		`Requesting sudo permissions in order to write to ${installLocation}. If you are prompted for a password, please enter your user admin password to continue.`
+	);
+
+	// NB: must run execSync because we need to pipe to `sudo tee`
+	// Other workarounds would involve taking full ownership of the directory, which isn't great
+	child_process.execSync(`echo "#!/bin/zsh\n\n${process.argv[1]} \\$@" | sudo tee ${installLocation}`);
+
+	await sudo({
 		name: 'Make executable',
 		cmd: 'chmod',
-		args: ['a+x', path.join(location!, name)],
+		args: ['a+x', installLocation],
 	});
 
 	const [completion] = await run({
@@ -102,7 +113,7 @@ To force installation, re-run this command with \`--force\`:
 		runDry: true,
 	});
 
-	const { homedir, shell } = userInfo();
+	const { homedir, shell } = os.userInfo();
 	const filename = shell.endsWith('zsh') ? '.zshrc' : '.bash_profile';
 	await file.writeFileContents(path.join(homedir, filename), completion.replace(/\n+$/m, ''), {
 		sentinel: `${name}-cmd-completions`,

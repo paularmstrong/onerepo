@@ -1,3 +1,4 @@
+import path from 'node:path';
 import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
@@ -6,6 +7,7 @@ import { getAffected, parserConfiguration, setupYargs } from '@onerepo/cli';
 import { Logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/cli';
+import { getGraph } from '@onerepo/graph';
 
 const logger = new Logger({ verbosity: 0 });
 
@@ -56,18 +58,19 @@ export async function runHandler<R = Record<string, unknown>>(
 	{
 		builder,
 		handler,
-		extras,
+		extras = {},
 	}: {
 		builder: Builder<R>;
 		handler: Handler<R>;
-		extras: Extras;
+		extras: Partial<Extras>;
 	},
 	cmd: string = ''
 ): Promise<void> {
+	const { graph = getGraph(path.join(__dirname, '__fixtures__', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 	const wrappedGetAffected = (since?: Parameters<typeof getAffected>[1], opts?: Parameters<typeof getAffected>[2]) =>
-		getAffected(extras.graph, since, opts);
-	await handler(argv, { logger, getAffected: wrappedGetAffected, ...extras });
+		getAffected(graph, since, opts);
+	await handler(argv, { logger, getAffected: wrappedGetAffected, graph });
 }
 
 export function getCommand<R = Record<string, unknown>>({
@@ -79,7 +82,7 @@ export function getCommand<R = Record<string, unknown>>({
 }) {
 	return {
 		build: async (cmd = '') => runBuilder<R>(builder, cmd),
-		run: async (cmd = '', extras: Extras) => runHandler<R>({ builder, handler, extras }, cmd),
+		run: async (cmd = '', extras: Partial<Extras> = {}) => runHandler<R>({ builder, handler, extras }, cmd),
 	};
 }
 

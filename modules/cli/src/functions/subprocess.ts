@@ -13,6 +13,7 @@ export interface RunSpec {
 	opts?: SpawnOptions;
 	runDry?: boolean;
 	step?: Step;
+	skipFailures?: boolean;
 }
 
 export async function run(options: RunSpec): Promise<[string, string]> {
@@ -55,7 +56,7 @@ ${JSON.stringify(withoutLogger, null, 2)}\n`
 		const subprocess = start(options);
 
 		subprocess.on('error', (error) => {
-			step.error(error);
+			!options.skipFailures && step.error(error);
 			return Promise.resolve()
 				.then(() => {
 					logger.inherit = false;
@@ -85,8 +86,10 @@ ${JSON.stringify(withoutLogger, null, 2)}\n`
 			performance.mark(`${options.name}_end`);
 			if (code && isFinite(code)) {
 				const error = new SubprocessError(`${out || err || code}`);
-				step.error(out.trim() || err.trim());
-				step.error(`Process exited with code ${code}`);
+				if (!options.skipFailures) {
+					step.error(out.trim() || err.trim());
+					step.error(`Process exited with code ${code}`);
+				}
 				return step.end().then(() => {
 					logger.inherit = false;
 					reject(error);
