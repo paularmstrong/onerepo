@@ -10,7 +10,7 @@ Furthermore, it is difficult to remember how to run scripts in individual worksp
 
 ## Solution
 
-**oneRepo** is a set of tools for creating monorepos that allows you to start with helpful defaults and opt-in to strict conformance, while allowing escape-hatches when you need something different.
+**oneRepo** is a set of tools for creating monorepos that start with helpful defaults and opt-in to strict conformance, while allowing escape-hatches when you need something different. The main goal of the oneRepo toolset is to enable speed with confidence.
 
 oneRepo comes out of the box with three major pieces, each built upon the previous:
 
