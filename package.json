@@ -7,7 +7,6 @@
 		"one": "./bin/one.js"
 	},
 	"workspaces": [
-		"apps/*",
 		"internal/*",
 		"modules/*",
 		"plugins/*"
