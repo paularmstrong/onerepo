@@ -107,7 +107,7 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpe
 
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
-		cmd: cmd === '$0' ? graph.root.relative(process.argv[1]) : cmd,
+		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args,
 		opts: {
 			cwd: graph.root.relative(workspace.location) || '.',

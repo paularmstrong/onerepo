@@ -22,13 +22,13 @@ Install the oneRepo CLI into your environment.
 
 `npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.
 
-As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).
+As an added bonus, tab-completions will be added to your .zshrc or .bash\_profile (depending on your current shell).
 
 The `install` command does not accept any positional arguments.
 
 | Option        | Type                       | Description                                                                                                         | Required |
 | ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--name`      | `string`, default: `"one"` | Name of the command to install                                                                                      | ✅       |
+| `--name`      | `string`, default: `"one"` | Name of the command to install                                                                                      | ✅        |
 | `--force`     | `boolean`                  | Force installation regardless of pre-existing command.                                                              |          |
 | `--location`  | `string`                   | Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type. |          |
 | `--undefined` | ``, default: `2`           |                                                                                                                     |          |
@@ -41,7 +41,7 @@ The `tasks` command does not accept any positional arguments.
 
 | Option              | Type                                                                   | Description                                                               | Required |
 | ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅       |
+| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅        |
 | `--ignore`          | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 
@@ -55,7 +55,7 @@ one test [options]
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
 
-The `test` command may accept an unknown set of positional arguments.
+The `test` command does not accept any positional arguments.
 
 | Option                 | Type      | Description                                         | Required |
 | ---------------------- | --------- | --------------------------------------------------- | -------- |
@@ -198,7 +198,7 @@ The `tsc` command does not accept any positional arguments.
 
 ### `one workspace`
 
-Aliases: `ws`
+Aliases: `$0`, `ws`
 
 Run workspace-specific commands
 

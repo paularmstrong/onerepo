@@ -1,5 +1,4 @@
 import { git, run } from '@onerepo/cli';
-import unparse from 'yargs-unparser';
 import type { Builder, Handler } from '@onerepo/cli';
 import type { Workspace } from '@onerepo/graph';
 
@@ -38,20 +37,16 @@ export const builder: Builder<Args> = (yargs) =>
 			string: true,
 			description: 'List of workspace names to restrict linting against',
 			conflicts: ['all', 'files'],
-		})
-		.strict(false);
+		});
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getAffected }) {
 	const {
 		_: [, ...positionals],
+		'--': other = [],
 		affected,
 		workspaces: workspaceNames,
-		verbosity,
-		'dry-run': dry,
-		ci,
 		inspect,
 		inspectBrk,
-		...other
 	} = argv;
 
 	const related: Array<string> = [];
@@ -81,7 +76,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getA
 			...related,
 			...paths,
 			...positionals.map(String),
-			...unparse({ _: [], ...other }),
+			...(other as Array<string>),
 		],
 		opts: { stdio: 'inherit' },
 	});

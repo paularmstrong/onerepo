@@ -22,6 +22,8 @@ export type Arguments<T = object> = { [key in keyof T as key]: T[key] } & {
 	_: Array<string | number>;
 	/** The script name or node command */
 	$0: string;
+	/** Any content that comes after " -- " gets populated here */
+	'--': Array<string>;
 };
 
 export type Yargs<T = DefaultArgv> = Yargv<T>;

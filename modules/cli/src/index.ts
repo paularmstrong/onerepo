@@ -116,8 +116,8 @@ export async function setup(config: Config = {}) {
 		.commandDir(path.join(root, subcommandDir))
 		.command({
 			describe: 'Run workspace-specific commands',
-			command: 'workspace',
-			aliases: ['ws'],
+			command: '$0',
+			aliases: ['workspace', 'ws'],
 			builder: workspaceBuilder(graph, subcommandDir, name),
 			// This handler is a no-op because the builder demands N+1 command(s) be input
 			handler: () => {},
