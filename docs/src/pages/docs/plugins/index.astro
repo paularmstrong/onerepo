@@ -1,0 +1,23 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const plugins = await Astro.glob('../../../../../plugins/*/docs/index.{md,mdx}');
+---
+
+<Layout title="Plugins">
+	<h1>Plugins</h1>
+	<ul>
+		{
+			plugins.map((plugin) => {
+				const parts = plugin.file.split('/docs/')[0].split('/');
+				return (
+					<li>
+						<a class="text-blue-500" href={`/docs/plugins/${parts[parts.length - 1]}/`}>
+							{plugin.frontmatter.title}
+						</a>
+					</li>
+				);
+			})
+		}
+	</ul>
+</Layout>

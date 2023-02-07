@@ -231,6 +231,40 @@ The `workspace` command does not accept any positional arguments.
 
 The `workspace` command does not accept any option arguments.
 
+#### `one workspace @onerepo/docs`
+
+Aliases: `docs`
+
+Runs commands in the `@onerepo/docs` workspace
+
+The `@onerepo/docs` command does not accept any positional arguments.
+
+The `@onerepo/docs` command does not accept any option arguments.
+
+##### `one workspace @onerepo/docs astro`
+
+Run astro commands.
+
+```sh
+one workspace @onerepo/docs astro astro
+```
+
+The `astro` command does not accept any positional arguments.
+
+The `astro` command does not accept any option arguments.
+
+##### `one workspace @onerepo/docs start`
+
+Start the docs development server
+
+```sh
+one workspace @onerepo/docs start start
+```
+
+The `start` command does not accept any positional arguments.
+
+The `start` command does not accept any option arguments.
+
 #### `one workspace @onerepo/graph`
 
 Aliases: `graph`

@@ -1,0 +1,27 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const pages = (await Astro.glob('../../../../../plugins/*/docs/**/*.{md,mdx}')).map((page) => {
+		const [pluginPath, pagePath] = page.file.split('/docs/');
+
+		const parts = pluginPath.split('/');
+		const slug = `${parts[parts.length - 1]}/${pagePath}`.replace(/(?:\/index)\.mdx?$/, '');
+
+		return { params: { slug }, props: { page } };
+	});
+
+	return pages;
+}
+
+const {
+	frontmatter: { title, description },
+	Content,
+} = Astro.props.page;
+---
+
+<Layout title={title} description={description}>
+	<div class="prose prose-pink">
+		<Content />
+	</div>
+</Layout>

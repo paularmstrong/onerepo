@@ -1,0 +1,8 @@
+{
+	"extends": "@onerepo/tsconfig/base.json",
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"types": ["astro/client"]
+	}
+}

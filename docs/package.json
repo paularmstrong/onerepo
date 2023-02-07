@@ -1,0 +1,23 @@
+{
+	"name": "@onerepo/docs",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/mdx": "^0.16.0",
+		"@astrojs/tailwind": "^3.0.1",
+		"@tailwindcss/typography": "^0.5.9",
+		"astro": "^2.0.6"
+	},
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/vitest": "workspace:^",
+		"typescript": "^4.9.4"
+	}
+}
