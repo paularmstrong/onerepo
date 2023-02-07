@@ -163,7 +163,7 @@ export class Step {
 	#onEnd: (step: Step) => Promise<void>;
 	#onError: () => void;
 	#lastThree: Array<string> = [];
-	#hasError: boolean = false;
+	hasError: boolean = false;
 
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
 		performance.mark(`start_${name}`);
@@ -197,10 +197,6 @@ export class Step {
 		return [this.#prefixStart(this.name), ...this.#lastThree];
 	}
 
-	set hasError(value: true) {
-		this.#hasError = value;
-	}
-
 	activate(enableWrite: boolean = !process.stderr.isTTY) {
 		if (this.#active) {
 			return;
@@ -228,8 +224,8 @@ export class Step {
 		const duration = Math.round(performance.measure(this.name, `start_${this.name}`, endMark).duration);
 		const text = this.name
 			? pc.dim(`${duration}ms`)
-			: `Completed${this.#hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
-		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.#hasError ? pc.red('✘ ') : pc.green('✔ ')}${text}`)));
+			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
+		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? pc.red('✘ ') : pc.green('✔ ')}${text}`)));
 
 		return this.#onEnd(this);
 	}
@@ -250,7 +246,7 @@ export class Step {
 	}
 
 	error(contents: unknown) {
-		this.#hasError = true;
+		this.hasError = true;
 		this.#onError();
 		if (this.verbosity >= 1) {
 			const prefix = pc.red(pc.bold('ERR'));

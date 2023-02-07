@@ -16,19 +16,27 @@ The `one` command does not accept any positional arguments.
 | `--verbosity`, `-v` | `count`, default: `1` | Set the verbosity of the script output. Use -v, -vv, or -vvv for more verbose |          |
 | `--version`         | `boolean`             | Show the one Repo CLI version                                                 |          |
 
+### `one graph`
+
+Run core graph commands
+
+The `graph` command does not accept any positional arguments.
+
+The `graph` command does not accept any option arguments.
+
 ### `one install`
 
 Install the oneRepo CLI into your environment.
 
 `npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.
 
-As an added bonus, tab-completions will be added to your .zshrc or .bash\_profile (depending on your current shell).
+As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).
 
 The `install` command does not accept any positional arguments.
 
 | Option        | Type                       | Description                                                                                                         | Required |
 | ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--name`      | `string`, default: `"one"` | Name of the command to install                                                                                      | ✅        |
+| `--name`      | `string`, default: `"one"` | Name of the command to install                                                                                      | ✅       |
 | `--force`     | `boolean`                  | Force installation regardless of pre-existing command.                                                              |          |
 | `--location`  | `string`                   | Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type. |          |
 | `--undefined` | ``, default: `2`           |                                                                                                                     |          |
@@ -41,7 +49,7 @@ The `tasks` command does not accept any positional arguments.
 
 | Option              | Type                                                                   | Description                                                               | Required |
 | ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅        |
+| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅       |
 | `--ignore`          | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 

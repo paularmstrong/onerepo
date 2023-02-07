@@ -82,7 +82,7 @@ export function setupYargs(yargs: Yargv): Yargs {
 			})
 			.middleware([
 				// eslint-disable-next-line @typescript-eslint/ban-types
-				function setEnvironmentMiddleware(argv: Argv<{}>) {
+				function setEnvironmentMiddleware(argv: Omit<Argv, '--'>) {
 					process.env.ONE_REPO_DRY_RUN = `${argv['dry-run']}`;
 					process.env.ONE_REPO_CI = `${argv.ci}`;
 					argv.verbosity = argv.silent ? 0 : argv.verbosity;
@@ -173,12 +173,12 @@ ${JSON.stringify(argv, null, 2)}`);
 					logger.timing('one_handler_start', 'one_shutdown');
 					logger.timing('one_startup', 'one_shutdown');
 					await logger.end();
-					setTimeout(() => {
+					setImmediate(() => {
 						if (logger.hasError) {
 							process.exitCode = 1;
 						}
 						process.exit(process.exitCode);
-					}, 16);
+					});
 				}
 			},
 		};

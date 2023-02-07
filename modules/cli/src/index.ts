@@ -81,7 +81,7 @@ const defaultConfig: Required<Config> = {
 	description: 'oneRepo’s very own `one` CLI.',
 };
 
-const corePlugins = ['@onerepo/plugin-tasks', '@onerepo/plugin-install'];
+const corePlugins = ['@onerepo/plugin-tasks', '@onerepo/plugin-install', '@onerepo/plugin-graph'];
 
 export async function setup(config: Config = {}) {
 	performance.mark('one_startup');

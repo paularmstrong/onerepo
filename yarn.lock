@@ -422,7 +422,6 @@ __metadata:
     "@types/random-seed": ^0
     "@types/yargs": ^17
     "@types/yargs-parser": ^21
-    cliui: ^8.0.1
     glob: ^8.0.3
     typescript: ^4.9.4
     vitest: ^0.27.1
@@ -506,6 +505,22 @@ __metadata:
     typescript: ^4.9.4
   peerDependencies:
     eslint: ^8
+  languageName: unknown
+  linkType: soft
+
+"@onerepo/plugin-graph@workspace:plugins/graph":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/plugin-graph@workspace:plugins/graph"
+  dependencies:
+    "@onerepo/cli": "workspace:^"
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/vitest": "workspace:^"
+    "@types/semver": ^7
+    cliui: ^8.0.1
+    picocolors: ^1.0.0
+    semver: ^7.3.8
+    typescript: ^4.9.4
+    vitest: ^0.27.1
   languageName: unknown
   linkType: soft
 
@@ -767,7 +782,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12":
+"@types/semver@npm:^7, @types/semver@npm:^7.3.12":
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
   checksum: 00c0724d54757c2f4bc60b5032fe91cda6410e48689633d5f35ece8a0a66445e3e57fa1d6e07eb780f792e82ac542948ec4d0b76eb3484297b79bd18b8cf1cb0
@@ -5194,7 +5209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5, semver@npm:^7.3.7":
+"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
   version: 7.3.8
   resolution: "semver@npm:7.3.8"
   dependencies:

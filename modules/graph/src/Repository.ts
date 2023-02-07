@@ -1,6 +1,7 @@
 import path from 'path';
 import glob from 'glob';
 import { Graph as graph } from 'graph-data-structure';
+import type { Serialized } from 'graph-data-structure';
 import { Workspace } from './Workspace';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 
@@ -9,6 +10,8 @@ const Dependency = {
 	dev: 2,
 	peer: 1,
 };
+
+export type SerializedGraph = Serialized;
 
 export class Repository {
 	#rootLocation: string;

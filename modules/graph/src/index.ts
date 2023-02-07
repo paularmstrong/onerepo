@@ -3,7 +3,7 @@ import path from 'path';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Repository } from './Repository';
 
-export type { Repository };
+export type { Repository, SerializedGraph } from './Repository';
 export type { Task, Tasks, TaskConfig, Workspace } from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();
