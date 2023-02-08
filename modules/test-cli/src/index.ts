@@ -19,6 +19,7 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 	const inputArgs = parser(cmd, {
 		configuration: parserConfiguration,
 	});
+
 	process.argv[1] = 'test-runner';
 	const yargs = Yargs(unparser(inputArgs as Arguments).join(' '));
 
