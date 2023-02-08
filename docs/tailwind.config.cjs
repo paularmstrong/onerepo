@@ -18,6 +18,56 @@ module.exports = {
 				);
 			},
 		},
+		{
+			handler: function ({ addBase, theme }) {
+				addBase({
+					'[id]': {
+						position: 'relative',
+						zIndex: '1',
+					},
+					'*:target::before': {
+						content: '" "',
+						position: 'absolute',
+						backgroundColor: theme('colors.sky.400'),
+						borderRadius: theme('borderRadius.DEFAULT'),
+						opacity: '0.2',
+						zIndex: '-1',
+						inset: `-${theme('spacing.2')}`,
+					},
+					'[data-line-numbers]': {
+						counterReset: 'line',
+						'& .line::before': {
+							counterIncrement: 'line',
+							content: 'counter(line)',
+							display: 'inline-block',
+							width: theme('width.5'),
+							marginRight: theme('spacing.6'),
+							textAlign: 'right',
+							color: theme('colors.slate.400'),
+						},
+					},
+					'[data-rehype-pretty-code-title]': {
+						width: 'max-content',
+						borderTopLeftRadius: theme('borderRadius.lg'),
+						borderTopRightRadius: theme('borderRadius.lg'),
+						padding: `${theme('spacing.2')} ${theme('spacing.4')}`,
+						fontFamily: theme('fontFamily.mono'),
+						color: theme('colors.zinc.100'),
+						backgroundColor: theme('colors.zinc.700'),
+						fontSize: theme('fontSize.sm'),
+						borderBottom: `1px solid ${theme('colors.zinc.800')}`,
+						'.dark &': {
+							backgroundColor: theme('colors.slate.800'),
+							color: theme('colors.slate.300'),
+						},
+						'+ pre': {
+							borderTopLeftRadius: theme('borderRadius.none'),
+							marginTop: theme('spacing.0'),
+						},
+					},
+				});
+			},
+		},
 	],
 	theme: {
 		tabSize: {
@@ -49,8 +99,8 @@ module.exports = {
 						'--tw-prose-quote-borders': theme('colors.pink[300]'),
 						'--tw-prose-captions': theme('colors.pink[700]'),
 						'--tw-prose-code': theme('colors.pink[700]'),
-						'--tw-prose-pre-code': theme('colors.pink[100]'),
-						'--tw-prose-pre-bg': theme('colors.pink[900]'),
+						// '--tw-prose-pre-code': theme('colors.pink[100]'),
+						// '--tw-prose-pre-bg': theme('colors.pink[900]'),
 						'--tw-prose-th-borders': theme('colors.pink[300]'),
 						'--tw-prose-td-borders': theme('colors.pink[200]'),
 						'--tw-prose-invert-body': theme('colors.pink[200]'),
