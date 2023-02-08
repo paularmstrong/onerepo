@@ -33,10 +33,7 @@ export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
 
 export type HandlerExtra = {
-	getAffected: (
-		since?: Parameters<typeof getAffected>[1],
-		opts?: Parameters<typeof getAffected>[2]
-	) => ReturnType<typeof getAffected>;
+	getAffected: (opts?: Parameters<typeof getAffected>[1]) => ReturnType<typeof getAffected>;
 	getFilepaths: () => Promise<Array<string>>;
 	getWorkspaces: () => Promise<Array<Workspace>>;
 	graph: Repository;
@@ -138,10 +135,7 @@ export const commandDirOptions = (
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
 
-				const wrappedGetAffected = (
-					since?: Parameters<typeof getAffected>[1],
-					opts?: Parameters<typeof getAffected>[2]
-				) => getAffected(graph, since, opts);
+				const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
 				const wrappedGetWorkspaces = () => getWorkspaces(graph, argv as GetterArgv);
 				const wrappedGetFilepaths = () => getFilepaths(graph, argv as GetterArgv);
 

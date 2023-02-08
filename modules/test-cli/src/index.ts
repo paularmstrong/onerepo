@@ -69,8 +69,7 @@ export async function runHandler<R = Record<string, unknown>>(
 	const { graph = getGraph(path.join(__dirname, '__fixtures__', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 
-	const wrappedGetAffected = (since?: Parameters<typeof getAffected>[1], opts?: Parameters<typeof getAffected>[2]) =>
-		getAffected(graph, since, opts);
+	const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
 
 	const wrappedGetWorkspaces = () =>
 		getWorkspaces(

@@ -15,6 +15,7 @@ describe('Repository', () => {
 		expect(repo.dependencies()).toEqual([
 			'@onerepo/plugin-tasks',
 			'@onerepo/plugin-install',
+			'@onerepo/plugin-graph',
 			'@onerepo/test-cli',
 			'onerepo',
 			'@onerepo/root',

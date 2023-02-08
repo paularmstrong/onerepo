@@ -11,6 +11,8 @@ type Argv = {
 	ignore: Array<string>;
 	lifecycle: string;
 	list?: boolean;
+	'from-ref'?: string;
+	'through-ref'?: string;
 };
 
 export const builder: Builder<Argv> = (yargs) =>
@@ -31,12 +33,22 @@ export const builder: Builder<Argv> = (yargs) =>
 			string: true,
 			default: [],
 			hidden: true,
+		})
+		.option('from-ref', {
+			type: 'string',
+			description: 'Git ref to start looking for affected files or workspaces',
+			hidden: true,
+		})
+		.option('through-ref', {
+			type: 'string',
+			description: 'Git ref to start looking for affected files or workspaces',
+			hidden: true,
 		});
 
 export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
-	const { ignore, lifecycle, list } = argv;
+	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
-	const affected = await getAffected();
+	const affected = await getAffected({ from: fromRef, through: throughRef });
 	const runAll = affected.includes(graph.root);
 	logger.warn('Running all tasks because the root is in the affected list.');
 

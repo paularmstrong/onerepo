@@ -50,8 +50,10 @@ The `tasks` command does not accept any positional arguments.
 | Option              | Type                                                                   | Description                                                               | Required |
 | ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
 | `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅       |
+| `--from-ref`        | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 | `--ignore`          | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
+| `--through-ref`     | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
 ### `one test`
 
@@ -95,6 +97,8 @@ The `lint` command does not accept any positional arguments.
 | `--cache`            | `boolean`, default: `true` | Use cache if available                                                                      |          |
 | `--files`, `-f`      | `array`                    | Determine workspaces from specific files                                                    |          |
 | `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                |          |
+| `--from-ref`         | `string`                   | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`                   | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                      |          |
 
 ### `one format`
@@ -114,6 +118,8 @@ The `format` command does not accept any positional arguments.
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
 | `--check`            | `boolean` | Check for changes.                                                                          |          |
 | `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
+| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 ### `one docgen`
@@ -168,6 +174,8 @@ The `build` command does not accept any positional arguments.
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
 | `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 Build all workspaces.
@@ -202,6 +210,8 @@ The `tsc` command does not accept any positional arguments.
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
 | `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 ### `one workspace`

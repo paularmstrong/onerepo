@@ -58,10 +58,10 @@ export async function getMergeBase({ step }: Options = {}) {
 	});
 }
 
-export async function getModifiedFiles(since?: string, { step }: Options = {}) {
+export async function getModifiedFiles(from?: string, through?: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
-		const base = await (since ?? getMergeBase({ step }));
-		const currentSha = await getCurrentSha({ step });
+		const base = await (from ?? getMergeBase({ step }));
+		const currentSha = await (through ?? getCurrentSha({ step }));
 
 		const [currentStatus] = await run({
 			name: 'Checking for changes',
@@ -70,7 +70,7 @@ export async function getModifiedFiles(since?: string, { step }: Options = {}) {
 			step,
 		});
 
-		const hasUncommittedChanges = Boolean(currentStatus.trim());
+		const hasUncommittedChanges = Boolean(currentStatus.trim()) && !from && !through;
 
 		let changes = currentStatus;
 		if (!hasUncommittedChanges) {
@@ -80,7 +80,7 @@ export async function getModifiedFiles(since?: string, { step }: Options = {}) {
 				args:
 					hasUncommittedChanges || base === currentSha
 						? ['diff', '--name-status', base]
-						: ['diff-tree', '-r', '--name-status', '--no-commit-id', base, 'HEAD'],
+						: ['diff-tree', '-r', '--name-status', '--no-commit-id', currentSha, base],
 				step,
 			});
 			changes = modified;

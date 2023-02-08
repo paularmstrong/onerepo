@@ -5,14 +5,16 @@ import { getModifiedFiles } from './git';
 import { stepWrapper } from '../logger';
 
 type Options = {
+	from?: string;
+	through?: string;
 	step?: Step;
 };
 
 export type GetterArgv = { all?: boolean; files?: Array<string>; workspaces?: Array<string>; affected?: boolean };
 
-export function getAffected(graph: Repository, since?: string, { step }: Options = {}) {
+export function getAffected(graph: Repository, { from, through, step }: Options = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
-		const { all } = await getModifiedFiles(since, { step });
+		const { all } = await getModifiedFiles(from, through, { step });
 		const workspaces = new Set<string>();
 		for (const filepath of all) {
 			const ws = graph.getByLocation(graph.root.resolve(filepath));
@@ -47,7 +49,11 @@ export async function getWorkspaces(
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
 				step.log(`\`affected\` requested`);
-				workspaces = await getAffected(graph, undefined, { step });
+				workspaces = await getAffected(graph, {
+					from: 'from-ref' in argv ? (argv['from-ref'] as string) : undefined,
+					through: 'through-ref' in argv ? (argv['through-ref'] as string) : undefined,
+					step,
+				});
 			} else {
 				const names = workspaces.map((ws) => ws.name);
 				step.log(`\`affected\` requested from • ${names.join('\n • ')}`);
@@ -77,7 +83,11 @@ export async function getFilepaths(graph: Repository, argv: GetterArgv, { step }
 
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
-				const files = await getModifiedFiles();
+				const files = await getModifiedFiles(
+					'from-ref' in argv ? (argv['from-ref'] as string) : undefined,
+					'through-ref' in argv ? (argv['through-ref'] as string) : undefined,
+					{ step }
+				);
 				const toCheck = [...files.added, ...files.modified];
 				paths.push(...toCheck);
 			} else {
