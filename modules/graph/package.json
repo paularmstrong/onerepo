@@ -6,7 +6,7 @@
 	"main": "./src/index.ts",
 	"dependencies": {
 		"glob": "^8.0.3",
-		"graph-data-structure": "^3.1.0"
+		"graph-data-structure": "^3.1.1"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",
