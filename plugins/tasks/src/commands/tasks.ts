@@ -116,11 +116,16 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpe
 	const [cmd, ...args] = command.split(' ');
 
 	const bin = cmd === '$0' ? process.argv[1] : cmd;
+	const passthrough = [
+		process.env.ONE_REPO_DRY_RUN === 'true' ? '--dry-run' : false,
+		'',
+		`-${'v'.repeat(logger.verbosity)}`,
+	].filter(Boolean) as Array<string>;
 
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
-		args,
+		args: [...args, ...passthrough],
 		opts: {
 			cwd: graph.root.relative(workspace.location) || '.',
 		},

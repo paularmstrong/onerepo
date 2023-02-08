@@ -1,4 +1,4 @@
-import type { Yargs } from '../yargs';
+import type { Yargs } from '../yarg-types';
 
 export const withWorkspaces = <T>(yargs: Yargs<T>): Yargs<T & WithWorkspaces> =>
 	yargs

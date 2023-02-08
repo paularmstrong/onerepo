@@ -1,4 +1,4 @@
-import type { DefaultArgv, Yargs } from '../yargs';
+import type { DefaultArgv, Yargs } from '../yarg-types';
 import type { WithAffected } from './with-affected';
 import { withAffected } from './with-affected';
 import type { WithFiles } from './with-files';

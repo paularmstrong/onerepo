@@ -1,4 +1,4 @@
-import type { Yargs } from '../yargs';
+import type { Yargs } from '../yarg-types';
 
 export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs

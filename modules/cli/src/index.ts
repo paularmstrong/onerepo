@@ -11,6 +11,7 @@ export * from './builders';
 export * from './logger';
 export * from './functions';
 export * from './yargs';
+export * from './yarg-types';
 
 type PluginObject = {
 	commandDir?: string;
@@ -102,7 +103,7 @@ export async function setup(config: Config = {}) {
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
 
 	for (const pluginName of corePlugins) {
-		const name = pluginName.replace('@onerepo/plugin-', '');
+		const name = pluginName.replace('@onerepo/plugin-', '') as keyof Config['core'];
 		const { [name]: plugin } = require(pluginName);
 		plugins.unshift(plugin(core[name]));
 	}
