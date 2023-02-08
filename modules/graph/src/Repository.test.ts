@@ -3,10 +3,6 @@ import { getRootPackageJson } from '.';
 import { Repository } from './Repository';
 
 describe('Repository', () => {
-	beforeEach(() => {
-		// vi.spyOn(glob, 'sync').mockImplementation(() => []);
-	});
-
 	test('bucket', async () => {
 		const location = path.join(__dirname, 'fixtures', 'repo');
 		const result = await getRootPackageJson(location);
