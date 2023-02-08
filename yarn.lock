@@ -435,7 +435,7 @@ __metadata:
   resolution: "@onerepo/eslint-plugin@workspace:internal/eslint-plugin"
   dependencies:
     "@onerepo/tsconfig": "workspace:^"
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.21.0
     "@typescript-eslint/eslint-plugin": ^5.36.1
     "@typescript-eslint/parser": ^5.36.1
     eslint-plugin-jest: ^27.0.2
@@ -501,7 +501,7 @@ __metadata:
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
-    eslint: ^8.32.0
+    eslint: ^8.33.0
     typescript: ^4.9.4
   peerDependencies:
     eslint: ^8
@@ -602,7 +602,7 @@ __metadata:
     "@types/eslint": ^8
     esbuild: ^0.17.5
     esbuild-register: ^3.4.2
-    eslint: ^8.32.0
+    eslint: ^8.33.0
     husky: ^8.0.0
     prettier: ^2.8.2
     typescript: ^4.9.4
@@ -679,13 +679,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8, @types/eslint@npm:^8.4.10":
+"@types/eslint@npm:^8":
   version: 8.4.10
   resolution: "@types/eslint@npm:8.4.10"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
   checksum: 21e009ed9ed9bc8920fdafc6e11ff321c4538b4cc18a56fdd59dc5184ea7bbf363c71638c9bdb59fc1254dddcdd567485136ed68b0ee4750948d4e32cb79c689
+  languageName: node
+  linkType: hard
+
+"@types/eslint@npm:^8.21.0":
+  version: 8.21.0
+  resolution: "@types/eslint@npm:8.21.0"
+  dependencies:
+    "@types/estree": "*"
+    "@types/json-schema": "*"
+  checksum: 48823b13e1ffbc6fe22c96d99f691a17507ef5a498c4aed95e3a9076ec6d44ff48ce8a632928b6f82bea92701ac8967bba0d78a5c9de4dfa3f2e12d26dae7da4
   languageName: node
   linkType: hard
 
@@ -2285,9 +2295,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.32.0":
-  version: 8.32.0
-  resolution: "eslint@npm:8.32.0"
+"eslint@npm:^8.33.0":
+  version: 8.33.0
+  resolution: "eslint@npm:8.33.0"
   dependencies:
     "@eslint/eslintrc": ^1.4.1
     "@humanwhocodes/config-array": ^0.11.8
@@ -2330,7 +2340,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 23c8fb3c57291eecd9c1448faf603226a8f885022a2cd96e303459bf72e39b7f54987c6fb948f0f9eecaf7085600e6eb0663482a35ea83da12e9f9141a22b91e
+  checksum: 727e63ab8b7acf281442323c5971f6afdd5b656fbcebc4476cf54e35af51b2f180617433fc5e1952f0449ca3f43a905527f9407ea4b8a7ea7562fc9c3f278d4c
   languageName: node
   linkType: hard
 
