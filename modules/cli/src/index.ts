@@ -1,12 +1,11 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { commandDirOptions, setupYargs } from './yargs';
-import type { Yargs } from './yargs';
-import { existsSync } from 'fs';
+import type { Yargs } from './yarg-types';
 import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
-import type { Repository, Workspace } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
+import { workspaceBuilder } from './workspaces';
 
 export * from './builders';
 export * from './logger';
@@ -21,7 +20,11 @@ export type Plugin = PluginObject | ((config: Config) => PluginObject);
 
 export interface Config {
 	// todo: make type safe
-	core?: Record<string, Record<string, unknown>>;
+	core?: {
+		graph?: Record<string, unknown>;
+		install?: Record<string, unknown>;
+		tasks?: Record<string, unknown>;
+	};
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 */
@@ -93,7 +96,7 @@ export async function setup(config: Config = {}) {
 
 	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name));
 
-	const graph = await getGraph(root);
+	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 	const options = commandDirOptions(graph, ignoreCommands);
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
@@ -113,7 +116,7 @@ export async function setup(config: Config = {}) {
 
 	yargs
 		.commandDir(path.join(__dirname, 'commands'))
-		.commandDir(path.join(root, subcommandDir))
+		.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir))
 		.command({
 			describe: 'Run workspace-specific commands',
 			command: '$0',
@@ -127,64 +130,6 @@ export async function setup(config: Config = {}) {
 		yargs,
 		run: async () => yargs.argv,
 	};
-}
-
-function workspaceBuilder(graph: Repository, dirname: string, scriptName: string) {
-	return (yargs: Yargs) => {
-		yargs
-			.usage(`${scriptName} workspace <name> <command> [options]`)
-			.usage(`${scriptName} ws <name> <command> [options]`)
-			.epilogue(
-				`Add commands to the \`${dirname}\` directory within a workspace to create workspace-specific commands.`
-			);
-
-		const workspaceName = process.argv[3];
-		if (graph.getByName(workspaceName)) {
-			const ws = graph.getByName(workspaceName)!;
-			addWorkspace(yargs, ws, dirname);
-			return yargs.demandCommand(1, `Please enter a command to run in ${ws.name}.`);
-		}
-
-		// Allow omitting the workspace name if the process working directory is already in a workspace
-		const workingWorkspace = graph.getByLocation(process.cwd());
-		if (workingWorkspace && workingWorkspace !== graph.root) {
-			yargs
-				.usage(`${scriptName} workspace <command> [options]`)
-				.usage(`${scriptName} ws <command> [options]`)
-				.epilogue(
-					`You are currently working in the ${workingWorkspace.name} workspace, so workspace-specific commands will be run by default when a suitable name or alias for this workspace is omitted.`
-				);
-			return addCommandDir(yargs, workingWorkspace, dirname).demandCommand(
-				2,
-				`Please enter a valid command for the ${workingWorkspace.name} workspace or enter the name of another workspace for more choices.`
-			);
-		}
-
-		graph.dependencies().forEach((name: string) => {
-			const ws = graph.getByName(name)!;
-			if (ws.isRoot) {
-				return;
-			}
-			if (existsSync(ws.resolve(dirname))) {
-				addWorkspace(yargs, ws, dirname);
-			}
-		});
-		return yargs.demandCommand(1, 'Please enter a workspace name from the list above.');
-	};
-}
-
-function addWorkspace(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
-	const wsNames = [ws.name, ...ws.aliases];
-
-	return yargs.command(wsNames, `Runs commands in the \`${ws.name}\` workspace`, (yargs: Yargs) => {
-		return addCommandDir(yargs, ws, dirname);
-	});
-}
-
-function addCommandDir(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
-	return yargs
-		.commandDir(ws.resolve(dirname))
-		.demandCommand(1, `Please enter a valid command for the ${ws.name} workspace.`);
 }
 
 /**

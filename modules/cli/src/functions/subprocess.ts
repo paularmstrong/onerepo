@@ -50,7 +50,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 
 		step.debug(
 			`Running command:
-${JSON.stringify(withoutLogger, null, 2)}\n`
+${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 		);
 
 		const subprocess = start(options);

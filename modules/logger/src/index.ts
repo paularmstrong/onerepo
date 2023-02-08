@@ -297,21 +297,21 @@ export class Step {
 	#prefixStart(output: string) {
 		return output
 			.split('\n')
-			.map((line) => ` ${this.name ? '┌' : pc.dim(pc.bold('▶︎'))} ${line}`)
+			.map((line) => ` ${this.name ? '┌ ' : pc.dim(pc.bold('▶︎ '))}${line}`)
 			.join('\n');
 	}
 
 	#prefix(prefix: string, output: string) {
 		return output
 			.split('\n')
-			.map((line) => ` ${this.name ? '│' : pc.dim(pc.bold(''))} ${prefix} ${line}`)
+			.map((line) => ` ${this.name ? '│ ' : ''}${prefix} ${line}`)
 			.join('\n');
 	}
 
 	#prefixEnd(output: string) {
 		return output
 			.split('\n')
-			.map((line) => ` ${this.name ? '└' : pc.dim(pc.bold('■'))} ${line}`)
+			.map((line) => ` ${this.name ? '└ ' : pc.dim(pc.bold('■ '))}${line}`)
 			.join('\n');
 	}
 }
