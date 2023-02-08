@@ -5,6 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
+const { changesets } = require('@onerepo/plugin-changesets');
 const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { vitest } = require('@onerepo/plugin-vitest');
@@ -22,6 +23,7 @@ const { prettier } = require('@onerepo/plugin-prettier');
 				tasks: { lifecycles: ['pre-commit', 'pull-request'] },
 			},
 			plugins: [
+				changesets(),
 				vitest(),
 				eslint(),
 				prettier(),
