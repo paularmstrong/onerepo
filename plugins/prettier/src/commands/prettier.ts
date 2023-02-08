@@ -1,7 +1,7 @@
 import { git, logger, run, withAllInputs } from '@onerepo/cli';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
 
-export const command = 'prettier';
+export const command = 'format';
 
 export const description = 'Format files with prettier';
 

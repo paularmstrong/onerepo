@@ -55,17 +55,17 @@ The `tasks` command does not accept any positional arguments.
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 | `--through-ref`     | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
-### `one test`
+### `one vitest`
 
 Run unit tests
 
 ```sh
-one test [options]
+one vitest test [options]
 ```
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
 
-The `test` command does not accept any positional arguments.
+The `vitest` command does not accept any positional arguments.
 
 | Option                 | Type      | Description                                         | Required |
 | ---------------------- | --------- | --------------------------------------------------- | -------- |
@@ -195,6 +195,22 @@ Build the `graph`, `cli`, and `logger` workspaces.
 ```sh
 $0 build -w graph cli logger
 ```
+
+### `one docgen-internal`
+
+Generate docs for the oneRepo monorepo
+
+The `docgen-internal` command does not accept any positional arguments.
+
+| Option               | Type      | Description                                                                                 | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean` | Add all generated files to the git stage                                                    |          |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
+| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 ### `one tsc`
 

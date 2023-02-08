@@ -2,10 +2,10 @@ import type { Plugin } from '@onerepo/cli';
 import * as cmd from './commands/eslint';
 
 type Options = {
-	name: string;
+	name?: string;
 };
 
-export function eslint(opts: Options): Plugin {
+export function eslint(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);

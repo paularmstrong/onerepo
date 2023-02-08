@@ -22,9 +22,9 @@ export type Plugin = PluginObject | ((config: Config) => PluginObject);
 export interface Config {
 	// todo: make type safe
 	core?: {
-		graph?: Record<string, unknown>;
-		install?: Record<string, unknown>;
-		tasks?: Record<string, unknown>;
+		graph?: Record<string, unknown> | false;
+		install?: Record<string, unknown> | false;
+		tasks?: Record<string, unknown> | false;
 	};
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
@@ -51,7 +51,7 @@ export interface Config {
 	/**
 	 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 	 */
-	subcommandDir?: string;
+	subcommandDir?: string | false;
 }
 
 declare global {
@@ -104,8 +104,10 @@ export async function setup(config: Config = {}) {
 
 	for (const pluginName of corePlugins) {
 		const name = pluginName.replace('@onerepo/plugin-', '') as keyof Config['core'];
-		const { [name]: plugin } = require(pluginName);
-		plugins.unshift(plugin(core[name]));
+		if (core[name] !== false) {
+			const { [name]: plugin } = require(pluginName);
+			plugins.unshift(plugin(core[name]));
+		}
 	}
 
 	for (const plugin of plugins) {
@@ -115,17 +117,20 @@ export async function setup(config: Config = {}) {
 		}
 	}
 
-	yargs
-		.commandDir(path.join(__dirname, 'commands'))
-		.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir))
-		.command({
+	if (subcommandDir !== false) {
+		yargs.commandDir(path.join(__dirname, 'commands')).commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
+	}
+
+	if (core.graph !== false) {
+		yargs.command({
 			describe: 'Run workspace-specific commands',
 			command: '$0',
 			aliases: ['workspace', 'ws'],
-			builder: workspaceBuilder(graph, subcommandDir, name),
+			builder: workspaceBuilder(graph, subcommandDir || 'commands', name),
 			// This handler is a no-op because the builder demands N+1 command(s) be input
 			handler: () => {},
 		});
+	}
 
 	return {
 		yargs,
