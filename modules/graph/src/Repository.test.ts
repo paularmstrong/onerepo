@@ -8,29 +8,11 @@ describe('Repository', () => {
 	});
 
 	test('bucket', async () => {
-		// vi.spyOn(glob, 'sync').mockImplementation(() => []);
-		const result = await getRootPackageJson(process.cwd());
-		const repo = new Repository(path.dirname(result.filePath), result.json);
-		expect(repo.dependencies('@onerepo/vitest')).toEqual(['@onerepo/tsconfig']);
-		expect(repo.dependencies()).toEqual([
-			'@onerepo/plugin-tasks',
-			'@onerepo/plugin-install',
-			'@onerepo/plugin-graph',
-			'@onerepo/test-cli',
-			'onerepo',
-			'@onerepo/root',
-			'@onerepo/prettier-config',
-			'@onerepo/plugin-vitest',
-			'@onerepo/plugin-prettier',
-			'@onerepo/plugin-eslint',
-			'@onerepo/plugin-docgen',
-			'@onerepo/cli',
-			'@onerepo/logger',
-			'@onerepo/graph',
-			'@onerepo/vitest',
-			'@onerepo/eslint-plugin',
-			'@onerepo/tsconfig',
-		]);
-		expect(repo.dependencies('@onerepo/vitest')).toEqual(['@onerepo/tsconfig']);
+		const location = path.join(__dirname, 'fixtures', 'repo');
+		const result = await getRootPackageJson(location);
+		const repo = new Repository(location, result.json);
+		expect(repo.dependencies('fixture-burritos')).toEqual(['fixture-lettuce']);
+		expect(repo.dependencies('fixture-lettuce')).toEqual([]);
+		expect(repo.dependencies()).toEqual(['fixture-tacos', 'fixture-burritos', 'fixture-lettuce', 'fixture-root']);
 	});
 });
