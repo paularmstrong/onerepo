@@ -66,7 +66,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	const [out] = await run({
 		name: 'Generating documentation',
 		cmd: 'node',
-		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', bin, '--format', format],
+		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', path.resolve(bin), '--format', format],
 	});
 
 	const output = format === 'markdown' ? toMarkdown(JSON.parse(out)) : out;
@@ -77,6 +77,10 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 			await git.updateIndex(outPath);
 		}
 	} else {
-		process.stdout.write(output);
+		await new Promise<void>((resolve) => {
+			process.stdout.write(output, () => {
+				resolve();
+			});
+		});
 	}
 };

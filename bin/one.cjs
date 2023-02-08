@@ -22,9 +22,9 @@ const { prettier } = require('@onerepo/plugin-prettier');
 				tasks: { lifecycles: ['pre-commit', 'pull-request'] },
 			},
 			plugins: [
-				vitest({ name: 'test' }),
-				eslint({ name: 'lint' }),
-				prettier({ name: 'format' }),
+				vitest(),
+				eslint(),
+				prettier(),
 				docgen({ outWorkspace: 'root', outFile: 'cli.md', format: 'markdown' }),
 			],
 		}

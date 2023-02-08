@@ -2,7 +2,7 @@ import path from 'node:path';
 import { git, logger, run, withAllInputs } from '@onerepo/cli';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
 
-export const command = 'eslint';
+export const command = 'lint';
 
 export const description = 'Lint files using eslint';
 

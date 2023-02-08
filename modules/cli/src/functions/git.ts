@@ -143,6 +143,7 @@ export async function updateIndex(paths: Array<string> | string, { step }: Optio
 			name: 'Add files to git stage',
 			cmd: 'git',
 			args: ['add', ...(Array.isArray(paths) ? paths : [paths])],
+			step,
 		});
 
 		return out;

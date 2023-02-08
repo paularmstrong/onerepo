@@ -6,7 +6,7 @@ type Options = {
 	lifecycles: Array<string>;
 };
 
-export function tasks(opts: Options): Plugin {
+export function tasks(opts: Options = { lifecycles: ['pre-commit', 'pull-request'] }): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
@@ -16,7 +16,7 @@ export function tasks(opts: Options): Plugin {
 				(yargs) =>
 					builder(yargs)
 						.choices('lifecycle', opts.lifecycles)
-						.default('ignore', ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', ...(opts.ignore || [])]),
+						.default('ignore', ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', ...(opts.ignore ?? [])]),
 				handler
 			);
 		},

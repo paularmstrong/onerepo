@@ -6,15 +6,17 @@ module.exports = {
 	darkMode: 'media',
 	plugins: [
 		require('@tailwindcss/typography'),
-		function ({ matchUtilities, theme }) {
-			matchUtilities(
-				{
-					tab: (value) => ({
-						tabSize: value,
-					}),
-				},
-				{ values: theme('tabSize') }
-			);
+		{
+			handler: function ({ matchUtilities, theme }) {
+				matchUtilities(
+					{
+						tab: (value) => ({
+							tabSize: value,
+						}),
+					},
+					{ values: theme('tabSize') }
+				);
+			},
 		},
 	],
 	theme: {
@@ -25,6 +27,7 @@ module.exports = {
 			8: '8',
 		},
 		extend: {
+			// @ts-ignore
 			typography: ({ theme }) => ({
 				DEFAULT: {
 					css: {
