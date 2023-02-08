@@ -55,6 +55,20 @@ The `tasks` command does not accept any positional arguments.
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 | `--through-ref`     | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
+### `one changesets`
+
+Aliases: `change`
+
+Manage changesets
+
+```sh
+one changesets <command> [options]
+```
+
+The `changesets` command does not accept any positional arguments.
+
+The `changesets` command does not accept any option arguments.
+
 ### `one test`
 
 Run unit tests
