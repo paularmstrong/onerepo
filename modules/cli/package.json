@@ -19,7 +19,7 @@
 		"@types/random-seed": "^0",
 		"@types/yargs": "^17",
 		"@types/yargs-parser": "^21",
-		"typescript": "^4.9.4",
+		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	}
 }
