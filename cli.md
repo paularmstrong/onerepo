@@ -24,6 +24,30 @@ The `graph` command does not accept any positional arguments.
 
 The `graph` command does not accept any option arguments.
 
+#### `one graph show`
+
+Show the dependency graph.
+
+The `show` command does not accept any positional arguments.
+
+| Option     | Type                         | Description                                       | Required |
+| ---------- | ---------------------------- | ------------------------------------------------- | -------- |
+| `--format` | `string`, default: `"plain"` | Output format for inspecting the dependency graph |          |
+
+#### `one graph verify`
+
+Verify the integrity of the repo’s dependency graph.
+
+```sh
+one graph verify verify
+```
+
+The `verify` command does not accept any positional arguments.
+
+| Option        | Type | Description | Required |
+| ------------- | ---- | ----------- | -------- |
+| `--undefined` | ``   |             |          |
+
 ### `one install`
 
 Install the oneRepo CLI into your environment.
@@ -68,6 +92,42 @@ one changesets <command> [options]
 The `changesets` command does not accept any positional arguments.
 
 The `changesets` command does not accept any option arguments.
+
+#### `one changesets add`
+
+Aliases: `$0`
+
+Add a changeset
+
+The `add` command does not accept any positional arguments.
+
+| Option               | Type      | Description                                                                                                         | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                           |          |
+| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                                            |          |
+| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                                           |          |
+| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                                           |          |
+| `--type`             | `string`  | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                              |          |
+
+#### `one changesets init`
+
+Initialize changesets for this repository.
+
+You should only ever have to do this once.
+
+The `init` command does not accept any positional arguments.
+
+The `init` command does not accept any option arguments.
+
+#### `one changesets prepare`
+
+Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
+
+The `prepare` command does not accept any positional arguments.
+
+The `prepare` command does not accept any option arguments.
 
 ### `one test`
 

@@ -17,7 +17,7 @@ export const builder: Builder<Argv> = (yargs) =>
 	});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) => {
-	const { add } = argv;
+	const { add, verbosity } = argv;
 	const workspaces = await getWorkspaces();
 
 	const generators: Array<RunSpec> = [];
@@ -40,7 +40,18 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 		generators.push({
 			name: `Generate for ${ws.name}`,
 			cmd: process.argv[1],
-			args: ['docgen', '--bin', bin, '--format', 'markdown', '--out-file', outFile, '--out-workspace', ws.name],
+			args: [
+				'docgen',
+				'--bin',
+				bin,
+				'--format',
+				'markdown',
+				'--out-file',
+				outFile,
+				'--out-workspace',
+				ws.name,
+				`-${'v'.repeat(verbosity)}`,
+			],
 		});
 	}
 	await findStep.end();
