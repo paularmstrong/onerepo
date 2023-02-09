@@ -55,17 +55,17 @@ The `tasks` command does not accept any positional arguments.
 | `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
 | `--through-ref`     | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
-### `one vitest`
+### `one test`
 
 Run unit tests
 
 ```sh
-one vitest test [options]
+one test [options]
 ```
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
 
-The `vitest` command does not accept any positional arguments.
+The `test` command does not accept any positional arguments.
 
 | Option                 | Type      | Description                                         | Required |
 | ---------------------- | --------- | --------------------------------------------------- | -------- |

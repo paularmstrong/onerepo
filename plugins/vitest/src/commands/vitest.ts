@@ -2,7 +2,7 @@ import { git, run } from '@onerepo/cli';
 import type { Builder, Handler } from '@onerepo/cli';
 import type { Workspace } from '@onerepo/graph';
 
-export const command = 'vitest';
+export const command = 'test';
 
 export const description = 'Run unit tests';
 
