@@ -9,7 +9,6 @@ export const description = 'Run unit tests';
 type Args = {
 	affected?: boolean;
 	all?: boolean;
-	files?: Array<string>;
 	inspect: boolean;
 	workspaces?: Array<string>;
 };
@@ -42,7 +41,8 @@ export const builder: Builder<Args> = (yargs) =>
 			string: true,
 			description: 'List of workspace names to restrict linting against',
 			conflicts: ['all', 'files'],
-		});
+		})
+		.strict(false);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getAffected }) {
 	const {

@@ -65,7 +65,7 @@ one test [options]
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
 
-The `test` command does not accept any positional arguments.
+The `test` command may accept an unknown set of positional arguments.
 
 | Option                 | Type      | Description                                         | Required |
 | ---------------------- | --------- | --------------------------------------------------- | -------- |
