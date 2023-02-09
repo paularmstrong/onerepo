@@ -71,6 +71,7 @@ The `test` command does not accept any positional arguments.
 | ---------------------- | --------- | --------------------------------------------------- | -------- |
 | `--affected`           | `boolean` | Run tests related to all affected workspaces        |          |
 | `--all`, `-a`          | `boolean` | Lint all files unconditionally                      |          |
+| `--inspect`            | `boolean` | Break for the the Node inspector to debug tests     |          |
 | `--workspaces`, `--ws` | `array`   | List of workspace names to restrict linting against |          |
 
 Run vitest in --watch mode.
