@@ -6,7 +6,7 @@
 	"dependencies": {
 		"@onerepo/tsconfig": "workspace:^",
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
-		"@typescript-eslint/parser": "^5.36.1",
+		"@typescript-eslint/parser": "^5.51.0",
 		"eslint-plugin-jest": "^27.0.2",
 		"eslint-plugin-react": "^7.31.6",
 		"eslint-plugin-react-hooks": "^4.6.0",
