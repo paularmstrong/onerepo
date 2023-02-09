@@ -1228,7 +1228,7 @@ __metadata:
     "@types/yargs": ^17
     "@types/yargs-parser": ^21
     glob: ^8.0.3
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
     yargs: ^17.6.2
     yargs-parser: ^21.1.1
@@ -1246,7 +1246,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.9
     astro: ^2.0.6
     rehype-pretty-code: ^0.9.3
-    typescript: ^4.9.4
+    typescript: ^4.9.5
   languageName: unknown
   linkType: soft
 
@@ -1276,7 +1276,7 @@ __metadata:
     "@types/glob": ^8.0.0
     glob: ^8.0.3
     graph-data-structure: ^3.1.1
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1289,7 +1289,7 @@ __metadata:
     "@onerepo/vitest": "workspace:^"
     log-update: ^5.0.1
     picocolors: ^1.0.0
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1310,7 +1310,7 @@ __metadata:
     "@onerepo/vitest": "workspace:^"
     "@types/inquirer": ^9
     inquirer: ^9.1.4
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1326,7 +1326,7 @@ __metadata:
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
     remark-stringify: ^10.0.2
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     unified: ^10.1.2
     vitest: ^0.28.4
   bin:
@@ -1343,7 +1343,7 @@ __metadata:
     "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
     eslint: ^8.32.0
-    typescript: ^4.9.4
+    typescript: ^4.9.5
   peerDependencies:
     eslint: ^8
   languageName: unknown
@@ -1360,7 +1360,7 @@ __metadata:
     cliui: ^8.0.1
     picocolors: ^1.0.0
     semver: ^7.3.8
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1372,7 +1372,7 @@ __metadata:
     "@onerepo/cli": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1384,7 +1384,7 @@ __metadata:
     "@onerepo/cli": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
-    typescript: ^4.9.4
+    typescript: ^4.9.5
   peerDependencies:
     prettier: ^2
   languageName: unknown
@@ -1398,7 +1398,7 @@ __metadata:
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     minimatch: ^6.1.6
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -1411,7 +1411,7 @@ __metadata:
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     yargs-unparser: ^2.0.0
   peerDependencies:
     vitest: ^0
@@ -1446,7 +1446,7 @@ __metadata:
     eslint: ^8.32.0
     husky: ^8.0.0
     prettier: ^2.8.4
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   bin:
     one: ./bin/one.js
@@ -1463,7 +1463,7 @@ __metadata:
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
     yargs: ^17.6.2
     yargs-parser: ^21.1.1
@@ -6665,7 +6665,7 @@ __metadata:
     "@onerepo/logger": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
   linkType: soft
@@ -8489,7 +8489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:*":
+"typescript@npm:*, typescript@npm:^4.9.5":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -8499,33 +8499,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.4":
-  version: 4.9.4
-  resolution: "typescript@npm:4.9.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: e782fb9e0031cb258a80000f6c13530288c6d63f1177ed43f770533fdc15740d271554cdae86701c1dd2c83b082cea808b07e97fd68b38a172a83dbf9e0d0ef9
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@*#~builtin<compat/typescript>":
+"typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
-  version: 4.9.4
-  resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 1caaea6cb7f813e64345190fddc4e6c924d0b698ab81189b503763c4a18f7f5501c69362979d36e19c042d89d936443e768a78b0675690b35eb663d19e0eae71
   languageName: node
   linkType: hard
 
