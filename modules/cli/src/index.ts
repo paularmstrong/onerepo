@@ -101,6 +101,11 @@ export async function setup(config: Config = {}) {
 	const options = commandDirOptions(graph, ignoreCommands);
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
+	// TODO: find a better way
+	// more hacks - the patch function doesn't work with plugin-docgen
+	if ('_commandDirOpts' in yargs) {
+		yargs._commandDirOpts = options;
+	}
 
 	for (const pluginName of corePlugins) {
 		const name = pluginName.replace('@onerepo/plugin-', '') as keyof Config['core'];
