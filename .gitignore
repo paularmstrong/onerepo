@@ -1,6 +1,7 @@
 .DS_Store
-node_modules/*
 
+# dependencies
+**/node_modules/*
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -8,6 +9,13 @@ node_modules/*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
 
 **/dist/*
 
