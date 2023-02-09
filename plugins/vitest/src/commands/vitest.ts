@@ -10,8 +10,8 @@ type Args = {
 	affected?: boolean;
 	all?: boolean;
 	files?: Array<string>;
+	inspect: boolean;
 	workspaces?: Array<string>;
-	[other: string]: unknown;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -31,6 +31,11 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Run tests related to all affected workspaces',
 			conflicts: ['all', 'files', 'workspaces'],
 		})
+		.option('inspect', {
+			type: 'boolean',
+			description: 'Break for the the Node inspector to debug tests',
+			default: false,
+		})
 		.option('workspaces', {
 			alias: 'ws',
 			type: 'array',
@@ -46,7 +51,6 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getA
 		affected,
 		workspaces: workspaceNames,
 		inspect,
-		inspectBrk,
 	} = argv;
 
 	const related: Array<string> = [];
@@ -68,9 +72,9 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getA
 
 	await run({
 		name: 'Run tests',
-		cmd: inspect || inspectBrk ? 'node_modules/.bin/ndb' : 'node_modules/.bin/vitest',
+		cmd: inspect ? 'node' : 'node_modules/.bin/vitest',
 		args: [
-			inspect || inspectBrk ? 'node_modules/.bin/vitest' : '',
+			...(inspect ? ['--inspect', '--inspect-brk', 'node_modules/.bin/vitest'] : []),
 			'--config',
 			graph.root.resolve('config', 'vitest.config.ts'),
 			...related,
