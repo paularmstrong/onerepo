@@ -459,7 +459,7 @@ export class Yargs {
 	}
 
 	// TOOD
-	version(name: string = 'version', description: string = 'Show this CLI’s version number') {
+	version(name = 'version', description = 'Show this CLI’s version number') {
 		this.option(name, { type: 'boolean', description });
 		return this;
 	}

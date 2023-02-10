@@ -26,9 +26,9 @@ export class Logger {
 	#steps: Array<Step> = [];
 	#verbosity = 0;
 	updater: LogUpdate;
-	#frame: number = 0;
+	#frame = 0;
 
-	inherit: boolean = false;
+	inherit = false;
 
 	constructor({ verbosity }: Options) {
 		this.verbosity = verbosity;
@@ -163,7 +163,7 @@ export class Step {
 	#onEnd: (step: Step) => Promise<void>;
 	#onError: () => void;
 	#lastThree: Array<string> = [];
-	hasError: boolean = false;
+	hasError = false;
 
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
 		performance.mark(`start_${name}`);
@@ -197,7 +197,7 @@ export class Step {
 		return [this.#prefixStart(this.name), ...this.#lastThree];
 	}
 
-	activate(enableWrite: boolean = !process.stderr.isTTY) {
+	activate(enableWrite = !process.stderr.isTTY) {
 		if (this.#active) {
 			return;
 		}

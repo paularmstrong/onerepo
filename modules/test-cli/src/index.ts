@@ -65,7 +65,7 @@ export async function runHandler<R = Record<string, unknown>>(
 		handler: Handler<R>;
 		extras: Partial<Extras>;
 	},
-	cmd: string = ''
+	cmd = ''
 ): Promise<void> {
 	const { graph = getGraph(path.join(__dirname, '__fixtures__', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
