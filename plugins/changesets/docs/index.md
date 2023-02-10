@@ -1,22 +1,26 @@
-## `one`
+---
+title: '@onerepo/plugin-changesets'
+description: |
+  Create changesets and prepare releases for your workspaces.
+---
 
-```sh
-one <command> [options]
+## Installation
+
+```js
+const { changesets } = require('@onerepo/plugin-changesets');
+
+(async () => {
+	const { run } = await setup({
+		plugins: [changesets()],
+	});
+
+	await run();
+})();
 ```
 
-The `one` command does not accept any positional arguments.
+<!-- start-onerepo-sentinel -->
 
-| Option              | Type                  | Description                                                                   | Required |
-| ------------------- | --------------------- | ----------------------------------------------------------------------------- | -------- |
-| `--ci`              | `boolean`             | Sets defaults for running scripts in a CI environment                         |          |
-| `--dry-run`         | `boolean`             | Run without actually making modifications or destructive operations           |          |
-| `--help`, `-h`      | `boolean`             | Show this help screen                                                         |          |
-| `--show-advanced`   | `boolean`             | Show advanced options                                                         |          |
-| `--silent`          | `boolean`             | Silence all output from the logger. Effectively sets verbosity to 0.          |          |
-| `--verbosity`, `-v` | `count`, default: `2` | Set the verbosity of the script output. Use -v, -vv, or -vvv for more verbose |          |
-| `--version`         | `boolean`             | Show the one Repo CLI version                                                 |          |
-
-### `one changesets`
+## `one changesets`
 
 Aliases: `change`
 
@@ -30,7 +34,7 @@ The `changesets` command does not accept any positional arguments.
 
 The `changesets` command does not accept any option arguments.
 
-#### `one changesets add`
+### `one changesets add`
 
 Aliases: `$0`
 
@@ -48,7 +52,7 @@ The `add` command does not accept any positional arguments.
 | `--type`             | `string`  | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                              |          |
 
-#### `one changesets init`
+### `one changesets init`
 
 Initialize changesets for this repository.
 
@@ -58,10 +62,12 @@ The `init` command does not accept any positional arguments.
 
 The `init` command does not accept any option arguments.
 
-#### `one changesets prepare`
+### `one changesets prepare`
 
 Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
 
 The `prepare` command does not accept any positional arguments.
 
 The `prepare` command does not accept any option arguments.
+
+<!-- end-onerepo-sentinel -->

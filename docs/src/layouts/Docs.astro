@@ -1,0 +1,17 @@
+---
+import Layout from './Layout.astro';
+import Prose from '../components/Prose.astro';
+
+export interface Props {
+	description?: string;
+	title?: string;
+}
+
+const { description, title } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+	<Prose>
+		<slot />
+	</Prose>
+</Layout>

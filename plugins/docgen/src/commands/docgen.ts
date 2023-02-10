@@ -13,6 +13,8 @@ interface Args {
 	format: 'markdown' | 'json';
 	'out-file'?: string;
 	'out-workspace'?: string;
+	'safe-write'?: boolean;
+	command?: string;
 }
 
 export const builder: Builder<Args> = (yargs) =>
@@ -49,10 +51,27 @@ export const builder: Builder<Args> = (yargs) =>
 			choices: ['markdown', 'json'],
 			default: 'json',
 			description: 'Output format for documentation',
-		} as const);
+		} as const)
+		.option('safe-write', {
+			type: 'boolean',
+			description: 'Write documentation to a portion of the file with start and end sentinels.',
+		})
+		.option('command', {
+			type: 'string',
+			hidden: true,
+			description: 'Start at the given command, skip the root and any others',
+		});
 
 export const handler: Handler<Args> = async function handler(argv, { graph }) {
-	const { add, bin = process.argv[1], format, 'out-file': outFile, 'out-workspace': wsName } = argv;
+	const {
+		add,
+		bin = process.argv[1],
+		format,
+		'out-file': outFile,
+		'out-workspace': wsName,
+		'safe-write': safeWrite,
+		command,
+	} = argv;
 
 	let outPath = outFile;
 	if (wsName && outFile) {
@@ -66,13 +85,20 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	const [out] = await run({
 		name: 'Generating documentation',
 		cmd: 'node',
-		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', path.resolve(bin), '--format', format],
+		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', path.resolve(bin)],
 	});
 
-	const output = format === 'markdown' ? toMarkdown(JSON.parse(out)) : out;
+	const docs = JSON.parse(out);
+	const outputDocs = command ? docs.commands[command] : docs;
+
+	const output = format === 'markdown' ? toMarkdown(outputDocs) : JSON.stringify(outputDocs);
 
 	if (outPath) {
-		await file.writeFile(outPath, output);
+		if (safeWrite) {
+			await file.writeFileContents(outPath, output);
+		} else {
+			await file.writeFile(outPath, output);
+		}
 		if (add) {
 			await git.updateIndex(outPath);
 		}

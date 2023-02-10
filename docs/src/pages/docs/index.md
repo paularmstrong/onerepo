@@ -1,9 +1,19 @@
 ---
-layout: '../../layouts/Doc.astro'
-title: Why oneRepo
+layout: '../../layouts/Docs.astro'
+title: Documentation
 ---
 
-# Why oneRepo
+# oneRepo documentation
+
+`oneRepo` is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence over all else.
+
+- Fast
+- Strict
+- Opinionated
+  - It should always be easy to use the recommended best-practices
+  - But when you need to deviate, you should be able to – without too much overhead.
+
+## Why oneRepo
 
 Other monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
 

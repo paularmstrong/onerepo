@@ -1,3 +1,15 @@
+---
+layout: '../../../layouts/Docs.astro'
+title: oneRepo internal CLI
+description: oneRepo uses itself to manage itself! Very meta. The following is the repo’s usage for the local CLI auto-generated docs using the docgen plugin.
+---
+
+# Internal CLI
+
+oneRepo uses itself to manage itself! Very meta. The following is the repo’s usage for the local CLI auto-generated docs using the [docgen plugin](/docs/plugins/docgen/).
+
+<!-- start-onerepo-sentinel -->
+
 ## `one`
 
 ```sh
@@ -164,17 +176,18 @@ one lint [options]
 
 The `lint` command does not accept any positional arguments.
 
-| Option               | Type                       | Description                                                                                 | Required |
-| -------------------- | -------------------------- | ------------------------------------------------------------------------------------------- | -------- |
-| `--add`              | `boolean`                  | Add modified files after write                                                              |          |
-| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
-| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                   |          |
-| `--cache`            | `boolean`, default: `true` | Use cache if available                                                                      |          |
-| `--files`, `-f`      | `array`                    | Determine workspaces from specific files                                                    |          |
-| `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                |          |
-| `--from-ref`         | `string`                   | Git ref to start looking for affected files or workspaces                                   |          |
-| `--through-ref`      | `string`                   | Git ref to start looking for affected files or workspaces                                   |          |
-| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                      |          |
+| Option               | Type                                                            | Description                                                                                 | Required |
+| -------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean`                                                       | Add modified files after write                                                              |          |
+| `--affected`         | `boolean`                                                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean`                                                       | Run across all workspaces                                                                   |          |
+| `--cache`            | `boolean`, default: `true`                                      | Use cache if available                                                                      |          |
+| `--extensions`       | `array`, default: `["ts","tsx","js","jsx","cjs","mjs","astro"]` |                                                                                             |          |
+| `--files`, `-f`      | `array`                                                         | Determine workspaces from specific files                                                    |          |
+| `--fix`              | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                |          |
+| `--from-ref`         | `string`                                                        | Git ref to start looking for affected files or workspaces                                   |          |
+| `--through-ref`      | `string`                                                        | Git ref to start looking for affected files or workspaces                                   |          |
+| `--workspaces`, `-w` | `array`                                                         | List of workspace names to run against                                                      |          |
 
 ### `one format`
 
@@ -211,13 +224,15 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 
 The `docgen` command does not accept any positional arguments.
 
-| Option            | Type                            | Description                                                     | Required |
-| ----------------- | ------------------------------- | --------------------------------------------------------------- | -------- |
-| `--add`           | `boolean`                       | Add the output file to the git stage                            |          |
-| `--bin`           | `string`                        | Path to the OneRepo cli runner. Defaults to the current runner. |          |
-| `--format`        | `string`, default: `"markdown"` | Output format for documentation                                 |          |
-| `--out-file`      | `string`, default: `"cli.md"`   | File to write output to. If not provided, stdout will be used   |          |
-| `--out-workspace` | `string`, default: `"root"`     | Workspace name to write the --out-file to                       |          |
+| Option            | Type                                                           | Description                                                                | Required |
+| ----------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`                                                      | Add the output file to the git stage                                       |          |
+| `--bin`           | `string`                                                       | Path to the OneRepo cli runner. Defaults to the current runner.            |          |
+| `--command`       | `string`                                                       | Start at the given command, skip the root and any others                   |          |
+| `--format`        | `string`, default: `"markdown"`                                | Output format for documentation                                            |          |
+| `--out-file`      | `string`, default: `"docs/src/pages/docs/contributing/cli.md"` | File to write output to. If not provided, stdout will be used              |          |
+| `--out-workspace` | `string`, default: `"root"`                                    | Workspace name to write the --out-file to                                  |          |
+| `--safe-write`    | `boolean`, default: `true`                                     | Write documentation to a portion of the file with start and end sentinels. |          |
 
 ### `one info`
 
@@ -375,3 +390,5 @@ The `example` command does not accept any positional arguments.
 | Option               | Type    | Description                                          | Required |
 | -------------------- | ------- | ---------------------------------------------------- | -------- |
 | `--workspaces`, `-w` | `array` | List of workspace names to restrict building against |          |
+
+<!-- end-onerepo-sentinel -->
