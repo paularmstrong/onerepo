@@ -50,7 +50,7 @@ function writeStdio(graph: SerializedGraph): void {
 			})
 		);
 	}
-	div({ text: '⎻'.repeat(width), padding: [1, 0, 1, 0] });
+	div({ text: '⎯'.repeat(width), padding: [1, 0, 1, 0] });
 
 	type Deps = { prod: Array<string>; dev: Array<string>; peer: Array<string> };
 

@@ -145,12 +145,17 @@ export class Graph {
 		dependencies: Record<string, string>,
 		weight: (typeof Dependency)[keyof typeof Dependency]
 	) {
-		for (const dependency in dependencies) {
+		for (const [dependency, version] of Object.entries(dependencies)) {
 			if (this.#byName.has(dependency)) {
+				if (!version.startsWith('workspace:') && version !== this.#byName.get(dependency)!.version) {
+					throw new Error(`${dependent} does not use source version of ${dependency}`);
+				}
+
 				this.#graph.addEdge(dependent, dependency, weight);
 				if (this.#graph.hasCycle()) {
 					throw new Error(`Cycle found between ${dependent} and ${dependency}`);
 				}
+
 				this.#inverted.addEdge(dependency, dependent, weight);
 				if (this.#graph.hasCycle()) {
 					throw new Error(`Cycle found between ${dependent} and ${dependency}`);
