@@ -19,7 +19,6 @@ export const builder: Builder<Args> = (yargs) =>
 		)
 	);
 
-// TODO: workspaces vs affected as reusable builder bits
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
 	const existsStep = logger.createStep('Check for TSconfigs');
 	const removals: Array<string> = [];
