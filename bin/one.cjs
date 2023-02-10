@@ -10,6 +10,7 @@ const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { vitest } = require('@onerepo/plugin-vitest');
 const { prettier } = require('@onerepo/plugin-prettier');
+const { generate } = require('@onerepo/plugin-generate');
 
 (async () => {
 	const { run } = await setup(
@@ -32,6 +33,9 @@ const { prettier } = require('@onerepo/plugin-prettier');
 					outFile: 'docs/src/pages/docs/contributing/cli.md',
 					format: 'markdown',
 					safeWrite: true,
+				}),
+				generate({
+					templatesDir: path.join(__dirname, '..', 'commands', 'templates'),
 				}),
 			],
 		}

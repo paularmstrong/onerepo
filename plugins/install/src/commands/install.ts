@@ -115,7 +115,7 @@ To force installation, re-run this command with \`--force\`:
 
 	const { homedir, shell } = os.userInfo();
 	const filename = shell.endsWith('zsh') ? '.zshrc' : '.bash_profile';
-	await file.writeFileContents(path.join(homedir, filename), completion.replace(/\n+$/m, ''), {
+	await file.writeSafe(path.join(homedir, filename), completion.replace(/\n+$/m, ''), {
 		sentinel: `${name}-cmd-completions`,
 	});
 };

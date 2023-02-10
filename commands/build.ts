@@ -75,7 +75,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		// @ts-ignore
 		newPackageJson.typings = './src/index.d.ts';
 
-		await file.writeFile(workspace.resolve('dist', 'package.json'), JSON.stringify(newPackageJson, null, 2), {
+		await file.write(workspace.resolve('dist', 'package.json'), JSON.stringify(newPackageJson, null, 2), {
 			step: copyStep,
 		});
 	}

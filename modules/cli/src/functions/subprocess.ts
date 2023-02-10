@@ -21,7 +21,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		performance.mark(`${options.name}_start`);
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;
 		if (options.opts?.stdio === 'inherit') {
-			logger.inherit = true;
+			logger.pause();
 		}
 
 		const step = inputStep ?? logger.createStep(options.name);
@@ -59,7 +59,7 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 			!options.skipFailures && step.error(error);
 			return Promise.resolve()
 				.then(() => {
-					logger.inherit = false;
+					logger.unpause();
 					return !inputStep ? step.end() : Promise.resolve();
 				})
 				.then(() => {
@@ -91,7 +91,7 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 					step.error(`Process exited with code ${code}`);
 				}
 				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
-					logger.inherit = false;
+					logger.unpause();
 					reject(error);
 				});
 			}

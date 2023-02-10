@@ -234,6 +234,26 @@ The `docgen` command does not accept any positional arguments.
 | `--out-workspace` | `string`, default: `"root"`                                    | Workspace name to write the --out-file to                                  |          |
 | `--safe-write`    | `boolean`, default: `true`                                     | Write documentation to a portion of the file with start and end sentinels. |          |
 
+### `one generate`
+
+Aliases: `gen`
+
+Generate workspaces from template directories.
+
+```sh
+one generate,gen [options]
+```
+
+To create new templates add a new folder to commands/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/
+
+The `generate` command does not accept any positional arguments.
+
+| Option            | Type                                                                               | Description                                                                                  | Required |
+| ----------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------- |
+| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates                                                                        | ✅       |
+| `--name`          | `string`                                                                           | Name of the workspace to generate. If not provided, you will be prompted to enter one later. |          |
+| `--type`, `-t`    | `string`                                                                           | Template type to generate. If not provided, a list will be provided to choose from.          |          |
+
 ### `one info`
 
 Get information about the repository

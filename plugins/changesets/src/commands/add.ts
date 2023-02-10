@@ -22,7 +22,7 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { type } = argv;
-	logger.inherit = true;
+	logger.pause();
 
 	const workspaces = await getWorkspaces();
 	const choices = workspaces.reduce((memo, ws) => {
@@ -96,7 +96,7 @@ ${pc.dim(
 		},
 	]);
 
-	logger.inherit = false;
+	logger.unpause();
 
 	const writeStep = logger.createStep('Write changeset');
 	await write(

@@ -95,9 +95,9 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 
 	if (outPath) {
 		if (safeWrite) {
-			await file.writeFileContents(outPath, output);
+			await file.writeSafe(outPath, output);
 		} else {
-			await file.writeFile(outPath, output);
+			await file.write(outPath, output);
 		}
 		if (add) {
 			await git.updateIndex(outPath);

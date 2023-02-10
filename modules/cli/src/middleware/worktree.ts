@@ -15,7 +15,7 @@ export async function worktreeMiddleware() {
 		});
 
 		if (/\/worktrees\//.test(out)) {
-			const newRoot = await file.readFile(path.join(out, 'gitdir'));
+			const newRoot = await file.read(path.join(out, 'gitdir'));
 			process.env.ONE_REPO_ROOT = path.dirname(newRoot);
 			logger.warn(`Reset repo root to worktree ${path.dirname(newRoot)}`);
 		} else {
