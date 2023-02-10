@@ -238,19 +238,21 @@ The `docgen` command does not accept any positional arguments.
 
 Aliases: `gen`
 
-Generate workspaces from standard templates
+Generate workspaces from template directories.
 
 ```sh
 one generate,gen [options]
 ```
 
+To create new templates add a new folder to commands/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/
+
 The `generate` command does not accept any positional arguments.
 
-| Option            | Type                                                                               | Description                       | Required |
-| ----------------- | ---------------------------------------------------------------------------------- | --------------------------------- | -------- |
-| `--name`          | `string`                                                                           | Name of the workspace to generate |          |
-| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates             |          |
-| `--type`, `-t`    | `string`                                                                           | Template type to generate         |          |
+| Option            | Type                                                                               | Description                                                                                  | Required |
+| ----------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------- |
+| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates                                                                        | ✅       |
+| `--name`          | `string`                                                                           | Name of the workspace to generate. If not provided, you will be prompted to enter one later. |          |
+| `--type`, `-t`    | `string`                                                                           | Template type to generate. If not provided, a list will be provided to choose from.          |          |
 
 ### `one info`
 

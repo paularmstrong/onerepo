@@ -7,7 +7,7 @@ import type { Builder, Handler } from '@onerepo/cli';
 
 export const command = ['generate', 'gen'];
 
-export const description = 'Generate workspaces from standard templates';
+export const description = 'Generate workspaces from template directories.';
 
 type Args = {
 	name?: string;
@@ -20,11 +20,11 @@ export const builder: Builder<Args> = (yargs) =>
 		.option('type', {
 			alias: 't',
 			type: 'string',
-			description: 'Template type to generate',
+			description: 'Template type to generate. If not provided, a list will be provided to choose from.',
 		})
 		.option('name', {
 			type: 'string',
-			description: 'Name of the workspace to generate',
+			description: 'Name of the workspace to generate. If not provided, you will be prompted to enter one later.',
 		})
 		.option('templates-dir', {
 			type: 'string',
@@ -32,6 +32,7 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Path to the templates',
 			default: 'templates',
 			hidden: true,
+			demandOption: true,
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { logger }) {

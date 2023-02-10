@@ -18,7 +18,7 @@ const { generate } = require('@onerepo/plugin-generate');
 				install: false,
 				tasks: false,
 			},
-			plugins: [generate()],
+			plugins: [generate({ templatesDir: '' })],
 		}
 	);
 
