@@ -248,9 +248,9 @@ The `generate` command does not accept any positional arguments.
 
 | Option            | Type                                                                               | Description                       | Required |
 | ----------------- | ---------------------------------------------------------------------------------- | --------------------------------- | -------- |
-| `--name`          | `string`                                                                           | Name of the workspace to generate | ✅       |
-| `--type`, `-t`    | `string`                                                                           | Template type to generate         | ✅       |
+| `--name`          | `string`                                                                           | Name of the workspace to generate |          |
 | `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates             |          |
+| `--type`, `-t`    | `string`                                                                           | Template type to generate         |          |
 
 ### `one info`
 

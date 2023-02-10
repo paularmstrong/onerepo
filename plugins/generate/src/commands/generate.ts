@@ -1,8 +1,8 @@
 import path from 'node:path';
 import glob from 'glob';
-import { existsSync } from 'node:fs';
+import inquirer from 'inquirer';
 import { render } from 'ejs';
-import { file, logger } from '@onerepo/cli';
+import { file } from '@onerepo/cli';
 import type { Builder, Handler } from '@onerepo/cli';
 
 export const command = ['generate', 'gen'];
@@ -10,9 +10,9 @@ export const command = ['generate', 'gen'];
 export const description = 'Generate workspaces from standard templates';
 
 type Args = {
-	name: string;
+	name?: string;
 	'templates-dir': string;
-	type: string;
+	type?: string;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -21,12 +21,10 @@ export const builder: Builder<Args> = (yargs) =>
 			alias: 't',
 			type: 'string',
 			description: 'Template type to generate',
-			demandOption: true,
 		})
 		.option('name', {
 			type: 'string',
 			description: 'Name of the workspace to generate',
-			demandOption: true,
 		})
 		.option('templates-dir', {
 			type: 'string',
@@ -34,52 +32,90 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Path to the templates',
 			default: 'templates',
 			hidden: true,
-		})
-		.middleware((argv) => {
-			if (!existsSync(path.join(argv['templates-dir'], argv.type))) {
-				yargs.showHelp();
-				const msg = `Unable to find template type "${argv.type}"`;
-				logger.error(msg);
-				yargs.exit(1, new Error(msg));
-			}
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { logger }) {
-	const { 'templates-dir': templatesDir, name } = argv;
+	const { 'templates-dir': templatesDir, name: nameArg, type } = argv;
+	const templates = glob.sync('*', { cwd: templatesDir });
 
-	const templateDir = path.join(templatesDir, 'plugin');
+	const step = logger.createStep('Get inputs');
 
-	let config: Config | void;
-	try {
-		config = require(path.join(templateDir, '.onegen.cjs'));
-	} catch (e) {
-		logger.error(`Unable to load configuration file "${path.join(templateDir, '.onegen.cjs')}"`);
-		logger.error(e);
+	logger.pause();
+
+	let templateType = type;
+	if (!templateType) {
+		const { templateInput } = await inquirer.prompt([
+			{
+				name: 'templateInput',
+				type: 'list',
+				message: 'Choose a template…',
+				choices: templates,
+			},
+		]);
+		templateType = templateInput;
+	}
+
+	const templateDir = path.join(templatesDir, templateType!);
+	if (!(await file.exists(templateDir, { step }))) {
+		step.error(`Template directory does not exist "${templateDir}"`);
 		return;
 	}
 
-	const { outDir, nameFormat, dirnameFormat } = config!;
+	if (!(await file.exists(path.join(templateDir, '.onegen.cjs'), { step }))) {
+		step.error(`No configuration file found, expected "${path.join(templateDir, '.onegen.cjs')}"`);
+	}
+
+	const config = getConfig(templateDir);
+
+	const { outDir, nameFormat, dirnameFormat } = config;
+	let name = nameArg;
+	if (!name) {
+		const { nameInput } = await inquirer.prompt([
+			{
+				name: 'nameInput',
+				type: 'input',
+				message: 'What name should your package have?',
+				transformer: (input: string) => nameFormat(input.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase()),
+				filter: (input: string) => input.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase(),
+			},
+		]);
+		name = nameInput;
+	}
+
+	logger.unpause();
+
+	if (!name) {
+		step.error(`No name given for module`);
+		await step.end();
+		return;
+	}
+
+	await step.end();
+
 	const files = glob.sync('**/!(.genconf)', { cwd: templateDir, nodir: true });
 
-	const step = logger.createStep('Render files');
+	const renderStep = logger.createStep('Render files');
 	for (const filepath of files) {
 		const fullpath = path.join(templateDir, filepath);
-
-		let contents = await file.read(fullpath, 'r', { step });
+		let contents = await file.read(fullpath, 'r', { step: renderStep });
 		if (fullpath.endsWith('.ejs')) {
 			contents = render(contents, { name, fullName: nameFormat(name) });
 		}
-
 		await file.write(
 			path.join(outDir, dirnameFormat(name), filepath.replace('.ejs', '').replace(/__name__/g, name)),
 			contents,
-			{ step }
+			{ step: renderStep }
 		);
 	}
+	await renderStep.end();
 };
 
-interface Config {
+export interface Config {
 	outDir: string;
 	nameFormat: (name: string) => string;
 	dirnameFormat: (name: string) => string;
+}
+
+export function getConfig(filepath: string) {
+	return require(path.join(filepath, '.onegen.cjs')) as Config;
 }

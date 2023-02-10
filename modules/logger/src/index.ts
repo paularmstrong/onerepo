@@ -28,7 +28,8 @@ export class Logger {
 	updater: LogUpdate;
 	#frame = 0;
 
-	inherit = false;
+	#paused = false;
+	#updaterTimeout: NodeJS.Timeout | undefined;
 
 	constructor({ verbosity }: Options) {
 		this.verbosity = verbosity;
@@ -60,11 +61,21 @@ export class Logger {
 		return this.#logger.hasError;
 	}
 
+	pause() {
+		this.#paused = true;
+		clearTimeout(this.#updaterTimeout);
+		this.updater.clear();
+	}
+
+	unpause() {
+		this.#paused = false;
+	}
+
 	runUpdater() {
-		if (!this.#logger.active || this.inherit) {
+		if (!this.#logger.active || this.#paused) {
 			return;
 		}
-		setTimeout(() => {
+		this.#updaterTimeout = setTimeout(() => {
 			this.updater(
 				this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n')
 			);
