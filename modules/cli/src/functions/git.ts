@@ -47,10 +47,25 @@ export async function getMergeBase({ step }: Options = {}) {
 			return latestMergeSha.trim().split(' ')[0];
 		}
 
+		try {
+			const [base] = await run({
+				name: 'Get merge base',
+				cmd: 'git',
+				args: ['merge-base', '--fork-point', `origin/${head}`, 'HEAD'],
+				step,
+				skipFailures: true,
+			});
+
+			return base;
+		} catch (e) {
+			// don't worry about it
+		}
+
+		// TODO: figure out why fork point sometimes doesn't work
 		const [base] = await run({
 			name: 'Get merge base',
 			cmd: 'git',
-			args: ['merge-base', '--fork-point', `origin/${head}`, 'HEAD'],
+			args: ['merge-base', 'HEAD', `origin/${head}`],
 			step,
 		});
 

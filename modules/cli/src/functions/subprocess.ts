@@ -90,7 +90,7 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 					step.error(out.trim() || err.trim());
 					step.error(`Process exited with code ${code}`);
 				}
-				return step.end().then(() => {
+				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
 					logger.inherit = false;
 					reject(error);
 				});

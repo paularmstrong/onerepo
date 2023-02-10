@@ -61,7 +61,7 @@ export class Repository {
 		return this.getByLocation(this.#rootLocation)!;
 	}
 
-	dependents(sources?: string | Array<string>, includeSelf: boolean = false) {
+	dependents(sources?: string | Array<string>, includeSelf = false) {
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources])
 				.map((source) => this.getByName(source)!.name)
@@ -71,7 +71,7 @@ export class Repository {
 		return this.#inverted.topologicalSort();
 	}
 
-	dependencies(sources?: string | Array<string>, includeSelf: boolean = false) {
+	dependencies(sources?: string | Array<string>, includeSelf = false) {
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources])
 				.map((source) => this.getByName(source)!.name)

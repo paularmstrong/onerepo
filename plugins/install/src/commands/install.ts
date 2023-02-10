@@ -64,7 +64,7 @@ export const handler: Handler<Args> = async function handler(argv) {
 	const { force, location, name } = argv;
 
 	if (!force) {
-		let which: string = '';
+		let which = '';
 		const step = logger.createStep(`Ensure ${name} does not exist`);
 		try {
 			const [out] = await run({

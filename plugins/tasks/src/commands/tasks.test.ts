@@ -33,7 +33,7 @@ describe('handler', () => {
 		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['burritos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		let out: string = '';
+		let out = '';
 		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
