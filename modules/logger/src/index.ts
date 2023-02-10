@@ -166,7 +166,7 @@ export class Step {
 	hasError = false;
 
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
-		performance.mark(`start_${name}`);
+		performance.mark(`start_${name || 'logger'}`);
 		this.verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
@@ -218,10 +218,12 @@ export class Step {
 	}
 
 	async end() {
-		const endMark = `end_${this.name}`;
+		const endMark = `end_${this.name || 'logger'}`;
 		performance.mark(endMark);
 
-		const duration = Math.round(performance.measure(this.name, `start_${this.name}`, endMark).duration);
+		const duration = Math.round(
+			performance.measure(this.name || 'logger', `start_${this.name || 'logger'}`, endMark).duration
+		);
 		const text = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
