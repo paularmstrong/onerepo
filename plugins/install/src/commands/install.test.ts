@@ -27,7 +27,7 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeFileContents').mockResolvedValue();
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
 
 		await expect(run('--name tacos')).rejects.toBeUndefined();
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
@@ -37,7 +37,7 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeFileContents').mockResolvedValue();
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
 		vitest.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos --force')).resolves.toBeUndefined();
@@ -49,7 +49,7 @@ describe('handler', () => {
 		expect(subprocess.sudo).toHaveBeenCalledWith(
 			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] })
 		);
-		expect(file.writeFileContents).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
+		expect(file.writeSafe).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
 			sentinel: 'tacos-cmd-completions',
 		});
 	});

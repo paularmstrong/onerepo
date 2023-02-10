@@ -47,7 +47,7 @@ export function setupYargs(yargs: Yargv): Yargs {
 		})
 		.middleware(worktreeMiddleware, true)
 		.middleware(setEnvironmentMiddleware, true)
-		.middleware(sudoCheckMiddleware, true)
+		.middleware(sudoCheckMiddleware(yargs), true)
 		.wrap(Math.min(160, process.stdout.columns))
 		.showHidden('show-advanced', 'Show advanced options')
 		.group('show-advanced', 'Global:')

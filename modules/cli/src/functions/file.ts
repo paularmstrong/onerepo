@@ -20,7 +20,7 @@ export async function exists(filename: string, { step }: Options = {}) {
 	});
 }
 
-export async function writeFile(filename: string, contents: string, { step }: Options = {}) {
+export async function write(filename: string, contents: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Write to ${filename}` }, async (step) => {
 		step.debug(`###- ${filename} start -###\n${contents}\n###- ${filename} end -###`);
 
@@ -50,7 +50,7 @@ export async function format(filename: string, contents: string, { step }: Optio
 	});
 }
 
-export async function readFile(filename: string, flag: OpenMode = 'r', { step }: Options = {}) {
+export async function read(filename: string, flag: OpenMode = 'r', { step }: Options = {}) {
 	return stepWrapper({ step, name: `Read ${filename}` }, async (step) => {
 		try {
 			const contents = await fs.readFile(filename, { flag });
@@ -91,7 +91,12 @@ const commentStyle: Record<string, [string, string]> = {
 };
 const fallbackCommentStyle = ['# ', ''];
 
-export async function writeFileContents(
+/**
+ * Safely write contents to a file, wrapped in a start and end sentinel.
+ * This allows writing to a file without overwriting the current content of the file –
+ * other than that which falls between the start and end sentinel.
+ */
+export async function writeSafe(
 	filename: string,
 	contents: string,
 	{ sentinel = 'onerepo-sentinel', step }: Options & { sentinel?: string } = {}
@@ -99,7 +104,7 @@ export async function writeFileContents(
 	return stepWrapper({ step, name: `Write to ${filename}` }, async (step) => {
 		let fileContents = '';
 		try {
-			fileContents = await readFile(filename, 'r', { step });
+			fileContents = await read(filename, 'r', { step });
 		} catch (e) {
 			// it's okay
 		}
@@ -115,6 +120,6 @@ export async function writeFileContents(
 		const leftover = matches && matches.length ? fileContents.replace(matches[1], '') : fileContents;
 		const output = `${leftover}\n\n${appendContent}\n`;
 
-		return await writeFile(filename, output, { step });
+		return await write(filename, output, { step });
 	});
 }
