@@ -8,6 +8,7 @@
 		"@onerepo/graph": "workspace:^",
 		"@onerepo/logger": "workspace:^",
 		"glob": "^8.0.3",
+		"prettier": "^2",
 		"yargs": "^17.6.2",
 		"yargs-parser": "^21.1.1"
 	},

@@ -2,13 +2,14 @@ import path from 'node:path';
 import { git, logger, run, withAllInputs } from '@onerepo/cli';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
 
-export const command = 'lint';
+export const command = 'eslint';
 
 export const description = 'Lint files using eslint';
 
 type Args = WithAllInputs & {
 	add?: boolean;
 	cache: boolean;
+	extensions: Array<string>;
 	fix: boolean;
 };
 
@@ -28,10 +29,15 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			default: true,
 			description: 'Apply auto-fixes if possible',
+		})
+		.option('extensions', {
+			type: 'array',
+			string: true,
+			default: ['js', 'cjs', 'mjs'],
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths }) {
-	const { add, all, cache, 'dry-run': isDry, fix } = argv;
+	const { add, all, cache, 'dry-run': isDry, extensions, fix } = argv;
 
 	const paths = await getFilepaths();
 	const filteredPaths = paths.filter((filepath) => {
@@ -61,5 +67,3 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		await git.updateIndex(paths);
 	}
 };
-
-const extensions = ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs'];

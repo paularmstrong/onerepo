@@ -7,7 +7,6 @@ register({});
 
 const { generate } = require('./generate');
 const {
-	format,
 	root: rootPath = process.cwd(),
 	// 'source-url': sourceUrl,
 	runnable,
@@ -16,6 +15,5 @@ const {
 generate({
 	scriptPath: runnable,
 	rootPath,
-	format,
 	commandDirectory: runnable,
 });

@@ -1,5 +1,5 @@
 ---
-layout: '../../layouts/Doc.astro'
+layout: '../../layouts/Docs.astro'
 title: Getting started with oneRepo
 ---
 

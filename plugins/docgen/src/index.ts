@@ -3,6 +3,7 @@ import * as cmd from './commands/docgen';
 
 type Opts = {
 	format?: 'markdown' | 'json';
+	safeWrite?: boolean;
 };
 
 type OptionsStdout = Opts;
@@ -27,6 +28,9 @@ export function docgen(opts: OptionsStdout | OptionsFile = {}): Plugin {
 					}
 					if (opts.format) {
 						y.default('format', opts.format);
+					}
+					if ('safeWrite' in opts) {
+						y.default('safe-write', opts.safeWrite);
 					}
 					return y;
 				},

@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import Docs from '../../../layouts/Docs.astro';
 
 export async function getStaticPaths() {
 	const pages = (await Astro.glob('../../../../../plugins/*/docs/**/*.{md,mdx}')).map((page) => {
@@ -20,10 +20,8 @@ const {
 } = Astro.props.page;
 ---
 
-<Layout title={title} description={description}>
-	<div class="prose prose-pink max-w-none">
-		<h1>{title}</h1>
-		<p>{description}</p>
-		<Content />
-	</div>
-</Layout>
+<Docs title={title} description={description}>
+	<h1>{title}</h1>
+	<p>{description}</p>
+	<Content />
+</Docs>

@@ -24,10 +24,15 @@ const { prettier } = require('@onerepo/plugin-prettier');
 			},
 			plugins: [
 				changesets(),
-				vitest(),
-				eslint(),
-				prettier(),
-				docgen({ outWorkspace: 'root', outFile: 'cli.md', format: 'markdown' }),
+				vitest({ name: 'test' }),
+				eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
+				prettier({ name: 'format' }),
+				docgen({
+					outWorkspace: 'root',
+					outFile: 'docs/src/pages/docs/contributing/cli.md',
+					format: 'markdown',
+					safeWrite: true,
+				}),
 			],
 		}
 	);

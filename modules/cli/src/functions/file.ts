@@ -4,6 +4,7 @@ import type { OpenMode } from 'node:fs';
 import fs from 'node:fs/promises';
 import { stepWrapper } from '../logger';
 import type { Step } from '@onerepo/logger';
+import { format as prettier, resolveConfig } from 'prettier';
 
 function isDryRun() {
 	return process.env.ONE_REPO_DRY_RUN === 'true';
@@ -30,12 +31,22 @@ export async function writeFile(filename: string, contents: string, { step }: Op
 			return;
 		}
 
+		const formatted = await format(filename, contents, { step });
+
 		try {
-			return await fs.writeFile(filename, contents);
+			return await fs.writeFile(filename, formatted);
 		} catch (e) {
 			step.error(e);
 			throw e;
 		}
+	});
+}
+
+export async function format(filename: string, contents: string, { step }: Options = {}) {
+	return stepWrapper({ step, name: `Format ${filename}` }, async (step) => {
+		const config = await resolveConfig(filename);
+		step.debug(`Resolved prettier config ${JSON.stringify(config)}`);
+		return prettier(contents, { ...config, filepath: filename });
 	});
 }
 
@@ -86,7 +97,13 @@ export async function writeFileContents(
 	{ sentinel = 'onerepo-sentinel', step }: Options & { sentinel?: string } = {}
 ) {
 	return stepWrapper({ step, name: `Write to ${filename}` }, async (step) => {
-		const fileContents = await readFile(filename);
+		let fileContents = '';
+		try {
+			fileContents = await readFile(filename, 'r', { step });
+		} catch (e) {
+			// it's okay
+		}
+
 		const ext = path.extname(filename);
 		const [startComment, endComment] = ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
 		const start = `${startComment}start-${sentinel}${endComment}`;

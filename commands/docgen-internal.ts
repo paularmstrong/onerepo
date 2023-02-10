@@ -34,7 +34,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 			continue;
 		}
 
-		const outFile = ws.resolve('docs', 'cli.md');
+		const outFile = ws.resolve('docs', 'index.md');
 		outFiles.push(outFile);
 
 		generators.push({
@@ -51,6 +51,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 				'--out-workspace',
 				ws.name,
 				`-${'v'.repeat(verbosity)}`,
+				'--safe-write',
+				'--command',
+				ws.name.replace('@onerepo/plugin-', ''),
 			],
 		});
 	}
