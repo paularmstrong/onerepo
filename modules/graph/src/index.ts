@@ -1,16 +1,16 @@
 import { existsSync } from 'fs';
 import path from 'path';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
-import { Repository } from './Repository';
+import { Graph } from './Graph';
 
-export type { Repository, SerializedGraph } from './Repository';
+export type { Graph as Repository, SerializedGraph } from './Graph';
 export type { Task, Tasks, TaskConfig, Workspace } from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();
 
 export function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
-	return new Repository(path.dirname(filePath), json as PrivatePackageJson);
+	return new Graph(path.dirname(filePath), json as PrivatePackageJson);
 }
 
 export function getRootPackageJson(searchLocation: string): { filePath: string; json: PrivatePackageJson } {

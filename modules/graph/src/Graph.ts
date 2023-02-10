@@ -13,7 +13,7 @@ const Dependency = {
 
 export type SerializedGraph = Serialized;
 
-export class Repository {
+export class Graph {
 	#rootLocation: string;
 
 	#graph = graph();

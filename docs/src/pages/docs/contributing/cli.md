@@ -391,24 +391,4 @@ The `start` command does not accept any positional arguments.
 
 The `start` command does not accept any option arguments.
 
-#### `one workspace @onerepo/graph`
-
-Aliases: `graph`
-
-Runs commands in the `@onerepo/graph` workspace
-
-The `@onerepo/graph` command does not accept any positional arguments.
-
-The `@onerepo/graph` command does not accept any option arguments.
-
-##### `one workspace @onerepo/graph example`
-
-This is an example
-
-The `example` command does not accept any positional arguments.
-
-| Option               | Type    | Description                                          | Required |
-| -------------------- | ------- | ---------------------------------------------------- | -------- |
-| `--workspaces`, `-w` | `array` | List of workspace names to restrict building against |          |
-
 <!-- end-onerepo-sentinel -->
