@@ -8,6 +8,9 @@
 		"docgen": "./src/bin.cjs"
 	},
 	"dependencies": {
+		"@onerepo/file": "0.0.0",
+		"@onerepo/git": "0.0.0",
+		"@onerepo/subprocess": "0.0.0",
 		"mdast-builder": "^1.1.1",
 		"remark-gfm": "^3.0.1",
 		"remark-parse": "^10.0.1",

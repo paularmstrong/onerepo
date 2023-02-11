@@ -9,10 +9,11 @@
 		"@changesets/assemble-release-plan": "^5.2.3",
 		"@changesets/cli": "^2.26.0",
 		"@changesets/config": "^2.3.0",
+		"@changesets/pre": "^1.0.14",
 		"@changesets/read": "^0.5.9",
 		"@changesets/write": "^0.2.3",
-		"@onerepo/file": "workspace:^",
-		"@onerepo/subprocess": "workspace:^",
+		"@onerepo/file": "0.0.0",
+		"@onerepo/subprocess": "0.0.0",
 		"inquirer": "^9.1.4"
 	},
 	"devDependencies": {

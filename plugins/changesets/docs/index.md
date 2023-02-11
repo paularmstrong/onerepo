@@ -70,4 +70,17 @@ The `prepare` command does not accept any positional arguments.
 
 The `prepare` command does not accept any option arguments.
 
+### `one changesets prerelease`
+
+Aliases: `pre-release`, `pre`
+
+Pre-release available workspaces.
+
+The `prerelease` command does not accept any positional arguments.
+
+| Option    | Type                       | Description                                           | Required |
+| --------- | -------------------------- | ----------------------------------------------------- | -------- |
+| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
+| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+
 <!-- end-onerepo-sentinel -->

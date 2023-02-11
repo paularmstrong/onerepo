@@ -5,8 +5,8 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/graph": "workspace:^",
-		"@onerepo/logger": "workspace:^",
+		"@onerepo/graph": "0.0.0",
+		"@onerepo/logger": "0.0.0",
 		"yargs": "^17.6.2",
 		"yargs-parser": "^21.1.1",
 		"yargs-unparser": "^2.0.0"
