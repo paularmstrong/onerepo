@@ -1,6 +1,6 @@
-import inquirer from 'inquirer';
-import { batch, run } from '@onerepo/cli';
-import type { Builder, Handler, RunSpec } from '@onerepo/cli';
+// import inquirer from 'inquirer';
+// import { batch, run } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = 'publish';
 
@@ -32,41 +32,35 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 // TODO: workspaces vs affected as reusable builder bits
-export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
-	const { build, 'dry-run': isDry, otp: otpRequired, pre } = argv;
-
-	let newVersion = '';
-	if (pre) {
-		const [out] = await run({
-			name: 'Get commit hash',
-			cmd: 'git',
-			args: ['rev-parse', '--short', 'HEAD'],
-			runDry: true,
-		});
-		newVersion = `0.0.0-pre.${out}`;
-	}
-
-	const toBuild: Array<string> = [];
-	const publishes: Array<RunSpec> = [];
-	const publishable = Object.values(graph.workspaces).filter((ws) => !ws.private);
-
-	const results = await batch(
-		publishable.map((ws) => ({
-			name: `Get versions of ${ws.name}`,
-			cmd: 'npm',
-			args: ['info', ws.name, '--json'],
-			runDry: true,
-			skipFailures: true,
-		}))
-	);
-
-	logger.debug(results);
-
+export const handler: Handler<Args> = async function handler() {
+	// const { build, 'dry-run': isDry, otp: otpRequired, pre } = argv;
+	// let newVersion = '';
+	// if (pre) {
+	// 	const [out] = await run({
+	// 		name: 'Get commit hash',
+	// 		cmd: 'git',
+	// 		args: ['rev-parse', '--short', 'HEAD'],
+	// 		runDry: true,
+	// 	});
+	// 	newVersion = `0.0.0-pre.${out}`;
+	// }
+	// const toBuild: Array<string> = [];
+	// const publishes: Array<RunSpec> = [];
+	// const publishable = Object.values(graph.workspaces).filter((ws) => !ws.private);
+	// const results = await batch(
+	// 	publishable.map((ws) => ({
+	// 		name: `Get versions of ${ws.name}`,
+	// 		cmd: 'npm',
+	// 		args: ['info', ws.name, '--json'],
+	// 		runDry: true,
+	// 		skipFailures: true,
+	// 	}))
+	// );
+	// logger.debug(results);
 	// for (const ws of Object.values(graph.workspaces)) {
 	// 	if (ws.private) {
 	// 		continue;
 	// 	}
-
 	// 	try {
 	// 		const [versionCheck] = await run({
 	// 			name: `Get versions of ${ws.name}`,
@@ -82,11 +76,9 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	// 	} catch (e) {
 	// 		// no worries
 	// 	}
-
 	// 	if (build) {
 	// 		toBuild.push(ws.name);
 	// 	}
-
 	// 	publishes.push({
 	// 		name: `Publish ${ws.name}`,
 	// 		cmd: 'npm',
@@ -97,14 +89,12 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	// 		runDry: true,
 	// 	});
 	// }
-
 	// await run({
 	// 	name: `Build workspaces`,
 	// 	cmd: process.argv[1],
 	// 	args: ['build', '-w', ...toBuild, ...(pre ? ['--version', newVersion] : [])],
 	// 	runDry: true,
 	// });
-
 	// let otp: string | void;
 	// if (otpRequired) {
 	// 	logger.inherit = true;
@@ -119,6 +109,5 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	// 	otp = inputOtp;
 	// 	logger.inherit = false;
 	// }
-
 	// await batch(publishes.map((pub) => ({ ...pub, args: [...(pub.args || []), ...(otp ? ['--otp', otp] : [])] })));
 };
