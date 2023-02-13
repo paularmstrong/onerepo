@@ -1,4 +1,6 @@
-import { git, run, withAllInputs } from '@onerepo/cli';
+import { updateIndex } from '@onerepo/git';
+import { run } from '@onerepo/subprocess';
+import { withAllInputs } from '@onerepo/cli';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
 import { logger } from '@onerepo/logger';
 
@@ -40,6 +42,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	});
 
 	if (add) {
-		await git.updateIndex(paths);
+		await updateIndex(paths);
 	}
 };

@@ -1,19 +1,15 @@
 {
-	"name": "@onerepo/plugin-install",
+	"name": "@onerepo/git",
 	"version": "0.0.0",
 	"license": "MIT",
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/cli": "workspace:^",
-		"@onerepo/file": "workspace:^",
 		"@onerepo/logger": "workspace:^",
 		"@onerepo/subprocess": "workspace:^"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
-		"typescript": "^4.9.5",
-		"vitest": "^0.28.4"
+		"@onerepo/vitest": "workspace:^"
 	}
 }

@@ -6,6 +6,8 @@
 	"main": "./src/index.ts",
 	"dependencies": {
 		"@onerepo/cli": "workspace:^",
+		"@onerepo/git": "workspace:^",
+		"@onerepo/subprocess": "workspace:^",
 		"yargs-unparser": "^2.0.0"
 	},
 	"devDependencies": {

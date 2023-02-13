@@ -1,6 +1,6 @@
 import { stepWrapper } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
-import { run } from './subprocess';
+import { run } from '@onerepo/subprocess';
 
 type Options = {
 	step?: Step;

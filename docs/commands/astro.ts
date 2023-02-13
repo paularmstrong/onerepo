@@ -1,5 +1,5 @@
-import { run } from '@onerepo/cli';
-import type { Builder, Handler } from '@onerepo/cli';
+import { run } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = 'astro';
 

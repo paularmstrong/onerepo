@@ -1,5 +1,7 @@
 import type { Builder, Handler } from '@onerepo/cli';
-import { file, git, run } from '@onerepo/cli';
+import { updateIndex } from '@onerepo/git';
+import { write, writeSafe } from '@onerepo/file';
+import { run } from '@onerepo/subprocess';
 import path from 'node:path';
 import { toMarkdown } from '../markdown';
 
@@ -95,12 +97,12 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 
 	if (outPath) {
 		if (safeWrite) {
-			await file.writeSafe(outPath, output);
+			await writeSafe(outPath, output);
 		} else {
-			await file.write(outPath, output);
+			await write(outPath, output);
 		}
 		if (add) {
-			await git.updateIndex(outPath);
+			await updateIndex(outPath);
 		}
 	} else {
 		await new Promise<void>((resolve) => {

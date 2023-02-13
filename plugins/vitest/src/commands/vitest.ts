@@ -1,4 +1,5 @@
-import { git, run } from '@onerepo/cli';
+import { getModifiedFiles } from '@onerepo/git';
+import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/cli';
 import type { Workspace } from '@onerepo/graph';
 
@@ -65,7 +66,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getA
 	} else if (affected) {
 		workspaces = await getAffected();
 	} else if (!positionals) {
-		const { all } = await git.getModifiedFiles();
+		const { all } = await getModifiedFiles();
 		related.push(...all);
 		related.unshift('related');
 	}

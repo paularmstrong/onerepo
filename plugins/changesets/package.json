@@ -12,6 +12,8 @@
 		"@changesets/read": "^0.5.9",
 		"@changesets/write": "^0.2.3",
 		"@onerepo/cli": "workspace:^",
+		"@onerepo/file": "workspace:^",
+		"@onerepo/subprocess": "workspace:^",
 		"inquirer": "^9.1.4"
 	},
 	"devDependencies": {

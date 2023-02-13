@@ -1,6 +1,6 @@
 import glob from 'glob';
-import { batch, file, logger, withAffected, withWorkspaces } from '@onerepo/cli';
-import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from '@onerepo/cli';
+import { batch, file, logger, withAffected, withWorkspaces } from 'onerepo';
+import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 
 export const command = 'build';
 

@@ -2,7 +2,7 @@ import path from 'node:path';
 import type { Repository, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
-import { getModifiedFiles } from './git';
+import { getModifiedFiles } from '@onerepo/git';
 
 type Options = {
 	from?: string;

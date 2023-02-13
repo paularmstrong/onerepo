@@ -1,4 +1,5 @@
-import { file, run } from '@onerepo/cli';
+import { run } from '@onerepo/subprocess';
+import { exists } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/cli';
 
 export const command = 'init';
@@ -9,7 +10,7 @@ export const builder: Builder = (yargs) => yargs.epilogue('You should only ever 
 
 export const handler: Handler = async (argv, { graph, logger }) => {
 	const step = logger.createStep('Check for existing configurations');
-	if (await file.exists(graph.root.resolve('.changeset', 'config.json'), { step })) {
+	if (await exists(graph.root.resolve('.changeset', 'config.json'), { step })) {
 		step.warn('Changesets are already configured for this repository');
 		await step.end();
 		return;

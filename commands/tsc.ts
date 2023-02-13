@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
-import { batch, withAffected, withWorkspaces } from '@onerepo/cli';
-import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from '@onerepo/cli';
+import { batch, withAffected, withWorkspaces } from 'onerepo';
+import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 import type { Workspace } from '@onerepo/graph';
 
 export const command = 'tsc';

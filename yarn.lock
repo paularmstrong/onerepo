@@ -1218,8 +1218,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/cli@workspace:modules/cli"
   dependencies:
+    "@onerepo/file": "workspace:^"
+    "@onerepo/git": "workspace:^"
     "@onerepo/graph": "workspace:^"
     "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/glob": ^8.0.0
@@ -1271,6 +1274,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/file@workspace:^, @onerepo/file@workspace:modules/file":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/file@workspace:modules/file"
+  dependencies:
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/vitest": "workspace:^"
+    prettier: ^2
+  languageName: unknown
+  linkType: soft
+
+"@onerepo/git@workspace:^, @onerepo/git@workspace:modules/git":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/git@workspace:modules/git"
+  dependencies:
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/vitest": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/graph@workspace:^, @onerepo/graph@workspace:modules/graph":
   version: 0.0.0-use.local
   resolution: "@onerepo/graph@workspace:modules/graph"
@@ -1310,6 +1335,8 @@ __metadata:
     "@changesets/types": ^5.2.1
     "@changesets/write": ^0.2.3
     "@onerepo/cli": "workspace:^"
+    "@onerepo/file": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/inquirer": ^9
@@ -1344,6 +1371,9 @@ __metadata:
   resolution: "@onerepo/plugin-eslint@workspace:plugins/eslint"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/git": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
@@ -1392,6 +1422,9 @@ __metadata:
   resolution: "@onerepo/plugin-install@workspace:plugins/install"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/file": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5
@@ -1404,6 +1437,9 @@ __metadata:
   resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/git": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5
@@ -1417,6 +1453,9 @@ __metadata:
   resolution: "@onerepo/plugin-tasks@workspace:plugins/tasks"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/git": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     minimatch: ^6.1.6
@@ -1430,6 +1469,8 @@ __metadata:
   resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/git": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
@@ -1472,6 +1513,16 @@ __metadata:
     vitest: ^0.28.4
   bin:
     one: ./bin/one.js
+  languageName: unknown
+  linkType: soft
+
+"@onerepo/subprocess@workspace:^, @onerepo/subprocess@workspace:modules/subprocess":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/subprocess@workspace:modules/subprocess"
+  dependencies:
+    "@onerepo/logger": "workspace:^"
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -6917,11 +6968,14 @@ __metadata:
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
     "@onerepo/cli": "workspace:^"
+    "@onerepo/file": "workspace:^"
+    "@onerepo/git": "workspace:^"
     "@onerepo/graph": "workspace:^"
     "@onerepo/logger": "workspace:^"
     "@onerepo/plugin-graph": "workspace:^"
     "@onerepo/plugin-install": "workspace:^"
     "@onerepo/plugin-tasks": "workspace:^"
+    "@onerepo/subprocess": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5

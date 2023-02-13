@@ -1,5 +1,6 @@
 import path from 'node:path';
-import { file, run } from '../functions';
+import { read } from '@onerepo/file';
+import { run } from '@onerepo/subprocess';
 import { logger } from '@onerepo/logger';
 
 export async function worktreeMiddleware() {
@@ -15,7 +16,7 @@ export async function worktreeMiddleware() {
 		});
 
 		if (/\/worktrees\//.test(out)) {
-			const newRoot = await file.read(path.join(out, 'gitdir'));
+			const newRoot = await read(path.join(out, 'gitdir'));
 			process.env.ONE_REPO_ROOT = path.dirname(newRoot);
 			logger.warn(`Reset repo root to worktree ${path.dirname(newRoot)}`);
 		} else {
