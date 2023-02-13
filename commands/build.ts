@@ -6,13 +6,22 @@ export const command = 'build';
 
 export const description = 'Build public workspaces using esbuild.';
 
-type Args = WithAffected & WithWorkspaces;
+type Args = WithAffected &
+	WithWorkspaces & {
+		version?: string;
+	};
 
 export const builder: Builder<Args> = (yargs) =>
 	withAffected(
 		withWorkspaces(
 			yargs
 				.usage('$0 build [options]')
+				.version(false)
+				.option('version', {
+					type: 'string',
+					description: 'Manually set the version of the built workspaces.',
+					hidden: true,
+				})
 				.example('$0 build', 'Build all workspaces.')
 				.example('$0 build -w graph', 'Build the `graph` workspace only.')
 				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.')
@@ -20,12 +29,14 @@ export const builder: Builder<Args> = (yargs) =>
 	);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
-	const existsStep = logger.createStep('Check for TSconfigs');
+	const { version } = argv;
+
 	const removals: Array<string> = [];
 	const buildProcs: Array<RunSpec> = [];
 	const typesProcs: Array<RunSpec> = [];
 
 	const workspaces = await getWorkspaces();
+	const existsStep = logger.createStep('Check for tsconfigs');
 
 	for (const workspace of workspaces) {
 		if (workspace.private) {
@@ -40,7 +51,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		buildProcs.push({
 			name: `Build ${workspace.name}`,
 			cmd: 'npx',
-			args: ['esbuild', ...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node'],
+			args: ['esbuild', ...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
 		});
 
 		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });
@@ -61,8 +72,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	await Promise.all(removals.map((dir) => file.remove(dir, { step: removeStep })));
 	await removeStep.end();
 
-	await batch(buildProcs);
-	await batch(typesProcs);
+	await batch([...buildProcs, ...typesProcs]);
 
 	const copyStep = logger.createStep('Copy package.json files');
 	for (const workspace of workspaces) {
@@ -71,9 +81,14 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		}
 
 		const { devDependencies, ...newPackageJson } = { ...workspace.packageJson };
+		// TODO: this needs to change `main` with path.relative, etc
 		newPackageJson.main = './index.js';
 		// @ts-ignore
 		newPackageJson.typings = './src/index.d.ts';
+
+		if (version) {
+			newPackageJson.version = version;
+		}
 
 		await file.write(workspace.resolve('dist', 'package.json'), JSON.stringify(newPackageJson, null, 2), {
 			step: copyStep,

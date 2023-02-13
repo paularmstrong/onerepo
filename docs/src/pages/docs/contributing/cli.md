@@ -141,6 +141,19 @@ The `prepare` command does not accept any positional arguments.
 
 The `prepare` command does not accept any option arguments.
 
+#### `one changesets prerelease`
+
+Aliases: `pre-release`, `pre`
+
+Pre-release available workspaces.
+
+The `prerelease` command does not accept any positional arguments.
+
+| Option    | Type                       | Description                                           | Required |
+| --------- | -------------------------- | ----------------------------------------------------- | -------- |
+| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
+| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+
 ### `one test`
 
 Run unit tests
@@ -270,6 +283,7 @@ The `build` command does not accept any positional arguments.
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
 | `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
+| `--version`          | `string`  | Manually set the version of the built workspaces.                                           |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
 
 Build all workspaces.
@@ -305,6 +319,22 @@ The `docgen-internal` command does not accept any positional arguments.
 | `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
+
+### `one publish`
+
+Build public workspaces using esbuild.
+
+```sh
+one publish [options]
+```
+
+The `publish` command does not accept any positional arguments.
+
+| Option    | Type                       | Description                                           | Required |
+| --------- | -------------------------- | ----------------------------------------------------- | -------- |
+| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
+| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+| `--pre`   | `boolean`                  | Create a pre-release                                  |          |
 
 ### `one tsc`
 

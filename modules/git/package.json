@@ -5,8 +5,8 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/logger": "workspace:^",
-		"@onerepo/subprocess": "workspace:^"
+		"@onerepo/logger": "0.0.0",
+		"@onerepo/subprocess": "0.0.0"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",

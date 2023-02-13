@@ -5,9 +5,9 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/git": "workspace:^",
-		"@onerepo/logger": "workspace:^",
-		"@onerepo/subprocess": "workspace:^"
+		"@onerepo/git": "0.0.0",
+		"@onerepo/logger": "0.0.0",
+		"@onerepo/subprocess": "0.0.0"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",

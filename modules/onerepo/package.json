@@ -5,16 +5,17 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/builders": "workspace:^",
-		"@onerepo/cli": "workspace:^",
-		"@onerepo/file": "workspace:^",
-		"@onerepo/git": "workspace:^",
-		"@onerepo/graph": "workspace:^",
-		"@onerepo/logger": "workspace:^",
-		"@onerepo/plugin-graph": "workspace:^",
-		"@onerepo/plugin-install": "workspace:^",
-		"@onerepo/plugin-tasks": "workspace:^",
-		"@onerepo/subprocess": "workspace:^"
+		"@onerepo/builders": "0.0.0",
+		"@onerepo/cli": "0.0.0",
+		"@onerepo/file": "0.0.0",
+		"@onerepo/git": "0.0.0",
+		"@onerepo/graph": "0.0.0",
+		"@onerepo/logger": "0.0.0",
+		"@onerepo/plugin-graph": "0.0.0",
+		"@onerepo/plugin-install": "0.0.0",
+		"@onerepo/plugin-tasks": "0.0.0",
+		"@onerepo/subprocess": "0.0.0",
+		"@onerepo/types": "0.0.0"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",

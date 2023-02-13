@@ -2,7 +2,7 @@ import type { Plugin } from '@onerepo/cli';
 import * as cmd from './commands/eslint';
 
 type Options = {
-	extensions?: string;
+	extensions?: Array<string>;
 	name?: string;
 };
 
