@@ -6,3 +6,6 @@ export * as git from '@onerepo/git';
 export * as file from '@onerepo/file';
 export * as subprocess from '@onerepo/subprocess';
 export * from '@onerepo/subprocess';
+
+export * from '@onerepo/builders';
+export * from '@onerepo/types';

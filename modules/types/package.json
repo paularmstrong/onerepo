@@ -1,0 +1,10 @@
+{
+	"name": "@onerepo/types",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^"
+	}
+}

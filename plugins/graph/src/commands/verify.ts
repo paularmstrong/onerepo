@@ -1,5 +1,5 @@
 import { coerce, intersects, valid } from 'semver';
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'verify';
 

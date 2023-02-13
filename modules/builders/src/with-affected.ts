@@ -1,4 +1,4 @@
-import type { Yargs } from '../yarg-types';
+import type { Yargs } from '@onerepo/types';
 
 export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs

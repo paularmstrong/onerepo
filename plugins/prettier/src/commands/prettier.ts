@@ -1,7 +1,8 @@
 import { updateIndex } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
-import { withAllInputs } from '@onerepo/cli';
-import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import type { WithAllInputs } from '@onerepo/builders';
+import { withAllInputs } from '@onerepo/builders';
+import type { Builder, Handler } from '@onerepo/types';
 import { logger } from '@onerepo/logger';
 
 export const command = 'prettier';

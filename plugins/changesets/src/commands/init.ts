@@ -1,6 +1,6 @@
 import { run } from '@onerepo/subprocess';
 import { exists } from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'init';
 

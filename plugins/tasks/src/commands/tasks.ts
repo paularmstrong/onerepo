@@ -1,5 +1,5 @@
 import { minimatch } from 'minimatch';
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 import type { Repository, Task, Workspace } from '@onerepo/graph';
 import { batch, run } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';

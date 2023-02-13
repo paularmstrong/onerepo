@@ -3,10 +3,10 @@ import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Repository } from '@onerepo/graph';
 import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
-import { getAffected, getFilepaths, getWorkspaces } from './functions/getters';
-import type { GetterArgv } from './functions/getters';
+import { getAffected, getFilepaths, getWorkspaces } from './getters';
+import type { GetterArgv } from './getters';
 import { setEnvironmentMiddleware, sudoCheckMiddleware, worktreeMiddleware } from './middleware';
-import type { Arguments, DefaultArgv, Yargs } from './yarg-types';
+import type { Arguments, DefaultArgv, Yargs } from '@onerepo/types';
 
 export function setupYargs(yargs: Yargv): Yargs {
 	return yargs

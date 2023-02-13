@@ -1,6 +1,18 @@
-import type { getAffected } from './functions/getters';
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace NodeJS {
+		interface ProcessEnv {
+			ONE_REPO_ROOT: string;
+			ONE_REPO_DRY_RUN: string;
+			ONE_REPO_CI: string;
+			ONE_REPO_VERBOSITY: string;
+			ONE_REPO_HEAD_BRANCH: string;
+		}
+	}
+}
+
 import type { Argv as Yargv } from 'yargs';
-import type { Logger } from '@onerepo/logger';
+import type { Logger, Step } from '@onerepo/logger';
 import type { Repository, Workspace } from '@onerepo/graph';
 
 export interface DefaultArgv {
@@ -10,8 +22,14 @@ export interface DefaultArgv {
 	verbosity: number;
 }
 
+type Options = {
+	from?: string;
+	through?: string;
+	step?: Step;
+};
+
 export type HandlerExtra = {
-	getAffected: (opts?: Parameters<typeof getAffected>[1]) => ReturnType<typeof getAffected>;
+	getAffected: (opts?: Options) => Promise<Array<Workspace>>;
 	getFilepaths: () => Promise<Array<string>>;
 	getWorkspaces: () => Promise<Array<Workspace>>;
 	graph: Repository;

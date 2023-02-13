@@ -5,13 +5,13 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/cli": "workspace:^",
 		"ejs": "^3.1.8",
 		"glob": "^8.1.0",
 		"inquirer": "^9.1.4"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/types": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
 		"@types/ejs": "^3",
 		"@types/glob": "^8",

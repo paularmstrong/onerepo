@@ -5,6 +5,7 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
+		"@onerepo/builders": "workspace:^",
 		"@onerepo/cli": "workspace:^",
 		"@onerepo/file": "workspace:^",
 		"@onerepo/git": "workspace:^",

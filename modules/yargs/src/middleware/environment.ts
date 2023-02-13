@@ -1,5 +1,5 @@
 import { logger } from '@onerepo/logger';
-import type { Argv } from '../yarg-types';
+import type { Argv } from '@onerepo/types';
 
 export function setEnvironmentMiddleware(argv: Omit<Argv, '--'>) {
 	process.env.ONE_REPO_DRY_RUN = `${argv['dry-run']}`;

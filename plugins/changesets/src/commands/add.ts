@@ -1,8 +1,9 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
 import write from '@changesets/write';
-import { withAllInputs } from '@onerepo/cli';
-import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import type { WithAllInputs } from '@onerepo/builders';
+import { withAllInputs } from '@onerepo/builders';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = ['$0', 'add'];
 

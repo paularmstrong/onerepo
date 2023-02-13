@@ -4,7 +4,7 @@ import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'prepare';
 

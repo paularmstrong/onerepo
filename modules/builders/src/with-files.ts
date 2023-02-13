@@ -1,4 +1,4 @@
-import type { Yargs } from '../yarg-types';
+import type { Yargs } from '@onerepo/types';
 
 export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 	yargs.option('files', {

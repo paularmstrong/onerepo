@@ -3,10 +3,10 @@ import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
-import { getAffected, getFilepaths, getWorkspaces, parserConfiguration, setupYargs } from '@onerepo/cli';
+import { getAffected, getFilepaths, getWorkspaces, parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { Logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
-import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/cli';
+import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/types';
 import { getGraph } from '@onerepo/graph';
 
 const logger = new Logger({ verbosity: 0 });

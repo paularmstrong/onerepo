@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import type { Repository, Workspace } from '@onerepo/graph';
-import type { Yargs } from './yarg-types';
+import type { Yargs } from '@onerepo/types';
 
 export function workspaceBuilder(graph: Repository, dirname: string, scriptName: string) {
 	return (yargs: Yargs) => {

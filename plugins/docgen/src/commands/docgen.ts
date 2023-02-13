@@ -1,4 +1,4 @@
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';

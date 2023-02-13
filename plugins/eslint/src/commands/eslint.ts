@@ -1,9 +1,10 @@
 import path from 'node:path';
 import { updateIndex } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
-import { withAllInputs } from '@onerepo/cli';
+import type { WithAllInputs } from '@onerepo/builders';
+import { withAllInputs } from '@onerepo/builders';
 import { logger } from '@onerepo/logger';
-import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'eslint';
 
