@@ -21,7 +21,7 @@
 		"@onerepo/prettier-config": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
 		"@types/eslint": "^8",
-		"esbuild": "^0.17.5",
+		"esbuild": "^0.17.8",
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.32.0",
 		"husky": "^8.0.0",
