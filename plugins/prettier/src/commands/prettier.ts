@@ -1,5 +1,9 @@
-import { git, logger, run, withAllInputs } from '@onerepo/cli';
-import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import { updateIndex } from '@onerepo/git';
+import { run } from '@onerepo/subprocess';
+import type { WithAllInputs } from '@onerepo/builders';
+import { withAllInputs } from '@onerepo/builders';
+import type { Builder, Handler } from '@onerepo/types';
+import { logger } from '@onerepo/logger';
 
 export const command = 'prettier';
 
@@ -39,6 +43,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	});
 
 	if (add) {
-		await git.updateIndex(paths);
+		await updateIndex(paths);
 	}
 };

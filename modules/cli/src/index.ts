@@ -1,17 +1,11 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
-import { commandDirOptions, setupYargs } from './yargs';
-import type { Yargs } from './yarg-types';
+import { commandDirOptions, setupYargs } from '@onerepo/yargs';
+import type { Yargs } from '@onerepo/types';
 import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
-
-export * from './builders';
-export * from './logger';
-export * from './functions';
-export * from './yargs';
-export * from './yarg-types';
 
 type PluginObject = {
 	commandDir?: string;
@@ -52,19 +46,6 @@ export interface Config {
 	 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 	 */
 	subcommandDir?: string | false;
-}
-
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace NodeJS {
-		interface ProcessEnv {
-			ONE_REPO_ROOT: string;
-			ONE_REPO_DRY_RUN: string;
-			ONE_REPO_CI: string;
-			ONE_REPO_VERBOSITY: string;
-			ONE_REPO_HEAD_BRANCH: string;
-		}
-	}
 }
 
 // NB: process.env vars can ONLY be strings
@@ -123,7 +104,7 @@ export async function setup(config: Config = {}) {
 	}
 
 	if (subcommandDir !== false) {
-		yargs.commandDir(path.join(__dirname, 'commands')).commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
+		yargs.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
 	}
 
 	if (core.graph !== false) {

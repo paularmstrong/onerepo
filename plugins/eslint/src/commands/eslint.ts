@@ -1,6 +1,10 @@
 import path from 'node:path';
-import { git, logger, run, withAllInputs } from '@onerepo/cli';
-import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import { updateIndex } from '@onerepo/git';
+import { run } from '@onerepo/subprocess';
+import type { WithAllInputs } from '@onerepo/builders';
+import { withAllInputs } from '@onerepo/builders';
+import { logger } from '@onerepo/logger';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'eslint';
 
@@ -64,6 +68,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	});
 
 	if (add) {
-		await git.updateIndex(paths);
+		await updateIndex(paths);
 	}
 };

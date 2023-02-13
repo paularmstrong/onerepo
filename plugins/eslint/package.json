@@ -5,10 +5,14 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/cli": "workspace:^"
+		"@onerepo/builders": "workspace:^",
+		"@onerepo/git": "workspace:^",
+		"@onerepo/logger": "workspace:^",
+		"@onerepo/subprocess": "workspace:^"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/types": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
 		"@types/eslint": "^8",
 		"eslint": "^8.32.0",

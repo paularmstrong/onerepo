@@ -1,6 +1,6 @@
 import pc from 'picocolors';
 import cliui from 'cliui';
-import type { Builder, Handler } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
 import type { SerializedGraph } from '@onerepo/graph';
 
 export const command = 'show';

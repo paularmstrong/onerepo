@@ -5,11 +5,14 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@onerepo/cli": "workspace:^",
+		"@onerepo/git": "workspace:^",
+		"@onerepo/logger": "workspace:^",
+		"@onerepo/subprocess": "workspace:^",
 		"minimatch": "^6.1.6"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/types": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"

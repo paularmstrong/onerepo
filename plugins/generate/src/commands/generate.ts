@@ -2,8 +2,8 @@ import path from 'node:path';
 import glob from 'glob';
 import inquirer from 'inquirer';
 import { render } from 'ejs';
-import { file } from '@onerepo/cli';
-import type { Builder, Handler } from '@onerepo/cli';
+import * as file from '@onerepo/file';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = ['generate', 'gen'];
 

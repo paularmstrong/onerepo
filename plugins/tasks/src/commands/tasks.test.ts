@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
-import { git } from '@onerepo/cli';
+import * as git from '@onerepo/git';
 import * as Tasks from './tasks';
 import { getCommand } from '@onerepo/test-cli';
 

@@ -254,22 +254,6 @@ The `generate` command does not accept any positional arguments.
 | `--name`          | `string`                                                                           | Name of the workspace to generate. If not provided, you will be prompted to enter one later. |          |
 | `--type`, `-t`    | `string`                                                                           | Template type to generate. If not provided, a list will be provided to choose from.          |          |
 
-### `one info`
-
-Get information about the repository
-
-The `info` command does not accept any positional arguments.
-
-The `info` command does not accept any option arguments.
-
-#### `one info graph`
-
-Get information about the repository graph
-
-The `graph` command does not accept any positional arguments.
-
-The `graph` command does not accept any option arguments.
-
 ### `one build`
 
 Build public workspaces using esbuild.

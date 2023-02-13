@@ -2,7 +2,7 @@ import path from 'node:path';
 import inquirer from 'inquirer';
 import * as Generate from './generate';
 import { getCommand } from '@onerepo/test-cli';
-import { file } from '@onerepo/cli';
+import * as file from '@onerepo/file';
 
 const { run: mainRun } = getCommand(Generate);
 

@@ -1,0 +1,12 @@
+{
+	"name": "@onerepo/yargs",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"devDependencies": {
+		"@onerepo/tsconfig": "workspace:^",
+		"@onerepo/types": "workspace:^",
+		"@onerepo/vitest": "workspace:^"
+	}
+}

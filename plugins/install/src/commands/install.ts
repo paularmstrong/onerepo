@@ -1,8 +1,10 @@
 import path from 'node:path';
 import child_process from 'node:child_process';
 import os from 'node:os';
-import type { Builder, Handler } from '@onerepo/cli';
-import { file, logger, run, sudo } from '@onerepo/cli';
+import type { Builder, Handler } from '@onerepo/types';
+import { run, sudo } from '@onerepo/subprocess';
+import * as file from '@onerepo/file';
+import { logger } from '@onerepo/logger';
 
 export const command = 'install';
 

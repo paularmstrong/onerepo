@@ -4,6 +4,6 @@
 		"outDir": "dist",
 		"composite": true
 	},
-	"include": ["./**/*", "./package.json"],
+	"include": ["./src"],
 	"exclude": ["dist"]
 }

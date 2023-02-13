@@ -1,5 +1,5 @@
-import { batch, file, git, withAllInputs } from '@onerepo/cli';
-import type { Builder, Handler, RunSpec, WithAllInputs } from '@onerepo/cli';
+import { batch, file, git, withAllInputs } from 'onerepo';
+import type { Builder, Handler, RunSpec, WithAllInputs } from 'onerepo';
 
 export const command = 'docgen-internal';
 

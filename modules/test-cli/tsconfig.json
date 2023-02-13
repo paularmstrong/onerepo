@@ -5,6 +5,6 @@
 		"composite": true,
 		"types": ["vitest/globals"]
 	},
-	"include": ["./src", "./config", "package.json"],
+	"include": ["./src"],
 	"exclude": ["dist"]
 }
