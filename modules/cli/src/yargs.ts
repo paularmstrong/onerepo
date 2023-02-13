@@ -3,7 +3,6 @@ import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Repository } from '@onerepo/graph';
 import { logger } from './logger';
 import { BatchError, SubprocessError } from './functions/subprocess';
-import { version } from '../package.json';
 import { getAffected, getFilepaths, getWorkspaces } from './functions/getters';
 import type { GetterArgv } from './functions/getters';
 import { setEnvironmentMiddleware, sudoCheckMiddleware, worktreeMiddleware } from './middleware';
@@ -53,7 +52,7 @@ export function setupYargs(yargs: Yargv): Yargs {
 		.group('show-advanced', 'Global:')
 		.global('show-advanced')
 		.group('help', 'Global:')
-		.version('version', 'Show the one Repo CLI version', version)
+		.version(false)
 		.hide('version')
 		.strict()
 		.demandCommand(1, 'Please enter a command')

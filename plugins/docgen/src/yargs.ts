@@ -458,8 +458,10 @@ export class Yargs {
 		return this;
 	}
 
-	// TOOD
-	version(name = 'version', description = 'Show this CLI’s version number') {
+	version(name: string | false = 'version', description = 'Show this CLI’s version number') {
+		if (!name) {
+			return this;
+		}
 		this.option(name, { type: 'boolean', description });
 		return this;
 	}
