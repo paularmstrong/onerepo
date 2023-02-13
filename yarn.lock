@@ -1371,7 +1371,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-graph@workspace:plugins/graph":
+"@onerepo/plugin-graph@workspace:^, @onerepo/plugin-graph@workspace:plugins/graph":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-graph@workspace:plugins/graph"
   dependencies:
@@ -1387,7 +1387,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-install@workspace:plugins/install":
+"@onerepo/plugin-install@workspace:^, @onerepo/plugin-install@workspace:plugins/install":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-install@workspace:plugins/install"
   dependencies:
@@ -1412,7 +1412,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-tasks@workspace:plugins/tasks":
+"@onerepo/plugin-tasks@workspace:^, @onerepo/plugin-tasks@workspace:plugins/tasks":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-tasks@workspace:plugins/tasks"
   dependencies:
@@ -6919,6 +6919,9 @@ __metadata:
     "@onerepo/cli": "workspace:^"
     "@onerepo/graph": "workspace:^"
     "@onerepo/logger": "workspace:^"
+    "@onerepo/plugin-graph": "workspace:^"
+    "@onerepo/plugin-install": "workspace:^"
+    "@onerepo/plugin-tasks": "workspace:^"
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5

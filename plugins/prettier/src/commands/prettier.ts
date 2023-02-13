@@ -1,5 +1,6 @@
-import { git, logger, run, withAllInputs } from '@onerepo/cli';
+import { git, run, withAllInputs } from '@onerepo/cli';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
+import { logger } from '@onerepo/logger';
 
 export const command = 'prettier';
 

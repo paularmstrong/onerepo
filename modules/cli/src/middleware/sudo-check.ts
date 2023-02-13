@@ -1,5 +1,5 @@
 import type { Argv } from 'yargs';
-import { logger } from '../logger';
+import { logger } from '@onerepo/logger';
 
 export const sudoCheckMiddleware = (yargs: Argv) =>
 	function sudoCheckMiddleware() {

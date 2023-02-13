@@ -8,7 +8,6 @@ import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
 
 export * from './builders';
-export * from './logger';
 export * from './functions';
 export * from './yargs';
 export * from './yarg-types';
@@ -123,7 +122,7 @@ export async function setup(config: Config = {}) {
 	}
 
 	if (subcommandDir !== false) {
-		yargs.commandDir(path.join(__dirname, 'commands')).commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
+		yargs.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
 	}
 
 	if (core.graph !== false) {

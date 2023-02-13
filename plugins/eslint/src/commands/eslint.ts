@@ -1,5 +1,6 @@
 import path from 'node:path';
-import { git, logger, run, withAllInputs } from '@onerepo/cli';
+import { git, run, withAllInputs } from '@onerepo/cli';
+import { logger } from '@onerepo/logger';
 import type { Builder, Handler, WithAllInputs } from '@onerepo/cli';
 
 export const command = 'eslint';

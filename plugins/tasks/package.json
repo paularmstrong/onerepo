@@ -6,6 +6,7 @@
 	"main": "./src/index.ts",
 	"dependencies": {
 		"@onerepo/cli": "workspace:^",
+		"@onerepo/logger": "workspace:^",
 		"minimatch": "^6.1.6"
 	},
 	"devDependencies": {

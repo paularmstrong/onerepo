@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { file, run } from '../functions';
-import { logger } from '../logger';
+import { logger } from '@onerepo/logger';
 
 export async function worktreeMiddleware() {
 	const rel = path.relative(process.env.ONE_REPO_ROOT, process.cwd());

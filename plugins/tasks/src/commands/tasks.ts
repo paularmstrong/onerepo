@@ -1,7 +1,8 @@
 import { minimatch } from 'minimatch';
 import type { Builder, Handler, RunSpec } from '@onerepo/cli';
 import type { Repository, Task, Workspace } from '@onerepo/graph';
-import { batch, git, logger, run } from '@onerepo/cli';
+import { batch, git, run } from '@onerepo/cli';
+import { logger } from '@onerepo/logger';
 
 export const command = 'tasks';
 

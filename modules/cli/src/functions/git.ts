@@ -1,4 +1,4 @@
-import { stepWrapper } from '../logger';
+import { stepWrapper } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
 import { run } from './subprocess';
 

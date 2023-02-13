@@ -2,7 +2,7 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import type { OpenMode } from 'node:fs';
 import fs from 'node:fs/promises';
-import { stepWrapper } from '../logger';
+import { stepWrapper } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
 import { format as prettier, getFileInfo, resolveConfig } from 'prettier';
 

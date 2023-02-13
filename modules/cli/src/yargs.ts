@@ -1,7 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Repository } from '@onerepo/graph';
-import { logger } from './logger';
+import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from './functions/subprocess';
 import { getAffected, getFilepaths, getWorkspaces } from './functions/getters';
 import type { GetterArgv } from './functions/getters';

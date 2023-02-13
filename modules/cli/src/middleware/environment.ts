@@ -1,4 +1,4 @@
-import { logger } from '../logger';
+import { logger } from '@onerepo/logger';
 import type { Argv } from '../yarg-types';
 
 export function setEnvironmentMiddleware(argv: Omit<Argv, '--'>) {

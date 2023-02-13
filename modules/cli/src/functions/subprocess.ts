@@ -3,7 +3,7 @@ import { exec, spawn } from 'node:child_process';
 import os from 'node:os';
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { Transform } from 'node:stream';
-import { logger } from '../logger';
+import { logger } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
 
 export interface RunSpec {
