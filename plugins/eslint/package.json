@@ -15,7 +15,7 @@
 		"@onerepo/types": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
 		"@types/eslint": "^8",
-		"eslint": "^8.32.0",
+		"eslint": "^8.34.0",
 		"typescript": "^4.9.5"
 	},
 	"peerDependencies": {
