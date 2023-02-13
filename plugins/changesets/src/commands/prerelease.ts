@@ -30,9 +30,13 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
-	const { build, 'dry-run': isDry, otp: otpRequired } = argv;
+	const { build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
 
-	// TODO: check npm whoami
+	await run({
+		name: 'Ensure registry auth',
+		cmd: 'npm',
+		args: ['whoami'],
+	});
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
@@ -51,20 +55,26 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		releases.forEach(({ name }) => hasChanges.add(name));
 	});
 
-	logger.pause();
-	const { choices } = await inquirer.prompt([
-		{
-			type: 'checkbox',
-			name: 'choices',
-			message: 'Which workspaces would you like to release?',
-			choices: ['All', new inquirer.Separator('With changes'), ...Array.from(hasChanges)],
-		},
-	]);
-	logger.unpause();
+	let workspaces = Object.values(graph.workspaces).filter((ws) => !ws.private);
+	if (hasChanges.size > 0) {
+		logger.pause();
+		const { choices } = await inquirer.prompt([
+			{
+				type: 'checkbox',
+				name: 'choices',
+				message: 'Which workspaces would you like to release?',
+				choices: ['All', new inquirer.Separator('With changes'), ...Array.from(hasChanges)],
+			},
+		]);
 
-	const workspaces = graph
-		.getAllByName(choices.includes('All') ? graph.dependents() : graph.dependents(choices, true))
-		.filter((ws) => !ws.private);
+		if (!choices.includes('All')) {
+			workspaces = graph.getAllByName(graph.dependencies(choices, true)).filter((ws) => !ws.private);
+		}
+
+		logger.unpause();
+	} else {
+		logger.warn('No changesets found. Defaulting to all workspaces.');
+	}
 
 	const [sha] = await run({
 		name: 'Get commit sha',
@@ -89,11 +99,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);
 	}
 
+	// TODO: how to ensure that there is a build command?
 	if (build) {
 		await run({
 			name: `Build workspaces`,
 			cmd: process.argv[1],
-			args: ['build', '-w', ...workspaces.map((ws) => ws.name)],
+			args: ['build', '-w', ...workspaces.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
 			runDry: true,
 		});
 	}
