@@ -261,11 +261,11 @@ To create new templates add a new folder to commands/templates and create a `.on
 
 The `generate` command does not accept any positional arguments.
 
-| Option            | Type                                                                          | Description                                                                                  | Required |
-| ----------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------- |
-| `--templates-dir` | `string`, default: `"/Users/paularms/development/onerepo/commands/templates"` | Path to the templates                                                                        | ✅       |
-| `--name`          | `string`                                                                      | Name of the workspace to generate. If not provided, you will be prompted to enter one later. |          |
-| `--type`, `-t`    | `string`                                                                      | Template type to generate. If not provided, a list will be provided to choose from.          |          |
+| Option            | Type                                                                               | Description                                                                                  | Required |
+| ----------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------- |
+| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates                                                                        | ✅       |
+| `--name`          | `string`                                                                           | Name of the workspace to generate. If not provided, you will be prompted to enter one later. |          |
+| `--type`, `-t`    | `string`                                                                           | Template type to generate. If not provided, a list will be provided to choose from.          |          |
 
 ### `one build`
 
@@ -281,7 +281,6 @@ The `build` command does not accept any positional arguments.
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
 | `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
-| `--false`            | `boolean` | Show this CLI’s version number                                                              |          |
 | `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--version`          | `string`  | Manually set the version of the built workspaces.                                           |          |

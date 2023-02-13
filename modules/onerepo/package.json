@@ -14,7 +14,8 @@
 		"@onerepo/plugin-graph": "0.0.0",
 		"@onerepo/plugin-install": "0.0.0",
 		"@onerepo/plugin-tasks": "0.0.0",
-		"@onerepo/subprocess": "0.0.0"
+		"@onerepo/subprocess": "0.0.0",
+		"@onerepo/types": "0.0.0"
 	},
 	"devDependencies": {
 		"@onerepo/tsconfig": "workspace:^",

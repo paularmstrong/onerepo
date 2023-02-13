@@ -4,8 +4,8 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
-import { batch, run } from '@onerepo/cli';
-import type { Builder, Handler } from '@onerepo/cli';
+import { batch, run } from '@onerepo/subprocess';
+import type { Builder, Handler } from '@onerepo/types';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 

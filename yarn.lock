@@ -1232,6 +1232,9 @@ __metadata:
     "@onerepo/git": 0.0.0
     "@onerepo/graph": 0.0.0
     "@onerepo/logger": 0.0.0
+    "@onerepo/plugin-graph": 0.0.0
+    "@onerepo/plugin-install": 0.0.0
+    "@onerepo/plugin-tasks": 0.0.0
     "@onerepo/subprocess": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
@@ -1290,7 +1293,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
-    "@onerepo/logger": "workspace:^"
+    "@onerepo/logger": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     prettier: ^2
@@ -1301,8 +1304,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
-    "@onerepo/logger": "workspace:^"
-    "@onerepo/subprocess": "workspace:^"
+    "@onerepo/logger": 0.0.0
+    "@onerepo/subprocess": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
   languageName: unknown
@@ -1322,7 +1325,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.0.0, @onerepo/logger@workspace:^, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.0.0, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -1536,11 +1539,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/subprocess@0.0.0, @onerepo/subprocess@workspace:^, @onerepo/subprocess@workspace:modules/subprocess":
+"@onerepo/subprocess@0.0.0, @onerepo/subprocess@workspace:modules/subprocess":
   version: 0.0.0-use.local
   resolution: "@onerepo/subprocess@workspace:modules/subprocess"
   dependencies:
-    "@onerepo/logger": "workspace:^"
+    "@onerepo/logger": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
   languageName: unknown
@@ -1570,7 +1573,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/types@workspace:^, @onerepo/types@workspace:modules/types":
+"@onerepo/types@0.0.0, @onerepo/types@workspace:^, @onerepo/types@workspace:modules/types":
   version: 0.0.0-use.local
   resolution: "@onerepo/types@workspace:modules/types"
   dependencies:
@@ -1593,6 +1596,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/yargs@workspace:modules/yargs"
   dependencies:
+    "@onerepo/logger": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
     "@onerepo/vitest": "workspace:^"
@@ -7016,6 +7020,7 @@ __metadata:
     "@onerepo/plugin-tasks": 0.0.0
     "@onerepo/subprocess": 0.0.0
     "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/types": 0.0.0
     "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5
     vitest: ^0.28.4
