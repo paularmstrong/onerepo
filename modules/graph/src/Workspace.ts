@@ -39,6 +39,10 @@ export class Workspace {
 		return { ...this.#packageJson };
 	}
 
+	get publishConfig() {
+		return 'publishConfig' in this.packageJson ? this.packageJson.publishConfig : {};
+	}
+
 	/**
 	 * Get module name scope, eg `@onerepo`
 	 */
@@ -143,6 +147,11 @@ export interface PrivatePackageJson extends PackageJson {
 
 export interface PublicPackageJson extends PackageJson {
 	private?: false;
+	publishConfig?: {
+		access?: 'public' | 'restricted';
+		registry?: string;
+		[key: string]: unknown;
+	};
 }
 
 export interface PackageJsonWithLocation extends PackageJson {

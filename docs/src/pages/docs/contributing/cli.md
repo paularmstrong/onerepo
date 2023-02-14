@@ -56,7 +56,6 @@ one build [options]
 | --------------- | -------- | --------------------------------------------------------- | -------- |
 | `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
 | `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
-| `--version`     | `string` | Manually set the version of the built workspaces.         |          |
 
 </details>
 

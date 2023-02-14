@@ -1,8 +1,10 @@
 import inquirer from 'inquirer';
+import { write } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
 import type { Workspace } from '@onerepo/graph';
 import { getBranch, getStatus } from '@onerepo/git';
+import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
 export const command = ['publish', 'release'];
 
@@ -36,6 +38,23 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
+
+	const cleanStep = logger.createStep('Ensure clean working directory');
+	const branch = await getBranch({ step: cleanStep });
+	if (!allowDirty && branch !== process.env.ONE_REPO_HEAD_BRANCH) {
+		cleanStep.error(
+			`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`
+		);
+		await cleanStep.end();
+		return;
+	}
+	const status = await getStatus({ step: cleanStep });
+	if (!allowDirty && status) {
+		cleanStep.error(`Working directory must be unmodified to ensure safe publish. Current status is:\n  ${status}`);
+		await cleanStep.end();
+		return;
+	}
+	await cleanStep.end();
 
 	await run({
 		name: 'Ensure registry auth',
@@ -73,22 +92,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		});
 	}
 
-	const cleanStep = logger.createStep('Ensure clean working directory');
-	const branch = await getBranch({ step: cleanStep });
-	if (!allowDirty && branch !== process.env.ONE_REPO_HEAD_BRANCH) {
-		cleanStep.error(
-			`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`
-		);
-		await cleanStep.end();
-		return;
+	const configStep = logger.createStep('Apply publishConfig');
+	for (const workspace of publishable) {
+		const newPackageJson = applyPublishConfig(workspace.packageJson);
+		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step: configStep });
 	}
-	const status = await getStatus({ step: cleanStep });
-	if (!allowDirty && status) {
-		cleanStep.error(`Working directory must be unmodified to ensure safe publish. Current status is:\n  ${status}`);
-		await cleanStep.end();
-		return;
-	}
-	await cleanStep.end();
+	await configStep.end();
 
 	let otp: string | void;
 	if (otpRequired) {
@@ -124,4 +133,10 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			runDry: true,
 		}))
 	);
+
+	const resetStep = logger.createStep('Reset package.jsons');
+	for (const workspace of workspaces) {
+		await resetPackageJson(workspace, { step: resetStep });
+	}
+	await resetStep.end();
 };

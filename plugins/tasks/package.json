@@ -4,6 +4,14 @@
 	"license": "MIT",
 	"type": "module",
 	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"dist/*"
+	],
 	"dependencies": {
 		"@onerepo/git": "0.0.0",
 		"@onerepo/logger": "0.0.0",

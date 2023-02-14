@@ -4,7 +4,7 @@ import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Graph } from './Graph';
 
 export type { Graph as Repository, SerializedGraph } from './Graph';
-export type { Task, Tasks, TaskConfig, Workspace } from './Workspace';
+export * from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();
 
