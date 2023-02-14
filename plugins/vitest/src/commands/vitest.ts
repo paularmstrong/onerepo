@@ -16,7 +16,12 @@ type Args = {
 
 export const builder: Builder<Args> = (yargs) =>
 	yargs
-		.usage('$0 test [options]')
+		.usage('$0 test [file-patterns] [options]')
+		.positional('file-patterns', {
+			type: 'string',
+			array: true,
+			description: 'Any set of valid test file patterns to pass directly to vitest',
+		})
 		.epilogue(
 			`This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.`
 		)
@@ -43,7 +48,7 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'List of workspace names to restrict linting against',
 			conflicts: ['all', 'files'],
 		})
-		.strict(false);
+		.strictCommands(false);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getAffected }) {
 	const {

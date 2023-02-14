@@ -127,14 +127,21 @@ So you have decided that `tasks` are not for you? That’s okay. You can deactiv
 
 Run tasks
 
-The `tasks` command does not accept any positional arguments.
+| Option              | Type      | Description                                                            | Required |
+| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
+| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
+| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
 
-| Option              | Type                                                                   | Description                                                               | Required |
-| ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`                                                               | Task lifecycle to run                                                     | ✅       |
-| `--from-ref`        | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
-| `--ignore`          | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
-| `--list`            | `boolean`                                                              | List found tasks. Implies dry run and will not actually run any tasks.    |          |
-| `--through-ref`     | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                                                   | Description                                                               | Required |
+| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--through-ref` | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+
+</details>
 
 <!-- end-onerepo-sentinel -->

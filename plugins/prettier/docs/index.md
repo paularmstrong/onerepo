@@ -28,8 +28,6 @@ Format files with prettier
 one prettier [options]
 ```
 
-The `prettier` command does not accept any positional arguments.
-
 | Option               | Type      | Description                                                                                 | Required |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
 | `--add`              | `boolean` | Add modified files after write                                                              |          |
@@ -37,8 +35,17 @@ The `prettier` command does not accept any positional arguments.
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
 | `--check`            | `boolean` | Check for changes.                                                                          |          |
 | `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
-| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
-| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
 
 <!-- end-onerepo-sentinel -->

@@ -1,4 +1,17 @@
-import { code, heading, inlineCode, paragraph, root, strong, table, tableCell, tableRow, text } from 'mdast-builder';
+import {
+	code,
+	emphasis,
+	heading,
+	html,
+	inlineCode,
+	paragraph,
+	root,
+	strong,
+	table,
+	tableCell,
+	tableRow,
+	text,
+} from 'mdast-builder';
 import gfm from 'remark-gfm';
 import remarkParser from 'remark-parse';
 import type { Node } from 'unist';
@@ -95,46 +108,33 @@ function options(cmd: Docs): Array<Node> {
 	if (!opts.length) {
 		if (!cmd.strictOptions) {
 			return [
-				paragraph([
-					text('The '),
-					inlineCode(cmd.command),
-					text(' command may accept an unknown set of option arguments.'),
-				]),
+				paragraph(
+					emphasis([
+						text('The '),
+						inlineCode(cmd.command),
+						text(' command may accept an unknown set of option arguments.'),
+					])
+				),
 			];
 		}
-		return [paragraph([text('The '), inlineCode(cmd.command), text(' command does not accept any option arguments.')])];
+		return [];
 	}
 
+	const regularOpts = opts.filter((opt) => !opt.hidden);
+	const advanced = opts.filter((opt) => opt.hidden);
+
 	return [
-		table(
-			[],
-			[
-				tableRow([
-					tableCell(text('Option')),
-					tableCell(text('Type')),
-					tableCell(text('Description')),
-					tableCell(text('Required')),
-				]),
-				...opts
-					.sort(optionSorter)
-					.map((opt) =>
-						tableRow([
-							tableCell(
-								[
-									inlineCode(`--${opt.name}`),
-									...(opt.aliases || []).map((alias) => [
-										text(', '),
-										inlineCode(`${alias.length === 1 ? '-' : '--'}${alias}`),
-									]),
-								].flat()
-							),
-							tableCell(typeAndDefault(opt)),
-							tableCell(parse(opt.description || '')?.children || []),
-							tableCell(opt.required ? text('✅') : text('')),
-						])
-					),
-			]
-		),
+		...(regularOpts.length ? optPosTable('opt', regularOpts) : []),
+		...(advanced.length
+			? [
+					html('<details>'),
+					html('<summary>Advanced options</summary>'),
+					...optPosTable('opt', advanced),
+					html('</details>'),
+					// prettier is mixing tabs & spaces :(
+					// eslint-disable-next-line
+			  ]
+			: []),
 	];
 }
 
@@ -143,51 +143,51 @@ function positionals(cmd: Docs): Array<Node> {
 	if (!pos.length) {
 		if (!cmd.strictCommands) {
 			return [
-				paragraph([
-					text('The '),
-					inlineCode(cmd.command),
-					text(' command may accept an unknown set of positional arguments.'),
-				]),
+				paragraph(
+					emphasis([
+						text('The '),
+						inlineCode(cmd.command),
+						text(' command may accept an unknown set of positional arguments.'),
+					])
+				),
 			];
 		}
-		return [
-			paragraph([text('The '), inlineCode(cmd.command), text(' command does not accept any positional arguments.')]),
-		];
+		return [];
 	}
 
+	return [...optPosTable('pos', pos)];
+}
+
+function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positional>) {
 	return [
 		table(
 			[],
 			[
 				tableRow([
-					tableCell(text('Positional')),
+					tableCell(text(type === 'pos' ? 'Positional' : 'Option')),
 					tableCell(text('Type')),
 					tableCell(text('Description')),
 					tableCell(text('Required')),
 				]),
-				...pos
-					.sort(optionSorter)
-					.map((pos) =>
-						tableRow([
-							tableCell(inlineCode(`--${pos.name}`)),
-							tableCell(typeAndDefault(pos)),
-							tableCell(parse(pos.description || '')?.children || []),
-							tableCell(pos.required ? text('✅') : text('')),
-						])
-					),
+				...Object.values(options).map((opt) =>
+					tableRow([
+						tableCell(
+							[
+								inlineCode(type === 'pos' ? opt.name : `--${opt.name}`),
+								...(opt.aliases || []).map((alias) => [
+									text(', '),
+									inlineCode(`${alias.length === 1 ? '-' : '--'}${alias}`),
+								]),
+							].flat()
+						),
+						tableCell(typeAndDefault(opt)),
+						tableCell(parse(opt.description || '')?.children || []),
+						tableCell(opt.required ? text('✅') : text('')),
+					])
+				),
 			]
 		),
 	];
-}
-
-function optionSorter(a: Option | Positional, b: Option | Positional) {
-	if (a.required && !b.required) {
-		return -1;
-	}
-	if (b.required && !a.required) {
-		return 1;
-	}
-	return a.name?.localeCompare(b.name) ?? 0;
 }
 
 function typeAndDefault(opt: Option | Positional) {

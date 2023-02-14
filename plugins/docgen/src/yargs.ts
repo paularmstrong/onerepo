@@ -125,20 +125,21 @@ export class Yargs {
 
 	_serialize(name?: string): Docs {
 		const filePath = path.relative(this._rootPath, path.join(this._commandDirectory, this._filePath));
+		const commands = Object.entries(this.#commands).reduce((memo, [command, instance]) => {
+			memo[command] = instance._serialize(command);
+			return memo;
+		}, {} as Record<string, Docs>);
 		return {
 			aliases: this.#aliases,
 			command: name || this.#name,
-			commands: Object.entries(this.#commands).reduce((memo, [command, instance]) => {
-				memo[command] = instance._serialize(command);
-				return memo;
-			}, {} as Record<string, Docs>),
+			commands: sorter(commands),
 			description: this.#description,
 			epilogue: this.#epilogue,
 			examples: this.#examples,
 			filePath,
 			fullCommand: this.#name,
-			options: this.#options,
-			positionals: this.#positionals,
+			options: sorter(this.#options),
+			positionals: sorter(this.#positionals),
 			strictCommands: this.#strictCommands,
 			strictOptions: this.#strictOptions,
 			usage: this.#usage,
@@ -254,7 +255,9 @@ export class Yargs {
 	}
 
 	default(key: string, value: unknown) {
-		this.#options[key] = { ...this.#options[key], default: value };
+		if (key in this.#options) {
+			this.#options[key] = { ...this.#options[key], default: value };
+		}
 		return this;
 	}
 
@@ -480,4 +483,16 @@ function arrayIfy<T extends string | number | boolean | undefined>(value: T | Ar
 		return value;
 	}
 	return [value as T];
+}
+
+function sorter<T>(options: Record<string, T>) {
+	const sortedKeys = Object.keys(options).sort((a, b) => {
+		return a.localeCompare(b);
+	});
+
+	const sorted: Record<string, T> = {};
+	for (const key of sortedKeys) {
+		sorted[key] = options[key];
+	}
+	return sorted;
 }
