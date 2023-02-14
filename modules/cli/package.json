@@ -23,7 +23,7 @@
 		"@onerepo/tsconfig": "workspace:^",
 		"@onerepo/types": "workspace:^",
 		"@onerepo/vitest": "workspace:^",
-		"@types/glob": "^8.0.0",
+		"@types/glob": "^8.0.1",
 		"@types/npmlog": "^4.1.4",
 		"@types/random-seed": "^0",
 		"@types/yargs": "^17",
