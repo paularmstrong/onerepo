@@ -125,23 +125,27 @@ export class Yargs {
 
 	_serialize(name?: string): Docs {
 		const filePath = path.relative(this._rootPath, path.join(this._commandDirectory, this._filePath));
+		const commands = Object.entries(this.#commands).reduce((memo, [command, instance]) => {
+			memo[command] = instance._serialize(command);
+			return memo;
+		}, {} as Record<string, Docs>);
 		return {
 			aliases: this.#aliases,
 			command: name || this.#name,
-			commands: Object.entries(this.#commands).reduce((memo, [command, instance]) => {
-				memo[command] = instance._serialize(command);
-				return memo;
-			}, {} as Record<string, Docs>),
+			commands: sorter(commands),
 			description: this.#description,
 			epilogue: this.#epilogue,
-			examples: this.#examples,
+			examples: Object.entries(this.#examples).reduce((memo, [example, description]) => {
+				memo[replaceBin(example, name ?? this.#name, this.#aliases, this.#name)] = description;
+				return memo;
+			}, {} as Examples),
 			filePath,
 			fullCommand: this.#name,
-			options: this.#options,
-			positionals: this.#positionals,
+			options: sorter(this.#options),
+			positionals: sorter(this.#positionals),
 			strictCommands: this.#strictCommands,
 			strictOptions: this.#strictOptions,
-			usage: this.#usage,
+			usage: this.#usage.map((usage) => replaceBin(usage, name ?? this.#name, this.#aliases, this.#name)),
 		};
 	}
 
@@ -254,7 +258,9 @@ export class Yargs {
 	}
 
 	default(key: string, value: unknown) {
-		this.#options[key] = { ...this.#options[key], default: value };
+		if (key in this.#options) {
+			this.#options[key] = { ...this.#options[key], default: value };
+		}
 		return this;
 	}
 
@@ -310,7 +316,9 @@ export class Yargs {
 	}
 
 	hide(key: string) {
-		this.#options[key] = { ...this.#options[key], hidden: true };
+		if (key in this.#options) {
+			this.#options[key] = { ...this.#options[key], hidden: true };
+		}
 		return this;
 	}
 
@@ -453,8 +461,7 @@ export class Yargs {
 	}
 
 	usage(message: string) {
-		const withoutBin = this.#name.replace(/^[\S+]+\s/, '');
-		this.#usage.push(message.replace(`$0 ${withoutBin}`, this.#name).replace('$0', this.#name));
+		this.#usage.push(message);
 		return this;
 	}
 
@@ -480,4 +487,20 @@ function arrayIfy<T extends string | number | boolean | undefined>(value: T | Ar
 		return value;
 	}
 	return [value as T];
+}
+
+function sorter<T>(options: Record<string, T>) {
+	const sortedKeys = Object.keys(options).sort((a, b) => {
+		return a.localeCompare(b);
+	});
+
+	const sorted: Record<string, T> = {};
+	for (const key of sortedKeys) {
+		sorted[key] = options[key];
+	}
+	return sorted;
+}
+
+function replaceBin(str: string, name: string, aliases: Array<string>, fullCommand: string) {
+	return str.replace(new RegExp(`\\$0 (?:(?:${name}|${aliases.join('|')}) ?)+`, 'g'), `${fullCommand} `);
 }

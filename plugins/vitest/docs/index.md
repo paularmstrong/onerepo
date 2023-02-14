@@ -25,12 +25,15 @@ const { vitest } = require('@onerepo/plugin-vitest');
 Run unit tests
 
 ```sh
-one vitest test [options]
+one vitest test [file-patterns] [options]
+one vitest [options]
 ```
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
 
-The `vitest` command may accept an unknown set of positional arguments.
+| Positional      | Type    | Description                                                    | Required |
+| --------------- | ------- | -------------------------------------------------------------- | -------- |
+| `file-patterns` | `array` | Any set of valid test file patterns to pass directly to vitest |          |
 
 | Option                 | Type      | Description                                         | Required |
 | ---------------------- | --------- | --------------------------------------------------- | -------- |
@@ -42,7 +45,7 @@ The `vitest` command may accept an unknown set of positional arguments.
 Run vitest in --watch mode.
 
 ```sh
-$0 test --watch
+one vitest test --watch
 ```
 
 <!-- end-onerepo-sentinel -->

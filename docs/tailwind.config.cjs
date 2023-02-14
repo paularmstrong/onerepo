@@ -87,7 +87,7 @@ module.exports = {
 				},
 				pink: {
 					css: {
-						'--tw-prose-body': theme('colors.pink[100]'),
+						'--tw-prose-body': theme('colors.pink[50]'),
 						'--tw-prose-headings': theme('colors.pink[600]'),
 						'--tw-prose-lead': theme('colors.pink[700]'),
 						'--tw-prose-links': theme('colors.cyan[500]'),

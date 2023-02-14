@@ -2,17 +2,18 @@ import type { Plugin } from '@onerepo/cli';
 import * as cmd from './commands/prettier';
 
 type Options = {
-	name?: string;
+	name?: string | Array<string>;
 };
 
 export function prettier(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
+			const name = opts.name ?? command;
 			return yargs.command(
-				opts.name ?? command,
+				name,
 				description,
-				(yargs) => builder(yargs).usage(`$0 ${opts.name ?? command} [options]`),
+				(yargs) => builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`),
 				handler
 			);
 		},

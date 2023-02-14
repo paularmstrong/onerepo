@@ -30,45 +30,52 @@ Manage changesets
 one changesets <command> [options]
 ```
 
-The `changesets` command does not accept any positional arguments.
-
-The `changesets` command does not accept any option arguments.
-
 ### `one changesets add`
 
 Aliases: `$0`
 
 Add a changeset
 
-The `add` command does not accept any positional arguments.
+```sh
+one changesets add [options]
+```
 
 | Option               | Type      | Description                                                                                                         | Required |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
 | `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
 | `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                           |          |
 | `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                                            |          |
-| `--from-ref`         | `string`  | Git ref to start looking for affected files or workspaces                                                           |          |
-| `--through-ref`      | `string`  | Git ref to start looking for affected files or workspaces                                                           |          |
 | `--type`             | `string`  | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
 | `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                              |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
 
 ### `one changesets init`
 
 Initialize changesets for this repository.
 
+```sh
+one changesets init
+```
+
 You should only ever have to do this once.
-
-The `init` command does not accept any positional arguments.
-
-The `init` command does not accept any option arguments.
 
 ### `one changesets prepare`
 
 Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
 
-The `prepare` command does not accept any positional arguments.
-
-The `prepare` command does not accept any option arguments.
+```sh
+one changesets prepare
+```
 
 ### `one changesets prerelease`
 
@@ -76,7 +83,9 @@ Aliases: `pre-release`, `pre`
 
 Pre-release available workspaces.
 
-The `prerelease` command does not accept any positional arguments.
+```sh
+one changesets prerelease
+```
 
 | Option    | Type                       | Description                                           | Required |
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |

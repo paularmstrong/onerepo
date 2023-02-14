@@ -28,8 +28,6 @@ Lint files using eslint
 one eslint [options]
 ```
 
-The `eslint` command does not accept any positional arguments.
-
 | Option               | Type                                   | Description                                                                                 | Required |
 | -------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
 | `--add`              | `boolean`                              | Add modified files after write                                                              |          |
@@ -39,8 +37,17 @@ The `eslint` command does not accept any positional arguments.
 | `--extensions`       | `array`, default: `["js","cjs","mjs"]` |                                                                                             |          |
 | `--files`, `-f`      | `array`                                | Determine workspaces from specific files                                                    |          |
 | `--fix`              | `boolean`, default: `true`             | Apply auto-fixes if possible                                                                |          |
-| `--from-ref`         | `string`                               | Git ref to start looking for affected files or workspaces                                   |          |
-| `--through-ref`      | `string`                               | Git ref to start looking for affected files or workspaces                                   |          |
 | `--workspaces`, `-w` | `array`                                | List of workspace names to run against                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
 
 <!-- end-onerepo-sentinel -->

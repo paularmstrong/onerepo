@@ -32,15 +32,17 @@ Warning: disabling the graph will disable both the `graph`-specifc commands as w
 
 Run core graph commands
 
-The `graph` command does not accept any positional arguments.
-
-The `graph` command does not accept any option arguments.
+```sh
+one graph <command>
+```
 
 ### `one graph show`
 
 Show the dependency graph.
 
-The `show` command does not accept any positional arguments.
+```sh
+one graph show [options]
+```
 
 | Option     | Type                         | Description                                       | Required |
 | ---------- | ---------------------------- | ------------------------------------------------- | -------- |
@@ -51,13 +53,7 @@ The `show` command does not accept any positional arguments.
 Verify the integrity of the repo’s dependency graph.
 
 ```sh
-one graph verify verify
+one graph verify
 ```
-
-The `verify` command does not accept any positional arguments.
-
-| Option        | Type | Description | Required |
-| ------------- | ---- | ----------- | -------- |
-| `--undefined` | ``   |             |          |
 
 <!-- end-onerepo-sentinel -->
