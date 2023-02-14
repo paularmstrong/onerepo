@@ -22,13 +22,41 @@ const { changesets } = require('@onerepo/plugin-changesets');
 })();
 ```
 
+## Publish config
+
+In order to properly use source-level dependencies without requiring constant file watching and rebuilding across workspaces, all `package.json` files should reference a _source_ file in its `"main"` field, eg, `"main": "./src/index.ts"`.
+
+This causes issues when publishing shared modules for use outside of the monorepo, because consumers will likely need to use a pre-compiled version of the module. In order to safely rewrite this, as well as some other related fields, we build upon NPM’s [`publishConfig`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#publishconfig) to include other fields: `bin`, `main`, `module`, `typings`, and `exports`. The presence of any of these fields in your `publishConfig` will trigger this plugin’s commands to overwrite the initial values during the publish cycle:
+
+<div class="grid grid-cols-2 gap-4">
+
+```json title="source package.json"
+{
+	"name": "my-package",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	}
+}
+```
+
+```json title="published package.json"
+{
+	"name": "my-package",
+	"main": "./dist/index.js",
+	"typings": "./dist/src/index.d.ts"
+}
+```
+
+</div>
+
 ## Build requirements
 
 This plugin _requires_ a top-level command, `build` that accepts a list of workspaces using the `withWorkspaces()` builder. Your build process _must_:
 
-1. Build files to each workspace’s `dist` directory
-1. Copy the `package.json` into the `dist` directory (eg `cp module/tacos/package.json modules/tacos/dist/package.json`)
-1. Update fields in the `dist/package.json` with the correct paths (eg `main`, `module`, `bin`, and `typings`).
+1. Accept a list of workspaces to build.
 
 ```ts title="commands/build.ts"
 import { withWorkspaces } from 'onerepo';
@@ -44,7 +72,7 @@ export const handler: Handler<Args> = (argv, { getWorkspaces }) => {
 	const workspaces = await getWorkspaces();
 
 	for (const workspace of workspaces) {
-		// build, copy, and update
+		// build
 	}
 };
 ```
