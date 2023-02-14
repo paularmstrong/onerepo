@@ -39,7 +39,7 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vitest.spyOn(os, 'platform').mockReturnValue('darwin');
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos --force')).resolves.toBeUndefined();
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
@@ -53,5 +53,39 @@ describe('handler', () => {
 		expect(file.writeSafe).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
 			sentinel: 'tacos-cmd-completions',
 		});
+	});
+
+	test('runs husky install husky is found', async () => {
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		await expect(run('--name tacos')).resolves.toBeUndefined();
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npx',
+				args: ['husky', 'install'],
+			})
+		);
+	});
+
+	test('does not run husky install husky is NOT found', async () => {
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
+		await expect(run('--name tacos')).resolves.toBeUndefined();
+
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npx',
+				args: ['husky', 'install'],
+			})
+		);
 	});
 });

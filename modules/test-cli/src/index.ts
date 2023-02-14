@@ -67,7 +67,7 @@ export async function runHandler<R = Record<string, unknown>>(
 	},
 	cmd = ''
 ): Promise<void> {
-	const { graph = getGraph(path.join(__dirname, '__fixtures__', 'repo')) } = extras;
+	const { graph = getGraph(path.join(__dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);

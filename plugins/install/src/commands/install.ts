@@ -62,7 +62,7 @@ export const builder: Builder<Args> = (yargs) =>
 			'As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).'
 		);
 
-export const handler: Handler<Args> = async function handler(argv) {
+export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	const { force, location, name } = argv;
 
 	if (!force) {
@@ -80,13 +80,12 @@ export const handler: Handler<Args> = async function handler(argv) {
 		} catch (e) {
 			//nothing
 		}
+
 		if (which) {
-			if (which) {
-				step.error(`Refusing to install with name \`${name}\` because it already exists at \`${which}\`
+			step.error(`Refusing to install with name \`${name}\` because it already exists at \`${which}\`
 
 To force installation, re-run this command with \`--force\`:
   ${path.relative(process.cwd(), process.argv[1])} ${command} --name=${name} --location=${location} --force`);
-			}
 			await step.end();
 			return Promise.reject();
 		}
@@ -120,4 +119,12 @@ To force installation, re-run this command with \`--force\`:
 	await file.writeSafe(path.join(homedir, filename), completion.replace(/\n+$/m, ''), {
 		sentinel: `${name}-cmd-completions`,
 	});
+
+	if (await file.exists(graph.root.resolve('.husky', '_', 'husky.sh'))) {
+		await run({
+			name: 'Install git hooks',
+			cmd: 'npx',
+			args: ['husky', 'install'],
+		});
+	}
 };
