@@ -22,7 +22,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1":
+"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1, @astrojs/compiler@npm:^1.1.0":
   version: 1.1.0
   resolution: "@astrojs/compiler@npm:1.1.0"
   checksum: f31ea14ff1ab9dc9021c6a37529caa9cb1bc34ce7c9904817db09afafc17c03910313f4c80692552a62c05c75845c01a1d0060a2c4e803e42e0253f3b3ac7b4a
@@ -1263,7 +1263,7 @@ __metadata:
     "@onerepo/tsconfig": "workspace:^"
     "@onerepo/vitest": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
-    astro: ^2.0.6
+    astro: ^2.0.10
     eslint-plugin-astro: ^0.23.0
     postcss: ^8.4.21
     rehype-pretty-code: ^0.9.3
@@ -2570,11 +2570,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "astro@npm:2.0.6"
+"astro@npm:^2.0.10":
+  version: 2.0.10
+  resolution: "astro@npm:2.0.10"
   dependencies:
-    "@astrojs/compiler": ^1.0.1
+    "@astrojs/compiler": ^1.1.0
     "@astrojs/language-server": ^0.28.3
     "@astrojs/markdown-remark": ^2.0.1
     "@astrojs/telemetry": ^2.0.0
@@ -2628,7 +2628,7 @@ __metadata:
     zod: ^3.17.3
   bin:
     astro: astro.js
-  checksum: f16e7e0e86055d631bd31fd8f97204abff59a094e7fc42e3c32d4d7067f995e00cae35c641a63dfaeb3e3e345ac331f65650961739afc24337144733347840bf
+  checksum: 7898288af88a0409b0e87542a51248a64175b50a2c1adc897e12f8ee2d2379845390ef739aad501450625a10a38e65cbc3391298bd182e71066e00dc865f687d
   languageName: node
   linkType: hard
 
