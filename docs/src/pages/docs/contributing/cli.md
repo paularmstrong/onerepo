@@ -31,7 +31,6 @@ one <command> [options]
 | `--ci`         | `boolean` | Sets defaults for running scripts in a CI environment                |          |
 | `--help`, `-h` | `boolean` | Show this help screen                                                |          |
 | `--silent`     | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0. |          |
-| `--undefined`  | ``        |                                                                      |          |
 
 </details>
 
@@ -64,19 +63,19 @@ one build [options]
 Build all workspaces.
 
 ```sh
-$0 build
+one build
 ```
 
 Build the `graph` workspace only.
 
 ```sh
-$0 build -w graph
+one build -w graph
 ```
 
 Build the `graph`, `cli`, and `logger` workspaces.
 
 ```sh
-$0 build -w graph cli logger
+one build -w graph cli logger
 ```
 
 ### `one changesets`
@@ -94,6 +93,10 @@ one changesets <command> [options]
 Aliases: `$0`
 
 Add a changeset
+
+```sh
+one changesets add [options]
+```
 
 | Option               | Type      | Description                                                                                                         | Required |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -118,17 +121,29 @@ Add a changeset
 
 Initialize changesets for this repository.
 
+```sh
+one changesets init
+```
+
 You should only ever have to do this once.
 
 #### `one changesets prepare`
 
 Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
 
+```sh
+one changesets prepare
+```
+
 #### `one changesets prerelease`
 
 Aliases: `pre-release`, `pre`
 
 Pre-release available workspaces.
+
+```sh
+one changesets prerelease
+```
 
 | Option    | Type                       | Description                                           | Required |
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |
@@ -140,6 +155,7 @@ Pre-release available workspaces.
 Generate documentation for this CLI.
 
 ```sh
+one docgen [options]
 one docgen [options]
 ```
 
@@ -224,7 +240,7 @@ Aliases: `gen`
 Generate workspaces from template directories.
 
 ```sh
-one generate,gen [options]
+one generate [options]
 ```
 
 To create new templates add a new folder to commands/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/
@@ -248,9 +264,17 @@ To create new templates add a new folder to commands/templates and create a `.on
 
 Run core graph commands
 
+```sh
+one graph <command>
+```
+
 #### `one graph show`
 
 Show the dependency graph.
+
+```sh
+one graph show [options]
+```
 
 | Option     | Type                         | Description                                       | Required |
 | ---------- | ---------------------------- | ------------------------------------------------- | -------- |
@@ -267,6 +291,10 @@ one graph verify
 ### `one install`
 
 Install the oneRepo CLI into your environment.
+
+```sh
+one install [options]
+```
 
 `npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.
 
@@ -349,6 +377,7 @@ Run unit tests
 
 ```sh
 one test [file-patterns] [options]
+one test [options]
 ```
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
@@ -367,7 +396,7 @@ This command also accepts any argument that [vitest accepts](https://vitest.dev/
 Run vitest in --watch mode.
 
 ```sh
-$0 test --watch
+one test --watch
 ```
 
 ### `one tsc`
@@ -403,10 +432,26 @@ Run workspace-specific commands
 
 ```sh
 one workspace <name> <command> [options]
-one ws <name> <command> [options]
 ```
 
 Add commands to the `commands` directory within a workspace to create workspace-specific commands.
+
+| Positional | Type     | Description                                                                     | Required |
+| ---------- | -------- | ------------------------------------------------------------------------------- | -------- |
+| `command`  | `string` | Workspace-specific command.                                                     |          |
+| `name`     | `string` | Workspace name – may be the fully qualified package name or an available alias. |          |
+
+Using alias `ws` instead of the full command `workspace`
+
+```sh
+one workspace myapp start [options]
+```
+
+The `workspace` command can be completely ommitted and the workspace name can be used as a top-level command instead. This make things quick and easy to remember.
+
+```sh
+$0 myapp start
+```
 
 #### `one workspace @onerepo/docs`
 
@@ -419,7 +464,7 @@ Runs commands in the `@onerepo/docs` workspace
 Run astro commands.
 
 ```sh
-one workspace @onerepo/docs astro astro
+one workspace @onerepo/docs astro
 ```
 
 ##### `one workspace @onerepo/docs start`
@@ -427,7 +472,7 @@ one workspace @onerepo/docs astro astro
 Start the docs development server
 
 ```sh
-one workspace @onerepo/docs start start
+one workspace @onerepo/docs start
 ```
 
 <!-- end-onerepo-sentinel -->

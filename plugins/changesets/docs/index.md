@@ -36,6 +36,10 @@ Aliases: `$0`
 
 Add a changeset
 
+```sh
+one changesets add [options]
+```
+
 | Option               | Type      | Description                                                                                                         | Required |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
 | `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
@@ -59,17 +63,29 @@ Add a changeset
 
 Initialize changesets for this repository.
 
+```sh
+one changesets init
+```
+
 You should only ever have to do this once.
 
 ### `one changesets prepare`
 
 Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
 
+```sh
+one changesets prepare
+```
+
 ### `one changesets prerelease`
 
 Aliases: `pre-release`, `pre`
 
 Pre-release available workspaces.
+
+```sh
+one changesets prerelease
+```
 
 | Option    | Type                       | Description                                           | Required |
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |

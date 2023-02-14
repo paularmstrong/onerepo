@@ -62,7 +62,7 @@ Aliases: `gen`
 Generate workspaces from template directories.
 
 ```sh
-one generate,gen [options]
+one generate [options]
 ```
 
 To create new templates add a new folder to and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/

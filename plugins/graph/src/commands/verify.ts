@@ -5,7 +5,7 @@ export const command = 'verify';
 
 export const description = 'Verify the integrity of the repo’s dependency graph.';
 
-export const builder: Builder = (yargs) => yargs.usage(`$0`);
+export const builder: Builder = (yargs) => yargs.usage(`$0 verify`);
 
 export const handler: Handler = async function handler(argv, { graph, logger }) {
 	for (const workspace of Object.values(graph.workspaces)) {

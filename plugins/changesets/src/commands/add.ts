@@ -14,12 +14,14 @@ type Argv = {
 } & WithAllInputs;
 
 export const builder: Builder<Argv> = (yargs) =>
-	withAllInputs(yargs).option('type', {
-		type: 'string',
-		choices: ['major', 'minor', 'patch'] as const,
-		description:
-			'Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.',
-	});
+	withAllInputs(yargs)
+		.usage('$0 add [options]')
+		.option('type', {
+			type: 'string',
+			choices: ['major', 'minor', 'patch'] as const,
+			description:
+				'Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.',
+		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { type } = argv;

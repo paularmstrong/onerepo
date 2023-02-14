@@ -30,6 +30,10 @@ This is a core plugin that does not need to be installed manually.
 
 Install the oneRepo CLI into your environment.
 
+```sh
+one install [options]
+```
+
 `npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.
 
 As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).

@@ -11,7 +11,7 @@ export const command = 'prepare';
 export const description =
 	'Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.';
 
-export const builder: Builder = (yargs) => yargs;
+export const builder: Builder = (yargs) => yargs.usage('$0 prepare');
 
 export const handler: Handler = async (argv, { graph, logger }) => {
 	const { 'dry-run': isDryRun } = argv;

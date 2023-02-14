@@ -18,6 +18,7 @@ type Args = {
 
 export const builder: Builder<Args> = (yargs) =>
 	yargs
+		.usage('$0 prerelease')
 		.option('build', {
 			type: 'boolean',
 			description: 'Build workspaces before publishing',

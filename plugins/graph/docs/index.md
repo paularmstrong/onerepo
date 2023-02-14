@@ -32,9 +32,17 @@ Warning: disabling the graph will disable both the `graph`-specifc commands as w
 
 Run core graph commands
 
+```sh
+one graph <command>
+```
+
 ### `one graph show`
 
 Show the dependency graph.
+
+```sh
+one graph show [options]
+```
 
 | Option     | Type                         | Description                                       | Required |
 | ---------- | ---------------------------- | ------------------------------------------------- | -------- |

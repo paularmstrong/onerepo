@@ -12,7 +12,7 @@ type Args = {
 };
 
 export const builder: Builder<Args> = (yargs) =>
-	yargs.option('format', {
+	yargs.usage('$0 show [options]').option('format', {
 		type: 'string',
 		description: 'Output format for inspecting the dependency graph',
 		default: 'plain',

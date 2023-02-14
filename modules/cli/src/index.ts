@@ -71,12 +71,12 @@ const corePlugins = ['@onerepo/plugin-tasks', '@onerepo/plugin-install', '@onere
 export async function setup(config: Config = {}) {
 	performance.mark('one_startup');
 	const resolvedConfig = { ...defaultConfig, ...config };
-	const { name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
+	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = root;
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 
-	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name));
+	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name)).epilogue(description);
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 	const options = commandDirOptions(graph, ignoreCommands);
@@ -112,7 +112,7 @@ export async function setup(config: Config = {}) {
 			describe: 'Run workspace-specific commands',
 			command: '$0',
 			aliases: ['workspace', 'ws'],
-			builder: workspaceBuilder(graph, subcommandDir || 'commands', name),
+			builder: workspaceBuilder(graph, subcommandDir || 'commands'),
 			// This handler is a no-op because the builder demands N+1 command(s) be input
 			handler: () => {},
 		});

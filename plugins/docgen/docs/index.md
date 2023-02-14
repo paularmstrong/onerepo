@@ -26,6 +26,7 @@ Generate documentation for this CLI.
 
 ```sh
 one docgen [options]
+one docgen [options]
 ```
 
 Help documentation should always be easy to find. This command will help automate the creation of docs for this commandline interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!

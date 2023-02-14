@@ -26,6 +26,7 @@ Run unit tests
 
 ```sh
 one vitest test [file-patterns] [options]
+one vitest [options]
 ```
 
 This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.
@@ -44,7 +45,7 @@ This command also accepts any argument that [vitest accepts](https://vitest.dev/
 Run vitest in --watch mode.
 
 ```sh
-$0 test --watch
+one vitest test --watch
 ```
 
 <!-- end-onerepo-sentinel -->

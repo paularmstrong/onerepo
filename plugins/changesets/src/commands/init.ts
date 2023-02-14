@@ -6,7 +6,8 @@ export const command = 'init';
 
 export const description = 'Initialize changesets for this repository.';
 
-export const builder: Builder = (yargs) => yargs.epilogue('You should only ever have to do this once.');
+export const builder: Builder = (yargs) =>
+	yargs.usage('$0 init').epilogue('You should only ever have to do this once.');
 
 export const handler: Handler = async (argv, { graph, logger }) => {
 	const step = logger.createStep('Check for existing configurations');
