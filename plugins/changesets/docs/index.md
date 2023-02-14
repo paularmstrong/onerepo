@@ -18,6 +18,10 @@ const { changesets } = require('@onerepo/plugin-changesets');
 })();
 ```
 
+## Build requirement
+
+This plugin _requires_ a top-level command, `build` that accepts a list of workspaces using the `withWorkspaces()` builder.
+
 <!-- start-onerepo-sentinel -->
 
 ## `one changesets`
@@ -91,5 +95,30 @@ one changesets prerelease
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |
 | `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
 | `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+
+### `one changesets publish`
+
+Aliases: `release`
+
+Publish all workspaces with versions not available in the registry.
+
+```sh
+one changesets publish [options]
+```
+
+| Option    | Type                       | Description                                           | Required |
+| --------- | -------------------------- | ----------------------------------------------------- | -------- |
+| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
+| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
 
 <!-- end-onerepo-sentinel -->
