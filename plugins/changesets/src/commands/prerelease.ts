@@ -41,12 +41,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	});
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
-		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
+		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location } as Package)
 	);
 	const packages: Packages = {
 		tool: 'root',
 		packages: packageList,
-		root: { packageJson: graph.root.packageJson, dir: graph.root.location } as Package,
+		root: { packageJson: applyPublishConfig(graph.root.packageJson), dir: graph.root.location } as Package,
 	};
 
 	const config = await readConfig(graph.root.location, packages);
@@ -106,12 +106,6 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			runDry: true,
 		});
 	}
-
-	const configStep = logger.createStep('Apply publishConfig');
-	for (const workspace of workspaces) {
-		await applyPublishConfig(workspace, { step: configStep });
-	}
-	await configStep.end();
 
 	if (!isDry) {
 		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);

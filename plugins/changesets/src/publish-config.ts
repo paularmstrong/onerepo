@@ -5,23 +5,22 @@ import type { PublicPackageJson, Workspace } from '@onerepo/graph';
 
 type Options = {
 	step?: Step;
+	write?: boolean;
 };
 
 const availableKeys = ['bin', 'main', 'module', 'typings', 'exports'];
 
-export function applyPublishConfig(workspace: Workspace, { step }: Options = {}) {
-	return stepWrapper({ step, name: `Apply publishConfig to ${workspace.name}` }, async (step) => {
-		const { devDependencies, publishConfig = {}, ...newPackageJson } = workspace.packageJson as PublicPackageJson;
+export function applyPublishConfig(packageJson: PublicPackageJson): PublicPackageJson {
+	const { devDependencies, publishConfig = {}, ...newPackageJson } = packageJson;
 
-		for (const key of availableKeys) {
-			if (key in publishConfig) {
-				// @ts-ignore it's okay, probably
-				newPackageJson[key] = publishConfig[key];
-			}
+	for (const key of availableKeys) {
+		if (key in publishConfig) {
+			// @ts-ignore it's okay, probably
+			newPackageJson[key] = publishConfig[key];
 		}
+	}
 
-		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step });
-	});
+	return newPackageJson;
 }
 
 export function resetPackageJson(workspace: Workspace, { step }: Options = {}) {

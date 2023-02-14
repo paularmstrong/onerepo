@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import { write } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
 import type { Workspace } from '@onerepo/graph';
@@ -93,7 +94,8 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 
 	const configStep = logger.createStep('Apply publishConfig');
 	for (const workspace of publishable) {
-		await applyPublishConfig(workspace, { step: configStep });
+		const newPackageJson = applyPublishConfig(workspace.packageJson);
+		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step: configStep });
 	}
 	await configStep.end();
 
