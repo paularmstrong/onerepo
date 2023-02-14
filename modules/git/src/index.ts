@@ -73,17 +73,28 @@ export async function getMergeBase({ step }: Options = {}) {
 	});
 }
 
-export async function getModifiedFiles(from?: string, through?: string, { step }: Options = {}) {
-	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
-		const base = await (from ?? getMergeBase({ step }));
-		const currentSha = await (through ?? getCurrentSha({ step }));
-
+export async function getStatus({ step }: Options = {}) {
+	return stepWrapper({ step, name: 'Get current changes' }, async (step) => {
 		const [currentStatus] = await run({
 			name: 'Checking for changes',
 			cmd: 'git',
 			args: ['status', '--porcelain'],
 			step,
+			runDry: true,
 		});
+
+		return currentStatus;
+	});
+}
+
+export async function getModifiedFiles(from?: string, through?: string, { step }: Options = {}) {
+	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
+		const base = await (from ?? getMergeBase({ step }));
+		const currentSha = await (through ?? getCurrentSha({ step }));
+
+		const isMain = base === currentSha;
+
+		const currentStatus = await getStatus({ step });
 
 		const hasUncommittedChanges = Boolean(currentStatus.trim()) && !from && !through;
 
@@ -92,10 +103,17 @@ export async function getModifiedFiles(from?: string, through?: string, { step }
 			const [modified] = await run({
 				name: 'Getting modified files',
 				cmd: 'git',
-				args:
-					hasUncommittedChanges || base === currentSha
-						? ['diff', '--name-status', base]
-						: ['diff-tree', '-r', '--name-status', '--no-commit-id', base, 'HEAD'],
+				args: hasUncommittedChanges
+					? ['diff', '--name-status', base]
+					: [
+							'diff-tree',
+							'-r',
+							'--name-status',
+							'--no-commit-id',
+							isMain ? `${currentSha}^` : base,
+							isMain ? currentSha : 'HEAD',
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  ],
 				step,
 			});
 			changes = modified;
