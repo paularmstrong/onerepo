@@ -23,7 +23,7 @@
 		"@types/eslint": "^8",
 		"esbuild": "^0.17.5",
 		"esbuild-register": "^3.4.2",
-		"eslint": "^8.32.0",
+		"eslint": "^8.34.0",
 		"husky": "^8.0.0",
 		"onerepo": "workspace:^",
 		"prettier": "^2.8.4",
