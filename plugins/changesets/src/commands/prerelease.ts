@@ -6,6 +6,7 @@ import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
+import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 
@@ -88,17 +89,13 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	const releases: ReleasePlan['releases'] = workspaces.map((ws) => ({
 		name: ws.name,
 		type: 'none',
-		oldVersion: ws.name,
+		oldVersion: ws.version!,
 		newVersion,
 		changesets: [],
 	}));
 
 	logger.debug('Chosen releases:');
 	logger.debug(releases);
-
-	if (!isDry) {
-		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);
-	}
 
 	// TODO: how to ensure that there is a build command?
 	if (build) {
@@ -108,6 +105,16 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			args: ['build', '-w', ...workspaces.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
 			runDry: true,
 		});
+	}
+
+	const configStep = logger.createStep('Apply publishConfig');
+	for (const workspace of workspaces) {
+		await applyPublishConfig(workspace, { step: configStep });
+	}
+	await configStep.end();
+
+	if (!isDry) {
+		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);
 	}
 
 	let otp: string | void;
@@ -129,25 +136,17 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		workspaces.map((ws) => ({
 			name: `Publish ${ws.name}`,
 			cmd: 'npm',
-			args: [
-				'publish',
-				'--access',
-				'public',
-				'--tag',
-				'prerelease',
-				...(otp ? ['--otp', otp] : []),
-				...(isDry ? ['--dry-run'] : []),
-			],
+			args: ['publish', '--tag', 'prerelease', ...(otp ? ['--otp', otp] : []), ...(isDry ? ['--dry-run'] : [])],
 			opts: {
-				cwd: ws.resolve('dist'),
+				cwd: ws.location,
 			},
 			runDry: true,
 		}))
 	);
 
-	await run({
-		name: 'Reset package.json files',
-		cmd: 'git',
-		args: ['restore', ...workspaces.map((ws) => ws.resolve('package.json'))],
-	});
+	const resetStep = logger.createStep('Reset package.jsons');
+	for (const workspace of workspaces) {
+		await resetPackageJson(workspace, { step: resetStep });
+	}
+	await resetStep.end();
 };
