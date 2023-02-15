@@ -1,9 +1,9 @@
 import type { Plugin } from '@onerepo/cli';
 import * as cmd from './commands/tasks';
 
-type Options = {
+export type Options = {
 	ignore?: Array<string>;
-	lifecycles: Array<string>;
+	lifecycles?: Array<string>;
 };
 
 export function tasks(opts: Options = { lifecycles: ['pre-commit', 'pull-request'] }): Plugin {

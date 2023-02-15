@@ -312,6 +312,16 @@ Verify the integrity of the repo’s dependency graph.
 one graph verify
 ```
 
+<details>
+
+<summary>Advanced options</summary>
+
+| Option            | Type     | Description                        | Required |
+| ----------------- | -------- | ---------------------------------- | -------- |
+| `--custom-schema` | `string` | Path to a custom schema definition |          |
+
+</details>
+
 ### `one install`
 
 Install the oneRepo CLI into your environment.

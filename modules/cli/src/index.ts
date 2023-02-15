@@ -6,6 +6,9 @@ import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
+import type { Options as GraphOptions } from '@onerepo/plugin-graph';
+import type { Options as InstallOptions } from '@onerepo/plugin-install';
+import type { Options as TasksOptions } from '@onerepo/plugin-tasks';
 
 type PluginObject = {
 	commandDir?: string;
@@ -14,11 +17,13 @@ type PluginObject = {
 export type Plugin = PluginObject | ((config: Config) => PluginObject);
 
 export interface Config {
-	// todo: make type safe
+	/**
+	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
+	 */
 	core?: {
-		graph?: Record<string, unknown> | false;
-		install?: Record<string, unknown> | false;
-		tasks?: Record<string, unknown> | false;
+		graph?: GraphOptions | false;
+		install?: InstallOptions | false;
+		tasks?: TasksOptions | false;
 	};
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
