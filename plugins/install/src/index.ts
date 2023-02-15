@@ -1,7 +1,7 @@
 import type { Config, Plugin } from '@onerepo/cli';
 import * as cmd from './commands/install';
 
-type Options = {
+export type Options = {
 	name?: string | Array<string>;
 };
 
