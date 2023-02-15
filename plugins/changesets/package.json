@@ -2,6 +2,11 @@
 	"name": "@onerepo/plugin-changesets",
 	"version": "0.0.0",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git"
+	},
+	"homepage": "https://onerepo.tools/docs/plugins/changesets/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {
