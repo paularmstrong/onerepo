@@ -278,9 +278,9 @@ To create new templates add a new folder to commands/templates and create a `.on
 
 <summary>Advanced options</summary>
 
-| Option            | Type                                                                          | Description           | Required |
-| ----------------- | ----------------------------------------------------------------------------- | --------------------- | -------- |
-| `--templates-dir` | `string`, default: `"/Users/paularms/development/onerepo/commands/templates"` | Path to the templates | ✅       |
+| Option            | Type                                                                               | Description           | Required |
+| ----------------- | ---------------------------------------------------------------------------------- | --------------------- | -------- |
+| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates | ✅       |
 
 </details>
 
@@ -359,20 +359,6 @@ one lint [options]
 | `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
 
 </details>
-
-### `one publish`
-
-Build public workspaces using esbuild.
-
-```sh
-one publish [options]
-```
-
-| Option    | Type                       | Description                                           | Required |
-| --------- | -------------------------- | ----------------------------------------------------- | -------- |
-| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
-| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
-| `--pre`   | `boolean`                  | Create a pre-release                                  |          |
 
 ### `one tasks`
 
