@@ -37,7 +37,7 @@ const { typescript } = require('@onerepo/plugin-typescript');
 					safeWrite: true,
 				}),
 				generate({
-					templatesDir: path.join(__dirname, '..', 'commands', 'templates'),
+					templatesDir: path.join(__dirname, '..', 'config', 'templates'),
 				}),
 				typescript({ tsconfig: 'tsconfig.json' }),
 			],

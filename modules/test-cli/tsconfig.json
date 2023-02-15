@@ -1,7 +1,7 @@
 {
 	"extends": "@onerepo/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "dist",
+		"outDir": "./dist/",
 		"composite": true,
 		"types": ["vitest/globals"]
 	},

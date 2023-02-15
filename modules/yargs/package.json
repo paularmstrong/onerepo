@@ -15,7 +15,9 @@
 		"typings": "./dist/src/index.d.ts"
 	},
 	"files": [
-		"dist/*"
+		"./dist/*",
+		"./README.md",
+		"./CHANGELOG.md"
 	],
 	"dependencies": {
 		"@onerepo/logger": "0.0.0"
