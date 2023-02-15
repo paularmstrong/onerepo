@@ -4,6 +4,7 @@ import { write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import path from 'node:path';
 import { toMarkdown } from '../markdown';
+import type { Docs } from '../yargs';
 
 export const command = 'docgen';
 
@@ -64,7 +65,7 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Start at the given command, skip the root and any others',
 		});
 
-export const handler: Handler<Args> = async function handler(argv, { graph }) {
+export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const {
 		add,
 		bin = process.argv[1],
@@ -90,8 +91,20 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', path.resolve(bin)],
 	});
 
-	const docs = JSON.parse(out);
-	const outputDocs = command ? docs.commands[command] : docs;
+	const docs = JSON.parse(out) as Docs;
+	let outputDocs: Docs | undefined = docs;
+	if (command) {
+		if (command in docs.commands) {
+			outputDocs = docs.commands[command];
+		} else {
+			outputDocs = Object.values(docs.commands).find((cmd) => cmd.aliases?.includes(command));
+		}
+	}
+
+	if (!outputDocs) {
+		logger.error(`Coulid not find command "${command}" in CLI`);
+		return;
+	}
 
 	const output = format === 'markdown' ? toMarkdown(outputDocs) : JSON.stringify(outputDocs);
 
