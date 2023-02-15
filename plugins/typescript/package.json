@@ -9,6 +9,16 @@
 	"homepage": "https://onerepo.tools/docs/plugins/typescript",
 	"type": "module",
 	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
 	"dependencies": {
 		"@onerepo/builders": "0.0.0",
 		"@onerepo/cli": "0.0.0",

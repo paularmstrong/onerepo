@@ -267,7 +267,7 @@ Generate workspaces from template directories.
 one generate [options]
 ```
 
-To create new templates add a new folder to commands/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/
+To create new templates add a new folder to config/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/docs/plugins/generate/
 
 | Option         | Type     | Description                                                                                  | Required |
 | -------------- | -------- | -------------------------------------------------------------------------------------------- | -------- |
@@ -278,9 +278,9 @@ To create new templates add a new folder to commands/templates and create a `.on
 
 <summary>Advanced options</summary>
 
-| Option            | Type                                                                               | Description           | Required |
-| ----------------- | ---------------------------------------------------------------------------------- | --------------------- | -------- |
-| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/commands/templates"` | Path to the templates | ✅       |
+| Option            | Type                                                                             | Description           | Required |
+| ----------------- | -------------------------------------------------------------------------------- | --------------------- | -------- |
+| `--templates-dir` | `string`, default: `"/Users/paularmstrong/development/onerepo/config/templates"` | Path to the templates | ✅       |
 
 </details>
 

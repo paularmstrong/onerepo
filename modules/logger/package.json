@@ -15,7 +15,9 @@
 		"typings": "./dist/src/index.d.ts"
 	},
 	"files": [
-		"dist/*"
+		"./dist/*",
+		"./README.md",
+		"./CHANGELOG.md"
 	],
 	"dependencies": {
 		"log-update": "^5.0.1",
