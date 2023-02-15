@@ -411,11 +411,15 @@ one test --watch
 
 ### `one tsc`
 
+Aliases: `typescript`, `typecheck`
+
 Run typescript checking across workspaces
 
 ```sh
 one tsc [options]
 ```
+
+Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.
 
 | Option               | Type      | Description                                                                                 | Required |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
@@ -427,10 +431,11 @@ one tsc [options]
 
 <summary>Advanced options</summary>
 
-| Option          | Type     | Description                                               | Required |
-| --------------- | -------- | --------------------------------------------------------- | -------- |
-| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+| Option          | Type                                 | Description                                               | Required |
+| --------------- | ------------------------------------ | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--tsconfig`    | `string`, default: `"tsconfig.json"` | The filename of the tsconfig to find in each workspace.   |          |
 
 </details>
 

@@ -11,6 +11,7 @@ const { eslint } = require('@onerepo/plugin-eslint');
 const { vitest } = require('@onerepo/plugin-vitest');
 const { prettier } = require('@onerepo/plugin-prettier');
 const { generate } = require('@onerepo/plugin-generate');
+const { typescript } = require('@onerepo/plugin-typescript');
 
 (async () => {
 	const { run } = await setup(
@@ -37,6 +38,7 @@ const { generate } = require('@onerepo/plugin-generate');
 				generate({
 					templatesDir: path.join(__dirname, '..', 'commands', 'templates'),
 				}),
+				typescript({ tsconfig: 'tsconfig.json' }),
 			],
 		}
 	);

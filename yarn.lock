@@ -1487,6 +1487,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/plugin-typescript@workspace:^, @onerepo/plugin-typescript@workspace:plugins/typescript":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/plugin-typescript@workspace:plugins/typescript"
+  dependencies:
+    "@onerepo/builders": 0.0.0
+    "@onerepo/cli": 0.0.0
+    "@onerepo/subprocess": 0.0.0
+    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/types": 0.0.0
+    "@onerepo/vitest": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/plugin-vitest@workspace:^, @onerepo/plugin-vitest@workspace:plugins/vitest":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
@@ -1524,6 +1537,7 @@ __metadata:
     "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
+    "@onerepo/plugin-typescript": "workspace:^"
     "@onerepo/plugin-vitest": "workspace:^"
     "@onerepo/prettier-config": "workspace:^"
     "@onerepo/vitest": "workspace:^"
