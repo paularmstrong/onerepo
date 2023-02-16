@@ -55,7 +55,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 
 	logger.debug(`found changesets:\n${JSON.stringify(filteredChangesets)}`);
 
-	const releasePlan = assembleReleasePlan([], packages, config, undefined);
+	const releasePlan = assembleReleasePlan(filteredChangesets, packages, config, undefined);
 
 	logger.debug(`Made release plan: ${JSON.stringify(releasePlan)}`);
 
