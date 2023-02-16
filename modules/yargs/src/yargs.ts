@@ -5,7 +5,7 @@ import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
 import { getAffected, getFilepaths, getWorkspaces } from './getters';
 import type { GetterArgv } from './getters';
-import { setEnvironmentMiddleware, sudoCheckMiddleware, worktreeMiddleware } from './middleware';
+import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 import type { Arguments, DefaultArgv, Yargs } from '@onerepo/types';
 
 export function setupYargs(yargs: Yargv): Yargs {
@@ -44,7 +44,6 @@ export function setupYargs(yargs: Yargv): Yargs {
 			hidden: true,
 			type: 'boolean',
 		})
-		.middleware(worktreeMiddleware, true)
 		.middleware(setEnvironmentMiddleware, true)
 		.middleware(sudoCheckMiddleware(yargs), true)
 		.wrap(Math.min(160, process.stdout.columns))

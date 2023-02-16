@@ -1,5 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Yargs } from '@onerepo/types';
 import createYargs from 'yargs/yargs';
@@ -78,7 +80,7 @@ export async function setup(config: Config = {}) {
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
 
-	process.env.ONE_REPO_ROOT = root;
+	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 
 	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name)).epilogue(description);
@@ -142,4 +144,29 @@ function patchCommandDir(options: RequireDirectoryOptions, commandDir: Yargs['co
 		returnYargs.commandDir = patchCommandDir(options, returnYargs.commandDir);
 		return returnYargs;
 	};
+}
+
+function getActualRoot(root: string) {
+	const rel = path.relative(root, process.cwd());
+	if (rel.includes('..')) {
+		try {
+			const out = execSync('git rev-parse --git-dir', { cwd: process.cwd() });
+			const gitDir = out.toString().trim();
+
+			if (path.relative(root, gitDir).includes('..')) {
+				throw new Error('Not in a valid worktree');
+			}
+
+			if (/\/worktrees\//.test(gitDir)) {
+				const newRoot = readFileSync(path.join(gitDir, 'gitdir'));
+				return path.dirname(newRoot.toString().trim());
+			}
+			throw new Error('Not a valid worktree');
+		} catch (e) {
+			throw new Error(
+				`\nPlease change your working directory to a valid worktree or the repo root to continue:\n $ cd ${root}\n\n`
+			);
+		}
+	}
+	return root;
 }
