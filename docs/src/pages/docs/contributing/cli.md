@@ -278,9 +278,9 @@ To create new templates add a new folder to config/templates and create a `.oneg
 
 <summary>Advanced options</summary>
 
-| Option            | Type                                                                        | Description           | Required |
-| ----------------- | --------------------------------------------------------------------------- | --------------------- | -------- |
-| `--templates-dir` | `string`, default: `"/Users/paularms/development/onerepo/config/templates"` | Path to the templates | ✅       |
+| Option            | Type                                    | Description           | Required |
+| ----------------- | --------------------------------------- | --------------------- | -------- |
+| `--templates-dir` | `string`, default: `"config/templates"` | Path to the templates | ✅       |
 
 </details>
 

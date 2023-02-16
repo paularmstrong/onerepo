@@ -11,7 +11,7 @@ const { changesets } = require('@onerepo/plugin-changesets');
 	const { run } = await setup(
 		/** @type import('onerepo').Config */
 		{
-			root: path.join(__dirname, '..'),
+			root: path.join(__dirname, '..', '..', '..'),
 			subcommandDir: false,
 			core: {
 				graph: false,
