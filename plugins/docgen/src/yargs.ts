@@ -40,6 +40,7 @@ export interface Option {
 	implied?: Array<string>;
 	name: string;
 	nargs: number;
+	normalize: boolean;
 	required: boolean;
 	type: string;
 }
@@ -258,8 +259,9 @@ export class Yargs {
 	}
 
 	default(key: string, value: unknown) {
-		if (key in this.#options) {
-			this.#options[key] = { ...this.#options[key], default: value };
+		if (key in this.#options && value !== undefined) {
+			const normalized = this.#options[key].normalize ? path.relative(this._filePath, value as string) : value;
+			this.#options[key] = { ...this.#options[key], default: normalized };
 		}
 		return this;
 	}
@@ -347,7 +349,9 @@ export class Yargs {
 	}
 
 	// Irrelevant
-	normalize() {
+	normalize(key: string) {
+		this.#options[key] = { ...this.#options[key], normalize: true };
+		this.default(key, this.#options[key].default);
 		return this;
 	}
 
@@ -366,6 +370,7 @@ export class Yargs {
 			group: option.group || '',
 			hidden: Boolean(option.hidden),
 			name: key,
+			normalize: option.normalize ?? false,
 			nargs: option.nargs || 1,
 			required: false,
 			type: `${option.type}`,
@@ -379,6 +384,8 @@ export class Yargs {
 		option.implies && this.implies(key, option.implies as Array<string>);
 		option.number && this.number(key);
 		option.string && this.string(key);
+
+		option.normalize && option.default && this.default(key, option.default);
 
 		// Reset because this takes precedence
 		if (option.type) {
