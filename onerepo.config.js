@@ -15,4 +15,7 @@ export default {
 	'post-checkout': {
 		sequential: ['yarn'],
 	},
+	build: {
+		sequential: ['$0 build'],
+	},
 };

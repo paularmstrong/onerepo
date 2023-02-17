@@ -6,4 +6,7 @@ export default {
 	'pull-request': {
 		sequential: [{ match: '**/*.{astro}', cmd: '$0 ws docs astro -- check' }],
 	},
+	build: {
+		sequential: ['$0 ws docs astro -- build'],
+	},
 };
