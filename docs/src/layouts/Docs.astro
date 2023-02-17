@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import Prose from '../components/Prose.astro';
+import Sidebar from '../components/Sidebar.astro';
 
 export interface Props {
 	description?: string;
@@ -11,6 +12,7 @@ const { description, title } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
+	<Sidebar />
 	<Prose>
 		<slot />
 	</Prose>

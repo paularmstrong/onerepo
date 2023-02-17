@@ -1,0 +1,23 @@
+---
+const plugins = await Astro.glob('../../../plugins/*/docs/index.{md,mdx}');
+---
+
+<nav>
+	<ul>
+		{
+			plugins.map((plugin) => {
+				const slug = plugin.file.split('plugins/')[1].split('/')[0];
+				return (
+					<li>
+						<a
+							class="block rounded px-2 py-1 text-pink-600 hover:bg-pink-700/60 hover:text-white"
+							href={`/docs/plugins/${slug}/`}
+						>
+							{plugin.frontmatter.title}
+						</a>
+					</li>
+				);
+			})
+		}
+	</ul>
+</nav>

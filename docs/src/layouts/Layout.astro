@@ -1,5 +1,6 @@
 ---
 import Head from '../components/Head.astro';
+import Header from '../components/Header.astro';
 
 export interface Props {
 	description?: string;
@@ -15,15 +16,7 @@ const { description, title } = Astro.props;
 		<Head title={title} description={description} />
 	</head>
 	<body>
-		<header>
-			<h1><a href="/">oneRepo</a></h1>
-			<nav>
-				<ul>
-					<li><a href="/docs/">Documentation</a></li>
-					<li><a href="/docs/plugins/">Plugins</a></li>
-				</ul>
-			</nav>
-		</header>
+		<Header />
 		<slot />
 	</body>
 </html>

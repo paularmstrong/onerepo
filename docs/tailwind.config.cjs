@@ -19,7 +19,7 @@ module.exports = {
 			},
 		},
 		{
-			handler: function ({ addBase, theme }) {
+			handler: function ({ addBase, addComponents, theme }) {
 				addBase({
 					'[id]': {
 						position: 'relative',
@@ -66,6 +66,13 @@ module.exports = {
 						},
 					},
 				});
+
+				addComponents({
+					'.logo': {
+						backgroundSize: '200%',
+						maskImage: 'url(/oneRepo.svg)',
+					},
+				});
 			},
 		},
 	],
@@ -77,6 +84,19 @@ module.exports = {
 			8: '8',
 		},
 		extend: {
+			animation: {
+				gradient: 'gradient 1.5s ease infinite',
+			},
+			keyframes: {
+				gradient: {
+					'0%, 100%': {
+						backgroundPosition: '100% 0%',
+					},
+					'50%': {
+						backgroundPosition: '0% 50%',
+					},
+				},
+			},
 			// @ts-ignore
 			typography: ({ theme }) => ({
 				DEFAULT: {
@@ -91,7 +111,7 @@ module.exports = {
 						'--tw-prose-headings': theme('colors.pink[600]'),
 						'--tw-prose-lead': theme('colors.pink[700]'),
 						'--tw-prose-links': theme('colors.cyan[500]'),
-						'--tw-prose-bold': theme('colors.pink[900]'),
+						'--tw-prose-bold': theme('colors.pink[700]'),
 						'--tw-prose-counters': theme('colors.pink[600]'),
 						'--tw-prose-bullets': theme('colors.pink[400]'),
 						'--tw-prose-hr': theme('colors.pink[300]'),
