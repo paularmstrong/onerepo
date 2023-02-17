@@ -7,26 +7,12 @@ type: core
 
 ## Configuration
 
-First, configure the available `lifecycles` that the task runner has access to:
+This is a core plugin, meaning not additional steps are required to enable it in your oneRepo CLI. Tasks comes pre-configured with a set of common lifecycles that most JavaScript repositories tend to use.
 
-```js {3-7}
-(async () => {
-	const { run } = await setup({
-		core: {
-			tasks: {
-				lifecycles: ['pre-commit', 'pull-request'],
-			},
-		},
-	});
-
-	await run();
-})();
-```
-
-Next, create a `onerepo.config.js` file in your root workspace
+Next, create a `onerepo.config.js` file in your root workspace.
 
 ```js title="onerepo.config.js"
-/** @type import('@onerepo/graph').TaskConfig<'pre-commit' | 'pull-request'> */
+/** @type import('@onerepo/graph').TaskConfig */
 export default {
 	'pre-commit': {
 		sequential: [{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --add' }, '$0 format --add', '$0 tsc'],
@@ -41,6 +27,30 @@ export default {
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 };
+```
+
+### Adding more lifecycles
+
+First, configure the available `lifecycles` that the task runner has access to:
+
+```js {3-7}
+(async () => {
+	const { run } = await setup({
+		core: {
+			tasks: {
+				lifecycles: ['tacos', 'burritos'],
+			},
+		},
+	});
+
+	await run();
+})();
+```
+
+Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos`, `burritos`, and any variant of those with `pre-` or `post-` prefixes.
+
+```sh
+one tasks -c pre-tacos
 ```
 
 ## Workflows
@@ -125,12 +135,18 @@ So you have decided that `tasks` are not for you? That’s okay. You can deactiv
 
 ## `one tasks`
 
-Run tasks
+Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.
 
-| Option              | Type      | Description                                                            | Required |
-| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
-| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
+```sh
+one tasks --lifecycle=<lifecycle> [options]
+```
+
+You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
+
+| Option              | Type      | Description                                                                                                 | Required |
+| ------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| `--lifecycle`, `-c` | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
+| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
 
 <details>
 

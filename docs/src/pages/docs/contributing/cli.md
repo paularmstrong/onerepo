@@ -372,12 +372,18 @@ one lint [options]
 
 ### `one tasks`
 
-Run tasks
+Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.
 
-| Option              | Type      | Description                                                            | Required |
-| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
-| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
+```sh
+one tasks --lifecycle=<lifecycle> [options]
+```
+
+You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
+
+| Option              | Type      | Description                                                                                                 | Required |
+| ------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| `--lifecycle`, `-c` | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
+| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
 
 <details>
 

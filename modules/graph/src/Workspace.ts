@@ -4,6 +4,7 @@ export class Workspace {
 	#packageJson: PackageJson;
 	#location: string;
 	#rootLocation: string;
+	#tasks: TaskConfig | null = null;
 
 	constructor(rootLocation: string, location: string, packageJson: PackageJson) {
 		this.#rootLocation = rootLocation;
@@ -80,9 +81,13 @@ export class Workspace {
 	}
 
 	get tasks(): TaskConfig {
+		if (this.#tasks) {
+			return this.#tasks;
+		}
 		try {
 			const mod = require(this.resolve('onerepo.config'));
-			return mod.default ?? mod ?? {};
+			this.#tasks = mod.default ?? mod ?? {};
+			return this.#tasks!;
 		} catch (e) {
 			return {} as TaskConfig;
 		}
@@ -165,4 +170,8 @@ export type Tasks = {
 	parallel?: Array<Task>;
 };
 
-export type TaskConfig<T extends string = never> = Partial<Record<T, Tasks>>;
+export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
+type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
+export type Lifecycle = MakeLifecycles<StandardLifecycles>;
+
+export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

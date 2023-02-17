@@ -15,7 +15,10 @@ export function tasks(opts: Options = { lifecycles: ['pre-commit', 'pull-request
 				description,
 				(yargs) =>
 					builder(yargs)
-						.choices('lifecycle', opts.lifecycles)
+						.choices(
+							'lifecycle',
+							[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i)
+						)
 						.default('ignore', ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml', ...(opts.ignore ?? [])]),
 				handler
 			);
