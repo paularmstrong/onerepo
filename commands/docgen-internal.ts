@@ -34,7 +34,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 			continue;
 		}
 
-		const outFile = ws.resolve('docs', 'index.md');
+		const outFile = ws.resolve('README.md');
 		outFiles.push(outFile);
 
 		generators.push({
