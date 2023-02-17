@@ -16,6 +16,6 @@ export default {
 		sequential: ['yarn'],
 	},
 	build: {
-		sequential: ['$0 build'],
+		sequential: ['$0 build -w ${workspaces}'],
 	},
 };

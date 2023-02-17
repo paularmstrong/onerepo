@@ -87,7 +87,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		await run({
 			name: `Build workspaces`,
 			cmd: process.argv[1],
-			args: ['build', '-w', ...publishable.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
+			args: ['tasks', '-c', 'build', '-w', ...publishable.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
 			runDry: true,
 		});
 	}

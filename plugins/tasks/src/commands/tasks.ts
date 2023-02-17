@@ -5,6 +5,8 @@ import { batch, run } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import { logger } from '@onerepo/logger';
+import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
+import { withAffected, withWorkspaces } from '@onerepo/builders';
 
 export const command = 'tasks';
 
@@ -15,9 +17,8 @@ type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
-	'from-ref'?: string;
-	'through-ref'?: string;
-};
+} & WithWorkspaces &
+	WithAffected;
 
 export const lifecycles: Array<Lifecycle> = [
 	'pre-commit',
@@ -41,7 +42,7 @@ export const lifecycles: Array<Lifecycle> = [
 ];
 
 export const builder: Builder<Argv> = (yargs) =>
-	yargs
+	withAffected(withWorkspaces(yargs))
 		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
 		.epilogue(
 			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.'
@@ -64,26 +65,23 @@ export const builder: Builder<Argv> = (yargs) =>
 			string: true,
 			default: [],
 			hidden: true,
-		})
-		.option('from-ref', {
-			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
-			hidden: true,
-		})
-		.option('through-ref', {
-			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
-			hidden: true,
 		});
 
-export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
 	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
-	const affected = await getAffected({ from: fromRef, through: throughRef });
+	const requested = await getWorkspaces();
+	const requestedNames = requested.map((ws) => ws.name);
+	const affectedNames = graph.affected(requestedNames);
+	const affected = graph.getAllByName(affectedNames);
 	const runAll = affected.includes(graph.root);
-	logger.warn('Running all tasks because the root is in the affected list.');
+	if (runAll) {
+		logger.warn('Running all tasks because the root is in the affected list.');
+	} else {
+		logger.debug(`Running\n • ${affected.map((ws) => ws.name).join('\n • ')}`);
+	}
 
-	const { all: allFiles } = await git.getModifiedFiles();
+	const { all: allFiles } = await git.getModifiedFiles(fromRef, throughRef);
 	const files = allFiles.filter((file) => ignore.some((ignore) => !minimatch(file, ignore)));
 
 	const sequentialTasks: TaskSet = { pre: [], run: [], post: [] };
@@ -95,7 +93,7 @@ export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
 			hasTasks = true;
 			const match = force(task) || matchTask(task, files);
 			if (match) {
-				const spec = taskToSpec(graph, workspace, task);
+				const spec = taskToSpec(graph, workspace, task, affectedNames);
 				sequentialTasks[type].push(spec);
 			}
 		});
@@ -104,7 +102,7 @@ export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
 			hasTasks = true;
 			const match = force(task) || matchTask(task, files);
 			if (match) {
-				const spec = taskToSpec(graph, workspace, task);
+				const spec = taskToSpec(graph, workspace, task, affectedNames);
 				parallelTasks[type].push(spec);
 			}
 		});
@@ -187,9 +185,9 @@ export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(graph: Repository, workspace: Workspace, task: Task): ExtendedRunSpec {
+function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
-	const [cmd, ...args] = command.split(' ');
+	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
 	const bin = cmd === '$0' ? process.argv[1] : cmd;
 	const passthrough = [
@@ -201,6 +199,7 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task): Extend
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
+		// TODO: replace ${workspaces} with list of affected workspaces
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
 		meta: {

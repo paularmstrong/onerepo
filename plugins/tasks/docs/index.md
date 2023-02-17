@@ -53,6 +53,15 @@ Now, in any of your `onerepo.config.js` files, you will have the ability to run 
 one tasks -c pre-tacos
 ```
 
+### Special tokens
+
+Some tokens in tasks can be used as special replacement values that the `tasks` command will determine for you. This is most useful when using self-referential commands that need to know how to access the oneRepo CLI to run commands, like `$0 tsc` will your your repo’s `tsc` command.
+
+| Token           | Description and replacement                                                                                                               | Example                     |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `$0`            | Token for the repo’s oneRepo CLI. More specifically, `process.argv[1]`                                                                    | `$0 tsc`                    |
+| `${workspaces}` | The names of all affected workspaces will be spread comma-spaced. If you're using `withWorkspaces()`, use as `--workspaces ${workspaces}` | `$0 build -w ${workspaces}` |
+
 ## Workflows
 
 ### GitHub Actions
@@ -143,10 +152,13 @@ one tasks --lifecycle=<lifecycle> [options]
 
 You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
 
-| Option              | Type      | Description                                                                                                 | Required |
-| ------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
-| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
+| Option               | Type      | Description                                                                                                 | Required |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                 |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                   |          |
+| `--lifecycle`, `-c`  | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
+| `--list`             | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                      |          |
 
 <details>
 
