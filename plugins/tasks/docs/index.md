@@ -22,7 +22,7 @@ export default {
 			{ match: 'plugins/*/src/**/*', cmd: '$0 docgen-internal --add' },
 		],
 	},
-	'pull-request': {
+	'pre-merge': {
 		sequential: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
@@ -95,7 +95,7 @@ jobs:
       - name: Get tasks
         id: tasks
         run: |
-          TASKS=$(./bin/one.cjs tasks --lifecycle=pull-request --list -vvvvv)
+          TASKS=$(./bin/one.cjs tasks --lifecycle=pre-merge --list -vvvvv)
           echo ${TASKS}
           echo "tasks=${TASKS}" >> $GITHUB_OUTPUT
   tasks:
@@ -164,11 +164,11 @@ You can fine-tune the determination of affected workspaces by providing a `--fro
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                                                   | Description                                                               | Required |
-| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--from-ref`    | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
-| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
-| `--through-ref` | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| Option          | Type                                                                                   | Description                                                               | Required |
+| --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml",".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--through-ref` | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
 </details>
 

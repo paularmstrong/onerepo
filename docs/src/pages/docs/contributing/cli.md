@@ -392,11 +392,11 @@ You can fine-tune the determination of affected workspaces by providing a `--fro
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                                                   | Description                                                               | Required |
-| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--from-ref`    | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
-| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
-| `--through-ref` | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| Option          | Type                                                                                   | Description                                                               | Required |
+| --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml",".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--through-ref` | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
 </details>
 

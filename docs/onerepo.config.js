@@ -1,9 +1,9 @@
-/** @type import('@onerepo/graph').TaskConfig<'pre-commit' | 'pull-request'> */
+/** @type import('@onerepo/graph').TaskConfig */
 export default {
 	'pre-commit': {
 		sequential: [{ match: '**/*.{astro}', cmd: '$0 ws docs astro -- check' }],
 	},
-	'pull-request': {
+	'pre-merge': {
 		sequential: [{ match: '**/*.{astro}', cmd: '$0 ws docs astro -- check' }],
 	},
 	build: {
