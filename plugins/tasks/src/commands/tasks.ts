@@ -1,30 +1,59 @@
 import { minimatch } from 'minimatch';
 import type { Builder, Handler } from '@onerepo/types';
-import type { Repository, Task, Workspace } from '@onerepo/graph';
+import type { Lifecycle, Repository, Task, Tasks, Workspace } from '@onerepo/graph';
 import { batch, run } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import { logger } from '@onerepo/logger';
+import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
+import { withAffected, withWorkspaces } from '@onerepo/builders';
 
 export const command = 'tasks';
 
-export const description = 'Run tasks';
+export const description =
+	'Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.';
 
 type Argv = {
 	ignore: Array<string>;
-	lifecycle: string;
+	lifecycle: Lifecycle;
 	list?: boolean;
-	'from-ref'?: string;
-	'through-ref'?: string;
-};
+} & WithWorkspaces &
+	WithAffected;
+
+export const lifecycles: Array<Lifecycle> = [
+	'pre-commit',
+	'commit',
+	'post-commit',
+	'pre-checkout',
+	'checkout',
+	'post-checkout',
+	'pre-merge',
+	'merge',
+	'post-merge',
+	'pre-build',
+	'build',
+	'post-build',
+	'pre-deploy',
+	'deploy',
+	'post-deploy',
+	'pre-publish',
+	'publish',
+	'post-publish',
+];
 
 export const builder: Builder<Argv> = (yargs) =>
-	yargs
+	withAffected(withWorkspaces(yargs))
+		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
+		.epilogue(
+			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.'
+		)
 		.option('lifecycle', {
 			alias: 'c',
-			description: 'Task lifecycle to run',
+			description:
+				'Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles.',
 			demandOption: true,
 			type: 'string',
+			choices: lifecycles,
 		})
 		.option('list', {
 			description: 'List found tasks. Implies dry run and will not actually run any tasks.',
@@ -36,74 +65,116 @@ export const builder: Builder<Argv> = (yargs) =>
 			string: true,
 			default: [],
 			hidden: true,
-		})
-		.option('from-ref', {
-			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
-			hidden: true,
-		})
-		.option('through-ref', {
-			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
-			hidden: true,
 		});
 
-export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
 	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
-	const affected = await getAffected({ from: fromRef, through: throughRef });
+	const requested = await getWorkspaces();
+	const requestedNames = requested.map((ws) => ws.name);
+	const affectedNames = graph.affected(requestedNames);
+	const affected = graph.getAllByName(affectedNames);
 	const runAll = affected.includes(graph.root);
-	logger.warn('Running all tasks because the root is in the affected list.');
+	if (runAll) {
+		logger.warn('Running all tasks because the root is in the affected list.');
+	} else {
+		logger.debug(`Running\n • ${affected.map((ws) => ws.name).join('\n • ')}`);
+	}
 
-	const { all: allFiles } = await git.getModifiedFiles();
+	const { all: allFiles } = await git.getModifiedFiles(fromRef, throughRef);
 	const files = allFiles.filter((file) => ignore.some((ignore) => !minimatch(file, ignore)));
 
-	const sequentialTasks: Array<RunSpec> = [];
-	const parallelTasks: Array<RunSpec> = [];
+	const sequentialTasks: TaskSet = { pre: [], run: [], post: [] };
+	const parallelTasks: TaskSet = { pre: [], run: [], post: [] };
+	let hasTasks = false;
 
-	for (const workspace of Object.values(graph.workspaces)) {
-		logger.log(`Looking for tasks in ${workspace.name}`);
-		const { parallel, sequential } = workspace.getTasks(lifecycle);
-
-		const force = (task: Task) =>
-			runAll || (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
-
-		sequential.forEach((task) => {
+	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Required<Tasks>, type: keyof TaskSet) {
+		tasks.sequential.forEach((task) => {
+			hasTasks = true;
 			const match = force(task) || matchTask(task, files);
 			if (match) {
-				const spec = taskToSpec(graph, workspace, task);
-				sequentialTasks.push(spec);
+				const spec = taskToSpec(graph, workspace, task, affectedNames);
+				sequentialTasks[type].push(spec);
 			}
 		});
 
-		parallel.forEach((task) => {
+		tasks.parallel.forEach((task) => {
+			hasTasks = true;
 			const match = force(task) || matchTask(task, files);
 			if (match) {
-				const spec = taskToSpec(graph, workspace, task);
-				parallelTasks.push(spec);
+				const spec = taskToSpec(graph, workspace, task, affectedNames);
+				parallelTasks[type].push(spec);
 			}
 		});
 	}
 
+	for (const workspace of Object.values(graph.workspaces)) {
+		logger.log(`Looking for tasks in ${workspace.name}`);
+
+		const isPre = lifecycle.startsWith('pre-');
+		const isPost = lifecycle.startsWith('post-');
+
+		const force = (task: Task) =>
+			runAll || (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
+
+		if (isPre || !isPost) {
+			const tasks = workspace.getTasks(isPre ? lifecycle : `pre-${lifecycle}`);
+			addTasks(force, workspace, tasks, 'pre');
+		}
+
+		if (!isPre && !isPost) {
+			const tasks = workspace.getTasks(lifecycle);
+			addTasks(force, workspace, tasks, 'run');
+		}
+
+		if (isPost || !isPre) {
+			const tasks = workspace.getTasks(isPre ? lifecycle : `post-${lifecycle}`);
+			addTasks(force, workspace, tasks, 'post');
+		}
+	}
+
 	if (list) {
-		const all = [...parallelTasks, ...sequentialTasks];
+		const all = [
+			...parallelTasks.pre,
+			...sequentialTasks.pre,
+			...parallelTasks.run,
+			...sequentialTasks.run,
+			...parallelTasks.post,
+			...sequentialTasks.post,
+		];
 		logger.debug(JSON.stringify(all, null, 2));
 		process.stdout.write(JSON.stringify(all));
 		return;
 	}
 
-	if (!parallelTasks.length && !sequentialTasks.length) {
+	if (!hasTasks) {
 		logger.log(`No tasks to run`);
 		return;
 	}
 
 	try {
-		await batch(parallelTasks);
+		await batch(parallelTasks.pre);
+		await batch(parallelTasks.run);
+		await batch(parallelTasks.post);
 	} catch (e) {
 		// continue so all tasks run
 	}
 
-	for (const task of sequentialTasks) {
+	for (const task of sequentialTasks.pre) {
+		try {
+			await run(task);
+		} catch (e) {
+			// continue so all tasks run
+		}
+	}
+	for (const task of sequentialTasks.run) {
+		try {
+			await run(task);
+		} catch (e) {
+			// continue so all tasks run
+		}
+	}
+	for (const task of sequentialTasks.post) {
 		try {
 			await run(task);
 		} catch (e) {
@@ -114,9 +185,9 @@ export const handler: Handler<Argv> = async (argv, { getAffected, graph }) => {
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpec {
+function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
-	const [cmd, ...args] = command.split(' ');
+	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
 	const bin = cmd === '$0' ? process.argv[1] : cmd;
 	const passthrough = [
@@ -128,9 +199,12 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpe
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
+		// TODO: replace ${workspaces} with list of affected workspaces
 		args: [...args, ...passthrough],
-		opts: {
-			cwd: graph.root.relative(workspace.location) || '.',
+		opts: { cwd: graph.root.relative(workspace.location) || '.' },
+		meta: {
+			name: workspace.name,
+			slug: slugify(workspace.name),
 		},
 	};
 }
@@ -142,3 +216,10 @@ function matchTask(task: Task, files: Array<string>) {
 
 	return minimatch.match(files, task.match);
 }
+
+function slugify(str: string) {
+	return str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+}
+
+type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string } };
+type TaskSet = { pre: Array<ExtendedRunSpec>; run: Array<ExtendedRunSpec>; post: Array<ExtendedRunSpec> };

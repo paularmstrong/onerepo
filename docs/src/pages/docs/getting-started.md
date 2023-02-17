@@ -20,9 +20,6 @@ const { setup } = require('onerepo');
 		/** @type import('onerepo').Config */
 		{
 			root: path.join(__dirname, '..'),
-			core: {
-				tasks: { lifecycles: ['pre-commit', 'pull-request'] },
-			},
 		}
 	);
 

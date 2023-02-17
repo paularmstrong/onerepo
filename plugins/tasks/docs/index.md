@@ -7,26 +7,12 @@ type: core
 
 ## Configuration
 
-First, configure the available `lifecycles` that the task runner has access to:
+This is a core plugin, meaning not additional steps are required to enable it in your oneRepo CLI. Tasks comes pre-configured with a set of common lifecycles that most JavaScript repositories tend to use.
 
-```js {3-7}
-(async () => {
-	const { run } = await setup({
-		core: {
-			tasks: {
-				lifecycles: ['pre-commit', 'pull-request'],
-			},
-		},
-	});
-
-	await run();
-})();
-```
-
-Next, create a `onerepo.config.js` file in your root workspace
+Next, create a `onerepo.config.js` file in your root workspace.
 
 ```js title="onerepo.config.js"
-/** @type import('@onerepo/graph').TaskConfig<'pre-commit' | 'pull-request'> */
+/** @type import('@onerepo/graph').TaskConfig */
 export default {
 	'pre-commit': {
 		sequential: [{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --add' }, '$0 format --add', '$0 tsc'],
@@ -36,12 +22,45 @@ export default {
 			{ match: 'plugins/*/src/**/*', cmd: '$0 docgen-internal --add' },
 		],
 	},
-	'pull-request': {
+	'pre-merge': {
 		sequential: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 };
 ```
+
+### Adding more lifecycles
+
+First, configure the available `lifecycles` that the task runner has access to:
+
+```js {3-7}
+(async () => {
+	const { run } = await setup({
+		core: {
+			tasks: {
+				lifecycles: ['tacos', 'burritos'],
+			},
+		},
+	});
+
+	await run();
+})();
+```
+
+Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos`, `burritos`, and any variant of those with `pre-` or `post-` prefixes.
+
+```sh
+one tasks -c pre-tacos
+```
+
+### Special tokens
+
+Some tokens in tasks can be used as special replacement values that the `tasks` command will determine for you. This is most useful when using self-referential commands that need to know how to access the oneRepo CLI to run commands, like `$0 tsc` will your your repo’s `tsc` command.
+
+| Token           | Description and replacement                                                                                                               | Example                     |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `$0`            | Token for the repo’s oneRepo CLI. More specifically, `process.argv[1]`                                                                    | `$0 tsc`                    |
+| `${workspaces}` | The names of all affected workspaces will be spread comma-spaced. If you're using `withWorkspaces()`, use as `--workspaces ${workspaces}` | `$0 build -w ${workspaces}` |
 
 ## Workflows
 
@@ -76,7 +95,7 @@ jobs:
       - name: Get tasks
         id: tasks
         run: |
-          TASKS=$(./bin/one.cjs tasks --lifecycle=pull-request --list -vvvvv)
+          TASKS=$(./bin/one.cjs tasks --lifecycle=pre-merge --list -vvvvv)
           echo ${TASKS}
           echo "tasks=${TASKS}" >> $GITHUB_OUTPUT
   tasks:
@@ -125,22 +144,31 @@ So you have decided that `tasks` are not for you? That’s okay. You can deactiv
 
 ## `one tasks`
 
-Run tasks
+Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.
 
-| Option              | Type      | Description                                                            | Required |
-| ------------------- | --------- | ---------------------------------------------------------------------- | -------- |
-| `--lifecycle`, `-c` | `string`  | Task lifecycle to run                                                  | ✅       |
-| `--list`            | `boolean` | List found tasks. Implies dry run and will not actually run any tasks. |          |
+```sh
+one tasks --lifecycle=<lifecycle> [options]
+```
+
+You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
+
+| Option               | Type      | Description                                                                                                 | Required |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                 |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                   |          |
+| `--lifecycle`, `-c`  | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
+| `--list`             | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                      |          |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                                                   | Description                                                               | Required |
-| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--from-ref`    | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
-| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
-| `--through-ref` | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| Option          | Type                                                                                   | Description                                                               | Required |
+| --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| `--ignore`      | `array`, default: `["yarn.lock","package-lock.json","pnpm-lock.yaml",".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--through-ref` | `string`                                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
 </details>
 

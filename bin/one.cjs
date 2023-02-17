@@ -22,7 +22,7 @@ const { typescript } = require('@onerepo/plugin-typescript');
 			root: path.join(__dirname, '..'),
 			subcommandDir: 'commands',
 			core: {
-				tasks: { lifecycles: ['pre-commit', 'pull-request', 'post-checkout'] },
+				tasks: {},
 				graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
 			},
 			plugins: [

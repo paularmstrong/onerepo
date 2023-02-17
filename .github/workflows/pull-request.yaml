@@ -21,7 +21,7 @@ jobs:
       - name: Get tasks
         id: tasks
         run: |
-          TASKS=$(./bin/one.cjs tasks --lifecycle=pull-request --list -vvvvv)
+          TASKS=$(./bin/one.cjs tasks --lifecycle=pre-merge --list -vvvvv)
           echo ${TASKS}
           echo "tasks=${TASKS}" >> $GITHUB_OUTPUT
   tasks:
