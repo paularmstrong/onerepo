@@ -122,7 +122,7 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task): RunSpe
 	const passthrough = [
 		process.env.ONE_REPO_DRY_RUN === 'true' ? '--dry-run' : false,
 		'',
-		logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
+		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;
 
 	return {
