@@ -1,5 +1,5 @@
 /*
-  content-security-policy: base-uri 'self'; default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; frame-src 'self';
+  content-security-policy: base-uri 'self'; default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' https://www.netlify.com/v3/img; connect-src 'self'; frame-src 'self';
   accept-ch: sec-ch-prefers-color-scheme
   link: <https://onerepo.tools/>; rel=preconnect
   permissions-policy: ch-prefers-color-scheme=("https://onerepo.tools")
