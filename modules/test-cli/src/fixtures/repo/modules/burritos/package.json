@@ -1,4 +1,7 @@
 {
 	"name": "fixture-burritos",
+	"alias": [
+		"burritos"
+	],
 	"version": "4.5.2"
 }

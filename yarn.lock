@@ -1397,6 +1397,7 @@ __metadata:
     "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
     eslint: ^8.34.0
+    minimatch: ^6.2.0
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8
