@@ -42,7 +42,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			prefix: '📦',
 			message: `What workspaces would you like to add a changeset for?
 ${pc.dim(
-	'  Keep in mind that each changeset should be related to a single change. If you have made multiple changes, please run this command once for each change.'
+	'  Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.'
 )}
  `,
 			choices,

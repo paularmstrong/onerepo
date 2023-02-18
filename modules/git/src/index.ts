@@ -98,26 +98,23 @@ export async function getModifiedFiles(from?: string, through?: string, { step }
 
 		const hasUncommittedChanges = Boolean(currentStatus.trim()) && !from && !through;
 
-		let changes = currentStatus;
-		if (!hasUncommittedChanges) {
-			const [modified] = await run({
-				name: 'Getting modified files',
-				cmd: 'git',
-				args: hasUncommittedChanges
-					? ['diff', '--name-status', base]
-					: [
-							'diff-tree',
-							'-r',
-							'--name-status',
-							'--no-commit-id',
-							isMain ? `${currentSha}^` : base,
-							isMain ? currentSha : 'HEAD',
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ],
-				step,
-			});
-			changes = modified;
-		}
+		const [modified] = await run({
+			name: 'Getting modified files',
+			cmd: 'git',
+			args: hasUncommittedChanges
+				? ['diff', '--name-status', base]
+				: [
+						'diff-tree',
+						'-r',
+						'--name-status',
+						'--no-commit-id',
+						isMain ? `${currentSha}^` : base,
+						isMain ? currentSha : 'HEAD',
+						// eslint-disable-next-line no-mixed-spaces-and-tabs
+				  ],
+			step,
+		});
+		const changes = `${currentStatus}\n${modified}`;
 
 		const changeMap = changes
 			.trim()
