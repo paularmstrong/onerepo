@@ -1,9 +1,4 @@
----
-layout: '../../layouts/Docs.astro'
-title: Documentation
----
-
-# oneRepo documentation
+# oneRepo
 
 **oneRepo** is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence over all else.
 

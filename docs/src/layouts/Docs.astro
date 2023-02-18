@@ -12,13 +12,19 @@ const { description, title } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
-	<div class="grid grid-cols-12 gap-8 py-8 md:gap-12">
-		<div class="col-span-2"><div class="fixed"><Sidebar /></div></div>
+	<div class="grid grid-cols-12 gap-4 py-8 md:gap-8">
+		<div class="col-span-2">
+			<div class="max-h-screen overflow-y-scroll overscroll-contain">
+				<Sidebar />
+			</div>
+		</div>
 		<main class="col-span-8">
 			<Prose>
 				<slot />
 			</Prose>
 		</main>
-		<div class="col-span-2"><slot name="toc" /></div>
+		<div class="col-span-2">
+			<slot name="toc" />
+		</div>
 	</div>
 </Layout>

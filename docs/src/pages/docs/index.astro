@@ -1,0 +1,11 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const files = await Astro.glob('onerepo/README.md');
+
+const [{ Content }] = files;
+---
+
+<Docs title="Documentation">
+	<Content />
+</Docs>
