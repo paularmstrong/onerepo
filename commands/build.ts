@@ -1,4 +1,3 @@
-import glob from 'glob';
 import { batch, file, logger, withAffected, withWorkspaces } from 'onerepo';
 import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 
@@ -37,14 +36,22 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			continue;
 		}
 
-		const files = glob.sync(`${workspace.resolve('src')}/**/!(*.test).ts`);
+		const main = workspace.resolve(workspace.packageJson.main!);
 
 		removals.push(workspace.resolve('dist'));
 
 		buildProcs.push({
 			name: `Build ${workspace.name}`,
 			cmd: 'npx',
-			args: ['esbuild', ...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
+			args: [
+				'esbuild',
+				main,
+				'--bundle',
+				'--packages=external',
+				'--sourcemap',
+				`--outdir=${workspace.resolve('dist')}`,
+				'--format=esm',
+			],
 		});
 
 		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });
