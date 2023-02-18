@@ -42,6 +42,17 @@ export async function write(filename: string, contents: string, { step }: Option
 	});
 }
 
+export async function lstat(filename: string, { step }: Options = {}) {
+	return stepWrapper({ step, name: `Stat ${filename}` }, async () => {
+		try {
+			const stat = await fs.lstat(filename);
+			return stat;
+		} catch (e) {
+			return null;
+		}
+	});
+}
+
 export async function format(filename: string, contents: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Format ${filename}` }, async (step) => {
 		try {
