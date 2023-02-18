@@ -6,7 +6,7 @@ description: oneRepo uses itself to manage itself! Very meta. The following is t
 
 # Internal CLI
 
-oneRepo uses itself to manage itself! Very meta. The following is the repo’s usage for the local CLI auto-generated docs using the [docgen plugin](/docs/plugins/docgen/).
+oneRepo uses itself to manage itself! Very meta. The following is the repo’s usage documentation for the local CLI – all auto-generated docs using the [docgen plugin](/docs/plugins/docgen/).
 
 <!-- start-onerepo-sentinel -->
 

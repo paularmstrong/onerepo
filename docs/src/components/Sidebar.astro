@@ -15,7 +15,7 @@ const plugins = await Astro.glob('../../../plugins/*/README.md');
 						return (
 							<li>
 								<a
-									class="block rounded px-2 py-1 text-pink-600 hover:bg-pink-700/60 hover:text-white"
+									class="block rounded px-2 py-1 text-gray-400 transition-colors duration-200 hover:bg-cyan-600/50 hover:text-white"
 									href={`/docs/plugins/${slug}/`}
 								>
 									{plugin.frontmatter.title}

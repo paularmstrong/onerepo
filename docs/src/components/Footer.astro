@@ -4,10 +4,16 @@ import GithubIcon from './icons/GitHub.astro';
 
 <footer class="z-10 border-t border-gray-800 bg-gray-900/50 backdrop-blur-md">
 	<div class="container mx-auto p-4 md:px-8">
-		<a href="https://github.com/paularmstrong/onerepo" class="inline-block h-6 w-6 text-slate-300"><GithubIcon /></a>
-		<a class="text-pink-600" href="/">oneRepo</a> Copyright © <a
-			class="hover:text-pink-600"
-			href="https://paularmstrong.dev">Paul Armstrong</a
+		<a
+			href="https://github.com/paularmstrong/onerepo"
+			class="inline-block h-6 w-6 text-slate-300 transition-colors duration-200 hover:text-cyan-400"
+			target="_blank"
+			rel="noopener"
 		>
+			<GithubIcon />
+		</a>
+		<a class="text-cyan-400 transition-colors duration-200 hover:text-cyan-400" href="/">oneRepo</a>
+		Copyright ©
+		<a class="transition-colors duration-200 hover:text-cyan-500" href="https://paularmstrong.dev">Paul Armstrong</a>
 	</div>
 </footer>

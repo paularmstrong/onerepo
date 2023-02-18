@@ -2,22 +2,32 @@
 import GitHub from './icons/GitHub.astro';
 ---
 
-<header class="sticky top-0 z-10 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md">
+<header class="sticky top-0 z-10 border-b border-gray-800 bg-gray-900/50 shadow-lg shadow-gray-900 backdrop-blur-md">
 	<div class="container mx-auto flex flex-row justify-between px-4 md:px-8">
 		<h1>
-			<a href="/" class="group flex h-full w-full flex-row items-center py-2 text-pink-600 hover:text-purple-500">
+			<a
+				href="/"
+				class="group flex h-full w-full flex-row items-center py-2 text-pink-600 transition-colors duration-200 hover:text-cyan-500"
+			>
 				<span
-					class="logo inline-block h-10 w-10 bg-pink-600 from-pink-600 to-purple-500 group-hover:animate-gradient group-hover:bg-gradient-to-br"
+					class="logo inline-block h-10 w-10 bg-pink-600 from-pink-600 to-cyan-500 transition-colors duration-200 group-hover:animate-gradient group-hover:bg-gradient-to-br"
 				></span><span class="text-lg font-bold">oneRepo</span></a
 			>
 		</h1>
 		<nav>
 			<ul class="flex h-full flex-row items-center gap-8">
-				<li><a class="rounded p-2 hover:bg-pink-600 hover:text-gray-900" href="/docs/">Documentation</a></li>
-				<li><a class="rounded p-2 hover:bg-pink-600 hover:text-gray-900" href="/docs/plugins/">Plugins</a></li>
 				<li>
-					<a class="p-2 hover:text-pink-400" href="https://github.com/paularmstrong/onerepo"
-						><span class="inline-block h-6 w-6"><GitHub /></span></a
+					<a class="rounded p-2 transition-colors duration-200 hover:bg-cyan-600/50" href="/docs/">Documentation</a>
+				</li>
+				<li>
+					<a class="rounded p-2 transition-colors duration-200 hover:bg-cyan-600/50" href="/docs/plugins/">Plugins</a>
+				</li>
+				<li>
+					<a
+						class="p-2 transition-colors duration-200 hover:text-cyan-400"
+						href="https://github.com/paularmstrong/onerepo"
+						target="_blank"
+						rel="noopener"><span class="inline-block h-6 w-6"><GitHub /></span></a
 					>
 				</li>
 			</ul>
