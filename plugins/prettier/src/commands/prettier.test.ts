@@ -1,10 +1,10 @@
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
-import * as Eslint from './eslint';
+import * as Prettier from './prettier';
 import { getCommand } from '@onerepo/test-cli';
 
-const { run } = getCommand(Eslint);
+const { run } = getCommand(Prettier);
 
 describe('handler', () => {
 	test('can run across all files', async () => {
@@ -15,7 +15,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', '.'],
+				args: ['prettier', '--ignore-unknown', '--write', '.'],
 			})
 		);
 	});
@@ -33,21 +33,12 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: [
-					'eslint',
-					'--ext',
-					'js,cjs,mjs',
-					'--cache',
-					'--cache-strategy=content',
-					'--fix',
-					'modules/burritos',
-					'modules/tacos',
-				],
+				args: ['prettier', '--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
 			})
 		);
 	});
 
-	test('does not fix in dry-run', async () => {
+	test('does not write in dry-run', async () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeUndefined();
@@ -55,38 +46,12 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '.'],
+				args: ['prettier', '--ignore-unknown', '--list-different', '.'],
 			})
 		);
 	});
 
-	test('does not fix in no-cache', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-
-		await expect(run('-a --no-cache')).resolves.toBeUndefined();
-
-		expect(subprocess.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--fix', '.'],
-			})
-		);
-	});
-
-	test('filters unapproved extensions', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-
-		await expect(run('-f foo.xd -f bar.js')).resolves.toBeUndefined();
-
-		expect(subprocess.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
-			})
-		);
-	});
-
-	test('filters with .eslintignore', async () => {
+	test('filters with .prettierignore', async () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(file, 'exists').mockResolvedValue(true);
 		vi.spyOn(file, 'read').mockResolvedValue(`
@@ -99,18 +64,28 @@ bar/**/*
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeUndefined();
 
-		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
+		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.prettierignore$/), expect.any(Object));
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
+				args: ['prettier', '--ignore-unknown', '--write', 'foo.js'],
 			})
 		);
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'read').mockResolvedValue(`
+# ignore the comment
+*.xd
+`);
+		vi.spyOn(file, 'lstat').mockResolvedValue(
+			// @ts-ignore mock
+			{ isDirectory: () => false }
+		);
+
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeUndefined();
@@ -118,7 +93,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+				args: ['prettier', '--ignore-unknown', '--write', 'bar.js'],
 			})
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);

@@ -1,7 +1,7 @@
 .git
-.yarn
-node_modules/*
-dist
+**/dist/*
+**/node_modules/*
+**/.yarn/*
 
 *.tsbuildinfo
 *.d.ts
