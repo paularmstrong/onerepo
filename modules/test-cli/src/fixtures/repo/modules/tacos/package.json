@@ -1,4 +1,7 @@
 {
 	"name": "fixture-tacos",
+	"alias": [
+		"tacos"
+	],
 	"version": "1.2.3"
 }
