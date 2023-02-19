@@ -1,27 +1,29 @@
 import path from 'node:path';
+import { minimatch } from 'minimatch';
 import type { Repository, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
 import { getModifiedFiles } from '@onerepo/git';
-
-type Options = {
-	from?: string;
-	through?: string;
-	step?: Step;
-};
+import type { GetterOptions } from '@onerepo/types';
 
 export type GetterArgv = { all?: boolean; files?: Array<string>; workspaces?: Array<string>; affected?: boolean };
 
-export function getAffected(graph: Repository, { from, through, step }: Options = {}) {
+export function getAffected(graph: Repository, { from, ignore, through, step }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
 		const { all } = await getModifiedFiles(from, through, { step });
+		const files =
+			ignore && ignore.length ? all.filter((file) => !ignore.some((ignore) => minimatch(file, ignore))) : all;
+		step.debug(`Modified files not ignored:\n${JSON.stringify(ignore)}\n • ${files.join('\n • ')}`);
 		const workspaces = new Set<string>();
-		for (const filepath of all) {
+		for (const filepath of files) {
 			const ws = graph.getByLocation(graph.root.resolve(filepath));
 			if (ws) {
 				step.debug(`Found changes within \`${ws.name}\``);
 				workspaces.add(ws.name);
 			}
+		}
+
+		if (workspaces.size === 0) {
+			return [];
 		}
 
 		return graph.affected(Array.from(workspaces)).map((name) => graph.getByName(name)!);
@@ -31,7 +33,7 @@ export function getAffected(graph: Repository, { from, through, step }: Options 
 export async function getWorkspaces(
 	graph: Repository,
 	argv: GetterArgv,
-	{ step }: Options = {}
+	{ step, from, through, ...opts }: GetterOptions = {}
 ): Promise<Array<Workspace>> {
 	return stepWrapper({ step, name: 'Get workspaces from inputs' }, async (step) => {
 		let workspaces: Array<Workspace> = [];
@@ -50,8 +52,9 @@ export async function getWorkspaces(
 			if (!workspaces.length) {
 				step.log(`\`affected\` requested`);
 				workspaces = await getAffected(graph, {
-					from: 'from-ref' in argv ? (argv['from-ref'] as string) : undefined,
-					through: 'through-ref' in argv ? (argv['through-ref'] as string) : undefined,
+					...opts,
+					from: 'from-ref' in argv ? (argv['from-ref'] as string) : from,
+					through: 'through-ref' in argv ? (argv['through-ref'] as string) : through,
 					step,
 				});
 			} else {
@@ -65,7 +68,7 @@ export async function getWorkspaces(
 	});
 }
 
-export async function getFilepaths(graph: Repository, argv: GetterArgv, { step }: Options = {}) {
+export async function getFilepaths(graph: Repository, argv: GetterArgv, { step, from, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {
 		const paths: Array<string> = [];
 		const workspaces: Array<Workspace> = [];
@@ -84,8 +87,8 @@ export async function getFilepaths(graph: Repository, argv: GetterArgv, { step }
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
 				const files = await getModifiedFiles(
-					'from-ref' in argv ? (argv['from-ref'] as string) : undefined,
-					'through-ref' in argv ? (argv['through-ref'] as string) : undefined,
+					'from-ref' in argv ? (argv['from-ref'] as string) : from,
+					'through-ref' in argv ? (argv['through-ref'] as string) : through,
 					{ step }
 				);
 				const toCheck = [...files.added, ...files.modified];

@@ -131,8 +131,12 @@ export async function getModifiedFiles(from?: string, through?: string, { step }
 						throw new Error(`Caught unknown git status "${status}"`);
 					}
 
-					memo[key].push(filename);
-					memo.all.push(filename);
+					if (!memo[key].includes(filename)) {
+						memo[key].push(filename);
+					}
+					if (!memo.all.includes(filename)) {
+						memo.all.push(filename);
+					}
 					return memo;
 				},
 				{ all: [], added: [], deleted: [], modified: [], moved: [], uncommitted: [] } as Record<string, Array<string>>

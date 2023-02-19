@@ -86,8 +86,10 @@ export const commandDirOptions = (
 ${JSON.stringify(argv, null, 2)}`);
 
 				const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
-				const wrappedGetWorkspaces = () => getWorkspaces(graph, argv as GetterArgv);
-				const wrappedGetFilepaths = () => getFilepaths(graph, argv as GetterArgv);
+				const wrappedGetWorkspaces = (opts?: Parameters<typeof getWorkspaces>[2]) =>
+					getWorkspaces(graph, argv as GetterArgv, opts);
+				const wrappedGetFilepaths = (opts?: Parameters<typeof getFilepaths>[2]) =>
+					getFilepaths(graph, argv as GetterArgv, opts);
 
 				process.on('unhandledRejection', (reason, promise) => {
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);

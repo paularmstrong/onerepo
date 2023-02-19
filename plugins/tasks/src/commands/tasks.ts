@@ -70,7 +70,7 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
 	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
-	const requested = await getWorkspaces();
+	const requested = await getWorkspaces({ ignore });
 	const requestedNames = requested.map((ws) => ws.name);
 	const affectedNames = graph.affected(requestedNames);
 	const affected = graph.getAllByName(affectedNames);
@@ -82,7 +82,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	}
 
 	const { all: allFiles } = await git.getModifiedFiles(fromRef, throughRef);
-	const files = allFiles.filter((file) => ignore.some((ignore) => !minimatch(file, ignore)));
+	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
+
+	if (!files.length && !runAll && !affectedNames.length) {
+		logger.warn('No tasks to run');
+		return;
+	}
 
 	const sequentialTasks: TaskSet = { pre: [], run: [], post: [] };
 	const parallelTasks: TaskSet = { pre: [], run: [], post: [] };
@@ -128,7 +133,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		}
 
 		if (isPost || !isPre) {
-			const tasks = workspace.getTasks(isPre ? lifecycle : `post-${lifecycle}`);
+			const tasks = workspace.getTasks(isPost ? lifecycle : `post-${lifecycle}`);
 			addTasks(force, workspace, tasks, 'post');
 		}
 	}
@@ -148,7 +153,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	}
 
 	if (!hasTasks) {
-		logger.log(`No tasks to run`);
+		logger.warn(`No tasks to run`);
 		return;
 	}
 

@@ -22,16 +22,17 @@ export interface DefaultArgv {
 	verbosity: number;
 }
 
-type Options = {
+export type GetterOptions = {
 	from?: string;
+	ignore?: Array<string>;
 	through?: string;
 	step?: Step;
 };
 
 export type HandlerExtra = {
-	getAffected: (opts?: Options) => Promise<Array<Workspace>>;
-	getFilepaths: () => Promise<Array<string>>;
-	getWorkspaces: () => Promise<Array<Workspace>>;
+	getAffected: (opts?: GetterOptions) => Promise<Array<Workspace>>;
+	getFilepaths: (opts?: GetterOptions) => Promise<Array<string>>;
+	getWorkspaces: (opts?: GetterOptions) => Promise<Array<Workspace>>;
 	graph: Repository;
 	logger: Logger;
 };
