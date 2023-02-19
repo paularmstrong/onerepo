@@ -1,6 +1,39 @@
 # oneRepo
 
-## Problem
+[![Build status](https://img.shields.io/github/actions/workflow/status/paularmstrong/onerepo/merge-main.yaml?branch=main)](https://github.com/paularmstrong/onerepo/actions/workflows/merge-main.yaml) [![NPM version](https://img.shields.io/npm/v/onerepo)](https://npmjs.com/package/onerepo) ![Netlify](https://img.shields.io/netlify/f544fa4c-f2ad-4b59-83a0-933daa0b0b31)
+
+## Documentation
+
+https://onerepo.tools/docs/
+
+## Quick start
+
+```sh
+npm install onerepo
+```
+
+Add a file, `./bin/one.cjs`
+
+```js
+#!/usr/bin/env node
+
+const { setup } = require('onegraph');
+
+setup(
+	/** @type import('onerepo').Config */
+	{
+		// See documentation for options
+	}
+).then(({ run }) => run());
+```
+
+```sh
+chmod a+x ./bin/one.cjs
+# Follow instructions to install and start using
+./bin/one.cjs install
+```
+
+## Why another monorepo tool?
 
 Current monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
 
@@ -8,32 +41,23 @@ Many tools available rely on writing individual scripts into each workspace in a
 
 Furthermore, it is difficult to remember how to run scripts in individual workspaces due to lack of documentation on `package.json` scripts – and other tooling does not provide a way to enforce standards or help developers find what they’re looking for – relying instead on manual documentation, or worse, memory.
 
-## Solution
+## The oneRepo solution
 
 **oneRepo** is a set of tools for creating monorepos that start with helpful defaults and opt-in to strict conformance, while allowing escape-hatches when you need something different. The main goal of the oneRepo toolset is to enable speed with confidence.
 
-oneRepo comes out of the box with three major pieces, each built upon the previous:
+oneRepo comes out of the box with four major pieces, each built upon the previous:
 
 1. A commandline interface
 1. A workspace graph
-1. A task-runner
-
-## Provided tools
+1. A smart and fast task-runner
+1. Plugins and extensibility
 
 ### Commandline interface
 
-```js
-#!/usr/bin/env node
-
-const { default: setup } = require('@onegraph/cli');
-
-(async () => {
-	const { run } = await setup(
-		/** @type import('@onerepo/cli').Config */
-		{}
-	);
-})();
-```
+- Extendable with custom commands for your team
+- Ensures documentation
+- Ensures command discoverability and help documentation
+- Ensures all workspaces in your repo use the same build/test pipeline, with the ability to extend or opt-out of defaults
 
 ### Workspace graph traversal
 
@@ -41,137 +65,21 @@ const { default: setup } = require('@onegraph/cli');
 - Determine how changes affect workspaces
 - Run tasks on subsets of workspaces
   - Based files changed, manual input, etc
+- Workspace validation
+  - Ensure no conflicting shared dependency versions
+  - Ensure `package.json` conformance
 
-### Workspace validation
+### Task runner
 
-- Ensure no conflicting shared dependency versions
-- Ensure `package.json` conformance
+- Fast
+  - Run your tools limited to files and directly affected changes quickly
+  - Isolate files or individual workspaces locally
+- Always confident
+  - Relies on change isolation, not cache: ensures all dependents in the graph are run for all affecting changes
+  - Ignores unaffected workspaces
 
-### Commandline interface
+## License
 
-- Prevent use of npm scripts (see [workspace validation](#workspace-validation))
-- Ensures documentation
-- Ensures discoverability
-- Ensures using the same build/test pipeline (needs opt-out)
+MIT License
 
-#### Features
-
-- `one affected`: List the affected workspaces given the arguments
-  - `-ws`: `Array<string>` workspace names
-  - `--since-sha`: `string`
-  - `--through-sha`: `string`
-- `one publish`: Publish modules using the `affected` graph
-- `one task`: Run lifecycle tasks (See [Tasks](#tasks))
-
-- Workspace-specific commands
-  - `one workspace @scope/name <command>`
-  - `one workspace name <command>`
-  - `one ws @scope/name <command>`
-  - `one ws name <command>`
-
-```mermaid
-graph LR
-  one --> workspace --> fullname(["@scope/name"]) --> cmd(["command"])
-  one --> ws --> fullname
-  workspace --> name([name])
-  ws --> name
-  name --> cmd
-  fullname --> cmd
-```
-
-##### Tasks
-
-```js title=<workspace>/one.config.js
-module.exports = {
-	'pre-commit': ['one lint', 'one test', 'one tsc'],
-	'post-checkout': ['yarn install'],
-};
-```
-
-```ts
-type OneTask =
-	| string
-	| {
-			command: string;
-			match: string;
-	  };
-
-type OneTaskConfig = Record<Lifecycle, Array<OneTask | Array<OneTask>>>;
-```
-
-- `--lifecycle`
-  - `pre-commit`
-  - `post-checkout`
-  - `pre-pull-request`
-  - `pull-request`
-  - `post-merge`
-  - `pre-publish`
-  - `install`
-- `--list`: `boolean`
-- `--format`: `'json' | 'pretty' | 'plain'`
-
-Example usage:
-
-```sh
-one tasks -l pre-commit
-```
-
-## Alternatives
-
-- Nx - Likely the most useful alternative of the bunch, but is effectively a workspace graph with npm script output caching. Some extra helpers, but limited in ability to enforce conformance cross-team collaboration.
-- Turbo - Effectively just a (hidden) workspace graph with npm script output caching
-- Lerna - Just a workspace graph
-- Bazel - Too complicated
-- Pants - Don't get me started
-
-```ts
-import eslint from '@onerepo/plugin-eslint';
-import prettier from '@onerepo/plugin-prettier';
-import tsc from '@onerepo/plugin-typescript';
-
-interface OneValidator {
-	name: string;
-	fileGlob: string;
-	required: boolean;
-	validator: (contents: string) => boolean;
-}
-
-interface OnePlugin {
-	commands: Array<{ path: string; name: string }>;
-	validators?: Array<OneValidator>;
-}
-
-one({
-	plugins: [eslint('lint'), prettier('format'), typescript('tsc')],
-});
-```
-
-## GitHub Actions
-
-TODO: Test and ensure this works, but it should…
-
-Two-job setup to run lifecycle tasks in parallel
-
-```yaml
-jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      tasks: ${{ steps.tasks.outputs.tasks }}
-    steps:
-      - name: Get tasks
-        id: tasks
-        run: |
-          TASKS='$ ./one tasks --lifecycle=pull-request --list --format=json'
-          echo ::set-output name=tasks::${TASKS}
-  run_tasks:
-    runs-on: ubuntu-latest
-    needs: setup
-    strategy:
-      matrix:
-        task: ${{ fromJSON(needs.tasks.outputs.tasks) }}
-    steps:
-      - name: Matrix => (${{ matrix.task }})
-        run: |
-          ${{ task }}
-```
+Copyright © 2023 Paul Armstrong
