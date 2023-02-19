@@ -26,7 +26,7 @@ const { generate } = require('@onerepo/plugin-generate');
 
 In your `templates` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`:
 
-```
+```txt
 templates/
 ├── app/
 │   ├── .onegen.cjs

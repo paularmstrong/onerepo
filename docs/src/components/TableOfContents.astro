@@ -1,0 +1,53 @@
+---
+interface Props {
+	headings: () => Array<{ depth: number; slug: string; text: string }>;
+}
+
+const { headings: gotHeadings } = Astro.props;
+
+interface Heading {
+	text: string;
+	slug: string;
+	headings: Array<Heading>;
+}
+
+const headings: Array<Heading> = [];
+const levels: Array<Heading> = [{ headings, text: '', slug: '' }];
+
+for (const h of gotHeadings()) {
+	const depth = h.depth - 2;
+	if (depth < 0 || depth > 1) {
+		continue;
+	}
+	levels[depth]!.headings = levels[depth]?.headings || [];
+	const { text, slug } = h;
+	levels[depth]!.headings.push((levels[depth + 1] = { text, slug, headings: [] }));
+}
+---
+
+<aside>
+	<nav aria-label="Page contents">
+		<ol class="flex flex-col">
+			{
+				headings.map(({ slug, text, headings }) => (
+					<li>
+						<a class="block rounded px-2 py-1 hover:bg-pink-700/60" href={`#${slug}`}>
+							{text}
+						</a>
+						{headings ? (
+							<ol class="ml-2 flex flex-col gap-1">
+								{headings.map(({ slug, text }) => (
+									<li>
+										<a class="block rounded px-2 hover:bg-pink-700/60" href={`#${slug}`}>
+											{text}
+										</a>
+									</li>
+								))}
+							</ol>
+						) : null}
+					</li>
+				))
+			}
+		</ol>
+	</nav>
+</aside>

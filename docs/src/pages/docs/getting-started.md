@@ -3,7 +3,7 @@ layout: '../../layouts/Docs.astro'
 title: Getting started with oneRepo
 ---
 
-<h1>oneRepo</h1>
+# Getting started
 
 ```sh npm2yarn
 npm install --save-dev onerepo

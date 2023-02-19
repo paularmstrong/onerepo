@@ -6,7 +6,7 @@ description: |
 
 ## Installation
 
-```
+```sh
 npm install --save-dev @onerepo/plugin-changesets
 ```
 

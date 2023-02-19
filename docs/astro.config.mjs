@@ -8,7 +8,7 @@ const rehypePlugins = [
 	[
 		rehypePrettyCode,
 		{
-			theme: 'rose-pine-moon',
+			theme: 'monokai',
 			// @ts-ignore implicit-any
 			onVisitLine(node) {
 				// Prevent lines from collapsing in `display: grid` mode, and
@@ -16,11 +16,11 @@ const rehypePlugins = [
 				if (node.children.length === 0) {
 					node.children = [{ type: 'text', value: ' ' }];
 				}
-				node.properties.className.push('inline-block', 'w-full', 'border-l-4', 'border-transparent');
+				node.properties.className.push('inline-block', 'w-full', 'border-l-4', 'px-4', 'border-transparent');
 			},
 			// @ts-ignore implicit-any
 			onVisitHighlightedLine(node) {
-				node.properties.className.push('bg-pink-500/20', 'border-l-pink-500/80');
+				node.properties.className.push('bg-pink-600/20', 'border-l-pink-500/80');
 			},
 			// @ts-ignore implicit-any
 			onVisitHighlightedWord(node) {

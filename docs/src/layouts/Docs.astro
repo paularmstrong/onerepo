@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import Prose from '../components/Prose.astro';
+import Sidebar from '../components/Sidebar.astro';
 
 export interface Props {
 	description?: string;
@@ -11,7 +12,19 @@ const { description, title } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
-	<Prose>
-		<slot />
-	</Prose>
+	<div class="grid grid-cols-12 gap-4 py-8 md:gap-8">
+		<div class="col-span-2">
+			<div class="max-h-screen overflow-y-scroll overscroll-contain">
+				<Sidebar />
+			</div>
+		</div>
+		<main class="col-span-8">
+			<Prose>
+				<slot />
+			</Prose>
+		</main>
+		<div class="col-span-2">
+			<slot name="toc" />
+		</div>
+	</div>
 </Layout>
