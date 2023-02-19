@@ -45,12 +45,15 @@ export class Graph {
 		});
 	}
 
+	/**
+	 * Get a serialized representation of the graph
+	 */
 	get serialized() {
 		return this.#graph.serialize();
 	}
 
-	get workspaces(): Record<string, Workspace> {
-		return Object.fromEntries(this.#byName);
+	get workspaces(): Array<Workspace> {
+		return Array.from(this.#byName.values());
 	}
 
 	get workspaceLocations() {
@@ -61,6 +64,11 @@ export class Graph {
 		return this.getByLocation(this.#rootLocation)!;
 	}
 
+	/**
+	 * Get a list of workspaces that depend on the given input sources.
+	 * @param sources one or more workspaes
+	 * @param includeSelf
+	 */
 	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources])

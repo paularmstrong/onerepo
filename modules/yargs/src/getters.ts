@@ -39,7 +39,7 @@ export async function getWorkspaces(
 		let workspaces: Array<Workspace> = [];
 		if ('all' in argv && argv.all) {
 			step.log('`all` requested');
-			workspaces = Object.values(graph.workspaces);
+			workspaces = graph.workspaces;
 		} else if ('files' in argv && Array.isArray(argv.files)) {
 			step.log(`\`files\` requested: \n • ${argv.files.join('\n • ')}`);
 			workspaces = graph.getAllByLocation(argv.files);

@@ -29,7 +29,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	const { 'custom-schema': customSchema } = argv;
 
 	const dependencyStep = logger.createStep('Validating dependency trees');
-	for (const workspace of Object.values(graph.workspaces)) {
+	for (const workspace of graph.workspaces) {
 		const deps = workspace.dependencies;
 
 		const dependencies = graph.dependencies(workspace.name);
@@ -64,7 +64,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 
 	const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
 
-	for (const workspace of Object.values(graph.workspaces)) {
+	for (const workspace of graph.workspaces) {
 		const schemaStep = logger.createStep(`Validating ${workspace.name} json files`);
 		const relativePath = path.relative(graph.root.location, workspace.location);
 		for (const schemaKey of availableSchema) {

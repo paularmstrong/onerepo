@@ -112,7 +112,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		});
 	}
 
-	for (const workspace of Object.values(graph.workspaces)) {
+	for (const workspace of graph.workspaces) {
 		logger.log(`Looking for tasks in ${workspace.name}`);
 
 		const isPre = lifecycle.startsWith('pre-');
