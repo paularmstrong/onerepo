@@ -86,4 +86,43 @@ describe('handler', () => {
 			}),
 		]);
 	});
+
+	test('ignores files', async () => {
+		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['modules/tacos/src/index.ts'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('-c commit --list --ignore "modules/tacos/**/*"', { graph });
+
+		expect(out).toEqual('');
+	});
+
+	test('ignores files', async () => {
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ all: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('-c post-commit --list --ignore "modules/tacos/**/*"', { graph });
+
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"post-commit"'],
+				opts: { cwd: '.' },
+				meta: { name: 'fixture-root', slug: 'fixture-root' },
+			}),
+		]);
+	});
 });

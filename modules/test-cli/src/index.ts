@@ -3,6 +3,7 @@ import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
+import type { GetterArgv } from '@onerepo/yargs';
 import { getAffected, getFilepaths, getWorkspaces, parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { Logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
@@ -71,20 +72,10 @@ export async function runHandler<R = Record<string, unknown>>(
 	const argv = await runBuilder(builder, cmd);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
-
-	const wrappedGetWorkspaces = () =>
-		getWorkspaces(
-			graph,
-			// @ts-ignore
-			argv
-		);
-
-	const wrappedGetFilepaths = () =>
-		getFilepaths(
-			graph,
-			// @ts-ignore
-			argv
-		);
+	const wrappedGetWorkspaces = (opts?: Parameters<typeof getWorkspaces>[2]) =>
+		getWorkspaces(graph, argv as GetterArgv, opts);
+	const wrappedGetFilepaths = (opts?: Parameters<typeof getFilepaths>[2]) =>
+		getFilepaths(graph, argv as GetterArgv, opts);
 
 	await handler(argv, {
 		logger,

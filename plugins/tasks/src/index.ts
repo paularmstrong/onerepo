@@ -19,13 +19,7 @@ export function tasks(opts: Options = { lifecycles: [] }): Plugin {
 							'lifecycle',
 							[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i)
 						)
-						.default('ignore', [
-							'yarn.lock',
-							'package-lock.json',
-							'pnpm-lock.yaml',
-							'.changesets/*',
-							...(opts.ignore ?? []),
-						]),
+						.default('ignore', ['.changesets/*', ...(opts.ignore ?? [])]),
 				handler
 			);
 		},
