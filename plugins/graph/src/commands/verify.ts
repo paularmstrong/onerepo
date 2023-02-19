@@ -32,7 +32,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	for (const workspace of Object.values(graph.workspaces)) {
 		const deps = workspace.dependencies;
 
-		const dependencies = graph.getAllByName(graph.dependencies(workspace.name));
+		const dependencies = graph.dependencies(workspace.name);
 
 		for (const dependency of dependencies) {
 			dependencyStep.log(`Checking ${dependency.name}`);

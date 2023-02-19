@@ -70,7 +70,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		]);
 
 		if (!choices.includes('All')) {
-			workspaces = graph.getAllByName(graph.dependencies(choices, true)).filter((ws) => !ws.private);
+			workspaces = graph.dependencies(choices, true).filter((ws) => !ws.private);
 		}
 
 		logger.unpause();

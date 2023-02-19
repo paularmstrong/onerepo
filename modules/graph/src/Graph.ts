@@ -61,28 +61,28 @@ export class Graph {
 		return this.getByLocation(this.#rootLocation)!;
 	}
 
-	dependents(sources?: string | Array<string>, includeSelf = false) {
+	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources])
-				.map((source) => this.getByName(source)!.name)
+				.map((source) => (source instanceof Workspace ? source.name : this.getByName(source)!.name))
 				.filter(Boolean);
-			return this.#inverted.topologicalSort(names, includeSelf);
+			return this.getAllByName(this.#inverted.topologicalSort(names, includeSelf));
 		}
-		return this.#inverted.topologicalSort();
+		return this.getAllByName(this.#inverted.topologicalSort());
 	}
 
-	dependencies(sources?: string | Array<string>, includeSelf = false) {
+	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources])
-				.map((source) => this.getByName(source)!.name)
+				.map((source) => (source instanceof Workspace ? source.name : this.getByName(source)!.name))
 				.filter(Boolean);
-			return this.#graph.topologicalSort(names, includeSelf);
+			return this.getAllByName(this.#graph.topologicalSort(names, includeSelf));
 		}
 
-		return this.#graph.topologicalSort();
+		return this.getAllByName(this.#graph.topologicalSort());
 	}
 
-	affected(source: string | Array<string>) {
+	affected<T extends string | Workspace>(source: T | Array<T>): Array<Workspace> {
 		return this.dependents(source, true);
 	}
 
