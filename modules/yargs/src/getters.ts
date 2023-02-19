@@ -26,7 +26,7 @@ export function getAffected(graph: Repository, { from, ignore, through, step }: 
 			return [];
 		}
 
-		return graph.affected(Array.from(workspaces)).map((name) => graph.getByName(name)!);
+		return await graph.affected(Array.from(workspaces));
 	});
 }
 
@@ -39,7 +39,7 @@ export async function getWorkspaces(
 		let workspaces: Array<Workspace> = [];
 		if ('all' in argv && argv.all) {
 			step.log('`all` requested');
-			workspaces = Object.values(graph.workspaces);
+			workspaces = graph.workspaces;
 		} else if ('files' in argv && Array.isArray(argv.files)) {
 			step.log(`\`files\` requested: \n • ${argv.files.join('\n • ')}`);
 			workspaces = graph.getAllByLocation(argv.files);
@@ -60,7 +60,7 @@ export async function getWorkspaces(
 			} else {
 				const names = workspaces.map((ws) => ws.name);
 				step.log(`\`affected\` requested from • ${names.join('\n • ')}`);
-				workspaces = graph.getAllByName(await graph.affected(names));
+				workspaces = await graph.affected(names);
 			}
 		}
 
@@ -95,7 +95,7 @@ export async function getFilepaths(graph: Repository, argv: GetterArgv, { step, 
 				paths.push(...toCheck);
 			} else {
 				step.log('`affected` requested from workspaces');
-				const affected = graph.getAllByName(await graph.affected(argv.workspaces!));
+				const affected = await graph.affected(argv.workspaces!);
 				paths.push(...affected.map((ws) => ws.location));
 			}
 		}

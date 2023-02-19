@@ -71,9 +71,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
 	const requested = await getWorkspaces({ ignore });
-	const requestedNames = requested.map((ws) => ws.name);
-	const affectedNames = graph.affected(requestedNames);
-	const affected = graph.getAllByName(affectedNames);
+	const affected = graph.affected(requested);
+	const affectedNames = affected.map(({ name }) => name);
 	const runAll = affected.includes(graph.root);
 	if (runAll) {
 		logger.warn('Running all tasks because the root is in the affected list.');
@@ -113,7 +112,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		});
 	}
 
-	for (const workspace of Object.values(graph.workspaces)) {
+	for (const workspace of graph.workspaces) {
 		logger.log(`Looking for tasks in ${workspace.name}`);
 
 		const isPre = lifecycle.startsWith('pre-');

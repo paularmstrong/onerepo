@@ -47,8 +47,7 @@ export function workspaceBuilder(graph: Repository, dirname: string) {
 			);
 		}
 
-		graph.dependencies().forEach((name: string) => {
-			const ws = graph.getByName(name)!;
+		graph.dependencies().forEach((ws: Workspace) => {
 			if (ws.isRoot) {
 				return;
 			}

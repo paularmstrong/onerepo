@@ -42,7 +42,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		},
 	]);
 
-	const affectedChoices = graph.affected(choices);
+	const affectedChoices = graph.affected(choices).map(({ name }) => name);
 
 	const filteredChangesets = changesets.filter(({ releases }) => {
 		return releases.some(({ name }) => affectedChoices.includes(name));
