@@ -1,5 +1,6 @@
 ---
 title: '@onerepo/plugin-graph'
+tool: Graph
 description: |
   Get information about your repository’s workspace graph.
 type: core
@@ -13,18 +14,14 @@ This is a core plugin that does not need to be installed manually.
 
 The `one graph verify` command comes with some basic schema for validating `package.json` files. However, you can enhance this by providing custom schema to match to workspaces and their files:
 
-```js
-(async () => {
-	const { run } = await setup({
-		core: {
-			graph: {
-				customSchema: './path/to/graph-schema.js',
-			},
+```js {3-5}
+setup({
+	core: {
+		graph: {
+			customSchema: './path/to/graph-schema.js',
 		},
-	});
-
-	await run();
-})();
+	},
+}).then(({ run }) => run());
 ```
 
 Schema validation uses [AJV](https://ajv.js.org) with support for JSON schemas draft-2019-09 and draft-07. It also supports [ajv-errors](https://ajv.js.org/packages/ajv-errors.html) for better and more actionable error messaging.

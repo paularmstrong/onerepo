@@ -11,18 +11,16 @@ npm install --save-dev onerepo
 
 ```js title="./bin/one.cjs"
 #!/usr/bin/env node
-const path = require('node:path');
 
+require('esbuild-register/dist/node').register({});
+
+const path = require('node:path');
 const { setup } = require('onerepo');
 
-(async () => {
-	const { run } = await setup(
-		/** @type import('onerepo').Config */
-		{
-			root: path.join(__dirname, '..'),
-		}
-	);
-
-	await run();
-})();
+setup(
+	/** @type import('onerepo').Config */
+	{
+		root: path.join(__dirname, '..'),
+	}
+).then(({ run }) => run());
 ```

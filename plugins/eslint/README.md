@@ -1,28 +1,33 @@
 ---
 title: '@onerepo/plugin-eslint'
+tool: Eslint
 description: |
   Add easy and fast linting with Eslint to your repo through one simple plugin.
 ---
 
 ## Installation
 
-```js
+```sh
+npm install --save-dev @onerepo/plugin-eslint
+```
+
+```js {1,5-7}
 const { eslint } = require('@onerepo/plugin-eslint');
 
-(async () => {
-	const { run } = await setup({
-		plugins: [eslint()],
-	});
-
-	await run();
-})();
+setup({
+	plugins: [
+		eslint({
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
 ```
 
 <!-- start-onerepo-sentinel -->
 
 ## `one eslint`
 
-Lint files using eslint
+Run eslint across files and workspaces
 
 ```sh
 one eslint [options]

@@ -1,5 +1,6 @@
 ---
 title: '@onerepo/plugin-install'
+tool: Install
 description: |
   Install your repository’s CLI into your path, making it easy to use from anywhere!
 type: core
@@ -11,17 +12,14 @@ This is a core plugin that does not need to be installed manually.
 
 ## Disabling
 
-```js
-(async () => {
-	const { run } = await setup({
-		core: {
-			// Disable the install plugin
-			install: false,
-		},
-	});
+Set the core `install` plugin configuration to `false` to completely disable the plugin and command.
 
-	await run();
-})();
+```js {3}
+setup({
+	core: {
+		install: false,
+	},
+}).then(({ run }) => run());
 ```
 
 <!-- start-onerepo-sentinel -->

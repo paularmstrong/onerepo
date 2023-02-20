@@ -16,6 +16,7 @@ Add a file, `./bin/one.cjs`
 
 ```js
 #!/usr/bin/env node
+require('esbuild-register/dist/node').register();
 
 const { setup } = require('onegraph');
 

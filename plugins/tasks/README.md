@@ -1,9 +1,14 @@
 ---
 title: '@onerepo/plugin-tasks'
+tool: Tasks
 description: |
   Get information about your repository’s workspace graph.
 type: core
 ---
+
+## Installation
+
+This is a core plugin that does not need to be installed manually.
 
 ## Configuration
 
@@ -31,20 +36,16 @@ export default {
 
 ### Adding more lifecycles
 
-First, configure the available `lifecycles` that the task runner has access to:
+First, configure the extra available `lifecycles` that the task runner should have access to run:
 
-```js {3-7}
-(async () => {
-	const { run } = await setup({
-		core: {
-			tasks: {
-				lifecycles: ['tacos', 'burritos'],
-			},
+```js {3-5}
+setup({
+	core: {
+		tasks: {
+			lifecycles: ['tacos', 'burritos'],
 		},
-	});
-
-	await run();
-})();
+	},
+}).then(({ run }) => run());
 ```
 
 Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos`, `burritos`, and any variant of those with `pre-` or `post-` prefixes.

@@ -11,7 +11,7 @@ export function changesets(opts: Options = {}): Plugin {
 		yargs: (yargs) => {
 			return yargs.command(
 				name,
-				'Manage changesets',
+				'Manage changesets, versioning, and publishing your public workspaces to packages.',
 				(yargs) =>
 					yargs
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`)

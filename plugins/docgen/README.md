@@ -1,21 +1,26 @@
 ---
 title: '@onerepo/plugin-docgen'
+tool: DocGen
 description: |
   Auto-generate documentation from your oneRepo CLI.
 ---
 
 ## Installation
 
-```js
+```sh
+npm install --save-dev @onerepo/plugin-docgen
+```
+
+```js {1,5-7}
 const { docgen } = require('@onerepo/plugin-docgen');
 
-(async () => {
-	const { run } = await setup({
-		plugins: [docgen()],
-	});
-
-	await run();
-})();
+setup({
+	plugins: [
+		docgen({
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
 ```
 
 <!-- start-onerepo-sentinel -->

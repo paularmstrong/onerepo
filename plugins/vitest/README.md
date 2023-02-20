@@ -1,28 +1,33 @@
 ---
 title: '@onerepo/plugin-vitest'
+tool: Vitest
 description: |
   Run Vitest tests across your repository.
 ---
 
 ## Installation
 
-```js
+```sh
+npm install --save-dev @onerepo/plugin-vitest
+```
+
+```js {1,5-7}
 const { vitest } = require('@onerepo/plugin-vitest');
 
-(async () => {
-	const { run } = await setup({
-		plugins: [vitest()],
-	});
-
-	await run();
-})();
+setup({
+	plugins: [
+		vitest({
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
 ```
 
 <!-- start-onerepo-sentinel -->
 
 ## `one vitest`
 
-Run unit tests
+Run unit tests using Vitest
 
 ```sh
 one vitest test [file-patterns] [options]

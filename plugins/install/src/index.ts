@@ -10,19 +10,14 @@ export function install(opts: Options = {}): Plugin {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
 			const name = opts.name ?? command;
-			return (
-				yargs
-					// false as second arg hides the command from help documentation
-					.completion(`${Array.isArray(name) ? name[0] : name}-completion`, false)
-					.command(
-						name,
-						description,
-						(yargs) =>
-							builder(yargs)
-								.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
-								.default('name', config.name),
-						handler
-					)
+			return yargs.command(
+				name,
+				description,
+				(yargs) =>
+					builder(yargs)
+						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
+						.default('name', config.name),
+				handler
 			);
 		},
 	});

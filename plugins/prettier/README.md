@@ -1,21 +1,26 @@
 ---
 title: '@onerepo/plugin-prettier'
+tool: Prettier
 description: |
   Format files as they change using Prettier.
 ---
 
 ## Installation
 
-```js
+```sh
+npm install --save-dev @onerepo/plugin-prettier
+```
+
+```js {1,5-7}
 const { prettier } = require('@onerepo/plugin-prettier');
 
-(async () => {
-	const { run } = await setup({
-		plugins: [prettier()],
-	});
-
-	await run();
-})();
+setup({
+	plugins: [
+		prettier({
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
 ```
 
 <!-- start-onerepo-sentinel -->

@@ -9,7 +9,7 @@ import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'eslint';
 
-export const description = 'Lint files using eslint';
+export const description = 'Run eslint across files and workspaces';
 
 type Args = WithAllInputs & {
 	add?: boolean;

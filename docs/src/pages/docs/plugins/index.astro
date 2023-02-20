@@ -1,7 +1,43 @@
 ---
 import Layout from '../../../layouts/Docs.astro';
+import type { PluginFrontmatter } from '../../../types';
+
+const [readme] = await Astro.glob('../../../../../plugins/README.md');
+const plugins = await Astro.glob<PluginFrontmatter>('../../../../../plugins/*/README.md');
+
+const { Content } = readme;
 ---
 
-<Layout title="Plugins">
+<Layout title="Plugins" description="The oneRepo plugin system">
 	<h1>Plugins</h1>
+	<div class="not-prose">
+		<ul class="grid auto-cols-fr grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+			{
+				plugins.map(({ file, frontmatter }) => {
+					const slug = file.split('plugins/')[1].split('/')[0];
+					return (
+						<li>
+							<a
+								class="group flex h-full flex-row gap-2 rounded border border-gray-800 bg-gray-800/50 p-2 shadow transition-colors duration-200 hover:border-gray-700 hover:bg-gray-800 hover:shadow-xl active:bg-gray-800/80 active:shadow-inner"
+								href={`/docs/plugins/${slug}/`}
+							>
+								{frontmatter.tool ? (
+									<img src={`/images/plugins/${frontmatter.tool.toLowerCase()}.webp`} class="aspect-square h-16" />
+								) : undefined}
+								<div class="">
+									<div class="text-xs text-gray-500">{frontmatter.title}</div>
+									<div class="text-xl font-bold transition-colors duration-200 group-hover:text-cyan-500">
+										{frontmatter.tool}
+									</div>
+									<div class="text-sm text-gray-400">{frontmatter.description}</div>
+								</div>
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</div>
+
+	<Content />
 </Layout>
