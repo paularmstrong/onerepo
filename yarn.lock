@@ -1320,7 +1320,7 @@ __metadata:
     "@onerepo/vitest": "workspace:^"
     "@types/glob": ^8.0.1
     glob: ^8.0.3
-    graph-data-structure: ^3.1.1
+    graph-data-structure: ^3.2.0
     typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown
@@ -4715,10 +4715,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graph-data-structure@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "graph-data-structure@npm:3.1.1"
-  checksum: 2d1c2ca88ec61c2905d22b3ec6abc56d48da1e47a4cfa6d06beb86469aa0d7a58cb7553de8ee923f68dc547b0358c793bc77834ebb7f64acfecd6d552b3a2f56
+"graph-data-structure@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "graph-data-structure@npm:3.2.0"
+  checksum: 0312e7854eba1679cb42a0696bbf9686c3f80618975828edd3c5aed2b69987dcd4cfa549db0cada63e57c798a714b2322f596a42dcf5b228946897863a1740cd
   languageName: node
   linkType: hard
 
