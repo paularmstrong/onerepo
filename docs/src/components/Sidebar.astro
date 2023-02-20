@@ -1,25 +1,26 @@
 ---
-const plugins = await Astro.glob('../../../plugins/*/README.md');
+import type { PluginFrontmatter } from '../types';
+import SidebarLink from './SidebarLink.astro';
+import SidebarSubLink from './SidebarSubLink.astro';
+const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.md');
 ---
 
 <nav>
-	<ul>
-		<li><a href="/docs/">Documentation</a></li>
-		<li><a href="/docs/getting-started/">Getting started</a></li>
+	<ul class="flex flex-col gap-1">
+		<li><SidebarLink href="/docs/">Documentation</SidebarLink></li>
+		<li><SidebarLink href="/docs/getting-started/">Getting started</SidebarLink></li>
+		<li><SidebarLink href="/docs/commands/">Writing commands</SidebarLink></li>
 		<li>
-			<a href="/docs/plugins/">Plugins</a>
+			<SidebarLink href="/docs/plugins/">Plugins</SidebarLink>
 			<ul>
 				{
 					plugins.map((plugin) => {
 						const slug = plugin.file.split('plugins/')[1].split('/')[0];
 						return (
 							<li>
-								<a
-									class="block rounded px-2 py-1 text-gray-400 transition-colors duration-200 hover:bg-cyan-600/50 hover:text-white"
-									href={`/docs/plugins/${slug}/`}
-								>
-									{plugin.frontmatter.title}
-								</a>
+								<SidebarSubLink href={`/docs/plugins/${slug}/`} title={`Plugin: ${plugin.frontmatter.title}`}>
+									{plugin.frontmatter.tool ?? plugin.frontmatter.title}
+								</SidebarSubLink>
 							</li>
 						);
 					})
@@ -27,10 +28,10 @@ const plugins = await Astro.glob('../../../plugins/*/README.md');
 			</ul>
 		</li>
 		<li>
-			<a href="/docs/contributing/">Contributing</a>
+			<SidebarLink href="/docs/contributing/">Contributing</SidebarLink>
 			<ul>
-				<li><a href="/docs/contributing/code-of-conduct/">Code of conduct</a></li>
-				<li><a href="/docs/contributing/cli/">CLI</a></li>
+				<li><SidebarSubLink href="/docs/contributing/code-of-conduct/">Code of conduct</SidebarSubLink></li>
+				<li><SidebarSubLink href="/docs/contributing/cli/">CLI</SidebarSubLink></li>
 			</ul>
 		</li>
 	</ul>

@@ -6,7 +6,7 @@ import { BatchError, SubprocessError } from '@onerepo/subprocess';
 import { getAffected, getFilepaths, getWorkspaces } from './getters';
 import type { GetterArgv } from './getters';
 import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
-import type { Arguments, DefaultArgv, Yargs } from '@onerepo/types';
+import type { Arguments, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 
 export function setupYargs(yargs: Yargv): Yargs {
 	return yargs
@@ -69,16 +69,33 @@ function fallbackHandler(argv: Arguments<DefaultArgv>) {
 	throw new Error(`No handler defined for command ${argv.$0}`);
 }
 
-export const commandDirOptions = (
-	graph: Repository,
-	exclude?: RegExp
-): RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> } => ({
+type CommandDirOpts = {
+	graph: Repository;
+	exclude?: RegExp;
+	preHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
+	postHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
+};
+
+export const commandDirOptions = ({
+	exclude,
+	graph,
+	preHandler,
+	postHandler,
+}: CommandDirOpts): RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> } => ({
 	extensions: ['ts', 'js', 'cjs', 'mjs'],
 	exclude,
 	recurse: false,
-	visit: function visitor(command) {
-		const { handler, ...rest } = command;
+	visit: function visitor(commandModule) {
+		const { command, description, handler, ...rest } = commandModule;
+
+		// Very arbitrary, but require at least 4 words in the description to help end users
+		if (!description || description.split(' ').length < 3) {
+			throw new Error(`Please enter a meaningful description for "${Array.isArray(command) ? command[0] : command}"`);
+		}
+
 		return {
+			command,
+			description,
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
 				performance.mark('one_handler_start');
@@ -95,15 +112,19 @@ ${JSON.stringify(argv, null, 2)}`);
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
 				});
 
+				const extra: HandlerExtra = {
+					getAffected: wrappedGetAffected,
+					getFilepaths: wrappedGetFilepaths,
+					getWorkspaces: wrappedGetWorkspaces,
+					graph,
+					logger,
+				};
+
+				await preHandler(argv, extra);
+
 				try {
 					if (handler) {
-						await handler(argv, {
-							getAffected: wrappedGetAffected,
-							getFilepaths: wrappedGetFilepaths,
-							getWorkspaces: wrappedGetWorkspaces,
-							graph,
-							logger,
-						});
+						await handler(argv, extra);
 					} else {
 						fallbackHandler(argv);
 					}
@@ -116,6 +137,7 @@ ${JSON.stringify(argv, null, 2)}`);
 					process.exitCode = 1;
 				} finally {
 					performance.mark('one_shutdown');
+					await postHandler(argv, extra);
 					logger.timing('one_handler_start', 'one_shutdown');
 					logger.timing('one_startup', 'one_shutdown');
 					await logger.end();

@@ -81,7 +81,7 @@ one build -w graph cli logger
 
 Aliases: `change`
 
-Manage changesets
+Manage changesets, versioning, and publishing your public workspaces to packages.
 
 ```sh
 one changesets <command> [options]
@@ -342,7 +342,7 @@ As an added bonus, tab-completions will be added to your .zshrc or .bash_profile
 
 ### `one lint`
 
-Lint files using eslint
+Run eslint across files and workspaces
 
 ```sh
 one lint [options]
@@ -402,7 +402,7 @@ You can fine-tune the determination of affected workspaces by providing a `--fro
 
 ### `one test`
 
-Run unit tests
+Run unit tests using Vitest
 
 ```sh
 one test [file-patterns] [options]

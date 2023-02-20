@@ -57,6 +57,10 @@ module.exports = {
 							margin: '0',
 							height: '100%',
 						},
+						'> pre > code': {
+							display: 'flex',
+							flexDirection: 'column',
+						},
 					},
 					'[data-rehype-pretty-code-title]': {
 						width: 'max-content',
@@ -127,7 +131,7 @@ module.exports = {
 						'--tw-prose-quotes': theme('colors.pink.900'),
 						'--tw-prose-quote-borders': theme('colors.pink.300'),
 						'--tw-prose-captions': theme('colors.pink.700'),
-						'--tw-prose-code': theme('colors.pink.700'),
+						'--tw-prose-code': theme('colors.pink.400'),
 						'--tw-prose-pre-code': theme('colors.gray[100]'),
 						'--tw-prose-pre-bg': theme('colors.gray[800]'),
 						'--tw-prose-th-borders': theme('colors.pink.300'),

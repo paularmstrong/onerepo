@@ -5,7 +5,7 @@ import type { Workspace } from '@onerepo/graph';
 
 export const command = 'vitest';
 
-export const description = 'Run unit tests';
+export const description = 'Run unit tests using Vitest';
 
 type Args = {
 	affected?: boolean;

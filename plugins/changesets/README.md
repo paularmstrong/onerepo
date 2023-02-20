@@ -1,7 +1,8 @@
 ---
 title: '@onerepo/plugin-changesets'
+tool: Changesets
 description: |
-  Create changesets and prepare releases for your workspaces.
+  Manage changelogs with changesets and publish workspaces to public packages.
 ---
 
 ## Installation
@@ -10,16 +11,16 @@ description: |
 npm install --save-dev @onerepo/plugin-changesets
 ```
 
-```js
+```js {1,5-7}
 const { changesets } = require('@onerepo/plugin-changesets');
 
-(async () => {
-	const { run } = await setup({
-		plugins: [changesets()],
-	});
-
-	await run();
-})();
+setup({
+	plugins: [
+		changesets({
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
 ```
 
 ## Publish config
@@ -83,7 +84,7 @@ export const handler: Handler<Args> = (argv, { getWorkspaces }) => {
 
 Aliases: `change`
 
-Manage changesets
+Manage changesets, versioning, and publishing your public workspaces to packages.
 
 ```sh
 one changesets <command> [options]

@@ -1,30 +1,30 @@
 ---
 title: '@onerepo/plugin-generate'
+tool: Generate
 description: |
   Generate workspaces from your own standard templates.
 ---
 
 ## Installation
 
-Start by adding the `generate()` plugin to your configuration and set the path for all templates:
-
-```js
-const { generate } = require('@onerepo/plugin-generate');
-
-(async () => {
-	const { run } = await setup({
-		plugins: [
-			generate({
-				templatesDir: '../path/to/templates',
-			}),
-		],
-	});
-
-	await run();
-})();
+```sh
+npm install --save-dev @onerepo/plugin-generate
 ```
 
-In your `templates` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`:
+```js {1,5-8}
+const { generate } = require('@onerepo/plugin-generate');
+
+setup({
+	plugins: [
+		generate({
+			templatesDir: '../path/to/templates',
+			// ...options
+		}),
+	],
+}).then(({ run }) => run());
+```
+
+In your `templatesDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`:
 
 ```txt
 templates/

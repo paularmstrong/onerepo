@@ -3,7 +3,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
-import type { Yargs } from '@onerepo/types';
+import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
@@ -12,9 +12,21 @@ import type { Options as GraphOptions } from '@onerepo/plugin-graph';
 import type { Options as InstallOptions } from '@onerepo/plugin-install';
 import type { Options as TasksOptions } from '@onerepo/plugin-tasks';
 
+export type PluginPrePostHandler = (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
 type PluginObject = {
-	commandDir?: string;
+	/**
+	 * A function that is called with the CLI's `yargs` object and a visitor.
+	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
+	 */
 	yargs?: (yargs: Yargs, visitor: NonNullable<RequireDirectoryOptions['visit']>) => Yargs;
+	/**
+	 * Run before any command `handler` function is invoked
+	 */
+	preHandler?: PluginPrePostHandler;
+	/**
+	 * Run after any command `handler` function is finished
+	 */
+	postHandler?: PluginPrePostHandler;
 };
 export type Plugin = PluginObject | ((config: Config) => PluginObject);
 
@@ -44,6 +56,9 @@ export interface Config {
 	 * If not provided, will default to `one`. That's great, but will cause conflicts if you try to use multiple monorepos that are both using oneRepo. But then again, what's the point of having multiple monorepos. Isn't that a bit besides the point?
 	 */
 	name?: string;
+	/**
+	 * Add shared commands. https://onerepo.tools/docs/plugins/
+	 */
 	plugins?: Array<Plugin>;
 	/**
 	 * Absolute path location to the root of the repository.
@@ -86,7 +101,17 @@ export async function setup(config: Config = {}) {
 	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name)).epilogue(description);
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
-	const options = commandDirOptions(graph, ignoreCommands);
+
+	const pre: Array<PluginPrePostHandler> = [];
+	async function preHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
+		await Promise.all(pre.map((fn) => fn(argv, extra)));
+	}
+	const post: Array<PluginPrePostHandler> = [];
+	async function postHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
+		await Promise.all(post.map((fn) => fn(argv, extra)));
+	}
+
+	const options = commandDirOptions({ graph, exclude: ignoreCommands, preHandler, postHandler });
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
 	// TODO: find a better way
@@ -104,9 +129,19 @@ export async function setup(config: Config = {}) {
 	}
 
 	for (const plugin of plugins) {
-		const { yargs: pluginYargs } = typeof plugin === 'function' ? plugin(resolvedConfig) : plugin;
+		const {
+			yargs: pluginYargs,
+			preHandler,
+			postHandler,
+		} = typeof plugin === 'function' ? plugin(resolvedConfig) : plugin;
 		if (typeof pluginYargs === 'function') {
 			pluginYargs(yargs, options.visit);
+		}
+		if (typeof preHandler === 'function') {
+			pre.push(preHandler);
+		}
+		if (typeof postHandler === 'function') {
+			post.push(postHandler);
 		}
 	}
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const path = require('node:path');
-const { register } = require('esbuild-register/dist/node');
-
-register({});
+require('esbuild-register/dist/node').register({});
 
 const { setup } = require('onerepo');
 const { changesets } = require('@onerepo/plugin-changesets');
