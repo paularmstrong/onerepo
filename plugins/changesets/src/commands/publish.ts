@@ -34,7 +34,10 @@ export const builder: Builder<Args> = (yargs) =>
 			default: false,
 			hidden: true,
 			description: 'Bypass checks to ensure no local changes before publishing.',
-		});
+		})
+		.epilogue(
+			'This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.'
+		);
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;

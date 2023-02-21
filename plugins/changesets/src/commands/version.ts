@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import pc from 'picocolors';
 import assembleReleasePlan from '@changesets/assemble-release-plan';
 import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
@@ -6,12 +7,12 @@ import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
 import type { Builder, Handler } from '@onerepo/types';
 
-export const command = 'prepare';
+export const command = 'version';
 
 export const description =
-	'Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.';
+	'Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.';
 
-export const builder: Builder = (yargs) => yargs.usage('$0 prepare');
+export const builder: Builder = (yargs) => yargs.usage('$0 version');
 
 export const handler: Handler = async (argv, { graph, logger }) => {
 	const { 'dry-run': isDryRun } = argv;
@@ -33,14 +34,25 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		releases.forEach(({ name }) => names.add(name));
 	});
 
+	const available = Array.from(names);
+
 	const { choices } = await inquirer.prompt([
 		{
 			type: 'checkbox',
 			name: 'choices',
-			message: 'Which workspaces would you like to release?',
-			choices: Array.from(names),
+			message: `Which workspaces would you like to release?
+  ${pc.dim('Something missing? Add a changeset to describe the version update before proceeding.')}
+
+`,
+			choices: available,
+			pageSize: available.length,
 		},
 	]);
+
+	if (choices.length === 0) {
+		logger.warn('No workspaces were selected. Nothing to do.');
+		return;
+	}
 
 	const affectedChoices = graph.affected(choices).map(({ name }) => name);
 
@@ -53,7 +65,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		return;
 	}
 
-	logger.debug(`found changesets:\n${JSON.stringify(filteredChangesets)}`);
+	logger.debug(`Found changesets:\n${JSON.stringify(filteredChangesets)}`);
 
 	const releasePlan = assembleReleasePlan(filteredChangesets, packages, config, undefined);
 

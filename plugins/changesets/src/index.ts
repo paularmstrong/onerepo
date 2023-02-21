@@ -6,7 +6,7 @@ type Options = {
 };
 
 export function changesets(opts: Options = {}): Plugin {
-	const name = opts.name ?? ['changesets', 'change'];
+	const name = opts.name ?? ['change', 'changeset', 'changesets'];
 	return () => ({
 		yargs: (yargs) => {
 			return yargs.command(

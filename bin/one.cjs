@@ -21,7 +21,7 @@ const { typescript } = require('@onerepo/plugin-typescript');
 			subcommandDir: 'commands',
 			core: {
 				tasks: {
-					ignore: [],
+					ignore: ['**/README.md', '**/CHANGELOG.md'],
 				},
 				graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
 			},
