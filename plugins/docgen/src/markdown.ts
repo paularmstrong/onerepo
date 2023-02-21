@@ -191,7 +191,16 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 }
 
 function typeAndDefault(opt: Option | Positional) {
-	const nodes = [inlineCode(opt.type)];
+	const nodes = opt.choices
+		? opt.choices.reduce((memo, c, i) => {
+				if (i !== 0) {
+					memo.push(text(', '));
+				}
+				memo.push(inlineCode(`"${c}"`));
+				return memo;
+				// eslint-disable-next-line no-mixed-spaces-and-tabs
+		  }, [] as Array<Node>)
+		: [inlineCode(opt.type)];
 	if (opt.default) {
 		nodes.push(text(', default: '), inlineCode(JSON.stringify(opt.default)));
 	}

@@ -97,13 +97,13 @@ Add a changeset
 one changesets add [options]
 ```
 
-| Option               | Type      | Description                                                                                                         | Required |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                           |          |
-| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                                            |          |
-| `--type`             | `string`  | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                              |          |
+| Option               | Type                            | Description                                                                                                         | Required |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
+| `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                           |          |
+| `--files`, `-f`      | `array`                         | Determine workspaces from specific files                                                                            |          |
+| `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
+| `--workspaces`, `-w` | `array`                         | List of workspace names to run against                                                                              |          |
 
 <details>
 
@@ -191,7 +191,7 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 | ----------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
 | `--add`           | `boolean`                                                      | Add the output file to the git stage                                       |          |
 | `--bin`           | `string`                                                       | Path to the OneRepo cli runner. Defaults to the current runner.            |          |
-| `--format`        | `string`, default: `"markdown"`                                | Output format for documentation                                            |          |
+| `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                  | Output format for documentation                                            |          |
 | `--out-file`      | `string`, default: `"docs/src/pages/docs/contributing/cli.md"` | File to write output to. If not provided, stdout will be used              |          |
 | `--out-workspace` | `string`, default: `"root"`                                    | Workspace name to write the --out-file to                                  |          |
 | `--safe-write`    | `boolean`, default: `true`                                     | Write documentation to a portion of the file with start and end sentinels. |          |
@@ -300,9 +300,31 @@ Show the dependency graph.
 one graph show [options]
 ```
 
-| Option     | Type                         | Description                                       | Required |
-| ---------- | ---------------------------- | ------------------------------------------------- | -------- |
-| `--format` | `string`, default: `"plain"` | Output format for inspecting the dependency graph |          |
+This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.
+
+| Option               | Type                                                 | Description                                                                                 | Required |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                                            | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean`                                            | Run across all workspaces                                                                   |          |
+| `--format`           | `"mermaid"`, `"plain"`, `"json"`, default: `"plain"` | Output format for inspecting the dependency graph                                           |          |
+| `--workspaces`, `-w` | `array`                                              | List of workspace names to run against                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
+
+Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.
+
+```sh
+one graph show --format=mermaid -w <workspace> > ./out.mermaid
+```
 
 #### `one graph verify`
 
@@ -380,13 +402,13 @@ one tasks --lifecycle=<lifecycle> [options]
 
 You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
 
-| Option               | Type      | Description                                                                                                 | Required |
-| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                 |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                   |          |
-| `--lifecycle`, `-c`  | `string`  | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
-| `--list`             | `boolean` | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                      |          |
+| Option               | Type                                                                                                                                                                                                                                                                            | Description                                                                                                 | Required |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                                                                                                                                                                                                                                                                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                 |          |
+| `--all`, `-a`        | `boolean`                                                                                                                                                                                                                                                                       | Run across all workspaces                                                                                   |          |
+| `--lifecycle`, `-c`  | `"pre-commit"`, `"commit"`, `"post-commit"`, `"pre-checkout"`, `"checkout"`, `"post-checkout"`, `"pre-merge"`, `"merge"`, `"post-merge"`, `"pre-build"`, `"build"`, `"post-build"`, `"pre-deploy"`, `"deploy"`, `"post-deploy"`, `"pre-publish"`, `"publish"`, `"post-publish"` | Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles. | ✅       |
+| `--list`             | `boolean`                                                                                                                                                                                                                                                                       | List found tasks. Implies dry run and will not actually run any tasks.                                      |          |
+| `--workspaces`, `-w` | `array`                                                                                                                                                                                                                                                                         | List of workspace names to run against                                                                      |          |
 
 <details>
 

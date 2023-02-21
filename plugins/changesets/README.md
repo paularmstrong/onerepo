@@ -100,13 +100,13 @@ Add a changeset
 one changesets add [options]
 ```
 
-| Option               | Type      | Description                                                                                                         | Required |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                           |          |
-| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                                            |          |
-| `--type`             | `string`  | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                              |          |
+| Option               | Type                            | Description                                                                                                         | Required |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
+| `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                           |          |
+| `--files`, `-f`      | `array`                         | Determine workspaces from specific files                                                                            |          |
+| `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
+| `--workspaces`, `-w` | `array`                         | List of workspace names to run against                                                                              |          |
 
 <details>
 
