@@ -77,24 +77,24 @@ Build the `graph`, `cli`, and `logger` workspaces.
 one build -w graph cli logger
 ```
 
-### `one changesets`
+### `one change`
 
-Aliases: `change`
+Aliases: `changeset`, `changesets`
 
 Manage changesets, versioning, and publishing your public workspaces to packages.
 
 ```sh
-one changesets <command> [options]
+one change <command> [options]
 ```
 
-#### `one changesets add`
+#### `one change add`
 
 Aliases: `$0`
 
 Add a changeset
 
 ```sh
-one changesets add [options]
+one change add [options]
 ```
 
 | Option               | Type                            | Description                                                                                                         | Required |
@@ -116,32 +116,24 @@ one changesets add [options]
 
 </details>
 
-#### `one changesets init`
+#### `one change init`
 
 Initialize changesets for this repository.
 
 ```sh
-one changesets init
+one change init
 ```
 
 You should only ever have to do this once.
 
-#### `one changesets prepare`
-
-Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
-
-```sh
-one changesets prepare
-```
-
-#### `one changesets prerelease`
+#### `one change prerelease`
 
 Aliases: `pre-release`, `pre`
 
 Pre-release available workspaces.
 
 ```sh
-one changesets prerelease
+one change prerelease
 ```
 
 | Option    | Type                       | Description                                           | Required |
@@ -149,15 +141,17 @@ one changesets prerelease
 | `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
 | `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
 
-#### `one changesets publish`
+#### `one change publish`
 
 Aliases: `release`
 
 Publish all workspaces with versions not available in the registry.
 
 ```sh
-one changesets publish [options]
+one change publish [options]
 ```
+
+This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
 
 | Option    | Type                       | Description                                           | Required |
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |
@@ -173,6 +167,14 @@ one changesets publish [options]
 | `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
 
 </details>
+
+#### `one change version`
+
+Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
+
+```sh
+one change version
+```
 
 ### `one docgen`
 
@@ -414,11 +416,11 @@ You can fine-tune the determination of affected workspaces by providing a `--fro
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                  | Description                                                               | Required |
-| --------------- | ------------------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--from-ref`    | `string`                              | Git ref to start looking for affected files or workspaces                 |          |
-| `--ignore`      | `array`, default: `[".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
-| `--through-ref` | `string`                              | Git ref to start looking for affected files or workspaces                 |          |
+| Option          | Type                                                                   | Description                                                               | Required |
+| --------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
+| `--ignore`      | `array`, default: `[".changesets/*","**/README.md","**/CHANGELOG.md"]` | List of filepath strings or globs to ignore when matching tasks to files. |          |
+| `--through-ref` | `string`                                                               | Git ref to start looking for affected files or workspaces                 |          |
 
 </details>
 

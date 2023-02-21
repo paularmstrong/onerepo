@@ -53,51 +53,60 @@ This causes issues when publishing shared modules for use outside of the monorep
 
 </div>
 
-## Build requirements
+## Workflow
 
-This plugin _requires_ a top-level command, `build` that accepts a list of workspaces using the `withWorkspaces()` builder. Your build process _must_:
+1. For every change that should be documented in a changelog, add a changeset using the `add` command. This command will walk you through itself, prompting for information for each modified workspace:
 
-1. Accept a list of workspaces to build.
+   ```sh
+   one change add
+   ```
 
-```ts title="commands/build.ts"
-import { withWorkspaces } from 'onerepo';
-import type { Builder, Handler, WithWorkspaces } from 'onerepo';
+   Commit any files that are added during this process. You can always go back and edit these files manually, as long as they exist.
 
-export const command = 'build';
+1. When you have enough changes and you’re ready to publish, run the [version](#one-changesets-version) command.
 
-type Args = WithWorkspaces;
+   ```sh
+   one change version
+   ```
 
-export const builder: Builder<Args> = (yargs) => withWorkspaces(yargs);
+   This will also prompt you for the workspaces that you want to publish. You can restrict this to avoid publishing any workspaces that are not yet ready.
 
-export const handler: Handler<Args> = (argv, { getWorkspaces }) => {
-	const workspaces = await getWorkspaces();
+   However, any dependency in the graph of the chosen workspace(s) that has changes will also be versioned and published at this time. This is an important step to ensure consumers external to your oneRepo have all of the latest changes.
 
-	for (const workspace of workspaces) {
-		// build
-	}
-};
-```
+   This command will delete the consumed changesets, write changelogs, and update version numbers across all modified workspaces. Commit these changes and review them using a pull-request.
+
+1. Once the pull-request is merged, you can safely run the [publish](#one-changesets-publish) command:
+
+   ```sh
+    one change publish
+   ```
+
+<aside>
+
+This plugin will trigger the [core `tasks` plugin](https://onerepo.tools/docs/plugins/tasks/) `build` lifecycle for every workspace during pre-release and publish. There is no need to manually run a build before publishing.
+
+</aside>
 
 <!-- start-onerepo-sentinel -->
 
-## `one changesets`
+## `one change`
 
-Aliases: `change`
+Aliases: `changeset`, `changesets`
 
 Manage changesets, versioning, and publishing your public workspaces to packages.
 
 ```sh
-one changesets <command> [options]
+one change <command> [options]
 ```
 
-### `one changesets add`
+### `one change add`
 
 Aliases: `$0`
 
 Add a changeset
 
 ```sh
-one changesets add [options]
+one change add [options]
 ```
 
 | Option               | Type                            | Description                                                                                                         | Required |
@@ -119,32 +128,24 @@ one changesets add [options]
 
 </details>
 
-### `one changesets init`
+### `one change init`
 
 Initialize changesets for this repository.
 
 ```sh
-one changesets init
+one change init
 ```
 
 You should only ever have to do this once.
 
-### `one changesets prepare`
-
-Prepare workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
-
-```sh
-one changesets prepare
-```
-
-### `one changesets prerelease`
+### `one change prerelease`
 
 Aliases: `pre-release`, `pre`
 
 Pre-release available workspaces.
 
 ```sh
-one changesets prerelease
+one change prerelease
 ```
 
 | Option    | Type                       | Description                                           | Required |
@@ -152,15 +153,17 @@ one changesets prerelease
 | `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
 | `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
 
-### `one changesets publish`
+### `one change publish`
 
 Aliases: `release`
 
 Publish all workspaces with versions not available in the registry.
 
 ```sh
-one changesets publish [options]
+one change publish [options]
 ```
+
+This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
 
 | Option    | Type                       | Description                                           | Required |
 | --------- | -------------------------- | ----------------------------------------------------- | -------- |
@@ -176,5 +179,13 @@ one changesets publish [options]
 | `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
 
 </details>
+
+### `one change version`
+
+Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
+
+```sh
+one change version
+```
 
 <!-- end-onerepo-sentinel -->
