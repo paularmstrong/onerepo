@@ -1,5 +1,8 @@
 import pc from 'picocolors';
 import cliui from 'cliui';
+import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
+import { withAffected, withWorkspaces } from '@onerepo/builders';
+import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/types';
 import type { SerializedGraph } from '@onerepo/graph';
 
@@ -9,28 +12,48 @@ export const description = 'Show the dependency graph.';
 
 type Args = {
 	format: 'mermaid' | 'plain' | 'json';
-};
+} & WithAffected &
+	WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
-	yargs.usage('$0 show [options]').option('format', {
-		type: 'string',
-		description: 'Output format for inspecting the dependency graph',
-		default: 'plain',
-		choices: ['mermaid', 'plain', 'json'],
-	} as const);
+	withAffected(withWorkspaces(yargs))
+		.usage('$0 show [options]')
+		.option('format', {
+			type: 'string',
+			description: 'Output format for inspecting the dependency graph',
+			default: 'plain',
+			choices: ['mermaid', 'plain', 'json'],
+		} as const)
+		.epilogue(
+			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.`
+		)
+		.example(
+			'$0 show --format=mermaid -w <workspace> > ./out.mermaid',
+			'Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.'
+		);
 
-export const handler: Handler<Args> = async function handler(argv, { graph }) {
-	const { format } = argv;
+export const handler: Handler<Args> = async function handler(argv, { graph, getWorkspaces, logger }) {
+	const { all, format } = argv;
+
+	let serialized: Serialized = { nodes: [], links: [] };
+	if (all) {
+		serialized = graph.serialized;
+	} else {
+		const workspaces = await getWorkspaces();
+		logger.log(`Getting graph from workspaces:\n • ${workspaces.map(({ name }) => name).join('\n • ')}`);
+		const isolated = graph.isolatedGraph(workspaces);
+		serialized = isolated.serialize();
+	}
 
 	switch (format) {
 		case 'mermaid':
-			writeMermaid(graph.serialized);
+			writeMermaid(serialized);
 			break;
 		case 'plain':
-			writeStdio(graph.serialized);
+			writeStdio(serialized);
 			break;
 		case 'json':
-			process.stdout.write(JSON.stringify(graph.serialized, null, 2));
+			process.stdout.write(JSON.stringify(serialized, null, 2));
 			break;
 		default:
 			throw new Error('Unknown format. This should not be allowed');
@@ -90,10 +113,11 @@ const depType: Record<number, string> = {
 
 function writeMermaid(graph: SerializedGraph): void {
 	process.stdout.write(`graph RL
+${graph.nodes.map(({ id }) => `  ${id.replace(/\W+/g, '')}["${id}"]`).join('\n')}
 ${graph.links
 	.map(
 		({ source, target, weight }) =>
-			`${target.replace(/\W+/g, '')}["${target}"] ${arrow[weight]}> ${source.replace(/\W+/g, '')}["${source}"]`
+			`  ${target.replace(/\W+/g, '')}["${target}"] ${arrow[weight]}> ${source.replace(/\W+/g, '')}["${source}"]`
 	)
 	.join('\n')}
 `);

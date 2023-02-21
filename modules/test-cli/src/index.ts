@@ -5,12 +5,10 @@ import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
 import type { GetterArgv } from '@onerepo/yargs';
 import { getAffected, getFilepaths, getWorkspaces, parserConfiguration, setupYargs } from '@onerepo/yargs';
-import { Logger } from '@onerepo/logger';
+import { logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/types';
 import { getGraph } from '@onerepo/graph';
-
-const logger = new Logger({ verbosity: 0 });
 
 const testRunner: typeof vitest =
 	// @ts-ignore
@@ -53,6 +51,9 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 		middleware(argv);
 	});
 
+	process.env.ONE_REPO_VERBOSITY = '0';
+	logger.verbosity = 0;
+
 	return { ...argv, $0: 'root-bin' };
 }
 
@@ -69,6 +70,7 @@ export async function runHandler<R = Record<string, unknown>>(
 	cmd = ''
 ): Promise<void> {
 	const { graph = getGraph(path.join(__dirname, 'fixtures', 'repo')) } = extras;
+	logger.verbosity = 0;
 	const argv = await runBuilder(builder, cmd);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);

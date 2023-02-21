@@ -137,6 +137,44 @@ export class Graph {
 		return Array.from(workspaces);
 	}
 
+	/**
+	 * Get an isolated graph of dependents from the list of sources
+	 */
+	isolatedGraph(sources: Array<Workspace>) {
+		const returnGraph = graph();
+
+		const addAdjacent = (ws: Workspace) => {
+			const adjacent = this.#inverted.adjacent(ws.name);
+			for (const adj of adjacent) {
+				const dependent = this.getByName(adj)!;
+				returnGraph.addNode(adj);
+				if (ws.name in dependent.dependencies) {
+					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
+						returnGraph.addEdge(dependent.name, ws.name, Dependency.prod);
+					}
+				}
+				if (ws.name in dependent.devDependencies) {
+					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
+						returnGraph.addEdge(dependent.name, ws.name, Dependency.dev);
+					}
+				}
+				if (ws.name in dependent.peerDependencies) {
+					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
+						returnGraph.addEdge(dependent.name, ws.name, Dependency.peer);
+					}
+				}
+				addAdjacent(dependent);
+			}
+		};
+
+		for (const ws of sources) {
+			returnGraph.addNode(ws.name);
+			addAdjacent(ws);
+		}
+
+		return returnGraph;
+	}
+
 	#addWorkspace(location: string, packageJson: PackageJson) {
 		const workspace = new Workspace(this.#rootLocation, location, packageJson);
 		this.#byName.set(workspace.name, workspace);
@@ -165,7 +203,7 @@ export class Graph {
 				}
 
 				this.#inverted.addEdge(dependency, dependent, weight);
-				if (this.#graph.hasCycle()) {
+				if (this.#inverted.hasCycle()) {
 					throw new Error(`Cycle found between ${dependent} and ${dependency}`);
 				}
 			}

@@ -217,12 +217,23 @@ export class Yargs {
 
 	commandDir(pathName: string, opts?: RequireDirectoryOptions) {
 		this._commandDirOpts = { ...this._commandDirOpts, ...opts };
+
 		const { recurse = false, extensions = ['js'] } = this._commandDirOpts;
 		const baseDir = path.isAbsolute(pathName) ? path.relative(this._rootPath, pathName) : pathName;
 		const ext = extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0];
-		const files = glob.sync(path.join(baseDir, recurse ? `**/*.${ext}` : `*.${ext}`), { cwd: this._rootPath });
+		const files = glob.sync(path.join(baseDir, recurse ? `**/*.${ext}` : `*.${ext}`), {
+			cwd: this._rootPath,
+		});
+
+		const { exclude = () => false } = this._commandDirOpts;
 
 		for (const filepath of files) {
+			if (exclude instanceof RegExp && exclude.test(filepath)) {
+				continue;
+			}
+			if (typeof exclude === 'function' && exclude(filepath)) {
+				continue;
+			}
 			const { builder, command, description } = require(path.join(this._rootPath, filepath));
 			const instance = new Yargs();
 			instance.strictCommands(this.#strictCommands);

@@ -1,0 +1,6 @@
+{
+	"name": "menu",
+	"dependencies": {
+		"fixture-tacos": "workspace:^"
+	}
+}

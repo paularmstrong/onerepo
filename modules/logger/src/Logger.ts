@@ -70,7 +70,7 @@ export class Logger {
 	}
 
 	runUpdater() {
-		if (!this.#logger.active || this.#paused) {
+		if (!this.#logger.active || this.#paused || this.verbosity < 1) {
 			return;
 		}
 		this.#updaterTimeout = setTimeout(() => {

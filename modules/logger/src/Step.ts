@@ -10,7 +10,7 @@ type StepOptions = {
 
 export class Step {
 	#name: string;
-	verbosity: number;
+	#verbosity: number;
 	stream: Duplex;
 	#active = false;
 	#onEnd: (step: Step) => Promise<void>;
@@ -20,7 +20,7 @@ export class Step {
 
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
 		performance.mark(`start_${name || 'logger'}`);
-		this.verbosity = verbosity;
+		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
@@ -50,13 +50,22 @@ export class Step {
 		return [this.#prefixStart(this.name), ...this.#lastThree];
 	}
 
+	set verbosity(verbosity: number) {
+		this.#verbosity = verbosity;
+		this.activate();
+	}
+
+	get verbosity() {
+		return this.#verbosity;
+	}
+
 	activate(enableWrite = !process.stderr.isTTY) {
 		if (this.#active) {
 			return;
 		}
 
 		this.#active = true;
-		if (enableWrite) {
+		if (enableWrite && this.verbosity > 0) {
 			this.#enableWrite();
 		}
 	}
