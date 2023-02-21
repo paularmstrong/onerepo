@@ -1,4 +1,4 @@
-import { minimatch } from 'minimatch';
+import minimatch from 'minimatch';
 import type { Builder, Handler } from '@onerepo/types';
 import type { Lifecycle, Repository, Task, Tasks, Workspace } from '@onerepo/graph';
 import { batch, run } from '@onerepo/subprocess';

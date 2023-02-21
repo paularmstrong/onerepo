@@ -1,6 +1,6 @@
 import path from 'node:path';
 import glob from 'glob';
-import { minimatch } from 'minimatch';
+import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
 import type { Builder, Handler } from '@onerepo/types';
 import Ajv from 'ajv/dist/2019';

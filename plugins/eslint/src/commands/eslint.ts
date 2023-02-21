@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { minimatch } from 'minimatch';
+import minimatch from 'minimatch';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
