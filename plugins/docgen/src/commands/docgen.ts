@@ -1,10 +1,12 @@
+import { createRequire } from 'node:module';
+import path from 'node:path';
 import type { Builder, Handler } from '@onerepo/types';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
-import path from 'node:path';
 import { toMarkdown } from '../markdown';
 import type { Docs } from '../yargs';
+import type { PackageJson } from '@onerepo/graph';
 
 export const command = 'docgen';
 
@@ -76,7 +78,9 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		command,
 	} = argv;
 
-	const docgen = graph.getByLocation(__dirname)!;
+	const require = createRequire(__dirname);
+	const pkgRoot = path.dirname(require.resolve('@onerepo/plugin-docgen/package.json'));
+	const packageJson = require('@onerepo/plugin-docgen/package.json') as PackageJson;
 
 	let outPath = outFile;
 	if (wsName && outFile) {
@@ -87,15 +91,15 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		outPath = workspace.resolve(outFile);
 	}
 
-	if (typeof docgen.packageJson.bin !== 'object' || !('docgen' in docgen.packageJson.bin)) {
+	if (typeof packageJson.bin !== 'object' || !('docgen' in packageJson.bin)) {
 		logger.error(
 			'bin not found in "@onerepo/plugin-docgen". Please report this issue to the main oneRepo issue tracker'
 		);
 		return;
 	}
 
-	const docgenBin = docgen.packageJson.bin!.docgen;
-	const args = [docgen.resolve(docgenBin), '--runnable', path.resolve(bin)];
+	const docgenBin = packageJson.bin!.docgen;
+	const args = [path.resolve(pkgRoot, docgenBin), '--runnable', path.resolve(bin)];
 
 	// Mostly for use in the oneRepo source as a source dependency
 	if (docgenBin.endsWith('.ts')) {
