@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
-import createYargs from 'yargs/yargs';
+import createYargs from 'yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';

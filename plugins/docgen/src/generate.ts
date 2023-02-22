@@ -9,7 +9,7 @@ function makeSingleton() {
 Module.prototype.require = new Proxy(Module.prototype.require, {
 	apply(target, thisArg, argumentsList) {
 		if (argumentsList[0] === 'yargs') {
-			return yargsInstance;
+			return makeSingleton;
 		}
 		if (argumentsList[0] === 'yargs/yargs') {
 			return makeSingleton;
