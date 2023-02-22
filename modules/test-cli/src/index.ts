@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import Yargs from 'yargs';
 import parser from 'yargs-parser';
@@ -70,7 +69,7 @@ export async function runHandler<R = Record<string, unknown>>(
 	},
 	cmd = ''
 ): Promise<void> {
-	const { graph = getGraph(path.join(fileURLToPath(import.meta.url), '..', 'fixtures', 'repo')) } = extras;
+	const { graph = getGraph(path.join(__dirname, 'fixtures', 'repo')) } = extras;
 	logger.verbosity = 0;
 	const argv = await runBuilder(builder, cmd);
 

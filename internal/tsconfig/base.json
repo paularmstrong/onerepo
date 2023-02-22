@@ -11,14 +11,14 @@
 		"isolatedModules": true,
 		"jsx": "react",
 		"lib": ["esnext"],
-		"module": "es2020",
+		"module": "nodenext",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
 		"strict": true,
-		"target": "es2020",
+		"target": "es6",
 		"types": ["vitest/globals"]
 	}
 }
