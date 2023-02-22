@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-const { register } = require('esbuild-register/dist/node');
-const yargsParser = require('yargs-parser');
+import yargsParser from 'yargs-parser';
 
-register({});
+import { generate } from './generate';
 
-const { generate } = require('./generate');
 const {
 	root: rootPath = process.cwd(),
 	// 'source-url': sourceUrl,

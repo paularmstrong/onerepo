@@ -30,7 +30,6 @@ const defaultSchema = {
 	else: {
 		properties: {
 			typings: { not: {}, errorMessage: '"typings" must only be set withing the "publishConfig"' },
-			bin: { not: {}, errorMessage: '"bin" must only be set withing the "publishConfig"' },
 			publishConfig: {
 				type: 'object',
 				properties: {

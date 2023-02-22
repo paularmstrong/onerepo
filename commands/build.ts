@@ -1,4 +1,3 @@
-import glob from 'glob';
 import { batch, file, logger, withAffected, withWorkspaces } from 'onerepo';
 import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 
@@ -37,15 +36,33 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			continue;
 		}
 
-		const files = glob.sync(`${workspace.resolve('src')}/**/!(*.test).ts`);
+		const files: Array<string> = [];
+		files.push(workspace.resolve(workspace.packageJson.main!));
+		const { bin } = workspace.packageJson;
+		if (bin) {
+			if (typeof bin === 'string') {
+				files.push(workspace.resolve(bin));
+			} else {
+				Object.values(bin).forEach((b) => files.push(workspace.resolve(b)));
+			}
+		}
 
 		removals.push(workspace.resolve('dist'));
 
-		buildProcs.push({
-			name: `Build ${workspace.name}`,
-			cmd: 'npx',
-			args: ['esbuild', ...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
-		});
+		files.length &&
+			buildProcs.push({
+				name: `Build ${workspace.name}`,
+				cmd: 'npx',
+				args: [
+					'esbuild',
+					...files,
+					`--outdir=${workspace.resolve('dist')}`,
+					'--platform=node',
+					'--format=esm',
+					'--bundle',
+					'--packages=external',
+				],
+			});
 
 		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });
 		if (isTS) {
