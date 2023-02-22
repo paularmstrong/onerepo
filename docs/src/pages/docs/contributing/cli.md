@@ -176,6 +176,10 @@ Version workspaces for publishing. Allows you to select a minimal set of workspa
 one change version
 ```
 
+| Option                    | Type                       | Description                                                            | Required |
+| ------------------------- | -------------------------- | ---------------------------------------------------------------------- | -------- |
+| `--add`, `--update-index` | `boolean`, default: `true` | Add the modified `package.json` files to the git stage for committing. |          |
+
 ### `one docgen`
 
 Generate documentation for this CLI.
