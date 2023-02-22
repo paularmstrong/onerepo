@@ -80,6 +80,8 @@ export interface Docs {
 	usage: Array<string>;
 }
 
+const require = createRequire('/');
+
 export class Yargs {
 	_rootPath: string = process.cwd();
 	_commandDirectory: string = process.cwd();
@@ -235,7 +237,6 @@ export class Yargs {
 			if (typeof exclude === 'function' && exclude(filepath)) {
 				continue;
 			}
-			const require = createRequire('/');
 			const { builder, command, description } = require(path.join(this._rootPath, filepath));
 			const instance = new Yargs();
 			instance.strictCommands(this.#strictCommands);

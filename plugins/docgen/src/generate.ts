@@ -1,4 +1,4 @@
-import Module from 'module';
+import Module from 'node:module';
 import { Yargs } from './yargs';
 
 const yargsInstance = new Yargs();
