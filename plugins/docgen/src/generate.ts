@@ -1,4 +1,4 @@
-import Module from 'module';
+import Module from 'node:module';
 import { Yargs } from './yargs';
 
 const yargsInstance = new Yargs();
@@ -9,7 +9,7 @@ function makeSingleton() {
 Module.prototype.require = new Proxy(Module.prototype.require, {
 	apply(target, thisArg, argumentsList) {
 		if (argumentsList[0] === 'yargs') {
-			return yargsInstance;
+			return makeSingleton;
 		}
 		if (argumentsList[0] === 'yargs/yargs') {
 			return makeSingleton;
@@ -26,6 +26,7 @@ interface Options {
 }
 
 export async function generate({ scriptPath, rootPath, commandDirectory }: Options) {
+	const require = Module.createRequire('/');
 	yargsInstance._rootPath = rootPath;
 	yargsInstance._commandDirectory = commandDirectory;
 	yargsInstance._onArgv = () => {

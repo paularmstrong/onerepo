@@ -1,4 +1,5 @@
-import path from 'path';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import glob from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { Serialized } from 'graph-data-structure';
@@ -24,8 +25,10 @@ export class Graph {
 	 * Separate map for aliases to locations to ensure the graph only uses fully qualified names
 	 */
 	#nameByAlias: Map<string, string> = new Map();
+	#require: typeof require;
 
 	constructor(location: string, packageJson: PrivatePackageJson, moduleRequire = require) {
+		this.#require = moduleRequire;
 		this.#rootLocation = location;
 		this.#addWorkspace(location, packageJson);
 
@@ -112,7 +115,9 @@ export class Graph {
 	}
 
 	getByLocation(location: string): Workspace | null {
-		const segments = location.split(path.sep);
+		const locationPath = location.startsWith('file:') ? fileURLToPath(location) : location;
+
+		const segments = locationPath.split(path.sep);
 
 		while (segments.length) {
 			const pathToCheck = path.join('/', ...segments);
@@ -176,7 +181,7 @@ export class Graph {
 	}
 
 	#addWorkspace(location: string, packageJson: PackageJson) {
-		const workspace = new Workspace(this.#rootLocation, location, packageJson);
+		const workspace = new Workspace(this.#rootLocation, location, packageJson, this.#require);
 		this.#byName.set(workspace.name, workspace);
 		workspace.aliases.forEach((alias) => {
 			this.#nameByAlias.set(alias, workspace.name);

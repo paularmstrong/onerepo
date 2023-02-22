@@ -1381,6 +1381,8 @@ __metadata:
     typescript: ^4.9.5
     unified: ^10.1.2
     vitest: ^0.28.4
+  bin:
+    docgen: ./src/bin.ts
   languageName: unknown
   linkType: soft
 

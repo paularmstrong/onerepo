@@ -1,5 +1,6 @@
-import { existsSync } from 'fs';
-import path from 'path';
+import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Graph } from './Graph';
 
@@ -8,9 +9,11 @@ export * from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();
 
+const require = createRequire('/');
+
 export function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
-	return new Graph(path.dirname(filePath), json as PrivatePackageJson);
+	return new Graph(path.dirname(filePath), json as PrivatePackageJson, require);
 }
 
 export function getRootPackageJson(searchLocation: string): { filePath: string; json: PrivatePackageJson } {

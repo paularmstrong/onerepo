@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import glob from 'glob';
 import path from 'path';
 import type {
@@ -78,6 +79,8 @@ export interface Docs {
 	strictOptions: boolean;
 	usage: Array<string>;
 }
+
+const require = createRequire('/');
 
 export class Yargs {
 	_rootPath: string = process.cwd();
@@ -234,6 +237,7 @@ export class Yargs {
 			if (typeof exclude === 'function' && exclude(filepath)) {
 				continue;
 			}
+
 			const { builder, command, description } = require(path.join(this._rootPath, filepath));
 			const instance = new Yargs();
 			instance.strictCommands(this.#strictCommands);

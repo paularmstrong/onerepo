@@ -4,13 +4,22 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
-import createYargs from 'yargs/yargs';
+import createYargs from 'yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
+import { graph as graphPlugin } from '@onerepo/plugin-graph';
+import { install as installPlugin } from '@onerepo/plugin-install';
+import { tasks as tasksPlugin } from '@onerepo/plugin-tasks';
 import type { Options as GraphOptions } from '@onerepo/plugin-graph';
 import type { Options as InstallOptions } from '@onerepo/plugin-install';
 import type { Options as TasksOptions } from '@onerepo/plugin-tasks';
+
+type CoreOptions = {
+	tasks?: TasksOptions | false;
+	install?: InstallOptions | false;
+	graph?: GraphOptions | false;
+};
 
 export type PluginPrePostHandler = (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
 type PluginObject = {
@@ -34,11 +43,7 @@ export interface Config {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
 	 */
-	core?: {
-		graph?: GraphOptions | false;
-		install?: InstallOptions | false;
-		tasks?: TasksOptions | false;
-	};
+	core?: CoreOptions;
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 */
@@ -88,8 +93,6 @@ const defaultConfig: Required<Config> = {
 	description: 'oneRepo’s very own `one` CLI.',
 };
 
-const corePlugins = ['@onerepo/plugin-tasks', '@onerepo/plugin-install', '@onerepo/plugin-graph'];
-
 export async function setup(config: Config = {}) {
 	performance.mark('one_startup');
 	const resolvedConfig = { ...defaultConfig, ...config };
@@ -120,14 +123,18 @@ export async function setup(config: Config = {}) {
 		yargs._commandDirOpts = options;
 	}
 
-	for (const pluginName of corePlugins) {
-		const name = pluginName.replace('@onerepo/plugin-', '') as keyof Config['core'];
-		if (core[name] !== false) {
-			const { [name]: plugin } = require(pluginName);
-			plugins.unshift(plugin(core[name]));
-		}
+	// Install the core plugins
+	if (core.graph !== false) {
+		plugins.push(graphPlugin(core.graph));
+	}
+	if (core.install !== false) {
+		plugins.push(installPlugin(core.install));
+	}
+	if (core.tasks !== false) {
+		plugins.push(tasksPlugin(core.tasks));
 	}
 
+	// Other plugins
 	for (const plugin of plugins) {
 		const {
 			yargs: pluginYargs,
@@ -145,19 +152,21 @@ export async function setup(config: Config = {}) {
 		}
 	}
 
+	// Local commands
 	if (subcommandDir !== false) {
 		yargs.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
-	}
 
-	if (core.graph !== false) {
-		yargs.command({
-			describe: 'Run workspace-specific commands',
-			command: '$0',
-			aliases: ['workspace', 'ws'],
-			builder: workspaceBuilder(graph, subcommandDir || 'commands'),
-			// This handler is a no-op because the builder demands N+1 command(s) be input
-			handler: () => {},
-		});
+		// Workspace commands using subcommandDir
+		if (core.graph !== false) {
+			yargs.command({
+				describe: 'Run workspace-specific commands',
+				command: '$0',
+				aliases: ['workspace', 'ws'],
+				builder: workspaceBuilder(graph, subcommandDir || 'commands'),
+				// This handler is a no-op because the builder demands N+1 command(s) be input
+				handler: () => {},
+			});
+		}
 	}
 
 	return {

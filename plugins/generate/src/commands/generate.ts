@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import glob from 'glob';
 import inquirer from 'inquirer';
@@ -62,11 +63,25 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		return;
 	}
 
-	if (!(await file.exists(path.join(templateDir, '.onegen.cjs'), { step }))) {
+	const [configPath] = glob.sync(`${path.join(templateDir, '.onegen')}.*`);
+	if (!configPath) {
 		step.error(`No configuration file found, expected "${path.join(templateDir, '.onegen.cjs')}"`);
+		return;
 	}
 
-	const config = getConfig(templateDir);
+	let config: Config | null;
+	if (configPath.endsWith('.cjs')) {
+		const require = createRequire('/');
+		config = require(configPath);
+	} else {
+		const { default: importConfig } = await import(configPath);
+		config = importConfig;
+	}
+
+	if (!config) {
+		step.error(`Invalid configuration found at ${configPath}`);
+		return;
+	}
 
 	const { outDir, nameFormat, dirnameFormat } = config;
 	let name = nameArg;
@@ -118,5 +133,6 @@ export interface Config {
 }
 
 export function getConfig(filepath: string) {
-	return require(path.join(filepath, '.onegen.cjs')) as Config;
+	const require = createRequire('/');
+	return require(path.join(filepath, '.onegen')) as Config;
 }

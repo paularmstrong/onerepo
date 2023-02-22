@@ -9,12 +9,15 @@
 	"homepage": "https://onerepo.tools/docs/plugins/docgen/",
 	"type": "module",
 	"main": "./src/index.ts",
+	"bin": {
+		"docgen": "./src/bin.ts"
+	},
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",
 		"typings": "./dist/src/index.d.ts",
 		"bin": {
-			"docgen": "./dist/bin.cjs"
+			"docgen": "./dist/bin.js"
 		}
 	},
 	"files": [
