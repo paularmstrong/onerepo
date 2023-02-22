@@ -1,4 +1,5 @@
-import path from 'path';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import glob from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { Serialized } from 'graph-data-structure';
@@ -114,7 +115,9 @@ export class Graph {
 	}
 
 	getByLocation(location: string): Workspace | null {
-		const segments = location.split(path.sep);
+		const locationPath = location.startsWith('file:') ? fileURLToPath(location) : location;
+
+		const segments = locationPath.split(path.sep);
 
 		while (segments.length) {
 			const pathToCheck = path.join('/', ...segments);

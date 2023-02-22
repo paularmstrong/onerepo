@@ -10,15 +10,15 @@
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
 		"jsx": "react",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"module": "nodenext",
+		"lib": ["esnext"],
+		"module": "es2020",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
 		"strict": true,
-		"target": "es6",
+		"target": "es2020",
 		"types": ["vitest/globals"]
 	}
 }

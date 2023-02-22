@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import type { Config, Plugin } from '@onerepo/cli';
 
@@ -19,7 +20,7 @@ export function graph(opts: Options = {}): Plugin {
 					(yargs) =>
 						yargs
 							.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
-							.commandDir(path.join(__dirname, 'commands'))
+							.commandDir(path.join(fileURLToPath(import.meta.url), '..', 'commands'))
 							.demandCommand(1),
 					() => {}
 				);

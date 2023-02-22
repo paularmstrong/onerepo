@@ -19,7 +19,7 @@ export const handler: Handler = async (argv, { graph }) => {
 		cmd: 'npx',
 		args: ['astro', ...rest],
 		opts: {
-			cwd: graph.getByLocation(__dirname)!.location,
+			cwd: graph.getByLocation(import.meta.url)!.location,
 		},
 	});
 };

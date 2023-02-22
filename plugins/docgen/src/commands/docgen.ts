@@ -76,7 +76,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		command,
 	} = argv;
 
-	const docgen = graph.getByLocation(__dirname)!;
+	const docgen = graph.getByLocation(import.meta.url)!;
 
 	let outPath = outFile;
 	if (wsName && outFile) {
