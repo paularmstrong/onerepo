@@ -76,6 +76,8 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		command,
 	} = argv;
 
+	const docgen = graph.getByLocation(__dirname)!;
+
 	let outPath = outFile;
 	if (wsName && outFile) {
 		const workspace = graph.getByName(wsName);
@@ -85,10 +87,25 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		outPath = workspace.resolve(outFile);
 	}
 
+	if (typeof docgen.packageJson.bin !== 'object' || !('docgen' in docgen.packageJson.bin)) {
+		logger.error(
+			'bin not found in "@onerepo/plugin-docgen". Please report this issue to the main oneRepo issue tracker'
+		);
+		return;
+	}
+
+	const docgenBin = docgen.packageJson.bin!.docgen;
+	const args = [docgen.resolve(docgenBin), '--runnable', path.resolve(bin)];
+
+	// Mostly for use in the oneRepo source as a source dependency
+	if (docgenBin.endsWith('.ts')) {
+		args.unshift('--loader', 'esbuild-register/loader', '-r', 'esbuild-register');
+	}
+
 	const [out] = await run({
 		name: 'Generating documentation',
 		cmd: 'node',
-		args: [path.join(__dirname, '..', 'bin.cjs'), '--runnable', path.resolve(bin)],
+		args,
 	});
 
 	const docs = JSON.parse(out) as Docs;

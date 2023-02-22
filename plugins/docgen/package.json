@@ -9,6 +9,9 @@
 	"homepage": "https://onerepo.tools/docs/plugins/docgen/",
 	"type": "module",
 	"main": "./src/index.ts",
+	"bin": {
+		"docgen": "./src/bin.ts"
+	},
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",

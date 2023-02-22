@@ -26,6 +26,7 @@ interface Options {
 }
 
 export async function generate({ scriptPath, rootPath, commandDirectory }: Options) {
+	const require = Module.createRequire('/');
 	yargsInstance._rootPath = rootPath;
 	yargsInstance._commandDirectory = commandDirectory;
 	yargsInstance._onArgv = () => {
