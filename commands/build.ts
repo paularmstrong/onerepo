@@ -1,3 +1,5 @@
+import glob from 'glob';
+import path from 'node:path';
 import { batch, file, logger, withAffected, withWorkspaces } from 'onerepo';
 import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 
@@ -37,7 +39,14 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		}
 
 		const files: Array<string> = [];
-		files.push(workspace.resolve(workspace.packageJson.main!));
+		const main = workspace.resolve(workspace.packageJson.main!);
+		files.push(main);
+
+		const commands = glob.sync(`${path.join(path.dirname(main), 'commands')}/!(*.test).ts`, { nodir: true });
+		if (commands.length) {
+			files.push(...commands);
+		}
+
 		const { bin } = workspace.packageJson;
 		if (bin) {
 			if (typeof bin === 'string') {
