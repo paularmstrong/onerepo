@@ -6,7 +6,7 @@ describe('Repository', () => {
 	test('bucket', async () => {
 		const location = path.join(__dirname, 'fixtures', 'repo');
 		const result = await getRootPackageJson(location);
-		const repo = new Graph(location, result.json);
+		const repo = new Graph(location, result.json, require);
 		expect(repo.dependencies('fixture-burritos').map(({ name }) => name)).toEqual(['fixture-lettuce']);
 		expect(repo.dependencies('fixture-lettuce')).toEqual([]);
 		expect(repo.dependencies().map(({ name }) => name)).toEqual([

@@ -1,12 +1,14 @@
-import path from 'path';
+import path from 'node:path';
 
 export class Workspace {
 	#packageJson: PackageJson;
 	#location: string;
 	#rootLocation: string;
 	#tasks: TaskConfig | null = null;
+	#require: typeof require;
 
-	constructor(rootLocation: string, location: string, packageJson: PackageJson) {
+	constructor(rootLocation: string, location: string, packageJson: PackageJson, moduleRequire = require) {
+		this.#require = moduleRequire;
 		this.#rootLocation = rootLocation;
 		this.#location = location;
 		this.#packageJson = packageJson;
@@ -85,7 +87,7 @@ export class Workspace {
 			return this.#tasks;
 		}
 		try {
-			const mod = require(this.resolve('onerepo.config'));
+			const mod = this.#require(this.resolve('onerepo.config'));
 			this.#tasks = mod.default ?? mod ?? {};
 			return this.#tasks!;
 		} catch (e) {

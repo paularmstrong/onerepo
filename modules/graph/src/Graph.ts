@@ -24,8 +24,10 @@ export class Graph {
 	 * Separate map for aliases to locations to ensure the graph only uses fully qualified names
 	 */
 	#nameByAlias: Map<string, string> = new Map();
+	#require: typeof require;
 
 	constructor(location: string, packageJson: PrivatePackageJson, moduleRequire = require) {
+		this.#require = moduleRequire;
 		this.#rootLocation = location;
 		this.#addWorkspace(location, packageJson);
 
@@ -176,7 +178,7 @@ export class Graph {
 	}
 
 	#addWorkspace(location: string, packageJson: PackageJson) {
-		const workspace = new Workspace(this.#rootLocation, location, packageJson);
+		const workspace = new Workspace(this.#rootLocation, location, packageJson, this.#require);
 		this.#byName.set(workspace.name, workspace);
 		workspace.aliases.forEach((alias) => {
 			this.#nameByAlias.set(alias, workspace.name);
