@@ -4,7 +4,7 @@ import type { OpenMode } from 'node:fs';
 import fs from 'node:fs/promises';
 import { stepWrapper } from '@onerepo/logger';
 import type { Step } from '@onerepo/logger';
-import { format as prettier, getFileInfo, resolveConfig } from 'prettier';
+import prettier from 'prettier';
 
 function isDryRun() {
 	return process.env.ONE_REPO_DRY_RUN === 'true';
@@ -56,7 +56,7 @@ export async function lstat(filename: string, { step }: Options = {}) {
 export async function format(filename: string, contents: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Format ${filename}` }, async (step) => {
 		try {
-			const info = await getFileInfo(filename, {});
+			const info = await prettier.getFileInfo(filename, {});
 			step.debug(`File info for prettier: ${JSON.stringify(info)}`);
 
 			if (info.inferredParser === null || info.ignored) {
@@ -65,9 +65,9 @@ export async function format(filename: string, contents: string, { step }: Optio
 		} catch (e) {
 			return contents;
 		}
-		const config = await resolveConfig(filename);
+		const config = await prettier.resolveConfig(filename);
 		step.debug(`Resolved prettier config ${JSON.stringify(config)}`);
-		return prettier(contents, { ...config, filepath: filename });
+		return prettier.format(contents, { ...config, filepath: filename });
 	});
 }
 
