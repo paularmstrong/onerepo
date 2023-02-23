@@ -36,5 +36,14 @@ export default async (req, context) => {
 				element.setAttribute('selected', 'selected');
 			},
 		})
+		.on(`[data-theme-icon]`, {
+			element(element) {
+				const value = element.getAttribute('data-theme-icon');
+				if (value !== theme) {
+					const classlist = element.getAttribute('class') || '';
+					element.setAttribute('class', `${classlist} hidden`);
+				}
+			},
+		})
 		.transform(res);
 };
