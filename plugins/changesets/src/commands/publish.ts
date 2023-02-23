@@ -89,12 +89,18 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	}
 	await infoStep.end();
 
-	// TODO: how to ensure that there is a build command?
 	if (build) {
 		await run({
 			name: 'Build workspaces',
 			cmd: process.argv[1],
-			args: ['tasks', '-c', 'build', '-w', ...publishable.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
+			args: [
+				'tasks',
+				'-c',
+				'build',
+				'-w',
+				...publishable.map((ws) => ws.name),
+				verbosity ? `-${'v'.repeat(verbosity)}` : '',
+			].filter(Boolean),
 			runDry: true,
 		});
 	}
@@ -135,7 +141,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 				...(isDry ? ['--dry-run'] : []),
 			],
 			opts: {
-				cwd: ws.resolve('dist'),
+				cwd: ws.location,
 			},
 			runDry: true,
 		}))
