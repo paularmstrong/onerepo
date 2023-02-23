@@ -1,3 +1,4 @@
+import pc from 'picocolors';
 import inquirer from 'inquirer';
 import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
@@ -6,6 +7,7 @@ import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
+import { getStatus } from '@onerepo/git';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
@@ -13,6 +15,7 @@ export const command = ['prerelease', 'pre-release', 'pre'];
 export const description = 'Pre-release available workspaces.';
 
 type Args = {
+	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
 };
@@ -20,6 +23,12 @@ type Args = {
 export const builder: Builder<Args> = (yargs) =>
 	yargs
 		.usage('$0 prerelease')
+		.option('allow-dirty', {
+			type: 'boolean',
+			default: false,
+			hidden: true,
+			description: 'Bypass checks to ensure no local changes before publishing.',
+		})
 		.option('build', {
 			type: 'boolean',
 			description: 'Build workspaces before publishing',
@@ -32,7 +41,21 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
-	const { build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
+	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
+
+	if (!allowDirty) {
+		const cleanStep = logger.createStep('Ensure clean working directory');
+		const status = await getStatus({ step: cleanStep });
+		if (status) {
+			cleanStep.error(`Working directory must be unmodified to ensure safe pre-publish.
+Commit or stash your changes to continue.
+
+Current status is:\n ${status}`);
+			await cleanStep.end();
+			return;
+		}
+		await cleanStep.end();
+	}
 
 	await run({
 		name: 'Ensure registry auth',
@@ -65,12 +88,34 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 				type: 'checkbox',
 				name: 'choices',
 				message: 'Which workspaces would you like to release?',
-				choices: ['All', new inquirer.Separator('With changes'), ...Array.from(hasChanges)],
+				choices: [
+					{ name: pc.bold('All workspaces'), value: '_ALL_' },
+					new inquirer.Separator('⎯'.repeat(20)),
+					new inquirer.Separator(' Workspaces with changesets\n'),
+					...Array.from(hasChanges)
+						.sort()
+						.map((name) => {
+							if (!name.includes('/')) {
+								return name;
+							}
+							const [scope, shortname] = name.split('/');
+							return `${pc.dim(scope)}/${shortname}`;
+						}),
+					new inquirer.Separator('⎯'.repeat(20)),
+				],
+				pageSize: Math.min(hasChanges.size + 2, 20),
 			},
 		]);
 
-		if (!choices.includes('All')) {
+		logger.warn(choices);
+
+		if (!choices.includes('_ALL_')) {
 			workspaces = graph.dependencies(choices, true).filter((ws) => !ws.private);
+		}
+
+		if (choices.length === 0) {
+			logger.warn('No workspaces were selected so nothing will be published.');
+			return;
 		}
 
 		logger.unpause();
@@ -78,13 +123,18 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		logger.warn('No changesets found. Defaulting to all workspaces.');
 	}
 
+	const versionStep = logger.createStep('Get pre-release version');
 	const [sha] = await run({
 		name: 'Get commit sha',
 		cmd: 'git',
 		args: ['rev-parse', '--short', 'HEAD'],
 		runDry: true,
+		step: versionStep,
 	});
 	const newVersion = `0.0.0-pre.${sha}`;
+
+	versionStep.warn(newVersion);
+	await versionStep.end();
 
 	const releases: ReleasePlan['releases'] = workspaces.map((ws) => ({
 		name: ws.name,
@@ -97,13 +147,22 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	logger.debug('Chosen releases:');
 	logger.debug(releases);
 
-	// TODO: how to ensure that there is a build command?
 	if (build) {
 		await run({
-			name: `Build workspaces`,
+			name: 'Build workspaces',
 			cmd: process.argv[1],
-			args: ['tasks', '-c', 'build', '-w', ...workspaces.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
+			args: [
+				'tasks',
+				'-c',
+				'build',
+				'-w',
+				...workspaces.map((ws) => ws.name),
+				verbosity ? `-${'v'.repeat(verbosity)}` : '',
+			].filter(Boolean),
 			runDry: true,
+			opts: {
+				stdio: 'inherit',
+			},
 		});
 	}
 
@@ -139,7 +198,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	);
 
 	const resetStep = logger.createStep('Reset package.jsons');
-	for (const workspace of workspaces) {
+	for (const workspace of graph.workspaces) {
 		await resetPackageJson(workspace, { step: resetStep });
 	}
 	await resetStep.end();

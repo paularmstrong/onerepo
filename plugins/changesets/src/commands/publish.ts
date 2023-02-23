@@ -19,6 +19,12 @@ type Args = {
 export const builder: Builder<Args> = (yargs) =>
 	yargs
 		.usage('$0 release [options]')
+		.option('allow-dirty', {
+			type: 'boolean',
+			default: false,
+			hidden: true,
+			description: 'Bypass checks to ensure no local changes before publishing.',
+		})
 		.option('build', {
 			type: 'boolean',
 			description: 'Build workspaces before publishing',
@@ -29,12 +35,6 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
-		.option('allow-dirty', {
-			type: 'boolean',
-			default: false,
-			hidden: true,
-			description: 'Bypass checks to ensure no local changes before publishing.',
-		})
 		.epilogue(
 			'This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.'
 		);
@@ -42,22 +42,26 @@ export const builder: Builder<Args> = (yargs) =>
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
 
-	const cleanStep = logger.createStep('Ensure clean working directory');
-	const branch = await getBranch({ step: cleanStep });
-	if (!allowDirty && branch !== process.env.ONE_REPO_HEAD_BRANCH) {
-		cleanStep.error(
-			`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`
-		);
+	if (!allowDirty) {
+		const cleanStep = logger.createStep('Ensure clean working directory');
+		const branch = await getBranch({ step: cleanStep });
+		if (branch !== process.env.ONE_REPO_HEAD_BRANCH) {
+			cleanStep.error(
+				`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`
+			);
+			await cleanStep.end();
+			return;
+		}
+
+		const status = await getStatus({ step: cleanStep });
+
+		if (status) {
+			cleanStep.error(`Working directory must be unmodified to ensure safe publish. Current status is:\n  ${status}`);
+			await cleanStep.end();
+			return;
+		}
 		await cleanStep.end();
-		return;
 	}
-	const status = await getStatus({ step: cleanStep });
-	if (!allowDirty && status) {
-		cleanStep.error(`Working directory must be unmodified to ensure safe publish. Current status is:\n  ${status}`);
-		await cleanStep.end();
-		return;
-	}
-	await cleanStep.end();
 
 	await run({
 		name: 'Ensure registry auth',
@@ -88,7 +92,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	// TODO: how to ensure that there is a build command?
 	if (build) {
 		await run({
-			name: `Build workspaces`,
+			name: 'Build workspaces',
 			cmd: process.argv[1],
 			args: ['tasks', '-c', 'build', '-w', ...publishable.map((ws) => ws.name), `-${'v'.repeat(verbosity)}`],
 			runDry: true,

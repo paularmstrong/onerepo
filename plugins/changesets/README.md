@@ -153,6 +153,16 @@ one change prerelease
 | `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
 | `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
 
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
+
 ### `one change publish`
 
 Aliases: `release`

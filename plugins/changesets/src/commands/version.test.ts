@@ -4,11 +4,11 @@ import type { Repository } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as applyReleasePlan from '@changesets/apply-release-plan';
-import * as Generate from './version';
+import * as Version from './version';
 
 import { getCommand } from '@onerepo/test-cli';
 
-const { run } = getCommand(Generate);
+const { run } = getCommand(Version);
 
 vi.mock('@changesets/apply-release-plan');
 
