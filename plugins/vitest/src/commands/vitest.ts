@@ -1,7 +1,8 @@
 import { getModifiedFiles } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
-import type { Workspace } from '@onerepo/graph';
+import { withAffected, withWorkspaces } from '@onerepo/builders';
+import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
 
 export const command = 'vitest';
 
@@ -10,70 +11,55 @@ export const description = 'Run unit tests using Vitest';
 type Args = {
 	affected?: boolean;
 	all?: boolean;
+	config: string;
 	inspect: boolean;
 	workspaces?: Array<string>;
-};
+} & WithAffected &
+	WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
-	yargs
-		.usage('$0 test [file-patterns] [options]')
-		.positional('file-patterns', {
-			type: 'string',
-			array: true,
-			description: 'Any set of valid test file patterns to pass directly to vitest',
-		})
+	withAffected(withWorkspaces(yargs))
+		.usage(`$0 ${command} [options] -- [passthrough]`)
+		.example(`$0 ${command}`, 'Run only tests related to modified files.')
+		.example(`$0 ${command} -- --watch`, 'Run vitest in --watch mode.')
+		.example(`$0 ${command} -- -w path/to/test.ts`, 'Run vitest in watch mode with a particular file.')
 		.epilogue(
-			`This command also accepts any argument that [vitest accepts](https://vitest.dev/guide/cli.html) and passes them through.`
+			'This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.'
 		)
-		.example('$0 test --watch', 'Run vitest in --watch mode.')
-		.option('all', {
-			alias: 'a',
-			type: 'boolean',
-			description: 'Lint all files unconditionally',
-		})
-		.option('affected', {
-			type: 'boolean',
-			description: 'Run tests related to all affected workspaces',
-			conflicts: ['all', 'files', 'workspaces'],
-		})
+		.epilogue(
+			'Additionally, any other [Vitest CLI options](https://vitest.dev/guide/cli.html) can be passed as passthrough arguments as well.'
+		)
 		.option('inspect', {
 			type: 'boolean',
-			description: 'Break for the the Node inspector to debug tests',
+			description: 'Break for the the Node inspector to debug tests.',
 			default: false,
 		})
-		.option('workspaces', {
-			alias: 'ws',
-			type: 'array',
-			string: true,
-			description: 'List of workspace names to restrict linting against',
-			conflicts: ['all', 'files'],
-		})
-		.strictCommands(false);
+		.option('config', {
+			type: 'string',
+			description: 'Path to the vitest.config file, relative to the repo root.',
+			default: './vitest.config.ts',
+			hidden: true,
+		});
 
-export const handler: Handler<Args> = async function handler(argv, { graph, getAffected }) {
-	const {
-		_: [, ...positionals],
-		'--': other = [],
-		affected,
-		workspaces: workspaceNames,
-		inspect,
-	} = argv;
+export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
+	const { '--': other = [], affected, config, inspect, workspaces } = argv;
 
 	const related: Array<string> = [];
 	const paths: Array<string> = [];
 
-	let workspaces: Array<Workspace> = [];
-	if (workspaceNames) {
-		workspaces = graph.getAllByName(workspaceNames);
-		workspaces.forEach((ws) => {
-			paths.join(ws.location);
-		});
-	} else if (affected) {
-		workspaces = await getAffected();
-	} else if (!positionals) {
-		const { all } = await getModifiedFiles();
-		related.push(...all);
-		related.unshift('related');
+	const hasNonOptExtraArgs = other.length ? other.filter((o) => !o.startsWith('-')).length > 0 : false;
+
+	if (!hasNonOptExtraArgs) {
+		if (affected && !workspaces?.length) {
+			const { all } = await getModifiedFiles();
+			related.push(...all);
+			related.unshift('related');
+		} else {
+			const workspaces = await getWorkspaces();
+			workspaces.forEach((ws) => {
+				paths.push(ws.location);
+			});
+		}
 	}
 
 	await run({
@@ -82,10 +68,9 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getA
 		args: [
 			...(inspect ? ['--inspect', '--inspect-brk', 'node_modules/.bin/vitest'] : []),
 			'--config',
-			graph.root.resolve('config', 'vitest.config.ts'),
-			...related,
+			config,
+			...related.filter((filepath) => !filepath.endsWith('.json')),
 			...paths,
-			...positionals.map(String),
 			...(other as Array<string>),
 		],
 		opts: { stdio: 'inherit' },

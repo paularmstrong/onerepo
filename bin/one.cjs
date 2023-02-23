@@ -27,7 +27,7 @@ const { typescript } = require('@onerepo/plugin-typescript');
 			},
 			plugins: [
 				changesets(),
-				vitest({ name: 'test' }),
+				vitest({ name: 'test', config: './config/vitest.config.ts' }),
 				eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 				prettier({ name: 'format' }),
 				docgen({
