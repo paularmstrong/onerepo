@@ -1,0 +1,74 @@
+---
+---
+
+<select id="theme-switcher" name="theme">
+	<option value="auto">Auto</option>
+	<option value="light">Light</option>
+	<option value="dark">Dark</option>
+</select>
+
+<script>
+	type Theme = 'light' | 'dark' | 'auto';
+	const query = '(prefers-color-scheme: dark)';
+	const dark = 'dark';
+	const light = 'light';
+
+	function callApi(theme: Theme, auto: boolean) {
+		const params = new URLSearchParams({ theme, auto: auto ? 'true' : 'false' });
+		fetch(`/api/theme/?${params.toString()}`);
+	}
+
+	const sel = document.getElementById('theme-switcher')! as HTMLSelectElement;
+
+	function listener(event: MediaQueryListEvent) {
+		const theme = event.matches ? dark : light;
+		callApi(theme, true);
+
+		const doc = document.documentElement;
+
+		if (theme === dark) {
+			doc.classList.add(dark);
+		} else {
+			doc.classList.remove(dark);
+		}
+	}
+
+	function setTheme(theme: Theme) {
+		const doc = document.documentElement;
+		const isAuto = theme === 'auto';
+		let newTheme: Theme = theme;
+		if (isAuto) {
+			newTheme = window.matchMedia(query).matches ? dark : light;
+			window.matchMedia(query).addEventListener('change', listener);
+		} else {
+			window.matchMedia(query).removeEventListener('change', listener);
+		}
+
+		doc.dataset.autoTheme = isAuto ? 'true' : 'false';
+		if (newTheme === dark) {
+			doc.classList.add(dark);
+		} else {
+			doc.classList.remove(dark);
+		}
+
+		callApi(newTheme!, isAuto);
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const doc = document.documentElement;
+		if (doc.dataset.autoTheme === 'true') {
+			window.matchMedia(query).addEventListener('change', listener);
+		}
+
+		setTheme(
+			doc.className.includes('dark') ? 'dark' : 'light',
+			// @ts-ignore wat
+			doc.dataset.autoTheme === 'true'
+		);
+	});
+
+	sel.addEventListener('change', (event) => {
+		const target = event.target! as HTMLSelectElement;
+		setTheme(target.value as Theme);
+	});
+</script>

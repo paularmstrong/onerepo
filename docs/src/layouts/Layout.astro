@@ -12,14 +12,13 @@ const { description, title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html
-	lang="en"
-	class="bg-gray-100 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-100 bg-fixed text-gray-900 transition-colors duration-200 tab-2 dark:bg-gray-900 dark:from-gray-800/60 dark:via-gray-900 dark:to-gray-900 dark:text-white"
->
+<html lang="en" class="scroll-smooth">
 	<head>
 		<Head title={title} description={description} />
 	</head>
-	<body class="flex min-h-screen flex-col">
+	<body
+		class="flex min-h-screen flex-col bg-gray-100 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-100 bg-fixed text-gray-900 transition-colors duration-200 tab-2 dark:bg-gray-900 dark:from-gray-800/60 dark:via-gray-900 dark:to-gray-900 dark:text-white"
+	>
 		<Header />
 		<div class="container mx-auto grow px-4 md:px-8"><slot /></div>
 		<Footer />

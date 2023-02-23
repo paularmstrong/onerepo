@@ -1,11 +1,8 @@
-// @ts-ignore
-import type { Context } from 'https://edge.netlify.com/';
-// @ts-ignore
-import { HTMLRewriter, Element } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts';
+import { HTMLRewriter } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts';
 
 const COOKIE_NAME = 'dt';
 
-export default async (req: Request, context: Context) => {
+export default async (req, context) => {
 	const res = await context.next();
 	const type = res.headers.get('content-type');
 	if (!type?.startsWith('text/html')) {
@@ -28,10 +25,15 @@ export default async (req: Request, context: Context) => {
 
 	return new HTMLRewriter()
 		.on('html', {
-			element(element: Element) {
+			element(element) {
 				const original = element.getAttribute('class') || false;
-				element.setAttribute('class', [original, theme].filter(Boolean).join(' '));
+				element.setAttribute('class', [theme, original].filter(Boolean).join(' '));
 				element.setAttribute('data-auto-theme', isAuto ? 'true' : 'false');
+			},
+		})
+		.on(isAuto ? 'option[value="auto"]' : `option[value="${theme}"]`, {
+			element(element) {
+				element.setAttribute('selected', 'selected');
 			},
 		})
 		.transform(res);

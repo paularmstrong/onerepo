@@ -1,10 +1,7 @@
-// @ts-ignore
-import type { Context } from 'https://edge.netlify.com/';
-
 const COOKIE_NAME = 'dt';
-const themes = ['light', 'dark'] as const;
+const themes = ['light', 'dark'];
 
-export default async (req: Request, context: Context) => {
+export default async (req, context) => {
 	const url = new URL(req.url);
 	const params = url.searchParams;
 
@@ -18,7 +15,7 @@ export default async (req: Request, context: Context) => {
 		});
 	}
 
-	const theme = params.get('theme') as typeof themes[number];
+	const theme = params.get('theme');
 	const auto = params.get('auto') === 'true';
 
 	if (!themes.includes(theme)) {

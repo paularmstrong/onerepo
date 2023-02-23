@@ -3,7 +3,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['src/**/*.{astro,md,mdx,tsx}', '../**/*.{mdx,md}', 'astro.config.mjs'],
-	darkMode: 'media',
+	darkMode: 'class',
 	plugins: [
 		require('@tailwindcss/typography'),
 		{
