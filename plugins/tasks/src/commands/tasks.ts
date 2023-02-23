@@ -191,6 +191,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 
 function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
+	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
 	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
 	const bin = cmd === '$0' ? process.argv[1] : cmd;
@@ -203,10 +204,10 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames
 	return {
 		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
-		// TODO: replace ${workspaces} with list of affected workspaces
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
 		meta: {
+			...meta,
 			name: workspace.name,
 			slug: slugify(workspace.name),
 		},
@@ -214,7 +215,7 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames
 }
 
 function matchTask(task: Task, files: Array<string>) {
-	if (typeof task === 'string') {
+	if (typeof task === 'string' || !task.match) {
 		return false;
 	}
 

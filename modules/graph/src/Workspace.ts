@@ -165,7 +165,7 @@ export interface PackageJsonWithLocation extends PackageJson {
 	location: string;
 }
 
-type MatchTask = { match: string; cmd: string };
+type MatchTask = { match?: string; cmd: string; meta?: Record<string, unknown> };
 export type Task = string | MatchTask;
 export type Tasks = {
 	sequential?: Array<Task>;

@@ -63,26 +63,43 @@ describe('handler', () => {
 				cmd: expect.stringMatching(/test-runner$/),
 				args: ['lint'],
 				opts: { cwd: '.' },
-				meta: { name: 'fixture-root', slug: 'fixture-root' },
 			}),
 			expect.objectContaining({
 				cmd: expect.stringMatching(/test-runner$/),
 				args: ['tsc'],
 				opts: { cwd: '.' },
-				meta: { name: 'fixture-root', slug: 'fixture-root' },
 			}),
 			expect.objectContaining({ cmd: 'echo', args: ['"commit"'] }),
 			expect.objectContaining({
 				cmd: 'echo',
 				args: ['"post-commit"'],
 				opts: { cwd: '.' },
-				meta: { name: 'fixture-root', slug: 'fixture-root' },
 			}),
 			expect.objectContaining({
 				cmd: 'echo',
 				args: ['"post-commit"', '"tacos"'],
 				opts: { cwd: 'modules/tacos' },
-				meta: { name: 'fixture-tacos', slug: 'fixture-tacos' },
+			}),
+		]);
+	});
+
+	test('includes meta information on task list', async () => {
+		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['burritos/src/index.ts'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('--lifecycle pre-merge --list', { graph });
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"pre-merge"', '"burritos"'],
+				opts: { cwd: 'modules/burritos' },
+				meta: { good: 'yes', name: 'fixture-burritos', slug: 'fixture-burritos' },
 			}),
 		]);
 	});
