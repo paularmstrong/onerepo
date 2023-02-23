@@ -141,6 +141,16 @@ one change prerelease
 | `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
 | `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
 
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
+
 #### `one change publish`
 
 Aliases: `release`
@@ -175,6 +185,10 @@ Version workspaces for publishing. Allows you to select a minimal set of workspa
 ```sh
 one change version
 ```
+
+| Option                    | Type                       | Description                                                            | Required |
+| ------------------------- | -------------------------- | ---------------------------------------------------------------------- | -------- |
+| `--add`, `--update-index` | `boolean`, default: `true` | Add the modified `package.json` files to the git stage for committing. |          |
 
 ### `one docgen`
 

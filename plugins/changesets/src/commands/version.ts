@@ -6,16 +6,27 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
 import type { Builder, Handler } from '@onerepo/types';
+import { updateIndex } from '@onerepo/git';
 
 export const command = 'version';
 
 export const description =
 	'Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.';
 
-export const builder: Builder = (yargs) => yargs.usage('$0 version');
+type Argv = {
+	add: boolean;
+};
 
-export const handler: Handler = async (argv, { graph, logger }) => {
-	const { 'dry-run': isDryRun } = argv;
+export const builder: Builder<Argv> = (yargs) =>
+	yargs.usage('$0 version').option('add', {
+		alias: ['update-index'],
+		description: 'Add the modified `package.json` files to the git stage for committing.',
+		type: 'boolean',
+		default: true,
+	});
+
+export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
+	const { add, 'dry-run': isDryRun } = argv;
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
@@ -34,7 +45,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		releases.forEach(({ name }) => names.add(name));
 	});
 
-	const available = Array.from(names);
+	const available = Array.from(names).sort();
 
 	const { choices } = await inquirer.prompt([
 		{
@@ -54,7 +65,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		return;
 	}
 
-	const affectedChoices = graph.affected(choices).map(({ name }) => name);
+	const affectedChoices = graph.dependencies(choices, true).map(({ name }) => name);
 
 	const filteredChangesets = changesets.filter(({ releases }) => {
 		return releases.some(({ name }) => affectedChoices.includes(name));
@@ -73,5 +84,9 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 
 	if (!isDryRun) {
 		await applyReleasePlan(releasePlan, packages, config);
+	}
+
+	if (add && !isDryRun) {
+		await updateIndex(graph.workspaces.map((ws) => [ws.resolve('package.json'), ws.resolve('CHANGELOG.md')]).flat());
 	}
 };
