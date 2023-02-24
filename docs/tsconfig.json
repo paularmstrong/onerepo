@@ -5,5 +5,5 @@
 		"module": "ESNext",
 		"types": ["astro/client"]
 	},
-	"exclude": ["netlify/edge-functions"]
+	"exclude": ["netlify/edge-functions", "dist/**/*"]
 }

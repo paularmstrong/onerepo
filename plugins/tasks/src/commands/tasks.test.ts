@@ -104,7 +104,7 @@ describe('handler', () => {
 		]);
 	});
 
-	test('ignores files', async () => {
+	test('returns no tasks if all files were ignored', async () => {
 		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['modules/tacos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
@@ -116,7 +116,7 @@ describe('handler', () => {
 
 		await run('-c commit --list --ignore "modules/tacos/**/*"', { graph });
 
-		expect(out).toEqual('');
+		expect(out).toEqual('[]');
 	});
 
 	test('ignores files', async () => {
@@ -139,6 +139,43 @@ describe('handler', () => {
 				args: ['"post-commit"'],
 				opts: { cwd: '.' },
 				meta: { name: 'fixture-root', slug: 'fixture-root' },
+			}),
+		]);
+	});
+
+	test('filters out commands when matchers do not match', async () => {
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ all: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('-c build --list', { graph });
+
+		expect(out).toEqual('[]');
+	});
+
+	test('includes tasks that match cross-workspaces', async () => {
+		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['modules/burritos/src/index.ts'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('-c publish --list', { graph });
+
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'publish',
+				args: ['tacos'],
 			}),
 		]);
 	});
