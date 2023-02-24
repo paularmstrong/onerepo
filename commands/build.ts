@@ -1,6 +1,6 @@
 import glob from 'glob';
 import path from 'node:path';
-import { batch, file, logger, withAffected, withWorkspaces } from 'onerepo';
+import { batch, file, logger, run, withAffected, withWorkspaces } from 'onerepo';
 import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
 
 export const command = 'build';
@@ -32,6 +32,12 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	const workspaces = await getWorkspaces();
 	const existsStep = logger.createStep('Check for tsconfigs');
 
+	const [esbuildBin] = await run({
+		name: 'Get esbuild bin',
+		cmd: 'yarn',
+		args: ['bin', 'esbuild'],
+	});
+
 	for (const workspace of workspaces) {
 		if (workspace.private) {
 			logger.warn(`Not building \`${workspace.name}\` because it is private`);
@@ -61,9 +67,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		files.length &&
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
-				cmd: 'npx',
+				cmd: esbuildBin,
 				args: [
-					'esbuild',
 					...files,
 					`--outdir=${workspace.resolve('dist')}`,
 					'--platform=node',

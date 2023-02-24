@@ -1,3 +1,4 @@
+import path from 'node:path';
 import minimatch from 'minimatch';
 import type { Builder, Handler } from '@onerepo/types';
 import type { Lifecycle, Repository, Task, Tasks, Workspace } from '@onerepo/graph';
@@ -85,6 +86,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 
 	if (!files.length && !runAll && !affectedNames.length) {
 		logger.warn('No tasks to run');
+		if (list) {
+			process.stdout.write('[]');
+		}
 		return;
 	}
 
@@ -94,18 +98,18 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 
 	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Required<Tasks>, type: keyof TaskSet) {
 		tasks.sequential.forEach((task) => {
-			hasTasks = true;
-			const match = force(task) || matchTask(task, files);
-			if (match) {
+			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
+			if (shouldRun) {
+				hasTasks = true;
 				const spec = taskToSpec(graph, workspace, task, affectedNames);
 				sequentialTasks[type].push(spec);
 			}
 		});
 
 		tasks.parallel.forEach((task) => {
-			hasTasks = true;
-			const match = force(task) || matchTask(task, files);
-			if (match) {
+			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
+			if (shouldRun) {
+				hasTasks = true;
 				const spec = taskToSpec(graph, workspace, task, affectedNames);
 				parallelTasks[type].push(spec);
 			}
@@ -214,12 +218,12 @@ function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames
 	};
 }
 
-function matchTask(task: Task, files: Array<string>) {
+function matchTask(force: boolean, task: Task, files: Array<string>, cwd: string) {
 	if (typeof task === 'string' || !task.match) {
-		return false;
+		return force;
 	}
 
-	return minimatch.match(files, task.match);
+	return minimatch.match(files, path.join(cwd, task.match)).length > 0;
 }
 
 function slugify(str: string) {
