@@ -11,7 +11,7 @@ export const handler: Handler = async (argv, { graph }) => {
 	await run({
 		name: 'Run astro',
 		cmd: 'npx',
-		args: ['astro', 'dev'],
+		args: ['netlify', 'dev'],
 		opts: {
 			cwd: graph.getByLocation(__dirname)!.location,
 			stdio: 'inherit',

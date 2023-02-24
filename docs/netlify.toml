@@ -1,0 +1,16 @@
+[dev]
+  framework = "astro"
+  targetPort = 3000
+  autoLaunch = false
+
+[[edge_functions]]
+  path = "/*"
+  function = "theme"
+
+[[edge_functions]]
+  path = "/docs/*"
+  function = "theme"
+
+[[edge_functions]]
+  path = "/api/theme/*"
+  function = "set-theme"

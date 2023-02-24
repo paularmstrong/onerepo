@@ -21,3 +21,6 @@ pnpm-debug.log*
 
 *.tsbuildinfo
 *.eslintcache
+
+# Local Netlify folder
+.netlify

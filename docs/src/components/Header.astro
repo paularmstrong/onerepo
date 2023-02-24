@@ -1,5 +1,6 @@
 ---
 import GitHub from './icons/GitHub.astro';
+import ThemeSwitcher from './ThemeSwitcher.astro';
 ---
 
 <header
@@ -23,6 +24,9 @@ import GitHub from './icons/GitHub.astro';
 				</li>
 				<li>
 					<a class="rounded p-2 transition-colors duration-200 hover:bg-cyan-600/50" href="/docs/plugins/">Plugins</a>
+				</li>
+				<li>
+					<ThemeSwitcher client:load />
 				</li>
 				<li>
 					<a
