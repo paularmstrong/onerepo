@@ -8,9 +8,11 @@ import createYargs from 'yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
+import { generate as generatePlugin } from './core/generate';
 import { graph as graphPlugin } from './core/graph';
 import { install as installPlugin } from './core/install';
 import { tasks as tasksPlugin } from './core/tasks';
+import type { Options as GenerateOptions } from './core/generate';
 import type { Options as GraphOptions } from './core/graph';
 import type { Options as InstallOptions } from './core/install';
 import type { Options as TasksOptions } from './core/tasks';
@@ -18,9 +20,10 @@ import type { Options as TasksOptions } from './core/tasks';
 export type { GraphSchemaValidators } from './core/graph';
 
 type CoreOptions = {
-	tasks?: TasksOptions | false;
-	install?: InstallOptions | false;
+	generate?: GenerateOptions | false;
 	graph?: GraphOptions | false;
+	install?: InstallOptions | false;
+	tasks?: TasksOptions | false;
 };
 
 export type PluginPrePostHandler = (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
@@ -126,6 +129,9 @@ export async function setup(config: Config = {}) {
 	}
 
 	// Install the core plugins
+	if (core.generate !== false) {
+		plugins.push(generatePlugin(core.generate));
+	}
 	if (core.graph !== false) {
 		plugins.push(graphPlugin(core.graph));
 	}

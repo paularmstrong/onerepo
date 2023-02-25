@@ -14,6 +14,7 @@ const { eslint } = require('@onerepo/plugin-eslint');
 			root: path.join(__dirname, '..', '..', '..'),
 			subcommandDir: false,
 			core: {
+				generate: false,
 				graph: false,
 				install: false,
 				tasks: false,

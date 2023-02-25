@@ -14,6 +14,7 @@ const { typescript } = require('@onerepo/plugin-typescript');
 			root: path.join(__dirname, '..', '..', '..'),
 			subcommandDir: false,
 			core: {
+				generate: false,
 				graph: false,
 				install: false,
 				tasks: false,

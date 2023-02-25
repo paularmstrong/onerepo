@@ -8,7 +8,6 @@ const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { vitest } = require('@onerepo/plugin-vitest');
 const { prettier } = require('@onerepo/plugin-prettier');
-const { generate } = require('@onerepo/plugin-generate');
 const { typescript } = require('@onerepo/plugin-typescript');
 
 (async () => {
@@ -20,10 +19,13 @@ const { typescript } = require('@onerepo/plugin-typescript');
 			root: path.join(__dirname, '..'),
 			subcommandDir: 'commands',
 			core: {
+				generate: {
+					templatesDir: path.join(__dirname, '..', 'config', 'templates'),
+				},
+				graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
 				tasks: {
 					ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
 				},
-				graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
 			},
 			plugins: [
 				changesets(),
@@ -35,9 +37,6 @@ const { typescript } = require('@onerepo/plugin-typescript');
 					outFile: 'docs/src/pages/docs/contributing/cli.md',
 					format: 'markdown',
 					safeWrite: true,
-				}),
-				generate({
-					templatesDir: path.join(__dirname, '..', 'config', 'templates'),
 				}),
 				typescript({ tsconfig: 'tsconfig.json' }),
 			],

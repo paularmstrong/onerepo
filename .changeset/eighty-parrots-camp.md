@@ -9,7 +9,6 @@
 '@onerepo/plugin-vitest': patch
 '@onerepo/plugin-prettier': patch
 '@onerepo/file': patch
-'@onerepo/plugin-generate': patch
 '@onerepo/plugin-docgen': patch
 '@onerepo/plugin-changesets': patch
 '@onerepo/core': patch
