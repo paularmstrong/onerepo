@@ -1,6 +1,6 @@
 import type { Schema } from 'ajv';
 
-export type SchemaMap = Record<string, Record<string, Schema>>;
+export type GraphSchemaValidators = Record<string, Record<string, Schema>>;
 
 const defaultSchema = {
 	type: 'object',
@@ -54,7 +54,7 @@ const defaultSchema = {
 	},
 } satisfies Schema;
 
-export const defaultValidators: SchemaMap = {
+export const defaultValidators: GraphSchemaValidators = {
 	'**': {
 		'package.json': defaultSchema,
 	},

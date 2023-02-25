@@ -26,7 +26,7 @@ export const builder: Builder<Args> = (yargs) =>
 	yargs
 		.usage('$0 docgen [options]')
 		.epilogue(
-			'Help documentation should always be easy to find. This command will help automate the creation of docs for this commandline interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!'
+			'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!'
 		)
 		.epilogue(
 			'Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.'
@@ -131,7 +131,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 
 	if (outPath) {
 		if (safeWrite) {
-			await writeSafe(outPath, output);
+			await writeSafe(outPath, output, { sentinel: `auto-generated-from-cli${command ? `-${command}` : ''}` });
 		} else {
 			await write(outPath, output);
 		}

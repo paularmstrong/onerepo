@@ -102,7 +102,7 @@ export class Yargs {
 
 	/**
 	 * HACK!
-	 * @onerepo/cli patches yargs.commandDir to ensure the commandDir options are always passed through from the root.
+	 * @onerepo/core patches yargs.commandDir to ensure the commandDir options are always passed through from the root.
 	 * This patching _may not_ be correct for consumers outside of onerepo, therefore use at your own risk.
 	 */
 	_commandDirOpts: RequireDirectoryOptions = {};

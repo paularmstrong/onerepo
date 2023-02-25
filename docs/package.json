@@ -17,8 +17,7 @@
 		"tailwindcss": "^3.2.6"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"eslint-plugin-astro": "^0.23.0",
 		"netlify-cli": "^13.0.0",
 		"onerepo": "0.0.0",

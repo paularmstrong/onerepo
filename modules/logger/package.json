@@ -24,8 +24,7 @@
 		"picocolors": "^1.0.0"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	}

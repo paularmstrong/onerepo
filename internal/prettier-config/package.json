@@ -1,5 +1,5 @@
 {
-	"name": "@onerepo/prettier-config",
+	"name": "@internal/prettier-config",
 	"private": true,
 	"type": "commonjs",
 	"main": "./src/index.cjs",
@@ -7,7 +7,7 @@
 		"prettier": "2"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@types/prettier": "^2.7.2"
 	},
 	"dependencies": {

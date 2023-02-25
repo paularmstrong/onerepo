@@ -1,0 +1,28 @@
+---
+import Docs from '../../../layouts/Docs.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
+
+export async function getStaticPaths() {
+	const pages = (await Astro.glob('../../../../../modules/core/docs/**/*.md')).map((page) => {
+		const parts = page.file.split('/');
+		const slug = parts[parts.length - 1].replace(/\.md$/, '');
+
+		return { params: { slug }, props: { page } };
+	});
+
+	return pages;
+}
+
+const {
+	frontmatter: { title, description },
+	Content,
+} = Astro.props.page;
+
+const headings = Astro.props.page.getHeadings;
+---
+
+<Docs title={title} description={description}>
+	<Content />
+
+	<TableOfContents slot="toc" headings={headings} />
+</Docs>

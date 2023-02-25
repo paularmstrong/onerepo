@@ -8,12 +8,14 @@ import createYargs from 'yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
-import { graph as graphPlugin } from '@onerepo/plugin-graph';
-import { install as installPlugin } from '@onerepo/plugin-install';
-import { tasks as tasksPlugin } from '@onerepo/plugin-tasks';
-import type { Options as GraphOptions } from '@onerepo/plugin-graph';
-import type { Options as InstallOptions } from '@onerepo/plugin-install';
-import type { Options as TasksOptions } from '@onerepo/plugin-tasks';
+import { graph as graphPlugin } from './core/graph';
+import { install as installPlugin } from './core/install';
+import { tasks as tasksPlugin } from './core/tasks';
+import type { Options as GraphOptions } from './core/graph';
+import type { Options as InstallOptions } from './core/install';
+import type { Options as TasksOptions } from './core/tasks';
+
+export type { GraphSchemaValidators } from './core/graph';
 
 type CoreOptions = {
 	tasks?: TasksOptions | false;

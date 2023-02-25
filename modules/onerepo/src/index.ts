@@ -1,4 +1,4 @@
-export * from '@onerepo/cli';
+export * from '@onerepo/core';
 export * from '@onerepo/graph';
 export * from '@onerepo/logger';
 

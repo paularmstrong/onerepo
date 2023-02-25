@@ -26,9 +26,8 @@
 		"inquirer": "^9.1.4"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@onerepo/types": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
 		"@types/ejs": "^3",
 		"@types/glob": "^8",
 		"@types/inquirer": "^9",

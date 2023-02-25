@@ -4,8 +4,7 @@ const { register } = require('esbuild-register/dist/node');
 
 register({});
 
-const { setup } = require('onerepo');
-const { install } = require('@onerepo/plugin-install');
+const { setup } = require('../src');
 
 (async () => {
 	const { run } = await setup(
@@ -13,12 +12,7 @@ const { install } = require('@onerepo/plugin-install');
 		{
 			root: path.join(__dirname, '..', '..', '..'),
 			subcommandDir: false,
-			core: {
-				graph: false,
-				install: false,
-				tasks: false,
-			},
-			plugins: [install()],
+			core: {},
 		}
 	);
 

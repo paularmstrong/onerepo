@@ -25,9 +25,8 @@
 		"@onerepo/subprocess": "0.0.0"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@onerepo/types": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
 		"typescript": "^4.9.5"
 	},
 	"peerDependencies": {

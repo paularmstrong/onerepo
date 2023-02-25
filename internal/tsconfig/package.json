@@ -1,5 +1,5 @@
 {
-	"name": "@onerepo/tsconfig",
+	"name": "@internal/tsconfig",
 	"private": true,
 	"main": "./base.json",
 	"files": [

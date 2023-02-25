@@ -48,7 +48,7 @@ Furthermore, it is difficult to remember how to run scripts in individual worksp
 
 oneRepo comes out of the box with four major pieces, each built upon the previous:
 
-1. A commandline interface
+1. A command-line interface
 1. A workspace graph
 1. A smart and fast task-runner
 1. Plugins and extensibility

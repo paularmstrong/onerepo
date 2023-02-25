@@ -13,14 +13,15 @@
 		"plugins/*"
 	],
 	"devDependencies": {
-		"@onerepo/eslint-plugin": "workspace:^",
+		"@internal/eslint-plugin": "workspace:^",
+		"@internal/prettier-config": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest": "workspace:^",
 		"@onerepo/plugin-docgen": "workspace:^",
 		"@onerepo/plugin-eslint": "workspace:^",
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@onerepo/plugin-vitest": "workspace:^",
-		"@onerepo/prettier-config": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
 		"@types/eslint": "^8",
 		"esbuild": "^0.17.9",
 		"esbuild-register": "^3.4.2",

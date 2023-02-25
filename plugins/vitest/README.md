@@ -23,7 +23,7 @@ setup({
 }).then(({ run }) => run());
 ```
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-vitest -->
 
 ## `one vitest`
 
@@ -75,4 +75,4 @@ Run vitest in watch mode with a particular file.
 one vitest -- -w path/to/test.ts
 ```
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-vitest -->

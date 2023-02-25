@@ -1,4 +1,4 @@
-import type { Config, Plugin } from '@onerepo/cli';
+import type { Config, Plugin } from '@onerepo/core';
 import * as cmd from './commands/install';
 
 export type Options = {

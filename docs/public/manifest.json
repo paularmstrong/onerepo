@@ -1,0 +1,22 @@
+{
+	"background_color": "#F3F4F6",
+	"display": "standalone",
+	"icons": [
+		{
+			"sizes": "192x192",
+			"src": "/img/android-chrome-192x192.png",
+			"type": "image/png"
+		},
+		{
+			"sizes": "512x512",
+			"src": "/img/android-chrome-512x512.png",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+	"scope": "/",
+	"name": "oneRepo",
+	"short_name": "oneRepo",
+	"description": "oneRepo is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence over all else.",
+	"theme_color": "#BE185E"
+}

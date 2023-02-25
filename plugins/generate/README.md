@@ -53,7 +53,7 @@ All other files in the template directory and any sub-directories will be includ
 
 If a file includes `__name__` in its filename, that string will be replaced with the `name` value given either as a command-line argument or from the inline prompt.
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-generate -->
 
 ## `one generate`
 
@@ -82,4 +82,4 @@ To create new templates add a new folder to and create a `.onegen.cjs` configura
 
 </details>
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-generate -->

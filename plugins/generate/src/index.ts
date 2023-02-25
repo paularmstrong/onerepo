@@ -1,5 +1,5 @@
 import path from 'node:path';
-import type { Plugin } from '@onerepo/cli';
+import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/generate';
 
 type Options = {

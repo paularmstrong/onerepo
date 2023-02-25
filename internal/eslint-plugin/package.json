@@ -1,10 +1,10 @@
 {
-	"name": "@onerepo/eslint-plugin",
+	"name": "@internal/eslint-plugin",
 	"private": true,
 	"type": "commonjs",
 	"main": "./src/index.cjs",
 	"dependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@typescript-eslint/eslint-plugin": "^5.52.0",
 		"@typescript-eslint/parser": "^5.51.0",
 		"eslint-plugin-jest": "^27.0.2",

@@ -25,16 +25,14 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 
 	const findStep = logger.createStep('Determining workspaces');
 	for (const ws of workspaces) {
-		if (!ws.name.includes('plugin-')) {
-			continue;
-		}
-
 		const bin = ws.resolve('bin', 'docgen.cjs');
 		if (!(await file.exists(bin, { step: findStep }))) {
 			continue;
 		}
 
-		const outFile = ws.resolve('README.md');
+		const isPlugin = ws.name.startsWith('@onerepo/plugin-');
+
+		const outFile = isPlugin ? ws.resolve('README.md') : ws.resolve('docs', 'usage.md');
 		outFiles.push(outFile);
 
 		generators.push({
@@ -52,8 +50,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 				ws.name,
 				`-${'v'.repeat(verbosity)}`,
 				'--safe-write',
-				'--command',
-				ws.name.replace('@onerepo/plugin-', ''),
+				...(isPlugin ? ['--command', ws.name.replace('@onerepo/plugin-', '')] : []),
 			],
 		});
 	}

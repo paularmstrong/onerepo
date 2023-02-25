@@ -23,7 +23,7 @@ setup({
 }).then(({ run }) => run());
 ```
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-prettier -->
 
 ## `one prettier`
 
@@ -53,4 +53,4 @@ one prettier [options]
 
 </details>
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-prettier -->

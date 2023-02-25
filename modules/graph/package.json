@@ -24,8 +24,7 @@
 		"graph-data-structure": "^3.2.0"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@types/glob": "^8.0.1",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
