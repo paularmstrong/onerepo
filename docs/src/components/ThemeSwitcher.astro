@@ -46,9 +46,9 @@ import Sun from './icons/Sun.astro';
 		}
 	}
 
-	function setTheme(theme: Theme) {
+	function setTheme(theme: Theme, auto?: boolean) {
 		const doc = document.documentElement;
-		const isAuto = theme === 'auto';
+		const isAuto = auto || theme === 'auto';
 		let newTheme: Theme = theme;
 		if (isAuto) {
 			newTheme = window.matchMedia(query).matches ? dark : light;
@@ -71,18 +71,12 @@ import Sun from './icons/Sun.astro';
 		callApi(newTheme!, isAuto);
 	}
 
-	document.addEventListener('DOMContentLoaded', () => {
-		const doc = document.documentElement;
-		if (doc.dataset.autoTheme === 'true') {
-			window.matchMedia(query).addEventListener('change', listener);
-		}
+	const doc = document.documentElement;
+	if (doc.dataset.autoTheme === 'true') {
+		window.matchMedia(query).addEventListener('change', listener);
+	}
 
-		setTheme(
-			doc.className.includes('dark') ? 'dark' : 'light',
-			// @ts-ignore wat
-			doc.dataset.autoTheme === 'true'
-		);
-	});
+	setTheme(doc.className.includes('dark') ? 'dark' : 'light', doc.dataset.autoTheme === 'true');
 
 	sel.addEventListener('change', (event) => {
 		const target = event.target! as HTMLSelectElement;
