@@ -2286,12 +2286,20 @@ __metadata:
     "@onerepo/test-cli": 0.0.0
     "@onerepo/types": "workspace:^"
     "@onerepo/yargs": 0.0.0
+    "@types/ejs": ^3
     "@types/glob": ^8.0.1
+    "@types/inquirer": ^9
     "@types/npmlog": ^4.1.4
     "@types/random-seed": ^0
     "@types/yargs": ^17
     "@types/yargs-parser": ^21
+    ajv: ^8.12.0
+    ajv-errors: ^3.0.0
+    ejs: ^3.1.8
     glob: ^8.0.3
+    graph-data-structure: ^3.2.0
+    inquirer: ^9.1.4
+    minimatch: ^6.2.0
     prettier: ^2
     typescript: ^4.9.5
     vitest: ^0.28.4
@@ -2427,23 +2435,6 @@ __metadata:
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8
-  languageName: unknown
-  linkType: soft
-
-"@onerepo/plugin-generate@workspace:plugins/generate":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-generate@workspace:plugins/generate"
-  dependencies:
-    "@internal/tsconfig": "workspace:^"
-    "@onerepo/file": 0.0.0
-    "@onerepo/types": "workspace:^"
-    "@types/ejs": ^3
-    "@types/glob": ^8
-    "@types/inquirer": ^9
-    ejs: ^3.1.8
-    glob: ^8.1.0
-    inquirer: ^9.1.4
-    typescript: ^4.9.5
   languageName: unknown
   linkType: soft
 
@@ -2861,9 +2852,9 @@ __metadata:
   linkType: hard
 
 "@types/ejs@npm:^3":
-  version: 3.1.1
-  resolution: "@types/ejs@npm:3.1.1"
-  checksum: 12fa444920aaa70af2fae4424fa62b49c23b31a37129c428b7c9f9068e58c0696b4e5601b0449f87bae8794e039c679a43651c356c34f17d1bb460456dd41441
+  version: 3.1.2
+  resolution: "@types/ejs@npm:3.1.2"
+  checksum: e4f0745b6ed53a63c08bdfdeb019a7d0e0c400896722b44d6732b4ee6bf6061d2dc965206186b8b0ae2ecd71303c29f1af1feddbca2df0acbd7bd234a74ca518
   languageName: node
   linkType: hard
 
@@ -2903,7 +2894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob@npm:^8, @types/glob@npm:^8.0.1":
+"@types/glob@npm:^8.0.1":
   version: 8.0.1
   resolution: "@types/glob@npm:8.0.1"
   dependencies:
@@ -8352,7 +8343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.1, glob@npm:^8.0.3, glob@npm:^8.1.0":
+"glob@npm:^8.0.1, glob@npm:^8.0.3":
   version: 8.1.0
   resolution: "glob@npm:8.1.0"
   dependencies:

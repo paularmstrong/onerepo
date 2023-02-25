@@ -2,12 +2,12 @@ import path from 'node:path';
 import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/generate';
 
-type Options = {
+export type Options = {
 	name?: string | Array<string>;
 	templatesDir: string;
 };
 
-export function generate(opts: Options): Plugin {
+export function generate(opts: Options = { templatesDir: './config/templates' }): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
