@@ -22,8 +22,8 @@ import type { Docs, Option, Positional } from './yargs';
 const parser = unified().use(remarkParser);
 const { parse } = parser;
 
-export function toMarkdown(docs: Docs) {
-	const ast = command(docs, 2);
+export function toMarkdown(docs: Docs, headingLevel: number = 2) {
+	const ast = command(docs, headingLevel);
 
 	const processor = unified().use(gfm).use(stringify, {
 		bullet: '-',
