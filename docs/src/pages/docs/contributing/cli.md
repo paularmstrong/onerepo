@@ -771,6 +771,7 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 | `--add`           | `boolean`                                                      | Add the output file to the git stage                                       |          |
 | `--bin`           | `string`                                                       | Path to the OneRepo cli runner. Defaults to the current runner.            |          |
 | `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                  | Output format for documentation                                            |          |
+| `--heading-level` | `number`                                                       | Heading level to start at for Markdown output                              |          |
 | `--out-file`      | `string`, default: `"docs/src/pages/docs/contributing/cli.md"` | File to write output to. If not provided, stdout will be used              |          |
 | `--out-workspace` | `string`, default: `"root"`                                    | Workspace name to write the --out-file to                                  |          |
 | `--safe-write`    | `boolean`, default: `true`                                     | Write documentation to a portion of the file with start and end sentinels. |          |
@@ -1109,6 +1110,20 @@ The `workspace` command can be completely ommitted and the workspace name can be
 ```sh
 $0 myapp start
 ```
+
+#### `one workspace @onerepo/core`
+
+Aliases: `core`
+
+Runs commands in the `@onerepo/core` workspace
+
+##### `one workspace @onerepo/core docgen`
+
+Generate docs for the oneRepo core
+
+| Option  | Type      | Description                              | Required |
+| ------- | --------- | ---------------------------------------- | -------- |
+| `--add` | `boolean` | Add all generated files to the git stage |          |
 
 #### `one workspace @onerepo/docs`
 

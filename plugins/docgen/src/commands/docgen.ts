@@ -16,6 +16,7 @@ interface Args {
 	add: boolean;
 	bin?: string;
 	format: 'markdown' | 'json';
+	'heading-level'?: number;
 	'out-file'?: string;
 	'out-workspace'?: string;
 	'safe-write'?: boolean;
@@ -57,6 +58,12 @@ export const builder: Builder<Args> = (yargs) =>
 			default: 'json',
 			description: 'Output format for documentation',
 		} as const)
+		.option('heading-level', {
+			type: 'number',
+			min: 1,
+			max: 5,
+			description: 'Heading level to start at for Markdown output',
+		})
 		.option('safe-write', {
 			type: 'boolean',
 			description: 'Write documentation to a portion of the file with start and end sentinels.',
@@ -72,6 +79,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		add,
 		bin = process.argv[1],
 		format,
+		'heading-level': headingLevel,
 		'out-file': outFile,
 		'out-workspace': wsName,
 		'safe-write': safeWrite,
@@ -127,7 +135,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		return;
 	}
 
-	const output = format === 'markdown' ? toMarkdown(outputDocs) : JSON.stringify(outputDocs);
+	const output = format === 'markdown' ? toMarkdown(outputDocs, headingLevel) : JSON.stringify(outputDocs);
 
 	if (outPath) {
 		if (safeWrite) {
