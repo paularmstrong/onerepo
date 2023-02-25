@@ -1,11 +1,11 @@
 {
-	"name": "@onerepo/vitest",
+	"name": "@internal/vitest",
 	"private": true,
 	"type": "module",
 	"main": "./src/index.js",
 	"typings": "./src/index.d.ts",
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"vitest": "^0.28.4"
 	},
 	"peerDependencies": {

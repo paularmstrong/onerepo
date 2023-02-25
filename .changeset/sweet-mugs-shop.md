@@ -1,10 +1,8 @@
 ---
-'@onerepo/plugin-tasks': patch
 '@onerepo/plugin-prettier': patch
-'@onerepo/plugin-graph': patch
 '@onerepo/plugin-eslint': patch
 '@onerepo/yargs': patch
-'@onerepo/cli': patch
+'@onerepo/core': patch
 '@onerepo/plugin-typescript': patch
 ---
 

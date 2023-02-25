@@ -1,5 +1,5 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-	plugins: ['@onerepo/eslint-plugin'],
-	extends: ['plugin:@onerepo/eslint-plugin/base'],
+	plugins: ['@internal/eslint-plugin'],
+	extends: ['plugin:@internal/eslint-plugin/base'],
 };

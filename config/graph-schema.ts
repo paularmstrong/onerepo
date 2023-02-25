@@ -1,6 +1,21 @@
-import type { SchemaMap } from '@onerepo/plugin-graph';
+import type { GraphSchemaValidators } from '@onerepo/core';
 
 export default {
+	'internal/*': {
+		'package.json': {
+			type: 'object',
+			properties: {
+				name: {
+					type: 'string',
+					pattern: '^@internal\\/',
+					errorMessage: {
+						pattern: 'Internal packages must be scoped under "@internal"',
+					},
+				},
+			},
+			required: ['name'],
+		},
+	},
 	'modules/!(onerepo)': {
 		'package.json': {
 			type: 'object',
@@ -13,6 +28,7 @@ export default {
 					},
 				},
 			},
+			required: ['name'],
 		},
 	},
 	'plugins/*': {
@@ -27,6 +43,7 @@ export default {
 					},
 				},
 			},
+			required: ['name'],
 		},
 	},
 	'+(plugins|modules)/*': {
@@ -35,8 +52,8 @@ export default {
 			properties: {
 				extends: {
 					type: 'string',
-					pattern: '^@onerepo\\/tsconfig\\/base\\.json$',
-					errorMessage: 'All tsconfig.json files must extend `@onerepo/tsconfig/base.json`',
+					pattern: '^@internal\\/tsconfig\\/base\\.json$',
+					errorMessage: 'All tsconfig.json files must extend `@internal/tsconfig/base.json`',
 				},
 				compilerOptions: {
 					type: 'object',
@@ -130,4 +147,4 @@ export default {
 			required: ['files', 'publishConfig', 'homepage', 'repository', 'license'],
 		},
 	},
-} satisfies SchemaMap;
+} satisfies GraphSchemaValidators;

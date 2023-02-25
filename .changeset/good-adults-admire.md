@@ -1,6 +1,5 @@
 ---
 '@onerepo/graph': minor
-'@onerepo/plugin-graph': minor
 ---
 
 Adds the ability to get a graph-data-structure that is isolated to the set of input sources using `graph.isolatedGraph(sources)`. Useful for debugging and walking the `affected` graph, not just an array like is returned from `.affected()`.

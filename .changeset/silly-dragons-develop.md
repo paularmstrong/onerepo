@@ -1,5 +1,5 @@
 ---
-'@onerepo/plugin-tasks': minor
+'@onerepo/core': minor
 ---
 
 Adds `.changesets/*` to the default list of ignored files

@@ -23,7 +23,7 @@ setup({
 }).then(({ run }) => run());
 ```
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-typescript -->
 
 ## `one tsc`
 
@@ -55,4 +55,4 @@ Checks for the existence of `tsconfig.json` file and batches running `tsc --noEm
 
 </details>
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-typescript -->

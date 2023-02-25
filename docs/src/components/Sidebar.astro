@@ -2,6 +2,7 @@
 import type { PluginFrontmatter } from '../types';
 import SidebarLink from './SidebarLink.astro';
 import SidebarSubLink from './SidebarSubLink.astro';
+const core = await Astro.glob<PluginFrontmatter>('../../../modules/core/docs/*.md');
 const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.md');
 ---
 
@@ -10,6 +11,21 @@ const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.m
 		<li><SidebarLink href="/docs/">Documentation</SidebarLink></li>
 		<li><SidebarLink href="/docs/getting-started/">Getting started</SidebarLink></li>
 		<li><SidebarLink href="/docs/commands/">Writing commands</SidebarLink></li>
+		<li>
+			<SidebarLink href="/docs/core/">Core command-line</SidebarLink>
+			<ul>
+				{
+					core.map((core) => {
+						const slug = core.file.split('docs/')[1].replace(/\.md$/, '');
+						return (
+							<li>
+								<SidebarSubLink href={`/docs/core/${slug}/`}>{core.frontmatter.title}</SidebarSubLink>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</li>
 		<li>
 			<SidebarLink href="/docs/plugins/">Plugins</SidebarLink>
 			<ul>

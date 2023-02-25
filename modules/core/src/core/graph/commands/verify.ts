@@ -6,7 +6,7 @@ import type { Builder, Handler } from '@onerepo/types';
 import Ajv from 'ajv/dist/2019';
 import ajvErrors from 'ajv-errors';
 import draft7 from 'ajv/dist/refs/json-schema-draft-07.json';
-import type { SchemaMap } from '../schema';
+import type { GraphSchemaValidators } from '../schema';
 import { defaultValidators } from '../schema';
 
 export const command = 'verify';
@@ -90,8 +90,8 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	}
 };
 
-function importSchema(ajv: Ajv, schemaMap: SchemaMap) {
-	Object.entries(schemaMap).forEach(([locglob, matches]) => {
+function importSchema(ajv: Ajv, GraphSchemaValidators: GraphSchemaValidators) {
+	Object.entries(GraphSchemaValidators).forEach(([locglob, matches]) => {
 		Object.entries(matches).forEach(([fileglob, schema]) => {
 			ajv.addSchema(schema, `${locglob}${splitChar}${fileglob}`);
 		});

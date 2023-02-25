@@ -23,7 +23,7 @@ setup({
 }).then(({ run }) => run());
 ```
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-eslint -->
 
 ## `one eslint`
 
@@ -55,4 +55,4 @@ one eslint [options]
 
 </details>
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-eslint -->

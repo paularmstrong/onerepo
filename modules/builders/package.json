@@ -20,8 +20,7 @@
 		"./CHANGELOG.md"
 	],
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/types": "workspace:^",
-		"@onerepo/vitest": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"@onerepo/types": "workspace:^"
 	}
 }

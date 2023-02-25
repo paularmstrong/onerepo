@@ -27,9 +27,8 @@
 		"minimatch": "^6.2.0"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"@onerepo/types": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
 		"@types/eslint": "^8",
 		"eslint": "^8.34.0",
 		"typescript": "^4.9.5"

@@ -21,20 +21,16 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.0.0",
-		"@onerepo/cli": "0.0.0",
+		"@onerepo/core": "0.0.0",
 		"@onerepo/file": "0.0.0",
 		"@onerepo/git": "0.0.0",
 		"@onerepo/graph": "0.0.0",
 		"@onerepo/logger": "0.0.0",
-		"@onerepo/plugin-graph": "0.0.0",
-		"@onerepo/plugin-install": "0.0.0",
-		"@onerepo/plugin-tasks": "0.0.0",
 		"@onerepo/subprocess": "0.0.0",
 		"@onerepo/types": "0.0.0"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	}

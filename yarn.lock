@@ -1231,6 +1231,52 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@internal/eslint-plugin@workspace:^, @internal/eslint-plugin@workspace:internal/eslint-plugin":
+  version: 0.0.0-use.local
+  resolution: "@internal/eslint-plugin@workspace:internal/eslint-plugin"
+  dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@types/eslint": ^8.4.10
+    "@typescript-eslint/eslint-plugin": ^5.52.0
+    "@typescript-eslint/parser": ^5.51.0
+    eslint-plugin-jest: ^27.0.2
+    eslint-plugin-react: ^7.32.2
+    eslint-plugin-react-hooks: ^4.6.0
+    eslint-plugin-tailwindcss: ^3.8.3
+  peerDependencies:
+    eslint: ^8
+  languageName: unknown
+  linkType: soft
+
+"@internal/prettier-config@workspace:^, @internal/prettier-config@workspace:internal/prettier-config":
+  version: 0.0.0-use.local
+  resolution: "@internal/prettier-config@workspace:internal/prettier-config"
+  dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@types/prettier": ^2.7.2
+    prettier-plugin-astro: ^0.8.0
+  peerDependencies:
+    prettier: 2
+  languageName: unknown
+  linkType: soft
+
+"@internal/tsconfig@workspace:^, @internal/tsconfig@workspace:internal/tsconfig":
+  version: 0.0.0-use.local
+  resolution: "@internal/tsconfig@workspace:internal/tsconfig"
+  languageName: unknown
+  linkType: soft
+
+"@internal/vitest@workspace:^, @internal/vitest@workspace:internal/vitest":
+  version: 0.0.0-use.local
+  resolution: "@internal/vitest@workspace:internal/vitest"
+  dependencies:
+    "@internal/tsconfig": "workspace:^"
+    vitest: ^0.28.4
+  peerDependencies:
+    vitest: ^0.28.4
+  languageName: unknown
+  linkType: soft
+
 "@jest/types@npm:^27.5.1":
   version: 27.5.1
   resolution: "@jest/types@npm:27.5.1"
@@ -2222,27 +2268,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/builders@workspace:modules/builders"
   dependencies:
-    "@onerepo/tsconfig": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@onerepo/cli@0.0.0, @onerepo/cli@workspace:modules/cli":
+"@onerepo/core@0.0.0, @onerepo/core@workspace:modules/core":
   version: 0.0.0-use.local
-  resolution: "@onerepo/cli@workspace:modules/cli"
+  resolution: "@onerepo/core@workspace:modules/core"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.0.0
     "@onerepo/git": 0.0.0
     "@onerepo/graph": 0.0.0
     "@onerepo/logger": 0.0.0
-    "@onerepo/plugin-graph": 0.0.0
-    "@onerepo/plugin-install": 0.0.0
-    "@onerepo/plugin-tasks": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
+    "@onerepo/test-cli": 0.0.0
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@onerepo/yargs": 0.0.0
     "@types/glob": ^8.0.1
     "@types/npmlog": ^4.1.4
@@ -2264,8 +2306,7 @@ __metadata:
   dependencies:
     "@astrojs/mdx": ^0.16.0
     "@astrojs/tailwind": ^3.0.1
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
     astro: ^2.0.14
     eslint-plugin-astro: ^0.23.0
@@ -2278,30 +2319,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/eslint-plugin@workspace:^, @onerepo/eslint-plugin@workspace:internal/eslint-plugin":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/eslint-plugin@workspace:internal/eslint-plugin"
-  dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-    "@types/eslint": ^8.4.10
-    "@typescript-eslint/eslint-plugin": ^5.52.0
-    "@typescript-eslint/parser": ^5.51.0
-    eslint-plugin-jest: ^27.0.2
-    eslint-plugin-react: ^7.32.2
-    eslint-plugin-react-hooks: ^4.6.0
-    eslint-plugin-tailwindcss: ^3.8.3
-  peerDependencies:
-    eslint: ^8
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/file@0.0.0, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     prettier: ^2
   languageName: unknown
   linkType: soft
@@ -2310,10 +2334,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -2321,8 +2345,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/graph@workspace:modules/graph"
   dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
     "@types/glob": ^8.0.1
     glob: ^8.0.3
     graph-data-structure: ^3.2.0
@@ -2335,8 +2358,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
     log-update: ^5.0.1
     picocolors: ^1.0.0
     typescript: ^4.9.5
@@ -2356,11 +2378,10 @@ __metadata:
     "@changesets/read": ^0.5.9
     "@changesets/types": ^5.2.1
     "@changesets/write": ^0.2.3
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/inquirer": ^9
     inquirer: ^9.1.4
     typescript: ^4.9.5
@@ -2372,12 +2393,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-docgen@workspace:plugins/docgen"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.0.0
     "@onerepo/git": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/prettier": ^2
     mdast-builder: ^1.1.1
     remark-gfm: ^3.0.1
@@ -2395,13 +2415,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-eslint@workspace:plugins/eslint"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.0.0
     "@onerepo/git": 0.0.0
     "@onerepo/logger": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
     eslint: ^8.34.0
     minimatch: ^6.2.0
@@ -2415,10 +2434,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-generate@workspace:plugins/generate"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/ejs": ^3
     "@types/glob": ^8
     "@types/inquirer": ^9
@@ -2429,70 +2447,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-graph@0.0.0, @onerepo/plugin-graph@workspace:plugins/graph":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-graph@workspace:plugins/graph"
-  dependencies:
-    "@onerepo/graph": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
-    "@types/semver": ^7
-    ajv: ^8.12.0
-    ajv-errors: ^3.0.0
-    cliui: ^8.0.1
-    minimatch: ^6.2.0
-    picocolors: ^1.0.0
-    semver: ^7.3.8
-    typescript: ^4.9.5
-    vitest: ^0.28.4
-  languageName: unknown
-  linkType: soft
-
-"@onerepo/plugin-install@0.0.0, @onerepo/plugin-install@workspace:plugins/install":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-install@workspace:plugins/install"
-  dependencies:
-    "@onerepo/file": 0.0.0
-    "@onerepo/logger": 0.0.0
-    "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
-    typescript: ^4.9.5
-    vitest: ^0.28.4
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/plugin-prettier@workspace:^, @onerepo/plugin-prettier@workspace:plugins/prettier":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/git": 0.0.0
     "@onerepo/logger": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5
   peerDependencies:
     prettier: ^2
-  languageName: unknown
-  linkType: soft
-
-"@onerepo/plugin-tasks@0.0.0, @onerepo/plugin-tasks@workspace:plugins/tasks":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-tasks@workspace:plugins/tasks"
-  dependencies:
-    "@onerepo/git": 0.0.0
-    "@onerepo/logger": 0.0.0
-    "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
-    minimatch: ^6.2.0
-    typescript: ^4.9.5
-    vitest: ^0.28.4
   languageName: unknown
   linkType: soft
 
@@ -2500,12 +2466,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-typescript@workspace:plugins/typescript"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest": "workspace:^"
     "@onerepo/builders": 0.0.0
-    "@onerepo/cli": 0.0.0
+    "@onerepo/core": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": 0.0.0
-    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -2513,11 +2479,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/git": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
     typescript: ^4.9.5
     yargs-unparser: ^2.0.0
@@ -2526,30 +2491,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/prettier-config@workspace:^, @onerepo/prettier-config@workspace:internal/prettier-config":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/prettier-config@workspace:internal/prettier-config"
-  dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-    "@types/prettier": ^2.7.2
-    prettier-plugin-astro: ^0.8.0
-  peerDependencies:
-    prettier: 2
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@onerepo/root@workspace:."
   dependencies:
-    "@onerepo/eslint-plugin": "workspace:^"
+    "@internal/eslint-plugin": "workspace:^"
+    "@internal/prettier-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest": "workspace:^"
     "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
     "@onerepo/plugin-typescript": "workspace:^"
     "@onerepo/plugin-vitest": "workspace:^"
-    "@onerepo/prettier-config": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/eslint": ^8
     esbuild: ^0.17.9
     esbuild-register: ^3.4.2
@@ -2568,21 +2522,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/subprocess@workspace:modules/subprocess"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@onerepo/test-cli@workspace:modules/test-cli":
+"@onerepo/test-cli@0.0.0, @onerepo/test-cli@workspace:modules/test-cli":
   version: 0.0.0-use.local
   resolution: "@onerepo/test-cli@workspace:modules/test-cli"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/graph": 0.0.0
     "@onerepo/logger": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
     typescript: ^4.9.5
     vitest: ^0.28.4
@@ -2592,28 +2545,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/tsconfig@workspace:^, @onerepo/tsconfig@workspace:internal/tsconfig":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/tsconfig@workspace:internal/tsconfig"
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/types@0.0.0, @onerepo/types@workspace:^, @onerepo/types@workspace:modules/types":
   version: 0.0.0-use.local
   resolution: "@onerepo/types@workspace:modules/types"
   dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
-"@onerepo/vitest@workspace:^, @onerepo/vitest@workspace:internal/vitest":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/vitest@workspace:internal/vitest"
-  dependencies:
-    "@onerepo/tsconfig": "workspace:^"
-    vitest: ^0.28.4
-  peerDependencies:
-    vitest: ^0.28.4
+    "@internal/tsconfig": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -2621,10 +2557,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/yargs@workspace:modules/yargs"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/logger": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": "workspace:^"
-    "@onerepo/vitest": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -3216,7 +3151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7, @types/semver@npm:^7.0.0, @types/semver@npm:^7.3.12":
+"@types/semver@npm:^7.0.0, @types/semver@npm:^7.3.12":
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
   checksum: 00c0724d54757c2f4bc60b5032fe91cda6410e48689633d5f35ece8a0a66445e3e57fa1d6e07eb780f792e82ac542948ec4d0b76eb3484297b79bd18b8cf1cb0
@@ -12837,19 +12772,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
+    "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.0.0
-    "@onerepo/cli": 0.0.0
+    "@onerepo/core": 0.0.0
     "@onerepo/file": 0.0.0
     "@onerepo/git": 0.0.0
     "@onerepo/graph": 0.0.0
     "@onerepo/logger": 0.0.0
-    "@onerepo/plugin-graph": 0.0.0
-    "@onerepo/plugin-install": 0.0.0
-    "@onerepo/plugin-tasks": 0.0.0
     "@onerepo/subprocess": 0.0.0
-    "@onerepo/tsconfig": "workspace:^"
     "@onerepo/types": 0.0.0
-    "@onerepo/vitest": "workspace:^"
     typescript: ^4.9.5
     vitest: ^0.28.4
   languageName: unknown

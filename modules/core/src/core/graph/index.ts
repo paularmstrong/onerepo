@@ -1,5 +1,5 @@
 import path from 'node:path';
-import type { Config, Plugin } from '@onerepo/cli';
+import type { Config, Plugin } from '@onerepo/core';
 
 export type Options = {
 	name?: string | Array<string>;
@@ -31,4 +31,4 @@ export function graph(opts: Options = {}): Plugin {
 	});
 }
 
-export type { SchemaMap } from './schema';
+export type { GraphSchemaValidators } from './schema';

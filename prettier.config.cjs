@@ -1,1 +1,1 @@
-module.exports = '@onerepo/prettier-config';
+module.exports = '@internal/prettier-config';

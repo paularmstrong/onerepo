@@ -87,7 +87,7 @@ This plugin will trigger the [core `tasks` plugin](https://onerepo.tools/docs/pl
 
 </aside>
 
-<!-- start-onerepo-sentinel -->
+<!-- start-auto-generated-from-cli-changesets -->
 
 ## `one change`
 
@@ -202,4 +202,4 @@ one change version
 | ------------------------- | -------------------------- | ---------------------------------------------------------------------- | -------- |
 | `--add`, `--update-index` | `boolean`, default: `true` | Add the modified `package.json` files to the git stage for committing. |          |
 
-<!-- end-onerepo-sentinel -->
+<!-- end-auto-generated-from-cli-changesets -->

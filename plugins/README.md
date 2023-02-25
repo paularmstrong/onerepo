@@ -24,7 +24,7 @@ type PluginObject = {
 
 ```ts
 import path from 'node:path';
-import type { Plugin } from '@onerepo/cli';
+import type { Plugin } from '@onerepo/core';
 
 type Options = {
 	name?: string | Array<string>;

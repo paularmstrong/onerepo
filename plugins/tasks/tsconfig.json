@@ -1,8 +1,0 @@
-{
-	"extends": "@onerepo/tsconfig/base.json",
-	"compilerOptions": {
-		"outDir": "./dist/",
-		"composite": true
-	},
-	"include": ["./src"]
-}

@@ -1,12 +1,12 @@
 {
-	"name": "@onerepo/plugin-graph",
+	"name": "@onerepo/core",
 	"version": "0.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/paularmstrong/onerepo.git"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/graph/",
+	"homepage": "https://onerepo.tools",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {
@@ -20,19 +20,26 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@onerepo/file": "0.0.0",
+		"@onerepo/git": "0.0.0",
 		"@onerepo/graph": "0.0.0",
-		"ajv": "^8.12.0",
-		"ajv-errors": "^3.0.0",
-		"cliui": "^8.0.1",
-		"minimatch": "^6.2.0",
-		"picocolors": "^1.0.0",
-		"semver": "^7.3.8"
+		"@onerepo/logger": "0.0.0",
+		"@onerepo/subprocess": "0.0.0",
+		"@onerepo/yargs": "0.0.0",
+		"glob": "^8.0.3",
+		"prettier": "^2",
+		"yargs": "^17.6.2",
+		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
-		"@onerepo/tsconfig": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
+		"@onerepo/test-cli": "0.0.0",
 		"@onerepo/types": "workspace:^",
-		"@onerepo/vitest": "workspace:^",
-		"@types/semver": "^7",
+		"@types/glob": "^8.0.1",
+		"@types/npmlog": "^4.1.4",
+		"@types/random-seed": "^0",
+		"@types/yargs": "^17",
+		"@types/yargs-parser": "^21",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	}
