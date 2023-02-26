@@ -81,6 +81,9 @@ module.exports = {
 							borderTop: `1px solid ${theme('colors.gray.700')}`,
 						},
 					},
+					'pre:hover > button': {
+						opacity: '1',
+					},
 				});
 
 				addComponents({
