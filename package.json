@@ -18,6 +18,7 @@
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/plugin-changesets": "workspace:^",
+		"@onerepo/plugin-dependencies": "workspace:^",
 		"@onerepo/plugin-docgen": "workspace:^",
 		"@onerepo/plugin-eslint": "workspace:^",
 		"@onerepo/plugin-jest": "workspace:^",

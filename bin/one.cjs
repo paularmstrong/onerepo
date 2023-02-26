@@ -7,6 +7,7 @@ require('esbuild-register/dist/node').register({});
 
 const { setup } = require('onerepo');
 const { changesets } = require('@onerepo/plugin-changesets');
+const { dependencies } = require('@onerepo/plugin-dependencies');
 const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { jest } = require('@onerepo/plugin-jest');
@@ -31,6 +32,7 @@ setup(
 		},
 		plugins: [
 			changesets(),
+			dependencies(),
 			jest({ name: 'test' }),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
