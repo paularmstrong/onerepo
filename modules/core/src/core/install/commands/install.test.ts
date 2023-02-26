@@ -29,9 +29,35 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
 
 		await expect(run('--name tacos')).rejects.toBeUndefined();
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
+	});
+
+	test('continues if bin exists but is self-referential', async () => {
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
+
+		await expect(run('--name tacos --force')).resolves.toBeUndefined();
+		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
+
+		expect(subprocess.sudo).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'echo',
+				args: [`"#!/bin/zsh\n\n${process.argv[1]} \\$@"`, '|', 'sudo', 'tee', '/usr/local/bin/tacos'],
+			})
+		);
+		expect(subprocess.sudo).toHaveBeenCalledWith(
+			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] })
+		);
+		expect(file.writeSafe).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
+			sentinel: 'tacos-cmd-completions',
+		});
 	});
 
 	test('continues if bin exists with --force', async () => {
@@ -39,13 +65,17 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('asdfasdf');
 		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos --force')).resolves.toBeUndefined();
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 
-		expect(child_process.execSync).toHaveBeenCalledWith(
-			`echo "#!/bin/zsh\n\n${process.argv[1]} \\$@" | sudo tee /usr/local/bin/tacos`
+		expect(subprocess.sudo).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'echo',
+				args: [`"#!/bin/zsh\n\n${process.argv[1]} \\$@"`, '|', 'sudo', 'tee', '/usr/local/bin/tacos'],
+			})
 		);
 		expect(subprocess.sudo).toHaveBeenCalledWith(
 			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] })
@@ -60,6 +90,7 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
 		vi.spyOn(file, 'exists').mockResolvedValue(true);
 		await expect(run('--name tacos')).resolves.toBeUndefined();
@@ -77,6 +108,7 @@ describe('handler', () => {
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
 		vi.spyOn(file, 'exists').mockResolvedValue(false);
 		await expect(run('--name tacos')).resolves.toBeUndefined();

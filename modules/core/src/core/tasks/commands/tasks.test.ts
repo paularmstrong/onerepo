@@ -31,7 +31,9 @@ describe('builder', () => {
 
 describe('handler', () => {
 	test('lists tasks for pre- prefix only', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['burritos/src/index.ts'] });
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: ['modules/burritos/src/index.ts'], modified: [], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -48,7 +50,9 @@ describe('handler', () => {
 	});
 
 	test('lists tasks for all pre-, normal, and post-', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['burritos/src/index.ts'] });
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: ['modules/burritos/src/index.ts'], modified: [], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -75,16 +79,13 @@ describe('handler', () => {
 				args: ['"post-commit"'],
 				opts: { cwd: '.' },
 			}),
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"post-commit"', '"tacos"'],
-				opts: { cwd: 'modules/tacos' },
-			}),
 		]);
 	});
 
 	test('includes meta information on task list', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['burritos/src/index.ts'] });
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: [], modified: ['modules/burritos/src/index.ts'], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -105,7 +106,9 @@ describe('handler', () => {
 	});
 
 	test('returns no tasks if all files were ignored', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['modules/tacos/src/index.ts'] });
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: ['modules/tacos/src/index.ts'], modified: [], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -120,9 +123,13 @@ describe('handler', () => {
 	});
 
 	test('ignores files', async () => {
-		vitest
-			.spyOn(git, 'getModifiedFiles')
-			.mockResolvedValue({ all: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'] });
+		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
+			modified: [],
+			deleted: [],
+			all: [],
+			moved: [],
+		});
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -144,9 +151,13 @@ describe('handler', () => {
 	});
 
 	test('filters out commands when matchers do not match', async () => {
-		vitest
-			.spyOn(git, 'getModifiedFiles')
-			.mockResolvedValue({ all: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'] });
+		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
+			modified: [],
+			deleted: [],
+			all: [],
+			moved: [],
+		});
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -161,7 +172,9 @@ describe('handler', () => {
 	});
 
 	test('includes tasks that match cross-workspaces', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['modules/burritos/src/index.ts'] });
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: ['modules/burritos/src/index.ts'], modified: [], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';

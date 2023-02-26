@@ -9,7 +9,8 @@ export type GetterArgv = { all?: boolean; files?: Array<string>; workspaces?: Ar
 
 export function getAffected(graph: Repository, { from, ignore, through, step }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
-		const { all } = await getModifiedFiles(from, through, { step });
+		const { added, modified, deleted, moved } = await getModifiedFiles(from, through, { step });
+		const all = [...added, ...modified, ...deleted, ...moved];
 		const files =
 			ignore && ignore.length ? all.filter((file) => !ignore.some((ignore) => minimatch(file, ignore))) : all;
 		step.debug(`Modified files not ignored:\n${JSON.stringify(ignore)}\n • ${files.join('\n • ')}`);
