@@ -62,10 +62,11 @@ export class Logger {
 	pause() {
 		this.#paused = true;
 		clearTimeout(this.#updaterTimeout);
-		this.updater.clear();
+		this.#writeSteps();
 	}
 
 	unpause() {
+		this.updater.clear();
 		this.#paused = false;
 	}
 
@@ -74,12 +75,16 @@ export class Logger {
 			return;
 		}
 		this.#updaterTimeout = setTimeout(() => {
-			this.updater(
-				this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n')
-			);
+			this.#writeSteps();
 			this.#frame += 1;
 			this.runUpdater();
 		}, 80);
+	}
+
+	#writeSteps() {
+		this.updater(
+			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n')
+		);
 	}
 
 	createStep(name: string) {

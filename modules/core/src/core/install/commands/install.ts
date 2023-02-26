@@ -1,5 +1,4 @@
 import path from 'node:path';
-import child_process from 'node:child_process';
 import os from 'node:os';
 import type { Builder, Handler } from '@onerepo/types';
 import { run, sudo } from '@onerepo/subprocess';
@@ -42,7 +41,9 @@ export const builder: Builder<Args> = (yargs) =>
 			}
 			if (os.platform() === 'win32') {
 				logger.error(
-					new Error('Windows is not supported by oneRepo. Sorry, but there are not sufficient resources for that :(')
+					new Error(
+						'Windows is not supported by oneRepo. Sorry, but we do not have sufficient resources for that. If you are interested in contributing and maintaining windows support long-term, please reach out on GitHub: https://github.com/paularmstrong/onerepo/discussions'
+					)
 				);
 				process.exit(1);
 			}
@@ -82,24 +83,32 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 		}
 
 		if (which) {
-			step.error(`Refusing to install with name \`${name}\` because it already exists at \`${which}\`
+			const contents = await file.read(which, 'r', { step });
+			if (!contents.includes(process.argv[1])) {
+				step.error(`Refusing to install with name \`${name}\` because it already exists at \`${which}\`
 
-To force installation, re-run this command with \`--force\`:
-  ${path.relative(process.cwd(), process.argv[1])} ${command} --name=${name} --location=${location} --force`);
-			await step.end();
-			return Promise.reject();
+				To force installation, re-run this command with \`--force\`:
+					${path.relative(process.cwd(), process.argv[1])} ${command} --name=${name} --location=${location} --force`);
+				await step.end();
+				return Promise.reject();
+			}
+
+			step.warn(
+				`"${name}" has already been installed. It should be safe to overwrite previous installation. Continuing…`
+			);
 		}
+		await step.end();
 	}
 
 	const installLocation = path.join(location!, name);
 
-	logger.warn(
-		`Requesting sudo permissions in order to write to ${installLocation}. If you are prompted for a password, please enter your user admin password to continue.`
-	);
+	logger.warn(`Requesting sudo permissions in order to write to ${installLocation}. `);
 
-	// NB: must run execSync because we need to pipe to `sudo tee`
-	// Other workarounds would involve taking full ownership of the directory, which isn't great
-	child_process.execSync(`echo "#!/bin/zsh\n\n${process.argv[1]} \\$@" | sudo tee ${installLocation}`);
+	await sudo({
+		name: 'Create executable',
+		cmd: 'echo',
+		args: [`"#!/bin/zsh\n\n${process.argv[1]} \\$@"`, '|', 'sudo', 'tee', installLocation],
+	});
 
 	await sudo({
 		name: 'Make executable',

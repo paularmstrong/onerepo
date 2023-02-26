@@ -124,10 +124,12 @@ export async function writeSafe(
 ) {
 	return stepWrapper({ step, name: `Write to ${filename}` }, async (step) => {
 		let fileContents = '';
-		try {
-			fileContents = await read(filename, 'r', { step });
-		} catch (e) {
-			// it's okay
+		if (await exists(filename, { step })) {
+			try {
+				fileContents = await read(filename, 'r', { step });
+			} catch (e) {
+				// it's okay
+			}
 		}
 
 		const ext = path.extname(filename);
@@ -135,11 +137,13 @@ export async function writeSafe(
 		const start = `${startComment}start-${sentinel}${endComment}`;
 		const end = `${startComment}end-${sentinel}${endComment}`;
 
-		const matches = fileContents.match(new RegExp(`(\n*${start}(?:.*)${end}\n*)`, 'ms'));
+		const matches = fileContents.match(new RegExp(`(${start}(?:.*)${end}\n*)`, 'ms'));
 
-		const appendContent = `${start}\n${contents}\n${end}\n`;
-		const leftover = matches && matches.length ? fileContents.replace(matches[1], '') : fileContents;
-		const output = `${leftover}\n\n${appendContent}\n`;
+		const writeContent = `${start}\n${contents}\n${end}\n`;
+		const output =
+			matches && matches.length
+				? fileContents.replace(matches[1], writeContent)
+				: `${fileContents}\n\n${writeContent}\n`;
 
 		return await write(filename, output, { step });
 	});

@@ -1,5 +1,5 @@
 import { performance } from 'node:perf_hooks';
-import { exec, spawn } from 'node:child_process';
+import { exec, execSync, spawn } from 'node:child_process';
 import os from 'node:os';
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { Transform } from 'node:stream';
@@ -131,11 +131,20 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	return subprocess;
 }
 
-export async function sudo(options: Omit<RunSpec, 'opts'>): Promise<[string, string]> {
+export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const log = logger.createStep(options.name);
 
 	return new Promise((resolve, reject) => {
-		log.debug(`Running command: sudo ${options.cmd} ${(options.args || []).join(' ')}\n`);
+		try {
+			execSync('sudo -n true &> /dev/null');
+		} catch (e) {
+			log.warn('Sudo permissions are required to continue!');
+			log.warn(options.reason ?? 'If prompted, please type your password and hit [RETURN].');
+			log.debug(`Sudo permissions are being requested to run the following:
+		$ ${options.cmd} ${(options.args || []).join(' ')}
+	`);
+		}
+		logger.pause();
 
 		exec(
 			`sudo ${options.cmd} ${(options.args || []).join(' ')}`,
@@ -154,7 +163,10 @@ export async function sudo(options: Omit<RunSpec, 'opts'>): Promise<[string, str
 				logger.log(stderr);
 
 				return Promise.resolve()
-					.then(() => log.end())
+					.then(() => {
+						logger.unpause();
+						return log.end();
+					})
 					.then(() => resolve([stdout, stderr]));
 			}
 		);

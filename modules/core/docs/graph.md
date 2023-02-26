@@ -73,19 +73,6 @@ module.export = {
 
 </aside>
 
-## Disabling
-
-Warning: disabling the graph will disable both the `graph`-specifc commands as well as all workspace-specific commands.
-
-```js
-setup({
-		core: {
-			// Disable the graph entirely from your CLI
-			graph: false,
-		},
-	}).then({ run } => run());
-```
-
 ## Usage
 
 <!-- start-auto-generated-from-cli-graph -->
@@ -151,3 +138,16 @@ one graph verify
 </details>
 
 <!-- end-auto-generated-from-cli-graph -->
+
+## Disabling
+
+Warning: disabling the graph will disable both the `graph`-specifc commands as well as all workspace-specific commands.
+
+```js
+setup({
+	core: {
+		// Disable the graph entirely from your CLI
+		graph: false,
+	},
+}).then({ run } => run());
+```
