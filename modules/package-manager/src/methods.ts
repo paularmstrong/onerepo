@@ -35,6 +35,16 @@ export interface PackageManager {
 	run(opts: RunSpec): Promise<[string, string]>;
 
 	/**
+	 * Reduce duplication in the package tree by checking overlapping ranges.
+	 */
+	dedupe(): Promise<void>;
+
+	/**
+	 * Get standard information about a package
+	 */
+	info(name: string, opts?: Partial<RunSpec>): Promise<NpmInfo | null>;
+
+	/**
 	 * Install current dependencies as listed in the package manager's lock file
 	 */
 	install(cwd?: string): Promise<string>;
@@ -102,4 +112,14 @@ export type MinimalWorkspace = {
 	version?: string;
 	private?: boolean;
 	location?: string;
+};
+
+export type NpmInfo = {
+	license: string;
+	'dist-tags': { latest: string; [key: string]: string };
+	versions: Array<string>;
+	name: string;
+	homepage: string;
+	version: string;
+	dependencies: Record<string, string>;
 };

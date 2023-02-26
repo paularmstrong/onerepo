@@ -1,0 +1,44 @@
+{
+	"name": "@onerepo/plugin-dependencies",
+	"description": "Safely manage dependencies across monorepo workspaces using your package manager with oneRepo.",
+	"title": "Dependencies",
+	"version": "0.0.0",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git",
+		"directory": "plugins/dependencies"
+	},
+	"homepage": "https://onerepo.tools/docs/plugins/dependencies/",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/**/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
+	"dependencies": {
+		"@onerepo/builders": "workspace:^",
+		"@onerepo/file": "workspace:^",
+		"@onerepo/logger": "workspace:^",
+		"@onerepo/subprocess": "workspace:^",
+		"inquirer": "^9.1.4",
+		"picocolors": "^1.0.0",
+		"semver": "^7.5.4"
+	},
+	"devDependencies": {
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^",
+		"@onerepo/test-cli": "workspace:^",
+		"onerepo": "workspace:^",
+		"typescript": "^5.0.4"
+	},
+	"engines": {
+		"node": "^18 || ^20"
+	}
+}

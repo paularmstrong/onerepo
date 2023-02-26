@@ -64,6 +64,9 @@
 			"path": "plugins/changesets"
 		},
 		{
+			"path": "plugins/dependencies"
+		},
+		{
 			"path": "plugins/docgen"
 		},
 		{

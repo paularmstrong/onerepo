@@ -1,12 +1,14 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { PackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
+
+const cmd = 'yarn';
 
 export const Yarn = {
 	add: async (packages, opts = {}) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Add packages',
-			cmd: 'yarn',
+			cmd,
 			args: ['add', ...pkgs, ...(opts?.dev ? ['--dev'] : [])],
 		});
 	},
@@ -21,10 +23,33 @@ export const Yarn = {
 		);
 	},
 
+	dedupe: async () => {
+		await run({
+			name: 'Dedupe dependencies',
+			cmd,
+			args: ['dedupe'],
+		});
+	},
+
+	info: async (name, spec) => {
+		try {
+			const [data] = await run({
+				name: `Get ${name} info`,
+				...spec,
+				cmd,
+				args: ['npm', 'info', name, '--json'],
+			});
+
+			return JSON.parse(data) as NpmInfo;
+		} catch (e) {
+			return null;
+		}
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
-			cmd: 'yarn',
+			cmd,
 			args: ['install'],
 			opts: { cwd },
 		});
@@ -36,7 +61,7 @@ export const Yarn = {
 		try {
 			await run({
 				name: 'Who am I?',
-				cmd: 'yarn',
+				cmd,
 				args: ['npm', 'whoami', ...(opts.scope ? ['--scope', opts.scope] : [])],
 				runDry: true,
 			});
@@ -80,7 +105,7 @@ export const Yarn = {
 		const responses = await batch(
 			filtered.map(({ name }) => ({
 				name: `Get ${name} versions`,
-				cmd: 'yarn',
+				cmd,
 				args: ['npm', 'info', name, '--json'],
 				runDry: true,
 				skipFailures: true,
@@ -109,7 +134,7 @@ export const Yarn = {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Remove packages',
-			cmd: 'yarn',
+			cmd,
 			args: ['remove', ...pkgs],
 		});
 	},
