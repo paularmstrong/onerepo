@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, lstatSync } from 'node:fs';
 import type { Repository, Workspace } from '@onerepo/graph';
 import type { Yargs } from '@onerepo/types';
 
@@ -51,7 +51,8 @@ export function workspaceBuilder(graph: Repository, dirname: string) {
 			if (ws.isRoot) {
 				return;
 			}
-			if (existsSync(ws.resolve(dirname))) {
+			const exists = existsSync(ws.resolve(dirname));
+			if (exists && lstatSync(ws.resolve(dirname)).isDirectory()) {
 				addWorkspace(yargs, ws, dirname);
 			}
 		});

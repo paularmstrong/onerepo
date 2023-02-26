@@ -81,7 +81,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		logger.debug(`Running\n • ${affected.map((ws) => ws.name).join('\n • ')}`);
 	}
 
-	const { all: allFiles } = await git.getModifiedFiles(fromRef, throughRef);
+	const { added, modified, moved, deleted } = await git.getModifiedFiles(fromRef, throughRef);
+	const allFiles = [...added, ...modified, ...moved, ...deleted];
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
 	if (!files.length && !runAll && !affectedNames.length) {

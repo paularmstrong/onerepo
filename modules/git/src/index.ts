@@ -102,7 +102,7 @@ export async function getModifiedFiles(from?: string, through?: string, { step }
 			name: 'Getting modified files',
 			cmd: 'git',
 			args: hasUncommittedChanges
-				? ['diff', '--name-status', base]
+				? ['diff', '--name-status', '--cached', base]
 				: [
 						'diff-tree',
 						'-r',

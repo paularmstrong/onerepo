@@ -30,7 +30,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 
 	const findStep = logger.createStep('Determining workspaces');
 	for (const cmd of commands) {
-		const outFile = `docs/${cmd}.md`;
+		const outFile = ws.resolve('docs', `${cmd}.md`);
 		outFiles.push(outFile);
 
 		generators.push({
@@ -53,6 +53,10 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				'--command',
 				cmd,
 			],
+			opts: {
+				cwd: graph.root.location,
+			},
+			runDry: true,
 		});
 	}
 	await findStep.end();

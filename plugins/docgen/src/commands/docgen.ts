@@ -118,6 +118,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		name: 'Generating documentation',
 		cmd: 'node',
 		args,
+		runDry: true,
 	});
 
 	const docs = JSON.parse(out) as Docs;
@@ -131,7 +132,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	}
 
 	if (!outputDocs) {
-		logger.error(`Coulid not find command "${command}" in CLI`);
+		logger.error(`Could not find command "${command}" in CLI`);
 		return;
 	}
 

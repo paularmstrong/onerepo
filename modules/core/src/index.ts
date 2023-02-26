@@ -1,7 +1,8 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { lstat } from 'node:fs/promises';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 import createYargs from 'yargs';
@@ -162,7 +163,13 @@ export async function setup(config: Config = {}) {
 
 	// Local commands
 	if (subcommandDir !== false) {
-		yargs.commandDir(path.join(process.env.ONE_REPO_ROOT, subcommandDir));
+		const rootCommandPath = path.join(process.env.ONE_REPO_ROOT, subcommandDir);
+		if (existsSync(rootCommandPath)) {
+			const stat = await lstat(rootCommandPath);
+			if (stat.isDirectory()) {
+				yargs.commandDir(rootCommandPath);
+			}
+		}
 
 		// Workspace commands using subcommandDir
 		if (core.graph !== false) {

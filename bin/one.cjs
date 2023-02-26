@@ -10,38 +10,34 @@ const { vitest } = require('@onerepo/plugin-vitest');
 const { prettier } = require('@onerepo/plugin-prettier');
 const { typescript } = require('@onerepo/plugin-typescript');
 
-(async () => {
-	const { run } = await setup(
-		/** @type import('onerepo').Config */
-		{
-			name: 'one',
-			description: 'oneRepo’s very own `one` CLI.',
-			root: path.join(__dirname, '..'),
-			subcommandDir: 'commands',
-			core: {
-				generate: {
-					templatesDir: path.join(__dirname, '..', 'config', 'templates'),
-				},
-				graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
-				tasks: {
-					ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
-				},
+setup(
+	/** @type import('onerepo').Config */
+	{
+		name: 'one',
+		description: 'oneRepo’s very own `one` CLI.',
+		root: path.join(__dirname, '..'),
+		subcommandDir: 'commands',
+		core: {
+			generate: {
+				templatesDir: path.join(__dirname, '..', 'config', 'templates'),
 			},
-			plugins: [
-				changesets(),
-				vitest({ name: 'test', config: './config/vitest.config.ts' }),
-				eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
-				prettier({ name: 'format' }),
-				docgen({
-					outWorkspace: 'root',
-					outFile: 'docs/src/pages/docs/contributing/cli.md',
-					format: 'markdown',
-					safeWrite: true,
-				}),
-				typescript({ tsconfig: 'tsconfig.json' }),
-			],
-		}
-	);
-
-	await run();
-})();
+			graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
+			tasks: {
+				ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
+			},
+		},
+		plugins: [
+			changesets(),
+			vitest({ name: 'test', config: './config/vitest.config.ts' }),
+			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
+			prettier({ name: 'format' }),
+			docgen({
+				outWorkspace: 'root',
+				outFile: 'docs/src/pages/docs/contributing/cli.md',
+				format: 'markdown',
+				safeWrite: true,
+			}),
+			typescript({ tsconfig: 'tsconfig.json' }),
+		],
+	}
+).then(({ run }) => run());
