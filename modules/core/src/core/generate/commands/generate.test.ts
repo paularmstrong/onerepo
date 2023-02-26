@@ -49,4 +49,17 @@ describe('handler', () => {
 		expect(file.write).toHaveBeenCalledWith('apps/burritos/index.ts', 'burritos\n', expect.any(Object));
 		expect(file.write).toHaveBeenCalledWith('apps/burritos/burritos.ts', 'hello\n', expect.any(Object));
 	});
+
+	test('can have custom prompts', async () => {
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', nameInput: 'burritos' });
+		await run('');
+
+		expect(inquirer.prompt).toHaveBeenCalledWith([
+			{
+				name: 'description',
+				type: 'input',
+				message: 'How would you describe tacos?',
+			},
+		]);
+	});
 });
