@@ -11,6 +11,7 @@ export function generate(opts: Options = { templatesDir: './config/templates' })
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
+
 			const name = opts.name ?? command;
 			return yargs.command(
 				opts.name ?? command,

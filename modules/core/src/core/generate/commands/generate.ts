@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import glob from 'glob';
 import inquirer from 'inquirer';
+import type { QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/types';
@@ -10,7 +11,7 @@ export const command = ['generate', 'gen'];
 
 export const description = 'Generate workspaces from template directories.';
 
-type Args = {
+export type Args = {
 	name?: string;
 	'templates-dir': string;
 	type?: string;
@@ -98,6 +99,11 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		name = nameInput;
 	}
 
+	let vars = {};
+	if (config.prompts) {
+		vars = await inquirer.prompt(config.prompts);
+	}
+
 	logger.unpause();
 
 	if (!name) {
@@ -115,7 +121,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		const fullpath = path.join(templateDir, filepath);
 		let contents = await file.read(fullpath, 'r', { step: renderStep });
 		if (fullpath.endsWith('.ejs')) {
-			contents = render(contents, { name, fullName: nameFormat(name) });
+			contents = render(contents, { ...vars, name, fullName: nameFormat(name) });
 		}
 		await file.write(
 			path.join(outDir, dirnameFormat(name), filepath.replace('.ejs', '').replace(/__name__/g, name)),
@@ -130,6 +136,7 @@ export interface Config {
 	outDir: string;
 	nameFormat: (name: string) => string;
 	dirnameFormat: (name: string) => string;
+	prompts?: QuestionCollection;
 }
 
 export function getConfig(filepath: string) {
