@@ -42,8 +42,8 @@ export class Workspace {
 		return { ...this.#packageJson };
 	}
 
-	get publishConfig() {
-		return 'publishConfig' in this.packageJson ? this.packageJson.publishConfig : {};
+	get publishConfig(): PublishConfig {
+		return ('publishConfig' in this.packageJson ? this.packageJson.publishConfig : {}) as PublishConfig;
 	}
 
 	/**
@@ -152,13 +152,15 @@ export interface PrivatePackageJson extends PackageJson {
 	workspaces?: Array<string>;
 }
 
+type PublishConfig = {
+	access?: 'public' | 'restricted';
+	registry?: string;
+	[key: string]: unknown;
+};
+
 export interface PublicPackageJson extends PackageJson {
 	private?: false;
-	publishConfig?: {
-		access?: 'public' | 'restricted';
-		registry?: string;
-		[key: string]: unknown;
-	};
+	publishConfig?: PublishConfig;
 }
 
 export interface PackageJsonWithLocation extends PackageJson {
