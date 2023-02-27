@@ -189,7 +189,14 @@ Current status is:\n ${status}`);
 		workspaces.map((ws) => ({
 			name: `Publish ${ws.name}`,
 			cmd: 'npm',
-			args: ['publish', '--tag', 'prerelease', ...(otp ? ['--otp', otp] : []), ...(isDry ? ['--dry-run'] : [])],
+			args: [
+				'publish',
+				'--tag',
+				'prerelease',
+				...(otp ? ['--otp', otp] : []),
+				...(isDry ? ['--dry-run'] : []),
+				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
+			],
 			opts: {
 				cwd: ws.location,
 			},
