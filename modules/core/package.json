@@ -32,7 +32,7 @@
 		"glob": "^8.0.3",
 		"graph-data-structure": "^3.2.0",
 		"inquirer": "^9.1.4",
-		"minimatch": "^6.2.0",
+		"minimatch": "^7.2.0",
 		"prettier": "^2",
 		"yargs": "^17.6.2",
 		"yargs-parser": "^21.1.1"

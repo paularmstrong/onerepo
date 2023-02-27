@@ -2299,7 +2299,7 @@ __metadata:
     glob: ^8.0.3
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
-    minimatch: ^6.2.0
+    minimatch: ^7.2.0
     prettier: ^2
     typescript: ^4.9.5
     vitest: ^0.28.4
@@ -2431,7 +2431,7 @@ __metadata:
     "@onerepo/types": "workspace:^"
     "@types/eslint": ^8
     eslint: ^8.34.0
-    minimatch: ^6.2.0
+    minimatch: ^7.2.0
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8
@@ -11837,12 +11837,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^6.0.0, minimatch@npm:^6.2.0":
+"minimatch@npm:^6.0.0":
   version: 6.2.0
   resolution: "minimatch@npm:6.2.0"
   dependencies:
     brace-expansion: ^2.0.1
   checksum: 0ffb77d05bd483fcc344ba3e64a501d569e658fa6c592d94e9716ffc7925de7a8c2ac294cafa822b160bd8b2cbf7e01012917e06ffb9a85cfa9604629b3f2c04
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "minimatch@npm:7.2.0"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: f3c66f60e097fb9e1550a1b6ce5d8588d3cdfdb22c1bde9a293bd99e7a01833be2b975795299b50b9456542b239b2f0ba5edba71728ec644e5ca14d09d0cf620
   languageName: node
   linkType: hard
 
