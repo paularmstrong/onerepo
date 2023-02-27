@@ -123,9 +123,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/telemetry@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@astrojs/telemetry@npm:2.0.0"
+"@astrojs/telemetry@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@astrojs/telemetry@npm:2.0.1"
   dependencies:
     ci-info: ^3.3.1
     debug: ^4.3.4
@@ -133,18 +133,18 @@ __metadata:
     dset: ^3.1.2
     is-docker: ^3.0.0
     is-wsl: ^2.2.0
-    undici: ^5.14.0
+    undici: ^5.20.0
     which-pm-runs: ^1.1.0
-  checksum: f4bee6ff6dd352f73997b6df13173b8f2d209bd5f904569d1de91dea6cb694dca73f515960acf9f2413e7f6147f157d5bb93d11636ff25d06ea8f61c807ed3b8
+  checksum: c335ae9b731a0f3e65a74962f5b0bfc78e88867ffc66a4a9d29ed6cd0718d1d328e90139b499379e7fe14c2c6d00c5c3c75ec2b8ea4c6cca30d52b9c14509714
   languageName: node
   linkType: hard
 
-"@astrojs/webapi@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@astrojs/webapi@npm:2.0.1"
+"@astrojs/webapi@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@astrojs/webapi@npm:2.0.2"
   dependencies:
-    undici: 5.18.0
-  checksum: 7e0db7f0540f6b71cdb70478737eb2acbb2eb6ece1069b677201ccce23292fd6f96181ee0876d18647d3d8a548cdbbdfc6cc8d42bc02785252e8abe8dcce6108
+    undici: 5.20.0
+  checksum: ce1b5f492dbd9b7050a92b65964f7384e1864eb07181d79c37bb4d6c1047121f38aac0f941a8f7eb88cd11d25c85ba2c2562afa84e6e7ad5d45a85c08a2bed00
   languageName: node
   linkType: hard
 
@@ -2287,7 +2287,7 @@ __metadata:
     "@onerepo/types": "workspace:^"
     "@onerepo/yargs": 0.0.0
     "@types/ejs": ^3
-    "@types/glob": ^8.0.1
+    "@types/glob": ^8.1.0
     "@types/inquirer": ^9
     "@types/npmlog": ^4.1.4
     "@types/random-seed": ^0
@@ -2299,7 +2299,7 @@ __metadata:
     glob: ^8.0.3
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
-    minimatch: ^6.2.0
+    minimatch: ^7.2.0
     prettier: ^2
     typescript: ^4.9.5
     vitest: ^0.28.4
@@ -2316,14 +2316,14 @@ __metadata:
     "@astrojs/tailwind": ^3.0.1
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
-    astro: ^2.0.14
+    astro: ^2.0.16
     clsx: ^1.2.1
     eslint-plugin-astro: ^0.23.0
     netlify-cli: ^13.0.0
     onerepo: 0.0.0
     postcss: ^8.4.21
     rehype-pretty-code: ^0.9.4
-    tailwindcss: ^3.2.6
+    tailwindcss: ^3.2.7
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -2355,7 +2355,7 @@ __metadata:
   resolution: "@onerepo/graph@workspace:modules/graph"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/glob": ^8.0.1
+    "@types/glob": ^8.1.0
     glob: ^8.0.3
     graph-data-structure: ^3.2.0
     typescript: ^4.9.5
@@ -2432,7 +2432,7 @@ __metadata:
     "@onerepo/types": "workspace:^"
     "@types/eslint": ^8
     eslint: ^8.34.0
-    minimatch: ^6.2.0
+    minimatch: ^7.2.0
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8
@@ -2895,13 +2895,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@types/glob@npm:8.0.1"
+"@types/glob@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@types/glob@npm:8.1.0"
   dependencies:
     "@types/minimatch": ^5.1.2
     "@types/node": "*"
-  checksum: 98f3d0403c09638348a2f3b30aac2a3d6bdc306bce3ceb868f4794fef4f02727ccdf0dab0c7b7d65fd38a1afa1e48f02de56d29d2babe94ee9b204ca54acb31f
+  checksum: 9101f3a9061e40137190f70626aa0e202369b5ec4012c3fabe6f5d229cce04772db9a94fa5a0eb39655e2e4ad105c38afbb4af56a56c0996a8c7d4fc72350e3d
   languageName: node
   linkType: hard
 
@@ -4213,15 +4213,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^2.0.14":
-  version: 2.0.14
-  resolution: "astro@npm:2.0.14"
+"astro@npm:^2.0.16":
+  version: 2.0.16
+  resolution: "astro@npm:2.0.16"
   dependencies:
     "@astrojs/compiler": ^1.1.0
     "@astrojs/language-server": ^0.28.3
     "@astrojs/markdown-remark": ^2.0.1
-    "@astrojs/telemetry": ^2.0.0
-    "@astrojs/webapi": ^2.0.1
+    "@astrojs/telemetry": ^2.0.1
+    "@astrojs/webapi": ^2.0.2
     "@babel/core": ^7.18.2
     "@babel/generator": ^7.18.2
     "@babel/parser": ^7.18.4
@@ -4271,7 +4271,7 @@ __metadata:
     zod: ^3.17.3
   bin:
     astro: astro.js
-  checksum: a2d0fddff9f8d63e004d130542f0bfb5f74e64589501cc287f64008c827e94085b4b6666de45f30bfcdbe067cedf08f5a6c627c63413124160f7207b63cd3e3a
+  checksum: b6acbddd9cee96d678e98e119140de2d04876ab811ad5889296881502a3722e23b455f2ac5ca97adca8cdb9cd03e37bc70281cbbe1fa5342b64577ef54900e2d
   languageName: node
   linkType: hard
 
@@ -11845,12 +11845,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^6.0.0, minimatch@npm:^6.2.0":
+"minimatch@npm:^6.0.0":
   version: 6.2.0
   resolution: "minimatch@npm:6.2.0"
   dependencies:
     brace-expansion: ^2.0.1
   checksum: 0ffb77d05bd483fcc344ba3e64a501d569e658fa6c592d94e9716ffc7925de7a8c2ac294cafa822b160bd8b2cbf7e01012917e06ffb9a85cfa9604629b3f2c04
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "minimatch@npm:7.2.0"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: f3c66f60e097fb9e1550a1b6ce5d8588d3cdfdb22c1bde9a293bd99e7a01833be2b975795299b50b9456542b239b2f0ba5edba71728ec644e5ca14d09d0cf620
   languageName: node
   linkType: hard
 
@@ -15860,9 +15869,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.6":
-  version: 3.2.6
-  resolution: "tailwindcss@npm:3.2.6"
+"tailwindcss@npm:^3.2.7":
+  version: 3.2.7
+  resolution: "tailwindcss@npm:3.2.7"
   dependencies:
     arg: ^5.0.2
     chokidar: ^3.5.3
@@ -15892,7 +15901,7 @@ __metadata:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 908451ff7b334b2aec2a0ba5bf426a786a3f190b440a1f8ede206d889448ffda3b77349829f06dc297336fd0b5edc696ae5f23b808d6444bb5c689f218e95323
+  checksum: 819446bf67acea1fc738f345d80f328b7bb6e6ef4b24070249a11219307045881cf97baed6258cbdcede7fa18886e9c9c41fd0fa087b3e987cf2948560a2f164
   languageName: node
   linkType: hard
 
@@ -16521,16 +16530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:5.18.0":
-  version: 5.18.0
-  resolution: "undici@npm:5.18.0"
-  dependencies:
-    busboy: ^1.6.0
-  checksum: 74e0f357c376c745fcca612481a5742866ae36086ad387e626255f4c4a15fc5357d9d0fa4355271b6a633d50f5556c3e85720844680c44861c66e23afca7245f
-  languageName: node
-  linkType: hard
-
-"undici@npm:^5.14.0":
+"undici@npm:5.20.0, undici@npm:^5.20.0":
   version: 5.20.0
   resolution: "undici@npm:5.20.0"
   dependencies:
