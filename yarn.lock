@@ -2287,7 +2287,7 @@ __metadata:
     "@onerepo/types": "workspace:^"
     "@onerepo/yargs": 0.0.0
     "@types/ejs": ^3
-    "@types/glob": ^8.0.1
+    "@types/glob": ^8.1.0
     "@types/inquirer": ^9
     "@types/npmlog": ^4.1.4
     "@types/random-seed": ^0
@@ -2354,7 +2354,7 @@ __metadata:
   resolution: "@onerepo/graph@workspace:modules/graph"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/glob": ^8.0.1
+    "@types/glob": ^8.1.0
     glob: ^8.0.3
     graph-data-structure: ^3.2.0
     typescript: ^4.9.5
@@ -2894,13 +2894,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@types/glob@npm:8.0.1"
+"@types/glob@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@types/glob@npm:8.1.0"
   dependencies:
     "@types/minimatch": ^5.1.2
     "@types/node": "*"
-  checksum: 98f3d0403c09638348a2f3b30aac2a3d6bdc306bce3ceb868f4794fef4f02727ccdf0dab0c7b7d65fd38a1afa1e48f02de56d29d2babe94ee9b204ca54acb31f
+  checksum: 9101f3a9061e40137190f70626aa0e202369b5ec4012c3fabe6f5d229cce04772db9a94fa5a0eb39655e2e4ad105c38afbb4af56a56c0996a8c7d4fc72350e3d
   languageName: node
   linkType: hard
 
