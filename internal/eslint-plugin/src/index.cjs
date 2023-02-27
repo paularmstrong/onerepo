@@ -41,14 +41,10 @@ module.exports = {
 					env: { node: true, commonjs: true },
 				},
 				{
-					files: ['*.tsx', '*.ts'],
 					parser: '@typescript-eslint/parser',
-					plugins: ['react', 'react-hooks', '@typescript-eslint'],
-					extends: [
-						'plugin:react/recommended',
-						'plugin:react-hooks/recommended',
-						'plugin:@typescript-eslint/recommended',
-					],
+					files: ['*.tsx', '*.ts'],
+					plugins: ['@typescript-eslint'],
+					extends: ['plugin:@typescript-eslint/recommended'],
 					rules: {
 						'@typescript-eslint/ban-ts-comment': 'off', // sometimes you know what you're doing
 						'@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
