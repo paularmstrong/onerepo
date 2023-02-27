@@ -2316,7 +2316,7 @@ __metadata:
     "@astrojs/tailwind": ^3.0.1
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
-    astro: ^2.0.14
+    astro: ^2.0.15
     eslint-plugin-astro: ^0.23.0
     netlify-cli: ^13.0.0
     onerepo: 0.0.0
@@ -4212,9 +4212,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^2.0.14":
-  version: 2.0.14
-  resolution: "astro@npm:2.0.14"
+"astro@npm:^2.0.15":
+  version: 2.0.15
+  resolution: "astro@npm:2.0.15"
   dependencies:
     "@astrojs/compiler": ^1.1.0
     "@astrojs/language-server": ^0.28.3
@@ -4270,7 +4270,7 @@ __metadata:
     zod: ^3.17.3
   bin:
     astro: astro.js
-  checksum: a2d0fddff9f8d63e004d130542f0bfb5f74e64589501cc287f64008c827e94085b4b6666de45f30bfcdbe067cedf08f5a6c627c63413124160f7207b63cd3e3a
+  checksum: 31f719988cf794f7c8030e3b5148b58a76e2144c888ae30ce677a8dc34552e13577c345672bea2d1cb74cc5cdcf40ecde543daaf77a7cf17df4179ecf6315265
   languageName: node
   linkType: hard
 
