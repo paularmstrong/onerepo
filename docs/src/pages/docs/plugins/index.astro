@@ -18,18 +18,18 @@ const { Content } = readme;
 					return (
 						<li>
 							<a
-								class="group flex h-full flex-row gap-2 rounded border border-gray-800 bg-gray-800/50 p-2 shadow transition-colors duration-200 hover:border-gray-700 hover:bg-gray-800 hover:shadow-xl active:bg-gray-800/80 active:shadow-inner"
+								class="group flex h-full flex-row gap-2 rounded border border-zinc-200 bg-white p-2 shadow transition-colors duration-200 hover:shadow-xl active:bg-zinc-100 active:shadow-inner dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-800 dark:active:bg-zinc-800/80"
 								href={`/docs/plugins/${slug}/`}
 							>
 								{frontmatter.tool ? (
 									<img src={`/images/plugins/${frontmatter.tool.toLowerCase()}.webp`} class="aspect-square h-16" />
 								) : undefined}
 								<div class="">
-									<div class="text-xs text-gray-500">{frontmatter.title}</div>
+									<div class="text-xs text-zinc-500">{frontmatter.title}</div>
 									<div class="text-xl font-bold transition-colors duration-200 group-hover:text-cyan-500">
 										{frontmatter.tool}
 									</div>
-									<div class="text-sm text-gray-400">{frontmatter.description}</div>
+									<div class="text-sm text-zinc-400">{frontmatter.description}</div>
 								</div>
 							</a>
 						</li>
