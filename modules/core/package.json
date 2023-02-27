@@ -42,7 +42,7 @@
 		"@onerepo/test-cli": "0.0.0",
 		"@onerepo/types": "workspace:^",
 		"@types/ejs": "^3",
-		"@types/glob": "^8.0.1",
+		"@types/glob": "^8.1.0",
 		"@types/inquirer": "^9",
 		"@types/npmlog": "^4.1.4",
 		"@types/random-seed": "^0",
