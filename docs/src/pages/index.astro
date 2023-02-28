@@ -1,5 +1,33 @@
 ---
+/* eslint-disable tailwindcss/no-arbitrary-value */
+import clsx from 'clsx';
 import Layout from '../layouts/Layout.astro';
+
+const widths = ['w-2', 'w-4', 'w-6', 'w-8', 'w-10', 'w-12', 'w-16'];
+const heights = ['h-[300px]', 'h-[290px]', 'h-[280px]', 'h-[270px]'];
+const anims = [
+	'animate-[aurora_4s_ease-in-out_infinite]',
+	'animate-[aurora_7s_ease-in-out_infinite]',
+	'animate-[aurora_8s_ease-in-out_infinite]',
+	'animate-[aurora_9s_ease-in-out_infinite]',
+	'animate-[aurora_10s_ease-in-out_infinite]',
+	'animate-[aurora_11s_ease-in-out_infinite]',
+	'animate-[aurora_12s_ease-in-out_infinite]',
+];
+const opacity = [
+	'opacity-10',
+	'opacity-20',
+	'opacity-30',
+	'opacity-40',
+	'opacity-50',
+	'opacity-60',
+	'opacity-70',
+	'opacity-80',
+	'opacity-90',
+	'opacity-100',
+];
+
+const margins = ['mr-0', 'mr-1', 'mr-2'];
 ---
 
 <Layout>
@@ -7,5 +35,29 @@ import Layout from '../layouts/Layout.astro';
 		<h1>oneRepo</h1>
 		<p>The monorepo tools for <strong>teams</strong>.</p>
 		<h2>Move <em>fast</em> with <strong>confidence</strong>.</h2>
+		<div class="flex h-[300px] blur-lg">
+			{
+				Array.from(Array(40)).map((_, i) => {
+					const opacityI =
+						i < opacity.length
+							? i
+							: 40 - i < opacity.length
+							? 40 - i
+							: Math.floor((Math.random() * opacity.length) / 2 + opacity.length / 2);
+					return (
+						<div
+							class={clsx(
+								'aurora-slice transform-gpu',
+								heights[Math.floor(Math.random() * heights.length)],
+								widths[Math.floor(Math.random() * widths.length)],
+								anims[Math.floor(Math.random() * anims.length)],
+								margins[Math.floor(Math.random() * margins.length)],
+								opacity[opacityI]
+							)}
+						/>
+					);
+				})
+			}
+		</div>
 	</div>
 </Layout>

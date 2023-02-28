@@ -126,6 +126,20 @@ module.exports = {
 						backgroundSize: '200%',
 						maskImage: 'url(/oneRepo.svg)',
 					},
+					'.aurora-slice': {
+						backgroundImage: `linear-gradient(
+							0deg,
+							rgba(219, 39, 119, 0) 0%,
+							rgba(219, 132, 39, 0.6) 4%,
+							rgba(234, 242, 166, 0.6) 5%,
+							rgba(234, 242, 166, 0.6) 10%,
+							rgba(151, 219, 54, 0.42) 12%,
+							rgba(67, 183, 160, 0.25) 18%,
+							rgba(143, 111, 140, 0.4) 25%,
+							rgba(219, 39, 119, 0.6) 35%,
+							rgba(219, 39, 119, 0) 100%
+						)`.replace(/\s+/g, ''),
+					},
 				});
 			},
 		},
@@ -138,16 +152,14 @@ module.exports = {
 			8: '8',
 		},
 		extend: {
-			animation: {
-				gradient: 'gradient 1.5s ease infinite',
-			},
+			animation: {},
 			keyframes: {
-				gradient: {
+				aurora: {
 					'0%, 100%': {
-						backgroundPosition: '100% 0%',
+						transform: 'translateY(0)',
 					},
 					'50%': {
-						backgroundPosition: '0% 50%',
+						transform: 'translateY(10%)',
 					},
 				},
 			},
