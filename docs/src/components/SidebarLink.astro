@@ -1,4 +1,6 @@
 ---
+import clsx from 'clsx';
+
 type Props = {
 	href: string;
 	title?: string;
@@ -8,7 +10,10 @@ const { href, title } = Astro.props;
 ---
 
 <a
-	class="block rounded px-2 py-1 text-gray-700 transition-colors duration-200 hover:bg-cyan-600/80 hover:text-white dark:text-gray-200 dark:hover:bg-cyan-600/50"
+	class={clsx('block rounded px-2 py-1 transition-colors duration-200 hover:bg-cyan-600/30', {
+		'bg-cyan-600/90 text-white': Astro.url.pathname === href,
+		'text-gray-600 dark:text-gray-400': Astro.url.pathname !== href,
+	})}
 	href={href}
 	title={title}
 >

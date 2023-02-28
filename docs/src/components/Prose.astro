@@ -2,7 +2,7 @@
 ---
 
 <div
-	class="prose prose-pink max-w-none transition-colors duration-500 dark:prose-invert lg:prose-lg xl:prose-xl prose-h1:mb-4 prose-h1:leading-tight prose-a:transition-colors prose-a:duration-200 hover:prose-a:underline-offset-4 prose-code:font-normal prose-code:leading-6 prose-pre:relative prose-pre:whitespace-pre-wrap prose-pre:px-0 prose-pre:leading-6 prose-th:font-bold lg:prose-h1:mb-4 lg:prose-h1:leading-tight lg:prose-code:leading-6 lg:prose-pre:px-0 lg:prose-pre:leading-6 xl:prose-h1:mb-4 xl:prose-h1:leading-tight xl:prose-code:leading-6 xl:prose-pre:px-0 xl:prose-pre:leading-6"
+	class="prose-pre-code:block prose-pre-code:border-0 prose prose-pink max-w-none transition-colors duration-500 dark:prose-invert lg:prose-lg xl:prose-xl prose-h1:mb-4 prose-h1:leading-tight prose-a:transition-colors prose-a:duration-200 hover:prose-a:underline-offset-4 prose-code:-my-1 prose-code:inline-block prose-code:rounded-md prose-code:border prose-code:border-cyan-200 prose-code:bg-cyan-100 prose-code:p-1 prose-code:text-sm prose-code:font-normal prose-pre:relative prose-pre:whitespace-pre-wrap prose-pre:py-2 prose-pre:text-sm prose-pre:leading-4 prose-th:font-bold dark:prose-code:text-zinc-700 lg:prose-h1:mb-4 lg:prose-h1:leading-tight lg:prose-code:leading-4 lg:prose-pre:px-0 lg:prose-pre:leading-4 xl:prose-h1:mb-4 xl:prose-h1:leading-tight xl:prose-code:leading-4 xl:prose-pre:px-0 xl:prose-pre:leading-4"
 >
 	<slot />
 </div>
@@ -13,7 +13,7 @@
 	els.forEach((el) => {
 		const button = document.createElement('button');
 		button.className =
-			'absolute top-4 right-4 opacity-0 hover:opacity-100 transition-all duration-200 rounded bg-gray-700 p-2 border border-gray-600 shadow-lg active:bg-gray-900 shadow-inset';
+			'absolute top-2 right-2 opacity-0 text-white hover:opacity-100 transition-all duration-200 rounded bg-zinc-700 p-2 border border-zinc-600 shadow-lg active:bg-zinc-900 shadow-inset';
 		button.setAttribute('title', 'Copy to clipboard');
 		const content = el.innerText;
 		button.innerHTML =

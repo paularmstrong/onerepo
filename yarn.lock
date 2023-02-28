@@ -2322,6 +2322,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
     astro: ^2.0.16
+    clsx: ^1.2.1
     eslint-plugin-astro: ^0.23.0
     netlify-cli: ^13.0.0
     onerepo: 0.0.0
@@ -5225,6 +5226,13 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: d06418b7335897209e77bdd430d04f882189582e67bd1f75a04565f3f07f5b3f119a9d670c943b6697d0afb100f03b866b3b8a1f91d4d02d72c4ecf2bb64b5dd
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
   languageName: node
   linkType: hard
 

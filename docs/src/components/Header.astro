@@ -4,18 +4,19 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
 ---
 
 <header
-	class="sticky top-0 z-10 border-b border-gray-200 bg-gray-100/50 shadow shadow-gray-400 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-900"
+	class="sticky top-0 z-10 border-b border-gray-200 bg-gray-100/70 shadow shadow-gray-400 backdrop-blur-md dark:border-gray-700/50 dark:bg-black/50 dark:shadow-2xl"
 >
 	<div class="container mx-auto flex flex-row justify-between px-4 md:px-8">
 		<h1>
 			<a
 				href="/"
-				class="group flex h-full w-full flex-row items-center py-2 text-pink-600 transition-colors duration-200 hover:text-cyan-500"
+				class="group flex h-full w-full flex-row items-center py-2 text-black transition-colors duration-200 hover:text-cyan-500 dark:text-white"
 			>
 				<span
-					class="logo inline-block h-10 w-10 bg-pink-600 from-pink-600 to-cyan-500 transition-colors duration-200 group-hover:animate-gradient group-hover:bg-gradient-to-br"
-				></span><span class="text-lg font-bold">oneRepo</span></a
-			>
+					class="logo inline-block h-10 w-10 bg-black transition-colors duration-200 group-hover:bg-cyan-500 dark:bg-white"
+				></span>
+				<span class="text-lg font-bold transition-colors duration-200 group-hover:text-cyan-500">oneRepo</span>
+			</a>
 		</h1>
 		<nav>
 			<ul class="flex h-full flex-row items-center gap-8">
