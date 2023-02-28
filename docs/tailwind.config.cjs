@@ -125,6 +125,7 @@ module.exports = {
 					'.logo': {
 						backgroundSize: '200%',
 						maskImage: 'url(/oneRepo.svg)',
+						backgroundColor: 'currentcolor',
 					},
 					'.aurora-slice': {
 						backgroundImage: `linear-gradient(
