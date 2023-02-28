@@ -48,7 +48,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const main = workspace.resolve(workspace.packageJson.main!);
 		files.push(main);
 
-		const commands = glob.sync(`${path.join(path.dirname(main), 'commands')}/!(*.test).ts`, { nodir: true });
+		const commands = glob.sync(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
 		if (commands.length) {
 			files.push(...commands);
 		}
@@ -68,14 +68,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
-				args: [
-					...files,
-					`--outdir=${workspace.resolve('dist')}`,
-					'--platform=node',
-					'--format=esm',
-					'--bundle',
-					'--packages=external',
-				],
+				args: [...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
 			});
 
 		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });

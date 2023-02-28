@@ -77,22 +77,22 @@ describe('handler', () => {
 		expect(subprocess.batch).toHaveBeenCalledWith([
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest'],
+				args: ['publish', '--tag', 'latest'],
 				opts: { cwd: expect.stringMatching(/\/modules\/burritos$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest'],
+				args: ['publish', '--tag', 'latest', '--access', 'public'],
 				opts: { cwd: expect.stringMatching(/\/modules\/churros$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest'],
+				args: ['publish', '--tag', 'latest'],
 				opts: { cwd: expect.stringMatching(/\/modules\/tacos$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest'],
+				args: ['publish', '--tag', 'latest'],
 				opts: { cwd: expect.stringMatching(/\/modules\/tortillas$/) },
 			}),
 		]);
@@ -124,7 +124,7 @@ describe('handler', () => {
 			expect.arrayContaining([
 				expect.objectContaining({
 					cmd: 'npm',
-					args: ['publish', '--access', 'public', '--tag', 'latest'],
+					args: ['publish', '--tag', 'latest'],
 					opts: { cwd: expect.stringMatching(/\/modules\/burritos$/) },
 				}),
 			])
@@ -138,22 +138,22 @@ describe('handler', () => {
 		expect(subprocess.batch).toHaveBeenCalledWith([
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest', '--otp', '789012'],
+				args: ['publish', '--tag', 'latest', '--otp', '789012'],
 				opts: { cwd: expect.stringMatching(/\/modules\/burritos$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest', '--otp', '789012'],
+				args: ['publish', '--tag', 'latest', '--otp', '789012', '--access', 'public'],
 				opts: { cwd: expect.stringMatching(/\/modules\/churros$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest', '--otp', '789012'],
+				args: ['publish', '--tag', 'latest', '--otp', '789012'],
 				opts: { cwd: expect.stringMatching(/\/modules\/tacos$/) },
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--access', 'public', '--tag', 'latest', '--otp', '789012'],
+				args: ['publish', '--tag', 'latest', '--otp', '789012'],
 				opts: { cwd: expect.stringMatching(/\/modules\/tortillas$/) },
 			}),
 		]);

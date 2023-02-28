@@ -86,7 +86,7 @@ describe('handler', () => {
 			}),
 			expect.objectContaining({
 				cmd: 'npm',
-				args: ['publish', '--tag', 'prerelease'],
+				args: expect.arrayContaining(['publish', '--tag', 'prerelease']),
 				opts: { cwd: expect.stringMatching(/\/modules\/churros$/) },
 			}),
 			expect.objectContaining({
@@ -154,6 +154,19 @@ describe('handler', () => {
 				cmd: 'npm',
 				args: ['publish', '--tag', 'prerelease', '--otp', '789012'],
 				opts: { cwd: expect.stringMatching(/\/modules\/tortillas$/) },
+			}),
+		]);
+	});
+
+	test('adds --access from publishConfig', async () => {
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['churros'] });
+		await run('--otp', { graph });
+
+		expect(subprocess.batch).toHaveBeenCalledWith([
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['publish', '--tag', 'prerelease', '--access', 'public'],
+				opts: { cwd: expect.stringMatching(/\/modules\/churros$/) },
 			}),
 		]);
 	});

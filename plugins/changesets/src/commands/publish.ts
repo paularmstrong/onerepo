@@ -133,12 +133,11 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			cmd: 'npm',
 			args: [
 				'publish',
-				'--access',
-				'public',
 				'--tag',
 				'latest',
 				...(otp ? ['--otp', otp] : []),
 				...(isDry ? ['--dry-run'] : []),
+				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
 			],
 			opts: {
 				cwd: ws.location,
