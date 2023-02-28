@@ -2,13 +2,14 @@
 import Layout from './Layout.astro';
 import Prose from '../components/Prose.astro';
 import Sidebar from '../components/Sidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
-export interface Props {
+export type Props = {
 	description?: string;
-	title?: string;
-}
+	title: string;
+};
 
-const { description, title } = Astro.props;
+const { description, title, headings } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
@@ -24,7 +25,7 @@ const { description, title } = Astro.props;
 			</Prose>
 		</main>
 		<div class="col-span-2">
-			<slot name="toc" />
+			{headings ? <TableOfContents slot="toc" headings={headings} /> : <slot name="toc" />}
 		</div>
 	</div>
 </Layout>

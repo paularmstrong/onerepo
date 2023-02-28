@@ -7,12 +7,12 @@ const widths = ['w-2', 'w-4', 'w-6', 'w-8', 'w-10', 'w-12', 'w-16'];
 const heights = ['h-6/10', 'h-7/10', 'h-8/10', 'h-9/10', 'h-full'];
 const anims = [
 	'animate-[aurora_4s_ease-in-out_infinite]',
-	'animate-[aurora_7s_ease-in-out_infinite]',
-	'animate-[aurora_8s_ease-in-out_infinite]',
-	'animate-[aurora_9s_ease-in-out_infinite]',
-	'animate-[aurora_10s_ease-in-out_infinite]',
-	'animate-[aurora_11s_ease-in-out_infinite]',
-	'animate-[aurora_12s_ease-in-out_infinite]',
+	'animate-[-3s_aurora_7s_ease-in-out_infinite]',
+	'animate-[-2s_aurora_8s_ease-in-out_infinite]',
+	'animate-[-3s_aurora_9s_ease-in-out_infinite]',
+	'animate-[-2s_aurora_10s_ease-in-out_infinite]',
+	'animate-[-4s_aurora_11s_ease-in-out_infinite]',
+	'animate-[-6s_aurora_12s_ease-in-out_infinite]',
 ];
 const opacity = [
 	'opacity-10',
@@ -36,7 +36,7 @@ const margins = ['mr-0', 'mr-1', 'mr-2'];
 		<p>The monorepo tools for <strong>teams</strong>.</p>
 		<h2>Move <em>fast</em> with <strong>confidence</strong>.</h2>
 	</div>
-	<div class="pointer-events-none mt-[-250px] flex h-[300px] w-full -skew-y-3 blur-lg">
+	<div class="aurora pointer-events-none mt-[-250px] flex h-[300px] w-full blur-lg">
 		{
 			Array.from(Array(40)).map((_, i) => {
 				const opacityI =

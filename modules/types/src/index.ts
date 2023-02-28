@@ -23,17 +23,41 @@ export interface DefaultArgv {
 }
 
 export type GetterOptions = {
+	/**
+	 * Start SHA
+	 */
 	from?: string;
 	ignore?: Array<string>;
+	/**
+	 * End SHA
+	 */
 	through?: string;
 	step?: Step;
 };
 
 export type HandlerExtra = {
+	/**
+	 * Get the affected workspaces based on the current state of the repository.
+	 */
 	getAffected: (opts?: GetterOptions) => Promise<Array<Workspace>>;
+	/**
+	 * Get the affected filepaths based on the current inputs and state of the repository.
+	 */
 	getFilepaths: (opts?: GetterOptions) => Promise<Array<string>>;
+	/**
+	 * Get the affected workspaces based on the current inputs and the state of the repository.
+	 * This function differs from `getAffected` in that it respects input arguments provided by
+	 * `withWorkspaces`, `withFiles` and `withAffected`.
+	 */
 	getWorkspaces: (opts?: GetterOptions) => Promise<Array<Workspace>>;
+	/**
+	 * The Repository Graph
+	 */
 	graph: Repository;
+	/**
+	 * Standard logger. This should _always_ be used in place of console.log unless you have
+	 * a specific need to write to standard out differently.
+	 */
 	logger: Logger;
 };
 

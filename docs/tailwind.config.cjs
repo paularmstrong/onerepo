@@ -81,20 +81,24 @@ module.exports = {
 					},
 					'[data-rehype-pretty-code-title]': {
 						width: 'max-content',
+						borderTopLeftRadius: theme('borderRadius.md'),
 						borderTopRightRadius: theme('borderRadius.md'),
-						borderRightWidth: '1px',
-						borderRightStyle: 'solid',
-						borderRightColor: theme('colors.zinc.300'),
+						borderColor: theme('colors.zinc.300'),
+						borderWidth: '1px',
+						borderStyle: 'solid',
+						borderBottomWidth: '0px',
 						padding: `${theme('spacing.2')} ${theme('spacing.4')}`,
 						fontFamily: theme('fontFamily.mono'),
 						color: theme('colors.zinc.800'),
 						backgroundColor: theme('colors.zinc.100'),
 						fontSize: theme('fontSize.xs'),
+						marginLeft: '0.125rem',
+						marginTop: '0.125rem',
 
 						'.dark &': {
 							color: theme('colors.zinc.100'),
 							backgroundColor: theme('colors.zinc.700'),
-							borderRightColor: theme('colors.zinc.600'),
+							borderColor: theme('colors.zinc.600'),
 						},
 
 						'+ pre': {
@@ -127,17 +131,32 @@ module.exports = {
 						maskImage: 'url(/oneRepo.svg)',
 						backgroundColor: 'currentcolor',
 					},
+					'.aurora': {
+						transform: 'perspective(300px) rotateX(-10deg) rotateY(-9deg)',
+					},
+					'.dark .aurora-slice': {
+						backgroundImage: `linear-gradient(
+							0deg,
+							rgba(219, 132, 39, 0) 0%,
+							rgba(219, 132, 39, 0.6) 4%,
+							rgba(234, 242, 166, 0.3) 5%,
+							rgba(198, 242, 200, 0.4) 8%,
+							rgba(67, 183, 160, 0.25) 12%,
+							rgba(219, 200, 219, 0.1) 18%,
+							rgba(219, 39, 119, 0.3) 40%,
+							rgba(219, 39, 119, 0) 100%
+						)`.replace(/\s+/g, ''),
+					},
 					'.aurora-slice': {
 						backgroundImage: `linear-gradient(
 							0deg,
 							rgba(219, 39, 119, 0) 0%,
-							rgba(219, 132, 39, 0.6) 4%,
-							rgba(234, 242, 166, 0.6) 5%,
-							rgba(234, 242, 166, 0.6) 10%,
-							rgba(151, 219, 54, 0.42) 12%,
-							rgba(67, 183, 160, 0.25) 18%,
-							rgba(143, 111, 140, 0.4) 25%,
-							rgba(219, 39, 119, 0.6) 35%,
+							rgba(219, 132, 39, 0.7) 4%,
+							rgba(234, 242, 166, 0.45) 5%,
+							rgba(234, 242, 166, 0.65) 8%,
+							rgba(67, 183, 160, 0.40) 12%,
+							rgba(219, 200, 219, 0.65) 22%,
+							rgba(219, 39, 119, 0.45) 40%,
 							rgba(219, 39, 119, 0) 100%
 						)`.replace(/\s+/g, ''),
 					},
