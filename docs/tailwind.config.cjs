@@ -213,7 +213,7 @@ module.exports = {
 						'--tw-prose-invert-headings': theme('colors.white'),
 						'--tw-prose-invert-lead': theme('colors.pink.300'),
 						'--tw-prose-invert-links': theme('colors.cyan.500'),
-						'--tw-prose-invert-bold': theme('colors.white'),
+						'--tw-prose-invert-bold': theme('colors.pink.600'),
 						'--tw-prose-invert-counters': theme('colors.pink.400'),
 						'--tw-prose-invert-bullets': theme('colors.pink.600'),
 						'--tw-prose-invert-hr': theme('colors.pink.700'),

@@ -1,5 +1,5 @@
 ---
-layout: '../../../layouts/Docs.astro'
+layout: '../../../../layouts/Docs.astro'
 title: Writing oneRepo commands
 ---
 

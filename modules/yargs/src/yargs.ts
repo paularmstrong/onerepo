@@ -3,8 +3,8 @@ import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Repository } from '@onerepo/graph';
 import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
-import { getAffected, getFilepaths, getWorkspaces } from './getters';
-import type { GetterArgv } from './getters';
+import { getAffected, getFilepaths, getWorkspaces } from '@onerepo/builders';
+import type { GetterArgv } from '@onerepo/builders';
 import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 import type { Arguments, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 
@@ -35,14 +35,6 @@ export function setupYargs(yargs: Yargv): Yargs {
 			hidden: true,
 			default: false,
 			description: 'Silence all output from the logger. Effectively sets verbosity to 0.',
-		})
-		.option('ci', {
-			default: false,
-			description: 'Sets defaults for running scripts in a CI environment',
-			global: true,
-			group: 'Global:',
-			hidden: true,
-			type: 'boolean',
 		})
 		.middleware(setEnvironmentMiddleware, true)
 		.middleware(sudoCheckMiddleware(yargs), true)

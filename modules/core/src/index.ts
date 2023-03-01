@@ -84,7 +84,6 @@ export interface Config {
 // NB: process.env vars can ONLY be strings
 process.env.ONE_REPO_ROOT = process.cwd();
 process.env.ONE_REPO_DRY_RUN = process.env.ONE_REPO_DRY_RUN ?? 'false';
-process.env.ONE_REPO_CI = process.env.ONE_REPO_CI ?? 'false';
 process.env.ONE_REPO_VERBOSITY = process.env.ONE_REPO_VERBOSITY ?? '0';
 process.env.ONE_REPO_HEAD_BRANCH = process.env.ONE_REPO_HEAD_BRANCH ?? 'main';
 
