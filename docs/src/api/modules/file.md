@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / file
+[onerepo](/docs/core/api/public/) / file
 
 # Namespace: file
 
@@ -38,7 +38,7 @@ await file.exists('/path/to/file.ts');
 
 #### Defined in
 
-[modules/file/src/index.ts:35](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L35)
+[modules/file/src/index.ts:35](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L35)
 
 ---
 
@@ -70,7 +70,7 @@ if (stat.isDirectory()) {
 
 #### Defined in
 
-[modules/file/src/index.ts:82](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L82)
+[modules/file/src/index.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L82)
 
 ---
 
@@ -97,7 +97,7 @@ await file.mkdirp('/path/to/something');
 
 #### Defined in
 
-[modules/file/src/index.ts:121](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L121)
+[modules/file/src/index.ts:121](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L121)
 
 ---
 
@@ -125,7 +125,7 @@ const contents = await file.read('/path/to/file/');
 
 #### Defined in
 
-[modules/file/src/index.ts:100](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L100)
+[modules/file/src/index.ts:100](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L100)
 
 ---
 
@@ -152,7 +152,7 @@ await file.remove('/path/to/something');
 
 #### Defined in
 
-[modules/file/src/index.ts:138](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L138)
+[modules/file/src/index.ts:138](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L138)
 
 ---
 
@@ -182,7 +182,7 @@ await file.write('/path/to/out/', '# hello!');
 
 #### Defined in
 
-[modules/file/src/index.ts:50](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L50)
+[modules/file/src/index.ts:50](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L50)
 
 ---
 
@@ -210,7 +210,7 @@ await file.writeSafe('/path/to/out/', '# hello', { sentinel: 'some-unique-string
 
 #### Defined in
 
-[modules/file/src/index.ts:162](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L162)
+[modules/file/src/index.ts:162](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L162)
 
 ## Type Aliases
 
@@ -228,4 +228,4 @@ Generic options for file functions
 
 #### Defined in
 
-[modules/file/src/index.ts:20](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/file/src/index.ts#L20)
+[modules/file/src/index.ts:20](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L20)

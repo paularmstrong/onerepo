@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / Workspace
+[onerepo](/docs/core/api/public/) / Workspace
 
 # Class: Workspace
 
@@ -30,7 +30,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:10](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L10)
+[modules/graph/src/Workspace.ts:11](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L11)
 
 ## Accessors
 
@@ -47,7 +47,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:60](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L60)
+[modules/graph/src/Workspace.ts:61](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L61)
 
 ---
 
@@ -61,7 +61,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:69](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L69)
+[modules/graph/src/Workspace.ts:70](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L70)
 
 ---
 
@@ -75,7 +75,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:21](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L21)
+[modules/graph/src/Workspace.ts:22](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L22)
 
 ---
 
@@ -89,7 +89,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:73](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L73)
+[modules/graph/src/Workspace.ts:74](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L74)
 
 ---
 
@@ -103,7 +103,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:25](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L25)
+[modules/graph/src/Workspace.ts:26](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L26)
 
 ---
 
@@ -117,7 +117,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:29](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L29)
+[modules/graph/src/Workspace.ts:30](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
 
 ---
 
@@ -131,7 +131,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:37](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L37)
+[modules/graph/src/Workspace.ts:38](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L38)
 
 ---
 
@@ -145,7 +145,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:17](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L17)
+[modules/graph/src/Workspace.ts:18](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L18)
 
 ---
 
@@ -187,7 +187,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:41](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L41)
+[modules/graph/src/Workspace.ts:42](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L42)
 
 ---
 
@@ -201,7 +201,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:77](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L77)
+[modules/graph/src/Workspace.ts:78](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L78)
 
 ---
 
@@ -215,7 +215,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:81](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L81)
+[modules/graph/src/Workspace.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L82)
 
 ---
 
@@ -229,7 +229,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:45](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L45)
+[modules/graph/src/Workspace.ts:46](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L46)
 
 ---
 
@@ -245,21 +245,21 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:52](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L52)
+[modules/graph/src/Workspace.ts:53](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L53)
 
 ---
 
 ### tasks
 
-`get` **tasks**(): `Partial`<`Record`<[`Lifecycle`](/docs/core/api/index/#lifecycle), [`Tasks`](/docs/core/api/index/#tasks)\>\>
+`get` **tasks**(): `Partial`<`Record`<[`Lifecycle`](/docs/core/api/public/#lifecycle), [`Tasks`](/docs/core/api/public/#tasks)\>\>
 
 #### Returns
 
-`Partial`<`Record`<[`Lifecycle`](/docs/core/api/index/#lifecycle), [`Tasks`](/docs/core/api/index/#tasks)\>\>
+`Partial`<`Record`<[`Lifecycle`](/docs/core/api/public/#lifecycle), [`Tasks`](/docs/core/api/public/#tasks)\>\>
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:85](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L85)
+[modules/graph/src/Workspace.ts:86](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L86)
 
 ---
 
@@ -273,13 +273,13 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:33](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L33)
+[modules/graph/src/Workspace.ts:34](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L34)
 
 ## Methods
 
 ### getTasks
 
-**getTasks**(`lifecycle`): `Required`<[`Tasks`](/docs/core/api/index/#tasks)\>
+**getTasks**(`lifecycle`): `Required`<[`Tasks`](/docs/core/api/public/#tasks)\>
 
 #### Parameters
 
@@ -289,11 +289,11 @@ Get module name scope, eg `@onerepo`
 
 #### Returns
 
-`Required`<[`Tasks`](/docs/core/api/index/#tasks)\>
+`Required`<[`Tasks`](/docs/core/api/public/#tasks)\>
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:98](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L98)
+[modules/graph/src/Workspace.ts:99](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L99)
 
 ---
 
@@ -313,7 +313,7 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:111](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L111)
+[modules/graph/src/Workspace.ts:112](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L112)
 
 ---
 
@@ -333,4 +333,4 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:107](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L107)
+[modules/graph/src/Workspace.ts:108](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L108)

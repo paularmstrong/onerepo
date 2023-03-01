@@ -4,7 +4,7 @@ import path from 'node:path';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Graph } from './Graph';
 
-export type { Graph as Repository, SerializedGraph } from './Graph';
+export type { Graph as Repository } from './Graph';
 export * from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();

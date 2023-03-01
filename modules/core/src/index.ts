@@ -45,6 +45,9 @@ type PluginObject = {
 };
 export type Plugin = PluginObject | ((config: Config) => PluginObject);
 
+/**
+ * Setup configuration for the oneRepo command-line interface.
+ */
 export interface Config {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
@@ -59,7 +62,7 @@ export interface Config {
 	 */
 	ignoreCommands?: RegExp;
 	/**
-	 * When you ask for --help at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
+	 * When you ask for `--help` at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
 	 */
 	description?: string;
 	/**
@@ -98,7 +101,31 @@ const defaultConfig: Required<Config> = {
 	description: 'oneRepo’s very own `one` CLI.',
 };
 
-export async function setup(config: Config = {}) {
+/**
+ * Command-line application returned from setup
+ */
+export interface App {
+	/**
+	 * (advanced) Further extend the yargs object before running the command handler.
+	 */
+	yargs: Yargs;
+	/**
+	 * Run the command handler.
+	 */
+	run: () => Promise<void>;
+}
+
+/**
+ * Set up and run your command-line interface.
+ *
+ * ```js
+ * setup({
+ * 	name: 'one',
+ * 	// ...config
+ * }).then(({ run }) => run());
+ * ```
+ */
+export async function setup(config: Config = {}): Promise<App> {
 	performance.mark('one_startup');
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
@@ -185,7 +212,9 @@ export async function setup(config: Config = {}) {
 
 	return {
 		yargs,
-		run: async () => yargs.argv,
+		run: async () => {
+			yargs.argv;
+		},
 	};
 }
 

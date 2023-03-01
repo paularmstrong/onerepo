@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / SubprocessError
+[onerepo](/docs/core/api/public/) / SubprocessError
 
 # Class: SubprocessError
 
@@ -38,7 +38,7 @@ Error.constructor
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:284](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L284)
+[modules/subprocess/src/index.ts:284](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L284)
 
 ## Properties
 

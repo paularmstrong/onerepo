@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / PackageJson
+[onerepo](/docs/core/api/public/) / PackageJson
 
 # Interface: PackageJson
 
@@ -31,7 +31,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:146](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L146)
+[modules/graph/src/Workspace.ts:147](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L147)
 
 ---
 
@@ -41,7 +41,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:130](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L130)
+[modules/graph/src/Workspace.ts:131](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L131)
 
 ---
 
@@ -51,7 +51,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:134](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L134)
+[modules/graph/src/Workspace.ts:135](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L135)
 
 ---
 
@@ -68,7 +68,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:128](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L128)
+[modules/graph/src/Workspace.ts:129](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L129)
 
 ---
 
@@ -78,7 +78,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:140](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L140)
+[modules/graph/src/Workspace.ts:141](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L141)
 
 ---
 
@@ -88,7 +88,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:131](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L131)
+[modules/graph/src/Workspace.ts:132](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L132)
 
 ---
 
@@ -98,7 +98,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:136](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L136)
+[modules/graph/src/Workspace.ts:137](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L137)
 
 ---
 
@@ -108,7 +108,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:124](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L124)
+[modules/graph/src/Workspace.ts:125](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L125)
 
 ---
 
@@ -118,7 +118,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:137](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L137)
+[modules/graph/src/Workspace.ts:138](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L138)
 
 ---
 
@@ -128,7 +128,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:143](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L143)
+[modules/graph/src/Workspace.ts:144](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L144)
 
 ---
 
@@ -138,7 +138,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:132](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L132)
+[modules/graph/src/Workspace.ts:133](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L133)
 
 ---
 
@@ -148,7 +148,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:127](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L127)
+[modules/graph/src/Workspace.ts:128](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L128)
 
 ---
 
@@ -158,7 +158,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:126](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L126)
+[modules/graph/src/Workspace.ts:127](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L127)
 
 ---
 
@@ -168,7 +168,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:129](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L129)
+[modules/graph/src/Workspace.ts:130](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L130)
 
 ---
 
@@ -178,7 +178,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:133](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L133)
+[modules/graph/src/Workspace.ts:134](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L134)
 
 ---
 
@@ -188,7 +188,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:123](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L123)
+[modules/graph/src/Workspace.ts:124](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L124)
 
 ---
 
@@ -198,7 +198,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:141](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L141)
+[modules/graph/src/Workspace.ts:142](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L142)
 
 ---
 
@@ -208,7 +208,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:144](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L144)
+[modules/graph/src/Workspace.ts:145](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L145)
 
 ---
 
@@ -218,7 +218,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:142](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L142)
+[modules/graph/src/Workspace.ts:143](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L143)
 
 ---
 
@@ -228,7 +228,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:138](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L138)
+[modules/graph/src/Workspace.ts:139](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L139)
 
 ---
 
@@ -238,7 +238,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:139](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L139)
+[modules/graph/src/Workspace.ts:140](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L140)
 
 ---
 
@@ -248,7 +248,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:135](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L135)
+[modules/graph/src/Workspace.ts:136](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L136)
 
 ---
 
@@ -258,4 +258,4 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:125](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L125)
+[modules/graph/src/Workspace.ts:126](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L126)

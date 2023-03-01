@@ -1,5 +1,5 @@
 ---
-title: 'API: index'
+title: 'API: public'
 ---
 
 <!--
@@ -29,7 +29,10 @@ onerepo
 
 ## Interfaces
 
+- [App](/docs/core/api/interfaces/App/)
 - [Config](/docs/core/api/interfaces/Config/)
+- [DefaultArguments](/docs/core/api/interfaces/DefaultArguments/)
+- [HandlerExtra](/docs/core/api/interfaces/HandlerExtra/)
 - [PackageJson](/docs/core/api/interfaces/PackageJson/)
 - [PackageJsonWithLocation](/docs/core/api/interfaces/PackageJsonWithLocation/)
 - [PrivatePackageJson](/docs/core/api/interfaces/PrivatePackageJson/)
@@ -44,7 +47,7 @@ onerepo
 
 #### Defined in
 
-[modules/logger/src/index.ts:7](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/index.ts#L7)
+[modules/logger/src/index.ts:7](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L7)
 
 ## Functions
 
@@ -84,7 +87,7 @@ expect(results).toEqual([
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:230](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L230)
+[modules/subprocess/src/index.ts:230](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L230)
 
 ---
 
@@ -107,10 +110,10 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 
 #### Parameters
 
-| Name             | Type                                                   |
-| :--------------- | :----------------------------------------------------- |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)     |
-| `«destructured»` | [`GetterOptions`](/docs/core/api/index/#getteroptions) |
+| Name             | Type                                                    |
+| :--------------- | :------------------------------------------------------ |
+| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
 #### Returns
 
@@ -118,7 +121,7 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 
 #### Defined in
 
-[modules/builders/src/getters.ts:41](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/getters.ts#L41)
+[modules/builders/src/getters.ts:41](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L41)
 
 ---
 
@@ -143,11 +146,11 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 #### Parameters
 
-| Name             | Type                                                   |
-| :--------------- | :----------------------------------------------------- |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)     |
-| `argv`           | [`GetterArgv`](/docs/core/api/index/#getterargv)       |
-| `«destructured»` | [`GetterOptions`](/docs/core/api/index/#getteroptions) |
+| Name             | Type                                                    |
+| :--------------- | :------------------------------------------------------ |
+| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `argv`           | [`GetterArgv`](/docs/core/api/public/#getterargv)       |
+| `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
 #### Returns
 
@@ -155,7 +158,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 #### Defined in
 
-[modules/builders/src/getters.ts:133](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/getters.ts#L133)
+[modules/builders/src/getters.ts:133](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L133)
 
 ---
 
@@ -175,7 +178,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 #### Defined in
 
-[modules/graph/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/index.ts#L14)
+[modules/graph/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts#L14)
 
 ---
 
@@ -200,7 +203,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 #### Defined in
 
-[modules/graph/src/index.ts:19](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/index.ts#L19)
+[modules/graph/src/index.ts:19](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts#L19)
 
 ---
 
@@ -223,11 +226,11 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 
 #### Parameters
 
-| Name             | Type                                                   |
-| :--------------- | :----------------------------------------------------- |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)     |
-| `argv`           | [`GetterArgv`](/docs/core/api/index/#getterargv)       |
-| `«destructured»` | [`GetterOptions`](/docs/core/api/index/#getteroptions) |
+| Name             | Type                                                    |
+| :--------------- | :------------------------------------------------------ |
+| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `argv`           | [`GetterArgv`](/docs/core/api/public/#getterargv)       |
+| `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
 #### Returns
 
@@ -235,7 +238,7 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 
 #### Defined in
 
-[modules/builders/src/getters.ts:79](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/getters.ts#L79)
+[modules/builders/src/getters.ts:79](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L79)
 
 ---
 
@@ -267,13 +270,22 @@ await run({
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:41](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L41)
+[modules/subprocess/src/index.ts:41](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L41)
 
 ---
 
 ### setup
 
-**setup**(`config?`): `Promise`<{ `run`: () => `Promise`<{ `$0`: `string` ; `_`: (`string` \| `number`)[] ; `dry-run`: `boolean` ; `dryRun`: `boolean` ; `silent`: `boolean` ; `verbosity`: `number` } \| { `$0`: `string` ; `_`: (`string` \| `number`)[] ; `dry-run`: `boolean` ; `dryRun`: `boolean` ; `silent`: `boolean` ; `verbosity`: `number` }\> ; `yargs`: `Argv`<[`DefaultArgv`](/docs/core/api/index/#defaultargv)\> }\>
+**setup**(`config?`): `Promise`<[`App`](/docs/core/api/interfaces/App/)\>
+
+Set up and run your command-line interface.
+
+```js
+setup({
+	name: 'one',
+	// ...config
+}).then(({ run }) => run());
+```
 
 #### Parameters
 
@@ -283,11 +295,11 @@ await run({
 
 #### Returns
 
-`Promise`<{ `run`: () => `Promise`<{ `$0`: `string` ; `_`: (`string` \| `number`)[] ; `dry-run`: `boolean` ; `dryRun`: `boolean` ; `silent`: `boolean` ; `verbosity`: `number` } \| { `$0`: `string` ; `_`: (`string` \| `number`)[] ; `dry-run`: `boolean` ; `dryRun`: `boolean` ; `silent`: `boolean` ; `verbosity`: `number` }\> ; `yargs`: `Argv`<[`DefaultArgv`](/docs/core/api/index/#defaultargv)\> }\>
+`Promise`<[`App`](/docs/core/api/interfaces/App/)\>
 
 #### Defined in
 
-[modules/core/src/index.ts:101](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L101)
+[modules/core/src/index.ts:128](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L128)
 
 ---
 
@@ -309,7 +321,7 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:136](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L136)
+[modules/subprocess/src/index.ts:136](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L136)
 
 ---
 
@@ -336,7 +348,7 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 
 #### Defined in
 
-[modules/logger/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/index.ts#L14)
+[modules/logger/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L14)
 
 ---
 
@@ -369,13 +381,13 @@ await sudo({
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:170](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L170)
+[modules/subprocess/src/index.ts:170](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L170)
 
 ---
 
 ### withAffected
 
-**withAffected**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithAffected`](/docs/core/api/index/#withaffected-1)\>
+**withAffected**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithAffected`](/docs/core/api/public/#withaffected-1)\>
 
 Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getAffected`](#getaffected), [`getFiles`](#getfiles), and [`getWorkspaces`](#getworkspaces).
 
@@ -399,23 +411,23 @@ export const builder = (yargs) => withAffected(yargs);
 
 #### Parameters
 
-| Name    | Type                                         |
-| :------ | :------------------------------------------- |
-| `yargs` | [`Yargs`](/docs/core/api/index/#yargs)<`T`\> |
+| Name    | Type                                          |
+| :------ | :-------------------------------------------- |
+| `yargs` | [`Yargs`](/docs/core/api/public/#yargs)<`T`\> |
 
 #### Returns
 
-[`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithAffected`](/docs/core/api/index/#withaffected-1)\>
+[`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithAffected`](/docs/core/api/public/#withaffected-1)\>
 
 #### Defined in
 
-[modules/builders/src/with-affected.ts:17](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-affected.ts#L17)
+[modules/builders/src/with-affected.ts:17](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L17)
 
 ---
 
 ### withAllInputs
 
-**withAllInputs**(`yargs`): [`Yargs`](/docs/core/api/index/#yargs)<[`WithAllInputs`](/docs/core/api/index/#withallinputs-1)\>
+**withAllInputs**(`yargs`): [`Yargs`](/docs/core/api/public/#yargs)<[`WithAllInputs`](/docs/core/api/public/#withallinputs-1)\>
 
 Helper to chain all of [`withAffected`](#withaffected), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces) on a [`Builder`](#builder).
 
@@ -425,23 +437,23 @@ export const builder = (yargs) => withAllInputs(yargs);
 
 #### Parameters
 
-| Name    | Type                                                                                        |
-| :------ | :------------------------------------------------------------------------------------------ |
-| `yargs` | [`Yargs`](/docs/core/api/index/#yargs)<[`DefaultArgv`](/docs/core/api/index/#defaultargv)\> |
+| Name    | Type                                                                                          |
+| :------ | :-------------------------------------------------------------------------------------------- |
+| `yargs` | [`Yargs`](/docs/core/api/public/#yargs)<[`DefaultArgv`](/docs/core/api/public/#defaultargv)\> |
 
 #### Returns
 
-[`Yargs`](/docs/core/api/index/#yargs)<[`WithAllInputs`](/docs/core/api/index/#withallinputs-1)\>
+[`Yargs`](/docs/core/api/public/#yargs)<[`WithAllInputs`](/docs/core/api/public/#withallinputs-1)\>
 
 #### Defined in
 
-[modules/builders/src/with-all-inputs.ts:16](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-all-inputs.ts#L16)
+[modules/builders/src/with-all-inputs.ts:16](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L16)
 
 ---
 
 ### withFiles
 
-**withFiles**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithFiles`](/docs/core/api/index/#withfiles-1)\>
+**withFiles**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithFiles`](/docs/core/api/public/#withfiles-1)\>
 
 Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getFiles`](#getfiles).
 
@@ -461,23 +473,23 @@ export const builder = (yargs) => withFiles(yargs);
 
 #### Parameters
 
-| Name    | Type                                         |
-| :------ | :------------------------------------------- |
-| `yargs` | [`Yargs`](/docs/core/api/index/#yargs)<`T`\> |
+| Name    | Type                                          |
+| :------ | :-------------------------------------------- |
+| `yargs` | [`Yargs`](/docs/core/api/public/#yargs)<`T`\> |
 
 #### Returns
 
-[`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithFiles`](/docs/core/api/index/#withfiles-1)\>
+[`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithFiles`](/docs/core/api/public/#withfiles-1)\>
 
 #### Defined in
 
-[modules/builders/src/with-files.ts:13](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-files.ts#L13)
+[modules/builders/src/with-files.ts:13](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L13)
 
 ---
 
 ### withWorkspaces
 
-**withWorkspaces**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithWorkspaces`](/docs/core/api/index/#withworkspaces-1)\>
+**withWorkspaces**<`T`\>(`yargs`): [`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithWorkspaces`](/docs/core/api/public/#withworkspaces-1)\>
 
 Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getAffected`](#getaffected) [`getWorkspaces`](#getworkspaces).
 
@@ -498,23 +510,23 @@ export const builder = (yargs) => withWorkspaces(yargs);
 
 #### Parameters
 
-| Name    | Type                                         |
-| :------ | :------------------------------------------- |
-| `yargs` | [`Yargs`](/docs/core/api/index/#yargs)<`T`\> |
+| Name    | Type                                          |
+| :------ | :-------------------------------------------- |
+| `yargs` | [`Yargs`](/docs/core/api/public/#yargs)<`T`\> |
 
 #### Returns
 
-[`Yargs`](/docs/core/api/index/#yargs)<`T` & [`WithWorkspaces`](/docs/core/api/index/#withworkspaces-1)\>
+[`Yargs`](/docs/core/api/public/#yargs)<`T` & [`WithWorkspaces`](/docs/core/api/public/#withworkspaces-1)\>
 
 #### Defined in
 
-[modules/builders/src/with-workspaces.ts:14](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-workspaces.ts#L14)
+[modules/builders/src/with-workspaces.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L14)
 
 ## Type Aliases
 
 ### Arguments
 
-**Arguments**<`T`\>: { [key in keyof T]: T[key] } & [`DefaultArguments`](/docs/core/api/index/#defaultarguments)
+**Arguments**<`T`\>: { [key in keyof T]: T[key] } & [`DefaultArguments`](/docs/core/api/interfaces/DefaultArguments/)
 
 #### Type parameters
 
@@ -524,13 +536,13 @@ export const builder = (yargs) => withWorkspaces(yargs);
 
 #### Defined in
 
-[modules/types/src/index.ts:100](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L100)
+[modules/types/src/index.ts:100](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L100)
 
 ---
 
 ### Argv
 
-**Argv**<`T`\>: [`Arguments`](/docs/core/api/index/#arguments)<`T` & [`DefaultArgv`](/docs/core/api/index/#defaultargv)\>
+**Argv**<`T`\>: [`Arguments`](/docs/core/api/public/#arguments)<`T` & [`DefaultArgv`](/docs/core/api/public/#defaultargv)\>
 
 Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
 
@@ -542,13 +554,13 @@ Helper for combining local parsed arguments along with the default arguments pro
 
 #### Defined in
 
-[modules/types/src/index.ts:110](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L110)
+[modules/types/src/index.ts:110](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L110)
 
 ---
 
 ### Builder
 
-**Builder**<`U`\>: (`argv`: [`Yargs`](/docs/core/api/index/#yargs)) => `Yargv`<`U`\>
+**Builder**<`U`\>: (`argv`: [`Yargs`](/docs/core/api/public/#yargs)) => `Yargv`<`U`\>
 
 #### Type parameters
 
@@ -576,9 +588,9 @@ export const builder: Builder<Argv> = (yargs) =>
 
 ##### Parameters
 
-| Name   | Type                                   |
-| :----- | :------------------------------------- |
-| `argv` | [`Yargs`](/docs/core/api/index/#yargs) |
+| Name   | Type                                    |
+| :----- | :-------------------------------------- |
+| `argv` | [`Yargs`](/docs/core/api/public/#yargs) |
 
 ##### Returns
 
@@ -586,27 +598,7 @@ export const builder: Builder<Argv> = (yargs) =>
 
 #### Defined in
 
-[modules/types/src/index.ts:128](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L128)
-
----
-
-### DefaultArguments
-
-**DefaultArguments**: `Object`
-
-Always present in Builder and Handler arguments.
-
-#### Type declaration
-
-| Name | Type                     | Description                                                                                                                                                                                           |
-| :--- | :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `$0` | `string`                 | The script name or node command. Similar to `process.argv[1]`                                                                                                                                         |
-| `--` | `string`[]               | Any content that comes after " -- " gets populated here. These are useful for spreading through to spawned `run` functions that may take extra options that you don't want to enumerate and validate. |
-| `_`  | (`string` \| `number`)[] | Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.                                                           |
-
-#### Defined in
-
-[modules/types/src/index.ts:85](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L85)
+[modules/types/src/index.ts:128](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L128)
 
 ---
 
@@ -626,7 +618,7 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Defined in
 
-[modules/types/src/index.ts:20](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L20)
+[modules/types/src/index.ts:20](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L20)
 
 ---
 
@@ -645,7 +637,7 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Defined in
 
-[modules/builders/src/getters.ts:8](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/getters.ts#L8)
+[modules/builders/src/getters.ts:8](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L8)
 
 ---
 
@@ -664,7 +656,7 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Defined in
 
-[modules/types/src/index.ts:37](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L37)
+[modules/types/src/index.ts:37](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L37)
 
 ---
 
@@ -674,13 +666,13 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Defined in
 
-[modules/core/src/core/graph/schema.ts:3](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/core/graph/schema.ts#L3)
+[modules/core/src/core/graph/schema.ts:3](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/core/graph/schema.ts#L3)
 
 ---
 
 ### Handler
 
-**Handler**<`T`\>: (`argv`: [`Argv`](/docs/core/api/index/#argv)<`T`\>, `extra`: [`HandlerExtra`](/docs/core/api/index/#handlerextra)) => `Promise`<`void`\>
+**Handler**<`T`\>: (`argv`: [`Argv`](/docs/core/api/public/#argv)<`T`\>, `extra`: [`HandlerExtra`](/docs/core/api/interfaces/HandlerExtra/)) => `Promise`<`void`\>
 
 #### Type parameters
 
@@ -706,10 +698,10 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 ##### Parameters
 
-| Name    | Type                                                 |
-| :------ | :--------------------------------------------------- |
-| `argv`  | [`Argv`](/docs/core/api/index/#argv)<`T`\>           |
-| `extra` | [`HandlerExtra`](/docs/core/api/index/#handlerextra) |
+| Name    | Type                                                      |
+| :------ | :-------------------------------------------------------- |
+| `argv`  | [`Argv`](/docs/core/api/public/#argv)<`T`\>               |
+| `extra` | [`HandlerExtra`](/docs/core/api/interfaces/HandlerExtra/) |
 
 ##### Returns
 
@@ -717,37 +709,17 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Defined in
 
-[modules/types/src/index.ts:143](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L143)
-
----
-
-### HandlerExtra
-
-**HandlerExtra**: `Object`
-
-#### Type declaration
-
-| Name            | Type                                                                                                                                | Description                                                                                                                                                                                                                         |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `getAffected`   | (`opts?`: [`GetterOptions`](/docs/core/api/index/#getteroptions)) => `Promise`<[`Workspace`](/docs/core/api/classes/Workspace/)[]\> | Get the affected workspaces based on the current state of the repository.                                                                                                                                                           |
-| `getFilepaths`  | (`opts?`: [`GetterOptions`](/docs/core/api/index/#getteroptions)) => `Promise`<`string`[]\>                                         | Get the affected filepaths based on the current inputs and state of the repository.                                                                                                                                                 |
-| `getWorkspaces` | (`opts?`: [`GetterOptions`](/docs/core/api/index/#getteroptions)) => `Promise`<[`Workspace`](/docs/core/api/classes/Workspace/)[]\> | Get the affected workspaces based on the current inputs and the state of the repository. This function differs from `getAffected` in that it respects input arguments provided by `withWorkspaces`, `withFiles` and `withAffected`. |
-| `graph`         | [`Repository`](/docs/core/api/classes/Repository/)                                                                                  | The Repository Graph                                                                                                                                                                                                                |
-| `logger`        | [`Logger`](/docs/core/api/classes/Logger/)                                                                                          | Standard logger. This should _always_ be used in place of console.log unless you have a specific need to write to standard out differently.                                                                                         |
-
-#### Defined in
-
-[modules/types/src/index.ts:56](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L56)
+[modules/types/src/index.ts:143](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L143)
 
 ---
 
 ### Lifecycle
 
-**Lifecycle**: `MakeLifecycles`<[`StandardLifecycles`](/docs/core/api/index/#standardlifecycles)\>
+**Lifecycle**: `MakeLifecycles`<[`StandardLifecycles`](/docs/core/api/public/#standardlifecycles)\>
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:179](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L179)
+[modules/types/src/index.ts:173](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L173)
 
 ---
 
@@ -757,13 +729,13 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Defined in
 
-[modules/core/src/index.ts:46](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L46)
+[modules/core/src/index.ts:46](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L46)
 
 ---
 
 ### PluginPrePostHandler
 
-**PluginPrePostHandler**: (`argv`: [`Argv`](/docs/core/api/index/#argv)<[`DefaultArgv`](/docs/core/api/index/#defaultargv)\>, `extra`: [`HandlerExtra`](/docs/core/api/index/#handlerextra)) => `Promise`<`void`\> \| `void`
+**PluginPrePostHandler**: (`argv`: [`Argv`](/docs/core/api/public/#argv)<[`DefaultArgv`](/docs/core/api/public/#defaultargv)\>, `extra`: [`HandlerExtra`](/docs/core/api/interfaces/HandlerExtra/)) => `Promise`<`void`\> \| `void`
 
 #### Type declaration
 
@@ -771,10 +743,10 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 ##### Parameters
 
-| Name    | Type                                                                                      |
-| :------ | :---------------------------------------------------------------------------------------- |
-| `argv`  | [`Argv`](/docs/core/api/index/#argv)<[`DefaultArgv`](/docs/core/api/index/#defaultargv)\> |
-| `extra` | [`HandlerExtra`](/docs/core/api/index/#handlerextra)                                      |
+| Name    | Type                                                                                        |
+| :------ | :------------------------------------------------------------------------------------------ |
+| `argv`  | [`Argv`](/docs/core/api/public/#argv)<[`DefaultArgv`](/docs/core/api/public/#defaultargv)\> |
+| `extra` | [`HandlerExtra`](/docs/core/api/interfaces/HandlerExtra/)                                   |
 
 ##### Returns
 
@@ -782,17 +754,7 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Defined in
 
-[modules/core/src/index.ts:30](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L30)
-
----
-
-### SerializedGraph
-
-**SerializedGraph**: `Serialized`
-
-#### Defined in
-
-[modules/graph/src/Graph.ts:15](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L15)
+[modules/core/src/index.ts:30](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L30)
 
 ---
 
@@ -802,23 +764,25 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:177](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L177)
+[modules/types/src/index.ts:171](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L171)
 
 ---
 
 ### Task
 
-**Task**: `string` \| `MatchTask`
+**Task**: `string` \| [`TaskDef`](/docs/core/api/public/#taskdef)
+
+A Task can either be a string or TaskDef object with extra options.
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:171](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L171)
+[modules/types/src/index.ts:164](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L164)
 
 ---
 
 ### TaskConfig
 
-**TaskConfig**<`L`\>: `Partial`<`Record`<[`Lifecycle`](/docs/core/api/index/#lifecycle) \| `MakeLifecycles`<`L`\>, [`Tasks`](/docs/core/api/index/#tasks)\>\>
+**TaskConfig**<`L`\>: `Partial`<`Record`<[`Lifecycle`](/docs/core/api/public/#lifecycle) \| `MakeLifecycles`<`L`\>, [`Tasks`](/docs/core/api/public/#tasks)\>\>
 
 #### Type parameters
 
@@ -828,7 +792,25 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:181](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L181)
+[modules/types/src/index.ts:175](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L175)
+
+---
+
+### TaskDef
+
+**TaskDef**: `Object`
+
+#### Type declaration
+
+| Name     | Type                           | Description                                                                                                                                                                                                              |
+| :------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cmd`    | `string`                       | String command to run. Special values include: - `$0`: the oneRepo CLI for your repository - `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle                  |
+| `match?` | `string`                       | Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.                                          |
+| `meta?`  | `Record`<`string`, `unknown`\> | Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines. |
+
+#### Defined in
+
+[modules/types/src/index.ts:145](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L145)
 
 ---
 
@@ -838,14 +820,14 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 #### Type declaration
 
-| Name          | Type                                   |
-| :------------ | :------------------------------------- |
-| `parallel?`   | [`Task`](/docs/core/api/index/#task)[] |
-| `sequential?` | [`Task`](/docs/core/api/index/#task)[] |
+| Name          | Type                                    |
+| :------------ | :-------------------------------------- |
+| `parallel?`   | [`Task`](/docs/core/api/public/#task)[] |
+| `sequential?` | [`Task`](/docs/core/api/public/#task)[] |
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:172](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Workspace.ts#L172)
+[modules/types/src/index.ts:166](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L166)
 
 ---
 
@@ -873,13 +855,13 @@ export const builder: Builder<Argv> = (yargs) => withAffected(yargs);
 
 #### Defined in
 
-[modules/builders/src/with-affected.ts:54](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-affected.ts#L54)
+[modules/builders/src/with-affected.ts:54](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L54)
 
 ---
 
 ### WithAllInputs
 
-**WithAllInputs**: [`WithAffected`](/docs/core/api/index/#withaffected-1) & [`WithFiles`](/docs/core/api/index/#withfiles-1) & [`WithWorkspaces`](/docs/core/api/index/#withworkspaces-1)
+**WithAllInputs**: [`WithAffected`](/docs/core/api/public/#withaffected-1) & [`WithFiles`](/docs/core/api/public/#withfiles-1) & [`WithWorkspaces`](/docs/core/api/public/#withworkspaces-1)
 
 Helper to include all of [`WithAffected`](#withaffected-1), [`WithFiles`](#withfiles-1), and [`WithWorkspaces`](#withworkspaces-1) on builder [`Argv`](#argv).
 
@@ -893,7 +875,7 @@ export const builder: Builder<Argv> = (yargs) => withAllInputs(yargs);
 
 #### Defined in
 
-[modules/builders/src/with-all-inputs.ts:30](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-all-inputs.ts#L30)
+[modules/builders/src/with-all-inputs.ts:30](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L30)
 
 ---
 
@@ -919,7 +901,7 @@ export const builder: Builder<Argv> = (yargs) => withFiles(yargs);
 
 #### Defined in
 
-[modules/builders/src/with-files.ts:33](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-files.ts#L33)
+[modules/builders/src/with-files.ts:33](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L33)
 
 ---
 
@@ -946,7 +928,7 @@ export const builder: Builder<Argv> = (yargs) => withWorkspaces(yargs);
 
 #### Defined in
 
-[modules/builders/src/with-workspaces.ts:41](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/builders/src/with-workspaces.ts#L41)
+[modules/builders/src/with-workspaces.ts:41](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L41)
 
 ---
 
@@ -958,10 +940,10 @@ A [yargs object](http://yargs.js.org/docs/).
 
 #### Type parameters
 
-| Name | Type                                               |
-| :--- | :------------------------------------------------- |
-| `T`  | [`DefaultArgv`](/docs/core/api/index/#defaultargv) |
+| Name | Type                                                |
+| :--- | :-------------------------------------------------- |
+| `T`  | [`DefaultArgv`](/docs/core/api/public/#defaultargv) |
 
 #### Defined in
 
-[modules/types/src/index.ts:105](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/types/src/index.ts#L105)
+[modules/types/src/index.ts:105](https://github.com/paularmstrong/onerepo/blob/main/modules/types/src/index.ts#L105)

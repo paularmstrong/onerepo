@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / Step
+[onerepo](/docs/core/api/public/) / Step
 
 # Class: Step
 
@@ -28,7 +28,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:21](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L21)
+[modules/logger/src/Step.ts:21](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L21)
 
 ## Properties
 
@@ -38,7 +38,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:19](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L19)
+[modules/logger/src/Step.ts:19](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L19)
 
 ---
 
@@ -48,7 +48,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:14](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L14)
+[modules/logger/src/Step.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L14)
 
 ## Accessors
 
@@ -62,7 +62,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:41](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L41)
+[modules/logger/src/Step.ts:41](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L41)
 
 `set` **active**(`value`): `void`
 
@@ -78,7 +78,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:45](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L45)
+[modules/logger/src/Step.ts:45](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L45)
 
 ---
 
@@ -92,7 +92,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:33](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L33)
+[modules/logger/src/Step.ts:33](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L33)
 
 `set` **name**(`name`): `void`
 
@@ -108,7 +108,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:37](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L37)
+[modules/logger/src/Step.ts:37](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L37)
 
 ---
 
@@ -122,7 +122,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:49](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L49)
+[modules/logger/src/Step.ts:49](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L49)
 
 ---
 
@@ -136,7 +136,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:58](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L58)
+[modules/logger/src/Step.ts:58](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L58)
 
 `set` **verbosity**(`verbosity`): `void`
 
@@ -152,7 +152,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:53](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L53)
+[modules/logger/src/Step.ts:53](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L53)
 
 ## Methods
 
@@ -172,7 +172,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:62](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L62)
+[modules/logger/src/Step.ts:62](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L62)
 
 ---
 
@@ -192,7 +192,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:135](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L135)
+[modules/logger/src/Step.ts:135](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L135)
 
 ---
 
@@ -206,7 +206,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:82](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L82)
+[modules/logger/src/Step.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L82)
 
 ---
 
@@ -226,7 +226,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:112](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L112)
+[modules/logger/src/Step.ts:112](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L112)
 
 ---
 
@@ -240,7 +240,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:97](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L97)
+[modules/logger/src/Step.ts:97](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L97)
 
 ---
 
@@ -260,7 +260,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:128](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L128)
+[modules/logger/src/Step.ts:128](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L128)
 
 ---
 
@@ -281,7 +281,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:142](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L142)
+[modules/logger/src/Step.ts:142](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L142)
 
 ---
 
@@ -301,4 +301,4 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Step.ts:121](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Step.ts#L121)
+[modules/logger/src/Step.ts:121](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Step.ts#L121)

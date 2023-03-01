@@ -1,4 +1,5 @@
 import path from 'node:path';
+import type { TaskConfig, Tasks } from '@onerepo/types';
 
 export class Workspace {
 	#packageJson: PackageJson;
@@ -166,16 +167,3 @@ export interface PublicPackageJson extends PackageJson {
 export interface PackageJsonWithLocation extends PackageJson {
 	location: string;
 }
-
-type MatchTask = { match?: string; cmd: string; meta?: Record<string, unknown> };
-export type Task = string | MatchTask;
-export type Tasks = {
-	sequential?: Array<Task>;
-	parallel?: Array<Task>;
-};
-
-export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
-type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
-export type Lifecycle = MakeLifecycles<StandardLifecycles>;
-
-export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

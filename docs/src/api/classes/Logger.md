@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / Logger
+[onerepo](/docs/core/api/public/) / Logger
 
 # Class: Logger
 
@@ -27,7 +27,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:32](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L32)
+[modules/logger/src/Logger.ts:32](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L32)
 
 ## Properties
 
@@ -37,7 +37,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:26](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L26)
+[modules/logger/src/Logger.ts:26](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L26)
 
 ## Accessors
 
@@ -51,7 +51,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:58](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L58)
+[modules/logger/src/Logger.ts:58](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L58)
 
 ---
 
@@ -65,7 +65,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:44](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L44)
+[modules/logger/src/Logger.ts:44](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L44)
 
 `set` **verbosity**(`value`): `void`
 
@@ -81,7 +81,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:48](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L48)
+[modules/logger/src/Logger.ts:48](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L48)
 
 ## Methods
 
@@ -101,7 +101,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:90](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L90)
+[modules/logger/src/Logger.ts:90](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L90)
 
 ---
 
@@ -121,7 +121,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:109](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L109)
+[modules/logger/src/Logger.ts:109](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L109)
 
 ---
 
@@ -135,7 +135,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:117](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L117)
+[modules/logger/src/Logger.ts:117](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L117)
 
 ---
 
@@ -155,7 +155,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:101](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L101)
+[modules/logger/src/Logger.ts:101](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L101)
 
 ---
 
@@ -175,7 +175,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:97](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L97)
+[modules/logger/src/Logger.ts:97](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L97)
 
 ---
 
@@ -189,7 +189,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:62](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L62)
+[modules/logger/src/Logger.ts:62](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L62)
 
 ---
 
@@ -203,7 +203,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:73](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L73)
+[modules/logger/src/Logger.ts:73](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L73)
 
 ---
 
@@ -224,7 +224,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:113](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L113)
+[modules/logger/src/Logger.ts:113](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L113)
 
 ---
 
@@ -238,7 +238,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:68](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L68)
+[modules/logger/src/Logger.ts:68](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L68)
 
 ---
 
@@ -258,4 +258,4 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/logger/src/Logger.ts:105](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/logger/src/Logger.ts#L105)
+[modules/logger/src/Logger.ts:105](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L105)

@@ -9,9 +9,11 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / Config
+[onerepo](/docs/core/api/public/) / Config
 
 # Interface: Config
+
+Setup configuration for the oneRepo command-line interface.
 
 ## Properties
 
@@ -23,7 +25,7 @@ Core plugin configuration. These plugins will be added automatically unless the 
 
 #### Defined in
 
-[modules/core/src/index.ts:52](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L52)
+[modules/core/src/index.ts:55](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L55)
 
 ---
 
@@ -31,11 +33,11 @@ Core plugin configuration. These plugins will be added automatically unless the 
 
 `Optional` **description**: `string`
 
-When you ask for --help at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
+When you ask for `--help` at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
 
 #### Defined in
 
-[modules/core/src/index.ts:64](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L64)
+[modules/core/src/index.ts:67](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L67)
 
 ---
 
@@ -47,7 +49,7 @@ What's the default branch of your repo? Probably `main`, but it might be somethi
 
 #### Defined in
 
-[modules/core/src/index.ts:56](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L56)
+[modules/core/src/index.ts:59](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L59)
 
 ---
 
@@ -59,7 +61,7 @@ When using subcommandDir, include a regular expression here to ignore files. By 
 
 #### Defined in
 
-[modules/core/src/index.ts:60](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L60)
+[modules/core/src/index.ts:63](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L63)
 
 ---
 
@@ -72,19 +74,19 @@ If not provided, will default to `one`. That's great, but will cause conflicts i
 
 #### Defined in
 
-[modules/core/src/index.ts:69](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L69)
+[modules/core/src/index.ts:72](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L72)
 
 ---
 
 ### plugins
 
-`Optional` **plugins**: [`Plugin`](/docs/core/api/index/#plugin)[]
+`Optional` **plugins**: [`Plugin`](/docs/core/api/public/#plugin)[]
 
 Add shared commands. https://onerepo.tools/docs/plugins/
 
 #### Defined in
 
-[modules/core/src/index.ts:73](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L73)
+[modules/core/src/index.ts:76](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L76)
 
 ---
 
@@ -96,7 +98,7 @@ Absolute path location to the root of the repository.
 
 #### Defined in
 
-[modules/core/src/index.ts:77](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L77)
+[modules/core/src/index.ts:80](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L80)
 
 ---
 
@@ -108,4 +110,4 @@ A string to use as filepaths to subcommands. We'll look for commands in all work
 
 #### Defined in
 
-[modules/core/src/index.ts:81](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/core/src/index.ts#L81)
+[modules/core/src/index.ts:84](https://github.com/paularmstrong/onerepo/blob/main/modules/core/src/index.ts#L84)

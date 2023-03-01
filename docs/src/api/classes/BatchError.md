@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / BatchError
+[onerepo](/docs/core/api/public/) / BatchError
 
 # Class: BatchError
 
@@ -38,7 +38,7 @@ Error.constructor
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:291](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L291)
+[modules/subprocess/src/index.ts:291](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L291)
 
 ## Properties
 
@@ -62,7 +62,7 @@ node_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:290](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L290)
+[modules/subprocess/src/index.ts:290](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L290)
 
 ---
 

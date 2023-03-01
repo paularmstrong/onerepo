@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / Repository
+[onerepo](/docs/core/api/public/) / Repository
 
 # Class: Repository
 
@@ -29,7 +29,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:30](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L30)
+[modules/graph/src/Graph.ts:27](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L27)
 
 ## Accessors
 
@@ -43,7 +43,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:66](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L66)
+[modules/graph/src/Graph.ts:63](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L63)
 
 ---
 
@@ -59,7 +59,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:54](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L54)
+[modules/graph/src/Graph.ts:51](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L51)
 
 ---
 
@@ -73,7 +73,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:62](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L62)
+[modules/graph/src/Graph.ts:59](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L59)
 
 ---
 
@@ -87,7 +87,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:58](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L58)
+[modules/graph/src/Graph.ts:55](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L55)
 
 ## Methods
 
@@ -113,7 +113,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:96](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L96)
+[modules/graph/src/Graph.ts:93](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L93)
 
 ---
 
@@ -140,7 +140,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:85](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L85)
+[modules/graph/src/Graph.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L82)
 
 ---
 
@@ -169,7 +169,7 @@ Get a list of workspaces that depend on the given input sources.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:75](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L75)
+[modules/graph/src/Graph.ts:72](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L72)
 
 ---
 
@@ -189,7 +189,7 @@ Get a list of workspaces that depend on the given input sources.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:134](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L134)
+[modules/graph/src/Graph.ts:131](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L131)
 
 ---
 
@@ -209,7 +209,7 @@ Get a list of workspaces that depend on the given input sources.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:113](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L113)
+[modules/graph/src/Graph.ts:110](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L110)
 
 ---
 
@@ -229,7 +229,7 @@ Get a list of workspaces that depend on the given input sources.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:117](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L117)
+[modules/graph/src/Graph.ts:114](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L114)
 
 ---
 
@@ -249,7 +249,7 @@ Get a list of workspaces that depend on the given input sources.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:100](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L100)
+[modules/graph/src/Graph.ts:97](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L97)
 
 ---
 
@@ -292,4 +292,4 @@ Get an isolated graph of dependents from the list of sources
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:148](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/graph/src/Graph.ts#L148)
+[modules/graph/src/Graph.ts:145](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L145)

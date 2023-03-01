@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / RunSpec
+[onerepo](/docs/core/api/public/) / RunSpec
 
 # Interface: RunSpec
 
@@ -23,7 +23,7 @@ Arguments to pass to the executable
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:21](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L21)
+[modules/subprocess/src/index.ts:21](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L21)
 
 ---
 
@@ -35,7 +35,7 @@ The command to run. Thsi should be an available executable or path to an executa
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:17](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L17)
+[modules/subprocess/src/index.ts:17](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L17)
 
 ---
 
@@ -47,7 +47,7 @@ A friendly name for the Step
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:13](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L13)
+[modules/subprocess/src/index.ts:13](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L13)
 
 ---
 
@@ -57,7 +57,7 @@ A friendly name for the Step
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:22](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L22)
+[modules/subprocess/src/index.ts:22](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L22)
 
 ---
 
@@ -67,7 +67,7 @@ A friendly name for the Step
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:23](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L23)
+[modules/subprocess/src/index.ts:23](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L23)
 
 ---
 
@@ -77,7 +77,7 @@ A friendly name for the Step
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:25](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L25)
+[modules/subprocess/src/index.ts:25](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L25)
 
 ---
 
@@ -87,4 +87,4 @@ A friendly name for the Step
 
 #### Defined in
 
-[modules/subprocess/src/index.ts:24](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/subprocess/src/index.ts#L24)
+[modules/subprocess/src/index.ts:24](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L24)

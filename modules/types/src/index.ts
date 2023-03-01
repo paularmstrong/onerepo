@@ -53,7 +53,7 @@ export type GetterOptions = {
 	step?: Step;
 };
 
-export type HandlerExtra = {
+export interface HandlerExtra {
 	/**
 	 * Get the affected workspaces based on the current state of the repository.
 	 */
@@ -77,12 +77,12 @@ export type HandlerExtra = {
 	 * a specific need to write to standard out differently.
 	 */
 	logger: Logger;
-};
+}
 
 /**
  * Always present in Builder and Handler arguments.
  */
-export type DefaultArguments = {
+export interface DefaultArguments {
 	/**
 	 * Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.
 	 */
@@ -95,7 +95,7 @@ export type DefaultArguments = {
 	 * Any content that comes after " -- " gets populated here. These are useful for spreading through to spawned `run` functions that may take extra options that you don't want to enumerate and validate.
 	 */
 	'--': Array<string>;
-};
+}
 // Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
 export type Arguments<T = object> = { [key in keyof T]: T[key] } & DefaultArguments;
 
@@ -141,3 +141,35 @@ export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
  * ```
  */
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
+
+export type TaskDef = {
+	/**
+	 * Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
+	 */
+	match?: string;
+	/**
+	 * String command to run. Special values include:
+	 * - `$0`: the oneRepo CLI for your repository
+	 * - `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
+	 */
+	cmd: string;
+	/**
+	 * Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.
+	 */
+	meta?: Record<string, unknown>;
+};
+/**
+ * A Task can either be a string or TaskDef object with extra options.
+ */
+export type Task = string | TaskDef;
+
+export type Tasks = {
+	sequential?: Array<Task>;
+	parallel?: Array<Task>;
+};
+
+export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
+type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
+export type Lifecycle = MakeLifecycles<StandardLifecycles>;
+
+export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

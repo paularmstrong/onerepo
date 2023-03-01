@@ -9,7 +9,7 @@ Changes to this file will automatically be overwritten from source.
 To make changes, modify typedoc comments in the source files.
 -->
 
-[onerepo](/docs/core/api/index/) / git
+[onerepo](/docs/core/api/public/) / git
 
 # Namespace: git
 
@@ -31,7 +31,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:9](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L9)
+[modules/git/src/index.ts:9](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L9)
 
 ---
 
@@ -51,7 +51,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:161](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L161)
+[modules/git/src/index.ts:161](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L161)
 
 ---
 
@@ -71,7 +71,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:22](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L22)
+[modules/git/src/index.ts:22](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L22)
 
 ---
 
@@ -93,7 +93,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:90](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L90)
+[modules/git/src/index.ts:90](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L90)
 
 ---
 
@@ -113,7 +113,7 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:76](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L76)
+[modules/git/src/index.ts:76](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L76)
 
 ---
 
@@ -134,4 +134,4 @@ To make changes, modify typedoc comments in the source files.
 
 #### Defined in
 
-[modules/git/src/index.ts:174](https://github.com/paularmstrong/onerepo/blob/e65dcdb/modules/git/src/index.ts#L174)
+[modules/git/src/index.ts:174](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L174)
