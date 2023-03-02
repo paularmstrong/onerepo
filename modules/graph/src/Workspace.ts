@@ -25,15 +25,23 @@ export class Workspace {
 		return this.#packageJson.name;
 	}
 
-	/** */
+	/**
+	 * Canonical to the `package.json` `"description"` field.
+	 */
 	get description() {
 		return this.#packageJson.description;
 	}
 
+	/**
+	 * Whether or not this workspace is the root of the repository / Graph.
+	 */
 	get isRoot() {
 		return this.#rootLocation === this.#location;
 	}
 
+	/**
+	 * Absolute path on the current filesystem to the workspace.
+	 */
 	get location() {
 		return this.#location;
 	}
@@ -46,6 +54,9 @@ export class Workspace {
 		return this.#packageJson.main || 'index.js';
 	}
 
+	/**
+	 * A full copy of the `package.json` file for the Workspace.
+	 */
 	get packageJson(): PackageJson {
 		return { ...this.#packageJson };
 	}
@@ -101,10 +112,18 @@ export class Workspace {
 		return { ...this.#packageJson.peerDependencies } || {};
 	}
 
+	/**
+	 * If a workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
+	 */
 	get private() {
 		return 'private' in this.#packageJson && Boolean(this.#packageJson.private);
 	}
 
+	/**
+	 * Get the task configuration as defined in the `onerepo.config.js` file at the root of the workspace.
+	 *
+	 * @return If a config does not exist, an empty object will be given.
+	 */
 	get tasks(): TaskConfig {
 		if (this.#tasks) {
 			return this.#tasks;
