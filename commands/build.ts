@@ -44,31 +44,57 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			continue;
 		}
 
-		const files: Array<string> = [];
+		const esmFiles: Array<string> = [];
+		const cjsFiles: Array<string> = [];
+
+		// eslint-disable-next-line no-inner-declarations
+		function addFile(...filepaths: Array<string>) {
+			filepaths.forEach((filepath) => {
+				if (filepath.endsWith('.cjs')) {
+					cjsFiles.push(filepath);
+				} else {
+					esmFiles.push(filepath);
+				}
+			});
+		}
+
 		const main = workspace.resolve(workspace.packageJson.main!);
-		files.push(main);
+		addFile(main);
 
 		const commands = glob.sync(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
 		if (commands.length) {
-			files.push(...commands);
+			addFile(...commands);
 		}
 
 		const { bin } = workspace.packageJson;
 		if (bin) {
 			if (typeof bin === 'string') {
-				files.push(workspace.resolve(bin));
+				addFile(workspace.resolve(bin));
 			} else {
-				Object.values(bin).forEach((b) => files.push(workspace.resolve(b)));
+				Object.values(bin).forEach((b) => addFile(workspace.resolve(b)));
 			}
 		}
 
 		removals.push(workspace.resolve('dist'));
 
-		files.length &&
+		esmFiles.length &&
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
-				args: [...files, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
+				args: [...esmFiles, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
+			});
+
+		cjsFiles.length &&
+			buildProcs.push({
+				name: `Build ${workspace.name}`,
+				cmd: esbuildBin,
+				args: [
+					...cjsFiles,
+					`--outdir=${workspace.resolve('dist')}`,
+					'--platform=node',
+					'--format=cjs',
+					'--out-extension:.js=.cjs',
+				],
 			});
 
 		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });
