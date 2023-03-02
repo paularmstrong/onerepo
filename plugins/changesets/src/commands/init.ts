@@ -21,6 +21,6 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	await run({
 		name: 'Initialized changesets',
 		cmd: 'npx',
-		args: ['changesets', 'init'],
+		args: ['changeset', 'init'],
 	});
 };

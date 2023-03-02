@@ -2415,6 +2415,7 @@ __metadata:
     "@onerepo/subprocess": 0.0.0
     "@onerepo/types": "workspace:^"
     "@types/prettier": ^2
+    esbuild-register: ^3.4.2
     mdast-builder: ^1.1.1
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
@@ -2422,8 +2423,10 @@ __metadata:
     typescript: ^4.9.5
     unified: ^10.1.2
     vitest: ^0.28.4
+  peerDependencies:
+    esbuild-register: ^3
   bin:
-    docgen: ./src/bin.ts
+    docgen: ./src/bin.cjs
   languageName: unknown
   linkType: soft
 
