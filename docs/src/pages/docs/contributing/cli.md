@@ -591,8 +591,4 @@ Generate typedoc markdown files for the toolchain.
 one workspace @onerepo/docs typedoc
 ```
 
-| Option  | Type      | Description                                  | Required |
-| ------- | --------- | -------------------------------------------- | -------- |
-| `--add` | `boolean` | Add the generated doc files to the git stage |          |
-
 <!-- end-auto-generated-from-cli -->

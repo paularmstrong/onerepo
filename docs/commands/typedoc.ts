@@ -1,25 +1,14 @@
 import glob from 'glob';
-import { file, git, run } from 'onerepo';
+import { file, run } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
 export const command = 'typedoc';
 
 export const description = 'Generate typedoc markdown files for the toolchain.';
 
-type Argv = {
-	add: boolean;
-};
+export const builder: Builder = (yargs) => yargs.usage('$0 typedoc');
 
-export const builder: Builder<Argv> = (yargs) =>
-	yargs.usage('$0 typedoc').option('add', {
-		description: 'Add the generated doc files to the git stage',
-		type: 'boolean',
-		default: false,
-	});
-
-export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
-	const { add } = argv;
-
+export const handler: Handler = async (argv, { graph, logger }) => {
 	const docs = graph.getByLocation(__dirname);
 
 	const [bin] = await run({
@@ -78,8 +67,4 @@ ${out}`;
 	}
 
 	await fixFiles.end();
-
-	if (add) {
-		await git.updateIndex(outFiles.map((file) => docs.resolve(outPath, file)));
-	}
 };
