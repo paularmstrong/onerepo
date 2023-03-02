@@ -1,2 +1,4 @@
 # generated types
 .astro/
+
+src/api/*

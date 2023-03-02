@@ -1,9 +1,9 @@
 import { stepWrapper } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
+import type { LogStep } from '@onerepo/logger';
 import { run } from '@onerepo/subprocess';
 
 type Options = {
-	step?: Step;
+	step?: LogStep;
 };
 
 export async function getBranch({ step }: Options = {}) {

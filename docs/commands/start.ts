@@ -13,7 +13,7 @@ export const handler: Handler = async (argv, { graph }) => {
 		cmd: 'npx',
 		args: ['netlify', 'dev'],
 		opts: {
-			cwd: graph.getByLocation(__dirname)!.location,
+			cwd: graph.getByLocation(__dirname).location,
 			stdio: 'inherit',
 		},
 	});

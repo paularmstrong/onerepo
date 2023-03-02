@@ -13,7 +13,7 @@ Tasks comes pre-configured with a set of common lifecycles that most JavaScript 
 Next, create a `onerepo.config.js` file in your root workspace.
 
 ```js title="onerepo.config.js"
-/** @type import('@onerepo/graph').TaskConfig */
+/** @type import('onerepo').TaskConfig */
 export default {
 	'pre-commit': {
 		sequential: [{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --add' }, '$0 format --add', '$0 tsc'],

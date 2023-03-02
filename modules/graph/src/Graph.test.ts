@@ -2,7 +2,7 @@ import path from 'path';
 import { getRootPackageJson } from '.';
 import { Graph } from './Graph';
 
-describe('Repository', () => {
+describe('Graph', () => {
 	test('bucket', async () => {
 		const location = path.join(__dirname, 'fixtures', 'repo');
 		const result = await getRootPackageJson(location);

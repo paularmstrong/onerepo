@@ -1,13 +1,44 @@
 import path from 'node:path';
 import minimatch from 'minimatch';
-import type { Repository, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
 import { getModifiedFiles } from '@onerepo/git';
 import type { GetterOptions } from '@onerepo/types';
 
-export type GetterArgv = { all?: boolean; files?: Array<string>; workspaces?: Array<string>; affected?: boolean };
+export type GetterArgv = {
+	/**
+	 * Whether to get the list of affected workspaces based on the other inputs of `all`, `files`, or `workspaces`
+	 */
+	affected?: boolean;
+	/**
+	 * Include _all_ workspaces or filepaths.
+	 */
+	all?: boolean;
+	/**
+	 * A list of files to calculate the affected workspaces, or filepaths.
+	 */
+	files?: Array<string>;
+	/**
+	 * A list of workspaces to calculate the affected workspaces or filepaths.
+	 */
+	workspaces?: Array<string>;
+};
 
-export function getAffected(graph: Repository, { from, ignore, through, step }: GetterOptions = {}) {
+/**
+ * Get a list of the affected workspaces.
+ *
+ * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ *
+ * ```ts
+ * export const handler: Handler = (argv, { getAffected, logger }) => {
+ * 	const workspaces = await getAffected();
+ * 	for (const ws of workspaces) {
+ * 		logger.log(ws.name);
+ * 	}
+ * };
+ * ```
+ */
+export function getAffected(graph: Graph, { from, ignore, through, step }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
 		const { added, modified, deleted, moved } = await getModifiedFiles(from, through, { step });
 		const all = [...added, ...modified, ...deleted, ...moved];
@@ -17,10 +48,8 @@ export function getAffected(graph: Repository, { from, ignore, through, step }: 
 		const workspaces = new Set<string>();
 		for (const filepath of files) {
 			const ws = graph.getByLocation(graph.root.resolve(filepath));
-			if (ws) {
-				step.debug(`Found changes within \`${ws.name}\``);
-				workspaces.add(ws.name);
-			}
+			step.debug(`Found changes within \`${ws.name}\``);
+			workspaces.add(ws.name);
 		}
 
 		if (workspaces.size === 0) {
@@ -31,8 +60,22 @@ export function getAffected(graph: Repository, { from, ignore, through, step }: 
 	});
 }
 
+/**
+ * Get a list of workspaces based on the input arguments made available with the builders [`withAffected`](#withaffected), [`withAllInputs`](#withallinputs), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces).
+ *
+ * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ *
+ * ```ts
+ * export const handler: Handler = (argv, { getWorkspaces, logger }) => {
+ * 	const workspaces = await getWorkspaces();
+ * 	for (const ws of workspaces) {
+ * 		logger.log(ws.name);
+ * 	}
+ * };
+ * ```
+ */
 export async function getWorkspaces(
-	graph: Repository,
+	graph: Graph,
 	argv: GetterArgv,
 	{ step, from, through, ...opts }: GetterOptions = {}
 ): Promise<Array<Workspace>> {
@@ -69,7 +112,23 @@ export async function getWorkspaces(
 	});
 }
 
-export async function getFilepaths(graph: Repository, argv: GetterArgv, { step, from, through }: GetterOptions = {}) {
+/**
+ * Get a list of filepaths based on the input arguments made available with the builders [`withAffected`](#withaffected), [`withAllInputs`](#withallinputs), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces).
+ *
+ * When providing `--workspaces <names>`, the paths will be paths to the requested workspaces, not individual files.
+ *
+ * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ *
+ * ```ts
+ * export const handler: Handler = (argv, { getFilepaths, logger }) => {
+ * 	const filepaths = await getFilepaths();
+ * 	for (const files of filepaths) {
+ * 		logger.log(files);
+ * 	}
+ * };
+ * ```
+ */
+export async function getFilepaths(graph: Graph, argv: GetterArgv, { step, from, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {
 		const paths: Array<string> = [];
 		const workspaces: Array<Workspace> = [];

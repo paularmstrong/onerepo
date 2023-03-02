@@ -14,12 +14,22 @@ export const handler: Handler = async (argv, { graph }) => {
 		throw new Error('To run the dev server, please run `docs start`');
 	}
 
+	const ws = graph.getByLocation(__dirname);
+
+	if (rest.includes('build')) {
+		await run({
+			name: 'Build API docs from source',
+			cmd: process.argv[1],
+			args: ['ws', ws.name, 'typedoc'],
+		});
+	}
+
 	await run({
 		name: 'Run astro',
 		cmd: 'npx',
 		args: ['astro', ...rest],
 		opts: {
-			cwd: graph.getByLocation(__dirname)!.location,
+			cwd: ws.location,
 		},
 	});
 };

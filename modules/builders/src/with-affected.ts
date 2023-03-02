@@ -1,5 +1,19 @@
 import type { Yargs } from '@onerepo/types';
 
+/**
+ * Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getAffected`](#getaffected), [`getFiles`](#getfiles), and [`getWorkspaces`](#getworkspaces).
+ * - `--affected`
+ * - `--from-ref`
+ * - `--through-ref`
+ *
+ * If all of `--all`, `--files`, and `--workspaces` were not passed, `--affected` will default to `true`.
+ *
+ * See [`WithAffected`](#withaffected-1) for type safety.
+ *
+ * ```js
+ * export const builder = (yargs) => withAffected(yargs);
+ * ```
+ */
 export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs
 		.option('affected', {
@@ -26,8 +40,28 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 			}
 		});
 
+/**
+ * To be paired with the [`withAffected()` builder](#withaffected). Adds types for arguments parsed.
+ *
+ * ```ts
+ * type Argv = WithAffected & {
+ *   // ...
+ * };
+ *
+ * export const builder: Builder<Argv> = (yargs) => withAffected(yargs);
+ * ```
+ */
 export type WithAffected = {
+	/**
+	 * When used with builder helpers, will include all of the affected workspaces based on changes within the repository.
+	 */
 	affected?: boolean;
+	/**
+	 * Git ref to calculate changes _exclusively_ _since_.
+	 */
 	'from-ref'?: string;
+	/**
+	 * Git ref to calculate changes _inclusively_ _through_.
+	 */
 	'through-ref'?: string;
 };

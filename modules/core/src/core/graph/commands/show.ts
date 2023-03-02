@@ -4,7 +4,6 @@ import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
 import { withAffected, withWorkspaces } from '@onerepo/builders';
 import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/types';
-import type { SerializedGraph } from '@onerepo/graph';
 
 export const command = 'show';
 
@@ -60,7 +59,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 	}
 };
 
-function writeStdio(graph: SerializedGraph): void {
+function writeStdio(graph: Serialized): void {
 	const width = Math.min(160, process.stdout.columns);
 
 	const ui = cliui({ width });
@@ -111,7 +110,7 @@ const depType: Record<number, string> = {
 	1: 'peer',
 };
 
-function writeMermaid(graph: SerializedGraph): void {
+function writeMermaid(graph: Serialized): void {
 	process.stdout.write(`graph RL
 ${graph.nodes.map(({ id }) => `  ${id.replace(/\W+/g, '')}["${id}"]`).join('\n')}
 ${graph.links

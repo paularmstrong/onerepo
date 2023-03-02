@@ -4,18 +4,40 @@ import os from 'node:os';
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { Transform } from 'node:stream';
 import { logger } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
+import type { LogStep } from '@onerepo/logger';
 
 export interface RunSpec {
+	/**
+	 * A friendly name for the Step
+	 */
 	name: string;
+	/**
+	 * The command to run. Thsi should be an available executable or path to an executable.
+	 */
 	cmd: string;
+	/**
+	 * Arguments to pass to the executable
+	 */
 	args?: Array<string>;
 	opts?: SpawnOptions;
 	runDry?: boolean;
-	step?: Step;
+	step?: LogStep;
 	skipFailures?: boolean;
 }
 
+/**
+ * Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one [`run()`](#run) or [`batch()`](#batch) processes.
+ *
+ * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
+ *
+ * ```ts
+ * await run({
+ * 	 name: 'Do some work',
+ * 	 cmd: 'echo',
+ *   args: ['"hello!"']
+ * });
+ * ```
+ */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
 		performance.mark(`${options.name}_start`);
@@ -131,6 +153,20 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	return subprocess;
 }
 
+/**
+ * This function is similar to `run`, but can request and run with elevated `sudo` permissions. This function should not be used unless you absolutely _know_ that you will need to spawn an executable with elevated permissions.
+ *
+ * This function will first check if `sudo` permissions are valid. If not, the logger will warn the user that sudo permissions are being requested and properly pause the animated logger while the user enters their password directly through `stdin`. If permissions are valid, no warning will be given.
+ *
+ * ```ts
+ * await sudo({
+ * 	name: 'Change permissions',
+ * 	cmd: 'chmod',
+ * 	args: ['a+x', '/usr/bin/thing'],
+ * 	reason: 'When prompted, please type your password and hit [RETURN] to allow `thing` to be run later',
+ * });
+ * ```
+ */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const log = logger.createStep(options.name);
 
@@ -173,29 +209,25 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	});
 }
 
-function makeTransformer(log: (str: string) => void) {
-	let out = '';
-	return new Transform({
-		// The amount of data potentially buffered depends on the highWaterMark option passed into the stream's constructor. https://nodejs.org/docs/latest-v18.x/api/stream.html#stream_buffering
-		highWaterMark: 0x100000,
-		transform(chunk, encoding, callback) {
-			out += chunk.toString('utf8');
-			log(chunk.toString('utf8'));
-			callback(null, chunk);
-		},
-		// Always ensure a newline when flushing to prevent running separate streams together
-		flush(callback) {
-			if (out.length > 0 && !/\n$/.test(out)) {
-				callback(null, '\n');
-			}
-		},
-	});
-}
-
 /**
- * Batch multiple subprocesses, as many as possible fulfilling N-1 cores. If there are more processes than cores, as each subprocess finishes, a new subprocess will be picked to run, ensuring maximum CPU usage at all times.
+ * Batch multiple subprocesses, similar to `Promise.all`, but only run as many processes at a time fulfilling N-1 cores. If there are more processes than cores, as each process finishes, a new process will be picked to run, ensuring maximum CPU usage at all times.
+ *
+ * If any process throws a `SubprocessError`, this function will reject with a `BatchError`, but only after _all_ processes have completed running.
+ *
+ * Most oneRepo commands will consist of at least one [`run()`](#run) or [`batch()`](#batch) processes.
+ *
+ * ```ts
+ * const processes: Array<RunSpec> = [
+ * 	{ name: 'Say hello', cmd: 'echo', args: ['"hello"'] },
+ * 	{ name: 'Say world', cmd: 'echo', args: ['"world"'] },
+ * ];
+ *
+ * const results = await batch(processes);
+ *
+ * expect(results).toEqual([['hello', ''], ['world', '']]);
+ * ```
  */
-export async function batch(processes: Array<RunSpec>, parallel = true): Promise<Array<[string, string] | Error>> {
+export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];
 
 	if (processes.length === 0) {
@@ -207,7 +239,7 @@ export async function batch(processes: Array<RunSpec>, parallel = true): Promise
 	});
 
 	let failing = false;
-	const maxParallel = parallel ? Math.min(os.cpus().length - 1, tasks.length) : 1;
+	const maxParallel = Math.min(os.cpus().length - 1, tasks.length);
 
 	return new Promise((resolve, reject) => {
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
@@ -260,4 +292,23 @@ export class BatchError extends Error {
 		super('Batch process error', options);
 		this.errors = errors;
 	}
+}
+
+function makeTransformer(log: (str: string) => void) {
+	let out = '';
+	return new Transform({
+		// The amount of data potentially buffered depends on the highWaterMark option passed into the stream's constructor. https://nodejs.org/docs/latest-v18.x/api/stream.html#stream_buffering
+		highWaterMark: 0x100000,
+		transform(chunk, encoding, callback) {
+			out += chunk.toString('utf8');
+			log(chunk.toString('utf8'));
+			callback(null, chunk);
+		},
+		// Always ensure a newline when flushing to prevent running separate streams together
+		flush(callback) {
+			if (out.length > 0 && !/\n$/.test(out)) {
+				callback(null, '\n');
+			}
+		},
+	});
 }

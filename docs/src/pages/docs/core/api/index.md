@@ -1,9 +1,17 @@
 ---
-layout: '../../../layouts/Docs.astro'
-title: Writing oneRepo commands
+layout: '../../../../layouts/Docs.astro'
+title: oneRepo API
 ---
 
-# Writing oneRepo commands
+# API
+
+## Public API
+
+[Public API docs](public/)
+
+oneRepo includes a full-featured API and many helpers to make writing commands easier.
+
+## Writing oneRepo commands
 
 Commands all have 4 minimum requirements to be exported:
 

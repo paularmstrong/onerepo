@@ -28,7 +28,6 @@ one <command> [options]
 
 | Option         | Type      | Description                                                          | Required |
 | -------------- | --------- | -------------------------------------------------------------------- | -------- |
-| `--ci`         | `boolean` | Sets defaults for running scripts in a CI environment                |          |
 | `--help`, `-h` | `boolean` | Show this help screen                                                |          |
 | `--silent`     | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0. |          |
 
@@ -582,6 +581,14 @@ Start the docs development server
 
 ```sh
 one workspace @onerepo/docs start
+```
+
+##### `one workspace @onerepo/docs typedoc`
+
+Generate typedoc markdown files for the toolchain.
+
+```sh
+one workspace @onerepo/docs typedoc
 ```
 
 <!-- end-auto-generated-from-cli -->

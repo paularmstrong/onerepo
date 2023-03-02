@@ -1,10 +1,10 @@
 import { performance } from 'node:perf_hooks';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
-import type { Repository } from '@onerepo/graph';
+import type { Graph } from '@onerepo/graph';
 import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
-import { getAffected, getFilepaths, getWorkspaces } from './getters';
-import type { GetterArgv } from './getters';
+import { getAffected, getFilepaths, getWorkspaces } from '@onerepo/builders';
+import type { GetterArgv } from '@onerepo/builders';
 import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 import type { Arguments, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 
@@ -36,14 +36,6 @@ export function setupYargs(yargs: Yargv): Yargs {
 			default: false,
 			description: 'Silence all output from the logger. Effectively sets verbosity to 0.',
 		})
-		.option('ci', {
-			default: false,
-			description: 'Sets defaults for running scripts in a CI environment',
-			global: true,
-			group: 'Global:',
-			hidden: true,
-			type: 'boolean',
-		})
 		.middleware(setEnvironmentMiddleware, true)
 		.middleware(sudoCheckMiddleware(yargs), true)
 		.wrap(Math.min(160, process.stdout.columns))
@@ -70,7 +62,7 @@ function fallbackHandler(argv: Arguments<DefaultArgv>) {
 }
 
 type CommandDirOpts = {
-	graph: Repository;
+	graph: Graph;
 	exclude?: RegExp;
 	preHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
 	postHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;

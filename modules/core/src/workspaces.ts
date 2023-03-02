@@ -1,8 +1,8 @@
 import { existsSync, lstatSync } from 'node:fs';
-import type { Repository, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import type { Yargs } from '@onerepo/types';
 
-export function workspaceBuilder(graph: Repository, dirname: string) {
+export function workspaceBuilder(graph: Graph, dirname: string) {
 	return (yargs: Yargs) => {
 		yargs
 			.usage('$0 workspace <name> <command> [options]')
@@ -26,15 +26,17 @@ export function workspaceBuilder(graph: Repository, dirname: string) {
 			);
 
 		const workspaceName = process.argv[3];
-		if (graph.getByName(workspaceName)) {
+		try {
 			const ws = graph.getByName(workspaceName)!;
 			addWorkspace(yargs, ws, dirname);
 			return yargs.demandCommand(1, `Please enter a command to run in ${ws.name}.`);
+		} catch (e) {
+			// pass
 		}
 
 		// Allow omitting the workspace name if the process working directory is already in a workspace
 		const workingWorkspace = graph.getByLocation(process.cwd());
-		if (workingWorkspace && workingWorkspace !== graph.root) {
+		if (workingWorkspace !== graph.root) {
 			yargs
 				.usage('$0 workspace <command> [options]')
 				.usage('$0 ws <command> [options]')
