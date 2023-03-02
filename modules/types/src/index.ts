@@ -12,7 +12,7 @@ declare global {
 
 import type { Argv as Yargv } from 'yargs';
 import type { Logger, LogStep } from '@onerepo/logger';
-import type { Repository, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 
 /**
  * Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#builder) and [`Handler`](#handler).
@@ -69,9 +69,9 @@ export interface HandlerExtra {
 	 */
 	getWorkspaces: (opts?: GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * The Repository Graph
+	 * The Graph Graph
 	 */
-	graph: Repository;
+	graph: Graph;
 	/**
 	 * Standard logger. This should _always_ be used in place of console.log unless you have
 	 * a specific need to write to standard out differently.

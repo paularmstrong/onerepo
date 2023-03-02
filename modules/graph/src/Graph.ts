@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import glob from 'glob';
+import type { Serialized } from 'graph-data-structure';
 import { Graph as graph } from 'graph-data-structure';
 import { Workspace } from './Workspace';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
@@ -11,6 +12,20 @@ const Dependency = {
 	peer: 1,
 };
 
+export type { Serialized };
+
+/**
+ * The oneRepo Graph is a representation of the entire repository’s workspaces and how they depend upon each other. Most commonly, you will want to use the graph to get lists of workspaces that either depend on some input or are dependencies thereof:
+ *
+ * ```ts
+ * const workspacesToCheck = graph.affected('tacos');
+ * for (const ws of workspacesToCheck) {
+ * 	// verify no issues based on changes
+ * }
+ * ```
+ *
+ * The `Graph` also includes various helpers for determining workspaces based on filepaths, name, and other factors.
+ */
 export class Graph {
 	#rootLocation: string;
 
@@ -24,6 +39,9 @@ export class Graph {
 	#nameByAlias: Map<string, string> = new Map();
 	#require: typeof require;
 
+	/**
+	 * @private
+	 */
 	constructor(location: string, packageJson: PrivatePackageJson, moduleRequire = require) {
 		this.#require = moduleRequire;
 		this.#rootLocation = location;
@@ -48,53 +66,90 @@ export class Graph {
 	/**
 	 * Get a serialized representation of the graph
 	 */
-	get serialized() {
+	get serialized(): Serialized {
 		return this.#graph.serialize();
 	}
 
+	/**
+	 * All workspaces that are part of the repository graph.
+	 */
 	get workspaces(): Array<Workspace> {
 		return Array.from(this.#byName.values());
 	}
 
-	get workspaceLocations() {
-		return Array.from(this.#nameByLocation.keys());
-	}
-
+	/**
+	 * Get the workspace that is at the root of the repository.
+	 */
 	get root() {
-		return this.getByLocation(this.#rootLocation)!;
+		return this.getByLocation(this.#rootLocation);
 	}
 
 	/**
 	 * Get a list of workspaces that depend on the given input sources.
-	 * @param sources one or more workspaes
-	 * @param includeSelf
+	 *
+	 * ```ts
+	 * const tacoDependents = graph.dependents('tacos');
+	 * ```
+	 *
+	 * @param sources One or more workspaces by name or `Workspace` instance
+	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
 	 */
 	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
 		if (sources) {
-			const names = (Array.isArray(sources) ? sources : [sources])
-				.map((source) => (source instanceof Workspace ? source.name : this.getByName(source)!.name))
-				.filter(Boolean);
+			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
+				source instanceof Workspace ? source.name : this.getByName(source).name
+			);
 			return this.getAllByName(this.#inverted.topologicalSort(names, includeSelf));
 		}
 		return this.getAllByName(this.#inverted.topologicalSort());
 	}
-
+	/**
+	 * Get a list of workspaces that are dependencies of the given input sources.
+	 *
+	 * ```ts
+	 * const tacoDependencies = graph.dependencies('tacos');
+	 * ```
+	 *
+	 * @param sources One or more workspaces by name or `Workspace` instance
+	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
+	 */
 	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
 		if (sources) {
-			const names = (Array.isArray(sources) ? sources : [sources])
-				.map((source) => (source instanceof Workspace ? source.name : this.getByName(source)!.name))
-				.filter(Boolean);
+			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
+				source instanceof Workspace ? source.name : this.getByName(source).name
+			);
 			return this.getAllByName(this.#graph.topologicalSort(names, includeSelf));
 		}
 
 		return this.getAllByName(this.#graph.topologicalSort());
 	}
 
+	/**
+	 * Get a list of workspaces that will be affected by the given source(s). This is equivalent to `graph.dependents(sources, true)`.
+	 *
+	 * ```ts
+	 * const dependents = graph.dependents(sources, true);
+	 * const affected = graph.affected(sources);
+	 *
+	 * assert.isEqual(dependents, affecteed);
+	 * ```
+	 *
+	 * @param sources One or more workspaces by name or `Workspace` instance
+	 */
 	affected<T extends string | Workspace>(source: T | Array<T>): Array<Workspace> {
 		return this.dependents(source, true);
 	}
 
-	getByName(name: string): Workspace | null {
+	/**
+	 * Get a workspace by string name. This can be either the full package name or one of its `aliases`
+	 *
+	 * ```ts
+	 * const workspace = graph.getByName('my-cool-package');
+	 * ```
+	 *
+	 * @param name A Workspace’s [name](/docs/core/api/classes/Workspace/#name) or any available [aliases](/docs/core/api/classes/Workspace/#aliases).
+	 */
+	getByName(name: string): Workspace {
 		if (this.#byName.has(name)) {
 			return this.#byName.get(name)!;
 		}
@@ -104,14 +159,37 @@ export class Graph {
 			return this.#byName.get(actualName)!;
 		}
 
-		return null;
+		throw new Error(`No workspace available for the name "${name}"`);
 	}
 
+	/**
+	 * Get a list of workspaces by name or alias
+	 *
+	 * ```ts
+	 * const workspaces = graph.getAllByName(['tacos', 'burritos']);
+	 * ```
+	 *
+	 * @param names A list of workspace [names](/docs/core/api/classes/Workspace/#name) or any available [aliases](/docs/core/api/classes/Workspace/#aliases).
+	 */
 	getAllByName(names: Array<string>): Array<Workspace> {
 		return names.map((name) => this.getByName(name)).filter(Boolean) as Array<Workspace>;
 	}
 
-	getByLocation(location: string): Workspace | null {
+	/**
+	 * Get the equivalent Workspace for a filepath. This can be any location within a Workspace, not just its root.
+	 *
+	 * ```ts
+	 * // in Node.js
+	 * graph.getByLocation(__dirname);
+	 *
+	 * // in pure ESM
+	 * graph.getByLocation(import.meta.url);
+	 * ```
+	 *
+	 * @param location A filepath string. May be a file URL or string path.
+	 *
+	 */
+	getByLocation(location: string): Workspace {
 		const locationPath = location.startsWith('file:') ? fileURLToPath(location) : location;
 
 		const segments = locationPath.split(path.sep);
@@ -125,15 +203,26 @@ export class Graph {
 			segments.pop();
 		}
 
-		return null;
+		throw new Error(`No workspace was found for "${location}"`);
 	}
 
+	/**
+	 * Get all workspaces given an array of filepaths.
+	 *
+	 * ```ts
+	 * const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
+	 * ```
+	 *
+	 * @param locations A list of filepath strings. May be file URLs or string paths.
+	 */
 	getAllByLocation(locations: Array<string>): Array<Workspace> {
 		const workspaces = new Set<Workspace>();
 		locations.forEach((location) => {
-			const found = this.getByLocation(location);
-			if (found) {
+			try {
+				const found = this.getByLocation(location);
 				workspaces.add(found);
+			} catch (e) {
+				// pass
 			}
 		});
 		return Array.from(workspaces);
@@ -141,8 +230,10 @@ export class Graph {
 
 	/**
 	 * Get an isolated graph of dependents from the list of sources
+	 *
+	 * @return This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 	 */
-	isolatedGraph(sources: Array<Workspace>) {
+	isolatedGraph(sources: Array<Workspace>): ReturnType<typeof graph> {
 		const returnGraph = graph();
 
 		const addAdjacent = (ws: Workspace) => {

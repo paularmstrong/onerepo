@@ -4,18 +4,24 @@ import path from 'node:path';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Graph } from './Graph';
 
-export type { Graph as Repository } from './Graph';
+export * from './Graph';
 export * from './Workspace';
 
 const PackageCache = new Map<string, PackageJson>();
 
 const require = createRequire('/');
 
+/**
+ * @private
+ */
 export function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
 	return new Graph(path.dirname(filePath), json as PrivatePackageJson, require);
 }
 
+/**
+ * @private
+ */
 export function getRootPackageJson(searchLocation: string): { filePath: string; json: PrivatePackageJson } {
 	let currLocation = searchLocation;
 	while (currLocation !== '/') {

@@ -97,9 +97,9 @@ This function differs from `getAffected` in that it respects input arguments pro
 
 ### graph
 
-**graph**: [`Repository`](/docs/core/api/classes/Repository/)
+**graph**: [`Graph`](/docs/core/api/classes/Graph/)
 
-The Repository Graph
+The Graph Graph
 
 #### Defined in
 

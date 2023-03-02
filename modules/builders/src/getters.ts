@@ -1,6 +1,6 @@
 import path from 'node:path';
 import minimatch from 'minimatch';
-import type { Repository, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
 import { getModifiedFiles } from '@onerepo/git';
 import type { GetterOptions } from '@onerepo/types';
@@ -38,7 +38,7 @@ export type GetterArgv = {
  * };
  * ```
  */
-export function getAffected(graph: Repository, { from, ignore, through, step }: GetterOptions = {}) {
+export function getAffected(graph: Graph, { from, ignore, through, step }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
 		const { added, modified, deleted, moved } = await getModifiedFiles(from, through, { step });
 		const all = [...added, ...modified, ...deleted, ...moved];
@@ -48,10 +48,8 @@ export function getAffected(graph: Repository, { from, ignore, through, step }: 
 		const workspaces = new Set<string>();
 		for (const filepath of files) {
 			const ws = graph.getByLocation(graph.root.resolve(filepath));
-			if (ws) {
-				step.debug(`Found changes within \`${ws.name}\``);
-				workspaces.add(ws.name);
-			}
+			step.debug(`Found changes within \`${ws.name}\``);
+			workspaces.add(ws.name);
 		}
 
 		if (workspaces.size === 0) {
@@ -77,7 +75,7 @@ export function getAffected(graph: Repository, { from, ignore, through, step }: 
  * ```
  */
 export async function getWorkspaces(
-	graph: Repository,
+	graph: Graph,
 	argv: GetterArgv,
 	{ step, from, through, ...opts }: GetterOptions = {}
 ): Promise<Array<Workspace>> {
@@ -130,7 +128,7 @@ export async function getWorkspaces(
  * };
  * ```
  */
-export async function getFilepaths(graph: Repository, argv: GetterArgv, { step, from, through }: GetterOptions = {}) {
+export async function getFilepaths(graph: Graph, argv: GetterArgv, { step, from, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {
 		const paths: Array<string> = [];
 		const workspaces: Array<Workspace> = [];

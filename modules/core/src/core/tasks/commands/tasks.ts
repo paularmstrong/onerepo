@@ -1,7 +1,7 @@
 import path from 'node:path';
 import minimatch from 'minimatch';
 import type { Builder, Handler, Lifecycle, Task, Tasks } from '@onerepo/types';
-import type { Repository, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import { batch, run } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
@@ -194,7 +194,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(graph: Repository, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
+function taskToSpec(graph: Graph, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
 	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');

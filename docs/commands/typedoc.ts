@@ -20,7 +20,7 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { add } = argv;
 
-	const docs = graph.getByLocation(__dirname)!;
+	const docs = graph.getByLocation(__dirname);
 
 	const [bin] = await run({
 		name: 'Get bin',
@@ -32,7 +32,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		runDry: true,
 	});
 
-	const ws = graph.getByName('onerepo')!;
+	const ws = graph.getByName('onerepo');
 	const outPath = 'src/api';
 
 	await run({

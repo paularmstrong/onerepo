@@ -21,9 +21,9 @@ onerepo
 ## Classes
 
 - [BatchError](/docs/core/api/classes/BatchError/)
+- [Graph](/docs/core/api/classes/Graph/)
 - [LogStep](/docs/core/api/classes/LogStep/)
 - [Logger](/docs/core/api/classes/Logger/)
-- [Repository](/docs/core/api/classes/Repository/)
 - [SubprocessError](/docs/core/api/classes/SubprocessError/)
 - [Workspace](/docs/core/api/classes/Workspace/)
 
@@ -39,6 +39,7 @@ onerepo
 - [PrivatePackageJson](/docs/core/api/interfaces/PrivatePackageJson/)
 - [PublicPackageJson](/docs/core/api/interfaces/PublicPackageJson/)
 - [RunSpec](/docs/core/api/interfaces/RunSpec/)
+- [Serialized](/docs/core/api/interfaces/Serialized/)
 
 ## Variables
 
@@ -129,7 +130,7 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 
 | Name             | Type                                                    |
 | :--------------- | :------------------------------------------------------ |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `graph`          | [`Graph`](/docs/core/api/classes/Graph/)                |
 | `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
 #### Returns
@@ -165,7 +166,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 | Name             | Type                                                    |
 | :--------------- | :------------------------------------------------------ |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `graph`          | [`Graph`](/docs/core/api/classes/Graph/)                |
 | `argv`           | [`GetterArgv`](/docs/core/api/public/#getterargv)       |
 | `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
@@ -175,52 +176,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 #### Defined in
 
-[modules/builders/src/getters.ts:133](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L133)
-
----
-
-### getGraph
-
-**getGraph**(`workingDir?`): [`Repository`](/docs/core/api/classes/Repository/)
-
-#### Parameters
-
-| Name         | Type     |
-| :----------- | :------- |
-| `workingDir` | `string` |
-
-#### Returns
-
-[`Repository`](/docs/core/api/classes/Repository/)
-
-#### Defined in
-
-[modules/graph/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts#L14)
-
----
-
-### getRootPackageJson
-
-**getRootPackageJson**(`searchLocation`): `Object`
-
-#### Parameters
-
-| Name             | Type     |
-| :--------------- | :------- |
-| `searchLocation` | `string` |
-
-#### Returns
-
-`Object`
-
-| Name       | Type                                                                  |
-| :--------- | :-------------------------------------------------------------------- |
-| `filePath` | `string`                                                              |
-| `json`     | [`PrivatePackageJson`](/docs/core/api/interfaces/PrivatePackageJson/) |
-
-#### Defined in
-
-[modules/graph/src/index.ts:19](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts#L19)
+[modules/builders/src/getters.ts:131](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L131)
 
 ---
 
@@ -245,7 +201,7 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 
 | Name             | Type                                                    |
 | :--------------- | :------------------------------------------------------ |
-| `graph`          | [`Repository`](/docs/core/api/classes/Repository/)      |
+| `graph`          | [`Graph`](/docs/core/api/classes/Graph/)                |
 | `argv`           | [`GetterArgv`](/docs/core/api/public/#getterargv)       |
 | `«destructured»` | [`GetterOptions`](/docs/core/api/public/#getteroptions) |
 
@@ -255,7 +211,7 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 
 #### Defined in
 
-[modules/builders/src/getters.ts:79](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L79)
+[modules/builders/src/getters.ts:77](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L77)
 
 ---
 

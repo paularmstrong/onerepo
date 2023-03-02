@@ -1,6 +1,6 @@
 import { performance } from 'node:perf_hooks';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
-import type { Repository } from '@onerepo/graph';
+import type { Graph } from '@onerepo/graph';
 import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
 import { getAffected, getFilepaths, getWorkspaces } from '@onerepo/builders';
@@ -62,7 +62,7 @@ function fallbackHandler(argv: Arguments<DefaultArgv>) {
 }
 
 type CommandDirOpts = {
-	graph: Repository;
+	graph: Graph;
 	exclude?: RegExp;
 	preHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
 	postHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;

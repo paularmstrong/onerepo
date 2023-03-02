@@ -1,6 +1,6 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
-import type { Repository } from '@onerepo/graph';
+import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as file from '@onerepo/file';
@@ -15,7 +15,7 @@ const { run } = getCommand(Publish);
 vi.mock('@changesets/apply-release-plan');
 
 describe('handler', () => {
-	let graph: Repository;
+	let graph: Graph;
 	beforeEach(async () => {
 		graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('');

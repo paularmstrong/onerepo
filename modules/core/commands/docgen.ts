@@ -23,7 +23,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const generators: Array<RunSpec> = [];
 	const outFiles: Array<string> = [];
 
-	const ws = graph.getByLocation(__dirname)!;
+	const ws = graph.getByLocation(__dirname);
 
 	const commands = glob.sync('*', { cwd: ws.resolve('src/core') });
 	const bin = ws.resolve('bin', 'docgen.cjs');
