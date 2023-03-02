@@ -13,25 +13,6 @@ To make changes, modify typedoc comments in the source files.
 
 # Class: Workspace
 
-## Constructors
-
-### constructor
-
-**new Workspace**(`rootLocation`, `location`, `packageJson`, `moduleRequire?`)
-
-#### Parameters
-
-| Name            | Type                                                    | Default value |
-| :-------------- | :------------------------------------------------------ | :------------ |
-| `rootLocation`  | `string`                                                | `undefined`   |
-| `location`      | `string`                                                | `undefined`   |
-| `packageJson`   | [`PackageJson`](/docs/core/api/interfaces/PackageJson/) | `undefined`   |
-| `moduleRequire` | `NodeRequire`                                           | `require`     |
-
-#### Defined in
-
-[modules/graph/src/Workspace.ts:11](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L11)
-
 ## Accessors
 
 ### aliases
@@ -47,7 +28,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:61](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L61)
+[modules/graph/src/Workspace.ts:68](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L68)
 
 ---
 
@@ -55,13 +36,17 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 `get` **dependencies**(): `Record`<`string`, `string`\>
 
+Get the `package.json` defined production dependencies for the workspace.
+
 #### Returns
 
 `Record`<`string`, `string`\>
 
+Map of modules to their version.
+
 #### Defined in
 
-[modules/graph/src/Workspace.ts:70](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L70)
+[modules/graph/src/Workspace.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L82)
 
 ---
 
@@ -75,7 +60,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:22](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L22)
+[modules/graph/src/Workspace.ts:29](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L29)
 
 ---
 
@@ -83,13 +68,17 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 `get` **devDependencies**(): `Record`<`string`, `string`\>
 
+Get the `package.json` defined development dependencies for the workspace.
+
 #### Returns
 
 `Record`<`string`, `string`\>
 
+Map of modules to their version.
+
 #### Defined in
 
-[modules/graph/src/Workspace.ts:74](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L74)
+[modules/graph/src/Workspace.ts:91](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L91)
 
 ---
 
@@ -103,7 +92,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:26](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L26)
+[modules/graph/src/Workspace.ts:33](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L33)
 
 ---
 
@@ -117,7 +106,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:30](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
+[modules/graph/src/Workspace.ts:37](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L37)
 
 ---
 
@@ -131,7 +120,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:38](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L38)
+[modules/graph/src/Workspace.ts:45](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L45)
 
 ---
 
@@ -139,55 +128,29 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 `get` **name**(): `string`
 
+The full `name` of the Workspace, as defined in its `package.json`
+
 #### Returns
 
 `string`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:18](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L18)
+[modules/graph/src/Workspace.ts:24](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L24)
 
 ---
 
 ### packageJson
 
-`get` **packageJson**(): `Object`
+`get` **packageJson**(): [`PackageJson`](/docs/core/api/interfaces/PackageJson/)
 
 #### Returns
 
-`Object`
-
-| Name                    | Type                                           |
-| :---------------------- | :--------------------------------------------- |
-| `alias?`                | `string`[]                                     |
-| `author?`               | `string` \| `Person`                           |
-| `bin?`                  | `string` \| `Record`<`string`, `string`\>      |
-| `bugs?`                 | { `email?`: `string` ; `url?`: `string` }      |
-| `bugs.email?`           | `string`                                       |
-| `bugs.url?`             | `string`                                       |
-| `bundleDependencies?`   | `string`[]                                     |
-| `contributors?`         | (`string` \| `Person`)[]                       |
-| `dependencies?`         | `Record`<`string`, `string`\>                  |
-| `description?`          | `string`                                       |
-| `devDependencies?`      | `Record`<`string`, `string`\>                  |
-| `engines?`              | `Record`<`string`, `string`\>                  |
-| `files?`                | `string`[]                                     |
-| `homepage?`             | `string`                                       |
-| `keywords?`             | `string`[]                                     |
-| `license`               | `string`                                       |
-| `main?`                 | `string`                                       |
-| `name`                  | `string`                                       |
-| `optionalDependencies?` | `string`[]                                     |
-| `os?`                   | `string`[]                                     |
-| `overrides?`            | `Record`<`string`, `string`\>                  |
-| `peerDependencies?`     | `Record`<`string`, `string`\>                  |
-| `peerDependenciesMeta?` | `Record`<`string`, { `optional`: `boolean` }\> |
-| `scripts?`              | `Record`<`string`, `string`\>                  |
-| `version?`              | `string`                                       |
+[`PackageJson`](/docs/core/api/interfaces/PackageJson/)
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:42](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L42)
+[modules/graph/src/Workspace.ts:49](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L49)
 
 ---
 
@@ -195,13 +158,17 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 `get` **peerDependencies**(): `Record`<`string`, `string`\>
 
+Get the `package.json` defined peer dependencies for the workspace.
+
 #### Returns
 
 `Record`<`string`, `string`\>
 
+Map of modules to their version.
+
 #### Defined in
 
-[modules/graph/src/Workspace.ts:78](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L78)
+[modules/graph/src/Workspace.ts:100](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L100)
 
 ---
 
@@ -215,7 +182,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L82)
+[modules/graph/src/Workspace.ts:104](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L104)
 
 ---
 
@@ -229,7 +196,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:46](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L46)
+[modules/graph/src/Workspace.ts:53](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L53)
 
 ---
 
@@ -237,7 +204,7 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 `get` **scope**(): `string`
 
-Get module name scope, eg `@onerepo`
+Get module name scope if there is one, eg `@onerepo`
 
 #### Returns
 
@@ -245,7 +212,7 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:53](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L53)
+[modules/graph/src/Workspace.ts:60](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L60)
 
 ---
 
@@ -259,7 +226,7 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:86](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L86)
+[modules/graph/src/Workspace.ts:108](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L108)
 
 ---
 
@@ -273,13 +240,15 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:34](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L34)
+[modules/graph/src/Workspace.ts:41](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L41)
 
 ## Methods
 
 ### getTasks
 
 **getTasks**(`lifecycle`): `Required`<[`Tasks`](/docs/core/api/public/#tasks)\>
+
+Get a list of Workspace tasks for the given lifecycle
 
 #### Parameters
 
@@ -293,7 +262,7 @@ Get module name scope, eg `@onerepo`
 
 #### Defined in
 
-[modules/graph/src/Workspace.ts:99](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L99)
+[modules/graph/src/Workspace.ts:124](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L124)
 
 ---
 
@@ -301,19 +270,27 @@ Get module name scope, eg `@onerepo`
 
 **relative**(`to`): `string`
 
+Get the relative path of an absolute path to the workspace’s location root
+
+```ts
+const relativePath = workspace.relative('/some/absolute/path');
+```
+
 #### Parameters
 
-| Name | Type     |
-| :--- | :------- |
-| `to` | `string` |
+| Name | Type     | Description       |
+| :--- | :------- | :---------------- |
+| `to` | `string` | Absolute filepath |
 
 #### Returns
 
 `string`
 
+Relative path to the workspace’s root location.
+
 #### Defined in
 
-[modules/graph/src/Workspace.ts:112](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L112)
+[modules/graph/src/Workspace.ts:157](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L157)
 
 ---
 
@@ -321,16 +298,24 @@ Get module name scope, eg `@onerepo`
 
 **resolve**(`...pathSegments`): `string`
 
+Resolve a full filepath within the workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
+
+```ts
+const main = workspace.resolve(workspace.main);
+```
+
 #### Parameters
 
-| Name              | Type       |
-| :---------------- | :--------- |
-| `...pathSegments` | `string`[] |
+| Name              | Type       | Description                          |
+| :---------------- | :--------- | :----------------------------------- |
+| `...pathSegments` | `string`[] | A sequence of paths or path segments |
 
 #### Returns
 
 `string`
 
+Absolute path based on the input path segments
+
 #### Defined in
 
-[modules/graph/src/Workspace.ts:108](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L108)
+[modules/graph/src/Workspace.ts:143](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L143)

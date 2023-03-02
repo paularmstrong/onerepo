@@ -38,7 +38,7 @@ Get the workspace that is at the root of the repository.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:82](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L82)
+[modules/graph/src/Graph.ts:83](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L83)
 
 ---
 
@@ -54,7 +54,7 @@ Get a serialized representation of the graph
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:68](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L68)
+[modules/graph/src/Graph.ts:69](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L69)
 
 ---
 
@@ -70,7 +70,7 @@ All workspaces that are part of the repository graph.
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:75](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L75)
+[modules/graph/src/Graph.ts:76](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L76)
 
 ## Methods
 
@@ -105,7 +105,7 @@ assert.isEqual(dependents, affecteed);
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:138](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L138)
+[modules/graph/src/Graph.ts:139](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L139)
 
 ---
 
@@ -138,7 +138,7 @@ const tacoDependencies = graph.dependencies('tacos');
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:115](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L115)
+[modules/graph/src/Graph.ts:116](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L116)
 
 ---
 
@@ -171,7 +171,7 @@ const tacoDependents = graph.dependents('tacos');
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:96](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L96)
+[modules/graph/src/Graph.ts:97](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L97)
 
 ---
 
@@ -197,7 +197,7 @@ const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:217](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L217)
+[modules/graph/src/Graph.ts:218](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L218)
 
 ---
 
@@ -223,7 +223,7 @@ const workspaces = graph.getAllByName(['tacos', 'burritos']);
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:173](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L173)
+[modules/graph/src/Graph.ts:174](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L174)
 
 ---
 
@@ -253,7 +253,7 @@ graph.getByLocation(import.meta.url);
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:191](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L191)
+[modules/graph/src/Graph.ts:192](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L192)
 
 ---
 
@@ -279,7 +279,7 @@ const workspace = graph.getByName('my-cool-package');
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:151](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L151)
+[modules/graph/src/Graph.ts:152](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L152)
 
 ---
 
@@ -324,4 +324,4 @@ This does not return a oneRepo `Graph`, but instead a graph-data-structure insta
 
 #### Defined in
 
-[modules/graph/src/Graph.ts:235](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L235)
+[modules/graph/src/Graph.ts:236](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L236)

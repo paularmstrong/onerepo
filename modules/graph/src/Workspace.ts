@@ -8,6 +8,9 @@ export class Workspace {
 	#tasks: TaskConfig | null = null;
 	#require: typeof require;
 
+	/**
+	 * @private
+	 */
 	constructor(rootLocation: string, location: string, packageJson: PackageJson, moduleRequire = require) {
 		this.#require = moduleRequire;
 		this.#rootLocation = rootLocation;
@@ -15,10 +18,14 @@ export class Workspace {
 		this.#packageJson = packageJson;
 	}
 
+	/**
+	 * The full `name` of the Workspace, as defined in its `package.json`
+	 */
 	get name() {
 		return this.#packageJson.name;
 	}
 
+	/** */
 	get description() {
 		return this.#packageJson.description;
 	}
@@ -39,7 +46,7 @@ export class Workspace {
 		return this.#packageJson.main || 'index.js';
 	}
 
-	get packageJson() {
+	get packageJson(): PackageJson {
 		return { ...this.#packageJson };
 	}
 
@@ -48,7 +55,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get module name scope, eg `@onerepo`
+	 * Get module name scope if there is one, eg `@onerepo`
 	 */
 	get scope(): string {
 		return this.name.includes('/') ? this.name.split('/')[0] : '';
@@ -67,16 +74,31 @@ export class Workspace {
 		return aliases;
 	}
 
-	get dependencies() {
-		return this.#packageJson.dependencies || {};
+	/**
+	 * Get the `package.json` defined production dependencies for the workspace.
+	 *
+	 * @return Map of modules to their version.
+	 */
+	get dependencies(): Record<string, string> {
+		return { ...this.#packageJson.dependencies } || {};
 	}
 
-	get devDependencies() {
-		return this.#packageJson.devDependencies || {};
+	/**
+	 * Get the `package.json` defined development dependencies for the workspace.
+	 *
+	 * @return Map of modules to their version.
+	 */
+	get devDependencies(): Record<string, string> {
+		return { ...this.#packageJson.devDependencies } || {};
 	}
 
-	get peerDependencies() {
-		return this.#packageJson.peerDependencies || {};
+	/**
+	 * Get the `package.json` defined peer dependencies for the workspace.
+	 *
+	 * @return Map of modules to their version.
+	 */
+	get peerDependencies(): Record<string, string> {
+		return { ...this.#packageJson.peerDependencies } || {};
 	}
 
 	get private() {
@@ -96,6 +118,9 @@ export class Workspace {
 		}
 	}
 
+	/**
+	 * Get a list of Workspace tasks for the given lifecycle
+	 */
 	getTasks(lifecycle: string): Required<Tasks> {
 		const empty = { parallel: [], sequential: [] };
 		if (lifecycle in this.tasks) {
@@ -105,10 +130,30 @@ export class Workspace {
 		return empty;
 	}
 
+	/**
+	 * Resolve a full filepath within the workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
+	 *
+	 * ```ts
+	 * const main = workspace.resolve(workspace.main);
+	 * ```
+	 *
+	 * @param pathSegments A sequence of paths or path segments
+	 * @return Absolute path based on the input path segments
+	 */
 	resolve(...pathSegments: Array<string>): string {
 		return path.resolve(this.#rootLocation, this.#location, ...pathSegments);
 	}
 
+	/**
+	 * Get the relative path of an absolute path to the workspace’s location root
+	 *
+	 * ```ts
+	 * const relativePath = workspace.relative('/some/absolute/path');
+	 * ```
+	 *
+	 * @param to Absolute filepath
+	 * @return Relative path to the workspace’s root location.
+	 */
 	relative(to: string): string {
 		return path.relative(this.#location, to);
 	}
