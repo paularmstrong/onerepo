@@ -1,0 +1,62 @@
+---
+/* eslint-disable tailwindcss/no-arbitrary-value */
+import clsx from 'clsx';
+
+const widths = ['w-2', 'w-4', 'w-6', 'w-8', 'w-10', 'w-12', 'w-16'];
+const heights = ['h-6/10', 'h-7/10', 'h-8/10', 'h-9/10', 'h-full'];
+const anims = [
+	'animate-[aurora_4s_ease-in-out_infinite]',
+	'animate-[-3s_aurora_7s_ease-in-out_infinite]',
+	'animate-[-2s_aurora_8s_ease-in-out_infinite]',
+	'animate-[-3s_aurora_9s_ease-in-out_infinite]',
+	'animate-[-2s_aurora_10s_ease-in-out_infinite]',
+	'animate-[-4s_aurora_11s_ease-in-out_infinite]',
+	'animate-[-6s_aurora_12s_ease-in-out_infinite]',
+];
+const opacity = [
+	'opacity-10',
+	'opacity-20',
+	'opacity-30',
+	'opacity-40',
+	'opacity-50',
+	'opacity-60',
+	'opacity-70',
+	'opacity-80',
+	'opacity-90',
+	'opacity-100',
+];
+
+const margins = ['mr-0', 'mr-1', 'mr-2'];
+
+interface Props {
+	class?: string;
+	bands: number;
+}
+
+const { bands, class: className } = Astro.props;
+---
+
+<div class={clsx('aurora pointer-events-none absolute flex h-[300px] blur-lg', className)}>
+	{
+		Array.from(Array(bands)).map((_, i) => {
+			const opacityI =
+				i < bands / 2
+					? Math.ceil(i / 2)
+					: bands - i < opacity.length
+					? bands - i
+					: Math.floor((Math.random() * opacity.length) / 2 + opacity.length / 2);
+			return (
+				<div
+					class={clsx(
+						'aurora-slice grow',
+						heights[Math.floor(Math.random() * heights.length)],
+						widths[Math.floor(Math.random() * widths.length)],
+						anims[Math.floor(Math.random() * anims.length)],
+						margins[Math.floor(Math.random() * margins.length)],
+						opacity[opacityI]
+					)}
+				/>
+			);
+		})
+	}
+</div>

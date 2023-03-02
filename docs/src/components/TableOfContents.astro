@@ -26,7 +26,8 @@ for (const h of typeof gotHeadings === 'function' ? gotHeadings() : gotHeadings)
 }
 ---
 
-<aside>
+<aside id="toc" aria-labelledby="#aside-title" class="sticky top-32">
+	<p id="aside-title" class="text-lg font-bold">On this page</p>
 	<nav aria-label="Page contents">
 		<ol class="flex flex-col">
 			{
@@ -52,3 +53,35 @@ for (const h of typeof gotHeadings === 'function' ? gotHeadings() : gotHeadings)
 		</ol>
 	</nav>
 </aside>
+
+<script>
+	const elements = document.querySelectorAll('#toc nav li a');
+	function update(visibleId: string | null) {
+		elements.forEach((link) => {
+			if (visibleId && link.getAttribute('href') === `#${visibleId}`) {
+				link.classList.add('bg-pink-700/40');
+			} else {
+				link.classList.remove('bg-pink-700/40');
+			}
+		});
+	}
+
+	const callback: IntersectionObserverCallback = (entries) => {
+		entries.forEach((entry) => {
+			const { target, isIntersecting, intersectionRatio } = entry;
+			if (isIntersecting && intersectionRatio >= 1) {
+				const visibleId = target.getAttribute('id');
+				update(visibleId);
+			}
+		});
+	};
+
+	const observer = new IntersectionObserver(callback, {
+		rootMargin: '-64px 0px -50% 0px',
+		threshold: 1.0,
+	});
+
+	document.querySelectorAll('h2[id], h3[id]').forEach((heading) => {
+		observer.observe(heading);
+	});
+</script>

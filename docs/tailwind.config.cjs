@@ -148,6 +148,7 @@ module.exports = {
 						)`.replace(/\s+/g, ''),
 					},
 					'.aurora-slice': {
+						willChange: 'transform',
 						backgroundImage: `linear-gradient(
 							0deg,
 							rgba(219, 39, 119, 0) 0%,
