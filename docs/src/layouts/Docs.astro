@@ -1,5 +1,7 @@
 ---
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import Layout from './Layout.astro';
+import Aurora from '../components/Aurora.astro';
 import Prose from '../components/Prose.astro';
 import Sidebar from '../components/Sidebar.astro';
 import TableOfContents from '../components/TableOfContents.astro';
@@ -13,18 +15,19 @@ const { description, title, headings } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
+	<Aurora bands={20} class="right-0 h-[250px] w-1/2 md:right-24 xl:right-64 2xl:right-96" />
 	<div class="grid grid-cols-12 gap-4 py-8 md:gap-8">
 		<div class="col-span-2">
 			<div class="max-h-screen overflow-y-scroll overscroll-contain">
 				<Sidebar />
 			</div>
 		</div>
-		<main class="col-span-8">
+		<main class="col-span-10 lg:col-span-8">
 			<Prose>
 				<slot />
 			</Prose>
 		</main>
-		<div class="col-span-2">
+		<div class="col-span-2 hidden lg:block">
 			{headings ? <TableOfContents slot="toc" headings={headings} /> : <slot name="toc" />}
 		</div>
 	</div>

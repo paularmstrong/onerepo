@@ -7,13 +7,15 @@ type Props = {
 };
 
 const { href, title } = Astro.props;
+const isCurrent = Astro.url.pathname === href;
 ---
 
 <a
 	class={clsx('ml-2 block rounded px-2 py-1 transition-colors duration-200 hover:bg-cyan-600/30', {
-		'bg-cyan-600/70 text-white': Astro.url.pathname === href,
-		'text-gray-600 dark:text-gray-400': Astro.url.pathname !== href,
+		'bg-cyan-600/70 text-white': isCurrent,
+		'text-gray-600 dark:text-gray-400': !isCurrent,
 	})}
+	aria-current={isCurrent ? 'page' : undefined}
 	href={href}
 	title={title}
 >

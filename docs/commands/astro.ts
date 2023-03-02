@@ -24,10 +24,20 @@ export const handler: Handler = async (argv, { graph }) => {
 		});
 	}
 
+	const [bin] = await run({
+		name: 'Get Astro',
+		cmd: 'yarn',
+		args: ['bin', 'astro'],
+		runDry: true,
+		opts: {
+			cwd: ws.location,
+		},
+	});
+
 	await run({
 		name: 'Run astro',
-		cmd: 'npx',
-		args: ['astro', ...rest],
+		cmd: bin,
+		args: rest,
 		opts: {
 			cwd: ws.location,
 		},
