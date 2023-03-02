@@ -11,7 +11,7 @@ declare global {
 }
 
 import type { Argv as Yargv } from 'yargs';
-import type { Logger, Step } from '@onerepo/logger';
+import type { Logger, LogStep } from '@onerepo/logger';
 import type { Repository, Workspace } from '@onerepo/graph';
 
 /**
@@ -50,7 +50,7 @@ export type GetterOptions = {
 	/**
 	 * Optional logger step to avoid creating a new
 	 */
-	step?: Step;
+	step?: LogStep;
 };
 
 export interface HandlerExtra {

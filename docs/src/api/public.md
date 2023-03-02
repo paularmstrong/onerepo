@@ -21,9 +21,9 @@ onerepo
 ## Classes
 
 - [BatchError](/docs/core/api/classes/BatchError/)
+- [LogStep](/docs/core/api/classes/LogStep/)
 - [Logger](/docs/core/api/classes/Logger/)
 - [Repository](/docs/core/api/classes/Repository/)
-- [Step](/docs/core/api/classes/Step/)
 - [SubprocessError](/docs/core/api/classes/SubprocessError/)
 - [Workspace](/docs/core/api/classes/Workspace/)
 
@@ -33,6 +33,7 @@ onerepo
 - [Config](/docs/core/api/interfaces/Config/)
 - [DefaultArguments](/docs/core/api/interfaces/DefaultArguments/)
 - [HandlerExtra](/docs/core/api/interfaces/HandlerExtra/)
+- [LoggerOptions](/docs/core/api/interfaces/LoggerOptions/)
 - [PackageJson](/docs/core/api/interfaces/PackageJson/)
 - [PackageJsonWithLocation](/docs/core/api/interfaces/PackageJsonWithLocation/)
 - [PrivatePackageJson](/docs/core/api/interfaces/PrivatePackageJson/)
@@ -45,9 +46,25 @@ onerepo
 
 `Const` **logger**: [`Logger`](/docs/core/api/classes/Logger/)
 
+This logger is a singleton instance for use across all of oneRepo and its commands.
+
+Available as a root import:
+
+```ts
+import { logger } from 'onerepo';
+```
+
+Available as extras on Handler functions:
+
+```ts
+export const handler: Handler = (argv, { logger }) => {
+	logger.log('Hello!');
+};
+```
+
 #### Defined in
 
-[modules/logger/src/index.ts:7](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L7)
+[modules/logger/src/index.ts:24](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L24)
 
 ## Functions
 
@@ -337,10 +354,10 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 
 #### Parameters
 
-| Name             | Type                                                                |
-| :--------------- | :------------------------------------------------------------------ |
-| `«destructured»` | `WrapperArgs`                                                       |
-| `fn`             | (`step`: [`Step`](/docs/core/api/classes/Step/)) => `Promise`<`T`\> |
+| Name             | Type                                                                      |
+| :--------------- | :------------------------------------------------------------------------ |
+| `«destructured»` | `WrapperArgs`                                                             |
+| `fn`             | (`step`: [`LogStep`](/docs/core/api/classes/LogStep/)) => `Promise`<`T`\> |
 
 #### Returns
 
@@ -348,7 +365,7 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 
 #### Defined in
 
-[modules/logger/src/index.ts:14](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L14)
+[modules/logger/src/index.ts:31](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts#L31)
 
 ---
 
@@ -647,12 +664,12 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Type declaration
 
-| Name       | Type                                   | Description                                                                                      |
-| :--------- | :------------------------------------- | :----------------------------------------------------------------------------------------------- |
-| `from?`    | `string`                               | Git ref to calculate changes _exclusively_ _since_.                                              |
-| `ignore?`  | `string`[]                             | List of files to not take into account when getting the list of files, workspaces, and affected. |
-| `step?`    | [`Step`](/docs/core/api/classes/Step/) | Optional logger step to avoid creating a new                                                     |
-| `through?` | `string`                               | Git ref to calculate changes _inclusively_ _through_.                                            |
+| Name       | Type                                         | Description                                                                                      |
+| :--------- | :------------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| `from?`    | `string`                                     | Git ref to calculate changes _exclusively_ _since_.                                              |
+| `ignore?`  | `string`[]                                   | List of files to not take into account when getting the list of files, workspaces, and affected. |
+| `step?`    | [`LogStep`](/docs/core/api/classes/LogStep/) | Optional logger step to avoid creating a new                                                     |
+| `through?` | `string`                                     | Git ref to calculate changes _inclusively_ _through_.                                            |
 
 #### Defined in
 

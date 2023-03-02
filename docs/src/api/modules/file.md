@@ -222,9 +222,9 @@ Generic options for file functions
 
 #### Type declaration
 
-| Name    | Type                                   | Description                                                                                                            |
-| :------ | :------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
-| `step?` | [`Step`](/docs/core/api/classes/Step/) | Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead. |
+| Name    | Type                                         | Description                                                                                                            |
+| :------ | :------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
+| `step?` | [`LogStep`](/docs/core/api/classes/LogStep/) | Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead. |
 
 #### Defined in
 

@@ -1,10 +1,10 @@
 import { write } from '@onerepo/file';
 import { stepWrapper } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
+import type { LogStep } from '@onerepo/logger';
 import type { PublicPackageJson, Workspace } from '@onerepo/graph';
 
 type Options = {
-	step?: Step;
+	step?: LogStep;
 	write?: boolean;
 };
 

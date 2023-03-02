@@ -83,7 +83,7 @@ A friendly name for the Step
 
 ### step
 
-`Optional` **step**: [`Step`](/docs/core/api/classes/Step/)
+`Optional` **step**: [`LogStep`](/docs/core/api/classes/LogStep/)
 
 #### Defined in
 

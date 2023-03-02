@@ -4,18 +4,25 @@ import { Duplex } from 'node:stream';
 
 type StepOptions = {
 	verbosity: number;
-	onEnd: (step: Step) => Promise<void>;
+	onEnd: (step: LogStep) => Promise<void>;
 	onError: () => void;
 };
 
-export class Step {
+/**
+ *
+ */
+export class LogStep {
 	#name: string;
 	#verbosity: number;
-	stream: Duplex;
+	#stream: Duplex;
 	#active = false;
-	#onEnd: (step: Step) => Promise<void>;
+	#onEnd: (step: LogStep) => Promise<void>;
 	#onError: () => void;
 	#lastThree: Array<string> = [];
+
+	/**
+	 * Whether or not this step has logged an error.
+	 */
 	hasError = false;
 
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
@@ -24,7 +31,7 @@ export class Step {
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
-		this.stream = new LogData();
+		this.#stream = new LogData();
 		if (this.name) {
 			this.#writeStream(this.#prefixStart(this.name));
 		}
@@ -34,18 +41,13 @@ export class Step {
 		return this.#name;
 	}
 
-	set name(name: string) {
-		throw new Error('Cannot set name after instantiation');
-	}
-
 	get active() {
 		return this.#active;
 	}
 
-	set active(value: boolean) {
-		throw new Error('Call this.activate() to set active');
-	}
-
+	/**
+	 * While buffering logs, returns the status line and last 3 lines of buffered output.
+	 */
 	get status(): Array<string> {
 		return [this.#prefixStart(this.name), ...this.#lastThree];
 	}
@@ -59,6 +61,9 @@ export class Step {
 		return this.#verbosity;
 	}
 
+	/**
+	 * Activate a step. This is typically only called from within the root `Logger` instance and should not be done manually.
+	 */
 	activate(enableWrite = !process.stderr.isTTY) {
 		if (this.#active) {
 			return;
@@ -71,7 +76,7 @@ export class Step {
 	}
 
 	#enableWrite() {
-		this.stream.on('data', (chunk) => {
+		this.#stream.on('data', (chunk) => {
 			// All log output goes to stderr. No exceptions.
 			// This allows commands to write to stdout and not mix log information with true output.
 			// However, if you plan on writing to a file, consider actually writing to a file with the fs api.
@@ -79,6 +84,13 @@ export class Step {
 		});
 	}
 
+	/**
+	 * Finish this step and flush all buffered logs.
+	 *
+	 * ```ts
+	 * await step.end();
+	 * ```
+	 */
 	async end() {
 		const endMark = `end_${this.name || 'logger'}`;
 		performance.mark(endMark);
@@ -101,14 +113,17 @@ export class Step {
 		}
 
 		return new Promise((resolve) => {
-			if (this.name && this.stream.writable) {
-				this.stream.end('');
+			if (this.name && this.#stream.writable) {
+				this.#stream.end('');
 			}
 
 			resolve();
 		});
 	}
 
+	/**
+	 * Log an error. This will cause the root logger to include an error and fail a command
+	 */
 	error(contents: unknown) {
 		this.hasError = true;
 		this.#onError();
@@ -151,7 +166,7 @@ export class Step {
 	}
 
 	#writeStream(line: string) {
-		this.stream.write(ensureNewline(line));
+		this.#stream.write(ensureNewline(line));
 		if (this.#active) {
 			this.#lastThree.push(...pc.dim(line).split('\n'));
 			this.#lastThree.splice(0, this.#lastThree.length - 3);

@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import type { OpenMode } from 'node:fs';
 import fs from 'node:fs/promises';
 import { stepWrapper } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
+import type { LogStep } from '@onerepo/logger';
 import prettier from 'prettier';
 
 /**
@@ -22,7 +22,7 @@ export type Options = {
 	 * Avoid creating a new step in output for each function.
 	 * Pass a Logger Step to pipe all logs and output to that instead.
 	 */
-	step?: Step;
+	step?: LogStep;
 };
 
 /**

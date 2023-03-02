@@ -24,7 +24,6 @@ one <command> [options]
 
 | Option         | Type      | Description                                                          | Required |
 | -------------- | --------- | -------------------------------------------------------------------- | -------- |
-| `--ci`         | `boolean` | Sets defaults for running scripts in a CI environment                |          |
 | `--help`, `-h` | `boolean` | Show this help screen                                                |          |
 | `--silent`     | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0. |          |
 

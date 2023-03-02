@@ -4,7 +4,7 @@ import os from 'node:os';
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { Transform } from 'node:stream';
 import { logger } from '@onerepo/logger';
-import type { Step } from '@onerepo/logger';
+import type { LogStep } from '@onerepo/logger';
 
 export interface RunSpec {
 	/**
@@ -21,7 +21,7 @@ export interface RunSpec {
 	args?: Array<string>;
 	opts?: SpawnOptions;
 	runDry?: boolean;
-	step?: Step;
+	step?: LogStep;
 	skipFailures?: boolean;
 }
 
