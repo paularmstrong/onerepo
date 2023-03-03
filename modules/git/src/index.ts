@@ -12,6 +12,7 @@ export async function getBranch({ step }: Options = {}) {
 			name: 'Getting current branch',
 			cmd: 'git',
 			args: ['rev-parse', '--abbrev-ref', 'HEAD'],
+			runDry: true,
 			step,
 		});
 
@@ -30,6 +31,7 @@ export async function getMergeBase({ step }: Options = {}) {
 				name: 'Get latest commit SHA',
 				cmd: 'git',
 				args: ['log', '-n', '1', `origin/${head}`, '--format=%H'],
+				runDry: true,
 				step,
 			});
 
@@ -42,6 +44,7 @@ export async function getMergeBase({ step }: Options = {}) {
 				name: 'Get latest merge SHA',
 				cmd: 'git',
 				args: ['log', '-n', '1', '-m', '--format=%P'],
+				runDry: true,
 				step,
 			});
 			return latestMergeSha.trim().split(' ')[0];
@@ -52,6 +55,7 @@ export async function getMergeBase({ step }: Options = {}) {
 				name: 'Get merge base',
 				cmd: 'git',
 				args: ['merge-base', '--fork-point', `origin/${head}`, 'HEAD'],
+				runDry: true,
 				step,
 				skipFailures: true,
 			});
@@ -66,6 +70,7 @@ export async function getMergeBase({ step }: Options = {}) {
 			name: 'Get merge base',
 			cmd: 'git',
 			args: ['merge-base', 'HEAD', `origin/${head}`],
+			runDry: true,
 			step,
 		});
 
@@ -79,8 +84,8 @@ export async function getStatus({ step }: Options = {}) {
 			name: 'Checking for changes',
 			cmd: 'git',
 			args: ['status', '--porcelain'],
-			step,
 			runDry: true,
+			step,
 		});
 
 		return currentStatus;
@@ -112,6 +117,7 @@ export async function getModifiedFiles(from?: string, through?: string, { step }
 						isMain ? currentSha : 'HEAD',
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  ],
+			runDry: true,
 			step,
 		});
 		const changes = `${currentStatus}\n${modified}`;
@@ -164,6 +170,7 @@ export async function getCurrentSha({ step }: Options = {}) {
 			name: 'Get current SHA',
 			cmd: 'git',
 			args: ['rev-parse', 'HEAD'],
+			runDry: true,
 			step,
 		});
 
