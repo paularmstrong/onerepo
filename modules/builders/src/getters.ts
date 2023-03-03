@@ -29,6 +29,8 @@ export type GetterArgv = {
  *
  * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
  *
+ * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
+ *
  * ```ts
  * export const handler: Handler = (argv, { getAffected, logger }) => {
  * 	const workspaces = await getAffected();
@@ -56,6 +58,14 @@ export function getAffected(graph: Graph, { from, ignore, through, step }: Gette
 			return [];
 		}
 
+		/**
+		 * Return all workspaces if the root is included
+		 */
+		if (workspaces.has(graph.root.name)) {
+			step.log('Root workspace included in affected list. Assuming all workspaces.');
+			return graph.workspaces;
+		}
+
 		return await graph.affected(Array.from(workspaces));
 	});
 }
@@ -64,6 +74,8 @@ export function getAffected(graph: Graph, { from, ignore, through, step }: Gette
  * Get a list of workspaces based on the input arguments made available with the builders [`withAffected`](#withaffected), [`withAllInputs`](#withallinputs), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces).
  *
  * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ *
+ * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
  *
  * ```ts
  * export const handler: Handler = (argv, { getWorkspaces, logger }) => {
@@ -108,6 +120,14 @@ export async function getWorkspaces(
 			}
 		}
 
+		/**
+		 * Return all workspaces if the root is included
+		 */
+		if (workspaces.includes(graph.root)) {
+			step.log('Root workspace included in requested list. Assuming all workspaces.');
+			return graph.workspaces;
+		}
+
 		return workspaces;
 	});
 }
@@ -134,7 +154,7 @@ export async function getFilepaths(graph: Graph, argv: GetterArgv, { step, from,
 		const workspaces: Array<Workspace> = [];
 		if ('all' in argv && argv.all) {
 			step.log('`all` requested');
-			paths.push('.');
+			return ['.'];
 		} else if ('files' in argv && Array.isArray(argv.files)) {
 			step.log(`\`files\` requested: \n • ${argv.files.join('\n • ')}`);
 			paths.push(...argv.files);

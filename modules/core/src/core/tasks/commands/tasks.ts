@@ -74,18 +74,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	const requested = await getWorkspaces({ ignore });
 	const affected = graph.affected(requested);
 	const affectedNames = affected.map(({ name }) => name);
-	const runAll = affected.includes(graph.root);
-	if (runAll) {
-		logger.warn('Running all tasks because the root is in the affected list.');
-	} else {
-		logger.debug(`Running\n • ${affected.map((ws) => ws.name).join('\n • ')}`);
-	}
 
 	const { added, modified, moved, deleted } = await git.getModifiedFiles(fromRef, throughRef);
 	const allFiles = [...added, ...modified, ...moved, ...deleted];
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
-	if (!files.length && !runAll && !affectedNames.length) {
+	if (!files.length && !affectedNames.length) {
 		logger.warn('No tasks to run');
 		if (list) {
 			process.stdout.write('[]');
@@ -123,8 +117,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		const isPre = lifecycle.startsWith('pre-');
 		const isPost = lifecycle.startsWith('post-');
 
-		const force = (task: Task) =>
-			runAll || (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
+		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
 
 		if (isPre || !isPost) {
 			const tasks = workspace.getTasks(isPre ? lifecycle : `pre-${lifecycle}`);
