@@ -1,42 +1,41 @@
 ---
 import type { PluginFrontmatter } from '../types';
 import SidebarLink from './SidebarLink.astro';
-import SidebarSubLink from './SidebarSubLink.astro';
 const core = await Astro.glob<PluginFrontmatter>('../../../modules/core/docs/*.md');
 const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.md');
 ---
 
 <nav>
-	<ul class="flex flex-col gap-1">
+	<ul class="flex flex-col gap-2">
 		<li><SidebarLink href="/docs/">Documentation</SidebarLink></li>
 		<li><SidebarLink href="/docs/getting-started/">Getting started</SidebarLink></li>
 		<li>
 			<SidebarLink href="/docs/core/">Core command-line</SidebarLink>
-			<ul>
+			<ul class="ml-2 flex flex-col gap-1 pt-1">
+				<li><SidebarLink href="/docs/core/api/">API</SidebarLink></li>
 				{
 					core.map((core) => {
 						const slug = core.file.split('docs/')[1].replace(/\.md$/, '');
 						return (
 							<li>
-								<SidebarSubLink href={`/docs/core/${slug}/`}>{core.frontmatter.title}</SidebarSubLink>
+								<SidebarLink href={`/docs/core/${slug}/`}>{core.frontmatter.title}</SidebarLink>
 							</li>
 						);
 					})
 				}
-				<li><SidebarSubLink href="/docs/core/api/">API</SidebarSubLink></li>
 			</ul>
 		</li>
 		<li>
 			<SidebarLink href="/docs/plugins/">Plugins</SidebarLink>
-			<ul>
+			<ul class="ml-2 flex flex-col gap-1 pt-1">
 				{
 					plugins.map((plugin) => {
 						const slug = plugin.file.split('plugins/')[1].split('/')[0];
 						return (
 							<li>
-								<SidebarSubLink href={`/docs/plugins/${slug}/`} title={`Plugin: ${plugin.frontmatter.title}`}>
+								<SidebarLink href={`/docs/plugins/${slug}/`} title={`Plugin: ${plugin.frontmatter.title}`}>
 									{plugin.frontmatter.tool ?? plugin.frontmatter.title}
-								</SidebarSubLink>
+								</SidebarLink>
 							</li>
 						);
 					})
@@ -46,9 +45,9 @@ const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.m
 		<li><SidebarLink href="/docs/glossary/">Glossary</SidebarLink></li>
 		<li>
 			<SidebarLink href="/docs/contributing/">Contributing</SidebarLink>
-			<ul>
-				<li><SidebarSubLink href="/docs/contributing/code-of-conduct/">Code of conduct</SidebarSubLink></li>
-				<li><SidebarSubLink href="/docs/contributing/cli/">CLI</SidebarSubLink></li>
+			<ul class="ml-2 flex flex-col gap-1 pt-1">
+				<li><SidebarLink href="/docs/contributing/code-of-conduct/">Code of conduct</SidebarLink></li>
+				<li><SidebarLink href="/docs/contributing/cli/">CLI</SidebarLink></li>
 			</ul>
 		</li>
 	</ul>

@@ -18,7 +18,7 @@ const { Content } = readme;
 					return (
 						<li>
 							<a
-								class="group flex h-full flex-row gap-2 rounded border border-zinc-200 bg-white p-2 shadow transition-colors duration-200 hover:shadow-xl active:bg-zinc-100 active:shadow-inner dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-800 dark:active:bg-zinc-800/80"
+								class="group flex h-full flex-row gap-2 rounded border border-zinc-200 bg-white/50 p-2 shadow transition-colors duration-200 hover:bg-white/80 hover:shadow-xl active:bg-zinc-100 active:shadow-inner dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-800 dark:active:bg-zinc-800/80"
 								href={`/docs/plugins/${slug}/`}
 							>
 								{frontmatter.tool ? (
@@ -38,6 +38,5 @@ const { Content } = readme;
 			}
 		</ul>
 	</div>
-
 	<Content />
 </Layout>

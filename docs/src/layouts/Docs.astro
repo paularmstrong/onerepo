@@ -16,18 +16,18 @@ const { description, title, headings } = Astro.props;
 
 <Layout title={title} description={description}>
 	<Aurora bands={20} class="right-0 h-[250px] w-1/2 md:right-24 xl:right-64 2xl:right-96" />
-	<div class="grid grid-cols-12 gap-4 py-8 md:gap-8">
-		<div class="col-span-2">
-			<div class="max-h-screen overflow-y-scroll overscroll-contain">
+	<div class="relative z-0 grid grid-cols-12 gap-4 py-8 md:gap-8">
+		<div class="col-span-2 hidden xl:block">
+			<div class="sticky top-24 max-h-screen overflow-y-scroll overscroll-contain pb-32">
 				<Sidebar />
 			</div>
 		</div>
-		<main class="col-span-10 lg:col-span-8">
+		<main class="col-span-12 xl:col-span-8">
 			<Prose>
 				<slot />
 			</Prose>
 		</main>
-		<div class="col-span-2 hidden lg:block">
+		<div class="col-span-2 hidden xl:block">
 			{headings ? <TableOfContents slot="toc" headings={headings} /> : <slot name="toc" />}
 		</div>
 	</div>
