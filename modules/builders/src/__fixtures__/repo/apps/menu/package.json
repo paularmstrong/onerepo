@@ -1,0 +1,6 @@
+{
+	"name": "menu",
+	"dependencies": {
+		"tacos": "workspace:^"
+	}
+}

@@ -192,4 +192,36 @@ describe('handler', () => {
 			}),
 		]);
 	});
+
+	test('runs all workspaces if the root is affected', async () => {
+		vitest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue({ added: [], modified: ['root.ts'], deleted: [], all: [], moved: [] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		let out = '';
+		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+			out += content.toString();
+			return true;
+		});
+
+		await run('--lifecycle deploy --list', { graph });
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"deployroot"'],
+				opts: { cwd: '.' },
+			}),
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"deployburritos"'],
+				opts: { cwd: 'modules/burritos' },
+			}),
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"deploytacos"'],
+				opts: { cwd: 'modules/tacos' },
+			}),
+		]);
+	});
 });
