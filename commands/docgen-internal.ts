@@ -1,5 +1,5 @@
-import { batch, file, git, withAllInputs } from 'onerepo';
-import type { Builder, Handler, RunSpec, WithAllInputs } from 'onerepo';
+import { batch, file, git, builders } from 'onerepo';
+import type { Builder, Handler, RunSpec } from 'onerepo';
 
 export const command = 'docgen-internal';
 
@@ -7,10 +7,10 @@ export const description = 'Generate docs for the oneRepo monorepo';
 
 type Argv = {
 	add: boolean;
-} & WithAllInputs;
+} & builders.WithAllInputs;
 
 export const builder: Builder<Argv> = (yargs) =>
-	withAllInputs(yargs).option('add', {
+	builders.withAllInputs(yargs).option('add', {
 		type: 'boolean',
 		default: false,
 		description: 'Add all generated files to the git stage',

@@ -28,6 +28,9 @@ type WrapperArgs = {
 	step?: LogStep;
 };
 
+/**
+ * @internal
+ */
 export async function stepWrapper<T>(
 	{ name, step: inputStep }: WrapperArgs,
 	fn: (step: LogStep) => Promise<T>

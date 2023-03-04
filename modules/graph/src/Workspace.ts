@@ -9,7 +9,7 @@ export class Workspace {
 	#require: typeof require;
 
 	/**
-	 * @private
+	 * @internal
 	 */
 	constructor(rootLocation: string, location: string, packageJson: PackageJson, moduleRequire = require) {
 		this.#require = moduleRequire;

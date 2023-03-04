@@ -1,15 +1,8 @@
 ---
-layout: '../../../../layouts/Docs.astro'
 title: oneRepo API
 ---
 
 # API
-
-## Public API
-
-[Public API docs](public/)
-
-oneRepo includes a full-featured API and many helpers to make writing commands easier.
 
 ## Writing oneRepo commands
 

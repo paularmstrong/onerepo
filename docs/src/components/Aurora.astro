@@ -36,7 +36,7 @@ interface Props {
 const { bands, class: className } = Astro.props;
 ---
 
-<div class={clsx('aurora pointer-events-none absolute z-0 flex h-[300px] blur-lg', className)}>
+<div class={clsx('aurora pointer-events-none fixed z-0 flex h-[300px] blur-lg', className)}>
 	{
 		Array.from(Array(bands)).map((_, i) => {
 			const opacityI =

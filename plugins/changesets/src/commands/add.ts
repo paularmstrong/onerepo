@@ -2,8 +2,7 @@ import pc from 'picocolors';
 import inquirer from 'inquirer';
 import write from '@changesets/write';
 import { updateIndex } from '@onerepo/git';
-import type { WithAllInputs } from '@onerepo/builders';
-import { withAllInputs } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/types';
 
 export const command = ['$0', 'add'];
@@ -13,10 +12,11 @@ export const description = 'Add a changeset';
 type Argv = {
 	add: boolean;
 	type?: 'major' | 'minor' | 'patch';
-} & WithAllInputs;
+} & builders.WithAllInputs;
 
 export const builder: Builder<Argv> = (yargs) =>
-	withAllInputs(yargs)
+	builders
+		.withAllInputs(yargs)
 		.usage('$0 add [options]')
 		.option('add', {
 			description: 'Add the modified `package.json` files to the git stage for committing.',

@@ -1,20 +1,20 @@
 import glob from 'glob';
 import path from 'node:path';
-import { batch, file, logger, run, withAffected, withWorkspaces } from 'onerepo';
-import type { Builder, Handler, RunSpec, WithAffected, WithWorkspaces } from 'onerepo';
+import { batch, file, run, builders } from 'onerepo';
+import type { Builder, Handler, RunSpec } from 'onerepo';
 
 export const command = 'build';
 
 export const description = 'Build public workspaces using esbuild.';
 
-type Args = WithAffected &
-	WithWorkspaces & {
+type Args = builders.WithAffected &
+	builders.WithWorkspaces & {
 		version?: string;
 	};
 
 export const builder: Builder<Args> = (yargs) =>
-	withAffected(
-		withWorkspaces(
+	builders.withAffected(
+		builders.withWorkspaces(
 			yargs
 				.usage('$0 build [options]')
 				.version(false)
@@ -24,7 +24,7 @@ export const builder: Builder<Args> = (yargs) =>
 		)
 	);
 
-export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
+export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, logger }) {
 	const removals: Array<string> = [];
 	const buildProcs: Array<RunSpec> = [];
 	const typesProcs: Array<RunSpec> = [];

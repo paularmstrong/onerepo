@@ -3,8 +3,7 @@ import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
 import type { Graph } from '@onerepo/graph';
 import { logger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
-import { getAffected, getFilepaths, getWorkspaces } from '@onerepo/builders';
-import type { GetterArgv } from '@onerepo/builders';
+import { getters } from '@onerepo/builders';
 import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 import type { Arguments, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/types';
 
@@ -94,11 +93,11 @@ export const commandDirOptions = ({
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
 
-				const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
-				const wrappedGetWorkspaces = (opts?: Parameters<typeof getWorkspaces>[2]) =>
-					getWorkspaces(graph, argv as GetterArgv, opts);
-				const wrappedGetFilepaths = (opts?: Parameters<typeof getFilepaths>[2]) =>
-					getFilepaths(graph, argv as GetterArgv, opts);
+				const wrappedGetAffected = (opts?: Parameters<typeof getters.affected>[1]) => getters.affected(graph, opts);
+				const wrappedGetWorkspaces = (opts?: Parameters<typeof getters.workspaces>[2]) =>
+					getters.workspaces(graph, argv as getters.Argv, opts);
+				const wrappedGetFilepaths = (opts?: Parameters<typeof getters.filepaths>[2]) =>
+					getters.filepaths(graph, argv as getters.Argv, opts);
 
 				process.on('unhandledRejection', (reason, promise) => {
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);

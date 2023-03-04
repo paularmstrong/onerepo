@@ -1,8 +1,7 @@
 import { getModifiedFiles } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/types';
-import { withAffected, withWorkspaces } from '@onerepo/builders';
-import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 
 export const command = 'vitest';
 
@@ -14,11 +13,12 @@ type Args = {
 	config: string;
 	inspect: boolean;
 	workspaces?: Array<string>;
-} & WithAffected &
-	WithWorkspaces;
+} & builders.WithAffected &
+	builders.WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
-	withAffected(withWorkspaces(yargs))
+	builders
+		.withAffected(builders.withWorkspaces(yargs))
 		.usage(`$0 ${command} [options] -- [passthrough]`)
 		.example(`$0 ${command}`, 'Run only tests related to modified files.')
 		.example(`$0 ${command} -- --watch`, 'Run vitest in --watch mode.')

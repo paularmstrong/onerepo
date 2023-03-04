@@ -3,15 +3,14 @@ import minimatch from 'minimatch';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
-import type { WithAllInputs } from '@onerepo/builders';
-import { withAllInputs } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/types';
 
 export const command = 'eslint';
 
 export const description = 'Run eslint across files and workspaces';
 
-type Args = WithAllInputs & {
+type Args = builders.WithAllInputs & {
 	add?: boolean;
 	cache: boolean;
 	extensions: Array<string>;
@@ -19,7 +18,8 @@ type Args = WithAllInputs & {
 };
 
 export const builder: Builder<Args> = (yargs) =>
-	withAllInputs(yargs)
+	builders
+		.withAllInputs(yargs)
 		.option('add', {
 			type: 'boolean',
 			description: 'Add modified files after write',

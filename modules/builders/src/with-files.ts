@@ -6,9 +6,11 @@ import type { Yargs } from '@onerepo/types';
  *
  * See [`WithFiles`](#withfiles-1) for type safety.
  *
- * ```js
- * export const builder = (yargs) => withFiles(yargs);
+ * ```js title="commands/mycommand.js"
+ * export const builder = (yargs) => builders.withFiles(yargs);
  * ```
+ *
+ * @category Builder
  */
 export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 	yargs.option('files', {
@@ -22,13 +24,15 @@ export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 /**
  * To be paired with the [`withFiles()` builder](#withfiles). Adds types for arguments parsed.
  *
- * ```ts
- * type Argv = WithFiles & {
+ * ```ts title="commands/mycommand.ts"
+ * type Argv = builders.WithFiles & {
  *   // ...
  * };
  *
- * export const builder: Builder<Argv> = (yargs) => withFiles(yargs);
+ * export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
  * ```
+ *
+ * @category Builder
  */
 export type WithFiles = {
 	/**

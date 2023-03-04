@@ -16,6 +16,8 @@ import type { Graph, Workspace } from '@onerepo/graph';
 
 /**
  * Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#builder) and [`Handler`](#handler).
+ *
+ * @category Commands
  */
 export type DefaultArgv = {
 	/**
@@ -34,7 +36,10 @@ export type DefaultArgv = {
 	verbosity: number;
 };
 
-export type GetterOptions = {
+/**
+ * @category Commands
+ */
+export interface GetterOptions {
 	/**
 	 * Git ref to calculate changes _exclusively_ _since_.
 	 */
@@ -51,29 +56,32 @@ export type GetterOptions = {
 	 * Optional logger step to avoid creating a new
 	 */
 	step?: LogStep;
-};
+}
 
+/**
+ * @category Commands
+ */
 export interface HandlerExtra {
 	/**
-	 * Get the affected workspaces based on the current state of the repository.
+	 * Get the affected workspaces based on the current state of the repository. This is a wrapped implementation of {@link getters.affected | getters.affected} that does not require passing the `graph` argument.
 	 */
 	getAffected: (opts?: GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * Get the affected filepaths based on the current inputs and state of the repository.
+	 * Get the affected filepaths based on the current inputs and state of the repository. This is a wrapped implementation of {@link getters.filepaths | getters.filepaths} that does not require the `graph` and `argv` arguments.
 	 */
 	getFilepaths: (opts?: GetterOptions) => Promise<Array<string>>;
 	/**
 	 * Get the affected workspaces based on the current inputs and the state of the repository.
 	 * This function differs from `getAffected` in that it respects input arguments provided by
-	 * `withWorkspaces`, `withFiles` and `withAffected`.
+	 * `withWorkspaces`, `withFiles` and `withAffected`. This is a wrapped implementation of {@link getters.workspaces | getters.workspaces} that does not require the `graph` and `argv` arguments.
 	 */
 	getWorkspaces: (opts?: GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * The Graph Graph
+	 * The full monorepo {@link Graph}.
 	 */
 	graph: Graph;
 	/**
-	 * Standard logger. This should _always_ be used in place of console.log unless you have
+	 * Standard {@link Logger}. This should _always_ be used in place of `console.log` methods unless you have
 	 * a specific need to write to standard out differently.
 	 */
 	logger: Logger;
@@ -81,6 +89,8 @@ export interface HandlerExtra {
 
 /**
  * Always present in Builder and Handler arguments.
+ *
+ * @category Commands
  */
 export interface DefaultArguments {
 	/**
@@ -96,16 +106,24 @@ export interface DefaultArguments {
 	 */
 	'--': Array<string>;
 }
-// Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
+/**
+ * Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
+ *
+ * @category Commands
+ */
 export type Arguments<T = object> = { [key in keyof T]: T[key] } & DefaultArguments;
 
 /**
  * A [yargs object](http://yargs.js.org/docs/).
+ *
+ * @internal
  */
 export type Yargs<T = DefaultArgv> = Yargv<T>;
 
 /**
  * Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
+ *
+ * @category Commands
  */
 export type Argv<T = object> = Arguments<T & DefaultArgv>;
 
@@ -124,6 +142,8 @@ export type Argv<T = object> = Arguments<T & DefaultArgv>;
  * 			type: 'boolean',
  * 		});
  * ```
+ *
+ * @category Commands
  */
 export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
 
@@ -139,9 +159,14 @@ export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
  * 	logger.log(withTacos ? 'Include tacos' : 'No tacos, thanks');
  * };
  * ```
+ *
+ * @category Commands
  */
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
 
+/**
+ * @category Tasks
+ */
 export type TaskDef = {
 	/**
 	 * Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
@@ -158,18 +183,39 @@ export type TaskDef = {
 	 */
 	meta?: Record<string, unknown>;
 };
+
 /**
  * A Task can either be a string or TaskDef object with extra options.
+ *
+ * @category Tasks
  */
 export type Task = string | TaskDef;
 
+/**
+ * @category Tasks
+ */
 export type Tasks = {
 	sequential?: Array<Task>;
 	parallel?: Array<Task>;
 };
 
+/**
+ * @category Tasks
+ */
 export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
-type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
+
+/**
+ * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle}
+ * @category Tasks
+ */
+export type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
+
+/**
+ * @category Tasks
+ */
 export type Lifecycle = MakeLifecycles<StandardLifecycles>;
 
+/**
+ * @category Tasks
+ */
 export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

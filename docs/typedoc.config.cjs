@@ -1,5 +1,6 @@
 /** @type import('typedoc').TypeDocOptions */
 module.exports = {
+	excludeInternal: true,
 	excludePrivate: true,
 	githubPages: false,
 	hideGenerator: true,
