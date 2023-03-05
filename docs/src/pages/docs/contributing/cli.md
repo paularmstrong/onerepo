@@ -96,13 +96,14 @@ Add a changeset
 one change add [options]
 ```
 
-| Option               | Type                            | Description                                                                                                         | Required |
-| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
-| `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                           |          |
-| `--files`, `-f`      | `array`                         | Determine workspaces from specific files                                                                            |          |
-| `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
-| `--workspaces`, `-w` | `array`                         | List of workspace names to run against                                                                              |          |
+| Option                    | Type                            | Description                                                                                                         | Required |
+| ------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--add`, `--update-index` | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                              |          |
+| `--affected`              | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                         |          |
+| `--all`, `-a`             | `boolean`                       | Run across all workspaces                                                                                           |          |
+| `--files`, `-f`           | `array`                         | Determine workspaces from specific files                                                                            |          |
+| `--type`                  | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |          |
+| `--workspaces`, `-w`      | `array`                         | List of workspace names to run against                                                                              |          |
 
 <details>
 
@@ -188,6 +189,16 @@ one change version
 | Option                    | Type                       | Description                                                            | Required |
 | ------------------------- | -------------------------- | ---------------------------------------------------------------------- | -------- |
 | `--add`, `--update-index` | `boolean`, default: `true` | Add the modified `package.json` files to the git stage for committing. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
 
 ### `one docgen`
 

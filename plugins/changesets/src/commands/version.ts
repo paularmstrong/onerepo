@@ -6,7 +6,7 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
 import type { Builder, Handler } from '@onerepo/types';
-import { updateIndex } from '@onerepo/git';
+import { getStatus, updateIndex } from '@onerepo/git';
 
 export const command = 'version';
 
@@ -15,18 +15,41 @@ export const description =
 
 type Argv = {
 	add: boolean;
+	'allow-dirty': boolean;
 };
 
 export const builder: Builder<Argv> = (yargs) =>
-	yargs.usage('$0 version').option('add', {
-		alias: ['update-index'],
-		description: 'Add the modified `package.json` files to the git stage for committing.',
-		type: 'boolean',
-		default: true,
-	});
+	yargs
+		.usage('$0 version')
+		.option('allow-dirty', {
+			type: 'boolean',
+			default: false,
+			hidden: true,
+			description: 'Bypass checks to ensure no local changes before publishing.',
+		})
+		.option('add', {
+			alias: ['update-index'],
+			description: 'Add the modified `package.json` files to the git stage for committing.',
+			type: 'boolean',
+			default: true,
+		});
 
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
-	const { add, 'dry-run': isDryRun } = argv;
+	const { add, 'allow-dirty': allowDirty, 'dry-run': isDryRun } = argv;
+
+	if (!allowDirty) {
+		const cleanStep = logger.createStep('Ensure clean working directory');
+		const status = await getStatus({ step: cleanStep });
+
+		if (status) {
+			cleanStep.error(
+				`Working directory must be unmodified to ensure correct versioning. Current status is:\n  ${status}`
+			);
+			await cleanStep.end();
+			return;
+		}
+		await cleanStep.end();
+	}
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
@@ -87,6 +110,11 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	}
 
 	if (add && !isDryRun) {
-		await updateIndex(graph.workspaces.map((ws) => [ws.resolve('package.json'), ws.resolve('CHANGELOG.md')]).flat());
+		// @ts-ignore does not understand filter(Boolean)
+		const files: Array<string> = graph.workspaces
+			.map((ws) => [ws.resolve('package.json'), !ws.private ? ws.resolve('CHANGELOG.md') : false])
+			.flat()
+			.filter(Boolean);
+		await updateIndex([graph.root.resolve('.changeset'), ...files]);
 	}
 };
