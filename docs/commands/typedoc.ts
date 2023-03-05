@@ -22,9 +22,6 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	});
 
 	const ws = graph.getByName('onerepo');
-	// const entrypoints = graph.workspaces
-	// 	.filter((ws) => ws.location.includes('/modules/') && ws.name !== 'onerepo')
-	// 	.map((ws) => ws.location);
 	const outPath = 'src/api';
 
 	await run({
@@ -34,16 +31,12 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			'--plugin',
 			'typedoc-plugin-markdown',
 			'--entryDocument',
-			'index.md',
+			'api.md',
 			'--hideInPageTOC',
-			// '--hideMembersSymbol',
 			'--baseUrl',
 			'/docs/core/api/',
 			'--out',
 			docs.resolve(outPath),
-			// '--entryPointStrategy',
-			// 'packages',
-			// ...entrypoints,
 			ws.resolve(ws.packageJson.main!),
 		],
 		opts: {
@@ -56,7 +49,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const fixFiles = logger.createStep('Fix doc URLs');
 	for (const doc of outFiles) {
 		const contents = await file.read(docs.resolve(outPath, doc), 'r', { step: fixFiles });
-		let out = contents.replace(/index\.md(#[^)]+)?/g, '$1').replace(/\.md(#[^)]+)?/g, '/$1');
+		let out = contents.replace(/api\.md(#[^)]+)?/g, '$1').replace(/\.md(#[^)]+)?/g, '/$1');
 		out = `---
 title: "API: ${doc.replace('.md', '')}"
 ---

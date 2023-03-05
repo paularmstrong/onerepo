@@ -2,7 +2,7 @@
 import Docs from '../../../../layouts/Docs.astro';
 import TableOfContents from '../../../../components/TableOfContents.astro';
 
-const [api] = await Astro.glob('../../../../api/index.md');
+const [api] = await Astro.glob('../../../../api/api.md');
 const {
 	frontmatter: { title, description },
 	Content,
