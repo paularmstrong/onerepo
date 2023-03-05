@@ -1,0 +1,14 @@
+{
+	"name": "@internal/changeset-changelog",
+	"private": true,
+	"type": "module",
+	"main": "./src/index.ts",
+	"devDependencies": {
+		"@changesets/parse": "^0.3.16",
+		"@changesets/types": "^5.2.1",
+		"@internal/tsconfig": "workspace:^"
+	},
+	"dependencies": {
+		"@changesets/get-github-info": "^0.5.2"
+	}
+}
