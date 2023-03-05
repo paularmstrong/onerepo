@@ -19,7 +19,6 @@ export const builder: Builder<Argv> = (yargs) =>
 	withAllInputs(yargs)
 		.usage('$0 add [options]')
 		.option('add', {
-			alias: ['update-index'],
 			description: 'Add the modified `package.json` files to the git stage for committing.',
 			type: 'boolean',
 			default: true,

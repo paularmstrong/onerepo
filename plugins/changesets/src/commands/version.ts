@@ -28,8 +28,8 @@ export const builder: Builder<Argv> = (yargs) =>
 			description: 'Bypass checks to ensure no local changes before publishing.',
 		})
 		.option('add', {
-			alias: ['update-index'],
-			description: 'Add the modified `package.json` files to the git stage for committing.',
+			description:
+				'Add the modified files like `package.json` and `CHANGELOG.md` files to the git stage for committing.',
 			type: 'boolean',
 			default: true,
 		});
