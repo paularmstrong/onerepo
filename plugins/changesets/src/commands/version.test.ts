@@ -101,4 +101,36 @@ describe('handler', () => {
 		expect(applyReleasePlan.default).not.toHaveBeenCalled();
 		expect(git.updateIndex).not.toHaveBeenCalled();
 	});
+
+	test('when changesets affect un-selected workspaces, prompts for okay to version those as well', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
+		vi.spyOn(inquirer, 'prompt')
+			.mockResolvedValueOnce({ choices: ['churros'] })
+			.mockResolvedValueOnce({ okay: true });
+		await run('', { graph });
+
+		expect(applyReleasePlan.default).toHaveBeenCalledWith(
+			expect.objectContaining({
+				changesets: [expect.objectContaining({ id: 'baz-bop-qux' }), expect.objectContaining({ id: 'foo-bar-baz' })],
+				releases: expect.arrayContaining([
+					expect.objectContaining({ name: 'tortillas' }),
+					expect.objectContaining({ name: 'burritos' }),
+					expect.objectContaining({ name: 'churros' }),
+					expect.objectContaining({ name: 'tacos' }),
+				]),
+			}),
+			expect.any(Object),
+			expect.any(Object)
+		);
+	});
+
+	test('when changesets affect un-selected workspaces, can exit at okay prompt', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
+		vi.spyOn(inquirer, 'prompt')
+			.mockResolvedValueOnce({ choices: ['churros'] })
+			.mockResolvedValueOnce({ okay: false });
+		await run('', { graph });
+
+		expect(applyReleasePlan.default).not.toHaveBeenCalled();
+	});
 });

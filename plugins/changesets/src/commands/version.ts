@@ -7,6 +7,8 @@ import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
 import type { Builder, Handler } from '@onerepo/types';
 import { getStatus, updateIndex } from '@onerepo/git';
+import type { LogStep } from '@onerepo/logger';
+import type { NewChangeset } from '@changesets/types';
 
 export const command = 'version';
 
@@ -51,6 +53,8 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		await cleanStep.end();
 	}
 
+	const requestStep = logger.createStep('Get changesets');
+
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
 	);
@@ -70,6 +74,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 
 	const available = Array.from(names).sort();
 
+	logger.pause();
 	const { choices } = await inquirer.prompt([
 		{
 			type: 'checkbox',
@@ -82,24 +87,66 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			pageSize: available.length,
 		},
 	]);
+	logger.unpause();
 
 	if (choices.length === 0) {
-		logger.warn('No workspaces were selected. Nothing to do.');
+		requestStep.warn('No workspaces were selected. Nothing to do.');
 		return;
 	}
 
-	const affectedChoices = graph.dependencies(choices, true).map(({ name }) => name);
+	const choiceDependencies = graph
+		.dependencies(choices, true)
+		.filter((ws) => !ws.private)
+		.map(({ name }) => name);
 
-	const filteredChangesets = changesets.filter(({ releases }) => {
-		return releases.some(({ name }) => affectedChoices.includes(name));
-	});
+	if (choiceDependencies.length !== choices.length) {
+		requestStep.warn(
+			`The following dependencies will also be versioned:\n${choiceDependencies
+				.filter((name) => !choices.includes(name))
+				.sort()
+				.map((name) => ` - ${name}`)
+				.join('\n')}`
+		);
+	}
+
+	await requestStep.end();
+
+	const filterStep = logger.createStep('Filter changesets');
+	const { filteredChangesets, affectedChoices } = filterChangesets(changesets, choiceDependencies, filterStep);
 
 	if (!filteredChangesets.length) {
 		logger.error(`There are no changesets available for ${choices.join(', ')}`);
 		return;
 	}
 
-	logger.debug(`Found changesets:\n${JSON.stringify(filteredChangesets)}`);
+	filterStep.debug(`Found changesets:\n${JSON.stringify(filteredChangesets)}`);
+
+	if (affectedChoices.length !== choiceDependencies.length) {
+		logger.pause();
+		const { okay } = await inquirer.prompt([
+			{
+				type: 'confirm',
+				name: 'okay',
+				message: `Due to changesets related to multiple workspaces not chosen, the following ${pc.red(
+					'also'
+				)} need to be published!\n${pc.dim(
+					affectedChoices
+						.filter((name) => !choiceDependencies.includes(name))
+						.sort()
+						.map((name) => name)
+						.join(', ')
+				)}\nIs it okay to proceed?`,
+			},
+		]);
+		logger.unpause();
+
+		if (!okay) {
+			await filterStep.end();
+			process.exitCode = 1;
+			return;
+		}
+	}
+	await filterStep.end();
 
 	const releasePlan = assembleReleasePlan(filteredChangesets, packages, config, undefined);
 
@@ -118,3 +165,28 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		await updateIndex([graph.root.resolve('.changeset'), ...files]);
 	}
 };
+
+function filterChangesets(
+	changesets: Array<NewChangeset>,
+	affectedChoices: Array<string>,
+	step: LogStep
+): { filteredChangesets: Array<NewChangeset>; affectedChoices: Array<string> } {
+	const filteredChangesets = changesets.filter(({ releases }) => {
+		return releases.some(({ name }) => affectedChoices.includes(name));
+	});
+
+	const needed = new Set<string>();
+	for (const { releases, id } of filteredChangesets) {
+		releases.forEach(({ name }) => {
+			if (!affectedChoices.includes(name)) {
+				step.debug(`"${name}" was found in changeset "${id}" but is not included for publish. Adding it now.`);
+				needed.add(name);
+			}
+		});
+	}
+	if (needed.size > 0) {
+		return filterChangesets(changesets, [...affectedChoices, ...Array.from(needed)], step);
+	}
+
+	return { filteredChangesets, affectedChoices };
+}
