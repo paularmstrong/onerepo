@@ -5,7 +5,7 @@ import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import { read as readConfig } from '@changesets/config';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { getStatus, updateIndex } from '@onerepo/git';
 import type { LogStep } from '@onerepo/logger';
 import type { NewChangeset } from '@changesets/types';

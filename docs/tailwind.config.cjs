@@ -34,6 +34,9 @@ module.exports = {
 						zIndex: '-1',
 						inset: `-${theme('spacing.2')}`,
 					},
+					'pre > code[data-language]': {
+						padding: theme('spacing.4'),
+					},
 					'[data-line-numbers]': {
 						counterReset: 'line',
 						'& .line::before': {

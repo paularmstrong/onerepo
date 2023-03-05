@@ -1,10 +1,13 @@
 /** @type import('typedoc').TypeDocOptions */
 module.exports = {
+	categorizeByGroup: true,
+	excludeInternal: true,
 	excludePrivate: true,
 	githubPages: false,
 	hideGenerator: true,
 	readme: 'none',
 	sourceLinkTemplate: 'https://github.com/paularmstrong/onerepo/blob/main/{path}#L{line}',
+	symbolsWithOwnFile: ['class', 'interface'],
 	kindSortOrder: [
 		'Reference',
 		'Project',
@@ -12,12 +15,12 @@ module.exports = {
 		'Namespace',
 		'Enum',
 		'EnumMember',
+		'Variable',
+		'Function',
 		'Class',
 		'Interface',
 		'Constructor',
 		'Property',
-		'Variable',
-		'Function',
 		'TypeAlias',
 		'Accessor',
 		'Method',

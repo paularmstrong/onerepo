@@ -1,7 +1,10 @@
 import path from 'node:path';
-import type { Plugin } from '@onerepo/core';
+import type { Plugin } from '../../types';
 import * as cmd from './commands/generate';
 
+/**
+ * @group Core
+ */
 export type Options = {
 	name?: string | Array<string>;
 	templatesDir: string;

@@ -3,9 +3,8 @@ import minimatch from 'minimatch';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
-import type { WithAllInputs } from '@onerepo/builders';
-import { withAllInputs } from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/types';
+import { builders } from '@onerepo/builders';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { logger } from '@onerepo/logger';
 
 export const command = 'prettier';
@@ -15,10 +14,11 @@ export const description = 'Format files with prettier';
 type Args = {
 	add?: boolean;
 	check?: boolean;
-} & WithAllInputs;
+} & builders.WithAllInputs;
 
 export const builder: Builder<Args> = (yargs) =>
-	withAllInputs(yargs)
+	builders
+		.withAllInputs(yargs)
 		.option('add', {
 			type: 'boolean',
 			description: 'Add modified files after write',

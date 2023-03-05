@@ -5,13 +5,22 @@ import * as subprocess from '@onerepo/subprocess';
 
 const { run } = getCommand(Vitest);
 
+const modified = {
+	all: [],
+	added: [],
+	modified: [],
+	deleted: [],
+	moved: [],
+	unknown: [],
+};
+
 describe('handler', () => {
 	beforeEach(() => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['foo.js', 'bar/baz.js'] });
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js', 'bar/baz.js'] });
 		await run('');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -34,7 +43,7 @@ describe('handler', () => {
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ all: ['foo.js'] });
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js'] });
 
 		await run('--inspect');
 

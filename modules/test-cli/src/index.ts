@@ -3,12 +3,11 @@ import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
-import { getAffected, getFilepaths, getWorkspaces } from '@onerepo/builders';
-import type { GetterArgv } from '@onerepo/builders';
+import { getters } from '@onerepo/builders';
+import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
-import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/types';
 import { getGraph } from '@onerepo/graph';
 
 const testRunner: typeof vitest =
@@ -74,11 +73,11 @@ export async function runHandler<R = Record<string, unknown>>(
 	logger.verbosity = 0;
 	const argv = await runBuilder(builder, cmd);
 
-	const wrappedGetAffected = (opts?: Parameters<typeof getAffected>[1]) => getAffected(graph, opts);
-	const wrappedGetWorkspaces = (opts?: Parameters<typeof getWorkspaces>[2]) =>
-		getWorkspaces(graph, argv as GetterArgv, opts);
-	const wrappedGetFilepaths = (opts?: Parameters<typeof getFilepaths>[2]) =>
-		getFilepaths(graph, argv as GetterArgv, opts);
+	const wrappedGetAffected = (opts?: Parameters<typeof getters.affected>[1]) => getters.affected(graph, opts);
+	const wrappedGetWorkspaces = (opts?: Parameters<typeof getters.workspaces>[2]) =>
+		getters.workspaces(graph, argv as getters.Argv, opts);
+	const wrappedGetFilepaths = (opts?: Parameters<typeof getters.filepaths>[2]) =>
+		getters.filepaths(graph, argv as getters.Argv, opts);
 
 	await handler(argv, {
 		logger,

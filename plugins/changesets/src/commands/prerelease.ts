@@ -6,7 +6,7 @@ import type { Package, Packages } from '@manypkg/get-packages';
 import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
 import { batch, run } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { getStatus } from '@onerepo/git';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
 

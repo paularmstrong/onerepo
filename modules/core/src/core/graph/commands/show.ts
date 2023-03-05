@@ -1,9 +1,8 @@
 import pc from 'picocolors';
 import cliui from 'cliui';
-import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
-import { withAffected, withWorkspaces } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 import type { Serialized } from 'graph-data-structure';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'show';
 
@@ -11,11 +10,12 @@ export const description = 'Show the dependency graph.';
 
 type Args = {
 	format: 'mermaid' | 'plain' | 'json';
-} & WithAffected &
-	WithWorkspaces;
+} & builders.WithAffected &
+	builders.WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
-	withAffected(withWorkspaces(yargs))
+	builders
+		.withAffected(builders.withWorkspaces(yargs))
 		.usage('$0 show [options]')
 		.option('format', {
 			type: 'string',

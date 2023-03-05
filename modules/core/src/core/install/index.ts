@@ -1,6 +1,9 @@
-import type { Config, Plugin } from '@onerepo/core';
+import type { Config, Plugin } from '../../types';
 import * as cmd from './commands/install';
 
+/**
+ * @group Core
+ */
 export type Options = {
 	name?: string | Array<string>;
 };

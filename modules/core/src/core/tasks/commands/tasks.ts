@@ -1,13 +1,12 @@
 import path from 'node:path';
 import minimatch from 'minimatch';
-import type { Builder, Handler, Lifecycle, Task, Tasks } from '@onerepo/types';
-import type { Graph, Workspace } from '@onerepo/graph';
+import type { Builder, Handler } from '@onerepo/yargs';
+import type { Graph, Lifecycle, Task, Tasks, Workspace } from '@onerepo/graph';
 import { batch, run } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import { logger } from '@onerepo/logger';
-import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
-import { withAffected, withWorkspaces } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 
 export const command = 'tasks';
 
@@ -18,8 +17,8 @@ type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
-} & WithWorkspaces &
-	WithAffected;
+} & builders.WithWorkspaces &
+	builders.WithAffected;
 
 export const lifecycles: Array<Lifecycle> = [
 	'pre-commit',
@@ -43,7 +42,8 @@ export const lifecycles: Array<Lifecycle> = [
 ];
 
 export const builder: Builder<Argv> = (yargs) =>
-	withAffected(withWorkspaces(yargs))
+	builders
+		.withAffected(builders.withWorkspaces(yargs))
 		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
 		.epilogue(
 			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.'

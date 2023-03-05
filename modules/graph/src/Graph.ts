@@ -40,7 +40,7 @@ export class Graph {
 	#require: typeof require;
 
 	/**
-	 * @private
+	 * @internal
 	 */
 	constructor(location: string, packageJson: PrivatePackageJson, moduleRequire = require) {
 		this.#require = moduleRequire;
@@ -147,7 +147,7 @@ export class Graph {
 	 * const workspace = graph.getByName('my-cool-package');
 	 * ```
 	 *
-	 * @param name A Workspace’s [name](/docs/core/api/classes/Workspace/#name) or any available [aliases](/docs/core/api/classes/Workspace/#aliases).
+	 * @param name A Workspace’s {@link Workspace#name} or any available {@link Workspace#aliases}.
 	 */
 	getByName(name: string): Workspace {
 		if (this.#byName.has(name)) {
@@ -169,7 +169,7 @@ export class Graph {
 	 * const workspaces = graph.getAllByName(['tacos', 'burritos']);
 	 * ```
 	 *
-	 * @param names A list of workspace [names](/docs/core/api/classes/Workspace/#name) or any available [aliases](/docs/core/api/classes/Workspace/#aliases).
+	 * @param names A list of workspace {@link Workspace#name}s or any available {@link Workspace#aliases}.
 	 */
 	getAllByName(names: Array<string>): Array<Workspace> {
 		return names.map((name) => this.getByName(name)).filter(Boolean) as Array<Workspace>;

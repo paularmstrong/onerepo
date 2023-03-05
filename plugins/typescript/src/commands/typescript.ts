@@ -1,19 +1,19 @@
 import { existsSync } from 'node:fs';
-import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
-import { withAffected, withWorkspaces } from '@onerepo/builders';
+import { builders } from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
 import { batch } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
 
 export const command = ['tsc', 'typescript', 'typecheck'];
 
 export const description = 'Run typescript checking across workspaces';
 
-type Argv = { tsconfig: string } & WithWorkspaces & WithAffected;
+type Argv = { tsconfig: string } & builders.WithWorkspaces & builders.WithAffected;
 
 export const builder: Builder<Argv> = (yargs) =>
-	withAffected(withWorkspaces(yargs))
+	builders
+		.withAffected(builders.withWorkspaces(yargs))
 		.option('tsconfig', {
 			type: 'string',
 			default: 'tsconfig.json',

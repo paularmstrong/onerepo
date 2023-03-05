@@ -1,6 +1,9 @@
 import path from 'node:path';
-import type { Config, Plugin } from '@onerepo/core';
+import type { Config, Plugin } from '../../types';
 
+/**
+ * @group Core
+ */
 export type Options = {
 	name?: string | Array<string>;
 	customSchema?: string;

@@ -4,7 +4,7 @@ import { LogStep } from './LogStep';
 
 type LogUpdate = typeof logUpdate;
 
-export interface LoggerOptions {
+interface LoggerOptions {
 	/**
 	 * Verbosity ranges from 0 to 5
 	 *
@@ -34,6 +34,8 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  * ```ts
  * import { logger } from 'onerepo';
  * ```
+ *
+ * @group Logger
  */
 export class Logger {
 	#logger: LogStep;
@@ -45,6 +47,9 @@ export class Logger {
 	#paused = false;
 	#updaterTimeout: NodeJS.Timeout | undefined;
 
+	/**
+	 * @internal
+	 */
 	constructor(options: LoggerOptions) {
 		this.verbosity = options.verbosity;
 
@@ -82,9 +87,9 @@ export class Logger {
 	}
 
 	/**
-	 * When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and [`unpause()`](#unpause) when complete.
+	 * When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and {@link Logger#unpause} when complete.
 	 *
-	 * This process is also automated by the [`run()`](/docs/core/api/public/#run) function when `stdio` is set to `pipe`.
+	 * This process is also automated by the {@link run} function when `stdio` is set to `pipe`.
 	 *
 	 * ```ts
 	 * logger.pause();
@@ -99,7 +104,7 @@ export class Logger {
 	}
 
 	/**
-	 * See [`pause`](#pause) for more information.
+	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause} for more information.
 	 */
 	unpause() {
 		this.#updater.clear();
@@ -124,13 +129,15 @@ export class Logger {
 	}
 
 	/**
-	 * Create a sub-step, [`LogStep`](/docs/core/api/classes/LogStep/), for the logger. This and any other step will be tracked and required to finish before exit.
+	 * Create a sub-step, {@link LogStep}, for the logger. This and any other step will be tracked and required to finish before exit.
 	 *
 	 * ```ts
 	 * const step = logger.createStep('Do fun stuff');
 	 * // do some work
 	 * await step.end();
 	 * ```
+	 *
+	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
 	createStep(name: string) {
 		const step = new LogStep(name, { onEnd: this.#onEnd, onError: this.#onError, verbosity: this.verbosity });
@@ -140,40 +147,59 @@ export class Logger {
 	}
 
 	/**
-	 * This is a pass-through for the main step’s [`log()` method](/docs/core/api/classes/LogStep/#log).
+	 * Log an error. This will cause the root logger to include an error and fail a command. This is a pass-through for the main step’s {@link LogStep#log} method.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
 		this.#logger.log(contents);
 	}
 
 	/**
-	 * This is a pass-through for the main step’s [`error()` method](/docs/core/api/classes/LogStep/#error).
+	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error} method.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
 		this.#logger.error(contents);
 	}
 
 	/**
-	 * This is a pass-through for the main step’s [`warn()` method](/docs/core/api/classes/LogStep/#warn).
+	 * Log general information. This is a pass-through for the main step’s {@link LogStep#warn} method.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
 		this.#logger.warn(contents);
 	}
 
 	/**
-	 * This is a pass-through for the main step’s [`debug()` method](/docs/core/api/classes/LogStep/#debug).
+	 * Extra debug logging when verbosity greater than or equal to 4. This is a pass-through for the main step’s {@link LogStep#debug} method.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	debug(contents: unknown) {
 		this.#logger.debug(contents);
 	}
 
 	/**
-	 * This is a pass-through for the main step’s [`timing()` method](/docs/core/api/classes/LogStep/#timing).
+	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options). This is a pass-through for the main step’s {@link LogStep#timing} method.
+	 *
+	 * @group Logging
+	 * @param start A `PerformanceMark` entry name
+	 * @param end A `PerformanceMark` entry name
 	 */
 	timing(start: string, end: string) {
 		this.#logger.timing(start, end);
 	}
 
+	/**
+	 * @internal
+	 */
 	async end() {
 		for (const step of this.#steps) {
 			this.#activate(step);

@@ -1,4 +1,4 @@
-/** @type import('onerepo').TaskConfig */
+/** @type import('onerepo').graph.TaskConfig */
 export default {
 	'pre-commit': {
 		sequential: [{ match: '**/*.{astro}', cmd: '$0 ws docs astro -- check' }],

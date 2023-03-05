@@ -1,4 +1,4 @@
-import type { Yargs } from '@onerepo/types';
+import type { Yargs } from '@onerepo/yargs';
 
 /**
  * Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getAffected`](#getaffected), [`getFiles`](#getfiles), and [`getWorkspaces`](#getworkspaces).
@@ -10,9 +10,11 @@ import type { Yargs } from '@onerepo/types';
  *
  * See [`WithAffected`](#withaffected-1) for type safety.
  *
- * ```js
- * export const builder = (yargs) => withAffected(yargs);
+ * ```js title="commands/mycommand.js"
+ * export const builder = (yargs) => builders.withAffected(yargs);
  * ```
+ *
+ * @group Builder
  */
 export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs
@@ -43,13 +45,15 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 /**
  * To be paired with the [`withAffected()` builder](#withaffected). Adds types for arguments parsed.
  *
- * ```ts
- * type Argv = WithAffected & {
+ * ```ts title="commands/mycommand.ts"
+ * type Argv = builders.WithAffected & {
  *   // ...
  * };
  *
- * export const builder: Builder<Argv> = (yargs) => withAffected(yargs);
+ * export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
  * ```
+ *
+ * @group Builder
  */
 export type WithAffected = {
 	/**

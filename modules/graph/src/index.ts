@@ -12,7 +12,7 @@ const PackageCache = new Map<string, PackageJson>();
 const require = createRequire('/');
 
 /**
- * @private
+ * @internal
  */
 export function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
@@ -20,7 +20,7 @@ export function getGraph(workingDir: string = process.cwd()) {
 }
 
 /**
- * @private
+ * @internal
  */
 export function getRootPackageJson(searchLocation: string): { filePath: string; json: PrivatePackageJson } {
 	let currLocation = searchLocation;

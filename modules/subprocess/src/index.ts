@@ -6,6 +6,9 @@ import { Transform } from 'node:stream';
 import { logger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
+/**
+ * @group Subprocess
+ */
 export interface RunSpec {
 	/**
 	 * A friendly name for the Step
@@ -28,8 +31,6 @@ export interface RunSpec {
 /**
  * Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one [`run()`](#run) or [`batch()`](#batch) processes.
  *
- * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
- *
  * ```ts
  * await run({
  * 	 name: 'Do some work',
@@ -37,6 +38,9 @@ export interface RunSpec {
  *   args: ['"hello!"']
  * });
  * ```
+ *
+ * @group Subprocess
+ * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
@@ -132,6 +136,8 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 
 /**
  * Start a subprocess. For use when control over watching the stdout and stderr or long-running processes that are not expected to complete without SIGINT/SIGKILL.
+ *
+ * @group Subprocess
  */
 export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	const { args = [], cmd, opts = {} } = options;
@@ -166,6 +172,8 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
  * 	reason: 'When prompted, please type your password and hit [RETURN] to allow `thing` to be run later',
  * });
  * ```
+ *
+ * @group Subprocess
  */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const log = logger.createStep(options.name);
@@ -226,6 +234,8 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  *
  * expect(results).toEqual([['hello', ''], ['world', '']]);
  * ```
+ *
+ * @group Subprocess
  */
 export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];
@@ -280,12 +290,18 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 	});
 }
 
+/**
+ * @internal
+ */
 export class SubprocessError extends Error {
 	constructor(message: string, options?: ErrorOptions) {
 		super(message, options);
 	}
 }
 
+/**
+ * @internal
+ */
 export class BatchError extends Error {
 	errors: Array<string | SubprocessError> = [];
 	constructor(errors: Array<string | SubprocessError>, options?: ErrorOptions) {

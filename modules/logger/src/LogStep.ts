@@ -9,7 +9,15 @@ type StepOptions = {
 };
 
 /**
+ * Log steps should only be created via the {@link Logger#createStep} method.
  *
+ * ```ts
+ * const step = logger.createStep('Do some work');
+ * // ... long task with a bunch of potential output
+ * await step.end();
+ * ```
+ *
+ * @group Logger
  */
 export class LogStep {
 	#name: string;
@@ -22,9 +30,14 @@ export class LogStep {
 
 	/**
 	 * Whether or not this step has logged an error.
+	 *
+	 * @internal
 	 */
 	hasError = false;
 
+	/**
+	 * @internal
+	 */
 	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
 		performance.mark(`start_${name || 'logger'}`);
 		this.#verbosity = verbosity;
@@ -37,32 +50,48 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * @internal
+	 */
 	get name() {
 		return this.#name;
 	}
 
+	/**
+	 * @internal
+	 */
 	get active() {
 		return this.#active;
 	}
 
 	/**
 	 * While buffering logs, returns the status line and last 3 lines of buffered output.
+	 *
+	 * @internal
 	 */
 	get status(): Array<string> {
 		return [this.#prefixStart(this.name), ...this.#lastThree];
 	}
 
+	/**
+	 * @internal
+	 */
 	set verbosity(verbosity: number) {
 		this.#verbosity = verbosity;
 		this.activate();
 	}
 
+	/**
+	 * @internal
+	 */
 	get verbosity() {
 		return this.#verbosity;
 	}
 
 	/**
 	 * Activate a step. This is typically only called from within the root `Logger` instance and should not be done manually.
+	 *
+	 * @internal
 	 */
 	activate(enableWrite = !process.stderr.isTTY) {
 		if (this.#active) {
@@ -85,7 +114,7 @@ export class LogStep {
 	}
 
 	/**
-	 * Finish this step and flush all buffered logs.
+	 * Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
 	 *
 	 * ```ts
 	 * await step.end();
@@ -106,6 +135,9 @@ export class LogStep {
 		return this.#onEnd(this);
 	}
 
+	/**
+	 * @internal
+	 */
 	async flush(): Promise<void> {
 		this.#active = true;
 		if (process.stderr.isTTY) {
@@ -122,7 +154,10 @@ export class LogStep {
 	}
 
 	/**
-	 * Log an error. This will cause the root logger to include an error and fail a command
+	 * Log an error. This will cause the root logger to include an error and fail a command.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
 		this.hasError = true;
@@ -133,6 +168,12 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * Log a warning. Does not have any effect on the command run, but will be called out.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
 	warn(contents: unknown) {
 		if (this.verbosity >= 2) {
 			const prefix = pc.yellow(pc.bold('WRN'));
@@ -140,6 +181,12 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * Log general information.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
 	log(contents: unknown) {
 		if (this.verbosity >= 3) {
 			const prefix = pc.cyan(pc.bold('LOG'));
@@ -147,6 +194,12 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * Extra debug logging when verbosity greater than or equal to 4.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
 	debug(contents: unknown) {
 		if (this.verbosity >= 4) {
 			const prefix = pc.magenta(pc.bold('DBG'));
@@ -154,6 +207,13 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
+	 *
+	 * @group Logging
+	 * @param start A `PerformanceMark` entry name
+	 * @param end A `PerformanceMark` entry name
+	 */
 	timing(start: string, end: string) {
 		if (this.verbosity >= 5) {
 			this.#writeStream(
