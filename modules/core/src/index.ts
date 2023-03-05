@@ -20,15 +20,15 @@ import type { Options as TasksOptions } from './core/tasks';
 
 export type { GraphSchemaValidators } from './core/graph';
 
-type CoreOptions = {
-	generate?: GenerateOptions | false;
-	graph?: GraphOptions | false;
-	install?: InstallOptions | false;
-	tasks?: TasksOptions | false;
-};
+/**
+ * @group Config
+ */
+export type { GenerateOptions, GraphOptions, InstallOptions, TasksOptions };
 
-export type PluginPrePostHandler = (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
-type PluginObject = {
+/**
+ * @group Config
+ */
+export interface PluginObject {
 	/**
 	 * A function that is called with the CLI's `yargs` object and a visitor.
 	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
@@ -37,22 +37,37 @@ type PluginObject = {
 	/**
 	 * Run before any command `handler` function is invoked
 	 */
-	preHandler?: PluginPrePostHandler;
+	preHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
 	/**
 	 * Run after any command `handler` function is finished
 	 */
-	postHandler?: PluginPrePostHandler;
+	postHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
+}
+
+/**
+ * @group Config
+ */
+export type CoreConfig = {
+	generate?: GenerateOptions | false;
+	graph?: GraphOptions | false;
+	install?: InstallOptions | false;
+	tasks?: TasksOptions | false;
 };
+
+/**
+ * @group Config
+ */
 export type Plugin = PluginObject | ((config: Config) => PluginObject);
 
 /**
  * Setup configuration for the oneRepo command-line interface.
+ * @group Config
  */
-export interface Config {
+export type Config = {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
 	 */
-	core?: CoreOptions;
+	core?: CoreConfig;
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 */
@@ -82,7 +97,7 @@ export interface Config {
 	 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 	 */
 	subcommandDir?: string | false;
-}
+};
 
 // NB: process.env vars can ONLY be strings
 process.env.ONE_REPO_ROOT = process.cwd();
@@ -103,8 +118,13 @@ const defaultConfig: Required<Config> = {
 
 /**
  * Command-line application returned from setup
+ *
+ * ```js
+ * const setup().then(({ run }) => run());
+ * ```
+ * @group Setup
  */
-export interface App {
+export type App = {
 	/**
 	 * (advanced) Further extend the yargs object before running the command handler.
 	 */
@@ -113,7 +133,7 @@ export interface App {
 	 * Run the command handler.
 	 */
 	run: () => Promise<void>;
-}
+};
 
 /**
  * Set up and run your command-line interface.
@@ -124,6 +144,8 @@ export interface App {
  * 	// ...config
  * }).then(({ run }) => run());
  * ```
+ *
+ * @group Setup
  */
 export async function setup(config: Config = {}): Promise<App> {
 	performance.mark('one_startup');
@@ -137,11 +159,11 @@ export async function setup(config: Config = {}): Promise<App> {
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 
-	const pre: Array<PluginPrePostHandler> = [];
+	const pre: Array<NonNullable<PluginObject['preHandler']>> = [];
 	async function preHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
 		await Promise.all(pre.map((fn) => fn(argv, extra)));
 	}
-	const post: Array<PluginPrePostHandler> = [];
+	const post: Array<NonNullable<PluginObject['postHandler']>> = [];
 	async function postHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
 		await Promise.all(post.map((fn) => fn(argv, extra)));
 	}

@@ -1,6 +1,9 @@
 import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/tasks';
 
+/**
+ * @group Config
+ */
 export type Options = {
 	ignore?: Array<string>;
 	lifecycles?: Array<string>;

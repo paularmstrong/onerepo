@@ -2,20 +2,16 @@
 import Docs from '../../../../layouts/Docs.astro';
 import TableOfContents from '../../../../components/TableOfContents.astro';
 
-const [main] = await Astro.glob('./index.md');
+const [api] = await Astro.glob('../../../../api/index.md');
 const {
 	frontmatter: { title, description },
 	Content,
 	getHeadings,
-} = main;
-
-const [api] = await Astro.glob('../../../../api/index.md');
-const { Content: ApiContent } = api;
+} = api;
 ---
 
 <Docs title={title} description={description}>
 	<Content />
-	<ApiContent />
 
 	<TableOfContents slot="toc" headings={getHeadings} />
 </Docs>

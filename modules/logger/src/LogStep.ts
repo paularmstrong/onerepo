@@ -16,6 +16,8 @@ type StepOptions = {
  * // ... long task with a bunch of potential output
  * await step.end();
  * ```
+ *
+ * @group Logger
  */
 export class LogStep {
 	#name: string;
@@ -154,7 +156,7 @@ export class LogStep {
 	/**
 	 * Log an error. This will cause the root logger to include an error and fail a command.
 	 *
-	 * @category Log
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
@@ -169,7 +171,7 @@ export class LogStep {
 	/**
 	 * Log a warning. Does not have any effect on the command run, but will be called out.
 	 *
-	 * @category Log
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
@@ -182,7 +184,7 @@ export class LogStep {
 	/**
 	 * Log general information.
 	 *
-	 * @category Log
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
@@ -195,7 +197,7 @@ export class LogStep {
 	/**
 	 * Extra debug logging when verbosity greater than or equal to 4.
 	 *
-	 * @category Log
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	debug(contents: unknown) {
@@ -208,7 +210,7 @@ export class LogStep {
 	/**
 	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
 	 *
-	 * @category Log
+	 * @group Logging
 	 * @param start A `PerformanceMark` entry name
 	 * @param end A `PerformanceMark` entry name
 	 */

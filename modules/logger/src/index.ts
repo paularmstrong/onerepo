@@ -20,6 +20,8 @@ export * from './LogStep';
  * 	logger.log('Hello!');
  * };
  * ```
+ *
+ * @group Logger
  */
 export const logger = new Logger({ verbosity: 0 });
 
@@ -29,7 +31,7 @@ type WrapperArgs = {
 };
 
 /**
- * @internal
+ * @group Logger
  */
 export async function stepWrapper<T>(
 	{ name, step: inputStep }: WrapperArgs,

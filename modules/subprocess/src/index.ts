@@ -1,13 +1,3 @@
-/**
- * All `@onerepo/subprocess` exports are re-exported from the `onerepo` module:
- *
- * ```ts
- * import { batch, run } from 'onerepo';
- * ```
- *
- * @module
- */
-
 import { performance } from 'node:perf_hooks';
 import { exec, execSync, spawn } from 'node:child_process';
 import os from 'node:os';
@@ -17,7 +7,7 @@ import { logger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
 /**
- * @category Subprocess
+ * @group Subprocess
  */
 export interface RunSpec {
 	/**
@@ -49,7 +39,7 @@ export interface RunSpec {
  * });
  * ```
  *
- * @category Subprocess
+ * @group Subprocess
  * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
@@ -147,7 +137,7 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 /**
  * Start a subprocess. For use when control over watching the stdout and stderr or long-running processes that are not expected to complete without SIGINT/SIGKILL.
  *
- * @category Subprocess
+ * @group Subprocess
  */
 export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	const { args = [], cmd, opts = {} } = options;
@@ -183,7 +173,7 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
  * });
  * ```
  *
- * @category Subprocess
+ * @group Subprocess
  */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const log = logger.createStep(options.name);
@@ -245,7 +235,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  * expect(results).toEqual([['hello', ''], ['world', '']]);
  * ```
  *
- * @category Subprocess
+ * @group Subprocess
  */
 export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];
@@ -301,7 +291,7 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 }
 
 /**
- * @category Subprocess
+ * @group Subprocess
  */
 export class SubprocessError extends Error {
 	constructor(message: string, options?: ErrorOptions) {
@@ -310,7 +300,7 @@ export class SubprocessError extends Error {
 }
 
 /**
- * @category Subprocess
+ * @group Subprocess
  */
 export class BatchError extends Error {
 	errors: Array<string | SubprocessError> = [];

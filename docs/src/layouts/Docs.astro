@@ -28,7 +28,9 @@ const { description, title, headings } = Astro.props;
 			</Prose>
 		</main>
 		<div class="col-span-2 hidden xl:block">
-			{headings ? <TableOfContents slot="toc" headings={headings} /> : <slot name="toc" />}
+			<div class="sticky top-24 max-h-screen overflow-y-scroll overscroll-contain pb-32">
+				{headings ? <TableOfContents slot="toc" headings={headings} /> : <slot name="toc" />}
+			</div>
 		</div>
 	</div>
 </Layout>

@@ -6,7 +6,7 @@ import { getModifiedFiles } from '@onerepo/git';
 import type { GetterOptions } from '@onerepo/types';
 
 /**
- * @category Getter
+ * @group Getter
  */
 export type Argv = {
 	/**
@@ -43,7 +43,7 @@ export type Argv = {
  * };
  * ```
  *
- * @category Getter
+ * @group Getter
  */
 export function affected(graph: Graph, { from, ignore, through, step }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
@@ -91,7 +91,7 @@ export function affected(graph: Graph, { from, ignore, through, step }: GetterOp
  * };
  * ```
  *
- * @category Getter
+ * @group Getter
  */
 export async function workspaces(
 	graph: Graph,
@@ -155,7 +155,7 @@ export async function workspaces(
  * };
  * ```
  *
- * @category Getter
+ * @group Getter
  */
 export async function filepaths(graph: Graph, argv: Argv, { step, from, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {

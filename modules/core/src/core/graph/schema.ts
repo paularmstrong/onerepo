@@ -1,5 +1,8 @@
 import type { Schema } from 'ajv';
 
+/**
+ * @internal
+ */
 export type GraphSchemaValidators = Record<string, Record<string, Schema>>;
 
 const defaultSchema = {

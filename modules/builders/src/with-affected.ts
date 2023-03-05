@@ -14,7 +14,7 @@ import type { Yargs } from '@onerepo/types';
  * export const builder = (yargs) => builders.withAffected(yargs);
  * ```
  *
- * @category Builder
+ * @group Builder
  */
 export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs
@@ -53,7 +53,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
  * export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
  * ```
  *
- * @category Builder
+ * @group Builder
  */
 export type WithAffected = {
 	/**

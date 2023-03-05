@@ -10,7 +10,7 @@ import type { Yargs } from '@onerepo/types';
  * export const builder = (yargs) => builders.withFiles(yargs);
  * ```
  *
- * @category Builder
+ * @group Builder
  */
 export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 	yargs.option('files', {
@@ -32,7 +32,7 @@ export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
  * export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
  * ```
  *
- * @category Builder
+ * @group Builder
  */
 export type WithFiles = {
 	/**

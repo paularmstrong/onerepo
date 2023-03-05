@@ -17,7 +17,7 @@ import type { Graph, Workspace } from '@onerepo/graph';
 /**
  * Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#builder) and [`Handler`](#handler).
  *
- * @category Commands
+ * @group Commands
  */
 export type DefaultArgv = {
 	/**
@@ -37,7 +37,7 @@ export type DefaultArgv = {
 };
 
 /**
- * @category Commands
+ * @group Commands
  */
 export interface GetterOptions {
 	/**
@@ -59,7 +59,15 @@ export interface GetterOptions {
 }
 
 /**
- * @category Commands
+ * Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
+ *
+ * ```ts
+ * export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace, logger }) => {
+ * 	logger.warn('Nothing to do!');
+ * };
+ * ```
+ *
+ * @group Commands
  */
 export interface HandlerExtra {
 	/**
@@ -90,7 +98,7 @@ export interface HandlerExtra {
 /**
  * Always present in Builder and Handler arguments.
  *
- * @category Commands
+ * @group Commands
  */
 export interface DefaultArguments {
 	/**
@@ -109,7 +117,7 @@ export interface DefaultArguments {
 /**
  * Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
  *
- * @category Commands
+ * @group Commands
  */
 export type Arguments<T = object> = { [key in keyof T]: T[key] } & DefaultArguments;
 
@@ -123,7 +131,7 @@ export type Yargs<T = DefaultArgv> = Yargv<T>;
 /**
  * Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
  *
- * @category Commands
+ * @group Commands
  */
 export type Argv<T = object> = Arguments<T & DefaultArgv>;
 
@@ -143,7 +151,7 @@ export type Argv<T = object> = Arguments<T & DefaultArgv>;
  * 		});
  * ```
  *
- * @category Commands
+ * @group Commands
  */
 export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
 
@@ -160,12 +168,12 @@ export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
  * };
  * ```
  *
- * @category Commands
+ * @group Commands
  */
 export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
 
 /**
- * @category Tasks
+ * @group Tasks
  */
 export type TaskDef = {
 	/**
@@ -187,12 +195,12 @@ export type TaskDef = {
 /**
  * A Task can either be a string or TaskDef object with extra options.
  *
- * @category Tasks
+ * @group Tasks
  */
 export type Task = string | TaskDef;
 
 /**
- * @category Tasks
+ * @group Tasks
  */
 export type Tasks = {
 	sequential?: Array<Task>;
@@ -200,22 +208,22 @@ export type Tasks = {
 };
 
 /**
- * @category Tasks
+ * @group Tasks
  */
 export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
 
 /**
  * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle}
- * @category Tasks
+ * @group Tasks
  */
 export type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
 
 /**
- * @category Tasks
+ * @group Tasks
  */
 export type Lifecycle = MakeLifecycles<StandardLifecycles>;
 
 /**
- * @category Tasks
+ * @group Tasks
  */
 export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

@@ -1,3 +1,15 @@
+/**
+ * ```sh
+ * npm install --save onerepo
+ * ```
+ *
+ * ```sh
+ * yarn add onerepo
+ * ```
+ *
+ * @module
+ */
+
 export * from '@onerepo/core';
 export * from '@onerepo/logger';
 
@@ -10,6 +22,12 @@ export * as git from '@onerepo/git';
  */
 export * as file from '@onerepo/file';
 
+/**
+ * ```ts
+ * import { builders } from 'onerepo';
+ * ```
+ */
+export { builders, getters } from '@onerepo/builders';
+
 export * from '@onerepo/subprocess';
-export * from '@onerepo/builders';
 export * from '@onerepo/types';

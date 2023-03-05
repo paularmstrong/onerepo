@@ -4,6 +4,9 @@ import { LogStep } from './LogStep';
 
 type LogUpdate = typeof logUpdate;
 
+/**
+ * @group Logger
+ */
 export interface LoggerOptions {
 	/**
 	 * Verbosity ranges from 0 to 5
@@ -34,6 +37,8 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  * ```ts
  * import { logger } from 'onerepo';
  * ```
+ *
+ * @group Logger
  */
 export class Logger {
 	#logger: LogStep;
@@ -147,7 +152,7 @@ export class Logger {
 	/**
 	 * Log an error. This will cause the root logger to include an error and fail a command. This is a pass-through for the main step’s {@link LogStep#log} method.
 	 *
-	 * @category Logging
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
@@ -157,7 +162,7 @@ export class Logger {
 	/**
 	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error} method.
 	 *
-	 * @category Logging
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
@@ -167,7 +172,7 @@ export class Logger {
 	/**
 	 * Log general information. This is a pass-through for the main step’s {@link LogStep#warn} method.
 	 *
-	 * @category Logging
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
@@ -177,7 +182,7 @@ export class Logger {
 	/**
 	 * Extra debug logging when verbosity greater than or equal to 4. This is a pass-through for the main step’s {@link LogStep#debug} method.
 	 *
-	 * @category Logging
+	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	debug(contents: unknown) {
@@ -187,7 +192,7 @@ export class Logger {
 	/**
 	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options). This is a pass-through for the main step’s {@link LogStep#timing} method.
 	 *
-	 * @category Logging
+	 * @group Logging
 	 * @param start A `PerformanceMark` entry name
 	 * @param end A `PerformanceMark` entry name
 	 */

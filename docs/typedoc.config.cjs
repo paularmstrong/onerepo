@@ -1,5 +1,6 @@
 /** @type import('typedoc').TypeDocOptions */
 module.exports = {
+	categorizeByGroup: true,
 	excludeInternal: true,
 	excludePrivate: true,
 	githubPages: false,
@@ -13,12 +14,12 @@ module.exports = {
 		'Namespace',
 		'Enum',
 		'EnumMember',
+		'Variable',
+		'Function',
 		'Class',
 		'Interface',
 		'Constructor',
 		'Property',
-		'Variable',
-		'Function',
 		'TypeAlias',
 		'Accessor',
 		'Method',

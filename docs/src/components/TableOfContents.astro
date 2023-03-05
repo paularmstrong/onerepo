@@ -26,33 +26,37 @@ for (const h of typeof gotHeadings === 'function' ? gotHeadings() : gotHeadings)
 }
 ---
 
-<aside id="toc" aria-labelledby="#aside-title" class="sticky top-32">
-	<p id="aside-title" class="text-lg font-bold">On this page</p>
-	<nav aria-label="Page contents">
-		<ol class="flex flex-col">
-			{
-				headings.map(({ slug, text, headings }) => (
-					<li>
-						<a class="block rounded px-2 py-1 hover:bg-pink-700/60" href={`#${slug}`}>
-							{text}
-						</a>
-						{headings ? (
-							<ol class="ml-2 flex flex-col gap-1">
-								{headings.map(({ slug, text }) => (
-									<li>
-										<a class="block rounded px-2 hover:bg-pink-700/60" href={`#${slug}`}>
-											{text}
-										</a>
-									</li>
-								))}
-							</ol>
-						) : null}
-					</li>
-				))
-			}
-		</ol>
-	</nav>
-</aside>
+{
+	headings.length === 0 ? null : (
+		<aside id="toc" aria-labelledby="#aside-title">
+			<p id="aside-title" class="text-lg font-bold">
+				On this page
+			</p>
+			<nav aria-label="Page contents">
+				<ol class="flex flex-col">
+					{headings.map(({ slug, text, headings }) => (
+						<li>
+							<a class="block rounded px-2 py-1 hover:bg-pink-700/60" href={`#${slug}`}>
+								{text}
+							</a>
+							{headings ? (
+								<ol class="ml-2 flex flex-col gap-1">
+									{headings.map(({ slug, text }) => (
+										<li>
+											<a class="block rounded px-2 hover:bg-pink-700/60" href={`#${slug}`}>
+												{text}
+											</a>
+										</li>
+									))}
+								</ol>
+							) : null}
+						</li>
+					))}
+				</ol>
+			</nav>
+		</aside>
+	)
+}
 
 <script>
 	const elements = document.querySelectorAll('#toc nav li a');
