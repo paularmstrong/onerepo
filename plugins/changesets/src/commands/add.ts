@@ -1,6 +1,7 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
 import write from '@changesets/write';
+import { updateIndex } from '@onerepo/git';
 import type { WithAllInputs } from '@onerepo/builders';
 import { withAllInputs } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/types';
@@ -10,12 +11,18 @@ export const command = ['$0', 'add'];
 export const description = 'Add a changeset';
 
 type Argv = {
+	add: boolean;
 	type?: 'major' | 'minor' | 'patch';
 } & WithAllInputs;
 
 export const builder: Builder<Argv> = (yargs) =>
 	withAllInputs(yargs)
 		.usage('$0 add [options]')
+		.option('add', {
+			description: 'Add the modified `package.json` files to the git stage for committing.',
+			type: 'boolean',
+			default: true,
+		})
 		.option('type', {
 			type: 'string',
 			choices: ['major', 'minor', 'patch'] as const,
@@ -24,7 +31,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
-	const { type } = argv;
+	const { add, type } = argv;
 	logger.pause();
 
 	const workspaces = await getWorkspaces();
@@ -102,7 +109,7 @@ ${pc.dim(
 	logger.unpause();
 
 	const writeStep = logger.createStep('Write changeset');
-	await write(
+	const uniqueId = await write(
 		{
 			summary: contents,
 			releases: chosen.map((name: string) => ({ name, type: semverType })),
@@ -110,4 +117,8 @@ ${pc.dim(
 		graph.root.location
 	);
 	await writeStep.end();
+
+	if (add) {
+		await updateIndex(graph.root.resolve('.changeset', `${uniqueId}.md`));
+	}
 };

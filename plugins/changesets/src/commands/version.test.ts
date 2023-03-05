@@ -18,7 +18,23 @@ describe('handler', () => {
 		graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 		vi.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
+		vi.spyOn(git, 'getStatus').mockResolvedValue('');
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+	});
+
+	test('does nothing if git working tree is dirty', async () => {
+		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		await run('', { graph });
+
+		expect(inquirer.prompt).not.toHaveBeenCalled();
+		expect(applyReleasePlan.default).not.toHaveBeenCalled();
+	});
+
+	test('can bypass the dirty working state check', async () => {
+		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		await run('--allow-dirty', { graph });
+
+		expect(git.getStatus).not.toHaveBeenCalled();
 	});
 
 	test('prompts for all modules with changes only', async () => {
