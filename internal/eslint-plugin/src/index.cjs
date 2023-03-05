@@ -53,6 +53,9 @@ module.exports = {
 						'@typescript-eslint/no-non-null-assertion': 'off',
 						'@typescript-eslint/no-inferrable-types': 'off',
 						'@typescript-eslint/no-var-requires': 'off',
+
+						'@typescript-eslint/array-type': ['error', { default: 'generic', readonly: 'generic' }],
+						'@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
 					},
 					settings: {
 						react: {

@@ -627,6 +627,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@changesets/get-github-info@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "@changesets/get-github-info@npm:0.5.2"
+  dependencies:
+    dataloader: ^1.4.0
+    node-fetch: ^2.5.0
+  checksum: 067e07eeaecdbedbd1c715513c4aa6206a941bd1d3af292d067792808c6fa6644caad2b35fba614a44892559c031c234df8028f8d2abd4cb2682d48080ef5df3
+  languageName: node
+  linkType: hard
+
 "@changesets/get-release-plan@npm:^3.0.16":
   version: 3.0.16
   resolution: "@changesets/get-release-plan@npm:3.0.16"
@@ -1237,6 +1247,17 @@ __metadata:
   checksum: 17ee033e26a0fd82294de87eae76d32b553a130fdbf0fb8c70d39f2087a3e8a4a5908970a99aa32bd175153efe9b7dfee6b7f99df36f41abed08c1911dbdb19c
   languageName: node
   linkType: hard
+
+"@internal/changeset-changelog@workspace:internal/changeset-changelog":
+  version: 0.0.0-use.local
+  resolution: "@internal/changeset-changelog@workspace:internal/changeset-changelog"
+  dependencies:
+    "@changesets/get-github-info": ^0.5.2
+    "@changesets/parse": ^0.3.16
+    "@changesets/types": ^5.2.1
+    "@internal/tsconfig": "workspace:^"
+  languageName: unknown
+  linkType: soft
 
 "@internal/eslint-plugin@workspace:^, @internal/eslint-plugin@workspace:internal/eslint-plugin":
   version: 0.0.0-use.local
@@ -5752,6 +5773,13 @@ __metadata:
   version: 4.0.1
   resolution: "data-uri-to-buffer@npm:4.0.1"
   checksum: 0d0790b67ffec5302f204c2ccca4494f70b4e2d940fea3d36b09f0bb2b8539c2e86690429eb1f1dc4bcc9e4df0644193073e63d9ee48ac9fce79ec1506e4aa4c
+  languageName: node
+  linkType: hard
+
+"dataloader@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "dataloader@npm:1.4.0"
+  checksum: e2c93d43afde68980efc0cd9ff48e9851116e27a9687f863e02b56d46f7e7868cc762cd6dcbaf4197e1ca850a03651510c165c2ae24b8e9843fd894002ad0e20
   languageName: node
   linkType: hard
 
@@ -12319,7 +12347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.3.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.7":
+"node-fetch@npm:^2.3.0, node-fetch@npm:^2.5.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.7":
   version: 2.6.9
   resolution: "node-fetch@npm:2.6.9"
   dependencies:
