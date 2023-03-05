@@ -4,7 +4,7 @@ import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { logger } from '@onerepo/logger';
 
 export const command = 'prettier';

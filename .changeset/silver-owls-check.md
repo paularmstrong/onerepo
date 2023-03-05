@@ -8,7 +8,6 @@
 'onerepo': patch
 '@onerepo/subprocess': patch
 '@onerepo/test-cli': patch
-'@onerepo/types': patch
 '@onerepo/yargs': patch
 '@onerepo/plugin-changesets': patch
 '@onerepo/plugin-docgen': patch

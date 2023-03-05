@@ -1,6 +1,6 @@
 import { getModifiedFiles } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { builders } from '@onerepo/builders';
 
 export const command = 'vitest';

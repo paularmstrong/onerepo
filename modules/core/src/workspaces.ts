@@ -1,6 +1,6 @@
 import { existsSync, lstatSync } from 'node:fs';
 import type { Graph, Workspace } from '@onerepo/graph';
-import type { Yargs } from '@onerepo/types';
+import type { Yargs } from '@onerepo/yargs';
 
 export function workspaceBuilder(graph: Graph, dirname: string) {
 	return (yargs: Yargs) => {

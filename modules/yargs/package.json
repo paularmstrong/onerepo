@@ -24,7 +24,6 @@
 		"@onerepo/logger": "0.0.0"
 	},
 	"devDependencies": {
-		"@internal/tsconfig": "workspace:^",
-		"@onerepo/types": "workspace:^"
+		"@internal/tsconfig": "workspace:^"
 	}
 }

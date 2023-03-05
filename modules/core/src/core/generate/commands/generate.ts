@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 import type { QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = ['generate', 'gen'];
 

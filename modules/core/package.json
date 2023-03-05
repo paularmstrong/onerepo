@@ -40,7 +40,6 @@
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "0.0.0",
-		"@onerepo/types": "workspace:^",
 		"@types/ejs": "^3",
 		"@types/glob": "^8.1.0",
 		"@types/inquirer": "^9",

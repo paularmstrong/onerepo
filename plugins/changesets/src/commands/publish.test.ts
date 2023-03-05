@@ -20,7 +20,7 @@ describe('handler', () => {
 		graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
 		vi.spyOn(git, 'getStatus').mockResolvedValue('');
-		vi.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH);
+		vi.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH ?? 'main');
 		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);

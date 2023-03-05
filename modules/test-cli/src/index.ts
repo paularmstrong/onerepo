@@ -4,10 +4,10 @@ import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import type { Arguments } from 'yargs-unparser';
 import { getters } from '@onerepo/builders';
+import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
-import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/types';
 import { getGraph } from '@onerepo/graph';
 
 const testRunner: typeof vitest =

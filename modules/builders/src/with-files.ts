@@ -1,4 +1,4 @@
-import type { Yargs } from '@onerepo/types';
+import type { Yargs } from '@onerepo/yargs';
 
 /**
  * Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getFiles`](#getfiles).

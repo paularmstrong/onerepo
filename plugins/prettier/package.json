@@ -26,7 +26,6 @@
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/types": "workspace:^",
 		"typescript": "^4.9.5"
 	},
 	"peerDependencies": {

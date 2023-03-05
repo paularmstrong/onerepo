@@ -4,10 +4,7 @@ import { LogStep } from './LogStep';
 
 type LogUpdate = typeof logUpdate;
 
-/**
- * @group Logger
- */
-export interface LoggerOptions {
+interface LoggerOptions {
 	/**
 	 * Verbosity ranges from 0 to 5
 	 *

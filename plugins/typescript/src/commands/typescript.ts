@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { builders } from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
 import { batch } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
 
 export const command = ['tsc', 'typescript', 'typecheck'];

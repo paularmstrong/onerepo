@@ -3,7 +3,29 @@ import minimatch from 'minimatch';
 import type { Graph, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
 import { getModifiedFiles } from '@onerepo/git';
-import type { GetterOptions } from '@onerepo/types';
+import type { LogStep } from '@onerepo/logger';
+
+/**
+ * @group Getter
+ */
+export interface GetterOptions {
+	/**
+	 * Git ref to calculate changes _exclusively_ _since_.
+	 */
+	from?: string;
+	/**
+	 * List of files to not take into account when getting the list of files, workspaces, and affected.
+	 */
+	ignore?: Array<string>;
+	/**
+	 * Git ref to calculate changes _inclusively_ _through_.
+	 */
+	through?: string;
+	/**
+	 * Optional logger step to avoid creating a new
+	 */
+	step?: LogStep;
+}
 
 /**
  * @group Getter

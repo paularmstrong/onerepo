@@ -1,5 +1,4 @@
 ---
-'@onerepo/types': patch
 '@onerepo/logger': patch
 '@onerepo/yargs': patch
 '@onerepo/subprocess': patch

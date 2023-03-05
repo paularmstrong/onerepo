@@ -2,7 +2,7 @@ import path from 'node:path';
 import glob from 'glob';
 import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import Ajv from 'ajv/dist/2019';
 import ajvErrors from 'ajv-errors';
 import draft7 from 'ajv/dist/refs/json-schema-draft-07.json';

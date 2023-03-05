@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import write from '@changesets/write';
 import { updateIndex } from '@onerepo/git';
 import { builders } from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = ['$0', 'add'];
 

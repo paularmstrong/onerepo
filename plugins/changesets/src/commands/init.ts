@@ -1,6 +1,6 @@
 import { run } from '@onerepo/subprocess';
 import { exists } from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'init';
 

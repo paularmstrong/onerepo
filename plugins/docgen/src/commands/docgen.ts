@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';

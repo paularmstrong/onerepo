@@ -22,8 +22,7 @@
 	"dependencies": {
 		"@onerepo/builders": "0.0.0",
 		"@onerepo/core": "0.0.0",
-		"@onerepo/subprocess": "0.0.0",
-		"@onerepo/types": "0.0.0"
+		"@onerepo/subprocess": "0.0.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

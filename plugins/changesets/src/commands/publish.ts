@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import { write } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/types';
+import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
 import { getBranch, getStatus } from '@onerepo/git';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';

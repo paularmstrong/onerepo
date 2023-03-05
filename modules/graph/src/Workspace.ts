@@ -1,5 +1,4 @@
 import path from 'node:path';
-import type { TaskConfig, Tasks } from '@onerepo/types';
 
 export class Workspace {
 	#packageJson: PackageJson;
@@ -231,3 +230,59 @@ export interface PublicPackageJson extends PackageJson {
 export interface PackageJsonWithLocation extends PackageJson {
 	location: string;
 }
+
+/**
+ * @group Tasks
+ */
+export type TaskDef = {
+	/**
+	 * Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
+	 */
+	match?: string;
+	/**
+	 * String command to run. Special values include:
+	 * - `$0`: the oneRepo CLI for your repository
+	 * - `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
+	 */
+	cmd: string;
+	/**
+	 * Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.
+	 */
+	meta?: Record<string, unknown>;
+};
+
+/**
+ * A Task can either be a string or TaskDef object with extra options.
+ *
+ * @group Tasks
+ */
+export type Task = string | TaskDef;
+
+/**
+ * @group Tasks
+ */
+export type Tasks = {
+	sequential?: Array<Task>;
+	parallel?: Array<Task>;
+};
+
+/**
+ * @group Tasks
+ */
+export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
+
+/**
+ * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle}
+ * @group Tasks
+ */
+export type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
+
+/**
+ * @group Tasks
+ */
+export type Lifecycle = MakeLifecycles<StandardLifecycles>;
+
+/**
+ * @group Tasks
+ */
+export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;

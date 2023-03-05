@@ -291,7 +291,7 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 }
 
 /**
- * @group Subprocess
+ * @internal
  */
 export class SubprocessError extends Error {
 	constructor(message: string, options?: ErrorOptions) {
@@ -300,7 +300,7 @@ export class SubprocessError extends Error {
 }
 
 /**
- * @group Subprocess
+ * @internal
  */
 export class BatchError extends Error {
 	errors: Array<string | SubprocessError> = [];
