@@ -1,5 +1,11 @@
 # @onerepo/graph
 
+## 0.1.1
+
+### Patch Changes
+
+- Ensure all dist files are included recursively in published packages. [#133](https://github.com/paularmstrong/onerepo/pull/133) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.0
 
 ### Minor Changes

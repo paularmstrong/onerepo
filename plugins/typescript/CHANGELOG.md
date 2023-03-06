@@ -1,5 +1,16 @@
 # @onerepo/plugin-typescript
 
+## 0.0.2
+
+### Patch Changes
+
+- Ensure all dist files are included recursively in published packages. [#133](https://github.com/paularmstrong/onerepo/pull/133) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`8b9265f`](https://github.com/paularmstrong/onerepo/commit/8b9265fedc1cb6f9bd3d62e5d8af71e40ba4bb51), [`a57a69d`](https://github.com/paularmstrong/onerepo/commit/a57a69d7813bd2f965b0f00af366204637b6f81e)]:
+  - @onerepo/subprocess@0.1.0
+  - @onerepo/builders@0.0.2
+  - @onerepo/core@0.1.1
+
 ## 0.0.1
 
 ### Patch Changes
