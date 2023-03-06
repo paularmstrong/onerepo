@@ -1,5 +1,6 @@
 ---
 '@onerepo/core': patch
+'onerepo': patch
 ---
 
 Task matchers will fully add or remove a task from a lifecycle run if their globs are matched or not. This makes them a bit more powerful, but may cause a little more confusion at the same time:
