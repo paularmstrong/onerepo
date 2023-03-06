@@ -24,7 +24,7 @@
 		"@onerepo/git": "0.0.0",
 		"@onerepo/logger": "0.0.0",
 		"@onerepo/subprocess": "0.0.0",
-		"minimatch": "^7.2.0"
+		"minimatch": "^7.4.2"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
