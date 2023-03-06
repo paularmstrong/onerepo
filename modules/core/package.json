@@ -34,7 +34,7 @@
 		"inquirer": "^9.1.4",
 		"minimatch": "^7.2.0",
 		"prettier": "^2",
-		"yargs": "^17.6.2",
+		"yargs": "^17.7.1",
 		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
