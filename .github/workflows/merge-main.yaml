@@ -18,7 +18,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: yarn
+
       - run: yarn
 
       - name: Get tasks
@@ -44,10 +45,33 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: yarn
+
       - run: yarn
 
       - name: ${{ matrix.task.name }}
         run: |
           cd ${{ matrix.task.opts.cwd }}
           ${{ matrix.task.cmd }} ${{ join(matrix.task.args, ' ') }}
+
+  publish:
+    needs: tasks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+          registry-url: https://registry.npmjs.org
+
+      - run: yarn
+
+      - name: Publish versioned workspaces
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          ./bin/one.cjs changesets publish -vvvvv
