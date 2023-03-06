@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    rebase-strategy: auto
+    schedule:
+      interval: weekly
+    versioning-strategy: lockfile-only
+    labels:
+      - dependencies
