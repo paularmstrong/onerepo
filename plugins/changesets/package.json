@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-changesets",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -27,8 +27,8 @@
 		"@changesets/pre": "^1.0.14",
 		"@changesets/read": "^0.5.9",
 		"@changesets/write": "^0.2.3",
-		"@onerepo/file": "0.0.0",
-		"@onerepo/subprocess": "0.0.0",
+		"@onerepo/file": "0.0.1",
+		"@onerepo/subprocess": "0.0.1",
 		"inquirer": "^9.1.4"
 	},
 	"devDependencies": {

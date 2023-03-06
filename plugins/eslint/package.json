@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-eslint",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -20,10 +20,10 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.0.0",
-		"@onerepo/git": "0.0.0",
-		"@onerepo/logger": "0.0.0",
-		"@onerepo/subprocess": "0.0.0",
+		"@onerepo/builders": "0.0.1",
+		"@onerepo/git": "0.0.1",
+		"@onerepo/logger": "0.0.1",
+		"@onerepo/subprocess": "0.0.1",
 		"minimatch": "^7.2.0"
 	},
 	"devDependencies": {

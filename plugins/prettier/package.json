@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-prettier",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -20,9 +20,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/git": "0.0.0",
-		"@onerepo/logger": "0.0.0",
-		"@onerepo/subprocess": "0.0.0"
+		"@onerepo/git": "0.0.1",
+		"@onerepo/logger": "0.0.1",
+		"@onerepo/subprocess": "0.0.1"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
