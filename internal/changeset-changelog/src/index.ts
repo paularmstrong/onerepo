@@ -96,12 +96,12 @@ const changelogFunctions: ChangelogFunctions = {
 					.join(', ')
 			: links.user;
 
-		const prefix = [
+		const suffix = [
 			links.pull === null ? (links.commit === null ? '' : ` ${links.commit}`) : ` ${links.pull}`,
 			users === null ? '' : ` (${users})`,
 		].join('');
 
-		return `\n\n-${prefix ? `${prefix}:` : ''} ${firstLine}\n${futureLines.map((l) => `  ${l}`).join('\n')}`;
+		return `\n\n- ${firstLine}${suffix ?? ''}\n${futureLines.map((l) => `  ${l}`).join('\n')}`;
 	},
 };
 

@@ -74,14 +74,14 @@ describe('changeset-changelog', () => {
 						...getChangeset(`${keyword}: ${kind === 'with #' ? '#' : ''}${data.pull}`, commitFromChangeset)
 					)
 				).toEqual(
-					`\n\n- [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong)): something\n`
+					`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`
 				);
 			});
 		});
 
 		test('override commit with commit keyword', async () => {
 			expect(await getReleaseLine(...getChangeset(`commit: ${data.commit}`, commitFromChangeset))).toEqual(
-				`\n\n- [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong)): something\n`
+				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`
 			);
 		});
 	});
@@ -91,7 +91,7 @@ describe('changeset-changelog', () => {
 			expect(
 				await getReleaseLine(...getChangeset(`${keyword}: ${kind === 'with @' ? '@' : ''}other`, data.commit))
 			).toEqual(
-				`\n\n- [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@other](https://github.com/other)): something\n`
+				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@other](https://github.com/other))\n`
 			);
 		});
 	});
@@ -104,7 +104,7 @@ describe('changeset-changelog', () => {
 		).toMatchInlineSnapshot(`
     "
 
-    - [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong), [@mitchellhamilton](https://github.com/mitchellhamilton)): something
+    - something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong), [@mitchellhamilton](https://github.com/mitchellhamilton))
     "
   `);
 	});
