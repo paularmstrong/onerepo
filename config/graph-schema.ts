@@ -88,7 +88,10 @@ export default {
 				files: {
 					type: 'array',
 					allOf: [
-						{ contains: { type: 'string', enum: ['./dist/*'] }, errorMessage: '`files` array must include `./dist/*`' },
+						{
+							contains: { type: 'string', enum: ['./dist/**/*'] },
+							errorMessage: '`files` array must include `./dist/**/*`',
+						},
 						{
 							contains: { type: 'string', enum: ['./README.md'] },
 							errorMessage: '`files` array must include `./README.md`',
