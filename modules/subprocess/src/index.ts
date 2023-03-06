@@ -110,12 +110,10 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
 
 		subprocess.on('exit', (code) => {
 			performance.mark(`${options.name}_end`);
-			if (code && isFinite(code)) {
+			if (code && isFinite(code) && !options.skipFailures) {
 				const error = new SubprocessError(`${out || err || code}`);
-				if (!options.skipFailures) {
-					step.error(out.trim() || err.trim());
-					step.error(`Process exited with code ${code}`);
-				}
+				step.error(out.trim() || err.trim());
+				step.error(`Process exited with code ${code}`);
 				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
 					logger.unpause();
 					reject(error);
