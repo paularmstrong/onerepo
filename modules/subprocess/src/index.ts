@@ -249,7 +249,8 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 	});
 
 	let failing = false;
-	const maxParallel = Math.min(os.cpus().length - 1, tasks.length);
+	const cpus = os.cpus().length;
+	const maxParallel = Math.min(cpus === 2 ? 2 : cpus - 1, tasks.length);
 
 	return new Promise((resolve, reject) => {
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
