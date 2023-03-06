@@ -15,7 +15,7 @@
 		"typings": "./dist/src/index.d.ts"
 	},
 	"files": [
-		"./dist/*",
+		"./dist/**/*",
 		"./README.md",
 		"./CHANGELOG.md"
 	],
