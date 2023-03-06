@@ -1,5 +1,18 @@
 # @onerepo/subprocess
 
+## 0.1.0
+
+### Minor Changes
+
+- When running a `batch()` process, if there are only 2-CPUs available, use both CPUs instead of `cpus.length - 1`. While we normally encourage using one less than available to avoid locking up the main processes, it should still be faster to spawn a separate process to the same CPU than to do all tasks synchronously. [#132](https://github.com/paularmstrong/onerepo/pull/132) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Ensure all dist files are included recursively in published packages. [#133](https://github.com/paularmstrong/onerepo/pull/133) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`a57a69d`](https://github.com/paularmstrong/onerepo/commit/a57a69d7813bd2f965b0f00af366204637b6f81e)]:
+  - @onerepo/logger@0.0.2
+
 ## 0.0.1
 
 ### Patch Changes

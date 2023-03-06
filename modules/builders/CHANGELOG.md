@@ -1,5 +1,14 @@
 # @onerepo/builders
 
+## 0.0.2
+
+### Patch Changes
+
+- Ensure all dist files are included recursively in published packages. [#133](https://github.com/paularmstrong/onerepo/pull/133) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`a57a69d`](https://github.com/paularmstrong/onerepo/commit/a57a69d7813bd2f965b0f00af366204637b6f81e)]:
+  - @onerepo/logger@0.0.2
+
 ## 0.0.1
 
 ### Patch Changes
