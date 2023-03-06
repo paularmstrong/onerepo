@@ -89,6 +89,11 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	}
 	await infoStep.end();
 
+	if (publishable.length === 0) {
+		logger.warn('No workspaces need publishing.');
+		return;
+	}
+
 	if (build) {
 		await run({
 			name: 'Build workspaces',

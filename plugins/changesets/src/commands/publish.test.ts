@@ -158,4 +158,40 @@ describe('handler', () => {
 			}),
 		]);
 	});
+
+	test('does not build or publish when no workspaces need to publish', async () => {
+		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+			if (cmd === 'git' && args?.includes('rev-parse')) {
+				return Promise.resolve(['123456', '']);
+			}
+			if (cmd === 'npm' && args?.includes('info')) {
+				if (args.includes('burritos')) {
+					return Promise.resolve(['{"versions":["0.1.7"]}', '']);
+				}
+				if (args.includes('churros')) {
+					return Promise.resolve(['{"versions":["0.2.0"]}', '']);
+				}
+				if (args.includes('tacos')) {
+					return Promise.resolve(['{"versions":["0.2.0"]}', '']);
+				}
+				if (args.includes('tortillas')) {
+					return Promise.resolve(['{"versions":["0.4.5"]}', '']);
+				}
+			}
+			return Promise.resolve(['', '']);
+		});
+
+		await run('', { graph });
+
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({ cmd: process.argv[1], args: expect.arrayContaining(['tasks', '-c', 'build']) })
+		);
+
+		expect(subprocess.batch).not.toHaveBeenCalledWith([
+			expect.objectContaining({
+				cmd: 'npm',
+				args: expect.arrayContaining(['publish']),
+			}),
+		]);
+	});
 });
