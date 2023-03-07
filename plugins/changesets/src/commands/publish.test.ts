@@ -195,25 +195,8 @@ describe('handler', () => {
 		]);
 	});
 
-	test('publishes if not found in the registry', async () => {
-		const e404 = `npm ERR! code E404
-		npm ERR! 404 Not Found - GET https://registry.npmjs.org/@onerepo%2ffoobar - Not found
-		npm ERR! 404
-		npm ERR! 404  '@onerepo/foobar@latest' is not in this registry.
-		npm ERR! 404
-		npm ERR! 404 Note that you can also install from a
-		npm ERR! 404 tarball, folder, http url, or git url.
-		{
-			"error": {
-				"code": "E404",
-				"summary": "Not Found - GET https://registry.npmjs.org/@onerepo%2ffoobar - Not found",
-				"detail": "\n '@onerepo/foobar@latest' is not in this registry.\n\nNote that you can also install from a\ntarball, folder, http url, or git url."
-			}
-		}
-
-		npm ERR! A complete log of this run can be found in:
-		npm ERR!     /Users/paularmstrong/.npm/_logs/2023-03-06T23_36_21_837Z-debug-0.log
-		`;
+	test('publishes if not found in the npm registry', async () => {
+		const e404 = 'npm ERR! code E404\nnpm ERR! 404 Not Found';
 
 		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
@@ -221,6 +204,7 @@ describe('handler', () => {
 			}
 			if (cmd === 'npm' && args?.includes('info')) {
 				if (args.includes('burritos')) {
+					// IMPORTANT: npm puts error to stderr, not stdout
 					return Promise.resolve(['', e404]);
 				}
 				return Promise.resolve(['{"versions":["0.2.0","0.4.5"]}', '']);
@@ -237,5 +221,47 @@ describe('handler', () => {
 				opts: { cwd: expect.stringMatching(/\/modules\/burritos$/) },
 			}),
 		]);
+	});
+
+	test('publishes if not found in the npm registry using yarn', async () => {
+		const e404 =
+			'{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"The remote server failed to provide the requested resource"}';
+
+		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+			if (cmd === 'git' && args?.includes('rev-parse')) {
+				return Promise.resolve(['123456', '']);
+			}
+			if (cmd === 'npm' && args?.includes('info')) {
+				if (args.includes('burritos')) {
+					// IMPORTANT: yarn puts error to stdout, not stderr
+					return Promise.resolve([e404, '']);
+				}
+				return Promise.resolve(['{"versions":["0.2.0","0.4.5"]}', '']);
+			}
+			return Promise.resolve(['', '']);
+		});
+
+		await run('', { graph });
+
+		expect(subprocess.batch).toHaveBeenCalledWith([
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['publish', '--tag', 'latest'],
+				opts: { cwd: expect.stringMatching(/\/modules\/burritos$/) },
+			}),
+		]);
+	});
+
+	test('uses yarn npm info if yarn', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+
+		await run('', { graph });
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'yarn',
+				args: ['npm', 'info', 'burritos', '--json'],
+			})
+		);
 	});
 });

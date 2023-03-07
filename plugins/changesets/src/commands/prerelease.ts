@@ -99,11 +99,11 @@ Current status is:\n ${status}`);
 								return name;
 							}
 							const [scope, shortname] = name.split('/');
-							return `${pc.dim(scope)}/${shortname}`;
+							return { name: `${pc.dim(scope)}/${shortname}`, value: name };
 						}),
 					new inquirer.Separator('⎯'.repeat(20)),
 				],
-				pageSize: Math.min(hasChanges.size + 2, 20),
+				pageSize: Math.min(hasChanges.size + 4, 20),
 			},
 		]);
 
