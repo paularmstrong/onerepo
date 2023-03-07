@@ -74,12 +74,31 @@ describe('handler', () => {
 		);
 	});
 
+	test('ensures logged in to the registry with yarn', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+
+		await run('', { graph });
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'yarn',
+				args: ['npm', 'whoami'],
+			})
+		);
+	});
+
 	test('can bypass the registry auth check', async () => {
 		await run('--skip-auth', { graph });
+
 		expect(subprocess.run).not.toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npm',
 				args: ['whoami'],
+			})
+		);
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'yarn',
+				args: ['npm', 'whoami'],
 			})
 		);
 	});
@@ -282,6 +301,21 @@ describe('handler', () => {
 				cmd: 'yarn',
 				args: ['npm', 'info', 'burritos', '--json'],
 			})
+		);
+	});
+
+	test('uses yarn npm publish if yarn', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+
+		await run('', { graph });
+
+		expect(subprocess.batch).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				expect.objectContaining({
+					cmd: 'yarn',
+					args: ['npm', 'publish', '--tag', 'latest'],
+				}),
+			])
 		);
 	});
 });
