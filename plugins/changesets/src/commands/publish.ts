@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { write } from '@onerepo/file';
+import { exists, write } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
@@ -73,11 +73,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	const publishable: Array<Workspace> = [];
 
 	const infoStep = logger.createStep('Get version info');
+	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'), { step: infoStep });
 	for (const workspace of workspaces) {
 		const [info, err] = await run({
 			name: `Get versions of ${workspace.name}`,
-			cmd: 'npm',
-			args: ['info', workspace.name, '--json'],
+			cmd: isYarn ? 'yarn' : 'npm',
+			args: [...(isYarn ? ['npm'] : []), 'info', workspace.name, '--json'],
 			skipFailures: true,
 			step: infoStep,
 			runDry: true,

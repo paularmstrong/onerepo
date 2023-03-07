@@ -1,0 +1,7 @@
+{
+	"name": "repo",
+	"private": true,
+	"workspaces": [
+		"modules/*"
+	]
+}

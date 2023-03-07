@@ -238,4 +238,17 @@ describe('handler', () => {
 			}),
 		]);
 	});
+
+	test('uses yarn npm info if yarn', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+
+		await run('', { graph });
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'yarn',
+				args: ['npm', 'info', 'burritos', '--json'],
+			})
+		);
+	});
 });
