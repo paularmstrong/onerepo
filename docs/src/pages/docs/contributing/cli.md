@@ -136,11 +136,10 @@ Pre-release available workspaces.
 one change prerelease
 ```
 
-| Option        | Type                       | Description                                                                                   | Required |
-| ------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| `--build`     | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
-| `--otp`       | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
-| `--skip-auth` | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
+| Option    | Type                       | Description                                           | Required |
+| --------- | -------------------------- | ----------------------------------------------------- | -------- |
+| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
+| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
 
 <details>
 

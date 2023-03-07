@@ -5,7 +5,6 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
-import { exists } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { getStatus } from '@onerepo/git';
@@ -19,7 +18,6 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
-	'skip-auth': boolean;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -40,22 +38,10 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
-		})
-		.option('skip-auth', {
-			type: 'boolean',
-			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
-			default: false,
 		});
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
-	const {
-		'allow-dirty': allowDirty,
-		build,
-		'dry-run': isDry,
-		otp: otpRequired,
-		'skip-auth': skipAuth,
-		verbosity,
-	} = argv;
+	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
@@ -71,15 +57,11 @@ Current status is:\n ${status}`);
 		await cleanStep.end();
 	}
 
-	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'));
-
-	if (!skipAuth) {
-		await run({
-			name: 'Ensure registry auth',
-			cmd: 'npm',
-			args: ['whoami'],
-		});
-	}
+	await run({
+		name: 'Ensure registry auth',
+		cmd: 'npm',
+		args: ['whoami'],
+	});
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location } as Package)
@@ -206,20 +188,19 @@ Current status is:\n ${status}`);
 	await batch(
 		workspaces.map((ws) => ({
 			name: `Publish ${ws.name}`,
-			cmd: isYarn ? 'yarn' : 'npm',
+			cmd: 'npm',
 			args: [
-				...(isYarn ? ['npm'] : []),
 				'publish',
 				'--tag',
 				'prerelease',
 				...(otp ? ['--otp', otp] : []),
-				...(!isYarn && isDry ? ['--dry-run'] : []),
+				...(isDry ? ['--dry-run'] : []),
 				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
 			],
 			opts: {
 				cwd: ws.location,
 			},
-			runDry: !isYarn,
+			runDry: true,
 		}))
 	);
 
