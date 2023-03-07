@@ -74,4 +74,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          ./bin/one.cjs changesets publish -vvvvv
+          ./bin/one.cjs changesets publish --skip-auth -vvvvv
