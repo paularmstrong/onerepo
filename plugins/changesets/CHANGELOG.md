@@ -1,5 +1,13 @@
 # @onerepo/plugin-changesets
 
+## 0.2.1
+
+### Patch Changes
+
+- When applying a `publishConfig`, retain the `registry` if it exists. [`34704c5`](https://github.com/paularmstrong/onerepo/commit/34704c57af16fd24885dd9aa4fbfdea0b1545bb6) ([@paularmstrong](https://github.com/paularmstrong))
+
+- When using yarn, ensure fully using yarn for `npm info`, `npm whoami` and `npm publish`. [`34704c5`](https://github.com/paularmstrong/onerepo/commit/34704c57af16fd24885dd9aa4fbfdea0b1545bb6) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.0
 
 ### Minor Changes
