@@ -5,7 +5,6 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
-import { exists } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { getStatus } from '@onerepo/git';
@@ -19,6 +18,7 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
+	'package-manager': 'yarn' | 'npm';
 	'skip-auth': boolean;
 };
 
@@ -41,6 +41,12 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
+		.option('package-manager', {
+			type: 'string',
+			default: 'npm',
+			choices: ['yarn', 'npm'],
+			description: 'Package manager to use for publishing',
+		} as const)
 		.option('skip-auth', {
 			type: 'boolean',
 			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
@@ -53,6 +59,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		build,
 		'dry-run': isDry,
 		otp: otpRequired,
+		'package-manager': packageManager,
 		'skip-auth': skipAuth,
 		verbosity,
 	} = argv;
@@ -72,7 +79,7 @@ Current status is:\n ${status}`);
 	}
 
 	const checkAuth = logger.createStep('Check auth');
-	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'), { step: checkAuth });
+	const isYarn = packageManager === 'yarn';
 	if (!skipAuth) {
 		await run({
 			name: 'Ensure registry auth',

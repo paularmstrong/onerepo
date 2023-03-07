@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { exists, write } from '@onerepo/file';
+import { write } from '@onerepo/file';
 import { batch, run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
@@ -14,6 +14,7 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
+	'package-manager': 'yarn' | 'npm';
 	'skip-auth': boolean;
 };
 
@@ -36,6 +37,12 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
+		.option('package-manager', {
+			type: 'string',
+			default: 'npm',
+			choices: ['yarn', 'npm'],
+			description: 'Package manager to use for publishing',
+		} as const)
 		.option('skip-auth', {
 			type: 'boolean',
 			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
@@ -51,6 +58,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		build,
 		'dry-run': isDry,
 		otp: otpRequired,
+		'package-manager': packageManager,
 		'skip-auth': skipAuth,
 		verbosity,
 	} = argv;
@@ -77,7 +85,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	}
 
 	const infoStep = logger.createStep('Get version info');
-	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'), { step: infoStep });
+	const isYarn = packageManager === 'yarn';
 
 	if (!skipAuth) {
 		await run({
