@@ -1,5 +1,18 @@
 # @onerepo/plugin-changesets
 
+## 0.1.2
+
+### Patch Changes
+
+- When publishing a module for the first time, `npm info` version lookup will fail. We will now gracefully handle this and assume it should be published. [#135](https://github.com/paularmstrong/onerepo/pull/135) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Use `yarn npm info` if working in a repository that uses Yarn when determining workspaces needing publish. This is necessary in case there are custom registries set up in the `.yarnrc.yml` either globally or scoped – otherwise the correct authentication method won't be used and the result could either always return E404 (package does not exist) or 401 auth error. [#136](https://github.com/paularmstrong/onerepo/pull/136) ([@paularmstrong](https://github.com/paularmstrong))
+
+- When listing modified workspaces for pre-release, ensure they are actually able to be chosen and released. [#136](https://github.com/paularmstrong/onerepo/pull/136) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`be92675`](https://github.com/paularmstrong/onerepo/commit/be926755919bd80a78126acfe2d38421eceeb16d)]:
+  - @onerepo/subprocess@0.1.1
+
 ## 0.1.1
 
 ### Patch Changes

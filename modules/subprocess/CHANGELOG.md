@@ -1,5 +1,11 @@
 # @onerepo/subprocess
 
+## 0.1.1
+
+### Patch Changes
+
+- When `skipFailures` in `run()` is set to `true`, do not log any errors or reject the promise. [#135](https://github.com/paularmstrong/onerepo/pull/135) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.0
 
 ### Minor Changes

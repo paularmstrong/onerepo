@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-vitest",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -20,8 +20,8 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/git": "0.0.2",
-		"@onerepo/subprocess": "0.1.0",
+		"@onerepo/git": "0.0.3",
+		"@onerepo/subprocess": "0.1.1",
 		"yargs-unparser": "^2.0.0"
 	},
 	"devDependencies": {

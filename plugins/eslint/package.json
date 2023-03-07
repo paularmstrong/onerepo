@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-eslint",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,9 +21,9 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.0.2",
-		"@onerepo/git": "0.0.2",
+		"@onerepo/git": "0.0.3",
 		"@onerepo/logger": "0.0.2",
-		"@onerepo/subprocess": "0.1.0",
+		"@onerepo/subprocess": "0.1.1",
 		"minimatch": "^7.2.0"
 	},
 	"devDependencies": {
