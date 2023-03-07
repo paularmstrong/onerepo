@@ -103,7 +103,7 @@ Current status is:\n ${status}`);
 						}),
 					new inquirer.Separator('⎯'.repeat(20)),
 				],
-				pageSize: Math.min(hasChanges.size + 2, 20),
+				pageSize: Math.min(hasChanges.size + 4, 20),
 			},
 		]);
 

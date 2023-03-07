@@ -84,8 +84,10 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			runDry: true,
 		});
 
-		const { versions } = JSON.parse(info || '{}');
-		if (err?.includes('E404') || !versions?.includes(workspace.version)) {
+		const is404 = err?.includes('E404') || info?.includes('The remote server failed to provide the requested resource');
+
+		const { versions = [] } = !is404 ? JSON.parse(info || '{}') : {};
+		if (is404 || !versions?.includes(workspace.version)) {
 			publishable.push(workspace);
 		}
 	}
