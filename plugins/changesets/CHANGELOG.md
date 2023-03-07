@@ -1,5 +1,11 @@
 # @onerepo/plugin-changesets
 
+## 0.3.0
+
+### Minor Changes
+
+- Must manually specify package manager with changesets publishing because yarn npm publish can differ greatly in unexpected ways depending on your registry [#139](https://github.com/paularmstrong/onerepo/pull/139) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.1
 
 ### Patch Changes
