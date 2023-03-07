@@ -74,16 +74,17 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 
 	const infoStep = logger.createStep('Get version info');
 	for (const workspace of workspaces) {
-		const [info] = await run({
+		const [info, err] = await run({
 			name: `Get versions of ${workspace.name}`,
 			cmd: 'npm',
 			args: ['info', workspace.name, '--json'],
+			skipFailures: true,
 			step: infoStep,
 			runDry: true,
 		});
 
-		const { versions } = JSON.parse(info);
-		if (!versions.includes(workspace.version)) {
+		const { versions } = JSON.parse(info || '{}');
+		if (err?.includes('E404') || !versions?.includes(workspace.version)) {
 			publishable.push(workspace);
 		}
 	}
