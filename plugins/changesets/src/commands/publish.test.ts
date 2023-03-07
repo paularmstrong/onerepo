@@ -284,4 +284,19 @@ describe('handler', () => {
 			})
 		);
 	});
+
+	test('uses yarn npm publish if yarn', async () => {
+		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+
+		await run('', { graph });
+
+		expect(subprocess.batch).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				expect.objectContaining({
+					cmd: 'yarn',
+					args: ['npm', 'publish', '--tag', 'latest'],
+				}),
+			])
+		);
+	});
 });

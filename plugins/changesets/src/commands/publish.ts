@@ -154,19 +154,20 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	await batch(
 		publishable.map((ws) => ({
 			name: `Publish ${ws.name}`,
-			cmd: 'npm',
+			cmd: isYarn ? 'yarn' : 'npm',
 			args: [
+				...(isYarn ? ['npm'] : []),
 				'publish',
 				'--tag',
 				'latest',
 				...(otp ? ['--otp', otp] : []),
-				...(isDry ? ['--dry-run'] : []),
+				...(!isYarn && isDry ? ['--dry-run'] : []),
 				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
 			],
 			opts: {
 				cwd: ws.location,
 			},
-			runDry: true,
+			runDry: !isYarn,
 		}))
 	);
 

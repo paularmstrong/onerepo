@@ -52,6 +52,26 @@ describe('handler', () => {
 		expect(inquirer.prompt).toHaveBeenCalled();
 	});
 
+	test('ensures logged in to the registry', async () => {
+		await run('', { graph });
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['whoami'],
+			})
+		);
+	});
+
+	test('can bypass the registry auth check', async () => {
+		await run('--skip-auth', { graph });
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['whoami'],
+			})
+		);
+	});
+
 	test('can prerelease all publishable workspaces', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
 		await run('', { graph });
