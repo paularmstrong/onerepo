@@ -176,10 +176,11 @@ one change publish [options]
 
 This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
 
-| Option    | Type                       | Description                                           | Required |
-| --------- | -------------------------- | ----------------------------------------------------- | -------- |
-| `--build` | `boolean`, default: `true` | Build workspaces before publishing                    |          |
-| `--otp`   | `boolean`                  | Set to true if your publishes require an OTP for NPM. |          |
+| Option        | Type                       | Description                                                                                   | Required |
+| ------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
+| `--build`     | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
+| `--otp`       | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
+| `--skip-auth` | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
 
 <details>
 

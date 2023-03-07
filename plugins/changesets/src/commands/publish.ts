@@ -14,6 +14,7 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
+	'skip-auth': boolean;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -35,12 +36,24 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
+		.option('skip-auth', {
+			type: 'boolean',
+			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
+			default: false,
+		})
 		.epilogue(
 			'This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.'
 		);
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
-	const { 'allow-dirty': allowDirty, build, 'dry-run': isDry, otp: otpRequired, verbosity } = argv;
+	const {
+		'allow-dirty': allowDirty,
+		build,
+		'dry-run': isDry,
+		otp: otpRequired,
+		'skip-auth': skipAuth,
+		verbosity,
+	} = argv;
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
@@ -63,11 +76,13 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		await cleanStep.end();
 	}
 
-	await run({
-		name: 'Ensure registry auth',
-		cmd: 'npm',
-		args: ['whoami'],
-	});
+	if (!skipAuth) {
+		await run({
+			name: 'Ensure registry auth',
+			cmd: 'npm',
+			args: ['whoami'],
+		});
+	}
 
 	const workspaces = Object.values(graph.workspaces).filter((ws) => !ws.private);
 	const publishable: Array<Workspace> = [];

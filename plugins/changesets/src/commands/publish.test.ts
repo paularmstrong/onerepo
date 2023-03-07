@@ -64,6 +64,26 @@ describe('handler', () => {
 		expect(git.getStatus).not.toHaveBeenCalled();
 	});
 
+	test('ensures logged in to the registry', async () => {
+		await run('', { graph });
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['whoami'],
+			})
+		);
+	});
+
+	test('can bypass the registry auth check', async () => {
+		await run('--skip-auth', { graph });
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npm',
+				args: ['whoami'],
+			})
+		);
+	});
+
 	test('publishes all workspaces', async () => {
 		await run('', { graph });
 
