@@ -63,9 +63,7 @@ describe('handler', () => {
 	});
 
 	test('ensures logged in to the registry with yarn', async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
-
-		await run('', { graph });
+		await run('--package-manager=yarn', { graph });
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'yarn',
@@ -211,10 +209,9 @@ describe('handler', () => {
 	});
 
 	test('uses yarn npm publish if yarn', async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
 
-		await run('', { graph });
+		await run('--package-manager=yarn', { graph });
 
 		expect(subprocess.batch).toHaveBeenCalledWith(
 			expect.arrayContaining([
