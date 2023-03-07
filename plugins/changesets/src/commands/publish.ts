@@ -76,19 +76,20 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		await cleanStep.end();
 	}
 
+	const infoStep = logger.createStep('Get version info');
+	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'), { step: infoStep });
+
 	if (!skipAuth) {
 		await run({
 			name: 'Ensure registry auth',
-			cmd: 'npm',
-			args: ['whoami'],
+			cmd: isYarn ? 'yarn' : 'npm',
+			args: [...(isYarn ? ['npm'] : []), 'whoami'],
 		});
 	}
 
 	const workspaces = Object.values(graph.workspaces).filter((ws) => !ws.private);
 	const publishable: Array<Workspace> = [];
 
-	const infoStep = logger.createStep('Get version info');
-	const isYarn = await exists(graph.root.resolve('.yarnrc.yml'), { step: infoStep });
 	for (const workspace of workspaces) {
 		const [info, err] = await run({
 			name: `Get versions of ${workspace.name}`,
@@ -154,19 +155,20 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	await batch(
 		publishable.map((ws) => ({
 			name: `Publish ${ws.name}`,
-			cmd: 'npm',
+			cmd: isYarn ? 'yarn' : 'npm',
 			args: [
+				...(isYarn ? ['npm'] : []),
 				'publish',
 				'--tag',
 				'latest',
 				...(otp ? ['--otp', otp] : []),
-				...(isDry ? ['--dry-run'] : []),
+				...(!isYarn && isDry ? ['--dry-run'] : []),
 				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
 			],
 			opts: {
 				cwd: ws.location,
 			},
-			runDry: true,
+			runDry: !isYarn,
 		}))
 	);
 

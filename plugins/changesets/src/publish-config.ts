@@ -11,13 +11,19 @@ type Options = {
 const availableKeys = ['bin', 'main', 'module', 'typings', 'exports'];
 
 export function applyPublishConfig(packageJson: PublicPackageJson): PublicPackageJson {
-	const { devDependencies, publishConfig = {}, ...newPackageJson } = packageJson;
+	const { devDependencies, publishConfig = {}, ...rest } = packageJson;
+
+	const newPackageJson: PublicPackageJson = rest;
 
 	for (const key of availableKeys) {
 		if (key in publishConfig) {
 			// @ts-ignore it's okay, probably
 			newPackageJson[key] = publishConfig[key];
 		}
+	}
+
+	if ('registry' in publishConfig) {
+		newPackageJson.publishConfig = { registry: publishConfig.registry };
 	}
 
 	return newPackageJson;
