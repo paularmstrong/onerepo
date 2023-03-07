@@ -70,8 +70,12 @@ jobs:
 
       - run: yarn
 
+      - name: Add yarn auth
+        run: |
+          echo "npmAuthToken: ${NODE_AUTH_TOKEN}" >> .yarnrc.yml
+
       - name: Publish versioned workspaces
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          ./bin/one.cjs changesets publish --skip-auth -vvvvv
+          ./bin/one.cjs changesets publish --skip-auth --allow-dirty -vvvvv
