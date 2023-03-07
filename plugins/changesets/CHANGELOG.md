@@ -1,5 +1,11 @@
 # @onerepo/plugin-changesets
 
+## 0.2.0
+
+### Minor Changes
+
+- Allow skipping the NPM registry `whoami` check with `--skip-auth` during `publish`. [#137](https://github.com/paularmstrong/onerepo/pull/137) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.2
 
 ### Patch Changes
