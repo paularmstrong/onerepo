@@ -13,7 +13,8 @@ module.exports = {
 				es6: true,
 			},
 
-			extends: ['eslint:recommended', 'plugin:tailwindcss/recommended'],
+			plugins: ['import'],
+			extends: ['eslint:recommended', 'plugin:tailwindcss/recommended', 'plugin:import/errors'],
 
 			rules: {
 				'no-console': 'error',
@@ -27,11 +28,18 @@ module.exports = {
 				'tailwindcss/no-arbitrary-value': 'error',
 				'tailwindcss/no-custom-classname': 'error',
 				'tailwindcss/no-contradicting-classname': 'error',
+
+				'import/no-cycle': ['error', { maxDepth: 2 }],
+				'import/no-relative-packages': 'error',
+				'import/no-extraneous-dependencies': 'error',
 			},
 
 			settings: {
 				tailwindcss: {
 					callees: ['clsx', 'classnames'],
+				},
+				'import/resolver': {
+					node: true,
 				},
 			},
 
@@ -44,7 +52,7 @@ module.exports = {
 					parser: '@typescript-eslint/parser',
 					files: ['*.tsx', '*.ts'],
 					plugins: ['@typescript-eslint'],
-					extends: ['plugin:@typescript-eslint/recommended'],
+					extends: ['plugin:@typescript-eslint/recommended', 'plugin:import/typescript'],
 					rules: {
 						'@typescript-eslint/ban-ts-comment': 'off', // sometimes you know what you're doing
 						'@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
@@ -60,6 +68,10 @@ module.exports = {
 					settings: {
 						react: {
 							version: 'detect',
+						},
+						'import/resolver': {
+							typescript: true,
+							node: true,
 						},
 					},
 				},

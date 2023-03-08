@@ -1,6 +1,8 @@
 import glob from 'glob';
-import { batch, git } from 'onerepo';
-import type { Builder, Handler, RunSpec } from 'onerepo';
+import type { RunSpec } from '@onerepo/subprocess';
+import { batch } from '@onerepo/subprocess';
+import { updateIndex } from '@onerepo/git';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'docgen';
 
@@ -64,6 +66,6 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	await batch(generators);
 
 	if (add) {
-		await git.updateIndex(outFiles);
+		await updateIndex(outFiles);
 	}
 };

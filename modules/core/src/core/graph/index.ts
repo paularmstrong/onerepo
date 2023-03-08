@@ -1,5 +1,6 @@
-import path from 'node:path';
-import type { Config, Plugin } from '../../types';
+import type { Plugin } from '../../types';
+import * as Show from './commands/show';
+import * as Verify from './commands/verify';
 
 /**
  * @group Core
@@ -11,27 +12,31 @@ export type Options = {
 
 export function graph(opts: Options = {}): Plugin {
 	const name = opts.name ?? 'graph';
-	return (config: Config) => ({
-		yargs: (yargs) =>
-			yargs
-				// false as second arg hides the command from help documentation
-				.completion(`${config.name}-completion`, false)
-				.command(
-					name,
-					'Run core graph commands',
-					(yargs) => {
-						const y = yargs
-							.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
-							.commandDir(path.join(__dirname, 'commands'))
-							.demandCommand(1);
-						if (opts.customSchema) {
-							y.default('custom-schema', opts.customSchema);
-						}
-						return y;
-					},
-					() => {}
-				),
+	return () => ({
+		yargs: (yargs, visitor) => {
+			const show = visitor(Show);
+			const verify = visitor(Verify);
+			return yargs.command(
+				name,
+				'Run core graph commands',
+				(yargs) => {
+					const y = yargs
+						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
+						.command(show.command, show.description, show.builder, show.handler)
+						.command(verify.command, verify.description, verify.builder, verify.handler)
+						.demandCommand(1);
+
+					if (opts.customSchema) {
+						y.default('custom-schema', opts.customSchema);
+					}
+					return y;
+				},
+				noop
+			);
+		},
 	});
 }
+
+const noop = () => {};
 
 export type { GraphSchemaValidators } from './schema';

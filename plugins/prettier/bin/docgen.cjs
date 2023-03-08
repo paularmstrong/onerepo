@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { prettier } = require('@onerepo/plugin-prettier');
+const { prettier } = require('../src');
 
 (async () => {
 	const { run } = await setup(

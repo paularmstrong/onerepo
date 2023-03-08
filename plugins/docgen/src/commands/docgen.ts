@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import url from 'node:url';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
@@ -86,7 +87,8 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		command,
 	} = argv;
 
-	const require = createRequire(__dirname);
+	const dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
+	const require = createRequire(dirname);
 	const pkgRoot = path.dirname(require.resolve('@onerepo/plugin-docgen/package.json'));
 	const packageJson = require('@onerepo/plugin-docgen/package.json') as PackageJson;
 

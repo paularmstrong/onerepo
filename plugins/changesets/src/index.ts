@@ -1,4 +1,5 @@
 import path from 'node:path';
+import url from 'node:url';
 import type { Plugin } from '@onerepo/core';
 
 type Options = {
@@ -7,6 +8,7 @@ type Options = {
 
 export function changesets(opts: Options = {}): Plugin {
 	const name = opts.name ?? ['change', 'changeset', 'changesets'];
+	const dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
 	return () => ({
 		yargs: (yargs) => {
 			return yargs.command(
@@ -15,7 +17,7 @@ export function changesets(opts: Options = {}): Plugin {
 				(yargs) =>
 					yargs
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`)
-						.commandDir(path.join(__dirname, 'commands'))
+						.commandDir(path.join(dirname, 'commands'))
 						.demandCommand(1),
 				() => {}
 			);

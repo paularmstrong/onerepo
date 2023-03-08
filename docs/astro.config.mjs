@@ -1,5 +1,7 @@
 import { defineConfig } from 'astro/config';
+// eslint-disable-next-line import/no-unresolved
 import mdx from '@astrojs/mdx';
+// eslint-disable-next-line import/no-unresolved
 import tailwind from '@astrojs/tailwind';
 import rehypePrettyCode from 'rehype-pretty-code';
 

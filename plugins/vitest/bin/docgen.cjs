@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { vitest } = require('@onerepo/plugin-vitest');
+const { vitest } = require('../src');
 
 (async () => {
 	const { run } = await setup(

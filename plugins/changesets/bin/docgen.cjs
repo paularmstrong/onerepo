@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { changesets } = require('@onerepo/plugin-changesets');
+const { changesets } = require('../src');
 
 (async () => {
 	const { run } = await setup(

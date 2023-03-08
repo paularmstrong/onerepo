@@ -1,3 +1,1 @@
-declare module 'cliui' {
-  export default any;
-}
+declare module 'cliui';

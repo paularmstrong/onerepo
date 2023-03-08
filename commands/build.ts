@@ -81,7 +81,14 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
-				args: [...esmFiles, `--outdir=${workspace.resolve('dist')}`, '--platform=node', '--format=esm'],
+				args: [
+					...esmFiles,
+					'--bundle',
+					'--packages=external',
+					`--outdir=${workspace.resolve('dist')}`,
+					'--platform=node',
+					'--format=esm',
+				],
 			});
 
 		cjsFiles.length &&
