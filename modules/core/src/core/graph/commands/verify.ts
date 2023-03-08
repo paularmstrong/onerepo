@@ -3,7 +3,8 @@ import glob from 'glob';
 import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
 import type { Builder, Handler } from '@onerepo/yargs';
-import Ajv from 'ajv/dist/2019';
+// NB: important to keep extension because AJV does not properly declare this export
+import Ajv from 'ajv/dist/2019.js';
 import ajvErrors from 'ajv-errors';
 import draft7 from 'ajv/dist/refs/json-schema-draft-07.json';
 import type { GraphSchemaValidators } from '../schema';
