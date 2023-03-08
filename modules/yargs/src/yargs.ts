@@ -89,7 +89,7 @@ export const commandDirOptions = ({
 		const { command, description, handler, ...rest } = commandModule;
 
 		// Very arbitrary, but require at least 4 words in the description to help end users
-		if (!description || description.split(' ').length < 3) {
+		if (description !== false && description.split(' ').length < 3) {
 			throw new Error(`Please enter a meaningful description for "${Array.isArray(command) ? command[0] : command}"`);
 		}
 
