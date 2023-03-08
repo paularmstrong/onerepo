@@ -2428,6 +2428,7 @@ __metadata:
     "@onerepo/subprocess": 0.1.1
     "@types/prettier": ^2
     esbuild-register: ^3.4.2
+    glob: ^8.0.3
     mdast-builder: ^1.1.1
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
