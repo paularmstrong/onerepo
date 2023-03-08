@@ -42,3 +42,4 @@
     styleSrcElem = "'self'"
     styleSrcAttr = "'none'"
     workerSrc = "'none'"
+    requireTrustedTypesFor = "'script'"
