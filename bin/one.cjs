@@ -33,7 +33,7 @@ setup(
 			prettier({ name: 'format' }),
 			docgen({
 				outWorkspace: 'root',
-				outFile: 'docs/src/pages/docs/contributing/cli.md',
+				outFile: 'docs/src/usage/cli.md',
 				format: 'markdown',
 				safeWrite: true,
 			}),

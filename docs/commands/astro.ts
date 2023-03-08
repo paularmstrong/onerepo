@@ -8,7 +8,7 @@ export const description = 'Run astro commands.';
 export const builder: Builder = (yargs) => yargs.usage('$0 astro');
 
 export const handler: Handler = async (argv, { graph }) => {
-	const { '--': rest = [] } = argv;
+	const { '--': rest = [], verbosity } = argv;
 
 	if (rest.includes('dev')) {
 		throw new Error('To run the dev server, please run `docs start`');
@@ -20,7 +20,19 @@ export const handler: Handler = async (argv, { graph }) => {
 		await run({
 			name: 'Build API docs from source',
 			cmd: process.argv[1],
-			args: ['ws', ws.name, 'typedoc'],
+			args: ['ws', ws.name, 'typedoc', `-${'v'.repeat(verbosity)}`],
+			opts: {
+				stdio: 'inherit',
+			},
+		});
+
+		await run({
+			name: 'Build API docs from source',
+			cmd: process.argv[1],
+			args: ['ws', ws.name, 'collect-content', `-${'v'.repeat(verbosity)}`],
+			opts: {
+				stdio: 'inherit',
+			},
 		});
 	}
 

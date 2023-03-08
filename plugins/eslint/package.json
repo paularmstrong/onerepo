@@ -1,5 +1,7 @@
 {
 	"name": "@onerepo/plugin-eslint",
+	"description": "Official ESLint plugin for the oneRepo toolchain.",
+	"title": "ESLint",
 	"version": "0.1.2",
 	"license": "MIT",
 	"repository": {

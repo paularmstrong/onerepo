@@ -6,3 +6,6 @@
 *.tsbuildinfo
 *.d.ts
 *.d.ts.map
+
+**/.astro/*
+**/.netlify/*

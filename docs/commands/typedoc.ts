@@ -22,7 +22,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	});
 
 	const ws = graph.getByName('onerepo');
-	const outPath = 'src/api';
+	const outPath = 'src/content/core/api';
 
 	await run({
 		name: 'Generate docs',
@@ -31,7 +31,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			'--plugin',
 			'typedoc-plugin-markdown',
 			'--entryDocument',
-			'api.md',
+			'index.md',
 			'--hideInPageTOC',
 			'--baseUrl',
 			'/docs/core/api/',
@@ -49,7 +49,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const fixFiles = logger.createStep('Fix doc URLs');
 	for (const doc of outFiles) {
 		const contents = await file.read(docs.resolve(outPath, doc), 'r', { step: fixFiles });
-		let out = contents.replace(/api\.md(#[^)]+)?/g, '$1').replace(/\.md(#[^)]+)?/g, '/$1');
+		let out = contents.replace(/index\.md(#[^)]+)?/g, '$1').replace(/\.md(#[^)]+)?/g, '/$1');
 		out = `---
 title: "API: ${doc.replace('.md', '')}"
 ---
