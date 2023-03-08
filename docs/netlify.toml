@@ -17,3 +17,28 @@
 [[edge_functions]]
   path = "/api/theme/*"
   function = "set-theme"
+
+[[plugins]]
+  package = "netlify-plugin-csp-generator"
+
+  [plugins.inputs]
+    buildDir = "dist"
+
+  [plugins.inputs.policies]
+    baseUri = "'self'"
+    childSrc = "'none'"
+    connectSrc = "'self'"
+    defaultSrc = "'self'"
+    fontSrc = "'none'"
+    frameSrc = "'none'"
+    imgSrc = "'self' https://www.netlify.com"
+    manifestSrc = "'self'"
+    mediaSrc = "'none'"
+    objectSrc = "'none'"
+    scriptSrc = "'self'"
+    scriptSrcElem = "'self'"
+    scriptSrcAttr = "'none'"
+    styleSrc = "'self'"
+    styleSrcElem = "'self'"
+    styleSrcAttr = "'none'"
+    workerSrc = "'none'"
