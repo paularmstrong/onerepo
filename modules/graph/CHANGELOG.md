@@ -1,5 +1,11 @@
 # @onerepo/graph
 
+## 0.2.0
+
+### Minor Changes
+
+- Fixes ESM output to es2022 and removes usage of `__dirname`. This should make things a bit more strict and usable in ESM contexts and ruin CJS contexts. [#143](https://github.com/paularmstrong/onerepo/pull/143) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.1
 
 ### Patch Changes

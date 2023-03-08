@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-docgen",
 	"description": "Official plugin for generating CLI documentation for the oneRepo toolchain.",
 	"title": "DocGen",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -28,9 +28,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "0.0.2",
-		"@onerepo/git": "0.0.3",
-		"@onerepo/subprocess": "0.1.1",
+		"@onerepo/file": "0.1.0",
+		"@onerepo/git": "0.1.0",
+		"@onerepo/subprocess": "0.2.0",
 		"glob": "^8.0.3",
 		"mdast-builder": "^1.1.1",
 		"remark-gfm": "^3.0.1",

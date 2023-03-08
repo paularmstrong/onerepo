@@ -1,5 +1,23 @@
 # onerepo
 
+## 0.3.0
+
+### Minor Changes
+
+- Fixes ESM output to es2022 and removes usage of `__dirname`. This should make things a bit more strict and usable in ESM contexts and ruin CJS contexts. [#143](https://github.com/paularmstrong/onerepo/pull/143) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`5916683`](https://github.com/paularmstrong/onerepo/commit/59166834467f9bf3427c7bdca91776cc228e9002)]:
+  - @onerepo/builders@0.1.0
+  - @onerepo/core@0.2.0
+  - @onerepo/file@0.1.0
+  - @onerepo/git@0.1.0
+  - @onerepo/graph@0.2.0
+  - @onerepo/logger@0.1.0
+  - @onerepo/subprocess@0.2.0
+  - @onerepo/yargs@0.1.0
+
 ## 0.2.1
 
 ### Patch Changes
