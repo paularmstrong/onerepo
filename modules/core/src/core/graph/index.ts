@@ -1,4 +1,5 @@
 import path from 'node:path';
+import url from 'node:url';
 import type { Config, Plugin } from '../../types';
 
 /**
@@ -11,6 +12,7 @@ export type Options = {
 
 export function graph(opts: Options = {}): Plugin {
 	const name = opts.name ?? 'graph';
+	const dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
 	return (config: Config) => ({
 		yargs: (yargs) =>
 			yargs
@@ -22,7 +24,7 @@ export function graph(opts: Options = {}): Plugin {
 					(yargs) => {
 						const y = yargs
 							.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
-							.commandDir(path.join(__dirname, 'commands'))
+							.commandDir(path.join(dirname, 'commands'))
 							.demandCommand(1);
 						if (opts.customSchema) {
 							y.default('custom-schema', opts.customSchema);
