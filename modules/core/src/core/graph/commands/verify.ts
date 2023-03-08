@@ -6,7 +6,6 @@ import type { Builder, Handler } from '@onerepo/yargs';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
 import ajvErrors from 'ajv-errors';
-import draft7 from 'ajv/dist/refs/json-schema-draft-07.json';
 import type { GraphSchemaValidators } from '../schema';
 import { defaultValidators } from '../schema';
 
@@ -50,6 +49,12 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		}
 	}
 	await dependencyStep.end();
+
+	// esbuild cannot import json files correctly unless bundling externals
+	// Since we don't do that for a myriad of reasons, this needs to be a dynamic import
+	// Typescript hates this, but we are smarter than typescript sometimes.
+	// @ts-ignore
+	const draft7 = await import('ajv/dist/refs/json-schema-draft-07.json', { assert: { type: 'json' } });
 
 	const ajv = new Ajv({ allErrors: true });
 	ajv.addMetaSchema(draft7);
