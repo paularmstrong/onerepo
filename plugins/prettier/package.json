@@ -1,5 +1,7 @@
 {
 	"name": "@onerepo/plugin-prettier",
+	"description": "Official Prettier plugin for the oneRepo toolchain.",
+	"title": "Prettier",
 	"version": "0.1.2",
 	"license": "MIT",
 	"repository": {

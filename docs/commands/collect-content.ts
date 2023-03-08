@@ -28,7 +28,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			docs.resolve('src', 'content', 'plugins', `${shortName}.md`),
 			`---
 title: "${ws.name}"
-tool: ${shortName}
+tool: ${'title' in ws.packageJson ? ws.packageJson.title : shortName}
 description: ${ws.description ?? `Official oneRepo plugin for ${shortName}.`}
 ---
 
