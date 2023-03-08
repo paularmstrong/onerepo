@@ -5,7 +5,6 @@ export default {
 		parallel: [
 			{ match: '**/commands/**/*.ts', cmd: '$0 docgen --add' },
 			{ match: '**/package.json', cmd: '$0 graph verify' },
-			{ match: 'plugins/*/src/**/*', cmd: '$0 docgen-internal --add' },
 		],
 	},
 	'pre-merge': {

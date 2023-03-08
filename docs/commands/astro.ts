@@ -21,6 +21,18 @@ export const handler: Handler = async (argv, { graph }) => {
 			name: 'Build API docs from source',
 			cmd: process.argv[1],
 			args: ['ws', ws.name, 'typedoc'],
+			opts: {
+				stdio: 'inherit',
+			},
+		});
+
+		await run({
+			name: 'Build API docs from source',
+			cmd: process.argv[1],
+			args: ['ws', ws.name, 'collect-content'],
+			opts: {
+				stdio: 'inherit',
+			},
 		});
 	}
 

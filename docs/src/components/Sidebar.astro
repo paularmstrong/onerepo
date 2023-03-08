@@ -1,8 +1,8 @@
 ---
-import type { PluginFrontmatter } from '../types';
+import { getCollection } from 'astro:content';
 import SidebarLink from './SidebarLink.astro';
-const core = await Astro.glob<PluginFrontmatter>('../../../modules/core/docs/*.md');
-const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.md');
+const core = await getCollection('core', ({ id }) => !id.includes('/'));
+const plugins = await getCollection('plugins');
 ---
 
 <nav>
@@ -15,10 +15,9 @@ const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.m
 				<li><SidebarLink href="/docs/core/api/">API</SidebarLink></li>
 				{
 					core.map((core) => {
-						const slug = core.file.split('docs/')[1].replace(/\.md$/, '');
 						return (
 							<li>
-								<SidebarLink href={`/docs/core/${slug}/`}>{core.frontmatter.title}</SidebarLink>
+								<SidebarLink href={`/docs/core/${core.slug}/`}>{core.data.title}</SidebarLink>
 							</li>
 						);
 					})
@@ -30,11 +29,10 @@ const plugins = await Astro.glob<PluginFrontmatter>('../../../plugins/*/README.m
 			<ul class="ml-2 flex flex-col gap-1 pt-1">
 				{
 					plugins.map((plugin) => {
-						const slug = plugin.file.split('plugins/')[1].split('/')[0];
 						return (
 							<li>
-								<SidebarLink href={`/docs/plugins/${slug}/`} title={`Plugin: ${plugin.frontmatter.title}`}>
-									{plugin.frontmatter.tool ?? plugin.frontmatter.title}
+								<SidebarLink href={`/docs/plugins/${plugin.slug}/`} title={`Plugin: ${plugin.data.title}`}>
+									{plugin.data.tool ?? plugin.data.title}
 								</SidebarLink>
 							</li>
 						);

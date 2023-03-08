@@ -237,29 +237,6 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 
 </details>
 
-### `one docgen-internal`
-
-Generate docs for the oneRepo monorepo
-
-| Option               | Type      | Description                                                                                 | Required |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
-| `--add`              | `boolean` | Add all generated files to the git stage                                                    |          |
-| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
-| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
-| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
-
-<details>
-
-<summary>Advanced options</summary>
-
-| Option          | Type     | Description                                               | Required |
-| --------------- | -------- | --------------------------------------------------------- | -------- |
-| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
-
-</details>
-
 ### `one format`
 
 Format files with prettier
@@ -589,6 +566,28 @@ Run astro commands.
 ```sh
 one workspace @onerepo/docs astro
 ```
+
+##### `one workspace @onerepo/docs collect-content`
+
+Generate docs for the oneRepo monorepo
+
+| Option               | Type      | Description                                                                                 | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`. |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                   |          |
+| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                    |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
 
 ##### `one workspace @onerepo/docs start`
 

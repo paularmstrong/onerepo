@@ -1,35 +1,38 @@
 ---
 import Layout from '../../../layouts/Docs.astro';
-import type { PluginFrontmatter } from '../../../types';
+import { getCollection } from 'astro:content';
 
 const [readme] = await Astro.glob('../../../../../plugins/README.md');
-const plugins = await Astro.glob<PluginFrontmatter>('../../../../../plugins/*/README.md');
+const plugins = await getCollection('plugins');
 
 const { Content } = readme;
 ---
 
 <Layout title="Plugins" description="The oneRepo plugin system">
 	<h1>Plugins</h1>
+	<p>
+		Some official plugins are already available for integration immediately. These plugins are well tested and already
+		in use:
+	</p>
 	<div class="not-prose">
 		<ul class="grid auto-cols-fr grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 			{
-				plugins.map(({ file, frontmatter }) => {
-					const slug = file.split('plugins/')[1].split('/')[0];
+				plugins.map((entry) => {
 					return (
 						<li>
 							<a
 								class="group flex h-full flex-row gap-2 rounded border border-zinc-200 bg-white/50 p-2 shadow transition-colors duration-200 hover:bg-white/80 hover:shadow-xl active:bg-zinc-100 active:shadow-inner dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-800 dark:active:bg-zinc-800/80"
-								href={`/docs/plugins/${slug}/`}
+								href={`/docs/plugins/${entry.slug}/`}
 							>
-								{frontmatter.tool ? (
-									<img src={`/images/plugins/${frontmatter.tool.toLowerCase()}.webp`} class="aspect-square h-16" />
+								{entry.data.tool ? (
+									<img src={`/images/plugins/${entry.data.tool.toLowerCase()}.webp`} class="aspect-square h-16" />
 								) : undefined}
 								<div class="">
-									<div class="text-xs text-zinc-500">{frontmatter.title}</div>
+									<div class="text-xs text-zinc-500">{entry.data.title}</div>
 									<div class="text-xl font-bold transition-colors duration-200 group-hover:text-cyan-500">
-										{frontmatter.tool}
+										{entry.data.tool}
 									</div>
-									<div class="text-sm text-zinc-400">{frontmatter.description}</div>
+									<div class="text-sm text-zinc-400">{entry.data.description}</div>
 								</div>
 							</a>
 						</li>
