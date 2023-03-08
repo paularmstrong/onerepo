@@ -20,9 +20,12 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "0.0.2"
+		"@onerepo/git": "0.0.3",
+		"@onerepo/logger": "0.0.2",
+		"minimatch": "^7.2.0"
 	},
 	"devDependencies": {
-		"@internal/tsconfig": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"@onerepo/graph": "workspace:^"
 	}
 }

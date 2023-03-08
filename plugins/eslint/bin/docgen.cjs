@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { eslint } = require('@onerepo/plugin-eslint');
+const { eslint } = require('../src');
 
 (async () => {
 	const { run } = await setup(

@@ -22,13 +22,17 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@onerepo/builders": "0.0.2",
 		"@onerepo/git": "0.0.3",
 		"@onerepo/subprocess": "0.1.1",
 		"yargs-unparser": "^2.0.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/test-cli": "workspace:^",
 		"@types/yargs-unparser": "^2.0.1",
+		"esbuild-register": "^3.4.2",
+		"onerepo": "workspace:^",
 		"typescript": "^4.9.5"
 	},
 	"peerDependencies": {

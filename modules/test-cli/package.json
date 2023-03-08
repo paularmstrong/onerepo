@@ -20,8 +20,10 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@onerepo/builders": "0.0.2",
 		"@onerepo/graph": "0.1.1",
 		"@onerepo/logger": "0.0.2",
+		"@onerepo/yargs": "0.0.2",
 		"yargs": "^17.6.2",
 		"yargs-parser": "^21.1.1",
 		"yargs-unparser": "^2.0.0"

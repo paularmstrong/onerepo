@@ -5,13 +5,19 @@ module.exports = {
 	parserOptions: {
 		extraFileExtensions: ['.astro'],
 	},
-	plugins: ['eslint-plugin-astro'],
+	plugins: ['eslint-plugin-astro', 'import'],
 	extends: ['plugin:astro/recommended'],
+
+	rules: {
+		'import/no-unresolved': ['error', { ignore: ['astro:content'] }],
+	},
+
 	settings: {
 		tailwindcss: {
 			config: path.join(__dirname, '/tailwind.config.cjs'),
 		},
 	},
+
 	overrides: [
 		{
 			files: ['*.astro'],

@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { typescript } = require('@onerepo/plugin-typescript');
+const { typescript } = require('../src');
 
 (async () => {
 	const { run } = await setup(

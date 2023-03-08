@@ -21,7 +21,8 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.0.2",
-		"@onerepo/logger": "0.0.2"
+		"@onerepo/logger": "0.0.2",
+		"@onerepo/subprocess": "0.1.1"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^"

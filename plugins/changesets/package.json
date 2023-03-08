@@ -29,14 +29,22 @@
 		"@changesets/pre": "^1.0.14",
 		"@changesets/read": "^0.5.9",
 		"@changesets/write": "^0.2.3",
+		"@onerepo/builders": "0.0.2",
 		"@onerepo/file": "0.0.2",
+		"@onerepo/git": "0.0.3",
+		"@onerepo/graph": "0.1.1",
+		"@onerepo/logger": "0.0.2",
 		"@onerepo/subprocess": "0.1.1",
-		"inquirer": "^9.1.4"
+		"inquirer": "^9.1.4",
+		"picocolors": "^1.0.0"
 	},
 	"devDependencies": {
 		"@changesets/types": "^5.2.1",
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/test-cli": "workspace:^",
 		"@types/inquirer": "^9",
+		"esbuild-register": "^3.4.2",
+		"onerepo": "workspace:^",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	}

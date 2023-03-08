@@ -17,19 +17,23 @@
 		"@internal/prettier-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest": "workspace:^",
+		"@onerepo/plugin-changesets": "workspace:^",
 		"@onerepo/plugin-docgen": "workspace:^",
 		"@onerepo/plugin-eslint": "workspace:^",
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@onerepo/plugin-vitest": "workspace:^",
 		"@types/eslint": "^8",
+		"@types/glob": "^8.1.0",
 		"esbuild": "^0.17.9",
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.34.0",
+		"glob": "^8.0.3",
 		"husky": "^8.0.0",
 		"onerepo": "workspace:^",
 		"prettier": "^2.8.4",
 		"typescript": "^4.9.5",
+		"vite": "^4.1.4",
 		"vitest": "^0.28.4"
 	}
 }

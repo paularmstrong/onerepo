@@ -36,12 +36,16 @@
 		"remark-gfm": "^3.0.1",
 		"remark-parse": "^10.0.1",
 		"remark-stringify": "^10.0.2",
-		"unified": "^10.1.2"
+		"unified": "^10.1.2",
+		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/test-cli": "workspace:^",
+		"@types/glob": "^8.1.0",
 		"@types/prettier": "^2",
 		"esbuild-register": "^3.4.2",
+		"onerepo": "workspace:^",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
 	},
