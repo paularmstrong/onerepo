@@ -15,7 +15,7 @@ yarn add --dev onerepo esbuild-register
 npm install --save-dev onerepo esbuild-register
 ```
 
-oneRepo creates ESM-compatible modules, sort of. Due to the varying landscape of published modules either building ESM-only, not properly supporting ESM or at all, it is almost impossible to build a pure ESM or CJS-only build of oneRepo. Until such a time comes when it is possible, you will need to register a runtime requires interpreter like `esbuild-register`, `babel-register`, or `ts-node`. We suggest using `esbuild-register` as it will be the fastest tool that should not get in your way.
+Create an entrypoint for you CLI.
 
 ```js title="./bin/one.cjs"
 #!/usr/bin/env node

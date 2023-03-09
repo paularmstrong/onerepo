@@ -1,3 +1,5 @@
+[Changesets](https://github.com/changesets/changesets) are a way to manage versioning and changelogs in monorepos.
+
 ## Installation
 
 ```sh
@@ -76,6 +78,6 @@ This causes issues when publishing shared modules for use outside of the monorep
 
 <aside>
 
-This plugin will trigger the [core `tasks` plugin](https://onerepo.tools/docs/plugins/tasks/) `build` lifecycle for every workspace during pre-release and publish. There is no need to manually run a build before publishing.
+This plugin will trigger the [core `tasks`](https://onerepo.tools/docs/core/tasks/) `build` lifecycle for every workspace during pre-release and publish. There is no need to manually run a build before publishing.
 
 </aside>

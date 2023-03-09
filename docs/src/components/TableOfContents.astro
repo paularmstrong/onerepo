@@ -2,9 +2,10 @@
 import type { MarkdownHeading } from 'astro';
 interface Props {
 	headings: Array<MarkdownHeading> | (() => Array<MarkdownHeading>);
+	numLevels?: number;
 }
 
-const { headings: gotHeadings } = Astro.props;
+const { headings: gotHeadings, numLevels = 2 } = Astro.props;
 
 interface Heading {
 	text: string;
@@ -17,7 +18,7 @@ const levels: Array<Heading> = [{ headings, text: '', slug: '' }];
 
 for (const h of typeof gotHeadings === 'function' ? gotHeadings() : gotHeadings) {
 	const depth = h.depth - 2;
-	if (depth < 0 || depth > 1) {
+	if (depth < 0 || depth > numLevels - 1) {
 		continue;
 	}
 	levels[depth]!.headings = levels[depth]?.headings || [];

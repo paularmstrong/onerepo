@@ -40,6 +40,6 @@
     scriptSrcAttr = "'none'"
     styleSrc = "'self'"
     styleSrcElem = "'self'"
-    styleSrcAttr = "'none'"
+    styleSrcAttr = "'self'"
     workerSrc = "'none'"
     requireTrustedTypesFor = "'script'"

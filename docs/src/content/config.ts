@@ -12,6 +12,8 @@ export const collections = {
 			title: z.string(),
 			tool: z.string(),
 			description: z.string(),
+			shortname: z.string(),
+			version: z.string(),
 		}),
 	}),
 	changelogs: defineCollection({

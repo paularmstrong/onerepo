@@ -1,6 +1,7 @@
 import glob from 'glob';
 import { batch, file, builders } from 'onerepo';
-import type { Builder, Handler, RunSpec } from 'onerepo';
+import type { Builder, Handler, RunSpec, LogStep } from 'onerepo';
+import type { Workspace } from '@onerepo/graph';
 
 export const command = 'collect-content';
 
@@ -13,6 +14,10 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const docs = graph.getByName('docs');
 
 	const generators: Array<RunSpec> = [];
+
+	const changelogStep = logger.createStep('Getting root changelog');
+	await writeChangelog(graph.getByName('onerepo'), docs, changelogStep);
+	await changelogStep.end();
 
 	const readmeStep = logger.createStep('Building plugin docs');
 	for (const ws of graph.workspaces) {
@@ -27,9 +32,11 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		await file.write(
 			docs.resolve('src', 'content', 'plugins', `${shortName}.md`),
 			`---
-title: "${ws.name}"
+title: '${ws.name}'
+shortname: '${shortName}'
 tool: ${'title' in ws.packageJson ? ws.packageJson.title : shortName}
 description: ${ws.description ?? `Official oneRepo plugin for ${shortName}.`}
+version: '${ws.version}'
 ---
 
 ${readme}
@@ -39,22 +46,8 @@ ${readme}
 			{ step: readmeStep }
 		);
 
-		let changelog = '';
-		if (await file.exists(ws.resolve('CHANGELOG.md'), { step: readmeStep })) {
-			changelog = await file.read(ws.resolve('CHANGELOG.md'), 'r', { step: readmeStep });
-		}
+		await writeChangelog(ws, docs, readmeStep);
 
-		await file.write(
-			docs.resolve('src', 'content', 'changelogs', `${shortName}.md`),
-			`---
-title: "${ws.name} Changelog"
-description: ''
----
-
-${changelog.replace(new RegExp(`^# ${ws.name}`, 'm'), '')}
-`,
-			{ step: readmeStep }
-		);
 		const outFile = docs.resolve('src', 'content', 'plugins', `${shortName}.md`);
 
 		generators.push({
@@ -117,3 +110,24 @@ ${changelog.replace(new RegExp(`^# ${ws.name}`, 'm'), '')}
 
 	await batch(generators);
 };
+
+async function writeChangelog(workspace: Workspace, docs: Workspace, step: LogStep) {
+	let changelog = '';
+	if (await file.exists(workspace.resolve('CHANGELOG.md'), { step })) {
+		changelog = await file.read(workspace.resolve('CHANGELOG.md'), 'r', { step });
+	}
+
+	const shortName = workspace.name.replace('@onerepo/', '').replace('plugin-', '');
+
+	await file.write(
+		docs.resolve('src', 'content', 'changelogs', `${shortName}.md`),
+		`---
+title: "${workspace.name} Changelog"
+description: ''
+---
+
+${changelog.replace(new RegExp(`^# ${workspace.name}`, 'm'), '')}
+`,
+		{ step }
+	);
+}

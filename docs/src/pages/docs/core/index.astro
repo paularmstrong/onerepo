@@ -1,11 +1,14 @@
 ---
 import Docs from '../../../layouts/Docs.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
 
 const files = await Astro.glob('@onerepo/core/README.md');
 
-const [{ Content }] = files;
+const [{ Content, getHeadings }] = files;
 ---
 
-<Docs title="Documentation">
+<Docs title="Core documentation">
 	<Content />
+
+	<TableOfContents slot="toc" headings={getHeadings} />
 </Docs>

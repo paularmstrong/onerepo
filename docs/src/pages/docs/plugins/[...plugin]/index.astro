@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import GitHub from '../../../../components/icons/GitHub.astro';
 import Docs from '../../../../layouts/Docs.astro';
 import TableOfContents from '../../../../components/TableOfContents.astro';
 
@@ -12,17 +13,32 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
+const { title, description, shortname, version } = entry.data;
 const { Content, headings } = await entry.render();
 ---
 
-<Docs title={entry.data.title} description={entry.data.description}>
-	<h1>{entry.data.title}</h1>
-	<p>{entry.data.description}</p>
+<Docs title={title} description={description}>
+	<h1><span class="font-semibold text-gray-400">@onerepo/plugin-</span>{shortname}</h1>
 
-	<div>
-		<a href="./changelog/">Changelog</a>
-		<a href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${entry.data.tool}`}>Source</a>
-	</div>
+	<aside
+		aria-label="Plugin info"
+		class="flex flex-row gap-8 border-b-2 border-gray-300 pb-2 text-base font-bold dark:border-gray-700"
+	>
+		<span>v{version}</span>
+		<a
+			href="./changelog/"
+			class="text-base font-bold text-cyan-800 no-underline hover:text-cyan-500 dark:text-cyan-100 dark:hover:text-cyan-500"
+			>Changelog</a
+		>
+		<a
+			href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${shortname}`}
+			class="flex flex-row items-center gap-1 text-base font-bold text-cyan-800 no-underline hover:text-cyan-500 dark:text-cyan-100 dark:hover:text-cyan-500"
+			target="_blank"
+			rel="noopener"><span class="h-6 w-6"><GitHub /></span> Source</a
+		>
+	</aside>
+
+	<p>{description}</p>
 
 	<Content />
 
