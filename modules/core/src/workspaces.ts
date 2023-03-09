@@ -28,15 +28,17 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 		const workspaceName = process.argv[3];
 		try {
 			const ws = graph.getByName(workspaceName)!;
-			addWorkspace(yargs, ws, dirname);
-			return yargs.demandCommand(1, `Please enter a command to run in ${ws.name}.`);
+			if (existsSync(ws.resolve(dirname))) {
+				addWorkspace(yargs, ws, dirname);
+				return yargs.demandCommand(1, `Please enter a command to run in ${ws.name}.`);
+			}
 		} catch (e) {
 			// pass
 		}
 
 		// Allow omitting the workspace name if the process working directory is already in a workspace
 		const workingWorkspace = graph.getByLocation(process.cwd());
-		if (workingWorkspace !== graph.root) {
+		if (workingWorkspace !== graph.root && existsSync(workingWorkspace.resolve(dirname))) {
 			yargs
 				.usage('$0 workspace <command> [options]')
 				.usage('$0 ws <command> [options]')
