@@ -39,7 +39,7 @@
     scriptSrcElem = "'self'"
     scriptSrcAttr = "'none'"
     styleSrc = "'self'"
-    styleSrcElem = "'self'"
+    styleSrcElem = "'self' 'unsafe-inline'"
     styleSrcAttr = "'self'"
     workerSrc = "'none'"
     requireTrustedTypesFor = "'script'"
