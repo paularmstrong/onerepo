@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import glob from 'glob';
+import { globSync } from 'glob';
 import type { Serialized } from 'graph-data-structure';
 import { Graph as graph } from 'graph-data-structure';
 import { Workspace } from './Workspace';
@@ -48,8 +48,8 @@ export class Graph {
 		this.#addWorkspace(location, packageJson);
 
 		for (const pathGlob of packageJson.workspaces || []) {
-			const locations = glob.sync(path.join(pathGlob, 'package.json'), { cwd: this.#rootLocation });
-			for (const pkgLocation of locations) {
+			const locations = globSync(path.join(pathGlob, 'package.json'), { cwd: this.#rootLocation });
+			for (const pkgLocation of locations.sort()) {
 				const location = path.dirname(pkgLocation);
 				const packageJson = moduleRequire(path.join(this.#rootLocation, pkgLocation));
 				this.#addWorkspace(path.join(this.#rootLocation, location), packageJson);

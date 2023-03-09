@@ -1,4 +1,4 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import { file, run } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
@@ -44,7 +44,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		},
 	});
 
-	const outFiles = glob.sync('**/*.md', { cwd: docs.resolve(outPath) });
+	const outFiles = await glob('**/*.md', { cwd: docs.resolve(outPath) });
 
 	const fixFiles = logger.createStep('Fix doc URLs');
 	for (const doc of outFiles) {

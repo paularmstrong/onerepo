@@ -1,4 +1,4 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import type { RunSpec } from '@onerepo/subprocess';
 import { batch } from '@onerepo/subprocess';
 import { updateIndex } from '@onerepo/git';
@@ -27,7 +27,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 
 	const ws = graph.getByLocation(__dirname);
 
-	const commands = glob.sync('*', { cwd: ws.resolve('src/core') });
+	const commands = await glob('*', { cwd: ws.resolve('src/core') });
 	const bin = ws.resolve('bin', 'docgen.cjs');
 
 	const findStep = logger.createStep('Determining workspaces');

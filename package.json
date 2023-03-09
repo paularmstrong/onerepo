@@ -28,7 +28,7 @@
 		"esbuild": "^0.17.9",
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.34.0",
-		"glob": "^8.0.3",
+		"glob": "^9.0.0",
 		"husky": "^8.0.0",
 		"onerepo": "workspace:^",
 		"prettier": "^2.8.4",
