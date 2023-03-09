@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 import type {
 	BuilderCallback,
@@ -224,7 +224,7 @@ export class Yargs {
 		const { recurse = false, extensions = ['js'] } = this._commandDirOpts;
 		const baseDir = path.isAbsolute(pathName) ? path.relative(this._rootPath, pathName) : pathName;
 		const ext = extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0];
-		const files = glob.sync(path.join(baseDir, recurse ? `**/*.${ext}` : `*.${ext}`), {
+		const files = globSync(path.join(baseDir, recurse ? `**/*.${ext}` : `*.${ext}`), {
 			cwd: this._rootPath,
 		});
 

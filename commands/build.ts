@@ -1,4 +1,4 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import path from 'node:path';
 import { batch, file, run, builders } from 'onerepo';
 import type { Builder, Handler, RunSpec } from 'onerepo';
@@ -61,7 +61,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const main = workspace.resolve(workspace.packageJson.main!);
 		addFile(main);
 
-		const commands = glob.sync(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
+		const commands = await glob(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
 		if (commands.length) {
 			addFile(...commands);
 		}

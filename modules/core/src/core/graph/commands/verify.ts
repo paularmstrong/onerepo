@@ -1,5 +1,5 @@
 import path from 'node:path';
-import glob from 'glob';
+import { glob } from 'glob';
 import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -76,7 +76,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		for (const schemaKey of availableSchema) {
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
 			if (minimatch(relativePath, locGlob)) {
-				const files = glob.sync(fileGlob, { cwd: workspace.location });
+				const files = await glob(fileGlob, { cwd: workspace.location });
 				files.forEach((file) => {
 					schemaStep.debug(`Validating "${file}" against schema for "${locGlob}/${fileGlob}"`);
 					const contents: Record<string, unknown> = require(workspace.resolve(file));

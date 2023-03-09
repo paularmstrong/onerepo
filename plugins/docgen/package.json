@@ -31,7 +31,7 @@
 		"@onerepo/file": "0.1.0",
 		"@onerepo/git": "0.1.0",
 		"@onerepo/subprocess": "0.2.0",
-		"glob": "^8.0.3",
+		"glob": "^9.0.0",
 		"mdast-builder": "^1.1.1",
 		"remark-gfm": "^3.0.1",
 		"remark-parse": "^10.0.1",

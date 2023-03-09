@@ -31,7 +31,7 @@
 		"ajv-errors": "^3.0.0",
 		"cliui": "^8.0.1",
 		"ejs": "^3.1.8",
-		"glob": "^8.0.3",
+		"glob": "^9.0.0",
 		"graph-data-structure": "^3.2.0",
 		"inquirer": "^9.1.4",
 		"minimatch": "^7.2.0",

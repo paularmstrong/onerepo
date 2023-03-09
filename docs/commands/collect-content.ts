@@ -1,4 +1,4 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import { batch, file, builders } from 'onerepo';
 import type { Builder, Handler, RunSpec, LogStep } from 'onerepo';
 import type { Workspace } from '@onerepo/graph';
@@ -73,7 +73,7 @@ ${readme}
 	await readmeStep.end();
 
 	const core = graph.getByName('core');
-	const commands = glob.sync('*', { cwd: core.resolve('src/core') });
+	const commands = await glob('*', { cwd: core.resolve('src/core') });
 	const bin = core.resolve('bin', 'docgen.cjs');
 
 	const findStep = logger.createStep('Determining workspaces');

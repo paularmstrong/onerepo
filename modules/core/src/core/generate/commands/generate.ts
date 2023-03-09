@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import glob from 'glob';
+import { glob } from 'glob';
 import inquirer from 'inquirer';
 import type { QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
@@ -39,7 +39,7 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async function handler(argv, { logger }) {
 	const { 'templates-dir': templatesDir, name: nameArg, type } = argv;
-	const templates = glob.sync('*', { cwd: templatesDir });
+	const templates = await glob('*', { cwd: templatesDir });
 
 	const step = logger.createStep('Get inputs');
 
@@ -52,7 +52,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 				name: 'templateInput',
 				type: 'list',
 				message: 'Choose a template…',
-				choices: templates,
+				choices: templates.sort(),
 			},
 		]);
 		templateType = templateInput;
@@ -64,7 +64,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		return;
 	}
 
-	const [configPath] = glob.sync(`${path.join(templateDir, '.onegen')}.*`);
+	const [configPath] = await glob(`${path.join(templateDir, '.onegen')}.*`);
 	if (!configPath) {
 		step.error(`No configuration file found, expected "${path.join(templateDir, '.onegen.cjs')}"`);
 		return;
@@ -114,7 +114,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 
 	await step.end();
 
-	const files = glob.sync('**/!(.genconf)', { cwd: templateDir, nodir: true });
+	const files = await glob('**/!(.genconf)', { cwd: templateDir, nodir: true });
 
 	const renderStep = logger.createStep('Render files');
 	for (const filepath of files) {
