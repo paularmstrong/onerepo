@@ -5,7 +5,7 @@ import { builders } from '@onerepo/builders';
 
 export const command = 'jest';
 
-export const description = 'Run unit tests using Vitest';
+export const description = 'Run tests using Jest';
 
 type Args = {
 	affected?: boolean;
@@ -48,7 +48,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
-	const { '--': other = [], affected, config, inspect, watch, workspaces } = argv;
+	const { '--': other = [], all, affected, config, inspect, watch, workspaces } = argv;
 
 	const args: Array<string> = ['node_modules/.bin/jest', '--config', config];
 
@@ -69,6 +69,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			} else {
 				args.push('--changedSince', await getMergeBase());
 			}
+		} else if (all) {
+			args.push('.');
 		} else {
 			const workspaces = await getWorkspaces();
 			args.push(...workspaces.map((ws) => ws.location));

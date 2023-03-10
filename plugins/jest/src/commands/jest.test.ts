@@ -69,4 +69,15 @@ describe('handler', () => {
 			})
 		);
 	});
+
+	test('shortcuts --all to "." instead of workspaces individually', async () => {
+		await run('--all');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'node',
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '.'],
+			})
+		);
+	});
 });

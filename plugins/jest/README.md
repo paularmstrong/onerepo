@@ -1,15 +1,15 @@
 ## Installation
 
 ```sh
-npm install --save-dev @onerepo/plugin-vitest
+npm install --save-dev @onerepo/plugin-jest
 ```
 
 ```js {1,5-7}
-const { vitest } = require('@onerepo/plugin-vitest');
+const { jest } = require('@onerepo/plugin-jest');
 
 setup({
 	plugins: [
-		vitest({
+		jest({
 			// ...options
 		}),
 	],
