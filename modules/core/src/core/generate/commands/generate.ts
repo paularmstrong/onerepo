@@ -84,7 +84,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		return;
 	}
 
-	const { outDir, nameFormat, dirnameFormat } = config;
+	const { outDir, nameFormat = (name) => name, dirnameFormat = (name) => name } = config;
 	let name = nameArg;
 	if (!name) {
 		const { nameInput } = await inquirer.prompt([
@@ -114,7 +114,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 
 	await step.end();
 
-	const files = await glob('**/!(.genconf)', { cwd: templateDir, nodir: true });
+	const files = await glob('**/!(.onegen.*)', { cwd: templateDir, dot: true, nodir: true });
 
 	const renderStep = logger.createStep('Render files');
 	for (const filepath of files) {
@@ -134,8 +134,8 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 
 export interface Config {
 	outDir: string;
-	nameFormat: (name: string) => string;
-	dirnameFormat: (name: string) => string;
+	nameFormat?: (name: string) => string;
+	dirnameFormat?: (name: string) => string;
 	prompts?: QuestionCollection;
 }
 
