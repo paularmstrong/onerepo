@@ -5,6 +5,9 @@ import { getCommand } from '@onerepo/test-cli';
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 
+jest.mock('@onerepo/subprocess');
+jest.mock('@onerepo/file');
+
 const { build, run } = getCommand(Tasks);
 
 describe('builder', () => {
@@ -13,38 +16,37 @@ describe('builder', () => {
 	});
 
 	test('sets location based on system', async () => {
-		vitest.spyOn(os, 'platform').mockReturnValue('darwin');
+		jest.spyOn(os, 'platform').mockReturnValue('darwin');
 		await expect(build('--name tacos')).resolves.toMatchObject({ location: '/usr/local/bin' });
 
-		vi.spyOn(os, 'platform').mockReturnValue('linux');
+		jest.spyOn(os, 'platform').mockReturnValue('linux');
 		const info = os.userInfo();
-		vi.spyOn(os, 'userInfo').mockReturnValue({ ...info, homedir: '/foo/bar' });
+		jest.spyOn(os, 'userInfo').mockReturnValue({ ...info, homedir: '/foo/bar' });
 		await expect(build('--name tacos')).resolves.toMatchObject({ location: '/foo/bar/bin' });
 	});
 });
 
 describe('handler', () => {
 	test('exits if bin exists in path', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vi.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		jest.spyOn(file, 'writeSafe').mockResolvedValue();
+		jest.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
 
 		await expect(run('--name tacos')).rejects.toBeUndefined();
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 	});
 
 	test('continues if bin exists but is self-referential', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
-		vi.spyOn(os, 'platform').mockReturnValue('darwin');
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		jest.spyOn(file, 'writeSafe').mockResolvedValue();
+		jest.spyOn(file, 'read').mockResolvedValue('onerepo-test-runner');
+		jest.spyOn(os, 'platform').mockReturnValue('darwin');
 
-		await expect(run('--name tacos --force')).resolves.toBeUndefined();
-		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
+		await expect(run('--name tacos')).resolves.toBeUndefined();
 
 		expect(subprocess.sudo).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -61,12 +63,12 @@ describe('handler', () => {
 	});
 
 	test('continues if bin exists with --force', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vi.spyOn(file, 'read').mockResolvedValue('asdfasdf');
-		vi.spyOn(os, 'platform').mockReturnValue('darwin');
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		jest.spyOn(file, 'writeSafe').mockResolvedValue();
+		jest.spyOn(file, 'read').mockResolvedValue('asdfasdf');
+		jest.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos --force')).resolves.toBeUndefined();
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
@@ -86,13 +88,13 @@ describe('handler', () => {
 	});
 
 	test('runs husky install husky is found', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		jest.spyOn(file, 'writeSafe').mockResolvedValue();
+		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
-		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		await expect(run('--name tacos')).resolves.toBeUndefined();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -104,13 +106,13 @@ describe('handler', () => {
 	});
 
 	test('does not run husky install husky is NOT found', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		vi.spyOn(file, 'writeSafe').mockResolvedValue();
-		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		jest.spyOn(file, 'writeSafe').mockResolvedValue();
+		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
-		vi.spyOn(file, 'exists').mockResolvedValue(false);
+		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		await expect(run('--name tacos')).resolves.toBeUndefined();
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(

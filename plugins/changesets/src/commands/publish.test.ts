@@ -1,6 +1,5 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
-import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as file from '@onerepo/file';
@@ -12,16 +11,24 @@ import { getCommand } from '@onerepo/test-cli';
 
 const { run } = getCommand(Publish);
 
-vi.mock('@changesets/apply-release-plan');
+jest.mock('@changesets/apply-release-plan');
+jest.mock('@onerepo/git');
+jest.mock('@onerepo/subprocess');
+jest.mock('@onerepo/file', () => ({
+	__esModule: true,
+	...jest.requireActual('@onerepo/file'),
+}));
+jest.mock('../publish-config', () => ({
+	__esModule: true,
+	...jest.requireActual('../publish-config'),
+}));
 
 describe('handler', () => {
-	let graph: Graph;
 	beforeEach(async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
-		vi.spyOn(git, 'getStatus').mockResolvedValue('');
-		vi.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH ?? 'main');
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
+		jest.spyOn(git, 'getStatus').mockResolvedValue('');
+		jest.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH ?? 'main');
+		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
@@ -30,14 +37,15 @@ describe('handler', () => {
 			}
 			return Promise.resolve(['', '']);
 		});
-		vi.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
-		vi.spyOn(PublishConfig, 'resetPackageJson').mockResolvedValue();
-		vi.spyOn(file, 'write').mockResolvedValue();
+		jest.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
+		jest.spyOn(PublishConfig, 'resetPackageJson').mockResolvedValue();
+		jest.spyOn(file, 'write').mockResolvedValue();
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
-		await run('', { graph });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
@@ -47,8 +55,9 @@ describe('handler', () => {
 	});
 
 	test('does nothing if not on head branch', async () => {
-		vi.spyOn(git, 'getBranch').mockResolvedValue('tacos-tacos-tacos');
-		await run('', { graph });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(git, 'getBranch').mockResolvedValue('tacos-tacos-tacos');
+		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
@@ -58,13 +67,15 @@ describe('handler', () => {
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
 		await run('--allow-dirty', { graph });
 
 		expect(git.getStatus).not.toHaveBeenCalled();
 	});
 
 	test('ensures logged in to the registry', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('', { graph });
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -75,7 +86,7 @@ describe('handler', () => {
 	});
 
 	test('ensures logged in to the registry with yarn', async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'yarn'));
 
 		await run('--package-manager=yarn', { graph });
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -87,6 +98,7 @@ describe('handler', () => {
 	});
 
 	test('can bypass the registry auth check', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('--skip-auth', { graph });
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(
@@ -104,6 +116,7 @@ describe('handler', () => {
 	});
 
 	test('publishes all workspaces', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('', { graph });
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -138,7 +151,8 @@ describe('handler', () => {
 	});
 
 	test('does not publish workspaces that are already published versions', async () => {
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
@@ -171,7 +185,8 @@ describe('handler', () => {
 	});
 
 	test('prompts for OTP and passes to publish', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ otp: '789012' });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ otp: '789012' });
 		await run('--otp', { graph });
 
 		expect(subprocess.batch).toHaveBeenCalledWith([
@@ -199,7 +214,8 @@ describe('handler', () => {
 	});
 
 	test('does not build or publish when no workspaces need to publish', async () => {
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
@@ -235,9 +251,10 @@ describe('handler', () => {
 	});
 
 	test('publishes if not found in the npm registry', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const e404 = 'npm ERR! code E404\nnpm ERR! 404 Not Found';
 
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
@@ -263,10 +280,11 @@ describe('handler', () => {
 	});
 
 	test('publishes if not found in the npm registry using yarn', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const e404 =
 			'{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"The remote server failed to provide the requested resource"}';
 
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
@@ -292,6 +310,7 @@ describe('handler', () => {
 	});
 
 	test('uses yarn npm info if yarn', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('--package-manager=yarn', { graph });
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -303,6 +322,7 @@ describe('handler', () => {
 	});
 
 	test('uses yarn npm publish if yarn', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('--package-manager=yarn', { graph });
 
 		expect(subprocess.batch).toHaveBeenCalledWith(

@@ -1,6 +1,5 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
-import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as applyReleasePlan from '@changesets/apply-release-plan';
@@ -10,34 +9,36 @@ import { getCommand } from '@onerepo/test-cli';
 
 const { run } = getCommand(Version);
 
-vi.mock('@changesets/apply-release-plan');
+jest.mock('@changesets/apply-release-plan');
+jest.mock('@onerepo/git');
 
 describe('handler', () => {
-	let graph: Graph;
 	beforeEach(async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
-		vi.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
-		vi.spyOn(git, 'getStatus').mockResolvedValue('');
-		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
+		jest.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
+		jest.spyOn(git, 'getStatus').mockResolvedValue('');
+		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
-		await run('', { graph });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
 		expect(applyReleasePlan.default).not.toHaveBeenCalled();
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		vi.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
 		await run('--allow-dirty', { graph });
 
 		expect(git.getStatus).not.toHaveBeenCalled();
 	});
 
 	test('prompts for all modules with changes only', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('', { graph });
 		expect(inquirer.prompt).toHaveBeenCalledWith([
 			expect.objectContaining({
@@ -52,7 +53,8 @@ describe('handler', () => {
 	});
 
 	test('updates versions across workspaces and updates the git index', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('', { graph });
 
@@ -77,7 +79,8 @@ describe('handler', () => {
 	});
 
 	test('does nothing if no modules selected', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 
 		await run('', { graph });
 
@@ -86,7 +89,8 @@ describe('handler', () => {
 	});
 
 	test('does not update git index if not --add', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('--no-add', { graph });
 
@@ -94,7 +98,8 @@ describe('handler', () => {
 	});
 
 	test('does nothing if --dry-run', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('--dry-run', { graph });
 
@@ -103,8 +108,9 @@ describe('handler', () => {
 	});
 
 	test('when changesets affect un-selected workspaces, prompts for okay to version those as well', async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
-		vi.spyOn(inquirer, 'prompt')
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
+		jest
+			.spyOn(inquirer, 'prompt')
 			.mockResolvedValueOnce({ choices: ['churros'] })
 			.mockResolvedValueOnce({ okay: true });
 		await run('', { graph });
@@ -125,8 +131,9 @@ describe('handler', () => {
 	});
 
 	test('when changesets affect un-selected workspaces, can exit at okay prompt', async () => {
-		graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
-		vi.spyOn(inquirer, 'prompt')
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'interconnected'));
+		jest
+			.spyOn(inquirer, 'prompt')
 			.mockResolvedValueOnce({ choices: ['churros'] })
 			.mockResolvedValueOnce({ okay: false });
 		await run('', { graph });

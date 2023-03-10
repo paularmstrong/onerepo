@@ -3,6 +3,8 @@ import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import { affected, filepaths, workspaces } from './getters';
 
+jest.mock('@onerepo/git');
+
 const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 const modified = {
@@ -16,11 +18,11 @@ const modified = {
 
 describe('affected', () => {
 	beforeEach(() => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
 	});
 
 	test('returns all workspaces if the root is affected', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
 			...modified,
 			modified: ['not/in/a/module.json'],
 		});
@@ -31,7 +33,7 @@ describe('affected', () => {
 	});
 
 	test('only returns affected list', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
 			...modified,
 			modified: ['modules/tacos/package.json'],
 		});
@@ -44,7 +46,7 @@ describe('affected', () => {
 
 describe('filepaths', () => {
 	beforeEach(() => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
 	});
 
 	test('returns "." if --all', async () => {
@@ -67,11 +69,11 @@ describe('filepaths', () => {
 
 describe('workspaces', () => {
 	beforeEach(() => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
 	});
 
 	test('returns all workspaces if root is affected', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
 			...modified,
 			modified: ['not/in/a/module.json'],
 		});

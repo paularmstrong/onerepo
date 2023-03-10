@@ -5,6 +5,9 @@ import * as subprocess from '@onerepo/subprocess';
 
 const { run } = getCommand(Vitest);
 
+jest.mock('@onerepo/subprocess');
+jest.mock('@onerepo/git');
+
 const modified = {
 	all: [],
 	added: [],
@@ -16,17 +19,17 @@ const modified = {
 
 describe('handler', () => {
 	beforeEach(() => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js', 'bar/baz.js'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js', 'bar/baz.js'] });
 		await run('');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './vitest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
+				args: ['--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
 			})
 		);
 	});
@@ -37,13 +40,13 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './vitest.config.ts', expect.stringMatching(/\/burritos$/)],
+				args: ['--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
 			})
 		);
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js'] });
 
 		await run('--inspect');
 
@@ -55,7 +58,7 @@ describe('handler', () => {
 					'--inspect-brk',
 					'node_modules/.bin/vitest',
 					'--config',
-					'./vitest.config.ts',
+					'./jest.config.ts',
 					'related',
 					'foo.js',
 				],
@@ -69,7 +72,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './vitest.config.ts', '-w', 'foo'],
+				args: ['--config', './jest.config.ts', '-w', 'foo'],
 			})
 		);
 	});

@@ -28,7 +28,7 @@ setup(
 		},
 		plugins: [
 			changesets(),
-			vitest({ name: 'test', config: './config/vitest.config.ts' }),
+			vitest({ name: 'test', config: './config/jest.config.ts' }),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
 			docgen({

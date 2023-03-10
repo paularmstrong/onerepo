@@ -4,11 +4,18 @@ import * as git from '@onerepo/git';
 import * as Eslint from './eslint';
 import { getCommand } from '@onerepo/test-cli';
 
+jest.mock('@onerepo/git');
+jest.mock('@onerepo/subprocess');
+jest.mock('@onerepo/file', () => ({
+	__esModule: true,
+	...jest.requireActual('@onerepo/file'),
+}));
+
 const { run } = getCommand(Eslint);
 
 describe('handler', () => {
 	test('can run across all files', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await run('--all');
 
@@ -21,9 +28,9 @@ describe('handler', () => {
 	});
 
 	test('can run across individual workspaces', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(file, 'exists').mockResolvedValue(false);
-		vi.spyOn(file, 'lstat').mockResolvedValue(
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(file, 'exists').mockResolvedValue(false);
+		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => true }
 		);
@@ -48,7 +55,7 @@ describe('handler', () => {
 	});
 
 	test('does not fix in dry-run', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeUndefined();
 
@@ -61,7 +68,7 @@ describe('handler', () => {
 	});
 
 	test('does not fix in no-cache', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --no-cache')).resolves.toBeUndefined();
 
@@ -74,7 +81,7 @@ describe('handler', () => {
 	});
 
 	test('filters unapproved extensions', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-f foo.xd -f bar.js')).resolves.toBeUndefined();
 
@@ -87,13 +94,13 @@ describe('handler', () => {
 	});
 
 	test('filters with .eslintignore', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(file, 'exists').mockResolvedValue(true);
-		vi.spyOn(file, 'read').mockResolvedValue(`
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(file, 'exists').mockResolvedValue(true);
+		jest.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
 bar/**/*
 `);
-		vi.spyOn(file, 'lstat').mockResolvedValue(
+		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => false }
 		);
@@ -110,8 +117,8 @@ bar/**/*
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeUndefined();
 

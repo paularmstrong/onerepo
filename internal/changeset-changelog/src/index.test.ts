@@ -4,7 +4,7 @@ import parse from '@changesets/parse';
 const getReleaseLine = changelogFunctions.getReleaseLine;
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-vi.mock('@changesets/get-github-info', (): typeof import('@changesets/get-github-info') => {
+jest.mock('@changesets/get-github-info', (): typeof import('@changesets/get-github-info') => {
 	const data = {
 		commit: 'a085003',
 		user: 'paularmstrong',

@@ -105,6 +105,10 @@ export class LogStep {
 	}
 
 	#enableWrite() {
+		if (process.env.NODE_ENV === 'test') {
+			// Do not write logs in test – ever.
+			return;
+		}
 		this.#stream.on('data', (chunk) => {
 			// All log output goes to stderr. No exceptions.
 			// This allows commands to write to stdout and not mix log information with true output.

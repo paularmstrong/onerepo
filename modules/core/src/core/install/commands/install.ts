@@ -67,20 +67,14 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	const { force, location, name } = argv;
 
 	if (!force) {
-		let which = '';
 		const step = logger.createStep(`Ensure ${name} does not exist`);
-		try {
-			const [out] = await run({
-				name: `which ${name}?`,
-				cmd: 'which',
-				args: [name],
-				step,
-				skipFailures: true,
-			});
-			which = out;
-		} catch (e) {
-			//nothing
-		}
+		const [which] = await run({
+			name: `which ${name}?`,
+			cmd: 'which',
+			args: [name],
+			step,
+			skipFailures: true,
+		});
 
 		if (which) {
 			const contents = await file.read(which, 'r', { step });
