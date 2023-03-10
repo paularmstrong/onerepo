@@ -1,5 +1,15 @@
 # @onerepo/core
 
+## 0.3.0
+
+### Minor Changes
+
+- Support optional `nameFormat` and `dirnameFormat` for generate config [#153](https://github.com/paularmstrong/onerepo/pull/153) ([@wmintarja-figure](https://github.com/wmintarja-figure))
+
+### Patch Changes
+
+- Support dotfiles when running generate [#153](https://github.com/paularmstrong/onerepo/pull/153) ([@wmintarja-figure](https://github.com/wmintarja-figure))
+
 ## 0.2.1
 
 ### Patch Changes

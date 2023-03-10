@@ -2297,7 +2297,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/core@0.2.1, @onerepo/core@workspace:modules/core":
+"@onerepo/core@0.3.0, @onerepo/core@workspace:modules/core":
   version: 0.0.0-use.local
   resolution: "@onerepo/core@workspace:modules/core"
   dependencies:
@@ -2351,7 +2351,7 @@ __metadata:
     glob: ^9.0.0
     netlify-cli: ^13.0.0
     netlify-plugin-csp-generator: ^1.5.0
-    onerepo: 0.3.1
+    onerepo: 0.4.0
     postcss: ^8.4.21
     rehype-pretty-code: ^0.9.4
     tailwindcss: ^3.2.7
@@ -2516,7 +2516,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest": "workspace:^"
     "@onerepo/builders": 0.1.0
-    "@onerepo/core": 0.2.1
+    "@onerepo/core": 0.3.0
     "@onerepo/subprocess": 0.2.0
     "@onerepo/test-cli": "workspace:^"
     esbuild-register: ^3.4.2
@@ -12937,13 +12937,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"onerepo@0.3.1, onerepo@workspace:^, onerepo@workspace:modules/onerepo":
+"onerepo@0.4.0, onerepo@workspace:^, onerepo@workspace:modules/onerepo":
   version: 0.0.0-use.local
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.0
-    "@onerepo/core": 0.2.1
+    "@onerepo/core": 0.3.0
     "@onerepo/file": 0.1.0
     "@onerepo/git": 0.1.0
     "@onerepo/graph": 0.2.1
