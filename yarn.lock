@@ -3072,6 +3072,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/plugin-jest@workspace:^, @onerepo/plugin-jest@workspace:plugins/jest":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/plugin-jest@workspace:plugins/jest"
+  dependencies:
+    "@internal/test-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    "@onerepo/builders": 0.1.0
+    "@onerepo/git": 0.1.0
+    "@onerepo/subprocess": 0.2.0
+    "@onerepo/test-cli": "workspace:^"
+    "@types/yargs-unparser": ^2.0.1
+    esbuild-register: ^3.4.2
+    onerepo: "workspace:^"
+    typescript: ^4.9.5
+    yargs-unparser: ^2.0.0
+  peerDependencies:
+    jest: ">=29"
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/plugin-prettier@workspace:^, @onerepo/plugin-prettier@workspace:plugins/prettier":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
@@ -3108,7 +3128,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-vitest@workspace:^, @onerepo/plugin-vitest@workspace:plugins/vitest":
+"@onerepo/plugin-vitest@workspace:plugins/vitest":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
   dependencies:
@@ -3139,9 +3159,9 @@ __metadata:
     "@onerepo/plugin-changesets": "workspace:^"
     "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
+    "@onerepo/plugin-jest": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
     "@onerepo/plugin-typescript": "workspace:^"
-    "@onerepo/plugin-vitest": "workspace:^"
     "@types/eslint": ^8
     "@types/glob": ^8.1.0
     esbuild: ^0.17.9

@@ -33,7 +33,7 @@ module.exports = {
 				'import/no-relative-packages': 'error',
 				'import/no-extraneous-dependencies': [
 					'error',
-					{ devDependencies: ['**/*.test.ts', '**/*.config.js', 'bin/one.cjs'] },
+					{ devDependencies: ['**/*.test.ts', '**/*.config.js', '**/bin/*.cjs'] },
 				],
 			},
 

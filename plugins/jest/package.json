@@ -1,0 +1,42 @@
+{
+	"name": "@onerepo/plugin-jest",
+	"description": "Official Jest plugin for the oneRepo toolchain.",
+	"title": "Vitest",
+	"version": "0.2.0",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git"
+	},
+	"homepage": "https://onerepo.tools/docs/plugins/vitest/",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/**/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
+	"dependencies": {
+		"@onerepo/builders": "0.1.0",
+		"@onerepo/git": "0.1.0",
+		"@onerepo/subprocess": "0.2.0",
+		"yargs-unparser": "^2.0.0"
+	},
+	"devDependencies": {
+		"@internal/test-config": "workspace:^",
+		"@internal/tsconfig": "workspace:^",
+		"@onerepo/test-cli": "workspace:^",
+		"@types/yargs-unparser": "^2.0.1",
+		"esbuild-register": "^3.4.2",
+		"onerepo": "workspace:^",
+		"typescript": "^4.9.5"
+	},
+	"peerDependencies": {
+		"jest": ">=29"
+	}
+}
