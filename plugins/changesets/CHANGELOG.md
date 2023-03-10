@@ -1,5 +1,12 @@
 # @onerepo/plugin-changesets
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`cee04a6`](https://github.com/paularmstrong/onerepo/commit/cee04a62e60909bba1838314abcc909e2a531136)]:
+  - @onerepo/graph@0.2.1
+
 ## 0.4.0
 
 ### Minor Changes

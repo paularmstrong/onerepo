@@ -1,5 +1,11 @@
 # @onerepo/plugin-docgen
 
+## 0.2.1
+
+### Patch Changes
+
+- Updates to `glob@9` during workspace and file globbing operations. [#145](https://github.com/paularmstrong/onerepo/pull/145) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.0
 
 ### Minor Changes

@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-docgen",
 	"description": "Official plugin for generating CLI documentation for the oneRepo toolchain.",
 	"title": "DocGen",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

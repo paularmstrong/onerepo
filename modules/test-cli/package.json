@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/test-cli",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,9 +21,9 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.1.0",
-		"@onerepo/graph": "0.2.0",
+		"@onerepo/graph": "0.2.1",
 		"@onerepo/logger": "0.1.0",
-		"@onerepo/yargs": "0.1.0",
+		"@onerepo/yargs": "0.1.1",
 		"yargs": "^17.6.2",
 		"yargs-parser": "^21.1.1",
 		"yargs-unparser": "^2.0.0"

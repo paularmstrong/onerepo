@@ -1,5 +1,11 @@
 # @onerepo/yargs
 
+## 0.1.1
+
+### Patch Changes
+
+- Allow command `description` to be `false`. There are times when a command should remain undocumented and hidden from general use and this is how Yargs allows doing so. [#142](https://github.com/paularmstrong/onerepo/pull/142) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.0
 
 ### Minor Changes

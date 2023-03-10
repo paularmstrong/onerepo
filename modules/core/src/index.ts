@@ -75,6 +75,7 @@ export async function setup(config: Config = {}): Promise<App> {
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 
 	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name)).epilogue(description);
+	yargs.completion(`${name}-completion`, false);
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 
