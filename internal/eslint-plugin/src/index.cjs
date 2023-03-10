@@ -31,7 +31,10 @@ module.exports = {
 
 				'import/no-cycle': ['error', { maxDepth: 2 }],
 				'import/no-relative-packages': 'error',
-				'import/no-extraneous-dependencies': 'error',
+				'import/no-extraneous-dependencies': [
+					'error',
+					{ devDependencies: ['**/*.test.ts', '**/*.config.js', 'bin/one.cjs'] },
+				],
 			},
 
 			settings: {

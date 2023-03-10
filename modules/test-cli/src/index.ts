@@ -13,6 +13,7 @@ import { getGraph } from '@onerepo/graph';
 
 // @ts-ignore
 const testRunner: typeof vitest | typeof jest =
+	// @ts-ignore
 	typeof jest !== 'undefined' ? jest : typeof vitest !== 'undefined' ? vitest : null;
 
 // esbuild-jest issue, if a "(" comes after "ock", esbuild will not transform the file.
@@ -39,10 +40,12 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 
 	const middlewares: Array<MiddlewareFunction> = [];
 
-	testRunner.spyOn(yargs, 'middleware').mockImplementation((middleware) => {
-		middlewares.push(...(Array.isArray(middleware) ? middleware : [middleware]));
-		return yargs;
-	});
+	testRunner
+		.spyOn(yargs, 'middleware')
+		.mockImplementation((middleware: MiddlewareFunction | Array<MiddlewareFunction>) => {
+			middlewares.push(...(Array.isArray(middleware) ? middleware : [middleware]));
+			return yargs;
+		});
 	testRunner.spyOn(yargs, 'showHelp').mockImplementation(
 		// @ts-ignore not sure if safe, but prevents writing help to stderr
 		() => ''

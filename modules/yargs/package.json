@@ -25,6 +25,7 @@
 		"@onerepo/subprocess": "0.2.0"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^"
 	}
 }

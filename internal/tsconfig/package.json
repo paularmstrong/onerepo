@@ -4,5 +4,8 @@
 	"main": "./base.json",
 	"files": [
 		"./base.json"
-	]
+	],
+	"dependencies": {
+		"@types/jest": "^29.4.0"
+	}
 }
