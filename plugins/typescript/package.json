@@ -27,8 +27,8 @@
 		"@onerepo/subprocess": "0.2.0"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@internal/vitest": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild-register": "^3.4.2",
 		"onerepo": "workspace:^"

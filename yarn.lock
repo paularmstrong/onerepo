@@ -1565,20 +1565,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@internal/tsconfig@workspace:^, @internal/tsconfig@workspace:internal/tsconfig":
+"@internal/test-config@workspace:^, @internal/test-config@workspace:internal/test-config":
   version: 0.0.0-use.local
-  resolution: "@internal/tsconfig@workspace:internal/tsconfig"
+  resolution: "@internal/test-config@workspace:internal/test-config"
+  dependencies:
+    "@internal/tsconfig": "workspace:^"
+    esbuild-jest: ^0.5.0
+    jest: ^29.5.0
+  peerDependencies:
+    jest: ^29.5.0
   languageName: unknown
   linkType: soft
 
-"@internal/vitest@workspace:^, @internal/vitest@workspace:internal/vitest":
+"@internal/tsconfig@workspace:^, @internal/tsconfig@workspace:internal/tsconfig":
   version: 0.0.0-use.local
-  resolution: "@internal/vitest@workspace:internal/vitest"
-  dependencies:
-    "@internal/tsconfig": "workspace:^"
-    vitest: ^0.28.4
-  peerDependencies:
-    vitest: ^0.28.4
+  resolution: "@internal/tsconfig@workspace:internal/tsconfig"
   languageName: unknown
   linkType: soft
 
@@ -2936,8 +2937,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.1.0
     prettier: ^2
   languageName: unknown
@@ -2947,8 +2948,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.1.0
     "@onerepo/subprocess": 0.2.0
   languageName: unknown
@@ -3084,8 +3085,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-typescript@workspace:plugins/typescript"
   dependencies:
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@internal/vitest": "workspace:^"
     "@onerepo/builders": 0.1.0
     "@onerepo/core": 0.2.0
     "@onerepo/subprocess": 0.2.0
@@ -3099,6 +3100,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
   dependencies:
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.0
     "@onerepo/git": 0.1.0
@@ -3120,8 +3122,8 @@ __metadata:
   dependencies:
     "@internal/eslint-plugin": "workspace:^"
     "@internal/prettier-config": "workspace:^"
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@internal/vitest": "workspace:^"
     "@onerepo/plugin-changesets": "workspace:^"
     "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
@@ -3140,8 +3142,6 @@ __metadata:
     onerepo: "workspace:^"
     prettier: ^2.8.4
     typescript: ^4.9.5
-    vite: ^4.1.4
-    vitest: ^0.28.4
   bin:
     one: ./bin/one.js
   languageName: unknown
@@ -3151,8 +3151,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/subprocess@workspace:modules/subprocess"
   dependencies:
+    "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@internal/vitest": "workspace:^"
     "@onerepo/logger": 0.1.0
   languageName: unknown
   linkType: soft
@@ -18951,44 +18951,6 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 0877e1fd52e9939e8cab85ed42c19a16a5df162a003e8f4f3f8538bf572ae647fa6151a84d052e527e4a51636cac7ee9f05c81b50f428bd3e930591471b1427a
-  languageName: node
-  linkType: hard
-
-"vite@npm:^4.1.4":
-  version: 4.1.4
-  resolution: "vite@npm:4.1.4"
-  dependencies:
-    esbuild: ^0.16.14
-    fsevents: ~2.3.2
-    postcss: ^8.4.21
-    resolve: ^1.22.1
-    rollup: ^3.10.0
-  peerDependencies:
-    "@types/node": ">= 14"
-    less: "*"
-    sass: "*"
-    stylus: "*"
-    sugarss: "*"
-    terser: ^5.4.0
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    "@types/node":
-      optional: true
-    less:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-    sugarss:
-      optional: true
-    terser:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: 50a9a1f2e29e0ee8fefdec60314d38fb9b746df0bb6ae5a8114014b5bfd95e0fc9b29c0d5e73939361ba53af7eb66c7d20c5656bbe53a783e96540bd3b907c47
   languageName: node
   linkType: hard
 
