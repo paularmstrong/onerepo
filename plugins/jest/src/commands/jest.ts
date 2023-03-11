@@ -27,13 +27,17 @@ export const builder: Builder<Args> = (yargs) =>
 			default: false,
 		})
 		.example(`$0 ${command}`, 'Run only tests related to modified files.')
-		.example(`$0 ${command} --watch`, 'Runs jest in --watch mode.')
-		.example(`$0 ${command} -w -- path/to/test.ts`, 'Run vitest in watch mode with a particular file.')
-		.epilogue(
-			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those files and paths.'
+		.example(`$0 ${command} --watch`, 'Runs jest in --watch mode against the currently affected files.')
+		.example(`$0 ${command} --watch -- path/to/test.ts`, 'Run Jest in watch mode against a particular file.')
+		.example(
+			`$0 ${command} -- --runInBand --detectOpenHandles`,
+			'Pass any other Jest CLI options after the argument separator.'
 		)
 		.epilogue(
-			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well.'
+			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.'
+		)
+		.epilogue(
+			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator: (two dasshes `--`)'
 		)
 		.option('inspect', {
 			type: 'boolean',
