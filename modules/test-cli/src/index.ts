@@ -11,16 +11,27 @@ import { logger } from '@onerepo/logger';
 import type { MiddlewareFunction } from 'yargs';
 import { getGraph } from '@onerepo/graph';
 
-const testRunner: typeof vitest =
+// @ts-ignore
+const testRunner: typeof vitest | typeof jest =
 	// @ts-ignore
 	typeof jest !== 'undefined' ? jest : typeof vitest !== 'undefined' ? vitest : null;
+
+// esbuild-jest issue, if a "(" comes after "ock", esbuild will not transform the file.
+const mocker = testRunner.mock;
+mocker('yargs');
 
 export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R>, cmd = ''): Promise<Argv<R>> {
 	const inputArgs = parser(cmd, {
 		configuration: parserConfiguration,
 	});
 
-	process.argv[1] = 'test-runner';
+	process.env.ONE_REPO_VERBOSITY = '0';
+	process.env.ONE_REPO_HEAD_BRANCH = 'main';
+	logger.verbosity = 0;
+	process.argv[1] = 'onerepo-test-runner';
+
+	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
+
 	const yargs = Yargs(unparser(inputArgs as Arguments).join(' '));
 
 	testRunner.spyOn(yargs, 'exit').mockImplementation(() => {
@@ -29,10 +40,12 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 
 	const middlewares: Array<MiddlewareFunction> = [];
 
-	testRunner.spyOn(yargs, 'middleware').mockImplementation((middleware) => {
-		middlewares.push(...(Array.isArray(middleware) ? middleware : [middleware]));
-		return yargs;
-	});
+	testRunner
+		.spyOn(yargs, 'middleware')
+		.mockImplementation((middleware: MiddlewareFunction | Array<MiddlewareFunction>) => {
+			middlewares.push(...(Array.isArray(middleware) ? middleware : [middleware]));
+			return yargs;
+		});
 	testRunner.spyOn(yargs, 'showHelp').mockImplementation(
 		// @ts-ignore not sure if safe, but prevents writing help to stderr
 		() => ''
@@ -52,8 +65,7 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 		middleware(argv);
 	});
 
-	process.env.ONE_REPO_VERBOSITY = '0';
-	logger.verbosity = 0;
+	spy.mockClear();
 
 	return { ...argv, $0: 'root-bin' };
 }
@@ -70,9 +82,16 @@ export async function runHandler<R = Record<string, unknown>>(
 	},
 	cmd = ''
 ): Promise<void> {
-	const dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
-	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
+	let dirname = '';
+	if (typeof __dirname !== 'undefined') {
+		dirname = __dirname;
+	} else {
+		dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
+	}
+	logger.hasError = false;
 	logger.verbosity = 0;
+	logger.pause();
+	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof getters.affected>[1]) => getters.affected(graph, opts);
@@ -81,12 +100,29 @@ export async function runHandler<R = Record<string, unknown>>(
 	const wrappedGetFilepaths = (opts?: Parameters<typeof getters.filepaths>[2]) =>
 		getters.filepaths(graph, argv as getters.Argv, opts);
 
-	await handler(argv, {
-		logger,
-		getAffected: wrappedGetAffected,
-		getFilepaths: wrappedGetFilepaths,
-		getWorkspaces: wrappedGetWorkspaces,
-		graph,
+	let error: unknown = undefined;
+	try {
+		await handler(argv, {
+			logger,
+			getAffected: wrappedGetAffected,
+			getFilepaths: wrappedGetFilepaths,
+			getWorkspaces: wrappedGetWorkspaces,
+			graph,
+		});
+	} catch (e) {
+		error = e;
+	}
+
+	// await logger.end();
+
+	await new Promise<void>((resolve, reject) => {
+		setImmediate(() => {
+			if (logger.hasError || error) {
+				reject(error);
+				return;
+			}
+			resolve();
+		});
 	});
 }
 

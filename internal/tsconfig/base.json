@@ -9,7 +9,6 @@
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
-		"jsx": "react",
 		"lib": ["esnext"],
 		"module": "es2022",
 		"moduleResolution": "node",
@@ -19,6 +18,6 @@
 		"resolveJsonModule": true,
 		"strict": true,
 		"target": "es2022",
-		"types": ["vitest/globals"]
+		"types": ["node", "@types/jest"]
 	}
 }

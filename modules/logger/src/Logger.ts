@@ -57,7 +57,7 @@ export class Logger {
 		this.#logger = new LogStep('', { onEnd: this.#onEnd, onError: this.#onError, verbosity: this.verbosity });
 		this.#logger.activate(true);
 
-		if (process.stderr.isTTY) {
+		if (process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
 			this.#runUpdater();
 		}
 	}
@@ -84,6 +84,13 @@ export class Logger {
 	 */
 	get hasError() {
 		return this.#logger.hasError;
+	}
+
+	/**
+	 * Escape hatch, mostly for testing purposes. You probably shouldn’t use this.
+	 */
+	set hasError(has: boolean) {
+		this.#logger.hasError = has;
 	}
 
 	/**
@@ -123,6 +130,9 @@ export class Logger {
 	}
 
 	#writeSteps() {
+		if (process.env.NODE_ENV === 'test') {
+			return;
+		}
 		this.#updater(
 			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n')
 		);
@@ -201,6 +211,7 @@ export class Logger {
 	 * @internal
 	 */
 	async end() {
+		this.#paused = true;
 		for (const step of this.#steps) {
 			this.#activate(step);
 			await step.end();
@@ -208,9 +219,11 @@ export class Logger {
 		}
 		await this.#logger.end();
 		await this.#logger.flush();
+		clearTimeout(this.#updaterTimeout);
 
 		return new Promise<void>((resolve) => {
 			setImmediate(() => {
+				clearTimeout(this.#updaterTimeout);
 				resolve();
 			});
 		});

@@ -28,6 +28,7 @@
 		"yargs-unparser": "^2.0.0"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/yargs-unparser": "^2.0.1",

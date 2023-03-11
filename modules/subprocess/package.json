@@ -23,7 +23,7 @@
 		"@onerepo/logger": "0.1.0"
 	},
 	"devDependencies": {
-		"@internal/tsconfig": "workspace:^",
-		"@internal/vitest": "workspace:^"
+		"@internal/test-config": "workspace:^",
+		"@internal/tsconfig": "workspace:^"
 	}
 }

@@ -6,7 +6,7 @@ const { setup } = require('onerepo');
 const { changesets } = require('@onerepo/plugin-changesets');
 const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
-const { vitest } = require('@onerepo/plugin-vitest');
+const { jest } = require('@onerepo/plugin-jest');
 const { prettier } = require('@onerepo/plugin-prettier');
 const { typescript } = require('@onerepo/plugin-typescript');
 
@@ -28,7 +28,7 @@ setup(
 		},
 		plugins: [
 			changesets(),
-			vitest({ name: 'test', config: './config/vitest.config.ts' }),
+			jest({ name: 'test' }),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
 			docgen({

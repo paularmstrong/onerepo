@@ -40,6 +40,7 @@
 	},
 	"devDependencies": {
 		"@changesets/types": "^5.2.1",
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/inquirer": "^9",

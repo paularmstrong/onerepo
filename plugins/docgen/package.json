@@ -40,6 +40,7 @@
 		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/glob": "^8.1.0",

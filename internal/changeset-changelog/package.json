@@ -6,6 +6,7 @@
 	"devDependencies": {
 		"@changesets/parse": "^0.3.16",
 		"@changesets/types": "^5.2.1",
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^"
 	},
 	"dependencies": {

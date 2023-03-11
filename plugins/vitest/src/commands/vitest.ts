@@ -27,7 +27,7 @@ export const builder: Builder<Args> = (yargs) =>
 			'This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.'
 		)
 		.epilogue(
-			'Additionally, any other [Vitest CLI options](https://vitest.dev/guide/cli.html) can be passed as passthrough arguments as well.'
+			'Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be passed as passthrough arguments as well.'
 		)
 		.option('inspect', {
 			type: 'boolean',
@@ -36,8 +36,8 @@ export const builder: Builder<Args> = (yargs) =>
 		})
 		.option('config', {
 			type: 'string',
-			description: 'Path to the vitest.config file, relative to the repo root.',
-			default: './vitest.config.ts',
+			description: 'Path to the jest.config file, relative to the repo root.',
+			default: './jest.config.ts',
 			hidden: true,
 		});
 

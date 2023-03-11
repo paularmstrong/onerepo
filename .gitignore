@@ -16,11 +16,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
+# output
 **/dist/*
-
+coverage/*
 *.tsbuildinfo
 *.eslintcache
-
-# Local Netlify folder
 .netlify

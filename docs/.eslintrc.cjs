@@ -10,6 +10,7 @@ module.exports = {
 
 	rules: {
 		'import/no-unresolved': ['error', { ignore: ['astro:content'] }],
+		'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
 	},
 
 	settings: {

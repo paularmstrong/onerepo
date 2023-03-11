@@ -4,6 +4,8 @@ import * as git from '@onerepo/git';
 import * as Tasks from './tasks';
 import { getCommand } from '@onerepo/test-cli';
 
+jest.mock('@onerepo/git');
+
 const { build, run } = getCommand(Tasks);
 
 const modified = {
@@ -40,11 +42,11 @@ describe('builder', () => {
 
 describe('handler', () => {
 	test('lists tasks for pre- prefix only', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -57,11 +59,11 @@ describe('handler', () => {
 	});
 
 	test('lists tasks for all pre-, normal, and post-', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -88,13 +90,11 @@ describe('handler', () => {
 	});
 
 	test('includes meta information on task list', async () => {
-		vitest
-			.spyOn(git, 'getModifiedFiles')
-			.mockResolvedValue({ ...modified, modified: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, modified: ['modules/burritos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -111,11 +111,11 @@ describe('handler', () => {
 	});
 
 	test('returns no tasks if all files were ignored', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/tacos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/tacos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -126,7 +126,7 @@ describe('handler', () => {
 	});
 
 	test('ignores files', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
 			...modified,
 			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
 			modified: [],
@@ -137,7 +137,7 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -155,7 +155,7 @@ describe('handler', () => {
 	});
 
 	test('filters out commands when matchers do not match', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
 			...modified,
 			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
 			modified: [],
@@ -166,7 +166,7 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -177,11 +177,11 @@ describe('handler', () => {
 	});
 
 	test('includes tasks that match cross-workspaces', async () => {
-		vitest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
@@ -197,13 +197,13 @@ describe('handler', () => {
 	});
 
 	test('runs all workspaces if the root is affected', async () => {
-		vitest
+		jest
 			.spyOn(git, 'getModifiedFiles')
 			.mockResolvedValue({ ...modified, added: [], modified: ['root.ts'], deleted: [], all: [], moved: [] });
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
-		vitest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});

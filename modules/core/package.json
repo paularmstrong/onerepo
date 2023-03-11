@@ -41,6 +41,7 @@
 		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "0.1.1",
 		"@types/ejs": "^3",

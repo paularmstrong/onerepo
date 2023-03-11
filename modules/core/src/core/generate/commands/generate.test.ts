@@ -4,6 +4,11 @@ import * as Generate from './generate';
 import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 
+jest.mock('@onerepo/file', () => ({
+	__esModule: true,
+	...jest.requireActual('@onerepo/file'),
+}));
+
 const { run: mainRun } = getCommand(Generate);
 
 function run(cmd: string) {
@@ -12,8 +17,9 @@ function run(cmd: string) {
 
 describe('handler', () => {
 	beforeEach(() => {
-		vi.spyOn(inquirer, 'prompt').mockImplementation(() => Promise.resolve({}));
-		vi.spyOn(file, 'write').mockResolvedValue();
+		jest.spyOn(inquirer, 'prompt').mockImplementation(() => Promise.resolve({}));
+		jest.spyOn(file, 'write').mockResolvedValue();
+		jest.spyOn(file, 'exists').mockResolvedValue(true);
 	});
 
 	test('if type and name are provided, does not prompt', async () => {
@@ -26,7 +32,7 @@ describe('handler', () => {
 	});
 
 	test('will prompt for type and name', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'app', nameInput: 'burritos' });
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'app', nameInput: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([
@@ -53,7 +59,7 @@ describe('handler', () => {
 	});
 
 	test('can have custom prompts', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', nameInput: 'burritos' });
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', nameInput: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([

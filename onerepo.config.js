@@ -5,7 +5,13 @@ export default {
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 	'pre-merge': {
-		sequential: ['$0 lint --all --no-fix', '$0 format --check', '$0 test --affected', '$0 tsc', '$0 build'],
+		sequential: [
+			'$0 lint --all --no-fix',
+			'$0 format --check',
+			'$0 test --affected -w ${workspaces}',
+			'$0 tsc',
+			'$0 build',
+		],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 	'post-checkout': {
