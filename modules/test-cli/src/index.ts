@@ -25,9 +25,9 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 		configuration: parserConfiguration,
 	});
 
-	process.env.ONE_REPO_VERBOSITY = '0';
+	process.env.ONE_REPO_VERBOSITY = '4';
 	process.env.ONE_REPO_HEAD_BRANCH = 'main';
-	logger.verbosity = 0;
+	logger.verbosity = 4;
 	process.argv[1] = 'onerepo-test-runner';
 
 	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
@@ -89,7 +89,7 @@ export async function runHandler<R = Record<string, unknown>>(
 		dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
 	}
 	logger.hasError = false;
-	logger.verbosity = 0;
+	logger.verbosity = 4;
 	logger.pause();
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);

@@ -1,7 +1,10 @@
 import path from 'node:path';
+import { createRequire } from 'node:module';
+import cjson from 'cjson';
 import { glob } from 'glob';
 import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
+import { read } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
@@ -11,7 +14,7 @@ import { defaultValidators } from '../schema';
 
 export const command = 'verify';
 
-export const description = 'Verify the integrity of the repo’s dependency graph.';
+export const description = 'Verify the integrity of the repo’s dependency graph and files in each workspace.';
 
 type Argv = {
 	'custom-schema'?: string;
@@ -21,7 +24,7 @@ export const builder: Builder<Argv> = (yargs) =>
 	yargs.usage(`$0 verify`).option('custom-schema', {
 		type: 'string',
 		normalize: true,
-		description: 'Path to a custom schema definition',
+		description: 'Path to a custom JSON schema definition',
 		hidden: true,
 	});
 
@@ -51,10 +54,10 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	await dependencyStep.end();
 
 	// esbuild cannot import json files correctly unless bundling externals
-	// Since we don't do that for a myriad of reasons, this needs to be a dynamic import
-	// Typescript hates this, but we are smarter than typescript sometimes.
-	// @ts-ignore
-	const draft7 = await import('ajv/dist/refs/json-schema-draft-07.json', { assert: { type: 'json' } });
+	// Just as well, AJV doesn't properly document its exported files for ESM verification
+	// So for a myriad of reasons, this needs to be a runtime requires
+	const require = createRequire(import.meta?.url ?? __dirname);
+	const draft7 = require('ajv/dist/refs/json-schema-draft-07.json');
 
 	const ajv = new Ajv({ allErrors: true });
 	ajv.addMetaSchema(draft7);
@@ -77,19 +80,24 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
 			if (minimatch(relativePath, locGlob)) {
 				const files = await glob(fileGlob, { cwd: workspace.location });
-				files.forEach((file) => {
+				for (const file of files) {
 					schemaStep.debug(`Validating "${file}" against schema for "${locGlob}/${fileGlob}"`);
-					const contents: Record<string, unknown> = require(workspace.resolve(file));
+					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
+					const contents = cjson.parse(rawContents);
 					const validate = ajv.getSchema(schemaKey)!;
 					if (!validate(contents)) {
 						validate.errors?.forEach((err) => {
 							if (err.keyword === 'if') {
 								return;
 							}
+							if (process.env.NODE_ENV === 'test') {
+								throw new Error(err.message);
+							}
+
 							schemaStep.error(err.message);
 						});
 					}
-				});
+				}
 			}
 		}
 		await schemaStep.end();

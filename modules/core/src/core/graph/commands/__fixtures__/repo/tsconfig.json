@@ -1,0 +1,4 @@
+{
+	// TSCONFIGS support CJSON!
+	"extends": "foo"
+}
