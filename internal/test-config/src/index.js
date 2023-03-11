@@ -18,11 +18,12 @@ export function makeConfig(config) {
 		...rest,
 		rootDir: actualRoot,
 		modulePathIgnorePatterns: ['fixtures'],
-		testMatch: [`<rootDir>/${path.relative(actualRoot, configRoot ?? '.')}/**/*.test.[jt]s?(x)`],
+		roots: [path.relative(actualRoot, configRoot ?? '.')],
 		transformIgnorePatterns: ['/node_modules/(?!(inquirer|log-update))/', ...(config.transformIgnorePatterns ?? [])],
 		transform: {
 			'\\.[jt]sx?$': ['esbuild-jest', { sourcemap: true }],
 			...config.transform,
 		},
+		watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
 	};
 }
