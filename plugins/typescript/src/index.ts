@@ -24,5 +24,13 @@ export function typescript(opts: Options = {}): Plugin {
 				handler
 			);
 		},
+		tasks: {
+			'pre-commit': {
+				sequential: [`$0 ${opts.name ?? cmd.command[0]}`],
+			},
+			'pre-merge': {
+				sequential: [`$0 ${opts.name ?? cmd.command[0]}`],
+			},
+		},
 	};
 }

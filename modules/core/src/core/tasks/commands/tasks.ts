@@ -71,6 +71,11 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
 	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
+	// TODO: find a better way to pass this through.
+	// HandlerExtra seems okay, but creates a bit of an unexpected setup – eg, does it go to ALL handlers?
+	// @ts-ignore
+	const globalTasks: Array<TaskConfig> = argv.globalTasks ?? [];
+
 	const requested = await getWorkspaces({ ignore });
 	const affected = graph.affected(requested);
 	const affectedNames = affected.map(({ name }) => name);
@@ -91,8 +96,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	const parallelTasks: TaskSet = { pre: [], run: [], post: [] };
 	let hasTasks = false;
 
-	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Required<Tasks>, type: keyof TaskSet) {
-		tasks.sequential.forEach((task) => {
+	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Tasks, type: keyof TaskSet) {
+		tasks.sequential?.forEach((task) => {
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
@@ -101,7 +106,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			}
 		});
 
-		tasks.parallel.forEach((task) => {
+		tasks.parallel?.forEach((task) => {
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
@@ -111,11 +116,34 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		});
 	}
 
+	const isPre = lifecycle.startsWith('pre-');
+	const isPost = lifecycle.startsWith('post-');
+
+	for (const taskSet of globalTasks) {
+		if (isPre || !isPost) {
+			const tasks = taskSet[isPre ? lifecycle : `pre-${lifecycle}`];
+			if (tasks) {
+				addTasks(() => true, graph.root, tasks, 'pre');
+			}
+		}
+
+		if (!isPre && !isPost) {
+			const tasks = taskSet[lifecycle];
+			if (tasks) {
+				addTasks(() => true, graph.root, tasks, 'run');
+			}
+		}
+
+		if (isPost || !isPre) {
+			const tasks = taskSet[isPost ? lifecycle : `post-${lifecycle}`];
+			if (tasks) {
+				addTasks(() => true, graph.root, tasks, 'post');
+			}
+		}
+	}
+
 	for (const workspace of graph.workspaces) {
 		logger.log(`Looking for tasks in ${workspace.name}`);
-
-		const isPre = lifecycle.startsWith('pre-');
-		const isPost = lifecycle.startsWith('post-');
 
 		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
 
