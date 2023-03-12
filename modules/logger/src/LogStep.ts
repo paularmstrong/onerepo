@@ -6,6 +6,7 @@ type StepOptions = {
 	verbosity: number;
 	onEnd: (step: LogStep) => Promise<void>;
 	onError: () => void;
+	stream?: Duplex;
 };
 
 /**
@@ -38,13 +39,13 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onError, verbosity }: StepOptions) {
+	constructor(name: string, { onEnd, onError, verbosity, stream }: StepOptions) {
 		performance.mark(`start_${name || 'logger'}`);
 		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
-		this.#stream = new LogData();
+		this.#stream = stream ?? new LogData();
 		if (this.name) {
 			this.#writeStream(this.#prefixStart(this.name));
 		}
@@ -275,7 +276,7 @@ class LogData extends Duplex {
 
 function stringify(item: unknown): string {
 	if (typeof item === 'string') {
-		return item;
+		return item.replace(/^\n+/, '').replace(/\n*$/g, '');
 	}
 
 	if (
@@ -294,5 +295,8 @@ function stringify(item: unknown): string {
 }
 
 function ensureNewline(str: string): string {
-	return str.endsWith('\n') ? str : `${str}\n`;
+	if (/^\S*$/.test(str)) {
+		return '';
+	}
+	return str.endsWith('\n') ? str : str.replace(/\n*$/g, '\n');
 }
