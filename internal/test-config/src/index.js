@@ -16,7 +16,6 @@ export function makeConfig(config) {
 		restoreMocks: true,
 		moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'],
 		...rest,
-		collectCoverageFrom: ['**/*.{ts,js}', '!**/node_modules/**'],
 		coveragePathIgnorePatterns: ['/__fixtures__/', ...(rest.coveragePathIgnorePatterns ?? [])],
 		rootDir: actualRoot,
 		modulePathIgnorePatterns: ['fixtures'],
