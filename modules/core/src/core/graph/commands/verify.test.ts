@@ -24,4 +24,10 @@ describe('verify', () => {
 			new Error("must have required property 'displayName'")
 		);
 	});
+
+	test('can verify yaml files', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const schema = require.resolve('./__fixtures__/yaml-schema.ts');
+		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toEqual(new Error('must be equal to constant'));
+	});
 });

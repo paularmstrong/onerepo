@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import cjson from 'cjson';
 import { glob } from 'glob';
 import minimatch from 'minimatch';
+import yaml from 'js-yaml';
 import { coerce, intersects, valid } from 'semver';
 import { read } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -89,6 +90,9 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 						contents = cjson.parse(rawContents);
 					} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
 						contents = require(workspace.resolve(file));
+					} else if (minimatch(file, '**/*.{yml,yaml}')) {
+						const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
+						contents = yaml.load(rawContents) as Record<string, unknown>;
 					} else {
 						schemaStep.error(`Unable to read file with unknown type: ${workspace.resolve(file)}`);
 					}

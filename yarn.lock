@@ -2892,6 +2892,7 @@ __metadata:
     "@types/ejs": ^3
     "@types/glob": ^8.1.0
     "@types/inquirer": ^9
+    "@types/js-yaml": ^4
     "@types/npmlog": ^4.1.4
     "@types/random-seed": ^0
     "@types/semver": ^7.3.13
@@ -2906,6 +2907,7 @@ __metadata:
     glob: ^9.0.0
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
+    js-yaml: ^4.1.0
     minimatch: ^7.2.0
     picocolors: ^1.0.0
     prettier: ^2
@@ -3706,6 +3708,13 @@ __metadata:
     expect: ^29.0.0
     pretty-format: ^29.0.0
   checksum: 23760282362a252e6690314584d83a47512d4cd61663e957ed3398ecf98195fe931c45606ee2f9def12f8ed7d8aa102d492ec42d26facdaf8b78094a31e6568e
+  languageName: node
+  linkType: hard
+
+"@types/js-yaml@npm:^4":
+  version: 4.0.5
+  resolution: "@types/js-yaml@npm:4.0.5"
+  checksum: 7dcac8c50fec31643cc9d6444b5503239a861414cdfaa7ae9a38bc22597c4d850c4b8cec3d82d73b3fbca408348ce223b0408d598b32e094470dfffc6d486b4d
   languageName: node
   linkType: hard
 
