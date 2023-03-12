@@ -14,6 +14,14 @@ describe('verify', () => {
 	test('can verify cjson (eg tsconfigs)', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/tsconfig-schema.ts');
-		await expect(run(`--custom-schema ${schema}`, { graph })).resolves.toBeUndefined();
+		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toEqual(new Error('must be equal to constant'));
+	});
+
+	test('can verify js (eg jest.config, etc)', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const schema = require.resolve('./__fixtures__/js-schema.ts');
+		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toEqual(
+			new Error("must have required property 'displayName'")
+		);
 	});
 });

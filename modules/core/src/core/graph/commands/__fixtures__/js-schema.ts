@@ -2,15 +2,18 @@ import type { GraphSchemaValidators } from '@onerepo/core';
 
 export default {
 	'**': {
-		'tsconfig.json': {
+		'jest.config.js': {
 			type: 'object',
 			properties: {
-				extends: {
+				displayName: {
 					type: 'string',
-					const: 'foo',
+				},
+				clearMocks: {
+					type: 'boolean',
+					const: true,
 				},
 			},
-			required: ['extends'],
+			required: ['displayName', 'clearMocks'],
 		},
 	},
 } satisfies GraphSchemaValidators;

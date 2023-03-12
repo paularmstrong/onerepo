@@ -74,7 +74,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
 
 	for (const workspace of graph.workspaces) {
-		const schemaStep = logger.createStep(`Validating ${workspace.name} json files`);
+		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
 		const relativePath = path.relative(graph.root.location, workspace.location);
 		for (const schemaKey of availableSchema) {
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
@@ -82,8 +82,17 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				const files = await glob(fileGlob, { cwd: workspace.location });
 				for (const file of files) {
 					schemaStep.debug(`Validating "${file}" against schema for "${locGlob}/${fileGlob}"`);
-					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
-					const contents = cjson.parse(rawContents);
+
+					let contents: Record<string, unknown> = {};
+					if (file.endsWith('json')) {
+						const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
+						contents = cjson.parse(rawContents);
+					} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
+						contents = require(workspace.resolve(file));
+					} else {
+						schemaStep.error(`Unable to read file with unknown type: ${workspace.resolve(file)}`);
+					}
+
 					const validate = ajv.getSchema(schemaKey)!;
 					if (!validate(contents)) {
 						validate.errors?.forEach((err) => {
