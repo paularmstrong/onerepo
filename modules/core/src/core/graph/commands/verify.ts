@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { glob } from 'glob';
 import minimatch from 'minimatch';
 import { coerce, intersects, valid } from 'semver';
@@ -61,6 +62,8 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	ajvErrors(ajv);
 
 	importSchema(ajv, defaultValidators);
+
+	const require = createRequire('/');
 
 	logger.debug(`Getting custom schema '${customSchema}'`);
 	if (customSchema) {

@@ -3,6 +3,8 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
 import createYargs from 'yargs';
@@ -167,11 +169,21 @@ export async function setup(config: Config = {}): Promise<App> {
  * Ideally we would use something safer like a Proxy, but basically all of yargs is internal private, which fails. There's a long discussion about this, but tl;dr: too bad.
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
-function patchCommandDir(options: RequireDirectoryOptions, commandDir: Yargs['commandDir']) {
-	return function (this: Yargs, pathname: string, opts: RequireDirectoryOptions = {}) {
-		const returnYargs = commandDir.call(this, pathname, { ...options, ...opts });
-		returnYargs.commandDir = patchCommandDir(options, returnYargs.commandDir);
-		return returnYargs;
+function patchCommandDir(
+	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
+	commandDir: Yargs['commandDir']
+) {
+	const require = createRequire('/');
+	return function (this: Yargs, pathname: string) {
+		const files = globSync(`${pathname}/*`, { nodir: true });
+		this.commandDir = patchCommandDir(options, commandDir);
+		for (const file of files) {
+			const cmd = require(file);
+			const { command, description, builder, handler } = options.visit(cmd);
+			this.command(command, description, builder, handler);
+		}
+
+		return this;
 	};
 }
 

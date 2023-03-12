@@ -20,6 +20,7 @@ module.exports = {
 				'no-console': 'error',
 				'no-undef': 'off', // @typescript-eslint/no-unused-vars
 				indent: 'off', // Prettier is used for this
+				'global-require': 'error',
 
 				'tailwindcss/classnames-order': 'error',
 				'tailwindcss/enforces-negative-arbitrary-values': 'error',
@@ -50,6 +51,9 @@ module.exports = {
 				{
 					files: ['**/*.cjs'],
 					env: { node: true, commonjs: true },
+					rules: {
+						'global-require': 'off',
+					},
 				},
 				{
 					parser: '@typescript-eslint/parser',
