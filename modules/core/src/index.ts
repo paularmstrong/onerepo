@@ -175,9 +175,23 @@ function patchCommandDir(
 ) {
 	const require = createRequire('/');
 	return function (this: Yargs, pathname: string) {
-		const files = globSync(`${pathname}/*`, { nodir: true });
+		const files = globSync(
+			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
+			{
+				nodir: true,
+			}
+		);
 		this.commandDir = patchCommandDir(options, commandDir);
+
 		for (const file of files) {
+			if (typeof options.exclude === 'function') {
+				if (options.exclude(file)) {
+					continue;
+				}
+			} else if (options.exclude?.test(file)) {
+				continue;
+			}
+
 			const cmd = require(file);
 			const { command, description, builder, handler } = options.visit(cmd);
 			this.command(command, description, builder, handler);

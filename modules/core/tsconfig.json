@@ -5,5 +5,5 @@
 		"composite": true
 	},
 	"include": ["./src"],
-	"exclude": ["dist"]
+	"exclude": ["dist", "**/__fixtures__/**"]
 }
