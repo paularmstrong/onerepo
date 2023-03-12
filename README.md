@@ -8,30 +8,39 @@ https://onerepo.tools/docs/
 
 ## Quick start
 
+````shInstall dependencies using your package manager of choice.
+
 ```sh
-npm install onerepo
-```
+# With Yarn
+yarn add --dev onerepo
 
-Add a file, `./bin/one.cjs`
+# With NPM
+npm install --save-dev onerepo
+````
 
-```js
+Create an entrypoint for you CLI. Not that this file _should_ be ESM-compatible. Either use the `.mjs` extension or set `"type": "module"` in your root `package.json`.
+
+```js title="./bin/one.mjs"
 #!/usr/bin/env node
-require('esbuild-register/dist/node').register();
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { setup } from 'onerepo';
 
-const { setup } = require('onegraph');
-
-setup(
-	/** @type import('onerepo').Config */
-	{
-		// See documentation for options
-	}
-).then(({ run }) => run());
+setup({
+	root: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
+}).then(({ run }) => run());
 ```
 
+Next ensure your command is executable:
+
 ```sh
-chmod a+x ./bin/one.cjs
-# Follow instructions to install and start using
-./bin/one.cjs install
+chmod a+x ./bin/one.mjs
+```
+
+Finally, install the CLI using the [install core command](/docs/core/install/).
+
+```sh
+./bin/one.mjs install
 ```
 
 ## Why another monorepo tool?

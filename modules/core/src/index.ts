@@ -164,9 +164,13 @@ export async function setup(config: Config = {}): Promise<App> {
 
 /**
  * Recursively patch the yarg's instance `commandDir` to ensure our options are always set.
- * This ensures things like the include/exclude are set, but more importantly that the command handler is enclosed with async handling for logging purposes.
+ * This ensures things like the include/exclude are set, but more importantly:
  *
- * Ideally we would use something safer like a Proxy, but basically all of yargs is internal private, which fails. There's a long discussion about this, but tl;dr: too bad.
+ * 1. Ensures that the command handler is enclosed with async handling for logging purposes.
+ * 2. Enables `commandDir` in ESM. https://github.com/yargs/yargs/issues/571
+ *
+ * Ideally we would use something safer like a Proxy, but basically all of yargs is internal private,
+ * which Proxies cannot handle. There's a long discussion about this, but tl;dr: too bad.
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
 function patchCommandDir(
