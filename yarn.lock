@@ -2930,7 +2930,7 @@ __metadata:
     "@types/glob": ^8.1.0
     astro: ^2.0.16
     clsx: ^1.2.1
-    eslint-plugin-astro: ^0.23.0
+    eslint-plugin-astro: ^0.24.0
     glob: ^9.0.0
     netlify-cli: ^13.0.0
     netlify-plugin-csp-generator: ^1.5.0
@@ -4869,9 +4869,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-eslint-parser@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "astro-eslint-parser@npm:0.11.0"
+"astro-eslint-parser@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "astro-eslint-parser@npm:0.12.0"
   dependencies:
     "@astrojs/compiler": ^1.0.0
     "@typescript-eslint/scope-manager": ^5.48.2
@@ -4880,7 +4880,7 @@ __metadata:
     debug: ^4.3.4
     eslint-visitor-keys: ^3.0.0
     espree: ^9.0.0
-  checksum: 30252a02f4fb10b61aa51b414fe7361a437f805287e0f976615abc53d10be150d6b76c6b3fe0bab5c5017d9a056d994d303a4a0cd7fda56f4161bb2c2f686c2d
+  checksum: d149b9159b157355c4a718d1e9319938452e8bb1173bb6f53399d73f1c713f14c30373bf1bff647cd5cab34df9f1e64e0f0f0c4c99a71aa893ce5b1417eea8d5
   languageName: node
   linkType: hard
 
@@ -7894,19 +7894,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-astro@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "eslint-plugin-astro@npm:0.23.0"
+"eslint-plugin-astro@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "eslint-plugin-astro@npm:0.24.0"
   dependencies:
     "@jridgewell/sourcemap-codec": ^1.4.14
     "@typescript-eslint/types": ^5.25.0
-    astro-eslint-parser: ^0.11.0
+    astro-eslint-parser: ^0.12.0
     eslint-utils: ^3.0.0
     postcss: ^8.4.14
     postcss-selector-parser: ^6.0.10
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: 9bf386c82d9c97209848e3cd59e46e6579274e4091c3cd6676071cf86339f284ccb7c2c42dd543607901143173e1ddeccfcaecc3bac6d55c8ecbff93689380e3
+  checksum: af3dedbe7942d2b0d4108d45cb762e89e03e25f04253199dd7572db9823bb4cc55eead7ac5f4b3dd1f05adf08d8aff0e7b715089741726a18ac0628a20a726fc
   languageName: node
   linkType: hard
 
