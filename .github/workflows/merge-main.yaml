@@ -38,6 +38,7 @@ jobs:
       matrix:
         task: ${{ fromJSON(needs.setup.outputs.tasks) }}
         node: [16, 18]
+    name: v${{ matrix.node }} - ${{ matrix.task.name }}
     steps:
       - uses: actions/checkout@v3
         with:

@@ -96,7 +96,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(graph, workspace, task, affectedNames);
+				const spec = taskToSpec(argv.$0, graph, workspace, task, affectedNames);
 				sequentialTasks[type].push(spec);
 			}
 		});
@@ -105,7 +105,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(graph, workspace, task, affectedNames);
+				const spec = taskToSpec(argv.$0, graph, workspace, task, affectedNames);
 				parallelTasks[type].push(spec);
 			}
 		});
@@ -187,12 +187,17 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(graph: Graph, workspace: Workspace, task: Task, wsNames: Array<string>): ExtendedRunSpec {
+function taskToSpec(
+	cliName: string,
+	graph: Graph,
+	workspace: Workspace,
+	task: Task,
+	wsNames: Array<string>
+): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
 	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
-	const bin = cmd === '$0' ? process.argv[1] : cmd;
 	const passthrough = [
 		process.env.ONE_REPO_DRY_RUN === 'true' ? '--dry-run' : false,
 		'',
@@ -200,7 +205,7 @@ function taskToSpec(graph: Graph, workspace: Workspace, task: Task, wsNames: Arr
 	].filter(Boolean) as Array<string>;
 
 	return {
-		name: `Run \`${command.replace(/^\$0/, bin.split('/')[bin.split('/').length - 1])}\` in \`${workspace.name}\``,
+		name: `Run \`${command.replace(/^\$0/, cliName)}\` in \`${workspace.name}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
