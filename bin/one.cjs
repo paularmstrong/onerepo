@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 const path = require('node:path');
+const { performance } = require('node:perf_hooks');
+
+performance.mark('one_register');
 require('esbuild-register/dist/node').register({});
 
 const { setup } = require('onerepo');
