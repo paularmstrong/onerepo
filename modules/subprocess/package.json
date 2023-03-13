@@ -25,5 +25,8 @@
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^"
+	},
+	"engines": {
+		"node": ">= 16.0.0 < 17 > 18.0.0 < 19"
 	}
 }

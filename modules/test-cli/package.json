@@ -33,5 +33,8 @@
 		"@types/yargs-unparser": "^2.0.1",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4"
+	},
+	"engines": {
+		"node": ">= 16.0.0 < 17 > 18.0.0 < 19"
 	}
 }

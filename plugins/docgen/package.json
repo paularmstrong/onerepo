@@ -52,5 +52,8 @@
 	},
 	"peerDependencies": {
 		"esbuild-register": "^3"
+	},
+	"engines": {
+		"node": ">= 16.0.0 < 17 > 18.0.0 < 19"
 	}
 }
