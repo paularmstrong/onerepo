@@ -140,6 +140,9 @@ ${JSON.stringify(argv, null, 2)}`);
 					await postHandler(argv, extra);
 					logger.timing('one_handler_start', 'one_shutdown');
 					logger.timing('one_startup', 'one_shutdown');
+					if (performance.getEntriesByName('one_register').length) {
+						logger.timing('one_register', 'one_startup');
+					}
 					await logger.end();
 					setImmediate(() => {
 						if (logger.hasError) {

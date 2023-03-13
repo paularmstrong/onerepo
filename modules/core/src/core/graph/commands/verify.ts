@@ -1,7 +1,8 @@
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { glob } from 'glob';
 import minimatch from 'minimatch';
-import { coerce, intersects, valid } from 'semver';
+import semver from 'semver';
 import type { Builder, Handler } from '@onerepo/yargs';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
@@ -39,7 +40,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 			for (const [dep, version] of Object.entries(dependency.dependencies)) {
 				if (dep in deps) {
 					dependencyStep.log(`Checking ${dep}@${deps[dep]} intersects ${version}`);
-					if (valid(coerce(version)) && !intersects(version, deps[dep])) {
+					if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
 						dependencyStep.error(
 							`\`${dep}@${deps[dep]}\` does not satisfy \`${dep}@${version}\` as required by local dependency \`${dependency.name}\``
 						);
@@ -61,6 +62,8 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	ajvErrors(ajv);
 
 	importSchema(ajv, defaultValidators);
+
+	const require = createRequire('/');
 
 	logger.debug(`Getting custom schema '${customSchema}'`);
 	if (customSchema) {

@@ -3,6 +3,9 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { register } from 'esbuild-register/dist/node';
+import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
 import createYargs from 'yargs';
@@ -67,6 +70,8 @@ export type App = {
  * @group Core
  */
 export async function setup(config: Config = {}): Promise<App> {
+	register({});
+
 	performance.mark('one_startup');
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
@@ -162,16 +167,44 @@ export async function setup(config: Config = {}): Promise<App> {
 
 /**
  * Recursively patch the yarg's instance `commandDir` to ensure our options are always set.
- * This ensures things like the include/exclude are set, but more importantly that the command handler is enclosed with async handling for logging purposes.
+ * This ensures things like the include/exclude are set, but more importantly:
  *
- * Ideally we would use something safer like a Proxy, but basically all of yargs is internal private, which fails. There's a long discussion about this, but tl;dr: too bad.
+ * 1. Ensures that the command handler is enclosed with async handling for logging purposes.
+ * 2. Enables `commandDir` in ESM. https://github.com/yargs/yargs/issues/571
+ *
+ * Ideally we would use something safer like a Proxy, but basically all of yargs is internal private,
+ * which Proxies cannot handle. There's a long discussion about this, but tl;dr: too bad.
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
-function patchCommandDir(options: RequireDirectoryOptions, commandDir: Yargs['commandDir']) {
-	return function (this: Yargs, pathname: string, opts: RequireDirectoryOptions = {}) {
-		const returnYargs = commandDir.call(this, pathname, { ...options, ...opts });
-		returnYargs.commandDir = patchCommandDir(options, returnYargs.commandDir);
-		return returnYargs;
+function patchCommandDir(
+	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
+	commandDir: Yargs['commandDir']
+) {
+	const require = createRequire('/');
+	return function (this: Yargs, pathname: string) {
+		const files = globSync(
+			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
+			{
+				nodir: true,
+			}
+		);
+		this.commandDir = patchCommandDir(options, commandDir);
+
+		for (const file of files) {
+			if (typeof options.exclude === 'function') {
+				if (options.exclude(file)) {
+					continue;
+				}
+			} else if (options.exclude?.test(file)) {
+				continue;
+			}
+
+			const cmd = require(file);
+			const { command, description, builder, handler } = options.visit(cmd);
+			this.command(command, description, builder, handler);
+		}
+
+		return this;
 	};
 }
 
