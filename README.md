@@ -8,7 +8,7 @@ https://onerepo.tools/docs/
 
 ## Quick start
 
-````shInstall dependencies using your package manager of choice.
+Install dependencies using your package manager of choice.
 
 ```sh
 # With Yarn
