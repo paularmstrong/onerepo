@@ -272,6 +272,13 @@ export class Graph {
 		const workspace = new Workspace(this.#rootLocation, location, packageJson, this.#require);
 		this.#byName.set(workspace.name, workspace);
 		workspace.aliases.forEach((alias) => {
+			if (this.#nameByAlias.has(alias)) {
+				throw new Error(
+					`Cannot add alias "${alias}" for ${workspace.name} because it is already used for ${this.#nameByAlias.get(
+						alias
+					)}.`
+				);
+			}
 			this.#nameByAlias.set(alias, workspace.name);
 		});
 		this.#nameByLocation.set(location, workspace.name);
