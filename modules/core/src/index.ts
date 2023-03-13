@@ -9,6 +9,7 @@ import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
 import createYargs from 'yargs';
+import type { TaskConfig } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
@@ -16,7 +17,7 @@ import { generate as generatePlugin } from './core/generate';
 import { graph as graphPlugin } from './core/graph';
 import { install as installPlugin } from './core/install';
 import { tasks as tasksPlugin } from './core/tasks';
-import type { Config, PluginObject } from './types';
+import type { Config, Plugin, PluginObject } from './types';
 
 export type { GraphSchemaValidators } from './core/graph';
 export * from './types';
@@ -102,26 +103,14 @@ export async function setup(config: Config = {}): Promise<App> {
 		yargs._commandDirOpts = options;
 	}
 
-	// Install the core plugins
-	if (core.generate !== false) {
-		plugins.push(generatePlugin(core.generate));
-	}
-	if (core.graph !== false) {
-		plugins.push(graphPlugin(core.graph));
-	}
-	if (core.install !== false) {
-		plugins.push(installPlugin(core.install));
-	}
-	if (core.tasks !== false) {
-		plugins.push(tasksPlugin(core.tasks));
-	}
+	const pluginTasks: Array<TaskConfig> = [];
 
-	// Other plugins
-	for (const plugin of plugins) {
+	function addPlugin(plugin: Plugin) {
 		const {
 			yargs: pluginYargs,
 			preHandler,
 			postHandler,
+			tasks = {},
 		} = typeof plugin === 'function' ? plugin(resolvedConfig) : plugin;
 		if (typeof pluginYargs === 'function') {
 			pluginYargs(yargs, options.visit);
@@ -132,7 +121,27 @@ export async function setup(config: Config = {}): Promise<App> {
 		if (typeof postHandler === 'function') {
 			post.push(postHandler);
 		}
+		pluginTasks.push(tasks);
 	}
+
+	// Install the core plugins
+	if (core.generate !== false) {
+		addPlugin(generatePlugin(core.generate));
+	}
+	if (core.graph !== false) {
+		addPlugin(graphPlugin(core.graph));
+	}
+	if (core.install !== false) {
+		addPlugin(installPlugin(core.install));
+	}
+
+	// Other plugins
+	for (const plugin of plugins) {
+		addPlugin(plugin);
+	}
+
+	// Core tasks plugin is not
+	addPlugin(tasksPlugin(core.tasks, pluginTasks));
 
 	// Local commands
 	if (subcommandDir !== false) {

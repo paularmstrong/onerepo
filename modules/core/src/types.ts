@@ -1,5 +1,6 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
+import type { TaskConfig } from '@onerepo/graph';
 import type { Options as GenerateOptions } from './core/generate';
 import type { Options as GraphOptions } from './core/graph';
 import type { Options as InstallOptions } from './core/install';
@@ -17,7 +18,7 @@ export type CoreConfig = {
 	generate?: GenerateOptions | false;
 	graph?: GraphOptions | false;
 	install?: InstallOptions | false;
-	tasks?: TasksOptions | false;
+	tasks?: TasksOptions;
 };
 
 /**
@@ -63,7 +64,7 @@ export type Config = {
 /**
  * @group Core
  */
-export interface PluginObject {
+export interface PluginObject<Lifecycles extends string = never> {
 	/**
 	 * A function that is called with the CLI's `yargs` object and a visitor.
 	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
@@ -77,6 +78,10 @@ export interface PluginObject {
 	 * Run after any command `handler` function is finished
 	 */
 	postHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
+	/**
+	 * Add standard lifecycle hooks to the Task system
+	 */
+	tasks?: TaskConfig<Lifecycles>;
 }
 
 /**
