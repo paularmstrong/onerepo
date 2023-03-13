@@ -1,5 +1,7 @@
 {
 	"name": "menu",
+	"private": true,
+	"main": "./src/index.ts",
 	"dependencies": {
 		"fixture-tacos": "workspace:^"
 	}

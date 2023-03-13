@@ -23,7 +23,13 @@ setup({
 }).then(({ run }) => run());
 ```
 
+## Validating configurations
+
+The Graph module in oneRepo has support for validating most configuration files in workspaces, including JSON, CJSON, YAML, and static JavaScript/TypeScript configurations.
+
 Schema validation uses [AJV](https://ajv.js.org) with support for JSON schemas draft-2019-09 and draft-07. It also supports [ajv-errors](https://ajv.js.org/packages/ajv-errors.html) for better and more actionable error messaging.
+
+### Example JSON validation
 
 ```js title="graph-schema.js"
 module.exports = {
@@ -56,13 +62,39 @@ module.exports = {
 };
 ```
 
-<aside aria-labelled-by="#validation-title">
+### Example JS/TS validation
 
-<p id="validation-title"><b>Overriding the base schema</b></p>
+Note that if the configuration is the default export, like in the case of `jest.config.js` files, you will need to validate the `default` export as a property, just like any other export.
 
-To override the base schema, use the location glob `'**'`:
+```js title="graph-schema.ts"
+import type { GraphSchemaValidators } from 'onerepo';
 
-```js title="graph-schema.js"
+export default {
+	'**/*': {
+		'jest.config.js': {
+			type: 'object',
+			properties: {
+				default: {
+					type: 'object',
+					properties: {
+						displayName: { type: 'string' },
+						clearMocks: { type: 'boolean', const: true },
+						resetMocks: { type: 'boolean', const: true },
+					},
+					required: ['displayname', 'clearMocks', 'resetMocks'],
+				}
+			},
+			require: ['default']
+		},
+	},
+} satisfies GraphSchemaValidators;
+```
+
+### Base schema
+
+oneRepo provides a base schema with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:
+
+```js title="graph-schema.js" {2}
 module.export = {
 	'**': {
 		'package.json': {
@@ -72,13 +104,11 @@ module.export = {
 };
 ```
 
-</aside>
-
 ## Disabling
 
-Warning: disabling the graph will disable both the `graph`-specifc commands as well as all workspace-specific commands.
+Warning: disabling the graph will disable all the `graph`-specifc commands as well as all workspace-specific commands. While this is allowed, it is _not_ recommended.
 
-```js
+```js {3,4}
 setup({
 	core: {
 		// Disable the graph entirely from your CLI

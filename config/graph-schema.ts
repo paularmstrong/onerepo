@@ -149,5 +149,38 @@ export default {
 			},
 			required: ['files', 'publishConfig', 'homepage', 'repository', 'license'],
 		},
+		'jest.config.js': {
+			type: 'object',
+			properties: {
+				default: {
+					type: 'object',
+					properties: {
+						displayName: {
+							type: 'string',
+						},
+						rootDir: {
+							type: 'string',
+						},
+						roots: {
+							type: 'array',
+						},
+						clearMocks: {
+							type: 'boolean',
+							const: true,
+						},
+						resetMocks: {
+							type: 'boolean',
+							const: true,
+						},
+						restoreMocks: {
+							type: 'boolean',
+							const: true,
+						},
+					},
+					required: ['displayName', 'rootDir', 'roots', 'clearMocks', 'resetMocks', 'restoreMocks'],
+				},
+			},
+			required: ['default'],
+		},
 	},
 } satisfies GraphSchemaValidators;

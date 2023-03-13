@@ -2888,9 +2888,11 @@ __metadata:
     "@onerepo/subprocess": 0.2.0
     "@onerepo/test-cli": 0.1.1
     "@onerepo/yargs": 0.1.1
+    "@types/cjson": ^0.5.0
     "@types/ejs": ^3
     "@types/glob": ^8.1.0
     "@types/inquirer": ^9
+    "@types/js-yaml": ^4
     "@types/npmlog": ^4.1.4
     "@types/random-seed": ^0
     "@types/semver": ^7.3.13
@@ -2898,6 +2900,7 @@ __metadata:
     "@types/yargs-parser": ^21
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
+    cjson: ^0.5.0
     cliui: ^8.0.1
     ejs: ^3.1.8
     esbuild: ^0.17.0
@@ -2905,6 +2908,7 @@ __metadata:
     glob: ^9.0.0
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
+    js-yaml: ^4.1.0
     minimatch: ^7.2.0
     picocolors: ^1.0.0
     prettier: ^2
@@ -3520,6 +3524,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cjson@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@types/cjson@npm:0.5.0"
+  checksum: fdedfff6b2c023de940b57e29b4948b7d88263067419160c2bcd4f46343f6648c6e026e707d75d6c858a85f4f6fa18e9be7616c48b92d5c3ba0a75ff2915f42f
+  languageName: node
+  linkType: hard
+
 "@types/debug@npm:^4.0.0":
   version: 4.1.7
   resolution: "@types/debug@npm:4.1.7"
@@ -3698,6 +3709,13 @@ __metadata:
     expect: ^29.0.0
     pretty-format: ^29.0.0
   checksum: 23760282362a252e6690314584d83a47512d4cd61663e957ed3398ecf98195fe931c45606ee2f9def12f8ed7d8aa102d492ec42d26facdaf8b78094a31e6568e
+  languageName: node
+  linkType: hard
+
+"@types/js-yaml@npm:^4":
+  version: 4.0.5
+  resolution: "@types/js-yaml@npm:4.0.5"
+  checksum: 7dcac8c50fec31643cc9d6444b5503239a861414cdfaa7ae9a38bc22597c4d850c4b8cec3d82d73b3fbca408348ce223b0408d598b32e094470dfffc6d486b4d
   languageName: node
   linkType: hard
 
@@ -5883,6 +5901,15 @@ __metadata:
   version: 1.2.2
   resolution: "cjs-module-lexer@npm:1.2.2"
   checksum: 977f3f042bd4f08e368c890d91eecfbc4f91da0bc009a3c557bc4dfbf32022ad1141244ac1178d44de70fc9f3dea7add7cd9a658a34b9fae98a55d8f92331ce5
+  languageName: node
+  linkType: hard
+
+"cjson@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "cjson@npm:0.5.0"
+  dependencies:
+    json-parse-helpfulerror: ^1.0.3
+  checksum: 63a839949c63eba999804e0c6611a7a96c74084845777a4cabd5c34cd284ee696b9934fbe4f65f77ac73912ca1f49b4ed79468f0bee1108c337647798748e9ef
   languageName: node
   linkType: hard
 
@@ -11749,6 +11776,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jju@npm:^1.1.0":
+  version: 1.4.0
+  resolution: "jju@npm:1.4.0"
+  checksum: 3790481bd2b7827dd6336e6e3dc2dcc6d425679ba7ebde7b679f61dceb4457ea0cda330972494de608571f4973c6dfb5f70fab6f3c5037dbab19ac449a60424f
+  languageName: node
+  linkType: hard
+
 "js-sdsl@npm:^4.1.4":
   version: 4.2.0
   resolution: "js-sdsl@npm:4.2.0"
@@ -11867,6 +11901,15 @@ __metadata:
   version: 2.3.1
   resolution: "json-parse-even-better-errors@npm:2.3.1"
   checksum: 798ed4cf3354a2d9ccd78e86d2169515a0097a5c133337807cdf7f1fc32e1391d207ccfc276518cc1d7d8d4db93288b8a50ba4293d212ad1336e52a8ec0a941f
+  languageName: node
+  linkType: hard
+
+"json-parse-helpfulerror@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "json-parse-helpfulerror@npm:1.0.3"
+  dependencies:
+    jju: ^1.1.0
+  checksum: 376d85c3728ab4446e30fa943ad2cf5fe63d8a780be16bade9f846f2e4c1431ef61ae01746011d815fb3627abb3d21b0cc74fe9ed6cc74b93819e720afb05cae
   languageName: node
   linkType: hard
 
