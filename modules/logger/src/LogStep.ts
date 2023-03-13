@@ -152,6 +152,10 @@ export class LogStep {
 		return new Promise((resolve) => {
 			if (this.name && this.#stream.writable) {
 				this.#stream.end('');
+				setImmediate(() => {
+					resolve();
+				});
+				return;
 			}
 
 			resolve();
