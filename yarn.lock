@@ -51,7 +51,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-remark@npm:^2.0.1, @astrojs/markdown-remark@npm:^2.1.0":
+"@astrojs/markdown-remark@npm:^2.1.0":
   version: 2.1.0
   resolution: "@astrojs/markdown-remark@npm:2.1.0"
   dependencies:
@@ -75,16 +75,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/mdx@npm:^0.16.0":
-  version: 0.16.2
-  resolution: "@astrojs/mdx@npm:0.16.2"
+"@astrojs/mdx@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@astrojs/mdx@npm:0.18.0"
   dependencies:
-    "@astrojs/markdown-remark": ^2.0.1
-    "@astrojs/prism": ^2.0.0
+    "@astrojs/markdown-remark": ^2.1.0
+    "@astrojs/prism": ^2.1.0
     "@mdx-js/mdx": ^2.3.0
     "@mdx-js/rollup": ^2.3.0
     acorn: ^8.8.0
-    es-module-lexer: ^0.10.5
+    es-module-lexer: ^1.1.1
     estree-util-visit: ^1.2.0
     github-slugger: ^1.4.0
     gray-matter: ^4.0.3
@@ -96,11 +96,11 @@ __metadata:
     shiki: ^0.11.1
     unist-util-visit: ^4.1.0
     vfile: ^5.3.2
-  checksum: d944c5407acb65dac1ed36ceb60ec9c541ecb69b45a521ceb03993fcfc9b5ae6987f5824a79fc7e1836c590f32ce5f4ae109e15e2268bab77304d377d6b65db9
+  checksum: e48243c79cb2099c88bbce70ab7b700e3ab52e937f25a5db4f74d9ab17caeb4d279a085ab929e573190565cf8dcb852f9796c4fd58b0c4b788544110e48856c3
   languageName: node
   linkType: hard
 
-"@astrojs/prism@npm:^2.0.0, @astrojs/prism@npm:^2.1.0":
+"@astrojs/prism@npm:^2.1.0":
   version: 2.1.0
   resolution: "@astrojs/prism@npm:2.1.0"
   dependencies:
@@ -2923,7 +2923,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
   dependencies:
-    "@astrojs/mdx": ^0.16.0
+    "@astrojs/mdx": ^0.18.0
     "@astrojs/tailwind": ^3.0.1
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
@@ -7555,17 +7555,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^0.10.5":
-  version: 0.10.5
-  resolution: "es-module-lexer@npm:0.10.5"
-  checksum: d2f9debd9d913323322095934653e0558bb8220177645eb76d316b4afd911e8d83ffee0b748b0faa9f3ce1560db3eee4a0ac68d6c2f750c11f4250adce84cf02
-  languageName: node
-  linkType: hard
-
 "es-module-lexer@npm:^1.0.0, es-module-lexer@npm:^1.1.0":
   version: 1.1.1
   resolution: "es-module-lexer@npm:1.1.1"
   checksum: 1eba6029faa74b8bf6ab0619f8e5a407ded87be6df3ea3831325166ecf9323d69e389b2a4403339e79c94f43e9dd9823580d5bbc5dfad7c6920ed4830575dc75
+  languageName: node
+  linkType: hard
+
+"es-module-lexer@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "es-module-lexer@npm:1.2.0"
+  checksum: a0b865641ae52093fa3dffc41f3c440ac97b9932156896daa7784e66f01bef40f15b5578540f91cb4a43c38adda4a8ab8afca395b3b25480007d741ff0642de3
   languageName: node
   linkType: hard
 
