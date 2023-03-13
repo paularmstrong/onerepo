@@ -1,0 +1,17 @@
+---
+import Docs from '../../../layouts/Docs.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
+
+const [entry] = await Astro.glob('../../../../usage/cli.md');
+
+const { Content, getHeadings } = entry;
+---
+
+<Docs title="Internal CLI" description="Documentation for oneRepo’s own internal oneRepo CLI. Very meta.">
+	<h1>Internal CLI</h1>
+	<p>Documentation for oneRepo’s own internal oneRepo CLI. Very meta.</p>
+
+	<Content />
+
+	<TableOfContents numLevels={2} slot="toc" headings={getHeadings} />
+</Docs>
