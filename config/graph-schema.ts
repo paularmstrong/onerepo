@@ -146,8 +146,18 @@ export default {
 					pattern: '^MIT$',
 					errorMessage: 'License MUST be `MIT`',
 				},
+				engines: {
+					type: 'object',
+					properties: {
+						node: {
+							type: 'string',
+							const: '>= 16.0.0 < 17 > 18.0.0 < 19',
+						},
+					},
+					required: ['node'],
+				},
 			},
-			required: ['files', 'publishConfig', 'homepage', 'repository', 'license'],
+			required: ['files', 'publishConfig', 'homepage', 'repository', 'license', 'engines'],
 		},
 		'jest.config.js': {
 			type: 'object',

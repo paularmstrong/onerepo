@@ -41,5 +41,8 @@
 	},
 	"peerDependencies": {
 		"eslint": "^8"
+	},
+	"engines": {
+		"node": ">= 16.0.0 < 17 > 18.0.0 < 19"
 	}
 }
