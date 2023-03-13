@@ -16,4 +16,13 @@ describe('Graph', () => {
 			'fixture-root',
 		]);
 	});
+
+	test('cannot reuse an alias', async () => {
+		const location = path.join(__dirname, 'fixtures', 'reused-alias');
+		const result = await getRootPackageJson(location);
+
+		expect(() => new Graph(location, result.json, require)).toThrow(
+			new Error('Cannot add alias "leaf" for spinach because it is already used for lettuce.')
+		);
+	});
 });
