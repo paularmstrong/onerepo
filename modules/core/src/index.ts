@@ -4,6 +4,7 @@ import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { register } from 'esbuild-register/dist/node';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
@@ -69,6 +70,8 @@ export type App = {
  * @group Core
  */
 export async function setup(config: Config = {}): Promise<App> {
+	register({});
+
 	performance.mark('one_startup');
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
