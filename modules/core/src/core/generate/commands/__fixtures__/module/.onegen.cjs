@@ -1,8 +1,12 @@
 module.exports = {
 	outDir: 'modules',
-	nameFormat: (name) => `@onerepo/fixture-module-${name}`,
-	dirnameFormat: (name) => name,
 	prompts: [
+		{
+			name: 'name',
+			type: 'question',
+			message: 'What is the name of the workspace?',
+			transformer: (name) => `@onerepo/fixture-app-${name.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase()}`,
+		},
 		{
 			type: 'input',
 			name: 'description',

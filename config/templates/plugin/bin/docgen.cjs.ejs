@@ -5,7 +5,7 @@ const { register } = require('esbuild-register/dist/node');
 register({});
 
 const { setup } = require('onerepo');
-const { <%- name %> } = require('<%- fullName %>');
+const { <%- name.replace(/-./g, (x)=> x[1].toUpperCase()) %> } = require('../src');
 
 (async () => {
 	const { run } = await setup(
@@ -19,7 +19,7 @@ const { <%- name %> } = require('<%- fullName %>');
 				install: false,
 				tasks: false,
 			},
-			plugins: [<%- name %>()],
+			plugins: [<%- name.replace(/-./g, (x)=> x[1].toUpperCase()) %>()],
 		}
 	);
 

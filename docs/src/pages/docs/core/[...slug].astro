@@ -4,36 +4,21 @@ import Docs from '../../../layouts/Docs.astro';
 import TableOfContents from '../../../components/TableOfContents.astro';
 
 export async function getStaticPaths() {
-	const usageDocs = await Astro.glob('../../../../usage/*.md');
 	const collection = await getCollection('core');
 	const pages = [];
 	for (const entry of collection) {
-		const usage = entry.data.usage ? usageDocs.find((doc) => doc.file.endsWith(`${entry.data.usage}.md`)) : null;
-		pages.push({ params: { slug: entry.id.replace(/\.md$/, '').replace('/index', '') }, props: { entry, usage } });
+		pages.push({ params: { slug: entry.id.replace(/\.md$/, '').replace('/index', '') }, props: { entry } });
 	}
 
 	return pages;
 }
 
-const { entry, usage } = Astro.props;
+const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
-const usageHeadings = await (usage ? usage.getHeadings() : []);
 ---
 
 <Docs title={entry.data.title}>
 	<Content />
 
-	{
-		usage ? (
-			<>
-				<h2>Usage</h2>
-				<usage.Content />
-			</>
-		) : null
-	}
-
-	<TableOfContents
-		slot="toc"
-		headings={[...headings, ...(usage ? [{ depth: 2, slug: 'usage', text: 'Usage' }, ...usageHeadings] : [])]}
-	/>
+	<TableOfContents slot="toc" headings={headings} />
 </Docs>
