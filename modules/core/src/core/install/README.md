@@ -25,5 +25,7 @@ setup({
 ## Usage
 
 <!-- start-auto-generated-from-cli-install -->
+
 This content will be auto-generated. Do not edit
+
 <!-- end-auto-generated-from-cli-install -->

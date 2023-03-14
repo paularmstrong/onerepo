@@ -97,5 +97,7 @@ Please see the [inquirer documentation](https://github.com/SBoudrias/Inquirer.js
 ## Usage
 
 <!-- start-auto-generated-from-cli-generate -->
+
 This content will be auto-generated. Do not edit
+
 <!-- end-auto-generated-from-cli-generate -->
