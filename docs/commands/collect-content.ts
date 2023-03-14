@@ -13,7 +13,13 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const { verbosity } = argv;
 	const docs = graph.getByName('docs');
 
-	const generators: Array<RunSpec> = [];
+	const generators: Array<RunSpec> = [
+		{
+			name: 'Generate internal CLI usage',
+			cmd: process.argv[1],
+			args: ['docgen'],
+		},
+	];
 
 	const changelogStep = logger.createStep('Getting root changelog');
 	await writeChangelog(graph.getByName('onerepo'), docs, changelogStep);
