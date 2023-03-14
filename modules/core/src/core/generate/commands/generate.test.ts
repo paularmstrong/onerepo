@@ -22,17 +22,8 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 	});
 
-	test('if type and name are provided, does not prompt', async () => {
-		await run('--type app --name tacos');
-		expect(inquirer.prompt).not.toHaveBeenCalled();
-		expect(file.write).toHaveBeenCalledWith('apps/tacos/index.ts', 'tacos\n', expect.any(Object));
-		expect(file.write).toHaveBeenCalledWith('apps/tacos/tacos.ts', 'hello\n', expect.any(Object));
-		expect(file.write).toHaveBeenCalledWith('apps/tacos/.test', 'this file should be generated\n', expect.any(Object));
-		expect(file.write).not.toHaveBeenCalledWith('apps/tacos/.onegen.cjs', expect.any(String), expect.any(Object));
-	});
-
-	test('will prompt for type and name', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'app', nameInput: 'burritos' });
+	test('will prompt for type', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'app', name: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([
@@ -43,31 +34,45 @@ describe('handler', () => {
 				choices: ['app', 'module'],
 			},
 		]);
-
-		expect(inquirer.prompt).toHaveBeenCalledWith([
-			{
-				name: 'nameInput',
-				type: 'input',
-				message: 'What name should your package have?',
-				transformer: expect.any(Function),
-				filter: expect.any(Function),
-			},
-		]);
-
-		expect(file.write).toHaveBeenCalledWith('apps/burritos/index.ts', 'burritos\n', expect.any(Object));
-		expect(file.write).toHaveBeenCalledWith('apps/burritos/burritos.ts', 'hello\n', expect.any(Object));
 	});
 
 	test('can have custom prompts', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', nameInput: 'burritos' });
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', name: 'burritos' });
 		await run('');
 
-		expect(inquirer.prompt).toHaveBeenCalledWith([
-			{
-				name: 'description',
-				type: 'input',
-				message: 'How would you describe tacos?',
-			},
-		]);
+		expect(inquirer.prompt).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				{
+					name: 'description',
+					type: 'input',
+					message: 'How would you describe tacos?',
+				},
+			])
+		);
+	});
+
+	test('if type is provided, does not prompt', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		await run('--type app');
+		expect(inquirer.prompt).not.toHaveBeenCalledWith(
+			expect.arrayContaining([
+				{
+					name: 'templateInput',
+					type: 'list',
+					message: 'Choose a template…',
+					choices: ['app', 'module'],
+				},
+			])
+		);
+	});
+
+	test('renders files', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		await run('--type app');
+
+		expect(file.write).toHaveBeenCalledWith('apps/tacos/index.ts', 'tacos\n', expect.any(Object));
+		expect(file.write).toHaveBeenCalledWith('apps/tacos/tacos.ts', 'hello\n', expect.any(Object));
+		expect(file.write).toHaveBeenCalledWith('apps/tacos/.test', 'this file should be generated\n', expect.any(Object));
+		expect(file.write).not.toHaveBeenCalledWith('apps/tacos/.onegen.cjs', expect.any(String), expect.any(Object));
 	});
 });

@@ -5,7 +5,7 @@ type Options = {
 	name?: string;
 };
 
-export function <%- name %>(opts: Options = {}): Plugin {
+export function <%- name.replace(/-./g, (x)=> x[1].toUpperCase()) %>(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);

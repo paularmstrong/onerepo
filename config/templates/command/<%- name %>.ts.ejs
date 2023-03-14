@@ -1,0 +1,11 @@
+import type { Builder, Handler } from 'onerepo';
+
+export const name = '<%- name %>';
+
+export const description = '<%- description %>';
+
+export const builder: Builder = (yargs) => yargs.usage(`$0 ${name}`);
+
+export const handler: Handler = async (argv, { logger }) => {
+  logger.error('Fill me in');
+};

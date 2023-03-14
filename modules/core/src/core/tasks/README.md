@@ -149,3 +149,9 @@ setup({
 	},
 }).then(({ run }) => run());
 ```
+
+## Usage
+
+<!-- start-auto-generated-from-cli-tasks -->
+This content will be auto-generated. Do not edit
+<!-- end-auto-generated-from-cli-tasks -->

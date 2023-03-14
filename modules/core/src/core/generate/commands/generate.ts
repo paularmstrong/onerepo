@@ -2,17 +2,16 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
-import type { QuestionCollection } from 'inquirer';
+import type { Answers, QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = ['generate', 'gen'];
 
-export const description = 'Generate workspaces from template directories.';
+export const description = 'Generate files, folders, and workspaces from templates.';
 
 export type Args = {
-	name?: string;
 	'templates-dir': string;
 	type?: string;
 };
@@ -24,10 +23,6 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'string',
 			description: 'Template type to generate. If not provided, a list will be provided to choose from.',
 		})
-		.option('name', {
-			type: 'string',
-			description: 'Name of the workspace to generate. If not provided, you will be prompted to enter one later.',
-		})
 		.option('templates-dir', {
 			type: 'string',
 			normalize: true,
@@ -38,7 +33,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { logger }) {
-	const { 'templates-dir': templatesDir, name: nameArg, type } = argv;
+	const { 'templates-dir': templatesDir, type } = argv;
 	const templates = await glob('*', { cwd: templatesDir });
 
 	const step = logger.createStep('Get inputs');
@@ -84,33 +79,11 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		return;
 	}
 
-	const { outDir, nameFormat = (name) => name, dirnameFormat = (name) => name } = config;
-	let name = nameArg;
-	if (!name) {
-		const { nameInput } = await inquirer.prompt([
-			{
-				name: 'nameInput',
-				type: 'input',
-				message: 'What name should your package have?',
-				transformer: (input: string) => nameFormat(input.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase()),
-				filter: (input: string) => input.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase(),
-			},
-		]);
-		name = nameInput;
-	}
+	const { outDir, prompts } = config;
 
-	let vars = {};
-	if (config.prompts) {
-		vars = await inquirer.prompt(config.prompts);
-	}
+	const vars = await (prompts ? inquirer.prompt(prompts) : {});
 
 	logger.unpause();
-
-	if (!name) {
-		step.error(`No name given for module`);
-		await step.end();
-		return;
-	}
 
 	await step.end();
 
@@ -121,22 +94,18 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		const fullpath = path.join(templateDir, filepath);
 		let contents = await file.read(fullpath, 'r', { step: renderStep });
 		if (fullpath.endsWith('.ejs')) {
-			contents = render(contents, { ...vars, name, fullName: nameFormat(name) });
+			contents = render(contents, vars);
 		}
-		await file.write(
-			path.join(outDir, dirnameFormat(name), filepath.replace('.ejs', '').replace(/__name__/g, name)),
-			contents,
-			{ step: renderStep }
-		);
+		await file.write(path.join(outDir(vars), render(filepath, vars).replace(/\.ejs$/, '')), contents, {
+			step: renderStep,
+		});
 	}
 	await renderStep.end();
 };
 
-export interface Config {
-	outDir: string;
-	nameFormat?: (name: string) => string;
-	dirnameFormat?: (name: string) => string;
-	prompts?: QuestionCollection;
+export interface Config<T extends Answers = Record<string, unknown>> {
+	outDir: (vars: T) => string;
+	prompts?: QuestionCollection<T>;
 }
 
 export function getConfig(filepath: string) {

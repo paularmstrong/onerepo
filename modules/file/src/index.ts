@@ -70,6 +70,33 @@ export async function write(filename: string, contents: string, { step }: Option
 }
 
 /**
+ * Copy a file from one location to another.
+ *
+ * If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modified.
+ *
+ * ```ts
+ * await file.copy('/path/to/in.md', '/path/to/out.md');
+ * ```
+ */
+export async function copy(input: string, output: string, { step }: Options = {}) {
+	return stepWrapper({ step, name: `Copy ${input}` }, async (step) => {
+		await mkdirp(path.dirname(output), { step });
+
+		if (isDryRun()) {
+			step.warn(`DRY RUN: Not copy to ${output}`);
+			return;
+		}
+
+		try {
+			return await fs.copyFile(input, output);
+		} catch (e) {
+			step.error(e);
+			throw e;
+		}
+	});
+}
+
+/**
  * Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation](https://nodejs.org/api/fs.html#class-fsstats) for more on how to use the return data.
  *
  * @returns If the `filename` does not exist, `null` will be returned instead of a Stats object.

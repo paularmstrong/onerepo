@@ -116,3 +116,9 @@ setup({
 	},
 }).then({ run } => run());
 ```
+
+## Usage
+
+<!-- start-auto-generated-from-cli-graph -->
+This content will be auto-generated. Do not edit
+<!-- end-auto-generated-from-cli-graph -->

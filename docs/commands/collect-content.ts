@@ -76,9 +76,10 @@ ${readme}
 	const commands = await glob('*', { cwd: core.resolve('src/core') });
 	const bin = core.resolve('bin', 'docgen.cjs');
 
-	const findStep = logger.createStep('Determining workspaces');
+	const coreDocs = logger.createStep('Getting core docs');
 	for (const cmd of commands) {
-		const outFile = docs.resolve('usage', `${cmd}.md`);
+		const outFile = docs.resolve(`src/content/core/${cmd}.md`);
+		await file.copy(core.resolve('src/core', cmd, 'README.md'), outFile, { step: coreDocs });
 
 		generators.push({
 			name: `Generate for ${cmd}`,
@@ -106,7 +107,7 @@ ${readme}
 			runDry: true,
 		});
 	}
-	await findStep.end();
+	await coreDocs.end();
 
 	await batch(generators);
 };
