@@ -48,6 +48,8 @@ export class LogStep {
 		this.#stream = stream ?? new LogData();
 		if (this.name) {
 			this.#writeStream(this.#prefixStart(this.name));
+		} else {
+			this.#enableWrite();
 		}
 	}
 

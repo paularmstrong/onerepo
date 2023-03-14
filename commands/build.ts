@@ -30,13 +30,14 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	const typesProcs: Array<RunSpec> = [];
 
 	const workspaces = await getWorkspaces();
-	const existsStep = logger.createStep('Check for tsconfigs');
 
 	const [esbuildBin] = await run({
 		name: 'Get esbuild bin',
 		cmd: 'yarn',
 		args: ['bin', 'esbuild'],
 	});
+
+	const buildableStep = logger.createStep('Checking for buildable workspaces');
 
 	for (const workspace of workspaces) {
 		if (workspace.private) {
@@ -104,7 +105,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 				],
 			});
 
-		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: existsStep });
+		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: buildableStep });
 		if (isTS) {
 			typesProcs.push({
 				name: `Build ${workspace.name} typedefs`,
@@ -116,7 +117,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			});
 		}
 	}
-	await existsStep.end();
+
+	await buildableStep.end();
 
 	const removeStep = logger.createStep('Clean previous build directories');
 	await Promise.all(removals.map((dir) => file.remove(dir, { step: removeStep })));
