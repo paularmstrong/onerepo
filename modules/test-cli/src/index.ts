@@ -61,9 +61,9 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 
 	const { ...argv } = resolvedOut.argv;
 
-	middlewares.forEach((middleware) => {
-		middleware(argv);
-	});
+	for (const middleware of middlewares) {
+		await middleware(argv);
+	}
 
 	spy.mockClear();
 

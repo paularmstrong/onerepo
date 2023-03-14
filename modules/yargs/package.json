@@ -21,6 +21,7 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.1.0",
+		"@onerepo/file": "0.1.0",
 		"@onerepo/logger": "0.1.0",
 		"@onerepo/subprocess": "0.2.0"
 	},

@@ -1,6 +1,7 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
 import * as Generate from './generate';
+import { run as processRun } from '@onerepo/subprocess';
 import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 
@@ -8,6 +9,8 @@ jest.mock('@onerepo/file', () => ({
 	__esModule: true,
 	...jest.requireActual('@onerepo/file'),
 }));
+
+jest.mock('@onerepo/subprocess');
 
 const { run: mainRun } = getCommand(Generate);
 
@@ -74,5 +77,16 @@ describe('handler', () => {
 		expect(file.write).toHaveBeenCalledWith('apps/tacos/tacos.ts', 'hello\n', expect.any(Object));
 		expect(file.write).toHaveBeenCalledWith('apps/tacos/.test', 'this file should be generated\n', expect.any(Object));
 		expect(file.write).not.toHaveBeenCalledWith('apps/tacos/.onegen.cjs', expect.any(String), expect.any(Object));
+	});
+
+	test('automatically installs dependencies', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		jest.spyOn(file, 'exists').mockResolvedValueOnce(false);
+
+		await run('--type app');
+		expect(processRun).nthCalledWith(1, expect.objectContaining({ cmd: 'npm i' }));
+
+		await run('--type app');
+		expect(processRun).nthCalledWith(2, expect.objectContaining({ cmd: 'yarn' }));
 	});
 });

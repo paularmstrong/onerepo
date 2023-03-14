@@ -23,6 +23,11 @@ export type Options = {
 	 * Pass a Logger Step to pipe all logs and output to that instead.
 	 */
 	step?: LogStep;
+
+	/**
+	 * Skip creating step
+	 */
+	noStep?: boolean;
 };
 
 /**
@@ -32,10 +37,9 @@ export type Options = {
  * await file.exists('/path/to/file.ts');
  * ```
  */
-export async function exists(filename: string, { step }: Options = {}) {
-	return stepWrapper({ step, name: `Check if \`${filename}\` exists` }, () => {
-		return Promise.resolve(existsSync(filename));
-	});
+export function exists(filename: string, { step, noStep }: Options = {}) {
+	const existsCb = () => Promise.resolve(existsSync(filename));
+	return noStep ? existsCb() : stepWrapper({ step, name: `Check if \`${filename}\` exists` }, existsCb);
 }
 
 /**

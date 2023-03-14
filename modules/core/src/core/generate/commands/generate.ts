@@ -5,35 +5,39 @@ import inquirer from 'inquirer';
 import type { Answers, QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/yargs';
+import { run } from '@onerepo/subprocess';
+import { setUpPackageManagerArg } from '@onerepo/yargs';
+import type { Builder, Handler, PackageManagerArgs, Yargs } from '@onerepo/yargs';
 
 export const command = ['generate', 'gen'];
 
 export const description = 'Generate files, folders, and workspaces from templates.';
 
-export type Args = {
+export type Args = PackageManagerArgs & {
 	'templates-dir': string;
 	type?: string;
 };
 
-export const builder: Builder<Args> = (yargs) =>
-	yargs
-		.option('type', {
-			alias: 't',
-			type: 'string',
-			description: 'Template type to generate. If not provided, a list will be provided to choose from.',
-		})
-		.option('templates-dir', {
-			type: 'string',
-			normalize: true,
-			description: 'Path to the templates',
-			default: 'templates',
-			hidden: true,
-			demandOption: true,
-		});
+export const builder: Builder<Args> = (yargs: Yargs<PackageManagerArgs>) =>
+	setUpPackageManagerArg(
+		yargs
+			.option('type', {
+				alias: 't',
+				type: 'string',
+				description: 'Template type to generate. If not provided, a list will be provided to choose from.',
+			})
+			.option('templates-dir', {
+				type: 'string',
+				normalize: true,
+				description: 'Path to the templates',
+				default: 'templates',
+				hidden: true,
+				demandOption: true,
+			})
+	);
 
 export const handler: Handler<Args> = async function handler(argv, { logger }) {
-	const { 'templates-dir': templatesDir, type } = argv;
+	const { 'templates-dir': templatesDir, type, 'package-manager': packageManager } = argv;
 	const templates = await glob('*', { cwd: templatesDir });
 
 	const step = logger.createStep('Get inputs');
@@ -100,7 +104,13 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 			step: renderStep,
 		});
 	}
+
 	await renderStep.end();
+
+	await run({
+		name: 'Install dependencies',
+		cmd: packageManager === 'yarn' ? 'yarn' : 'npm i',
+	});
 };
 
 export interface Config<T extends Answers = Record<string, unknown>> {

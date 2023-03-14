@@ -89,7 +89,7 @@ The above will result in a set of prompts that may look like the following:
     app
   ❯ module
 ? What is the name of the module? @scope/ ▓
-? Please anter a description for the module ▓
+? Please enter a description for the module ▓
 ```
 
 Please see the [inquirer documentation](https://github.com/SBoudrias/Inquirer.js/blob/master/README.md) for more options and usage instructions.
