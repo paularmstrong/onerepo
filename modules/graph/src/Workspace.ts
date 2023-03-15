@@ -208,6 +208,7 @@ export interface PackageJson {
 	os?: Array<string>;
 	// Custom
 	alias?: Array<string>;
+	packageManager?: string;
 }
 
 export interface PrivatePackageJson extends PackageJson {
