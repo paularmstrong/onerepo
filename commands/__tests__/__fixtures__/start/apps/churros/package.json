@@ -1,0 +1,9 @@
+{
+	"name": "churros",
+	"main": "./src/index.ts",
+	"version": "1.2.3",
+	"scripts": {
+		"start": "echo 'nothing'",
+		"build": "echo 'build'"
+	}
+}

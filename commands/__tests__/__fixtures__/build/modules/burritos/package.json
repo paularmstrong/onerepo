@@ -1,0 +1,5 @@
+{
+	"name": "burritos",
+	"main": "./src/index.ts",
+	"version": "4.5.2"
+}

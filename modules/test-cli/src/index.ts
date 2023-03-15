@@ -82,15 +82,13 @@ export async function runHandler<R = Record<string, unknown>>(
 	},
 	cmd = ''
 ): Promise<void> {
-	let dirname = '';
-	if (typeof __dirname !== 'undefined') {
-		dirname = __dirname;
-	} else {
-		dirname = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
-	}
+	const dirname =
+		typeof __dirname !== 'undefined' ? __dirname : path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
+
 	logger.hasError = false;
 	logger.verbosity = 4;
 	logger.pause();
+
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 
