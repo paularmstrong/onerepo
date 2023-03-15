@@ -88,7 +88,7 @@ export async function copy(input: string, output: string, { step }: Options = {}
 		}
 
 		try {
-			return await fs.copyFile(input, output);
+			return await fs.cp(input, output, { recursive: true });
 		} catch (e) {
 			step.error(e);
 			throw e;

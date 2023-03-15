@@ -1,0 +1,6 @@
+{
+	"name": "burritos",
+	"main": "./src/index.ts",
+	"private": true,
+	"version": "4.5.2"
+}

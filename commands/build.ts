@@ -28,6 +28,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	const removals: Array<string> = [];
 	const buildProcs: Array<RunSpec> = [];
 	const typesProcs: Array<RunSpec> = [];
+	const postCopy: Array<() => Promise<void>> = [];
 
 	const workspaces = await getWorkspaces();
 
@@ -35,6 +36,11 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		name: 'Get esbuild bin',
 		cmd: 'yarn',
 		args: ['bin', 'esbuild'],
+	});
+	const [tsc] = await run({
+		name: 'Get TypeScript compiler',
+		cmd: 'yarn',
+		args: ['bin', 'tsc'],
 	});
 
 	const buildableStep = logger.createStep('Checking for buildable workspaces');
@@ -45,22 +51,26 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			continue;
 		}
 
-		const esmFiles: Array<string> = [];
-		const cjsFiles: Array<string> = [];
+		const esmFiles = new Set<string>();
+		const cjsFiles = new Set<string>();
 
 		// eslint-disable-next-line no-inner-declarations
 		function addFile(...filepaths: Array<string>) {
 			filepaths.forEach((filepath) => {
 				if (filepath.endsWith('.cjs')) {
-					cjsFiles.push(filepath);
+					cjsFiles.add(filepath);
 				} else {
-					esmFiles.push(filepath);
+					esmFiles.add(filepath);
 				}
 			});
 		}
 
 		const main = workspace.resolve(workspace.packageJson.main!);
 		addFile(main);
+
+		if (await file.exists(workspace.resolve('src/fixtures'))) {
+			postCopy.push(() => file.copy(workspace.resolve('src/fixtures'), workspace.resolve('dist/fixtures')));
+		}
 
 		const commands = await glob(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
 		if (commands.length) {
@@ -78,12 +88,12 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 		removals.push(workspace.resolve('dist'));
 
-		esmFiles.length &&
+		esmFiles.size &&
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
 				args: [
-					...esmFiles,
+					...Array.from(esmFiles),
 					'--bundle',
 					'--packages=external',
 					`--outdir=${workspace.resolve('dist')}`,
@@ -92,12 +102,12 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 				],
 			});
 
-		cjsFiles.length &&
+		cjsFiles.size &&
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
 				args: [
-					...cjsFiles,
+					...Array.from(cjsFiles),
 					`--outdir=${workspace.resolve('dist')}`,
 					'--platform=node',
 					'--format=cjs',
@@ -109,8 +119,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		if (isTS) {
 			typesProcs.push({
 				name: `Build ${workspace.name} typedefs`,
-				cmd: 'npx',
-				args: ['tsc', '--emitDeclarationOnly', '--outDir', workspace.resolve('dist')],
+				cmd: tsc,
+				args: ['--emitDeclarationOnly', '--outDir', workspace.resolve('dist')],
 				opts: {
 					cwd: workspace.location,
 				},
@@ -125,4 +135,5 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	await removeStep.end();
 
 	await batch([...buildProcs, ...typesProcs]);
+	await Promise.all(postCopy.map((fn) => fn()));
 };

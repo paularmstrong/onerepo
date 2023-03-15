@@ -171,9 +171,6 @@ export default {
 						rootDir: {
 							type: 'string',
 						},
-						roots: {
-							type: 'array',
-						},
 						clearMocks: {
 							type: 'boolean',
 							const: true,
@@ -187,7 +184,7 @@ export default {
 							const: true,
 						},
 					},
-					required: ['displayName', 'rootDir', 'roots', 'clearMocks', 'resetMocks', 'restoreMocks'],
+					required: ['displayName', 'rootDir', 'clearMocks', 'resetMocks', 'restoreMocks'],
 				},
 			},
 			required: ['default'],
