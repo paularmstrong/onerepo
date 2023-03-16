@@ -83,5 +83,7 @@ export * as file from '@onerepo/file';
  */
 export { builders, getters } from '@onerepo/builders';
 
+export * as pkgManager from '@onerepo/package-manager';
+
 export * from '@onerepo/subprocess';
 export * from '@onerepo/yargs';

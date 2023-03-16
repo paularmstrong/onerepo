@@ -83,6 +83,15 @@ describe('NPM', () => {
 	});
 
 	describe('publish', () => {
+		let dryRun = process.env.ONE_REPO_DRY_RUN;
+		beforeEach(() => {
+			dryRun = process.env.ONE_REPO_DRY_RUN;
+		});
+
+		afterEach(() => {
+			process.env.ONE_REPO_DRY_RUN = dryRun;
+		});
+
 		test('Publishes', async () => {
 			await manager.publish();
 
@@ -90,6 +99,20 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish'],
+				})
+			);
+		});
+
+		test('includes --dry-run', async () => {
+			process.env.ONE_REPO_DRY_RUN = 'true';
+
+			await manager.publish();
+
+			expect(subprocess.run).toHaveBeenCalledWith(
+				expect.objectContaining({
+					cmd: 'npm',
+					args: ['publish', '--dry-run'],
+					runDry: true,
 				})
 			);
 		});

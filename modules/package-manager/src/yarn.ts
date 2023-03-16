@@ -1,4 +1,4 @@
-import { run } from '@onerepo/subprocess';
+import { batch, run } from '@onerepo/subprocess';
 import type { IPackageManager } from './methods';
 
 export const Yarn = {
@@ -28,11 +28,47 @@ export const Yarn = {
 		});
 	},
 
-	publish: async (): Promise<void> => {
-		await run({
-			name: 'Publish',
+	publish: async (opts = {}): Promise<void> => {
+		const { access, cwd, otp, tag, workspaces } = opts;
+		const options: Array<string> = [
+			...(access ? ['--access', access] : []),
+			...(tag ? ['--tag', tag] : []),
+			...(otp ? ['--otp'] : []),
+		];
+
+		if (!workspaces?.length) {
+			await run({
+				name: 'Publish',
+				cmd: 'yarn',
+				args: ['npm', 'publish', ...options],
+				opts: cwd ? { cwd: cwd } : {},
+			});
+		} else {
+			await batch(
+				workspaces.map((ws) => ({
+					name: `Publish ${ws.name}`,
+					cmd: 'yarn',
+					args: ['npm', 'publish', ...options],
+					opts: { cwd: ws.location },
+				}))
+			);
+		}
+	},
+
+	publishable: async (workspaces): Promise<Array<string>> => {
+		const [ndjson] = await run({
+			name: 'Get versions',
 			cmd: 'yarn',
-			args: ['npm', 'publish'],
+			args: ['npm', 'info', ...workspaces.map(({ name }) => name), '--json'],
+			runDry: true,
 		});
+
+		const responses = ndjson.split('\n').map((str) => JSON.parse(str) as { name: string; versions: Array<string> });
+
+		for (const info of responses) {
+			// TODO
+		}
+
+		return [];
 	},
 } satisfies IPackageManager;

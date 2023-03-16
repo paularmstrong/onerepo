@@ -6,7 +6,7 @@ import { Yarn } from './yarn';
 
 export * from './get-package-manager';
 
-export function getManager(type: PackageManager) {
+export function getManager(type: PackageManager): IPackageManager {
 	return managers[type];
 }
 
@@ -15,3 +15,5 @@ const managers: Record<PackageManager, IPackageManager> = {
 	pnpm: Pnpm,
 	yarn: Yarn,
 };
+
+export type { IPackageManager };

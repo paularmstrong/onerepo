@@ -93,5 +93,14 @@ describe('NPM', () => {
 				})
 			);
 		});
+
+		/**
+		 * Yarn does not have a --dry-run option!
+		 */
+		test('Does not enable dry-run', async () => {
+			await manager.publish();
+
+			expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ runDry: true }));
+		});
 	});
 });
