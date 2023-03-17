@@ -1,6 +1,9 @@
 {
-	"name": "@onerepo/test-cli",
-	"version": "0.1.1",
+	"name": "@onerepo/package-manager",
+	"alias": [
+		"pkg-mgr"
+	],
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -20,17 +23,11 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.1.0",
-		"@onerepo/graph": "0.2.1",
-		"@onerepo/logger": "0.1.0",
-		"@onerepo/yargs": "0.1.1",
-		"yargs": "^17.6.2",
-		"yargs-parser": "^21.1.1",
-		"yargs-unparser": "^2.0.0"
+		"@onerepo/subprocess": "0.2.0"
 	},
 	"devDependencies": {
+		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@types/yargs-unparser": "^2.0.1",
 		"jest": "^29.5.0",
 		"typescript": "^4.9.5"
 	},

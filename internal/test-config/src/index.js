@@ -16,6 +16,7 @@ export function makeConfig(config) {
 		coveragePathIgnorePatterns: ['/__fixtures__/', ...(rest.coveragePathIgnorePatterns ?? [])],
 		rootDir: path.dirname(fileURLToPath(rootDir)),
 		modulePathIgnorePatterns: ['fixtures'],
+		testPathIgnorePatterns: ['/dist/'],
 		transformIgnorePatterns: ['/node_modules/(?!(inquirer|log-update))/', ...(config.transformIgnorePatterns ?? [])],
 		transform: {
 			'\\.[jt]sx?$': ['esbuild-jest', { sourcemap: true }],

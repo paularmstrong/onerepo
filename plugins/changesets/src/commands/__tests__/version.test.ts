@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as applyReleasePlan from '@changesets/apply-release-plan';
-import * as Version from './version';
+import * as Version from '../version';
 
 import { getCommand } from '@onerepo/test-cli';
 

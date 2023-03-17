@@ -76,7 +76,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 
 		step.debug(
 			`Running command:
-${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT}\n`
+${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? process.cwd()}\n`
 		);
 
 		const subprocess = start(options);
@@ -141,7 +141,7 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	const { args = [], cmd, opts = {} } = options;
 
 	const subprocess = spawn(cmd, args, {
-		cwd: process.env.ONE_REPO_ROOT,
+		cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
 		stdio: ['inherit', 'pipe', 'pipe'],
 		...opts,
 	});
@@ -191,7 +191,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 		exec(
 			`sudo ${options.cmd} ${(options.args || []).join(' ')}`,
 			{
-				cwd: process.env.ONE_REPO_ROOT,
+				cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
 			},
 			(error, stdout, stderr) => {
 				if (error) {

@@ -5,7 +5,7 @@ import readChangesets from '@changesets/read';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { ReleasePlan } from '@changesets/types';
 import { read as readConfig } from '@changesets/config';
-import { batch, run } from '@onerepo/subprocess';
+import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { getStatus } from '@onerepo/git';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
@@ -18,7 +18,6 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
-	'package-manager': 'yarn' | 'npm';
 	'skip-auth': boolean;
 };
 
@@ -41,12 +40,6 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
-		.option('package-manager', {
-			type: 'string',
-			default: 'npm',
-			choices: ['yarn', 'npm'],
-			description: 'Package manager to use for publishing',
-		} as const)
 		.option('skip-auth', {
 			type: 'boolean',
 			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
@@ -59,7 +52,6 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		build,
 		'dry-run': isDry,
 		otp: otpRequired,
-		'package-manager': packageManager,
 		'skip-auth': skipAuth,
 		verbosity,
 	} = argv;
@@ -77,18 +69,6 @@ Current status is:\n ${status}`);
 		}
 		await cleanStep.end();
 	}
-
-	const checkAuth = logger.createStep('Check auth');
-	const isYarn = packageManager === 'yarn';
-	if (!skipAuth) {
-		await run({
-			name: 'Ensure registry auth',
-			cmd: isYarn ? 'yarn' : 'npm',
-			args: [...(isYarn ? ['npm'] : []), 'whoami'],
-			step: checkAuth,
-		});
-	}
-	await checkAuth.end();
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
 		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location } as Package)
@@ -150,6 +130,19 @@ Current status is:\n ${status}`);
 		logger.warn('No changesets found. Defaulting to all workspaces.');
 	}
 
+	if (!skipAuth) {
+		const isLoggedIn = await graph.packageManager.loggedIn({
+			scope: workspaces[0].scope?.replace(/^@/, ''),
+			registry: workspaces[0].publishConfig.registry,
+		});
+		if (!isLoggedIn) {
+			logger.error(
+				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.'
+			);
+			return;
+		}
+	}
+
 	const versionStep = logger.createStep('Get pre-release version');
 	const [sha] = await run({
 		name: 'Get commit sha',
@@ -197,7 +190,7 @@ Current status is:\n ${status}`);
 		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);
 	}
 
-	let otp: string | void;
+	let otp: string | undefined;
 	if (otpRequired) {
 		logger.pause();
 		const { otp: inputOtp } = await inquirer.prompt([
@@ -212,25 +205,12 @@ Current status is:\n ${status}`);
 		logger.unpause();
 	}
 
-	await batch(
-		workspaces.map((ws) => ({
-			name: `Publish ${ws.name}`,
-			cmd: isYarn ? 'yarn' : 'npm',
-			args: [
-				...(isYarn ? ['npm'] : []),
-				'publish',
-				'--tag',
-				'prerelease',
-				...(otp ? ['--otp', otp] : []),
-				...(!isYarn && isDry ? ['--dry-run'] : []),
-				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
-			],
-			opts: {
-				cwd: ws.location,
-			},
-			runDry: !isYarn,
-		}))
-	);
+	await graph.packageManager.publish({
+		access: workspaces[0].publishConfig?.access ?? 'public',
+		workspaces,
+		otp,
+		tag: 'prerelease',
+	});
 
 	const resetStep = logger.createStep('Reset package.jsons');
 	for (const workspace of graph.workspaces) {

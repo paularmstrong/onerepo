@@ -76,4 +76,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          ./bin/one.cjs changesets publish --package-manager=npm -vvvvv
+          ./bin/one.cjs changesets publish -vvvvv

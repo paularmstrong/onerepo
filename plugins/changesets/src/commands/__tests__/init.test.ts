@@ -2,7 +2,7 @@ import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as file from '@onerepo/file';
 import * as subprocess from '@onerepo/subprocess';
-import * as Init from './init';
+import * as Init from '../init';
 import { getCommand } from '@onerepo/test-cli';
 
 jest.mock('@onerepo/subprocess');
