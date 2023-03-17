@@ -1,5 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { IPackageManager } from './methods';
+import type { IPackageManager, MinimalWorkspace } from './methods';
 
 export const Pnpm = {
 	add: async (packages, opts = {}): Promise<void> => {
@@ -17,6 +17,20 @@ export const Pnpm = {
 			cmd: 'pnpm',
 			args: ['install'],
 		});
+	},
+
+	loggedIn: async (opts = {}) => {
+		try {
+			await run({
+				name: 'Who am I?',
+				cmd: 'pnpm',
+				args: ['whoami', ...(opts.registry ? ['--registry', opts.registry] : [])],
+				runDry: true,
+			});
+			return true;
+		} catch (e) {
+			return false;
+		}
 	},
 
 	publish: async (opts = {}): Promise<void> => {
@@ -38,9 +52,11 @@ export const Pnpm = {
 		});
 	},
 
-	publishable: async <T extends { name: string; version: string }>(workspaces: Array<T>) => {
+	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {
+		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
+
 		const responses = await batch(
-			workspaces.map(({ name }) => ({
+			filtered.map(({ name }) => ({
 				name: `Get ${name} versions`,
 				cmd: 'pnpm',
 				args: ['info', name, 'name', 'versions', '--json'],
@@ -56,7 +72,7 @@ export const Pnpm = {
 			}
 			const { name, versions } = JSON.parse(res[0]);
 			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && !versions.includes(ws.version)) {
+			if (ws && ws.version && !versions.includes(ws.version)) {
 				publishable.add(ws);
 			}
 		}

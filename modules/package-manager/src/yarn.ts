@@ -1,5 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { IPackageManager } from './methods';
+import type { IPackageManager, MinimalWorkspace } from './methods';
 
 export const Yarn = {
 	add: async (packages, opts = {}): Promise<void> => {
@@ -17,6 +17,20 @@ export const Yarn = {
 			cmd: 'yarn',
 			args: ['install'],
 		});
+	},
+
+	loggedIn: async (opts = {}) => {
+		try {
+			await run({
+				name: 'Who am I?',
+				cmd: 'yarn',
+				args: ['npm', 'whoami', ...(opts.scope ? ['--scope', opts.scope] : [])],
+				runDry: true,
+			});
+			return true;
+		} catch (e) {
+			return false;
+		}
 	},
 
 	publish: async (opts = {}): Promise<void> => {
@@ -46,13 +60,15 @@ export const Yarn = {
 		}
 	},
 
-	publishable: async <T extends { name: string; version: string }>(workspaces: Array<T>) => {
+	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {
+		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
+
 		let ndjson: string = '';
 		try {
 			const res = await run({
 				name: 'Get versions',
 				cmd: 'yarn',
-				args: ['npm', 'info', ...workspaces.map(({ name }) => name), '--json'],
+				args: ['npm', 'info', ...filtered.map(({ name }) => name), '--json'],
 				runDry: true,
 				skipFailures: true,
 			});
@@ -69,7 +85,7 @@ export const Yarn = {
 
 		for (const { name, versions } of responses) {
 			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && !versions.includes(ws.version)) {
+			if (ws && ws.version && !versions.includes(ws.version)) {
 				publishable.add(ws);
 			}
 		}

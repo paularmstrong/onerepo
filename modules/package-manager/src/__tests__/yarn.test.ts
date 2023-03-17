@@ -58,6 +58,27 @@ describe('NPM', () => {
 		});
 	});
 
+	describe('loggedIn', () => {
+		test('returns false if cmd fails', async () => {
+			jest.spyOn(subprocess, 'run').mockRejectedValue(new Error());
+			await expect(manager.loggedIn()).resolves.toBe(false);
+		});
+
+		test('returns true if cmd succeeds', async () => {
+			await expect(manager.loggedIn()).resolves.toBe(true);
+		});
+
+		test('passes scope', async () => {
+			await expect(manager.loggedIn({ scope: 'foobar' })).resolves.toBe(true);
+			expect(subprocess.run).toHaveBeenCalledWith(
+				expect.objectContaining({
+					cmd: 'yarn',
+					args: ['npm', 'whoami', '--scope', 'foobar'],
+				})
+			);
+		});
+	});
+
 	describe('publish', () => {
 		test('Publishes', async () => {
 			await manager.publish();

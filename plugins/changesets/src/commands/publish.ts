@@ -1,8 +1,7 @@
 import inquirer from 'inquirer';
 import { write } from '@onerepo/file';
-import { batch, run } from '@onerepo/subprocess';
+import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type { Workspace } from '@onerepo/graph';
 import { getBranch, getStatus } from '@onerepo/git';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
@@ -14,7 +13,6 @@ type Args = {
 	'allow-dirty': boolean;
 	build: boolean;
 	otp: boolean;
-	'package-manager': 'yarn' | 'npm';
 	'skip-auth': boolean;
 };
 
@@ -37,12 +35,6 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Set to true if your publishes require an OTP for NPM.',
 			default: false,
 		})
-		.option('package-manager', {
-			type: 'string',
-			default: 'npm',
-			choices: ['yarn', 'npm'],
-			description: 'Package manager to use for publishing',
-		} as const)
 		.option('skip-auth', {
 			type: 'boolean',
 			description: 'Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens.',
@@ -53,15 +45,7 @@ export const builder: Builder<Args> = (yargs) =>
 		);
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
-	const {
-		'allow-dirty': allowDirty,
-		build,
-		'dry-run': isDry,
-		otp: otpRequired,
-		'package-manager': packageManager,
-		'skip-auth': skipAuth,
-		verbosity,
-	} = argv;
+	const { 'allow-dirty': allowDirty, build, otp: otpRequired, 'skip-auth': skipAuth, verbosity } = argv;
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
@@ -85,42 +69,29 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	}
 
 	const infoStep = logger.createStep('Get version info');
-	const isYarn = packageManager === 'yarn';
-
-	if (!skipAuth) {
-		await run({
-			name: 'Ensure registry auth',
-			cmd: isYarn ? 'yarn' : 'npm',
-			args: [...(isYarn ? ['npm'] : []), 'whoami'],
-		});
-	}
 
 	const workspaces = Object.values(graph.workspaces).filter((ws) => !ws.private);
-	const publishable: Array<Workspace> = [];
+	const publishable = await graph.packageManager.publishable(workspaces);
 
-	for (const workspace of workspaces) {
-		const [info, err] = await run({
-			name: `Get versions of ${workspace.name}`,
-			cmd: isYarn ? 'yarn' : 'npm',
-			args: [...(isYarn ? ['npm'] : []), 'info', workspace.name, '--json'],
-			skipFailures: true,
-			step: infoStep,
-			runDry: true,
-		});
-
-		const is404 = err?.includes('E404') || info?.includes('The remote server failed to provide the requested resource');
-
-		const { versions = [] } = !is404 ? JSON.parse(info || '{}') : {};
-		if (is404 || !versions?.includes(workspace.version)) {
-			publishable.push(workspace);
-		}
-	}
 	if (publishable.length === 0) {
 		infoStep.warn('No workspaces need publishing.');
 		await infoStep.end();
 		return;
 	}
 	await infoStep.end();
+
+	if (!skipAuth) {
+		const isLoggedIn = await graph.packageManager.loggedIn({
+			scope: publishable[0].scope?.replace(/^@/, ''),
+			registry: publishable[0].publishConfig.registry,
+		});
+		if (!isLoggedIn) {
+			logger.error(
+				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.'
+			);
+			return;
+		}
+	}
 
 	if (build) {
 		await run({
@@ -145,7 +116,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	}
 	await configStep.end();
 
-	let otp: string | void;
+	let otp: string | undefined;
 	if (otpRequired) {
 		logger.pause();
 		const { otp: inputOtp } = await inquirer.prompt([
@@ -160,25 +131,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		logger.unpause();
 	}
 
-	await batch(
-		publishable.map((ws) => ({
-			name: `Publish ${ws.name}`,
-			cmd: isYarn ? 'yarn' : 'npm',
-			args: [
-				...(isYarn ? ['npm'] : []),
-				'publish',
-				'--tag',
-				'latest',
-				...(otp ? ['--otp', otp] : []),
-				...(!isYarn && isDry ? ['--dry-run'] : []),
-				...('access' in ws.publishConfig ? ['--access', ws.publishConfig.access!] : []),
-			],
-			opts: {
-				cwd: ws.location,
-			},
-			runDry: !isYarn,
-		}))
-	);
+	await graph.packageManager.publish({ workspaces: publishable, otp, tag: 'latest' });
 
 	const resetStep = logger.createStep('Reset package.jsons');
 	for (const workspace of workspaces) {
