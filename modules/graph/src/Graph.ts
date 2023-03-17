@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import type { PackageManager } from '@onerepo/package-manager';
-import { getManager, getPackageManager } from '@onerepo/package-manager';
+import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import { globSync } from 'glob';
 import type { Serialized } from 'graph-data-structure';
 import { Graph as graph } from 'graph-data-structure';
@@ -65,7 +65,7 @@ export class Graph {
 			this.#addEdges(dependent, workspace.peerDependencies, Dependency.peer);
 		});
 
-		this.#packageManager = getManager(getPackageManager(location, packageJson.packageManager));
+		this.#packageManager = getPackageManager(getPackageManagerName(location, packageJson.packageManager));
 	}
 
 	/**

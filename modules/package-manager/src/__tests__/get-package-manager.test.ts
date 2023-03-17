@@ -1,7 +1,7 @@
 import path from 'path';
-import { getPackageManager } from '../get-package-manager';
+import { getPackageManagerName } from '../get-package-manager';
 
-describe('getPackageManager', () => {
+describe('getPackageManagerName', () => {
 	test.concurrent.each([
 		['yarn', 'yarn@latest'],
 		['yarn', 'yarn@3.3.1'],
@@ -10,7 +10,7 @@ describe('getPackageManager', () => {
 		['npm', 'npm@latest'],
 		['npm', 'npm@6.8.7'],
 	])('gets "%s" from "packageManager": "%s"', async (expected, value) => {
-		expect(getPackageManager('.', value)).toEqual(expected);
+		expect(getPackageManagerName('.', value)).toEqual(expected);
 	});
 
 	test.each([
@@ -23,6 +23,6 @@ describe('getPackageManager', () => {
 		['yarn', 'yarnrcyml'],
 		['npm', 'unknown'],
 	])('gets "%s" from %s fixture', async (expected, fixture) => {
-		expect(getPackageManager(path.join(__dirname, '__fixtures__', fixture))).toEqual(expected);
+		expect(getPackageManagerName(path.join(__dirname, '__fixtures__', fixture))).toEqual(expected);
 	});
 });
