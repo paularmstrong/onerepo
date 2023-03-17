@@ -1,5 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { IPackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace } from './methods';
 
 export const Pnpm = {
 	add: async (packages, opts = {}): Promise<void> => {
@@ -88,4 +88,4 @@ export const Pnpm = {
 			args: ['remove', ...pkgs],
 		});
 	},
-} satisfies IPackageManager;
+} satisfies PackageManager;

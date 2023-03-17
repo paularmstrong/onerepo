@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 
-export type PackageManager = 'npm' | 'pnpm' | 'yarn';
+export type PackageManagerName = 'npm' | 'pnpm' | 'yarn';
 
 /**
  * Get the package manager for the current working directory with _some_ confidence
@@ -9,7 +9,7 @@ export type PackageManager = 'npm' | 'pnpm' | 'yarn';
  * @param cwd Current working directory. Should be the root of the module/repository.
  * @param fromPkgJson Value as defined in a package.json file, typically the `packageManager` value
  */
-export function getPackageManager(cwd: string, fromPkgJson?: string): PackageManager {
+export function getPackageManager(cwd: string, fromPkgJson?: string): PackageManagerName {
 	if (fromPkgJson) {
 		const [value] = fromPkgJson.split('@');
 		if (value === 'npm' || value === 'pnpm' || value === 'yarn') {
@@ -20,7 +20,7 @@ export function getPackageManager(cwd: string, fromPkgJson?: string): PackageMan
 	return getLockfile(cwd) ?? 'npm';
 }
 
-function getLockfile(cwd: string): PackageManager | null {
+function getLockfile(cwd: string): PackageManagerName | null {
 	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {
 		return 'npm';
 	}

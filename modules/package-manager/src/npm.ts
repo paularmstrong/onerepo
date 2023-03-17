@@ -1,5 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { IPackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace } from './methods';
 
 export const Npm = {
 	add: async (packages, opts = {}): Promise<void> => {
@@ -87,4 +87,4 @@ export const Npm = {
 			args: ['uninstall', ...pkgs],
 		});
 	},
-} satisfies IPackageManager;
+} satisfies PackageManager;

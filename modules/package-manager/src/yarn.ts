@@ -1,5 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { IPackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace } from './methods';
 
 export const Yarn = {
 	add: async (packages, opts = {}): Promise<void> => {
@@ -101,4 +101,4 @@ export const Yarn = {
 			args: ['remove', ...pkgs],
 		});
 	},
-} satisfies IPackageManager;
+} satisfies PackageManager;

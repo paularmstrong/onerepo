@@ -2,13 +2,6 @@
 	"name": "@onerepo/docs",
 	"type": "module",
 	"private": true,
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
 	"dependencies": {
 		"@astrojs/mdx": "^0.18.0",
 		"@astrojs/tailwind": "^3.0.1",

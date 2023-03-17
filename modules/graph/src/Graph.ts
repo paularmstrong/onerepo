@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import type { IPackageManager } from '@onerepo/package-manager';
+import type { PackageManager } from '@onerepo/package-manager';
 import { getManager, getPackageManager } from '@onerepo/package-manager';
 import { globSync } from 'glob';
 import type { Serialized } from 'graph-data-structure';
@@ -40,7 +40,7 @@ export class Graph {
 	 */
 	#nameByAlias: Map<string, string> = new Map();
 	#require: typeof require;
-	#packageManager: IPackageManager;
+	#packageManager: PackageManager;
 
 	/**
 	 * @internal
