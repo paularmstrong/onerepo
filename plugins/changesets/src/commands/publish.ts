@@ -131,7 +131,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		logger.unpause();
 	}
 
-	await graph.packageManager.publish({ workspaces: publishable, otp, tag: 'latest' });
+	await graph.packageManager.publish({
+		access: publishable[0].publishConfig?.access ?? 'public',
+		workspaces: publishable,
+		otp,
+		tag: 'latest',
+	});
 
 	const resetStep = logger.createStep('Reset package.jsons');
 	for (const workspace of workspaces) {

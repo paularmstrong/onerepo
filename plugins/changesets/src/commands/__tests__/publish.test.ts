@@ -101,6 +101,7 @@ describe('handler', () => {
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
+			access: 'public',
 			workspaces: graph.workspaces.filter((ws) => !ws.private),
 			tag: 'latest',
 			otp: undefined,
@@ -119,6 +120,7 @@ describe('handler', () => {
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
+			access: 'public',
 			workspaces: [graph.getByName('burritos')],
 			tag: 'latest',
 			otp: undefined,
@@ -130,6 +132,7 @@ describe('handler', () => {
 		await run('--otp', { graph });
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
+			access: 'public',
 			workspaces: graph.workspaces.filter((ws) => !ws.private),
 			tag: 'latest',
 			otp: '789012',
