@@ -74,6 +74,6 @@ jobs:
 
       - name: Publish versioned workspaces
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           ./bin/one.cjs changesets publish --skip-auth -vvvvv
