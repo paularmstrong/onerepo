@@ -2,14 +2,6 @@ import { batch, run } from '@onerepo/subprocess';
 import type { IPackageManager } from './methods';
 
 export const Yarn = {
-	install: async (): Promise<void> => {
-		await run({
-			name: 'Install dependencies',
-			cmd: 'yarn',
-			args: ['install'],
-		});
-	},
-
 	add: async (packages, opts = {}): Promise<void> => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
@@ -19,12 +11,11 @@ export const Yarn = {
 		});
 	},
 
-	remove: async (packages): Promise<void> => {
-		const pkgs = Array.isArray(packages) ? packages : [packages];
+	install: async (): Promise<void> => {
 		await run({
-			name: 'Remove packages',
+			name: 'Install dependencies',
 			cmd: 'yarn',
-			args: ['remove', ...pkgs],
+			args: ['install'],
 		});
 	},
 
@@ -33,7 +24,7 @@ export const Yarn = {
 		const options: Array<string> = [
 			...(access ? ['--access', access] : []),
 			...(tag ? ['--tag', tag] : []),
-			...(otp ? ['--otp'] : []),
+			...(otp ? ['--otp', otp] : []),
 		];
 
 		if (!workspaces?.length) {
@@ -55,20 +46,43 @@ export const Yarn = {
 		}
 	},
 
-	publishable: async (workspaces): Promise<Array<string>> => {
-		const [ndjson] = await run({
-			name: 'Get versions',
-			cmd: 'yarn',
-			args: ['npm', 'info', ...workspaces.map(({ name }) => name), '--json'],
-			runDry: true,
-		});
-
-		const responses = ndjson.split('\n').map((str) => JSON.parse(str) as { name: string; versions: Array<string> });
-
-		for (const info of responses) {
-			// TODO
+	publishable: async <T extends { name: string; version: string }>(workspaces: Array<T>) => {
+		let ndjson: string = '';
+		try {
+			const res = await run({
+				name: 'Get versions',
+				cmd: 'yarn',
+				args: ['npm', 'info', ...workspaces.map(({ name }) => name), '--json'],
+				runDry: true,
+				skipFailures: true,
+			});
+			ndjson = res[0];
+		} catch (e) {
+			return workspaces;
 		}
 
-		return [];
+		const responses = ndjson
+			.split('\n')
+			.filter((out) => Boolean(out.trim()))
+			.map((str) => JSON.parse(str) as { name: string; versions: Array<string> });
+		const publishable = new Set<T>();
+
+		for (const { name, versions } of responses) {
+			const ws = workspaces.find((ws) => ws.name === name);
+			if (ws && !versions.includes(ws.version)) {
+				publishable.add(ws);
+			}
+		}
+
+		return Array.from(publishable);
+	},
+
+	remove: async (packages): Promise<void> => {
+		const pkgs = Array.isArray(packages) ? packages : [packages];
+		await run({
+			name: 'Remove packages',
+			cmd: 'yarn',
+			args: ['remove', ...pkgs],
+		});
 	},
 } satisfies IPackageManager;

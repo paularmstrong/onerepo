@@ -17,18 +17,14 @@ export function getPackageManager(cwd: string, fromPkgJson?: string): PackageMan
 		}
 	}
 
-	const lockfile = getLockfile(cwd);
-	if (lockfile) {
-		return lockfile;
-	}
-
-	return 'npm';
+	return getLockfile(cwd) ?? 'npm';
 }
 
 function getLockfile(cwd: string): PackageManager | null {
 	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {
 		return 'npm';
 	}
+
 	if (
 		existsSync(path.resolve(cwd, 'yarn.lock')) ||
 		existsSync(path.resolve(cwd, '.yarnrc.yml')) ||
@@ -36,7 +32,12 @@ function getLockfile(cwd: string): PackageManager | null {
 	) {
 		return 'yarn';
 	}
-	if (existsSync(path.resolve(cwd, 'pnpm-lock.json')) || existsSync(path.resolve(cwd, 'pnpm-workspace.yaml'))) {
+
+	if (
+		existsSync(path.resolve(cwd, 'pnpm-lock.json')) ||
+		existsSync(path.resolve(cwd, 'pnpm-workspace.yml')) ||
+		existsSync(path.resolve(cwd, 'pnpm-workspace.yaml'))
+	) {
 		return 'pnpm';
 	}
 

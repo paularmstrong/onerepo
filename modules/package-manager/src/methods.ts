@@ -1,13 +1,12 @@
 export interface IPackageManager {
-	publishable<T extends { name: string; version: string }>(workspaces: Array<T>): Promise<Array<string>>;
-	install(): Promise<void>;
 	add(packages: string | Array<string>, opts?: { dev?: boolean }): Promise<void>;
-	remove(packages: string | Array<string>): Promise<void>;
-	publish(opts?: {
+	install(): Promise<void>;
+	publishable<T extends { name: string; version: string }>(workspaces: Array<T>): Promise<Array<T>>;
+	publish<T extends { name: string; location: string }>(opts?: {
 		/**
 		 * Workspaces to publish. If not provided or empty array, only the given workspace at `cwd` will be published. This type is generally compatible with {@link graph.Workspace}.
 		 */
-		workspaces?: Array<{ name: string; location: string }>;
+		workspaces?: Array<T>;
 		/**
 		 * Set the registry access level for the package
 		 * @default 'public'
@@ -27,5 +26,5 @@ export interface IPackageManager {
 		 */
 		tag?: string;
 	}): Promise<void>;
-	whoami(): Promise<string>;
+	remove(packages: string | Array<string>): Promise<void>;
 }

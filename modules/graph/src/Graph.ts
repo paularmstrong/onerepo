@@ -89,6 +89,9 @@ export class Graph {
 		return this.getByLocation(this.#rootLocation);
 	}
 
+	/**
+	 * Get the package manager that this Graph depends on.
+	 */
 	get packageManager() {
 		return this.#packageManager;
 	}
