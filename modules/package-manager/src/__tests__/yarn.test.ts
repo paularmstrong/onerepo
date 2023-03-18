@@ -48,7 +48,7 @@ describe('NPM', () => {
 
 	describe('install', () => {
 		test('Runs install', async () => {
-			await manager.install();
+			await expect(manager.install()).resolves.toEqual('yarn.lock');
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
 					cmd: 'yarn',

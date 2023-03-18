@@ -2,7 +2,7 @@ import { batch, run } from '@onerepo/subprocess';
 import type { PackageManager, MinimalWorkspace } from './methods';
 
 export const Yarn = {
-	add: async (packages, opts = {}): Promise<void> => {
+	add: async (packages, opts = {}) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Add packages',
@@ -11,12 +11,14 @@ export const Yarn = {
 		});
 	},
 
-	install: async (): Promise<void> => {
+	install: async () => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'yarn',
 			args: ['install'],
 		});
+
+		return 'yarn.lock';
 	},
 
 	loggedIn: async (opts = {}) => {
@@ -33,7 +35,7 @@ export const Yarn = {
 		}
 	},
 
-	publish: async (opts = {}): Promise<void> => {
+	publish: async (opts = {}) => {
 		const { access, cwd, otp, tag, workspaces } = opts;
 		const options: Array<string> = [
 			...(access ? ['--access', access] : []),
@@ -93,7 +95,7 @@ export const Yarn = {
 		return Array.from(publishable);
 	},
 
-	remove: async (packages): Promise<void> => {
+	remove: async (packages) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Remove packages',

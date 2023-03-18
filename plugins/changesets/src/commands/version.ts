@@ -156,13 +156,15 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		await applyReleasePlan(releasePlan, packages, config);
 	}
 
+	const lockfile = await graph.packageManager.install();
+
 	if (add && !isDryRun) {
 		// @ts-ignore does not understand filter(Boolean)
 		const files: Array<string> = graph.workspaces
 			.map((ws) => [ws.resolve('package.json'), !ws.private ? ws.resolve('CHANGELOG.md') : false])
 			.flat()
 			.filter(Boolean);
-		await updateIndex([graph.root.resolve('.changeset'), ...files]);
+		await updateIndex([graph.root.resolve('.changeset'), lockfile, ...files]);
 	}
 };
 
