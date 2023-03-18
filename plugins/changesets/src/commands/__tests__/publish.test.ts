@@ -96,7 +96,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '-w', 'burritos', 'churros', 'tacos', 'tortillas'],
+				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortillas'],
 			})
 		);
 
@@ -115,7 +115,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: expect.arrayContaining(['tasks', '-c', 'build', '-w', 'burritos']),
+				args: expect.arrayContaining(['tasks', '-c', 'build', '--no-affected', '-w', 'burritos']),
 			})
 		);
 
@@ -145,7 +145,10 @@ describe('handler', () => {
 		await run('', { graph });
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: process.argv[1], args: expect.arrayContaining(['tasks', '-c', 'build']) })
+			expect.objectContaining({
+				cmd: process.argv[1],
+				args: expect.arrayContaining(['tasks', '-c', 'build', '--no-affected']),
+			})
 		);
 	});
 });

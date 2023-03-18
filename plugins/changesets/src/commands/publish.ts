@@ -101,6 +101,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 				'tasks',
 				'-c',
 				'build',
+				'--no-affected',
 				'-w',
 				...publishable.map((ws) => ws.name),
 				verbosity ? `-${'v'.repeat(verbosity)}` : '',

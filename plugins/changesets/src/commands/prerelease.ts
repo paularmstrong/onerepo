@@ -175,6 +175,7 @@ Current status is:\n ${status}`);
 				'tasks',
 				'-c',
 				'build',
+				'--no-affected',
 				'-w',
 				...workspaces.map((ws) => ws.name),
 				verbosity ? `-${'v'.repeat(verbosity)}` : '',

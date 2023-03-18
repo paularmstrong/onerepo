@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
-import * as Tasks from './tasks';
+import * as Tasks from '../tasks';
 import { getCommand } from '@onerepo/test-cli';
 
 jest.mock('@onerepo/git');
