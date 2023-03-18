@@ -69,17 +69,17 @@ export const builder: Builder<Argv> = (yargs) =>
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
-	const { ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
+	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
 
 	const requested = await getWorkspaces({ ignore });
-	const affected = graph.affected(requested);
-	const affectedNames = affected.map(({ name }) => name);
+	const workspaces = affected ? graph.affected(requested) : requested;
+	const workspaceNames = workspaces.map(({ name }) => name);
 
 	const { added, modified, moved, deleted } = await git.getModifiedFiles(fromRef, throughRef);
 	const allFiles = [...added, ...modified, ...moved, ...deleted];
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
-	if (!files.length && !affectedNames.length) {
+	if (!files.length && !workspaceNames.length) {
 		logger.warn('No tasks to run');
 		if (list) {
 			process.stdout.write('[]');
@@ -96,7 +96,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(argv.$0, graph, workspace, task, affectedNames);
+				const spec = taskToSpec(argv.$0, graph, workspace, task, workspaceNames);
 				sequentialTasks[type].push(spec);
 			}
 		});
@@ -105,7 +105,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(argv.$0, graph, workspace, task, affectedNames);
+				const spec = taskToSpec(argv.$0, graph, workspace, task, workspaceNames);
 				parallelTasks[type].push(spec);
 			}
 		});
@@ -117,7 +117,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		const isPre = lifecycle.startsWith('pre-');
 		const isPost = lifecycle.startsWith('post-');
 
-		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || affected.includes(workspace);
+		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || workspaces.includes(workspace);
 
 		if (isPre || !isPost) {
 			const tasks = workspace.getTasks(isPre ? lifecycle : `pre-${lifecycle}`);
@@ -205,7 +205,9 @@ function taskToSpec(
 	].filter(Boolean) as Array<string>;
 
 	return {
-		name: `Run \`${command.replace(/^\$0/, cliName)}\` in \`${workspace.name}\``,
+		name: `Run \`${command.replace(/^\$0/, cliName).replace('${workspaces}', wsNames.join(' ')).split(' ')}\` in \`${
+			workspace.name
+		}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
