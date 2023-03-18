@@ -2962,7 +2962,7 @@ __metadata:
     minimatch: ^7.2.0
     picocolors: ^1.0.0
     prettier: ^2
-    typescript: ^4.9.5
+    typescript: ^5.0.0
     yargs: ^17.6.2
     yargs-parser: ^21.1.1
   languageName: unknown
@@ -2989,7 +2989,7 @@ __metadata:
     tailwindcss: ^3.2.7
     typedoc: ^0.23.26
     typedoc-plugin-markdown: ^4.0.0-next.3
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -3026,7 +3026,7 @@ __metadata:
     glob: ^9.0.0
     graph-data-structure: ^3.2.0
     jest: ^29.5.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -3039,7 +3039,7 @@ __metadata:
     jest: ^29.5.0
     log-update: ^5.0.1
     picocolors: ^1.0.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -3051,7 +3051,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@onerepo/subprocess": 0.2.0
     jest: ^29.5.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -3082,7 +3082,7 @@ __metadata:
     jest: ^29.5.0
     onerepo: "workspace:^"
     picocolors: ^1.0.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -3106,7 +3106,7 @@ __metadata:
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
     remark-stringify: ^10.0.2
-    typescript: ^4.9.5
+    typescript: ^5.0.0
     unified: ^10.1.2
     yargs-parser: ^21.1.1
   peerDependencies:
@@ -3133,7 +3133,7 @@ __metadata:
     eslint: ^8.34.0
     minimatch: ^7.2.0
     onerepo: "workspace:^"
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   peerDependencies:
     eslint: ^8
   languageName: unknown
@@ -3152,7 +3152,7 @@ __metadata:
     "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.4.2
     onerepo: "workspace:^"
-    typescript: ^4.9.5
+    typescript: ^5.0.0
     yargs-unparser: ^2.0.0
   peerDependencies:
     jest: ">=29"
@@ -3174,7 +3174,7 @@ __metadata:
     esbuild-register: ^3.4.2
     minimatch: ^7.2.0
     onerepo: "workspace:^"
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   peerDependencies:
     prettier: ^2
   languageName: unknown
@@ -3208,7 +3208,7 @@ __metadata:
     "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.4.2
     onerepo: "workspace:^"
-    typescript: ^4.9.5
+    typescript: ^5.0.0
     yargs-unparser: ^2.0.0
   peerDependencies:
     vitest: ^0
@@ -3240,7 +3240,7 @@ __metadata:
     jest: ^29.5.0
     onerepo: "workspace:^"
     prettier: ^2.8.4
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   bin:
     one: ./bin/one.js
   languageName: unknown
@@ -3267,7 +3267,7 @@ __metadata:
     "@onerepo/yargs": 0.1.1
     "@types/yargs-unparser": ^2.0.1
     jest: ^29.5.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
     yargs: ^17.6.2
     yargs-parser: ^21.1.1
     yargs-unparser: ^2.0.0
@@ -4049,19 +4049,19 @@ __metadata:
   linkType: hard
 
 "@typescript-eslint/parser@npm:^5.51.0":
-  version: 5.54.1
-  resolution: "@typescript-eslint/parser@npm:5.54.1"
+  version: 5.55.0
+  resolution: "@typescript-eslint/parser@npm:5.55.0"
   dependencies:
-    "@typescript-eslint/scope-manager": 5.54.1
-    "@typescript-eslint/types": 5.54.1
-    "@typescript-eslint/typescript-estree": 5.54.1
+    "@typescript-eslint/scope-manager": 5.55.0
+    "@typescript-eslint/types": 5.55.0
+    "@typescript-eslint/typescript-estree": 5.55.0
     debug: ^4.3.4
   peerDependencies:
     eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: f466513d306ca926b97c2cec1eebaf2cd15d45bd5633a4358f23ba9a4de1b0ec4630b1c20abc395943934ed1d2ef65f545fd6737c317a7abe579612101e8a83f
+  checksum: 48a20dc7e67960b5168b77bfb9d11d053a21d57bb83cf7b59f750191cbca5eea3b4636a8e6e75cc0aca5a84cdef91fed5440934fc2935f8c6fa71630a253a50c
   languageName: node
   linkType: hard
 
@@ -4082,6 +4082,16 @@ __metadata:
     "@typescript-eslint/types": 5.54.1
     "@typescript-eslint/visitor-keys": 5.54.1
   checksum: 9add24cf3a7852634ad0680a827646860ac4698a6ac8aae31e8b781e29f59e84b51f0cdaacffd0747811012647f01b51969d988da9b302ead374ceebffbe204b
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/scope-manager@npm:5.55.0":
+  version: 5.55.0
+  resolution: "@typescript-eslint/scope-manager@npm:5.55.0"
+  dependencies:
+    "@typescript-eslint/types": 5.55.0
+    "@typescript-eslint/visitor-keys": 5.55.0
+  checksum: f253db88f69a29e4abe2f567d0a611cc3e7fb1a911a2cc54a2f6baf16e3de4d1883b3f8e45ee61b3db9fa5543dda0fd7b608de9d28ba6173ab49bfd17ff90cad
   languageName: node
   linkType: hard
 
@@ -4113,6 +4123,13 @@ __metadata:
   version: 5.54.1
   resolution: "@typescript-eslint/types@npm:5.54.1"
   checksum: 84a8f725cfa10646af389659e09c510c38d82c65960c7b613f844a264acc0e197471cba03f3e8f4b6411bc35dca28922c8352a7bd44621411c73fd6dd4096da2
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:5.55.0":
+  version: 5.55.0
+  resolution: "@typescript-eslint/types@npm:5.55.0"
+  checksum: 7d851f09a2106514d3a9c7164d34758f30abfe554e3c7a02be75cdc7e16644e23ca32840a8f39a0321bc509927fb4d98ce91b22b21e8544ac56cef33b815a864
   languageName: node
   linkType: hard
 
@@ -4149,6 +4166,24 @@ __metadata:
     typescript:
       optional: true
   checksum: ea42bdb4832fa96fa1121237c9b664ac4506e2836646651e08a8542c8601d78af6c288779707f893ca4c884221829bb7d7b4b43c4a9c3ed959519266d03a139b
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:5.55.0":
+  version: 5.55.0
+  resolution: "@typescript-eslint/typescript-estree@npm:5.55.0"
+  dependencies:
+    "@typescript-eslint/types": 5.55.0
+    "@typescript-eslint/visitor-keys": 5.55.0
+    debug: ^4.3.4
+    globby: ^11.1.0
+    is-glob: ^4.0.3
+    semver: ^7.3.7
+    tsutils: ^3.21.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: d24a11aee3d01067018d99804f420aecb8af88e43bf170d5d14f6480bd378c0a81ce49a37f5d6c36e5f0f319e3fa8b099720f295f2767338be1a4f7e9a5323e1
   languageName: node
   linkType: hard
 
@@ -4205,6 +4240,16 @@ __metadata:
     "@typescript-eslint/types": 5.54.1
     eslint-visitor-keys: ^3.3.0
   checksum: 3a691abd2a43b86a0c41526d14a2afcc93a2e0512b5f8b9ec43f6029c493870808036eae5ee4fc655d26e1999017c4a4dffb241f47c36c2a1238ec9fbd08719c
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:5.55.0":
+  version: 5.55.0
+  resolution: "@typescript-eslint/visitor-keys@npm:5.55.0"
+  dependencies:
+    "@typescript-eslint/types": 5.55.0
+    eslint-visitor-keys: ^3.3.0
+  checksum: 0b24c72dff99dd2cf41c19d20067f8ab20a38aa2e82c79c5530bec7cf651031e95c80702fc21c813c9b94e5f3d4cd210f13967b2966ef38abe548cb5f05848a3
   languageName: node
   linkType: hard
 
@@ -14508,7 +14553,7 @@ __metadata:
     "@onerepo/subprocess": 0.2.0
     "@onerepo/yargs": 0.1.1
     jest: ^29.5.0
-    typescript: ^4.9.5
+    typescript: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -18273,7 +18318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:*, typescript@npm:^4.5.5, typescript@npm:^4.8.4, typescript@npm:^4.9.5":
+"typescript@npm:*, typescript@npm:^4.5.5, typescript@npm:^4.8.4":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -18283,13 +18328,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
+"typescript@npm:^5.0.0":
+  version: 5.0.2
+  resolution: "typescript@npm:5.0.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^5.0.0#~builtin<compat/typescript>":
+  version: 5.0.2
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=ad5954"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
   languageName: node
   linkType: hard
 
