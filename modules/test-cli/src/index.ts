@@ -70,6 +70,9 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 	return { ...argv, $0: 'root-bin' };
 }
 
+const dirname =
+	typeof __dirname !== 'undefined' ? __dirname : path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
+
 export async function runHandler<R = Record<string, unknown>>(
 	{
 		builder,
@@ -82,9 +85,6 @@ export async function runHandler<R = Record<string, unknown>>(
 	},
 	cmd = ''
 ): Promise<void> {
-	const dirname =
-		typeof __dirname !== 'undefined' ? __dirname : path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
-
 	logger.hasError = false;
 	logger.verbosity = 4;
 	logger.pause();
@@ -131,9 +131,12 @@ export function getCommand<R = Record<string, unknown>>({
 	builder: Builder<R>;
 	handler: Handler<R>;
 }) {
+	const graph = getGraph(path.join(dirname, 'fixtures', 'repo'));
 	return {
 		build: async (cmd = '') => runBuilder<R>(builder, cmd),
-		run: async (cmd = '', extras: Partial<Extras> = {}) => runHandler<R>({ builder, handler, extras }, cmd),
+		graph,
+		run: async (cmd = '', extras: Partial<Extras> = {}) =>
+			runHandler<R>({ builder, handler, extras: { graph, ...extras } }, cmd),
 	};
 }
 

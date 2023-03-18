@@ -9,7 +9,7 @@ jest.mock('@onerepo/file', () => ({
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { run: mainRun } = getCommand(Generate);
+const { run: mainRun, graph } = getCommand(Generate);
 
 function run(cmd: string) {
 	return mainRun(`${cmd} --templates-dir=${path.join(__dirname, '__fixtures__')}`);
@@ -17,6 +17,7 @@ function run(cmd: string) {
 
 describe('handler', () => {
 	beforeEach(() => {
+		jest.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
 		jest.spyOn(inquirer, 'prompt').mockImplementation(() => Promise.resolve({}));
 		jest.spyOn(file, 'write').mockResolvedValue();
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
@@ -74,5 +75,19 @@ describe('handler', () => {
 		expect(file.write).toHaveBeenCalledWith('apps/tacos/tacos.ts', 'hello\n', expect.any(Object));
 		expect(file.write).toHaveBeenCalledWith('apps/tacos/.test', 'this file should be generated\n', expect.any(Object));
 		expect(file.write).not.toHaveBeenCalledWith('apps/tacos/.onegen.cjs', expect.any(String), expect.any(Object));
+	});
+
+	test('does not run pkgMgr install if no package.json file was templated', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		await run('--type module');
+
+		expect(graph.packageManager.install).not.toHaveBeenCalled();
+	});
+
+	test('runs pkgMgr install after creating package.json file', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		await run('--type app');
+
+		expect(graph.packageManager.install).toHaveBeenCalled();
 	});
 });

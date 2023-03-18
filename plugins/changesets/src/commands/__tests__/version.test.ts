@@ -8,12 +8,14 @@ import * as Version from '../version';
 import { getCommand } from '@onerepo/test-cli';
 
 const { run } = getCommand(Version);
+const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 jest.mock('@changesets/apply-release-plan');
 jest.mock('@onerepo/git');
 
 describe('handler', () => {
 	beforeEach(async () => {
+		jest.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 		jest.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
 		jest.spyOn(git, 'getStatus').mockResolvedValue('');
@@ -21,7 +23,6 @@ describe('handler', () => {
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
 		await expect(run('', { graph })).rejects.toBeUndefined();
 
@@ -30,7 +31,6 @@ describe('handler', () => {
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
 		await run('--allow-dirty', { graph });
 
@@ -38,7 +38,6 @@ describe('handler', () => {
 	});
 
 	test('prompts for all modules with changes only', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('', { graph });
 		expect(inquirer.prompt).toHaveBeenCalledWith([
 			expect.objectContaining({
@@ -53,7 +52,6 @@ describe('handler', () => {
 	});
 
 	test('updates versions across workspaces and updates the git index', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('', { graph });
@@ -64,22 +62,22 @@ describe('handler', () => {
 			expect.any(Object)
 		);
 
-		expect(git.updateIndex).toHaveBeenCalledWith(
-			expect.arrayContaining([
-				expect.stringContaining('modules/burritos/package.json'),
-				expect.stringContaining('modules/burritos/CHANGELOG.md'),
-				expect.stringContaining('modules/churros/package.json'),
-				expect.stringContaining('modules/churros/CHANGELOG.md'),
-				expect.stringContaining('modules/tacos/package.json'),
-				expect.stringContaining('modules/tacos/CHANGELOG.md'),
-				expect.stringContaining('modules/tortillas/package.json'),
-				expect.stringContaining('modules/tortillas/CHANGELOG.md'),
-			])
-		);
+		expect(git.updateIndex).toHaveBeenCalledWith([
+			expect.stringContaining('repo/.changeset'),
+			'lockfile',
+			expect.stringContaining('repo/package.json'),
+			expect.stringContaining('repo/modules/burritos/package.json'),
+			expect.stringContaining('repo/modules/burritos/CHANGELOG.md'),
+			expect.stringContaining('repo/modules/churros/package.json'),
+			expect.stringContaining('repo/modules/churros/CHANGELOG.md'),
+			expect.stringContaining('repo/modules/tacos/package.json'),
+			expect.stringContaining('repo/modules/tacos/CHANGELOG.md'),
+			expect.stringContaining('repo/modules/tortillas/package.json'),
+			expect.stringContaining('repo/modules/tortillas/CHANGELOG.md'),
+		]);
 	});
 
 	test('does nothing if no modules selected', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 
 		await run('', { graph });
@@ -89,7 +87,6 @@ describe('handler', () => {
 	});
 
 	test('does not update git index if not --add', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('--no-add', { graph });
@@ -98,7 +95,6 @@ describe('handler', () => {
 	});
 
 	test('does nothing if --dry-run', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('--dry-run', { graph });

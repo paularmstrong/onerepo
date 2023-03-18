@@ -32,7 +32,7 @@ export const builder: Builder<Args> = (yargs) =>
 			demandOption: true,
 		});
 
-export const handler: Handler<Args> = async function handler(argv, { logger }) {
+export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const { 'templates-dir': templatesDir, type } = argv;
 	const templates = await glob('*', { cwd: templatesDir });
 
@@ -88,6 +88,7 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 	await step.end();
 
 	const files = await glob('**/!(.onegen.*)', { cwd: templateDir, dot: true, nodir: true });
+	let possiblyCreatesWorkspace = false;
 
 	const renderStep = logger.createStep('Render files');
 	for (const filepath of files) {
@@ -96,11 +97,17 @@ export const handler: Handler<Args> = async function handler(argv, { logger }) {
 		if (fullpath.endsWith('.ejs')) {
 			contents = render(contents, vars);
 		}
-		await file.write(path.join(outDir(vars), render(filepath, vars).replace(/\.ejs$/, '')), contents, {
+		const outFile = render(filepath, vars).replace(/\.ejs$/, '');
+		possiblyCreatesWorkspace = possiblyCreatesWorkspace || outFile.endsWith('package.json');
+		await file.write(path.join(outDir(vars), outFile), contents, {
 			step: renderStep,
 		});
 	}
 	await renderStep.end();
+
+	if (possiblyCreatesWorkspace) {
+		await graph.packageManager.install();
+	}
 };
 
 export interface Config<T extends Answers = Record<string, unknown>> {

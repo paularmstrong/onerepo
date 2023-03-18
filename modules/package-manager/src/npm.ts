@@ -2,7 +2,7 @@ import { batch, run } from '@onerepo/subprocess';
 import type { PackageManager, MinimalWorkspace } from './methods';
 
 export const Npm = {
-	add: async (packages, opts = {}): Promise<void> => {
+	add: async (packages, opts = {}) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Add packages',
@@ -11,12 +11,14 @@ export const Npm = {
 		});
 	},
 
-	install: async (): Promise<void> => {
+	install: async () => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'npm',
 			args: ['install'],
 		});
+
+		return 'package-lock.json';
 	},
 
 	loggedIn: async (opts = {}) => {
@@ -33,7 +35,7 @@ export const Npm = {
 		}
 	},
 
-	publish: async (opts = {}): Promise<void> => {
+	publish: async (opts = {}) => {
 		const { access, cwd, otp, tag, workspaces } = opts;
 		await run({
 			name: `Publish${workspaces?.length ? ` ${workspaces.join(', ')}` : ''}`,
@@ -79,7 +81,7 @@ export const Npm = {
 		return Array.from(publishable);
 	},
 
-	remove: async (packages): Promise<void> => {
+	remove: async (packages) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Remove packages',
