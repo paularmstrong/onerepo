@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { createRequire } from 'node:module';
 import cjson from 'cjson';
 import { glob } from 'glob';
@@ -19,40 +18,58 @@ export const description = 'Verify the integrity of the repo’s dependency grap
 
 type Argv = {
 	'custom-schema'?: string;
+	dependencies: 'loose' | 'off';
 };
 
 export const builder: Builder<Argv> = (yargs) =>
-	yargs.usage(`$0 verify`).option('custom-schema', {
-		type: 'string',
-		normalize: true,
-		description: 'Path to a custom JSON schema definition',
-		hidden: true,
-	});
+	yargs
+		.usage(`$0 verify`)
+		.epilogue(
+			`Dependencies across workspaces can be validated using one of the various methods:
+
+- \`off\`: No validation will occur. Everything goes.
+- \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+`
+		)
+		.option('custom-schema', {
+			type: 'string',
+			normalize: true,
+			description: 'Path to a custom JSON schema definition',
+			hidden: true,
+		})
+		.option('dependencies', {
+			type: 'string',
+			description: 'Dependency overlap validation method.',
+			choices: ['loose', 'off'],
+			default: 'loose',
+		} as const);
 
 export const handler: Handler<Argv> = async function handler(argv, { graph, logger }) {
-	const { 'custom-schema': customSchema } = argv;
+	const { 'custom-schema': customSchema, dependencies: validationType } = argv;
 
-	const dependencyStep = logger.createStep('Validating dependency trees');
-	for (const workspace of graph.workspaces) {
-		const deps = workspace.dependencies;
+	if (validationType !== 'off') {
+		const dependencyStep = logger.createStep('Validating dependency trees');
+		for (const workspace of graph.workspaces) {
+			const deps = workspace.dependencies;
 
-		const dependencies = graph.dependencies(workspace.name);
+			const dependencies = graph.dependencies(workspace.name);
 
-		for (const dependency of dependencies) {
-			dependencyStep.log(`Checking ${dependency.name}`);
-			for (const [dep, version] of Object.entries(dependency.dependencies)) {
-				if (dep in deps) {
-					dependencyStep.log(`Checking ${dep}@${deps[dep]} intersects ${version}`);
-					if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
-						dependencyStep.error(
-							`\`${dep}@${deps[dep]}\` does not satisfy \`${dep}@${version}\` as required by local dependency \`${dependency.name}\``
-						);
+			for (const dependency of dependencies) {
+				dependencyStep.log(`Checking ${dependency.name}`);
+				for (const [dep, version] of Object.entries(dependency.dependencies)) {
+					if (dep in deps) {
+						dependencyStep.log(`Checking ${dep}@${deps[dep]} intersects ${version}`);
+						if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
+							dependencyStep.error(
+								`\`${dep}@${deps[dep]}\` does not satisfy \`${dep}@${version}\` as required by local dependency \`${dependency.name}\``
+							);
+						}
 					}
 				}
 			}
 		}
+		await dependencyStep.end();
 	}
-	await dependencyStep.end();
 
 	// esbuild cannot import json files correctly unless bundling externals
 	// Just as well, AJV doesn't properly document its exported files for ESM verification
@@ -75,41 +92,55 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
 
 	for (const workspace of graph.workspaces) {
-		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
-		const relativePath = path.relative(graph.root.location, workspace.location);
+		const relativePath = graph.root.relative(workspace.location);
+
+		// Build a map so the log output is nicer if there are multiple schema for the same file
+		const map: Record<string, Array<string>> = {};
 		for (const schemaKey of availableSchema) {
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
+			// Check if this schema applies to this workspace
 			if (minimatch(relativePath, locGlob)) {
+				// get all files according to the schema in the workspace
 				const files = await glob(fileGlob, { cwd: workspace.location });
 				for (const file of files) {
-					schemaStep.debug(`Validating "${file}" against schema for "${locGlob}/${fileGlob}"`);
-
-					let contents: Record<string, unknown> = {};
-					if (file.endsWith('json')) {
-						const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
-						contents = cjson.parse(rawContents);
-					} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
-						contents = require(workspace.resolve(file));
-					} else if (minimatch(file, '**/*.{yml,yaml}')) {
-						const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
-						contents = yaml.load(rawContents) as Record<string, unknown>;
-					} else {
-						schemaStep.error(`Unable to read file with unknown type: ${workspace.resolve(file)}`);
+					if (!(file in map)) {
+						map[file] = [];
 					}
+					map[file].push(schemaKey);
+				}
+			}
+		}
 
-					const validate = ajv.getSchema(schemaKey)!;
-					if (!validate(contents)) {
-						validate.errors?.forEach((err) => {
-							if (err.keyword === 'if') {
-								return;
-							}
-							if (process.env.NODE_ENV === 'test') {
-								throw new Error(err.message);
-							}
+		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
+		for (const [file, fileSchema] of Object.entries(map)) {
+			for (const schemaKey of fileSchema) {
+				schemaStep.debug(`Using schema for "${schemaKey}"`);
+				let contents: Record<string, unknown> = {};
+				if (file.endsWith('json')) {
+					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
+					contents = cjson.parse(rawContents);
+				} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
+					contents = require(workspace.resolve(file));
+				} else if (minimatch(file, '**/*.{yml,yaml}')) {
+					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
+					contents = yaml.load(rawContents) as Record<string, unknown>;
+				} else {
+					schemaStep.error(`Unable to read file with unknown type: ${workspace.resolve(file)}`);
+				}
 
-							schemaStep.error(err.message);
-						});
-					}
+				const validate = ajv.getSchema(schemaKey)!;
+				if (!validate(contents)) {
+					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
+					validate.errors?.forEach((err) => {
+						if (err.keyword === 'if') {
+							return;
+						}
+						if (process.env.NODE_ENV === 'test') {
+							throw new Error(err.message);
+						}
+
+						schemaStep.error(`  ↳ ${err.message}`);
+					});
 				}
 			}
 		}

@@ -1,0 +1,5 @@
+{
+	"name": "fixture-burritos",
+	"version": "4.5.2",
+	"main": "./src/index.ts"
+}
