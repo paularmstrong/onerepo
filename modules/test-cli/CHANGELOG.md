@@ -1,5 +1,17 @@
 # @onerepo/test-cli
 
+## 0.1.2
+
+### Patch Changes
+
+- Better handling when using Jest, which may or may not be using ESM properly. Falls back on using `__dirname` when building mock graphs if `__dirname` is defined and `import.meta.url` is not. [#177](https://github.com/paularmstrong/onerepo/pull/177) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`c672384`](https://github.com/paularmstrong/onerepo/commit/c67238471572e95d1754050787d719c3f847b1c5), [`5445d81`](https://github.com/paularmstrong/onerepo/commit/5445d81d8ba77b5cf93aec23b21eb4d281b01985), [`68018fe`](https://github.com/paularmstrong/onerepo/commit/68018fe439e6ce7bbbd12c71d8662779692a66d4), [`123df73`](https://github.com/paularmstrong/onerepo/commit/123df73f71f4d2ad199c4a933364f8a4d38263bc)]:
+  - @onerepo/logger@0.1.1
+  - @onerepo/graph@0.3.0
+  - @onerepo/builders@0.1.1
+  - @onerepo/yargs@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

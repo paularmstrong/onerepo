@@ -1,5 +1,14 @@
 # @onerepo/plugin-docgen
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`ac93c89`](https://github.com/paularmstrong/onerepo/commit/ac93c898da6d59ee3e161b27e17c4785c28b1b39)]:
+  - @onerepo/file@0.2.0
+  - @onerepo/git@0.1.1
+  - @onerepo/subprocess@0.2.1
+
 ## 0.2.1
 
 ### Patch Changes

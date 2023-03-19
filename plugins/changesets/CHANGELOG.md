@@ -1,5 +1,29 @@
 # @onerepo/plugin-changesets
 
+## 0.5.0
+
+### Minor Changes
+
+- When running `changesets version`, the package manager’s `install` command will be run before exiting and the updated lockfile will be added to the git index when `--add` is `true` (default). [#181](https://github.com/paularmstrong/onerepo/pull/181) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Removed the `--package-manager` option from `changesets prerelease` and `changesets publish` commands. The package manager is now inferred by the repository Graph automatically. [#178](https://github.com/paularmstrong/onerepo/pull/178) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Uses `@onerepo/package-manager` to handle publish & prerelease tasks. [#178](https://github.com/paularmstrong/onerepo/pull/178) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Speeds up publish/pre-release by not building affected workspaces. [#182](https://github.com/paularmstrong/onerepo/pull/182) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Ensures `access` is set according to the first publishable workspace when publishing. [`9ea7d2b`](https://github.com/paularmstrong/onerepo/commit/9ea7d2b988184b8255797096270c0ca7ecd2985f) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`c672384`](https://github.com/paularmstrong/onerepo/commit/c67238471572e95d1754050787d719c3f847b1c5), [`5445d81`](https://github.com/paularmstrong/onerepo/commit/5445d81d8ba77b5cf93aec23b21eb4d281b01985), [`ac93c89`](https://github.com/paularmstrong/onerepo/commit/ac93c898da6d59ee3e161b27e17c4785c28b1b39), [`68018fe`](https://github.com/paularmstrong/onerepo/commit/68018fe439e6ce7bbbd12c71d8662779692a66d4), [`123df73`](https://github.com/paularmstrong/onerepo/commit/123df73f71f4d2ad199c4a933364f8a4d38263bc)]:
+  - @onerepo/logger@0.1.1
+  - @onerepo/graph@0.3.0
+  - @onerepo/file@0.2.0
+  - @onerepo/builders@0.1.1
+  - @onerepo/git@0.1.1
+  - @onerepo/subprocess@0.2.1
+
 ## 0.4.1
 
 ### Patch Changes

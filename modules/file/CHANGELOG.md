@@ -1,5 +1,16 @@
 # @onerepo/file
 
+## 0.2.0
+
+### Minor Changes
+
+- Updates `file.copy` to recursively copy directories. [#177](https://github.com/paularmstrong/onerepo/pull/177) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`c672384`](https://github.com/paularmstrong/onerepo/commit/c67238471572e95d1754050787d719c3f847b1c5), [`123df73`](https://github.com/paularmstrong/onerepo/commit/123df73f71f4d2ad199c4a933364f8a4d38263bc)]:
+  - @onerepo/logger@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
