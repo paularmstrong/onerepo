@@ -1,7 +1,7 @@
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
-import * as Prettier from './prettier';
+import * as Eslint from '../eslint';
 import { getCommand } from '@onerepo/test-cli';
 
 jest.mock('@onerepo/git');
@@ -11,7 +11,7 @@ jest.mock('@onerepo/file', () => ({
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { run } = getCommand(Prettier);
+const { run } = getCommand(Eslint);
 
 describe('handler', () => {
 	test('can run across all files', async () => {
@@ -22,7 +22,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', '.'],
 			})
 		);
 	});
@@ -40,12 +40,21 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--cache',
+					'--cache-strategy=content',
+					'--fix',
+					'modules/burritos',
+					'modules/tacos',
+				],
 			})
 		);
 	});
 
-	test('does not write in dry-run', async () => {
+	test('does not fix in dry-run', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeUndefined();
@@ -53,12 +62,38 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--list-different', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '.'],
 			})
 		);
 	});
 
-	test('filters with .prettierignore', async () => {
+	test('does not fix in no-cache', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await expect(run('-a --no-cache')).resolves.toBeUndefined();
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npx',
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--fix', '.'],
+			})
+		);
+	});
+
+	test('filters unapproved extensions', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await expect(run('-f foo.xd -f bar.js')).resolves.toBeUndefined();
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'npx',
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+			})
+		);
+	});
+
+	test('filters with .eslintignore', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		jest.spyOn(file, 'read').mockResolvedValue(`
@@ -71,28 +106,18 @@ bar/**/*
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeUndefined();
 
-		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.prettierignore$/), expect.any(Object));
+		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'foo.js'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
 			})
 		);
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
-		jest.spyOn(file, 'read').mockResolvedValue(`
-# ignore the comment
-*.xd
-`);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
-			// @ts-ignore mock
-			{ isDirectory: () => false }
-		);
-
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeUndefined();
@@ -100,7 +125,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'bar.js'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
 			})
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);

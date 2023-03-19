@@ -1,4 +1,4 @@
-import { getRootPackageJson } from '.';
+import { getRootPackageJson } from '..';
 
 describe('getRootPackageJson', () => {
 	test('gets this repo’s root package.json', async () => {

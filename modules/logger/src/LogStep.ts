@@ -131,9 +131,11 @@ export class LogStep {
 		const endMark = `end_${this.name || 'logger'}`;
 		performance.mark(endMark);
 
-		const duration = Math.round(
-			performance.measure(this.name || 'logger', `start_${this.name || 'logger'}`, endMark).duration
-		);
+		// TODO: jest.useFakeTimers does not seem to be applying to performance correctly
+		const duration =
+			process.env.NODE_ENV === 'test'
+				? 0
+				: Math.round(performance.measure(this.name || 'logger', `start_${this.name || 'logger'}`, endMark).duration);
 		const text = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;

@@ -8,7 +8,8 @@ import { register } from 'esbuild-register/dist/node';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
-import createYargs from 'yargs';
+import type { Argv as Yargv } from 'yargs';
+import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
@@ -20,12 +21,6 @@ import type { Config, PluginObject } from './types';
 
 export type { GraphSchemaValidators } from './core/graph';
 export * from './types';
-
-// NB: process.env vars can ONLY be strings
-process.env.ONE_REPO_ROOT = process.cwd();
-process.env.ONE_REPO_DRY_RUN = process.env.ONE_REPO_DRY_RUN ?? 'false';
-process.env.ONE_REPO_VERBOSITY = process.env.ONE_REPO_VERBOSITY ?? '0';
-process.env.ONE_REPO_HEAD_BRANCH = process.env.ONE_REPO_HEAD_BRANCH ?? 'main';
 
 const defaultConfig: Required<Config> = {
 	name: 'one',
@@ -69,17 +64,29 @@ export type App = {
  *
  * @group Core
  */
-export async function setup(config: Config = {}): Promise<App> {
+export async function setup(
+	/**
+	 * CLI configuration
+	 */
+	config: Config = {},
+	/**
+	 * @internal
+	 * Override the initial yargs instance. Really only useful for dependency-injection during unit test
+	 */
+	yargsInstance: Yargv = createYargs(process.argv.slice(2))
+): Promise<App> {
 	register({});
-
 	performance.mark('one_startup');
+
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
+	process.env.ONE_REPO_DRY_RUN = 'false';
+	process.env.ONE_REPO_VERBOSITY = '0';
 
-	const yargs = setupYargs(createYargs(process.argv.slice(2)).scriptName(name)).epilogue(description);
+	const yargs = setupYargs(yargsInstance.scriptName(name)).epilogue(description);
 	yargs.completion(`${name}-completion`, false);
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
