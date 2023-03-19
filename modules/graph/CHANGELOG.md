@@ -1,5 +1,18 @@
 # @onerepo/graph
 
+## 0.3.0
+
+### Minor Changes
+
+- Adds `graph.packageManager` to handle various common functions for interacting with the repository's package manager (Yarn, NPM, or PNPm), determining which to use automatically. [#178](https://github.com/paularmstrong/onerepo/pull/178) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Prevent aliases from being reused across workspaces. [#161](https://github.com/paularmstrong/onerepo/pull/161) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`7e4451a`](https://github.com/paularmstrong/onerepo/commit/7e4451a69916c4dfe18cbb6a9ae3a51f6ee8e3fc), [`5445d81`](https://github.com/paularmstrong/onerepo/commit/5445d81d8ba77b5cf93aec23b21eb4d281b01985)]:
+  - @onerepo/package-manager@0.1.0
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @onerepo/plugin-typescript
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [[`9ebb136`](https://github.com/paularmstrong/onerepo/commit/9ebb1368e33e45a8ad56c92f5bb4110e305e54c3), [`be8b645`](https://github.com/paularmstrong/onerepo/commit/be8b645403399370d25aeb53d25067a03a968969), [`36acaa6`](https://github.com/paularmstrong/onerepo/commit/36acaa6e6a02a3f2fd5b7dcd08127b8fe7ac8398), [`c1827fe`](https://github.com/paularmstrong/onerepo/commit/c1827fe2232bdde970865aa0edaa391f929a0954), [`38836d8`](https://github.com/paularmstrong/onerepo/commit/38836d85df015c31470fd85a04f6ef014000afff), [`f2b3d66`](https://github.com/paularmstrong/onerepo/commit/f2b3d66008d4a91ce2c418a8c4bee37e8beec473), [`f2b3d66`](https://github.com/paularmstrong/onerepo/commit/f2b3d66008d4a91ce2c418a8c4bee37e8beec473), [`7e4451a`](https://github.com/paularmstrong/onerepo/commit/7e4451a69916c4dfe18cbb6a9ae3a51f6ee8e3fc), [`2fb7823`](https://github.com/paularmstrong/onerepo/commit/2fb7823fabee5baf9318b9a31b1288f68c4a3d35)]:
+  - @onerepo/core@0.4.0
+  - @onerepo/builders@0.1.1
+  - @onerepo/subprocess@0.2.1
+
 ## 0.1.2
 
 ### Patch Changes

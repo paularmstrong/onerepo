@@ -1,5 +1,13 @@
 # @onerepo/logger
 
+## 0.1.1
+
+### Patch Changes
+
+- Fixed log output including too many newlines. [`c672384`](https://github.com/paularmstrong/onerepo/commit/c67238471572e95d1754050787d719c3f847b1c5) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Fixed interleaving root logger output between steps [`123df73`](https://github.com/paularmstrong/onerepo/commit/123df73f71f4d2ad199c4a933364f8a4d38263bc) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.0
 
 ### Minor Changes
