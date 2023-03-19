@@ -205,7 +205,7 @@ function taskToSpec(
 	].filter(Boolean) as Array<string>;
 
 	return {
-		name: `Run \`${command.replace(/^\$0/, cliName).replace('${workspaces}', wsNames.join(' ')).split(' ')}\` in \`${
+		name: `Run \`${command.replace(/^\$0/, cliName).replace('${workspaces}', wsNames.join(' '))}\` in \`${
 			workspace.name
 		}\``,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
