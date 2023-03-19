@@ -132,19 +132,19 @@ export default {
 				repository: {
 					type: 'object',
 					properties: {
-						type: { type: 'string', pattern: '^git$', errorMessage: '`repository.type` must be `git`' },
+						type: { type: 'string', const: 'git', errorMessage: '"repository.type" must be "git"' },
 						url: {
 							type: 'string',
-							pattern: 'git://github.com/paularmstrong/onerepo.git',
-							errorMessage: 'Use the correct repository URL.',
+							const: 'git://github.com/paularmstrong/onerepo.git',
+							errorMessage: '"repository.url" must be "git://github.com/paularmstrong/onerepo.git".',
 						},
 					},
 					required: ['type', 'url'],
 				},
 				license: {
 					type: 'string',
-					pattern: '^MIT$',
-					errorMessage: 'License MUST be `MIT`',
+					const: 'MIT',
+					errorMessage: 'License MUST be "MIT"',
 				},
 				engines: {
 					type: 'object',

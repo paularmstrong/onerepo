@@ -6,9 +6,14 @@ import { getCommand } from '@onerepo/test-cli';
 const { run } = getCommand(Verify);
 
 describe('verify', () => {
-	test('can verify the graph', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-		await expect(run('', { graph })).resolves.toBeUndefined();
+	test('can turn off graph dependency verification', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
+		await expect(run('--dependencies off', { graph })).resolves.toBeUndefined();
+	});
+
+	test('can verify the graph dependencies', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
+		await expect(run('--dependencies loose', { graph })).rejects.toBeUndefined();
 	});
 
 	test('can verify cjson (eg tsconfigs)', async () => {

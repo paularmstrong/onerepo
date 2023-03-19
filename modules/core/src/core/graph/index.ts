@@ -8,6 +8,7 @@ import * as Verify from './commands/verify';
 export type Options = {
 	name?: string | Array<string>;
 	customSchema?: string;
+	dependencies?: 'loose' | 'off';
 };
 
 export function graph(opts: Options = {}): Plugin {
@@ -23,12 +24,23 @@ export function graph(opts: Options = {}): Plugin {
 					const y = yargs
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
 						.command(show.command, show.description, show.builder, show.handler)
-						.command(verify.command, verify.description, verify.builder, verify.handler)
+						.command(
+							verify.command,
+							verify.description,
+							(yargs) => {
+								const y = verify.builder(yargs);
+								if (opts.customSchema) {
+									y.default('custom-schema', opts.customSchema);
+								}
+								if (opts.dependencies) {
+									y.default('dependencies', opts.dependencies);
+								}
+								return y;
+							},
+							verify.handler
+						)
 						.demandCommand(1);
 
-					if (opts.customSchema) {
-						y.default('custom-schema', opts.customSchema);
-					}
 					return y;
 				},
 				noop
