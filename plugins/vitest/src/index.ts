@@ -1,4 +1,4 @@
-import type { Plugin } from '@onerepo/core';
+import type { PluginObject } from '@onerepo/core';
 import * as cmd from './commands/vitest';
 
 type Options = {
@@ -6,7 +6,7 @@ type Options = {
 	name?: string | Array<string>;
 };
 
-export function vitest(opts: Options = {}): Plugin {
+export function vitest(opts: Options = {}): PluginObject {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);

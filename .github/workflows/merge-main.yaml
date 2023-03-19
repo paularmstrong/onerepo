@@ -56,6 +56,14 @@ jobs:
           cd ${{ matrix.task.opts.cwd }}
           ${{ matrix.task.cmd }} ${{ join(matrix.task.args, ' ') }}
 
+      - name: Upload coverage
+        if: ${{ contains(matrix.task.name, '--coverage') }}
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/clover.xml
+          flags: node-v${{ matrix.node }}
+
   publish:
     needs: tasks
     runs-on: ubuntu-latest

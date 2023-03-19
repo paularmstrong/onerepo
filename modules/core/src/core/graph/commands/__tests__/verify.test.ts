@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
-import * as Verify from './verify';
+import * as Verify from '../verify';
 import { getCommand } from '@onerepo/test-cli';
 
 const { run } = getCommand(Verify);

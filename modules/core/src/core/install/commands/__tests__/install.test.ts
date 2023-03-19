@@ -1,6 +1,6 @@
 import child_process from 'node:child_process';
 import os from 'node:os';
-import * as Tasks from './install';
+import * as Tasks from '../install';
 import { getCommand } from '@onerepo/test-cli';
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';

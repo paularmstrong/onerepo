@@ -13,7 +13,12 @@ export function makeConfig(config) {
 		restoreMocks: true,
 		moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'],
 		...rest,
-		coveragePathIgnorePatterns: ['/__fixtures__/', ...(rest.coveragePathIgnorePatterns ?? [])],
+		coveragePathIgnorePatterns: [
+			'/__fixtures__/',
+			'/dist/',
+			'.config.(mjs|cjs|ts|js)$',
+			...(rest.coveragePathIgnorePatterns ?? []),
+		],
 		rootDir: path.dirname(fileURLToPath(rootDir)),
 		modulePathIgnorePatterns: ['fixtures'],
 		testPathIgnorePatterns: ['/dist/'],
