@@ -76,11 +76,11 @@ __metadata:
   linkType: hard
 
 "@astrojs/mdx@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "@astrojs/mdx@npm:0.18.0"
+  version: 0.18.1
+  resolution: "@astrojs/mdx@npm:0.18.1"
   dependencies:
     "@astrojs/markdown-remark": ^2.1.0
-    "@astrojs/prism": ^2.1.0
+    "@astrojs/prism": ^2.1.1
     "@mdx-js/mdx": ^2.3.0
     "@mdx-js/rollup": ^2.3.0
     acorn: ^8.8.0
@@ -96,7 +96,7 @@ __metadata:
     shiki: ^0.11.1
     unist-util-visit: ^4.1.0
     vfile: ^5.3.2
-  checksum: e48243c79cb2099c88bbce70ab7b700e3ab52e937f25a5db4f74d9ab17caeb4d279a085ab929e573190565cf8dcb852f9796c4fd58b0c4b788544110e48856c3
+  checksum: d040c124c949213fd610d2b1725cc2fdaa6469f9cb4247b14bc0d0be0d6298fa2e15919f32c07fa04499b87cf53ee7b6e2c92af760291424bf4311718b99e216
   languageName: node
   linkType: hard
 
@@ -106,6 +106,15 @@ __metadata:
   dependencies:
     prismjs: ^1.28.0
   checksum: b9d01122c185e5b1fbf28bb9ebcbcc4dc8a24c7ffe55a4e631a9ffb50e8f92747604f21d746ab13ab1abc6dd028d83a395027409133d45341c0fefa1c5916a83
+  languageName: node
+  linkType: hard
+
+"@astrojs/prism@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@astrojs/prism@npm:2.1.1"
+  dependencies:
+    prismjs: ^1.28.0
+  checksum: 396314ba0bb816d32e3916146d7e7518641ad247adbc18af76676ed0cfd5833f017f1696a05bc12f113cf1b2bdd102b49f61e068ef5d20d81b746b4bbb687d80
   languageName: node
   linkType: hard
 
