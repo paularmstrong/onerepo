@@ -3623,12 +3623,12 @@ __metadata:
   linkType: hard
 
 "@types/eslint@npm:^8, @types/eslint@npm:^8.4.10":
-  version: 8.21.1
-  resolution: "@types/eslint@npm:8.21.1"
+  version: 8.21.3
+  resolution: "@types/eslint@npm:8.21.3"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 584068441e4000c7b41c8928274fdcc737bc62f564928c30eb64ec41bbdbac31612f9fedaf490bceab31ec8305e99615166428188ea345d58878394683086fae
+  checksum: 80e0b5ca9ffb77bff19d01df08b93a99a6b44cad4c40e6450733ead6f1bc44b5514e7d28c3b0ad6304aeb01d690ee7ca89250729a9373551b7e587c6dbb41d7f
   languageName: node
   linkType: hard
 
