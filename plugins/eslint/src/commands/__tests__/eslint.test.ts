@@ -130,4 +130,16 @@ bar/**/*
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
 	});
+
+	test('if --quiet, reports errors only', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await run('--all --quiet');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				args: expect.arrayContaining(['eslint', '--quiet']),
+			})
+		);
+	});
 });
