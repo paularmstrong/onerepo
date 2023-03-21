@@ -13,8 +13,8 @@
  */
 
 import { stepWrapper } from '@onerepo/logger';
-import type { LogStep } from '@onerepo/logger';
 import { run } from '@onerepo/subprocess';
+import type { LogStep } from '@onerepo/logger';
 
 /**
  * Generic options passed to all Git operations.

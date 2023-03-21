@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import SidebarLink from './SidebarLink.astro';
+
 const core = await getCollection('core', ({ id }) => !id.includes('/'));
 const plugins = await getCollection('plugins');
 ---

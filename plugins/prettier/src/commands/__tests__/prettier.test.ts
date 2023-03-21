@@ -1,8 +1,8 @@
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
-import * as Prettier from '../prettier';
 import { getCommand } from '@onerepo/test-cli';
+import * as Prettier from '../prettier';
 
 jest.mock('@onerepo/git');
 jest.mock('@onerepo/subprocess');

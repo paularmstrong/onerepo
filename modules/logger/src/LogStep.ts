@@ -1,6 +1,6 @@
 import { performance } from 'node:perf_hooks';
-import pc from 'picocolors';
 import { Duplex } from 'node:stream';
+import pc from 'picocolors';
 
 type StepOptions = {
 	verbosity: number;

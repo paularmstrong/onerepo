@@ -1,5 +1,5 @@
-import type { ChangelogFunctions } from '@changesets/types';
 import { getInfo, getInfoFromPullRequest } from '@changesets/get-github-info';
+import type { ChangelogFunctions } from '@changesets/types';
 
 const changelogFunctions: ChangelogFunctions = {
 	getDependencyReleaseLine: async (changesets, dependenciesUpdated, options) => {

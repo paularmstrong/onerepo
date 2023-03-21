@@ -42,6 +42,7 @@
 		"@changesets/types": "^5.2.1",
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/inquirer": "^9",
 		"esbuild-register": "^3.4.2",

@@ -1,8 +1,8 @@
 import path from 'node:path';
 import minimatch from 'minimatch';
-import type { Graph, Workspace } from '@onerepo/graph';
 import { stepWrapper } from '@onerepo/logger';
 import { getModifiedFiles } from '@onerepo/git';
+import type { Graph, Workspace } from '@onerepo/graph';
 import type { LogStep } from '@onerepo/logger';
 
 /**

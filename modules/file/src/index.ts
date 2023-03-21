@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
-import type { OpenMode } from 'node:fs';
 import fs from 'node:fs/promises';
+import type { OpenMode } from 'node:fs';
 import { stepWrapper } from '@onerepo/logger';
-import type { LogStep } from '@onerepo/logger';
 import prettier from 'prettier';
+import type { LogStep } from '@onerepo/logger';
 
 /**
  * Common file manipulation functions.

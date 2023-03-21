@@ -30,6 +30,7 @@
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/yargs-unparser": "^2.0.1",
 		"esbuild-register": "^3.4.2",

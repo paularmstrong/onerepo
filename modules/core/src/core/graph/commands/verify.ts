@@ -5,12 +5,12 @@ import minimatch from 'minimatch';
 import yaml from 'js-yaml';
 import semver from 'semver';
 import { read } from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/yargs';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
 import ajvErrors from 'ajv-errors';
-import type { GraphSchemaValidators } from '../schema';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { defaultValidators } from '../schema';
+import type { GraphSchemaValidators } from '../schema';
 
 export const command = 'verify';
 

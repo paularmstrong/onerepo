@@ -2,9 +2,9 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
-import type { Answers, QuestionCollection } from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
+import type { Answers, QuestionCollection } from 'inquirer';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = ['generate', 'gen'];

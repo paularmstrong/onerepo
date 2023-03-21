@@ -2,8 +2,8 @@ import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as file from '@onerepo/file';
 import * as subprocess from '@onerepo/subprocess';
-import * as Init from '../init';
 import { getCommand } from '@onerepo/test-cli';
+import * as Init from '../init';
 
 jest.mock('@onerepo/subprocess');
 jest.mock('@onerepo/file', () => ({

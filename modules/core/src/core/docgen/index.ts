@@ -1,13 +1,12 @@
-import type { Argv as Yargv } from 'yargs';
-import type { Plugin } from '@onerepo/core';
-import type { Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
-import { toMarkdown } from './markdown';
-import type { Docs } from './yargs';
-import { Yargs } from './yargs';
-import type { App } from '../..';
+import type { Argv as Yargv } from 'yargs';
+import type { Handler } from '@onerepo/yargs';
+import type { Plugin, App } from '@onerepo/core';
 import type { Config } from '../../types';
+import { toMarkdown } from './markdown';
+import { Yargs } from './yargs';
+import type { Docs } from './yargs';
 
 /**
  * @group Core

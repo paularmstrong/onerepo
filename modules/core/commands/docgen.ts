@@ -1,7 +1,7 @@
 import { glob } from 'glob';
-import type { RunSpec } from '@onerepo/subprocess';
 import { batch } from '@onerepo/subprocess';
 import { updateIndex } from '@onerepo/git';
+import type { RunSpec } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'docgen';

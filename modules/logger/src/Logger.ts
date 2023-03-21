@@ -1,5 +1,5 @@
-import type logUpdate from 'log-update';
 import { createLogUpdate } from 'log-update';
+import type logUpdate from 'log-update';
 import { LogStep } from './LogStep';
 
 type LogUpdate = typeof logUpdate;

@@ -1,7 +1,7 @@
-import type { PackageManager } from './methods';
 import { Npm } from './npm';
 import { Pnpm } from './pnpm';
 import { Yarn } from './yarn';
+import type { PackageManager } from './methods';
 
 export * from './get-package-manager';
 

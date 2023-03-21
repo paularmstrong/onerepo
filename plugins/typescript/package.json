@@ -23,12 +23,12 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.1.1",
-		"@onerepo/core": "0.4.0",
 		"@onerepo/subprocess": "0.2.1"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild-register": "^3.4.2",
 		"onerepo": "workspace:^"

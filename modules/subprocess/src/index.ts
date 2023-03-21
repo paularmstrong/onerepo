@@ -1,8 +1,8 @@
 import { performance } from 'node:perf_hooks';
 import { exec, execSync, spawn } from 'node:child_process';
 import os from 'node:os';
-import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { Transform } from 'node:stream';
+import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { logger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 

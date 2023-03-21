@@ -4,8 +4,8 @@ import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/yargs';
 import { logger } from '@onerepo/logger';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'prettier';
 

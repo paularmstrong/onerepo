@@ -4,10 +4,9 @@ import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import * as file from '@onerepo/file';
 import * as subprocess from '@onerepo/subprocess';
+import { getCommand } from '@onerepo/test-cli';
 import * as Publish from '../publish';
 import * as PublishConfig from '../../publish-config';
-
-import { getCommand } from '@onerepo/test-cli';
 
 const { run } = getCommand(Publish);
 

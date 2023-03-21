@@ -2932,7 +2932,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/core@0.4.0, @onerepo/core@workspace:modules/core":
+"@onerepo/core@0.4.0, @onerepo/core@workspace:^, @onerepo/core@workspace:modules/core":
   version: 0.0.0-use.local
   resolution: "@onerepo/core@workspace:modules/core"
   dependencies:
@@ -3084,6 +3084,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
+    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.2.0
     "@onerepo/git": 0.1.1
     "@onerepo/graph": 0.3.0
@@ -3107,6 +3108,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
+    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.2.0
     "@onerepo/git": 0.1.1
     "@onerepo/logger": 0.1.1
@@ -3130,6 +3132,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
+    "@onerepo/core": "workspace:^"
     "@onerepo/git": 0.1.1
     "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": "workspace:^"
@@ -3150,6 +3153,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
+    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.2.0
     "@onerepo/git": 0.1.1
     "@onerepo/logger": 0.1.1
@@ -3171,7 +3175,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
-    "@onerepo/core": 0.4.0
+    "@onerepo/core": "workspace:^"
     "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": "workspace:^"
     esbuild-register: ^3.4.2
@@ -3186,6 +3190,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.1.1
+    "@onerepo/core": "workspace:^"
     "@onerepo/git": 0.1.1
     "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": "workspace:^"

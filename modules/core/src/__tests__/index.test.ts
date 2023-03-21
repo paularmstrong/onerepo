@@ -1,5 +1,5 @@
-import createYargs from 'yargs/yargs';
 import path from 'node:path';
+import createYargs from 'yargs/yargs';
 import { setup } from '..';
 
 describe('setup', () => {

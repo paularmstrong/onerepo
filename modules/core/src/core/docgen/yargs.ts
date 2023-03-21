@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
-import { globSync } from 'glob';
 import path from 'path';
+import { globSync } from 'glob';
 import type {
 	BuilderCallback,
 	Choices,

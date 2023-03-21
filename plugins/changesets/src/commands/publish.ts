@@ -1,8 +1,8 @@
 import inquirer from 'inquirer';
 import { write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/yargs';
 import { getBranch, getStatus } from '@onerepo/git';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
 export const command = ['publish', 'release'];

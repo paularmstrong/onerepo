@@ -1,7 +1,7 @@
-import * as Vitest from '../vitest';
 import { getCommand } from '@onerepo/test-cli';
 import * as git from '@onerepo/git';
 import * as subprocess from '@onerepo/subprocess';
+import * as Vitest from '../vitest';
 
 const { run } = getCommand(Vitest);
 

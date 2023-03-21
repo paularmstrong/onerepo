@@ -1,9 +1,9 @@
 import path from 'node:path';
 import os from 'node:os';
-import type { Builder, Handler } from '@onerepo/yargs';
 import { run, sudo } from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { logger } from '@onerepo/logger';
+import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'install';
 

@@ -1,5 +1,5 @@
-import changelogFunctions from './index';
 import parse from '@changesets/parse';
+import changelogFunctions from './index';
 
 const getReleaseLine = changelogFunctions.getReleaseLine;
 

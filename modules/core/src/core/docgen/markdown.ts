@@ -14,9 +14,9 @@ import {
 } from 'mdast-builder';
 import gfm from 'remark-gfm';
 import remarkParser from 'remark-parse';
-import type { Node } from 'unist';
 import stringify from 'remark-stringify';
 import { unified } from 'unified';
+import type { Node } from 'unist';
 import type { Docs, Option, Positional } from './yargs';
 
 const parser = unified().use(remarkParser);

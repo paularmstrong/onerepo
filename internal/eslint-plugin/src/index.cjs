@@ -30,11 +30,22 @@ module.exports = {
 				'tailwindcss/no-custom-classname': 'error',
 				'tailwindcss/no-contradicting-classname': 'error',
 
+				'import/first': 'error',
 				'import/no-cycle': ['error', { maxDepth: 2 }],
 				'import/no-relative-packages': 'error',
 				'import/no-extraneous-dependencies': [
 					'error',
 					{ devDependencies: ['**/*.test.ts', '**/*.config.js', '**/bin/*', '**/commands/*'] },
+				],
+				'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+				'import/newline-after-import': 'error',
+				'import/no-duplicates': ['error', { 'prefer-inline': false }],
+				'import/order': [
+					'error',
+					{
+						pathGroups: [{ pattern: 'react', group: 'builtin', position: 'before' }],
+						groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+					},
 				],
 			},
 

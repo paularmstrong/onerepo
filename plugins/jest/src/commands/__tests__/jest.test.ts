@@ -1,7 +1,7 @@
-import * as Jest from '../jest';
 import { getCommand } from '@onerepo/test-cli';
 import * as git from '@onerepo/git';
 import * as subprocess from '@onerepo/subprocess';
+import * as Jest from '../jest';
 
 const { run } = getCommand(Jest);
 

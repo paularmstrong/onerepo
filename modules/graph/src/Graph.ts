@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import type { PackageManager } from '@onerepo/package-manager';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import { globSync } from 'glob';
-import type { Serialized } from 'graph-data-structure';
 import { Graph as graph } from 'graph-data-structure';
+import type { Serialized } from 'graph-data-structure';
+import type { PackageManager } from '@onerepo/package-manager';
 import { Workspace } from './Workspace';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 

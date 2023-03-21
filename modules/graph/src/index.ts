@@ -1,8 +1,8 @@
 import { createRequire } from 'node:module';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import type { PackageJson, PrivatePackageJson } from './Workspace';
 import { Graph } from './Graph';
+import type { PackageJson, PrivatePackageJson } from './Workspace';
 
 export * from './Graph';
 export * from './Workspace';
