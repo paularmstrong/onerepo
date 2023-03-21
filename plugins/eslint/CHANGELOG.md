@@ -1,5 +1,13 @@
 # @onerepo/plugin-eslint
 
+## 0.3.0
+
+### Minor Changes
+
+- Adds `quiet` config option to control the default value of `--quiet` when running ESLint. [#197](https://github.com/paularmstrong/onerepo/pull/197) ([@paularmstrong](https://github.com/paularmstrong))
+
+  Basically, the opinion is that warnings are useless and shouldn’t be set as such – unless you are actively working to remove warnings and convert them to errors, that is.
+
 ## 0.2.1
 
 ### Patch Changes

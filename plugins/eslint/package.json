@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-eslint",
 	"description": "Official ESLint plugin for the oneRepo toolchain.",
 	"title": "ESLint",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
