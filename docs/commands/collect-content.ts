@@ -58,11 +58,9 @@ ${readme}
 
 		generators.push({
 			name: `Generate for ${ws.name}`,
-			cmd: process.argv[1],
+			cmd: bin,
 			args: [
 				'docgen',
-				'--bin',
-				bin,
 				'--format',
 				'markdown',
 				'--out-file',
@@ -80,7 +78,6 @@ ${readme}
 
 	const core = graph.getByName('core');
 	const commands = await glob('*', { cwd: core.resolve('src/core') });
-	const bin = core.resolve('bin', 'docgen.cjs');
 
 	const coreDocs = logger.createStep('Getting core docs');
 	for (const cmd of commands) {
@@ -92,8 +89,6 @@ ${readme}
 			cmd: process.argv[1],
 			args: [
 				'docgen',
-				'--bin',
-				bin,
 				'--format',
 				'markdown',
 				'--heading-level',

@@ -1,5 +1,6 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
+import type { Options as DocgenOptions } from './core/docgen';
 import type { Options as GenerateOptions } from './core/generate';
 import type { Options as GraphOptions } from './core/graph';
 import type { Options as InstallOptions } from './core/install';
@@ -8,12 +9,13 @@ import type { Options as TasksOptions } from './core/tasks';
 /**
  * @group Core
  */
-export type { GenerateOptions, GraphOptions, InstallOptions, TasksOptions };
+export type { DocgenOptions, GenerateOptions, GraphOptions, InstallOptions, TasksOptions };
 
 /**
  * @group Core
  */
 export type CoreConfig = {
+	docgen?: DocgenOptions | false;
 	generate?: GenerateOptions | false;
 	graph?: GraphOptions | false;
 	install?: InstallOptions | false;

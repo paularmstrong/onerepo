@@ -28,7 +28,6 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const ws = graph.getByLocation(__dirname);
 
 	const commands = await glob('*', { cwd: ws.resolve('src/core') });
-	const bin = ws.resolve('bin', 'docgen.cjs');
 
 	const findStep = logger.createStep('Determining workspaces');
 	for (const cmd of commands) {
@@ -40,8 +39,6 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			cmd: process.argv[1],
 			args: [
 				'docgen',
-				'--bin',
-				bin,
 				'--format',
 				'markdown',
 				'--heading-level',

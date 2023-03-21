@@ -7,7 +7,6 @@ require('esbuild-register/dist/node').register({});
 
 const { setup } = require('onerepo');
 const { changesets } = require('@onerepo/plugin-changesets');
-const { docgen } = require('@onerepo/plugin-docgen');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { jest } = require('@onerepo/plugin-jest');
 const { prettier } = require('@onerepo/plugin-prettier');
@@ -21,6 +20,12 @@ setup(
 		root: path.join(__dirname, '..'),
 		subcommandDir: 'commands',
 		core: {
+			docgen: {
+				outWorkspace: 'root',
+				outFile: 'docs/usage/cli.md',
+				format: 'markdown',
+				safeWrite: true,
+			},
 			generate: {
 				templatesDir: path.join(__dirname, '..', 'config', 'templates'),
 			},
@@ -34,12 +39,6 @@ setup(
 			jest({ name: 'test' }),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
-			docgen({
-				outWorkspace: 'root',
-				outFile: 'docs/usage/cli.md',
-				format: 'markdown',
-				safeWrite: true,
-			}),
 			typescript({ tsconfig: 'tsconfig.json' }),
 		],
 	}
