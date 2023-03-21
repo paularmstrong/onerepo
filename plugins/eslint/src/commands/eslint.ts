@@ -15,6 +15,7 @@ type Args = builders.WithAllInputs & {
 	cache: boolean;
 	extensions: Array<string>;
 	fix: boolean;
+	quiet: boolean;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -39,10 +40,15 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'array',
 			string: true,
 			default: ['js', 'cjs', 'mjs'],
+		})
+		.option('quiet', {
+			type: 'boolean',
+			description: 'Report errors only',
+			default: false,
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
-	const { add, all, cache, 'dry-run': isDry, extensions, fix } = argv;
+	const { add, all, cache, 'dry-run': isDry, extensions, fix, quiet } = argv;
 
 	const filteredPaths = [];
 	if (!all) {
@@ -81,18 +87,20 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		return;
 	}
 
+	const args = ['eslint', '--ext', extensions.join(',')];
+	if (cache) {
+		args.push('--cache', '--cache-strategy=content');
+	}
+	if (!isDry && fix) {
+		args.push('--fix');
+	}
+	if (quiet) {
+		args.push('--quiet');
+	}
 	await run({
 		name: `Lint ${all ? '' : filteredPaths.join(', ').substring(0, 40)}…`,
 		cmd: 'npx',
-		args: [
-			'eslint',
-			'--ext',
-			extensions.join(','),
-			cache ? '--cache' : '',
-			cache ? '--cache-strategy=content' : '',
-			!isDry && fix ? '--fix' : '',
-			...(all ? ['.'] : filteredPaths),
-		].filter(Boolean),
+		args: [...args, ...(all ? ['.'] : filteredPaths)],
 	});
 
 	if (add && filteredPaths.length) {

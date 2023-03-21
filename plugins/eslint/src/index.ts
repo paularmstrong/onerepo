@@ -2,8 +2,18 @@ import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/eslint';
 
 type Options = {
+	/**
+	 * List of file extensions (without the `.`) that ESLint should operate across.
+	 */
 	extensions?: Array<string>;
+	/**
+	 * The name of the eslint command. You might change this to `'lint'` or `['lint', 'eslint']` to keep things more familiar for most developers.
+	 */
 	name?: string | Array<string>;
+	/**
+	 * Control the ESLint setting default to suppress warnings and only report errors.
+	 */
+	quiet?: boolean;
 };
 
 export function eslint(opts: Options = {}): Plugin {
@@ -18,6 +28,9 @@ export function eslint(opts: Options = {}): Plugin {
 					const y = builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`);
 					if (opts.extensions) {
 						y.default('extensions', opts.extensions);
+					}
+					if (opts.quiet) {
+						y.default('quiet', opts.quiet);
 					}
 					return y;
 				},
