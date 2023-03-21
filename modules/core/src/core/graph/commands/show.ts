@@ -4,6 +4,7 @@ import cliui from 'cliui';
 import { builders } from '@onerepo/builders';
 import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/yargs';
+import type { Graph } from '@onerepo/graph';
 
 export const command = 'show';
 
@@ -19,6 +20,7 @@ export const builder: Builder<Args> = (yargs) =>
 		.withAffected(builders.withWorkspaces(yargs))
 		.usage('$0 show [options]')
 		.option('format', {
+			alias: 'f',
 			type: 'string',
 			description: 'Output format for inspecting the dependency graph',
 			default: 'plain',
@@ -47,7 +49,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 
 	switch (format) {
 		case 'mermaid':
-			writeMermaid(serialized);
+			writeMermaid(serialized, graph);
 			break;
 		case 'plain':
 			writeStdio(serialized);
@@ -111,13 +113,17 @@ const depType: Record<number, string> = {
 	1: 'peer',
 };
 
-function writeMermaid(graph: Serialized): void {
+function writeMermaid(isolated: Serialized, graph: Graph): void {
 	process.stdout.write(`graph RL
-${graph.nodes.map(({ id }) => `  ${id.replace(/\W+/g, '')}["${id}"]`).join('\n')}
-${graph.links
+${isolated.nodes
+	.map(({ id }) => {
+		const ws = graph.getByName(id);
+		return `  ${id.replace(/\W+/g, '')}${ws.private ? `[["${id}"]]` : `("${id}")`}`;
+	})
+	.join('\n')}
+${isolated.links
 	.map(
-		({ source, target, weight }) =>
-			`  ${target.replace(/\W+/g, '')}["${target}"] ${arrow[weight]}> ${source.replace(/\W+/g, '')}["${source}"]`
+		({ source, target, weight }) => `  ${target.replace(/\W+/g, '')} ${arrow[weight]}> ${source.replace(/\W+/g, '')}`
 	)
 	.join('\n')}
 `);

@@ -53,11 +53,11 @@ describe('mermaid', () => {
 
 		expect(spy.out.trim()).toEqual(
 			`graph RL
-  fixtureroot["fixture-root"]
-  menu["menu"]
-  fixturetacos["fixture-tacos"]
-  fixtureburritos["fixture-burritos"]
-  fixturetacos["fixture-tacos"] ---> menu["menu"]`
+  fixtureroot[["fixture-root"]]
+  menu[["menu"]]
+  fixturetacos("fixture-tacos")
+  fixtureburritos("fixture-burritos")
+  fixturetacos ---> menu`
 		);
 	});
 
@@ -69,9 +69,9 @@ describe('mermaid', () => {
 
 		expect(spy.out.trim()).toEqual(
 			`graph RL
-  fixturetacos["fixture-tacos"]
-  menu["menu"]
-  fixturetacos["fixture-tacos"] ---> menu["menu"]`
+  fixturetacos("fixture-tacos")
+  menu[["menu"]]
+  fixturetacos ---> menu`
 		);
 	});
 });
