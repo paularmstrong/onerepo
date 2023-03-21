@@ -2968,10 +2968,15 @@ __metadata:
     inquirer: ^9.1.4
     jest: ^29.5.0
     js-yaml: ^4.1.0
+    mdast-builder: ^1.1.1
     minimatch: ^7.2.0
     picocolors: ^1.0.0
     prettier: ^2
+    remark-gfm: ^3.0.1
+    remark-parse: ^10.0.1
+    remark-stringify: ^10.0.2
     typescript: ^5.0.0
+    unified: ^10.1.2
     yargs: ^17.6.2
     yargs-parser: ^21.1.1
   languageName: unknown
@@ -3095,36 +3100,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-docgen@workspace:^, @onerepo/plugin-docgen@workspace:plugins/docgen":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-docgen@workspace:plugins/docgen"
-  dependencies:
-    "@internal/test-config": "workspace:^"
-    "@internal/tsconfig": "workspace:^"
-    "@onerepo/file": 0.2.0
-    "@onerepo/git": 0.1.1
-    "@onerepo/subprocess": 0.2.1
-    "@onerepo/test-cli": "workspace:^"
-    "@types/glob": ^8.1.0
-    "@types/prettier": ^2
-    esbuild-register: ^3.4.2
-    glob: ^9.0.0
-    jest: ^29.5.0
-    mdast-builder: ^1.1.1
-    onerepo: "workspace:^"
-    remark-gfm: ^3.0.1
-    remark-parse: ^10.0.1
-    remark-stringify: ^10.0.2
-    typescript: ^5.0.0
-    unified: ^10.1.2
-    yargs-parser: ^21.1.1
-  peerDependencies:
-    esbuild-register: ^3
-  bin:
-    docgen: ./src/bin.cjs
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/plugin-eslint@workspace:^, @onerepo/plugin-eslint@workspace:plugins/eslint":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-eslint@workspace:plugins/eslint"
@@ -3233,7 +3208,6 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/plugin-changesets": "workspace:^"
-    "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-jest": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
@@ -3895,7 +3869,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2, @types/prettier@npm:^2.1.5, @types/prettier@npm:^2.7.2":
+"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.7.2":
   version: 2.7.2
   resolution: "@types/prettier@npm:2.7.2"
   checksum: b47d76a5252265f8d25dd2fe2a5a61dc43ba0e6a96ffdd00c594cb4fd74c1982c2e346497e3472805d97915407a09423804cc2110a0b8e1b22cffcab246479b7

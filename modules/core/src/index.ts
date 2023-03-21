@@ -13,6 +13,7 @@ import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
 import type { RequireDirectoryOptions } from 'yargs';
 import { workspaceBuilder } from './workspaces';
+import { docgen as docgenPlugin } from './core/docgen';
 import { generate as generatePlugin } from './core/generate';
 import { graph as graphPlugin } from './core/graph';
 import { install as installPlugin } from './core/install';
@@ -110,6 +111,9 @@ export async function setup(
 	}
 
 	// Install the core plugins
+	if (core.docgen !== false) {
+		plugins.push(docgenPlugin(core.docgen, setup, config));
+	}
 	if (core.generate !== false) {
 		plugins.push(generatePlugin(core.generate));
 	}

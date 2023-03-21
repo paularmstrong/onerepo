@@ -59,7 +59,7 @@
  *
  * The more explanation and context that you can provide, the better it will be for your peers using commands. Consider adding [epilogues](http://yargs.js.org/docs/#api-reference-epiloguestr) and [examples](http://yargs.js.org/docs/#api-reference-examplecmd-desc) along with the required `description`.
  *
- * You can also generate Markdown documentation of the full CLI using [@onerepo/plugin-docgen](/docs/plugins/docgen/)!
+ * You can also generate Markdown documentation of the full CLI using the [docgen command](/docs/core/docgen/)!
  *
  * @module
  */

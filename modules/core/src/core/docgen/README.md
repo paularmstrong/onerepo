@@ -1,0 +1,32 @@
+---
+title: Docgen
+description: |
+  Generate documentation for your CLI.
+usage: docgen
+---
+
+# Docgen
+
+Generate documentation for your CLI as easy to read Markdown file(s).
+
+## Configuration
+
+First, set the location for oneRepo to look for your templates.
+
+```js {3-5}
+setup({
+	core: {
+		docgen: {
+			// config
+		},
+	},
+}).then(({ run }) => run());
+```
+
+## Usage
+
+<!-- start-auto-generated-from-cli-generate -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-auto-generated-from-cli-generate -->

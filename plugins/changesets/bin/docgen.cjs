@@ -12,7 +12,6 @@ const { changesets } = require('../src');
 		/** @type import('onerepo').Config */
 		{
 			root: path.join(__dirname, '..', '..', '..'),
-			subcommandDir: false,
 			core: {
 				generate: false,
 				graph: false,
