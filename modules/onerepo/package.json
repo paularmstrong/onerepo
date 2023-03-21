@@ -1,6 +1,6 @@
 {
 	"name": "onerepo",
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,7 @@
 	],
 	"dependencies": {
 		"@onerepo/builders": "0.1.1",
-		"@onerepo/core": "0.4.0",
+		"@onerepo/core": "0.5.0",
 		"@onerepo/file": "0.2.0",
 		"@onerepo/git": "0.1.1",
 		"@onerepo/graph": "0.3.0",

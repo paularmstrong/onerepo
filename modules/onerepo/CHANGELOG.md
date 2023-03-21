@@ -1,5 +1,22 @@
 # onerepo
 
+## 0.6.0
+
+### Minor Changes
+
+- `@onerepo/plugin-docgen` has been moved to a core command. [#198](https://github.com/paularmstrong/onerepo/pull/198) ([@paularmstrong](https://github.com/paularmstrong))
+
+  As a core command it is faster and more reliable and will work across more setups.
+
+- `docgen` no longer supports the `--bin` flag. It will automatically use the same configuration and setup from the current CLI. [#198](https://github.com/paularmstrong/onerepo/pull/198) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds alias `-f` for `--format` to `graph show` [`ee325f1`](https://github.com/paularmstrong/onerepo/commit/ee325f18c3fc484f8db778846391069f0fd17b34) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`c6b1dd1`](https://github.com/paularmstrong/onerepo/commit/c6b1dd126629ce5f802c62ea716402796976e1b0), [`c6b1dd1`](https://github.com/paularmstrong/onerepo/commit/c6b1dd126629ce5f802c62ea716402796976e1b0), [`ee325f1`](https://github.com/paularmstrong/onerepo/commit/ee325f18c3fc484f8db778846391069f0fd17b34), [`ee325f1`](https://github.com/paularmstrong/onerepo/commit/ee325f18c3fc484f8db778846391069f0fd17b34)]:
+  - @onerepo/core@0.5.0
+
 ## 0.5.0
 
 ### Minor Changes
