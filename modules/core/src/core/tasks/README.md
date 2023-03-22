@@ -31,6 +31,14 @@ export default {
 };
 ```
 
+### Options
+
+<!-- start-usage-typedoc -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-usage-typedoc -->
+
 ### Tasks
 
 Each task can either be a `string` or an `object`:

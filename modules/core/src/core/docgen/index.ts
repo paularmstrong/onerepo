@@ -9,6 +9,7 @@ import { Yargs } from './yargs';
 import type { Docs } from './yargs';
 
 /**
+ * Full configuration options for the Docgen core command.
  * @group Core
  */
 export type Options = {
@@ -18,8 +19,8 @@ export type Options = {
 	 */
 	format?: 'markdown' | 'json';
 	/**
-	 * Command name.
-	 * @default 'docgen'
+	 * Override the name of the command.
+	 * @default `'docgen'`
 	 */
 	name?: string | Array<string>;
 	/**

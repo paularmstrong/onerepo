@@ -23,6 +23,14 @@ setup({
 }).then(({ run }) => run());
 ```
 
+### Options
+
+<!-- start-usage-typedoc -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-usage-typedoc -->
+
 ## Validating configurations
 
 The Graph module in oneRepo has support for validating most configuration files in workspaces, including JSON, CJSON, YAML, and static JavaScript/TypeScript configurations.

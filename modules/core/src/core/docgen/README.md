@@ -23,6 +23,14 @@ setup({
 }).then(({ run }) => run());
 ```
 
+### Options
+
+<!-- start-usage-typedoc -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-usage-typedoc -->
+
 ## Usage
 
 <!-- start-auto-generated-from-cli-generate -->

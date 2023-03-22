@@ -3,11 +3,23 @@ import * as Show from './commands/show';
 import * as Verify from './commands/verify';
 
 /**
+ * Full configuration options for the Graph core command.
  * @group Core
  */
 export type Options = {
+	/**
+	 * Override the name of the command.
+	 * @default `'graph'`
+	 */
 	name?: string | Array<string>;
+	/**
+	 * File path to a custom schema for the `verify` command.
+	 */
 	customSchema?: string;
+	/**
+	 * Method for dependency verification.
+	 * @default `'loose'`
+	 */
 	dependencies?: 'loose' | 'off';
 };
 

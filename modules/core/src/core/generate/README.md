@@ -94,6 +94,14 @@ The above will result in a set of prompts that may look like the following:
 
 Please see the [inquirer documentation](https://github.com/SBoudrias/Inquirer.js/blob/master/README.md) for more options and usage instructions.
 
+### Options
+
+<!-- start-usage-typedoc -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-usage-typedoc -->
+
 ## Usage
 
 <!-- start-auto-generated-from-cli-generate -->

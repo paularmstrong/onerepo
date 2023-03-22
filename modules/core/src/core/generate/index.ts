@@ -3,10 +3,18 @@ import type { Plugin } from '../../types';
 import * as cmd from './commands/generate';
 
 /**
+ * Full configuration options for the Generate core command.
  * @group Core
  */
 export type Options = {
+	/**
+	 * Override the name of the command.
+	 * @default `['generate', 'gen]`
+	 */
 	name?: string | Array<string>;
+	/**
+	 * Folder path to find templates.
+	 */
 	templatesDir: string;
 };
 
