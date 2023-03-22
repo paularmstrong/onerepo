@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { tmpdir } from 'node:os';
 import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
@@ -233,5 +234,26 @@ async function format(filename: string, contents: string, { step }: Options = {}
 		const config = await prettier.resolveConfig(filename);
 		step.debug(`Resolved prettier config ${JSON.stringify(config)}`);
 		return prettier.format(contents, { ...config, filepath: filename });
+	});
+}
+
+/**
+ * Create a tmp directory in the os tmpdir.
+ *
+ * ```ts
+ * const dir = await file.makeTempDir('tacos-');
+ * ```
+ */
+export async function makeTempDir(prefix: string, { step }: Options = {}) {
+	return stepWrapper({ step, name: `Make temp dir ${prefix}` }, async (step) => {
+		const tempdir = path.join(tmpdir(), prefix);
+
+		if (isDryRun()) {
+			step.warn(`DRY RUN: Create temporary directory ${tempdir}`);
+			return tempdir;
+		}
+
+		await fs.mkdtemp(tempdir);
+		return tempdir;
 	});
 }

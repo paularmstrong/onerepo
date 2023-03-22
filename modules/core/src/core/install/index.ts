@@ -2,9 +2,14 @@ import type { Config, Plugin } from '../../types';
 import * as cmd from './commands/install';
 
 /**
+ * Full configuration options for the Graph core command.
  * @group Core
  */
 export type Options = {
+	/**
+	 * Override the name of the command.
+	 * @default `'install'`
+	 */
 	name?: string | Array<string>;
 };
 
