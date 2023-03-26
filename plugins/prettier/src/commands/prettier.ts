@@ -40,7 +40,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		const rawIgnores = await (hasIgnores ? read(ignoreFile, 'r', { step: ignoreStep }) : '');
 		const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 
-		const paths = await getFilepaths();
+		const paths = await getFilepaths({ step: ignoreStep });
 		for (const filepath of paths) {
 			const ext = path.extname(filepath);
 			if (!ext) {
