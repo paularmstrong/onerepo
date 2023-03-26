@@ -15,6 +15,7 @@ type Args = builders.WithAllInputs & {
 	cache: boolean;
 	extensions: Array<string>;
 	fix: boolean;
+	pretty: boolean;
 	quiet: boolean;
 };
 
@@ -41,6 +42,11 @@ export const builder: Builder<Args> = (yargs) =>
 			string: true,
 			default: ['js', 'cjs', 'mjs'],
 		})
+		.option('pretty', {
+			type: 'boolean',
+			default: true,
+			description: 'Control ESLint’s `--color` flag.',
+		})
 		.option('quiet', {
 			type: 'boolean',
 			description: 'Report errors only',
@@ -53,7 +59,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
-	const { add, all, cache, 'dry-run': isDry, extensions, fix, quiet } = argv;
+	const { add, all, cache, 'dry-run': isDry, extensions, fix, pretty, quiet } = argv;
 
 	const filteredPaths = [];
 	if (!all) {
@@ -93,7 +99,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		return;
 	}
 
-	const args = ['eslint', '--ext', extensions.join(',')];
+	const args = ['eslint', '--ext', extensions.join(','), pretty ? '--color' : '--no-color'];
 	if (cache) {
 		args.push('--cache', '--cache-strategy=content');
 	}

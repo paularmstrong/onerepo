@@ -21,7 +21,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--changedSince', 'tacobase'],
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '--changedSince', 'tacobase'],
 				opts: { stdio: 'inherit' },
 			})
 		);
@@ -33,7 +33,13 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', expect.stringMatching(/modules\/burritos$/)],
+				args: [
+					'node_modules/.bin/jest',
+					'--config',
+					'./jest.config.js',
+					'--colors',
+					expect.stringMatching(/modules\/burritos$/),
+				],
 				opts: { stdio: 'inherit' },
 			})
 		);
@@ -54,6 +60,7 @@ describe('handler', () => {
 					'node_modules/.bin/jest',
 					'--config',
 					'./jest.config.js',
+					'--colors',
 					'--changedSince',
 					'burritobase',
 				],
@@ -67,7 +74,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '-w', 'foo'],
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '-w', 'foo'],
 			})
 		);
 	});
@@ -78,7 +85,17 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '.'],
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '.'],
+			})
+		);
+	});
+
+	test('can turn off --colors with --no-pretty', async () => {
+		await run('--no-pretty');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				args: expect.arrayContaining(['node_modules/.bin/jest', '--no-colors']),
 			})
 		);
 	});

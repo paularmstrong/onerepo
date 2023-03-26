@@ -9,11 +9,16 @@ export const command = ['tsc', 'typescript', 'typecheck'];
 
 export const description = 'Run typescript checking across workspaces';
 
-type Argv = { tsconfig: string } & builders.WithWorkspaces & builders.WithAffected;
+type Argv = { pretty: boolean; tsconfig: string } & builders.WithWorkspaces & builders.WithAffected;
 
 export const builder: Builder<Argv> = (yargs) =>
 	builders
 		.withAffected(builders.withWorkspaces(yargs))
+		.option('pretty', {
+			type: 'boolean',
+			default: true,
+			description: 'Control TypeScript’s `--pretty` flag.',
+		})
 		.option('tsconfig', {
 			type: 'string',
 			default: 'tsconfig.json',
@@ -23,6 +28,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.epilogue('Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.');
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces }) => {
+	const { pretty } = argv;
 	const workspaces = await getWorkspaces();
 
 	const procs = workspaces.reduce((memo: Array<RunSpec>, workspace: Workspace) => {
@@ -30,7 +36,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces }) => {
 			memo.push({
 				name: `Typecheck ${workspace.name}`,
 				cmd: 'npx',
-				args: ['tsc', '-p', workspace.resolve('tsconfig.json'), '--noEmit'],
+				args: ['tsc', '-p', workspace.resolve('tsconfig.json'), '--noEmit', pretty ? '--pretty' : '--no-pretty'],
 			});
 		}
 		return memo;
