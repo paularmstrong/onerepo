@@ -8,22 +8,13 @@ const { run } = getCommand(Vitest);
 jest.mock('@onerepo/subprocess');
 jest.mock('@onerepo/git');
 
-const modified = {
-	all: [],
-	added: [],
-	modified: [],
-	deleted: [],
-	moved: [],
-	unknown: [],
-};
-
 describe('handler', () => {
 	beforeEach(() => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js', 'bar/baz.js'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
 		await run('');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -46,7 +37,7 @@ describe('handler', () => {
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, all: ['foo.js'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
 
 		await run('--inspect');
 

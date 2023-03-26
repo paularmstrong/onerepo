@@ -4,7 +4,7 @@ import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
 import { run } from '@onerepo/subprocess';
-import { getStatus } from '@onerepo/git';
+import { isClean } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { ReleasePlan } from '@changesets/types';
 import type { Package, Packages } from '@manypkg/get-packages';
@@ -58,12 +58,9 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
-		const status = await getStatus({ step: cleanStep });
-		if (status) {
+		if (!(await isClean({ step: cleanStep }))) {
 			cleanStep.error(`Working directory must be unmodified to ensure safe pre-publish.
-Commit or stash your changes to continue.
-
-Current status is:\n ${status}`);
+Commit or stash your changes to continue.`);
 			await cleanStep.end();
 			return;
 		}

@@ -27,7 +27,7 @@ describe('handler', () => {
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 		jest.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
-		jest.spyOn(git, 'getStatus').mockResolvedValue('');
+		jest.spyOn(git, 'isClean').mockResolvedValue(true);
 		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
@@ -39,7 +39,7 @@ describe('handler', () => {
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
@@ -49,10 +49,10 @@ describe('handler', () => {
 
 	test('can bypass the dirty working state check', async () => {
 		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await run('--allow-dirty', { graph });
 
-		expect(git.getStatus).not.toHaveBeenCalled();
+		expect(git.isClean).not.toHaveBeenCalled();
 		expect(inquirer.prompt).toHaveBeenCalled();
 	});
 

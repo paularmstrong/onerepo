@@ -27,6 +27,11 @@ export const builder: Builder<Args> = (yargs) =>
 		.option('check', {
 			description: 'Check for changes.',
 			type: 'boolean',
+		})
+		.middleware((argv) => {
+			if (argv.add && !('staged' in argv)) {
+				argv.staged = true;
+			}
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph }) {

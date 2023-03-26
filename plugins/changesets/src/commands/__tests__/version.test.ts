@@ -17,12 +17,12 @@ describe('handler', () => {
 		jest.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
 		jest.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
-		jest.spyOn(git, 'getStatus').mockResolvedValue('');
+		jest.spyOn(git, 'isClean').mockResolvedValue(true);
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
@@ -30,10 +30,10 @@ describe('handler', () => {
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await run('--allow-dirty', { graph });
 
-		expect(git.getStatus).not.toHaveBeenCalled();
+		expect(git.isClean).not.toHaveBeenCalled();
 	});
 
 	test('prompts for all modules with changes only', async () => {

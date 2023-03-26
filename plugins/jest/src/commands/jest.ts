@@ -1,4 +1,4 @@
-import { getMergeBase, getStatus } from '@onerepo/git';
+import { getMergeBase, isClean } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -67,8 +67,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
-			const status = await getStatus();
-			if (status) {
+			if (!(await isClean())) {
 				args.push('--onlyChanged');
 			} else {
 				args.push('--changedSince', await getMergeBase());

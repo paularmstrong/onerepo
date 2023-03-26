@@ -69,14 +69,14 @@ export const builder: Builder<Argv> = (yargs) =>
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
-	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, 'through-ref': throughRef } = argv;
+	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
 
 	const requested = await getWorkspaces({ ignore });
 	const workspaces = affected ? graph.affected(requested) : requested;
 	const workspaceNames = workspaces.map(({ name }) => name);
 
-	const { added, modified, moved, deleted } = await git.getModifiedFiles(fromRef, throughRef);
-	const allFiles = [...added, ...modified, ...moved, ...deleted];
+	const modifiedOpts = staged ? { staged: true } : { from: fromRef, through: throughRef };
+	const allFiles = await git.getModifiedFiles(modifiedOpts);
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
 	if (!files.length && !workspaceNames.length) {

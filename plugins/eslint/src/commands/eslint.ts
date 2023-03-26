@@ -23,7 +23,7 @@ export const builder: Builder<Args> = (yargs) =>
 		.withAllInputs(yargs)
 		.option('add', {
 			type: 'boolean',
-			description: 'Add modified files after write',
+			description: 'Add modified files after write to the git stage.',
 			conflicts: ['all'],
 		})
 		.option('cache', {
@@ -45,6 +45,11 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			description: 'Report errors only',
 			default: false,
+		})
+		.middleware((argv) => {
+			if (argv.add && !('staged' in argv)) {
+				argv.staged = true;
+			}
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
@@ -59,6 +64,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 
 		const paths = await getFilepaths({ step: ignoreStep });
+		ignoreStep.debug(paths);
 		for (const filepath of paths) {
 			const ext = path.extname(filepath);
 			if (!ext) {

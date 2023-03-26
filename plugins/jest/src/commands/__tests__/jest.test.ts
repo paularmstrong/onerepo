@@ -14,6 +14,7 @@ describe('handler', () => {
 	});
 
 	test('runs files related to changes by default', async () => {
+		jest.spyOn(git, 'isClean').mockResolvedValue(true);
 		jest.spyOn(git, 'getMergeBase').mockResolvedValue('tacobase');
 		await run('');
 
@@ -39,6 +40,7 @@ describe('handler', () => {
 	});
 
 	test('can run the node inspector/debugger', async () => {
+		jest.spyOn(git, 'isClean').mockResolvedValue(true);
 		jest.spyOn(git, 'getMergeBase').mockResolvedValue('burritobase');
 
 		await run('--inspect');
