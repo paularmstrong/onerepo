@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import { write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
-import { getBranch, getStatus } from '@onerepo/git';
+import { getBranch, isClean } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
 
@@ -58,10 +58,10 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 			return;
 		}
 
-		const status = await getStatus({ step: cleanStep });
-
-		if (status) {
-			cleanStep.error(`Working directory must be unmodified to ensure safe publish. Current status is:\n  ${status}`);
+		if (!(await isClean({ step: cleanStep }))) {
+			cleanStep.error(
+				`Working directory must be unmodified to ensure safe publish.\nAdvanced: Skip this check with \`--allow-dirty\`.`
+			);
 			await cleanStep.end();
 			return;
 		}

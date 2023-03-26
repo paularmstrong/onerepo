@@ -8,15 +8,6 @@ jest.mock('@onerepo/git');
 
 const { build, run } = getCommand(Tasks);
 
-const modified = {
-	all: [],
-	added: [],
-	modified: [],
-	deleted: [],
-	moved: [],
-	unknown: [],
-};
-
 describe('builder', () => {
 	test('requires --lifecycle', async () => {
 		await expect(build('')).rejects.toThrow();
@@ -42,7 +33,7 @@ describe('builder', () => {
 
 describe('handler', () => {
 	test('lists tasks for pre- prefix only', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -59,7 +50,7 @@ describe('handler', () => {
 	});
 
 	test('lists tasks for all pre-, normal, and post-', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -90,7 +81,7 @@ describe('handler', () => {
 	});
 
 	test('includes meta information on task list', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, modified: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -111,7 +102,7 @@ describe('handler', () => {
 	});
 
 	test('returns no tasks if all files were ignored', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/tacos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -126,14 +117,9 @@ describe('handler', () => {
 	});
 
 	test('ignores files', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
-			...modified,
-			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
-			modified: [],
-			deleted: [],
-			all: [],
-			moved: [],
-		});
+		jest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -155,14 +141,9 @@ describe('handler', () => {
 	});
 
 	test('filters out commands when matchers do not match', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
-			...modified,
-			added: ['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts'],
-			modified: [],
-			deleted: [],
-			all: [],
-			moved: [],
-		});
+		jest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -177,7 +158,7 @@ describe('handler', () => {
 	});
 
 	test('includes tasks that match cross-workspaces', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({ ...modified, added: ['modules/burritos/src/index.ts'] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';
@@ -197,9 +178,7 @@ describe('handler', () => {
 	});
 
 	test('runs all workspaces if the root is affected', async () => {
-		jest
-			.spyOn(git, 'getModifiedFiles')
-			.mockResolvedValue({ ...modified, added: [], modified: ['root.ts'], deleted: [], all: [], moved: [] });
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		let out = '';

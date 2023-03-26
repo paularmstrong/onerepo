@@ -4,7 +4,7 @@ import assembleReleasePlan from '@changesets/assemble-release-plan';
 import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
-import { getStatus, updateIndex } from '@onerepo/git';
+import { isClean, updateIndex } from '@onerepo/git';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { LogStep } from '@onerepo/logger';
@@ -41,11 +41,9 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
-		const status = await getStatus({ step: cleanStep });
-
-		if (status) {
+		if (!(await isClean({ step: cleanStep }))) {
 			cleanStep.error(
-				`Working directory must be unmodified to ensure correct versioning. Current status is:\n  ${status}`
+				'Working directory must be unmodified to ensure correct versioning. Advanced: Use `--allow-dirty` to bypass this check.'
 			);
 			await cleanStep.end();
 			return;

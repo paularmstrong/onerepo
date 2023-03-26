@@ -26,33 +26,6 @@ export type Options = {
 	step?: LogStep;
 };
 
-export type ChangeMap = {
-	/**
-	 * All files that have been modified. This includes deleted and uncommitted files.
-	 */
-	all: Array<string>;
-	/**
-	 * Files that have been created and newly started tracking.
-	 */
-	added: Array<string>;
-	/**
-	 * Files that have been deleted.
-	 */
-	deleted: Array<string>;
-	/**
-	 * Files that have been modified.
-	 */
-	modified: Array<string>;
-	/**
-	 * Files marked as moved.
-	 */
-	moved: Array<string>;
-	/**
-	 * Files that are not yet tracked by git.
-	 */
-	unknown: Array<string>;
-};
-
 /**
  * Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
  *
@@ -140,28 +113,58 @@ export async function getMergeBase({ step }: Options = {}) {
 }
 
 /**
- * Check the current git status. Equivalent to `git status --porcelain`. If the string returned is empty, the git working state can be considered unchanged.
+ * Check if the current git working state is clean.
  *
  * ```ts
- * const status = await git.getStatus();;
- * if (!status) {
- * 	// no local changes
+ * const isClean = await git.isClean();
+ * if (!isClean) {
+ * 	// There are local modifications that have not yet been committed.
  * }
  * ```
  */
-export async function getStatus({ step }: Options = {}) {
+export async function isClean({ step }: Options = {}) {
 	return stepWrapper({ step, name: 'Get current changes' }, async (step) => {
 		const [currentStatus] = await run({
 			name: 'Checking for changes',
 			cmd: 'git',
-			args: ['status', '--porcelain'],
+			args: ['status', '-z'],
 			runDry: true,
 			step,
 		});
 
-		return currentStatus;
+		return !currentStatus;
 	});
 }
+
+export type ModifiedFromThrough = {
+	/**
+	 * Git ref for start (exclusive) to get list of modified files
+	 */
+	from?: string;
+	/**
+	 * Cannot include `staged` files when using from/through refs.
+	 */
+	staged?: false;
+	/**
+	 * Git ref for end (inclusive) to get list of modified files
+	 */
+	through?: string;
+};
+
+export type ModifiedStaged = {
+	/**
+	 * Disallowed when `staged: true`
+	 */
+	from?: never;
+	/**
+	 * Get staged modified files only
+	 */
+	staged: true;
+	/**
+	 * Disallowed when `staged: true`
+	 */
+	through?: never;
+};
 
 /**
  * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -171,77 +174,44 @@ export async function getStatus({ step }: Options = {}) {
  * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
  * ```
  */
-export async function getModifiedFiles(from?: string, through?: string, { step }: Options = {}) {
+export async function getModifiedFiles(
+	{ from, staged, through }: ModifiedStaged | ModifiedFromThrough = {},
+	{ step }: Options = {}
+) {
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
 		const base = await (from ?? getMergeBase({ step }));
 		const currentSha = await (through ?? getCurrentSha({ step }));
 
 		const isMain = base === currentSha;
+		const isCleanState = await isClean({ step });
 
-		const currentStatus = await getStatus({ step });
-
-		const hasUncommittedChanges = Boolean(currentStatus.trim()) && !from && !through;
+		const uncleanArgs = ['diff', '--name-only', '-z', ...(staged ? ['--cached'] : []), '--diff-filter', 'ACMR', base];
+		const cleanMainArgs = [
+			'diff-tree',
+			'-r',
+			'-z',
+			'--name-only',
+			'--no-commit-id',
+			'--diff-filter',
+			'ACMR',
+			isMain ? `${currentSha}^` : base,
+			isMain ? currentSha : 'HEAD',
+		];
 
 		const [modified] = await run({
 			name: 'Getting modified files',
 			cmd: 'git',
-			args: hasUncommittedChanges
-				? ['diff', '--name-status', '--cached', base]
-				: [
-						'diff-tree',
-						'-r',
-						'--name-status',
-						'--no-commit-id',
-						isMain ? `${currentSha}^` : base,
-						isMain ? currentSha : 'HEAD',
-						// eslint-disable-next-line no-mixed-spaces-and-tabs
-				  ],
+			args: !isCleanState && !from && !through ? uncleanArgs : cleanMainArgs,
 			runDry: true,
 			step,
 		});
-		const changes = `${currentStatus}\n${modified}`;
 
-		const changeMap = changes
-			.trim()
-			.split('\n')
-			.reduce(
-				(memo, line) => {
-					const trimmed = line.trim();
-					if (!trimmed) {
-						return memo;
-					}
-					const [status, filename] = trimmed.split(/\s+/);
-					const key = simplifyGitStatus[status.trim()[0] as keyof typeof simplifyGitStatus];
-					if (!key) {
-						throw new Error(`Caught unknown git status "${status}"`);
-					}
-
-					if (!memo[key].includes(filename)) {
-						memo[key].push(filename);
-					}
-					if (!memo.all.includes(filename)) {
-						memo.all.push(filename);
-					}
-					return memo;
-				},
-				{ all: [], added: [], deleted: [], modified: [], moved: [], unknown: [] } as ChangeMap
-			);
-
-		step.debug(`Modified files\n${JSON.stringify(changeMap, null, 2)}`);
-
-		return changeMap;
+		return modified
+			.replace(/\\u0000$/, '')
+			.split('\u0000')
+			.filter(Boolean);
 	});
 }
-
-const simplifyGitStatus = {
-	M: 'modified',
-	T: 'modified',
-	A: 'added',
-	D: 'deleted',
-	R: 'moved',
-	C: 'moved',
-	'?': 'unknown',
-} as const;
 
 /**
  * Get the current sha ref. This is equivalent to `git rev-parse HEAD`.

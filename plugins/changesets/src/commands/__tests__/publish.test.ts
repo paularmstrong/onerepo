@@ -31,7 +31,7 @@ describe('handler', () => {
 		jest.spyOn(graph.packageManager, 'publishable').mockResolvedValue(graph.workspaces.filter((ws) => !ws.private));
 
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
-		jest.spyOn(git, 'getStatus').mockResolvedValue('');
+		jest.spyOn(git, 'isClean').mockResolvedValue(true);
 		jest.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH ?? 'main');
 
 		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
@@ -49,7 +49,7 @@ describe('handler', () => {
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toBeUndefined();
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
@@ -71,10 +71,10 @@ describe('handler', () => {
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		jest.spyOn(git, 'getStatus').mockResolvedValue('M  Foobar');
+		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await run('--allow-dirty', { graph });
 
-		expect(git.getStatus).not.toHaveBeenCalled();
+		expect(git.isClean).not.toHaveBeenCalled();
 	});
 
 	test('ensures logged in to the registry', async () => {

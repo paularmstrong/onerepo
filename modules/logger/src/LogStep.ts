@@ -243,10 +243,7 @@ export class LogStep {
 	}
 
 	#prefixStart(output: string) {
-		return output
-			.split('\n')
-			.map((line) => ` ${this.name ? '┌ ' : pc.dim(pc.bold('▶︎ '))}${line}`)
-			.join('\n');
+		return ` ${this.name ? '┌ ' : pc.dim(pc.bold('▶︎ '))}${output}`;
 	}
 
 	#prefix(prefix: string, output: string) {
@@ -257,10 +254,7 @@ export class LogStep {
 	}
 
 	#prefixEnd(output: string) {
-		return output
-			.split('\n')
-			.map((line) => ` ${this.name ? '└ ' : pc.dim(pc.bold('■ '))}${line}`)
-			.join('\n');
+		return ` ${this.name ? '└ ' : pc.dim(pc.bold('■ '))}${output}`;
 	}
 }
 

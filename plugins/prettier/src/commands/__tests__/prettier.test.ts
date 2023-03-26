@@ -11,7 +11,29 @@ jest.mock('@onerepo/file', () => ({
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { run } = getCommand(Prettier);
+const { build, run } = getCommand(Prettier);
+
+describe('builder', () => {
+	test('sets --staged to true when --add is true', async () => {
+		const args = await build('--add');
+		expect(args).toHaveProperty('add', true);
+		expect(args).toHaveProperty('staged', true);
+	});
+
+	test('does not set --staged to true when --add is not true', async () => {
+		const argsEmpty = await build('');
+		expect(argsEmpty).not.toHaveProperty('staged');
+
+		const argsNoAdd = await build('--no-add');
+		expect(argsNoAdd).not.toHaveProperty('staged');
+	});
+
+	test('does not overwrite --no-staged', async () => {
+		const args = await build('--add --no-staged');
+		expect(args).toHaveProperty('add', true);
+		expect(args).toHaveProperty('staged', false);
+	});
+});
 
 describe('handler', () => {
 	test('can run across all files', async () => {

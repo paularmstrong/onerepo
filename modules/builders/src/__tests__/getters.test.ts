@@ -7,25 +7,13 @@ jest.mock('@onerepo/git');
 
 const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-const modified = {
-	all: [],
-	added: [],
-	modified: [],
-	deleted: [],
-	moved: [],
-	unknown: [],
-};
-
 describe('affected', () => {
 	beforeEach(() => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 	});
 
 	test('returns all workspaces if the root is affected', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
-			...modified,
-			modified: ['not/in/a/module.json'],
-		});
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['not/in/a/module.json']);
 
 		const workspaces = await affected(graph);
 
@@ -33,10 +21,7 @@ describe('affected', () => {
 	});
 
 	test('only returns affected list', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
-			...modified,
-			modified: ['modules/tacos/package.json'],
-		});
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/package.json']);
 
 		const workspaces = await affected(graph);
 
@@ -46,7 +31,7 @@ describe('affected', () => {
 
 describe('filepaths', () => {
 	beforeEach(() => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 	});
 
 	test('returns "." if --all', async () => {
@@ -69,14 +54,11 @@ describe('filepaths', () => {
 
 describe('workspaces', () => {
 	beforeEach(() => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(modified);
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 	});
 
 	test('returns all workspaces if root is affected', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue({
-			...modified,
-			modified: ['not/in/a/module.json'],
-		});
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['not/in/a/module.json']);
 
 		const wss = await workspaces(graph, { affected: true });
 		expect(wss).toEqual(graph.workspaces);

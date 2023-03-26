@@ -51,7 +51,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
-			const { all } = await getModifiedFiles();
+			const all = await getModifiedFiles();
 			related.push(...all);
 			related.unshift('related');
 		} else {
