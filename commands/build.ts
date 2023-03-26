@@ -115,12 +115,19 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 				],
 			});
 
-		const isTS = await file.exists(workspace.resolve('tsconfig.json'), { step: buildableStep });
-		if (isTS) {
+		const isTsBase = await file.exists(workspace.resolve('tsconfig.json'), { step: buildableStep });
+		const isTsBuild = await file.exists(workspace.resolve('tsconfig.build.json'), { step: buildableStep });
+		if (isTsBase) {
 			typesProcs.push({
 				name: `Build ${workspace.name} typedefs`,
 				cmd: tsc,
-				args: ['--emitDeclarationOnly', '--outDir', workspace.resolve('dist')],
+				args: [
+					'-p',
+					isTsBuild ? 'tsconfig.build.json' : 'tsconfig.json',
+					'--emitDeclarationOnly',
+					'--outDir',
+					workspace.resolve('dist'),
+				],
 				opts: {
 					cwd: workspace.location,
 				},
