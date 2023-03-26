@@ -1,5 +1,6 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
+import pc from 'picocolors';
 import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import * as Generate from '../generate';
@@ -15,30 +16,41 @@ function run(cmd: string) {
 	return mainRun(`${cmd} --templates-dir=${path.join(__dirname, '__fixtures__')}`);
 }
 
+function templateInput(name: 'app' | 'module' = 'app') {
+	return {
+		dir: path.join(__dirname, '__fixtures__', name),
+		// eslint-disable-next-line
+		config: require(path.join(__dirname, '__fixtures__', name, '.onegen.cjs')),
+	};
+}
+
 describe('handler', () => {
 	beforeEach(() => {
 		jest.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
-		jest.spyOn(inquirer, 'prompt').mockImplementation(() => Promise.resolve({}));
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+			templateInput: templateInput('app'),
+		});
 		jest.spyOn(file, 'write').mockResolvedValue();
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 	});
 
 	test('will prompt for type', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'app', name: 'burritos' });
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: templateInput('app'), name: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([
-			{
+			expect.objectContaining({
 				name: 'templateInput',
 				type: 'list',
 				message: 'Choose a template…',
-				choices: ['app', 'module'],
-			},
+			}),
 		]);
 	});
 
 	test('can have custom prompts', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: 'module', name: 'burritos' });
+		jest
+			.spyOn(inquirer, 'prompt')
+			.mockResolvedValue({ templateInput: templateInput('module'), name: 'burritos', description: 'yum' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -52,17 +64,33 @@ describe('handler', () => {
 		);
 	});
 
+	test('can have a custom name/description', async () => {
+		jest
+			.spyOn(inquirer, 'prompt')
+			.mockResolvedValue({ templateInput: templateInput('module'), name: 'burritos', description: 'yum' });
+		await run('');
+
+		expect(inquirer.prompt).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				expect.objectContaining({
+					choices: expect.arrayContaining([
+						expect.objectContaining({ name: `Modules ${pc.dim('A fancy description')}` }),
+					]),
+				}),
+			])
+		);
+	});
+
 	test('if type is provided, does not prompt', async () => {
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
 		await run('--type app');
 		expect(inquirer.prompt).not.toHaveBeenCalledWith(
 			expect.arrayContaining([
-				{
+				expect.objectContaining({
 					name: 'templateInput',
 					type: 'list',
 					message: 'Choose a template…',
-					choices: ['app', 'module'],
-				},
+				}),
 			])
 		);
 	});

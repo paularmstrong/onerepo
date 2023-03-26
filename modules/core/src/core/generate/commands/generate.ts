@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import pc from 'picocolors';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
 import { render } from 'ejs';
@@ -34,52 +35,55 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const { 'templates-dir': templatesDir, type } = argv;
-	const templates = await glob('*', { cwd: templatesDir });
+	const step = logger.createStep('Get template');
+	const templateConfigs = await glob('*/.onegen.{js,cjs,mjs}', { cwd: templatesDir });
+	const templates = [];
+	for (const name of templateConfigs) {
+		const dir = path.join(templatesDir, name);
+		const config = await loadConfig(dir);
+		const resolvedName = config.name ?? name.split('/')[0];
+		templates.push({
+			name: `${resolvedName} ${pc.dim(config.description ?? '')}`,
+			value: { config: { name: resolvedName, ...config }, dir: dir.split('/.onegen')[0] },
+		});
+	}
 
-	const step = logger.createStep('Get inputs');
+	const compare = new Intl.Collator('en').compare;
 
-	logger.pause();
-
-	let templateType = type;
-	if (!templateType) {
+	let template;
+	if (!type) {
+		logger.pause();
 		const { templateInput } = await inquirer.prompt([
 			{
 				name: 'templateInput',
 				type: 'list',
 				message: 'Choose a template…',
-				choices: templates.sort(),
+				choices: templates.sort((a, b) => compare(a.name, b.name)),
 			},
 		]);
-		templateType = templateInput;
-	}
-
-	const templateDir = path.join(templatesDir, templateType!);
-	if (!(await file.exists(templateDir, { step }))) {
-		step.error(`Template directory does not exist "${templateDir}"`);
-		return;
-	}
-
-	const [configPath] = await glob(`${path.join(templateDir, '.onegen')}.*`);
-	if (!configPath) {
-		step.error(`No configuration file found, expected "${path.join(templateDir, '.onegen.cjs')}"`);
-		return;
-	}
-
-	let config: Config | null;
-	if (configPath.endsWith('.cjs')) {
-		const require = createRequire('/');
-		config = require(configPath);
+		template = templateInput;
+		logger.unpause();
 	} else {
-		const { default: importConfig } = await import(configPath);
-		config = importConfig;
+		template = templates.find(
+			({ value: { config, dir } }) =>
+				type.toLowerCase() === config.name.toLowerCase() ||
+				type.toLowerCase() === dir.split('/')[dir.split('/').length - 1].toLowerCase()
+		)?.value;
 	}
 
-	if (!config) {
-		step.error(`Invalid configuration found at ${configPath}`);
+	if (!template) {
+		step.error(
+			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templatesDir}/${type}/.onegen.js"`
+		);
 		return;
 	}
 
-	const { outDir, prompts } = config;
+	const {
+		config: { outDir, prompts },
+		dir,
+	} = template;
+
+	logger.pause();
 
 	const vars = await (prompts ? inquirer.prompt(prompts) : {});
 
@@ -87,12 +91,12 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 
 	await step.end();
 
-	const files = await glob('**/!(.onegen.*)', { cwd: templateDir, dot: true, nodir: true });
+	const files = await glob('**/!(.onegen.*)', { cwd: dir, dot: true, nodir: true });
 	let possiblyCreatesWorkspace = false;
 
 	const renderStep = logger.createStep('Render files');
 	for (const filepath of files) {
-		const fullpath = path.join(templateDir, filepath);
+		const fullpath = path.join(dir, filepath);
 		let contents = await file.read(fullpath, 'r', { step: renderStep });
 		if (fullpath.endsWith('.ejs')) {
 			contents = render(contents, vars);
@@ -111,11 +115,24 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 };
 
 export interface Config<T extends Answers = Record<string, unknown>> {
+	name?: string;
+	description?: string;
 	outDir: (vars: T) => string;
 	prompts?: QuestionCollection<T>;
 }
 
-export function getConfig(filepath: string) {
-	const require = createRequire('/');
-	return require(path.join(filepath, '.onegen')) as Config;
+async function loadConfig(configPath: string) {
+	let config: Config | null;
+	if (configPath.endsWith('.cjs')) {
+		const require = createRequire('/');
+		config = require(configPath);
+	} else {
+		const { default: importConfig } = await import(configPath);
+		config = importConfig;
+	}
+
+	if (!config) {
+		throw new Error(`Invalid configuration found at ${configPath}`);
+	}
+	return config;
 }
