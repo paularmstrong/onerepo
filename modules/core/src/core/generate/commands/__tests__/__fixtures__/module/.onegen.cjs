@@ -1,4 +1,6 @@
 module.exports = {
+	name: 'Modules',
+	description: 'A fancy description',
 	outDir: 'modules',
 	prompts: [
 		{

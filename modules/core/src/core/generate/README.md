@@ -37,10 +37,12 @@ templates/
 
 The `.onegen.cjs` file is a configuration file for each template directory that tells oneRepo how to handle and format the output of your workspace:
 
-```js title="templates/module/.onegen.cjs"
-const path = require('path');
-module.exports = {
-	outDir: () => path.join(__dirname, '..', 'path/to/output'),
+```js title="templates/module/.onegen.js"
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+export default {
+	outDir: () => path.join(fileURLToPath(import.meta.url), '../../../path/to/output'),
 };
 ```
 
@@ -62,9 +64,14 @@ Filenames will be rendered using EJS as well. If a file includes something like 
 
 You will likely use [inquirer prompts](https://github.com/SBoudrias/Inquirer.js/blob/master/README.md) provided by each `.onegen.cjs` configuration to add input variables to your templates.
 
-```js title="templates/module/.onegen.cjs" {5-11}
-module.exports = {
-	outDir: ({ name }) => path.join(__dirname, '..', 'path/to/modules', name),
+```js title="templates/module/.onegen.js" {5-11}
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+export default {
+	name: 'Module',
+	description: 'A shared, publishable workspace',
+	outDir: () => path.join(fileURLToPath(import.meta.url), '../../../path/to/modules'),
 	prompts: [
 		{
 			name: 'name',
@@ -86,8 +93,8 @@ The above will result in a set of prompts that may look like the following:
 
 ```sh
 ? Choose a template…
-    app
-  ❯ module
+    App
+  ❯ Module - A shared, publishable workspace
 ? What is the name of the module? @scope/ ▓
 ? Please anter a description for the module ▓
 ```
