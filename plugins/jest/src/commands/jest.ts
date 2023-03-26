@@ -12,6 +12,7 @@ type Args = {
 	all?: boolean;
 	config: string;
 	inspect: boolean;
+	pretty: boolean;
 	watch?: boolean;
 	workspaces?: Array<string>;
 } & builders.WithAffected &
@@ -21,8 +22,24 @@ export const builder: Builder<Args> = (yargs) =>
 	builders
 		.withAffected(builders.withWorkspaces(yargs))
 		.usage(`$0 ${command} [options] -- [passthrough]`)
+		.option('config', {
+			type: 'string',
+			description: 'Path to the jest.config file, relative to the repo root.',
+			default: './jest.config.js',
+			hidden: true,
+		})
+		.option('inspect', {
+			type: 'boolean',
+			description: 'Break for the the Node inspector to debug tests.',
+			default: false,
+		})
+		.option('pretty', {
+			type: 'boolean',
+			default: true,
+			description: 'Control Jest’s `--colors` flag.',
+		})
 		.option('watch', {
-			description: 'Shortcut for jest --watch mode',
+			description: 'Shortcut for jest `--watch` mode.',
 			type: 'boolean',
 			default: false,
 		})
@@ -38,23 +55,12 @@ export const builder: Builder<Args> = (yargs) =>
 		)
 		.epilogue(
 			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator: (two dasshes `--`)'
-		)
-		.option('inspect', {
-			type: 'boolean',
-			description: 'Break for the the Node inspector to debug tests.',
-			default: false,
-		})
-		.option('config', {
-			type: 'string',
-			description: 'Path to the jest.config file, relative to the repo root.',
-			default: './jest.config.js',
-			hidden: true,
-		});
+		);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
-	const { '--': other = [], all, affected, config, inspect, watch, workspaces } = argv;
+	const { '--': other = [], all, affected, config, inspect, pretty, watch, workspaces } = argv;
 
-	const args: Array<string> = ['node_modules/.bin/jest', '--config', config];
+	const args: Array<string> = ['node_modules/.bin/jest', '--config', config, pretty ? '--colors' : '--no-colors'];
 
 	if (inspect) {
 		args.unshift('--inspect', '--inspect-brk');

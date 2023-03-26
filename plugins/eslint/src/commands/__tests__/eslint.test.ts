@@ -44,7 +44,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', '.'],
 			})
 		);
 	});
@@ -66,6 +66,7 @@ describe('handler', () => {
 					'eslint',
 					'--ext',
 					'js,cjs,mjs',
+					'--color',
 					'--cache',
 					'--cache-strategy=content',
 					'--fix',
@@ -84,7 +85,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '.'],
 			})
 		);
 	});
@@ -97,7 +98,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--fix', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--fix', '.'],
 			})
 		);
 	});
@@ -110,7 +111,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
 			})
 		);
 	});
@@ -133,7 +134,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
 			})
 		);
 	});
@@ -147,7 +148,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
 			})
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
@@ -161,6 +162,18 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['eslint', '--quiet']),
+			})
+		);
+	});
+
+	test('can turn off colors with --no-pretty', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await run('--no-pretty -a');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				args: expect.arrayContaining(['eslint', '--no-color']),
 			})
 		);
 	});
