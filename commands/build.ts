@@ -1,5 +1,3 @@
-import path from 'node:path';
-import { glob } from 'glob';
 import { batch, file, run, builders } from 'onerepo';
 import type { Builder, Handler, RunSpec } from 'onerepo';
 
@@ -72,11 +70,6 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			postCopy.push(() => file.copy(workspace.resolve('src/fixtures'), workspace.resolve('dist/fixtures')));
 		}
 
-		const commands = await glob(`${path.dirname(main)}/**/!(*.test).ts`, { nodir: true });
-		if (commands.length) {
-			addFile(...commands);
-		}
-
 		const { bin } = workspace.packageJson;
 		if (bin) {
 			if (typeof bin === 'string') {
@@ -117,7 +110,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 		const isTsBase = await file.exists(workspace.resolve('tsconfig.json'), { step: buildableStep });
 		const isTsBuild = await file.exists(workspace.resolve('tsconfig.build.json'), { step: buildableStep });
-		if (isTsBase) {
+		if (isTsBase || isTsBuild) {
 			typesProcs.push({
 				name: `Build ${workspace.name} typedefs`,
 				cmd: tsc,

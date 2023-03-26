@@ -45,7 +45,6 @@ describe('handler', () => {
 					cmd: 'esbuild',
 					args: [
 						expect.stringMatching(/build\/modules\/burritos\/src\/index\.ts$/),
-						expect.stringMatching(/build\/modules\/burritos\/src\/fixtures\/foo\.ts$/),
 						'--bundle',
 						'--packages=external',
 						expect.stringMatching(/build\/modules\/burritos\/dist$/),
@@ -95,9 +94,37 @@ describe('handler', () => {
 			expect.arrayContaining([
 				expect.objectContaining({
 					cmd: 'tsc',
-					args: ['--emitDeclarationOnly', '--outDir', expect.stringMatching(/build\/modules\/churros\/dist$/)],
+					args: [
+						'-p',
+						'tsconfig.json',
+						'--emitDeclarationOnly',
+						'--outDir',
+						expect.stringMatching(/build\/modules\/churros\/dist$/),
+					],
 					opts: {
 						cwd: expect.stringMatching(/build\/modules\/churros/),
+					},
+				}),
+			])
+		);
+	});
+
+	test('builds all typedefs if tsconfig.build.json is present', async () => {
+		await run('-w tacos', { graph });
+
+		expect(oneRepo.batch).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				expect.objectContaining({
+					cmd: 'tsc',
+					args: [
+						'-p',
+						'tsconfig.build.json',
+						'--emitDeclarationOnly',
+						'--outDir',
+						expect.stringMatching(/build\/modules\/tacos\/dist$/),
+					],
+					opts: {
+						cwd: expect.stringMatching(/build\/modules\/tacos/),
 					},
 				}),
 			])
