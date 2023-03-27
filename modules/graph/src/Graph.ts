@@ -306,17 +306,23 @@ export class Graph {
 		for (const [dependency, version] of Object.entries(dependencies)) {
 			if (this.#byName.has(dependency)) {
 				if (!version.startsWith('workspace:') && version !== this.#byName.get(dependency)!.version) {
-					throw new Error(`${dependent} does not use source version of ${dependency}`);
+					// While it is not _recommended_ to use non-source versions, it is still possible and allowed – edges just won't be created here.
+					// `graph verify` will throw an error here, unless dependency verification is turned off.
+					continue;
 				}
 
 				this.#graph.addEdge(dependent, dependency, weight);
 				if (this.#graph.hasCycle()) {
-					throw new Error(`Cycle found between ${dependent} and ${dependency}`);
+					throw new Error(
+						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`
+					);
 				}
 
 				this.#inverted.addEdge(dependency, dependent, weight);
 				if (this.#inverted.hasCycle()) {
-					throw new Error(`Cycle found between ${dependent} and ${dependency}`);
+					throw new Error(
+						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`
+					);
 				}
 			}
 		}

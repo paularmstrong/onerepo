@@ -12,8 +12,11 @@ describe('verify', () => {
 	});
 
 	test('can verify the graph dependencies', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
-		await expect(run('--dependencies loose', { graph })).rejects.toBeUndefined();
+		const graphProd = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
+		await expect(run('--dependencies loose', { graph: graphProd })).rejects.toBeUndefined();
+
+		const graphDev = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo-dev'));
+		await expect(run('--dependencies loose', { graph: graphDev })).rejects.toBeUndefined();
 	});
 
 	test('can verify cjson (eg tsconfigs)', async () => {
