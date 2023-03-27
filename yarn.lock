@@ -3070,6 +3070,7 @@ __metadata:
     "@onerepo/builders": 0.1.1
     "@onerepo/logger": 0.1.1
     "@onerepo/subprocess": 0.2.1
+    "@types/yargs": ^17
   languageName: unknown
   linkType: soft
 
