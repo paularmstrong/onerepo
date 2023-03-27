@@ -2783,6 +2783,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/create@workspace:modules/create":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/create@workspace:modules/create"
+  dependencies:
+    "@internal/test-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    "@onerepo/file": 0.2.0
+    "@onerepo/subprocess": 0.2.1
+    "@onerepo/test-cli": 0.1.2
+    "@onerepo/yargs": 0.1.2
+    "@types/inquirer": ^9
+    esbuild-register: ^3.4.0
+    inquirer: ^9.1.4
+    yargs: ^17.6.2
+  bin:
+    create: ./src/bin.js
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/docs@workspace:docs":
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
