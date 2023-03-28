@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { homedir } from 'node:os';
 import inquirer from 'inquirer';
 import { exists, read, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
@@ -6,6 +7,7 @@ import { getPackageManager, getPackageManagerName } from '@onerepo/package-manag
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = '$0';
+
 export const description = 'Sets up oneRepo in a new or existing repository';
 
 type Argv = {
@@ -30,10 +32,28 @@ export const builder: Builder<Argv> = (yargs) =>
 			type: 'array',
 			string: true,
 			description: 'List of glob locations for workspaces',
-		});
+		})
+		.default('silent', true);
 
 export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const { location, name: inputName, workspaces: inputWorkspaces } = argv;
+
+	const infoStep = logger.createStep('Gathering information');
+	const pluginSearch = await fetch(
+		new URL(
+			`-/v1/search?${new URLSearchParams({ text: '@onerepo/plugin-' }).toString()}`,
+			'https://registry.npmjs.org'
+		),
+		{}
+	);
+	const { objects: foundPlugins } = (await pluginSearch.json()) as SearchResponse;
+
+	const onerepo = await fetch(new URL('onerepo', 'https://registry.npmjs.org'), {});
+	const version = ((await onerepo.json()) as PackageResponse)['dist-tags'].latest;
+	await infoStep.end();
+
+	logger.pause();
+
 	const { dir } = await inquirer.prompt([
 		{
 			name: 'dir',
@@ -45,6 +65,8 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		},
 	]);
 
+	logger.unpause();
+
 	const outdir = dir ?? path.join(process.cwd(), location || '.');
 	const isExistingRepo = await exists(path.join(outdir, 'package.json'));
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
@@ -55,10 +77,12 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
 	}
 
+	logger.pause();
+
 	const prompts = await inquirer.prompt([
 		{
 			name: 'pkgmanager',
-			type: 'choice',
+			type: 'list',
 			message: 'Which package manager would you like to use?',
 			choices: ['npm', 'pnpm', 'yarn'],
 			when: () => !isExistingRepo,
@@ -76,30 +100,11 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			default: 'apps/*,modules/*',
 			when: () => !inputWorkspaces,
 		},
-	]);
-
-	pkgManager = prompts.pkgmanager ?? pkgManager;
-	const manager = getPackageManager(pkgManager);
-	const name = prompts.name ?? inputName;
-	const workspaces: Array<string> = prompts.workspaces ? prompts.workspaces.split(',') : inputWorkspaces;
-
-	logger.debug({ outdir, name, workspaces });
-
-	const pluginSearch = await fetch(
-		new URL(
-			`/-/v1/search?${new URLSearchParams({ text: '@onerepo/plugin-' }).toString()}`,
-			'https://registry.npmjs.org'
-		),
-		{}
-	);
-	const { objects: plugins } = (await pluginSearch.json()) as SearchResponse;
-
-	await inquirer.prompt([
 		{
 			type: 'checkbox',
 			name: 'plugins',
 			message: 'Which plugins should be included?',
-			choices: plugins
+			choices: foundPlugins
 				.filter(({ package: { name } }) => name.startsWith('@onerepo/plugin-'))
 				.map(({ package: { name, version } }) => ({
 					value: { name, version },
@@ -108,16 +113,36 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		},
 	]);
 
-	const onerepo = await fetch(new URL(`onerepo`, 'https://registry.npmjs.org'), {});
-	const version = ((await onerepo.json()) as PackageResponse)['dist-tags'].latest;
+	logger.unpause();
+
+	pkgManager = prompts.pkgmanager ?? pkgManager;
+	const manager = getPackageManager(pkgManager);
+	const name = prompts.name ?? inputName;
+	const workspaces: Array<string> = prompts.workspaces ? prompts.workspaces.split(',') : inputWorkspaces;
+	const plugins: Array<{ name: string; version: string }> = prompts.plugins ?? [];
+
+	const [pkgManagerVersion] = await run({
+		name: `Get ${pkgManager} version`,
+		cmd: pkgManager,
+		args: ['--version'],
+		opts: { cwd: homedir() },
+		runDry: true,
+	});
+
+	logger.debug({ outdir, name, workspaces, plugins });
 
 	await write(
 		path.join(outdir, 'package.json'),
 		JSON.stringify({
 			name,
 			private: true,
+			packageManager: `${pkgManager}@${pkgManagerVersion}`,
 			dependencies: {
-				onerepo: version,
+				onerepo: `^${version}`,
+				...plugins.reduce((memo, { name, version }) => {
+					memo[name] = `^${version}`;
+					return memo;
+				}, {} as Record<string, string>),
 			},
 			workspaces: workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`)),
 		})
