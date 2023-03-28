@@ -2790,12 +2790,14 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.2.0
+    "@onerepo/package-manager": 0.1.0
     "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": 0.1.2
     "@onerepo/yargs": 0.1.2
     "@types/inquirer": ^9
     esbuild-register: ^3.4.0
     inquirer: ^9.1.4
+    undici: ^5.21.0
     yargs: ^17.6.2
   bin:
     create: ./src/bin.js
@@ -17781,6 +17783,15 @@ __metadata:
   dependencies:
     busboy: ^1.6.0
   checksum: 25412a785b2bd0b12f0bb0ec47ef00aa7a611ca0e570cb7af97cffe6a42e0d78e4b15190363a43771e9002defc3c6647c1b2d52201b3f64e2196819db4d150d3
+  languageName: node
+  linkType: hard
+
+"undici@npm:^5.21.0":
+  version: 5.21.0
+  resolution: "undici@npm:5.21.0"
+  dependencies:
+    busboy: ^1.6.0
+  checksum: 013d5fd503b631d607942c511c2ab3f3fa78ebcab302acab998b43176b4815503ec15ed9752c5a47918b3bff8a0137768001d3eb57625b2bb6f6d30d8a794d6c
   languageName: node
   linkType: hard
 
