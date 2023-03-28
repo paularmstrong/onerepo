@@ -190,7 +190,7 @@ export interface PackageJson {
 	keywords?: Array<string>;
 	homepage?: string;
 	bugs?: { url?: string; email?: string };
-	license: string;
+	license?: string;
 	author?: string | Person;
 	contributors?: Array<Person | string>;
 	files?: Array<string>;

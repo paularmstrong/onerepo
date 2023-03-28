@@ -11,7 +11,7 @@ export const Pnpm = {
 		});
 	},
 
-	install: async (cwd) => {
+	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'pnpm',
