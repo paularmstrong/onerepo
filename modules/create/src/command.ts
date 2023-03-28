@@ -70,15 +70,17 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	logger.unpause();
 
+	const existStep = logger.createStep('Check for existing repo');
 	const outdir = dir ?? path.join(process.cwd(), location || '.');
-	const isExistingRepo = await exists(path.join(outdir, 'package.json'));
+	const isExistingRepo = await exists(path.join(outdir, 'package.json'), { step: existStep });
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
 	let packageJson = {};
 	if (isExistingRepo) {
-		const raw = await read(path.join(outdir, 'package.json'));
+		const raw = await read(path.join(outdir, 'package.json'), 'r', { step: existStep });
 		packageJson = JSON.parse(raw);
 		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
 	}
+	await existStep.end();
 
 	logger.pause();
 
