@@ -2790,6 +2790,7 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/file": 0.2.0
+    "@onerepo/package-manager": 0.1.0
     "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": 0.1.2
     "@onerepo/yargs": 0.1.2
@@ -3089,6 +3090,7 @@ __metadata:
     "@onerepo/builders": 0.1.1
     "@onerepo/logger": 0.1.1
     "@onerepo/subprocess": 0.2.1
+    "@types/yargs": ^17
   languageName: unknown
   linkType: soft
 

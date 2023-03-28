@@ -2,7 +2,6 @@
 module.exports = {
 	configs: {
 		base: {
-			// parser: '@typescript-eslint/parser',
 			parserOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',

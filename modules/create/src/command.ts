@@ -1,7 +1,8 @@
 import path from 'node:path';
 import inquirer from 'inquirer';
-import { write } from '@onerepo/file';
+import { exists, read, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
+import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = '$0';
@@ -33,7 +34,7 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const { location, name: inputName, workspaces: inputWorkspaces } = argv;
-	const prompts = await inquirer.prompt([
+	const { dir } = await inquirer.prompt([
 		{
 			name: 'dir',
 			type: 'input',
@@ -42,10 +43,30 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			suffix: ` ${process.cwd()}/`,
 			filter: (input) => path.join(process.cwd(), input),
 		},
+	]);
+
+	const outdir = dir ?? path.join(process.cwd(), location || '.');
+	const isExistingRepo = await exists(path.join(outdir, 'package.json'));
+	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
+	let packageJson = {};
+	if (isExistingRepo) {
+		const raw = await read(path.join(outdir, 'package.json'));
+		packageJson = JSON.parse(raw);
+		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
+	}
+
+	const prompts = await inquirer.prompt([
+		{
+			name: 'pkgmanager',
+			type: 'choice',
+			message: 'Which package manager would you like to use?',
+			choices: ['npm', 'pnpm', 'yarn'],
+			when: () => !isExistingRepo,
+		},
 		{
 			name: 'name',
 			type: 'input',
-			message: 'What’s the name of your CLI?',
+			message: 'What would you like to name the repository’s CLI?',
 			default: inputName,
 		},
 		{
@@ -57,19 +78,46 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		},
 	]);
 
-	const outdir = prompts.dir ?? path.join(process.cwd(), location || '.');
+	pkgManager = prompts.pkgmanager ?? pkgManager;
+	const manager = getPackageManager(pkgManager);
 	const name = prompts.name ?? inputName;
 	const workspaces: Array<string> = prompts.workspaces ? prompts.workspaces.split(',') : inputWorkspaces;
+
 	logger.debug({ outdir, name, workspaces });
+
+	const pluginSearch = await fetch(
+		new URL(
+			`/-/v1/search?${new URLSearchParams({ text: '@onerepo/plugin-' }).toString()}`,
+			'https://registry.npmjs.org'
+		),
+		{}
+	);
+	const { objects: plugins } = (await pluginSearch.json()) as SearchResponse;
+
+	await inquirer.prompt([
+		{
+			type: 'checkbox',
+			name: 'plugins',
+			message: 'Which plugins should be included?',
+			choices: plugins
+				.filter(({ package: { name } }) => name.startsWith('@onerepo/plugin-'))
+				.map(({ package: { name, version } }) => ({
+					value: { name, version },
+					name,
+				})),
+		},
+	]);
+
+	const onerepo = await fetch(new URL(`onerepo`, 'https://registry.npmjs.org'), {});
+	const version = ((await onerepo.json()) as PackageResponse)['dist-tags'].latest;
 
 	await write(
 		path.join(outdir, 'package.json'),
 		JSON.stringify({
 			name,
 			private: true,
-			type: 'module',
 			dependencies: {
-				onerepo: 'latest',
+				onerepo: version,
 			},
 			workspaces: workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`)),
 		})
@@ -82,10 +130,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setup } from 'onerepo';
 
-setup({
-  name: '${name}',
-  root: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
-}).then(({ run }) => run());`
+setup(
+	/** @type import('onerepo').Config */
+	{
+		name: '${name}',
+		root: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
+	}
+).then(({ run }) => run());`
 	);
 
 	await run({
@@ -96,4 +147,17 @@ setup({
 			cwd: outdir,
 		},
 	});
+
+	await manager.install();
+};
+
+type SearchResponse = {
+	objects: Array<{ package: { name: string; version: string } }>;
+};
+
+type PackageResponse = {
+	name: string;
+	'dist-tags': {
+		latest: string;
+	};
 };

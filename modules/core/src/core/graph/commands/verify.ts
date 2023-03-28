@@ -50,21 +50,35 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	if (validationType !== 'off') {
 		const dependencyStep = logger.createStep('Validating dependency trees');
 		for (const workspace of graph.workspaces) {
-			const deps = workspace.dependencies;
+			const deps = { ...workspace.dependencies, ...workspace.devDependencies, ...workspace.peerDependencies };
 
 			const dependencies = graph.dependencies(workspace.name);
+			const errs: Array<string> = [];
 
 			for (const dependency of dependencies) {
 				dependencyStep.log(`Checking ${dependency.name}`);
-				for (const [dep, version] of Object.entries(dependency.dependencies)) {
+				for (const [dep, version] of Object.entries({
+					...dependency.dependencies,
+					...dependency.devDependencies,
+					...dependency.peerDependencies,
+				})) {
 					if (dep in deps) {
 						dependencyStep.log(`Checking ${dep}@${deps[dep]} intersects ${version}`);
+						if (version.startsWith('workspace:') || deps[dep].startsWith('workspace:')) {
+							continue;
+						}
 						if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
-							dependencyStep.error(
-								`\`${dep}@${deps[dep]}\` does not satisfy \`${dep}@${version}\` as required by local dependency \`${dependency.name}\``
+							errs.push(
+								`depends on "${dep}@${deps[dep]}", but other dependency "${dependency.name}" requires non-intersecting version "${version}"`
 							);
 						}
 					}
+				}
+			}
+			if (errs.length) {
+				dependencyStep.error(`Version mismatches found in "${workspace.name}"`);
+				for (const err of errs) {
+					dependencyStep.error(` ↳ ${err}`);
 				}
 			}
 		}
