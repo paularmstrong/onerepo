@@ -102,13 +102,13 @@ export class LogStep {
 		}
 
 		this.#active = true;
-		if (enableWrite && this.verbosity > 0) {
+		if (enableWrite) {
 			this.#enableWrite();
 		}
 	}
 
 	#enableWrite() {
-		if (process.env.NODE_ENV === 'test') {
+		if (process.env.NODE_ENV === 'test' || this.verbosity <= 0) {
 			// Do not write logs in test – ever.
 			return;
 		}

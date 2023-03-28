@@ -130,7 +130,7 @@ export class Logger {
 	}
 
 	#writeSteps() {
-		if (process.env.NODE_ENV === 'test') {
+		if (process.env.NODE_ENV === 'test' || this.verbosity <= 0) {
 			return;
 		}
 		this.#updater(
