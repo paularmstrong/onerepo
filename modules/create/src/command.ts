@@ -5,6 +5,7 @@ import { exists, read, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
+import type { PrivatePackageJson } from '@onerepo/graph';
 
 export const command = '$0';
 
@@ -32,11 +33,13 @@ export const builder: Builder<Argv> = (yargs) =>
 			type: 'array',
 			string: true,
 			description: 'List of glob locations for workspaces',
-		})
-		.default('silent', true);
+		});
 
 export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const { location, name: inputName, workspaces: inputWorkspaces } = argv;
+
+	// eslint-disable-next-line no-console
+	console.clear();
 
 	const infoStep = logger.createStep('Gathering information');
 	const pluginSearch = await fetch(
@@ -131,22 +134,28 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	logger.debug({ outdir, name, workspaces, plugins });
 
-	await write(
-		path.join(outdir, 'package.json'),
-		JSON.stringify({
-			name,
-			private: true,
-			packageManager: `${pkgManager}@${pkgManagerVersion}`,
-			dependencies: {
-				onerepo: `^${version}`,
-				...plugins.reduce((memo, { name, version }) => {
-					memo[name] = `^${version}`;
-					return memo;
-				}, {} as Record<string, string>),
-			},
-			workspaces: workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`)),
-		})
-	);
+	const pkgJson: PrivatePackageJson = {
+		name,
+		private: true,
+		packageManager: `${pkgManager}@${pkgManagerVersion}`,
+		dependencies: {
+			onerepo: `^${version}`,
+			...plugins.reduce((memo, { name, version }) => {
+				memo[name] = `^${version}`;
+				return memo;
+			}, {} as Record<string, string>),
+		},
+	};
+
+	if (pkgManager !== 'pnpm') {
+		pkgJson.workspaces = workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`));
+	} else {
+		await write(
+			path.join(outdir, 'pnpm-workspace.yaml'),
+			`packages:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`)}`
+		);
+	}
+	await write(path.join(outdir, 'package.json'), JSON.stringify(pkgJson));
 
 	await write(
 		path.join(outdir, 'bin', `${name}.mjs`),
@@ -173,7 +182,7 @@ setup(
 		},
 	});
 
-	await manager.install();
+	await manager.install(outdir);
 };
 
 type SearchResponse = {

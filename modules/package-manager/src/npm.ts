@@ -11,11 +11,12 @@ export const Npm = {
 		});
 	},
 
-	install: async () => {
+	install: async (cwd) => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'npm',
 			args: ['install'],
+			opts: { cwd },
 		});
 
 		return 'package-lock.json';

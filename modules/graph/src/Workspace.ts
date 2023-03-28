@@ -213,7 +213,7 @@ export interface PackageJson {
 
 export interface PrivatePackageJson extends PackageJson {
 	private: true;
-	license: 'UNLICENSED';
+	license?: 'UNLICENSED';
 	workspaces?: Array<string>;
 }
 

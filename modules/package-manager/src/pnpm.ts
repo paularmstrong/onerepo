@@ -11,11 +11,12 @@ export const Pnpm = {
 		});
 	},
 
-	install: async () => {
+	install: async (cwd) => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'pnpm',
 			args: ['install'],
+			opts: { cwd },
 		});
 
 		return 'pnpm-lock.json';
