@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { homedir } from 'node:os';
 import inquirer from 'inquirer';
+import pc from 'picocolors';
 import { exists, read, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
@@ -63,7 +64,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			type: 'input',
 			message: 'Where would you like to initialize oneRepo?',
 			when: () => !location,
-			suffix: ` ${process.cwd()}/`,
+			suffix: pc.dim(` ${process.cwd()}/`),
 			filter: (input) => path.join(process.cwd(), input),
 		},
 	]);
