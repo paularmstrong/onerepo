@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import path from 'node:path';
 import { homedir } from 'node:os';
 import inquirer from 'inquirer';
@@ -40,7 +41,6 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const { location, name: inputName, workspaces: inputWorkspaces } = argv;
 
-	// eslint-disable-next-line no-console
 	console.clear();
 
 	const infoStep = logger.createStep('Gathering information');
@@ -58,12 +58,16 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	await infoStep.end();
 
 	logger.pause();
+	console.clear();
+	process.stderr.write(
+		logo('Welcome to oneRepo!', '', 'There are just a couple things to answer', 'before we get started.')
+	);
 
 	const { dir } = await inquirer.prompt([
 		{
 			name: 'dir',
 			type: 'input',
-			message: 'Where would you like to initialize oneRepo?',
+			message: 'Where would you like to initialize oneRepo?\n  ',
 			when: () => !location,
 			suffix: pc.dim(` ${process.cwd()}/`),
 			filter: (input) => path.join(process.cwd(), input),
@@ -71,7 +75,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	]);
 
 	logger.unpause();
-	// eslint-disable-next-line no-console
 	console.clear();
 
 	const existStep = logger.createStep('Check for existing repo');
@@ -99,7 +102,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	await existStep.end();
 
 	logger.pause();
-	// eslint-disable-next-line no-console
+	await waitATick();
 	console.clear();
 
 	const prompts = await inquirer.prompt([
@@ -137,7 +140,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	]);
 
 	logger.unpause();
-	// eslint-disable-next-line no-console
 	console.clear();
 
 	pkgManager = prompts.pkgmanager ?? pkgManager;
@@ -221,6 +223,21 @@ setup(
 	});
 
 	await manager.install(outdir);
+
+	logger.pause();
+	await waitATick();
+
+	console.clear();
+
+	process.stderr.write(
+		logo(
+			'Setup complete!',
+			'',
+			'To get started, switch to your set up repo and install:',
+			`  cd ${outdir}`,
+			`  ./bin/${name}.mjs install`
+		)
+	);
 };
 
 type SearchResponse = {
@@ -233,3 +250,25 @@ type PackageResponse = {
 		latest: string;
 	};
 };
+
+const logo = (...lines: Array<string>) => `
+${pc.cyan('       -=======-:      ')}
+${pc.cyan('     .*+:::::::-+*.    ')}
+${pc.cyan('    -*=          +*    ')}${lines[0] ?? ''}
+${pc.cyan('   .+++*+        -*:   ')}${lines[1] ?? ''}
+${pc.cyan('       *+       .*+    ')}${lines[2] ?? ''}
+${pc.cyan('       *+      +*=     ')}${lines[3] ?? ''}
+${pc.cyan('       *+       +*.    ')}${lines[4] ?? ''}
+${pc.cyan('       *****+   .*+    ')}${lines[5] ?? ''}
+${pc.cyan('              ...-*+   ')}
+${pc.cyan('              -====-   ')}
+
+`;
+
+async function waitATick() {
+	return new Promise<void>((resolve) => {
+		setImmediate(() => {
+			resolve();
+		});
+	});
+}
