@@ -2797,6 +2797,7 @@ __metadata:
     "@types/inquirer": ^9
     esbuild-register: ^3.4.0
     inquirer: ^9.1.4
+    js-yaml: ^4.1.0
     picocolors: ^1.0.0
     yargs: ^17.6.2
   bin:

@@ -27,6 +27,7 @@
 		"@onerepo/subprocess": "0.2.1",
 		"@onerepo/yargs": "0.1.2",
 		"inquirer": "^9.1.4",
+		"js-yaml": "^4.1.0",
 		"picocolors": "^1.0.0",
 		"yargs": "^17.6.2"
 	},

@@ -2,7 +2,8 @@ import path from 'node:path';
 import { homedir } from 'node:os';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import { exists, read, write } from '@onerepo/file';
+import yaml from 'js-yaml';
+import { exists, mkdirp, read, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -70,20 +71,36 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	]);
 
 	logger.unpause();
+	// eslint-disable-next-line no-console
+	console.clear();
 
 	const existStep = logger.createStep('Check for existing repo');
+	// existStep.verbosity = 0;
 	const outdir = dir ?? path.join(process.cwd(), location || '.');
 	const isExistingRepo = await exists(path.join(outdir, 'package.json'), { step: existStep });
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
-	let packageJson = {};
+	let packageJson: PrivatePackageJson | null = null;
 	if (isExistingRepo) {
 		const raw = await read(path.join(outdir, 'package.json'), 'r', { step: existStep });
-		packageJson = JSON.parse(raw);
+		packageJson = JSON.parse(raw) as PrivatePackageJson;
 		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
+	}
+	let workspaces: Array<string> = packageJson?.workspaces ?? inputWorkspaces ?? [];
+	logger.debug(workspaces);
+	logger.debug(pkgManager);
+	if (pkgManager === 'pnpm') {
+		const yamlFile = path.join(outdir, 'pnpm-workspace.yaml');
+		if (await exists(yamlFile, { step: existStep })) {
+			const rawContents = await read(yamlFile, 'r', { step: existStep });
+			const contents = yaml.load(rawContents) as { workspaces: Array<string> };
+			workspaces = contents.workspaces;
+		}
 	}
 	await existStep.end();
 
 	logger.pause();
+	// eslint-disable-next-line no-console
+	console.clear();
 
 	const prompts = await inquirer.prompt([
 		{
@@ -104,7 +121,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			type: 'input',
 			message: 'Enter a comma-separated list of locations for workspaces:',
 			default: 'apps/*,modules/*',
-			when: () => !inputWorkspaces,
+			when: () => !workspaces.length,
 		},
 		{
 			type: 'checkbox',
@@ -120,11 +137,13 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	]);
 
 	logger.unpause();
+	// eslint-disable-next-line no-console
+	console.clear();
 
 	pkgManager = prompts.pkgmanager ?? pkgManager;
 	const manager = getPackageManager(pkgManager);
 	const name = prompts.name ?? inputName;
-	const workspaces: Array<string> = prompts.workspaces ? prompts.workspaces.split(',') : inputWorkspaces;
+	workspaces = prompts.workspaces ? prompts.workspaces.split(',') : workspaces;
 	const plugins: Array<{ name: string; version: string }> = prompts.plugins ?? [];
 
 	const [pkgManagerVersion] = await run({
@@ -137,11 +156,15 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	logger.debug({ outdir, name, workspaces, plugins });
 
-	const pkgJson: PrivatePackageJson = {
+	const outPackageJson: PrivatePackageJson = {
 		name,
+		// @ts-ignore what is happening here?
+		license: 'UNLICENSED',
 		private: true,
 		packageManager: `${pkgManager}@${pkgManagerVersion}`,
+		...packageJson,
 		dependencies: {
+			...(packageJson?.dependencies ?? {}),
 			onerepo: `^${version}`,
 			...plugins.reduce((memo, { name, version }) => {
 				memo[name] = `^${version}`;
@@ -151,14 +174,26 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	};
 
 	if (pkgManager !== 'pnpm') {
-		pkgJson.workspaces = workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`));
+		outPackageJson.workspaces = workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`));
 	} else {
 		await write(
 			path.join(outdir, 'pnpm-workspace.yaml'),
-			`packages:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`)}`
+			`workspaces:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`).join('\n')}`
 		);
 	}
-	await write(path.join(outdir, 'package.json'), JSON.stringify(pkgJson));
+
+	await mkdirp(outdir);
+
+	if (!packageJson) {
+		await run({
+			name: `Initialize ${pkgManager}`,
+			cmd: pkgManager,
+			args: ['init', ...(pkgManager === 'npm' ? ['-y'] : []), ...(pkgManager === 'yarn' ? ['-2'] : [])],
+			opts: { cwd: outdir },
+		});
+	}
+
+	await write(path.join(outdir, 'package.json'), JSON.stringify(outPackageJson, null, 2));
 
 	await write(
 		path.join(outdir, 'bin', `${name}.mjs`),
