@@ -234,6 +234,7 @@ setup(
 			'Setup complete!',
 			'',
 			'To get started, switch to your set up repo and install:',
+			'',
 			`  cd ${outdir}`,
 			`  ./bin/${name}.mjs install`
 		)

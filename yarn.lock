@@ -2795,6 +2795,7 @@ __metadata:
     "@onerepo/test-cli": 0.1.2
     "@onerepo/yargs": 0.1.2
     "@types/inquirer": ^9
+    "@types/js-yaml": ^4
     esbuild-register: ^3.4.0
     inquirer: ^9.1.4
     js-yaml: ^4.1.0

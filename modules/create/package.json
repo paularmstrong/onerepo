@@ -36,6 +36,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "0.1.2",
 		"@types/inquirer": "^9",
+		"@types/js-yaml": "^4",
 		"esbuild-register": "^3.4.0"
 	},
 	"engines": {
