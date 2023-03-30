@@ -17,6 +17,7 @@ describe('handler', () => {
 		});
 		jest.spyOn(file, 'write').mockResolvedValue();
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
+		jest.spyOn(file, 'chmod').mockResolvedValue();
 		jest.spyOn(subprocess, 'run').mockImplementation(async ({ cmd, args }) => {
 			if (cmd === 'yarn') {
 				if (args && args[0] === '--version') {
@@ -72,6 +73,7 @@ describe('handler', () => {
 
 		expect(file.write).toHaveBeenCalledWith('outdir/bin/tacos.mjs', expect.stringContaining('#!/usr/bin/env node'));
 		expect(file.write).toHaveBeenCalledWith('outdir/bin/tacos.mjs', expect.stringContaining("name: 'tacos'"));
+		expect(file.chmod).toHaveBeenCalledWith('outdir/bin/tacos.mjs', 'a+x');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({

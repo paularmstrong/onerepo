@@ -257,3 +257,21 @@ export async function makeTempDir(prefix: string, { step }: Options = {}) {
 		return tempdir;
 	});
 }
+
+/**
+ * Change file permissions
+ *
+ * ```ts
+ * await file.chmod('foo', 'a+x');
+ * ```
+ */
+export async function chmod(filename: string, mode: string | number, { step }: Options = {}) {
+	return stepWrapper({ step, name: `chmod ${filename}` }, async (step) => {
+		if (isDryRun()) {
+			step.warn(`DRY RUN: chmod ${filename} ${mode}`);
+			return;
+		}
+
+		return await fs.chmod(filename, mode);
+	});
+}

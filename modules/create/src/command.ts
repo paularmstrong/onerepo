@@ -4,7 +4,7 @@ import { homedir } from 'node:os';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
 import yaml from 'js-yaml';
-import { exists, mkdirp, read, write } from '@onerepo/file';
+import { chmod, exists, mkdirp, read, write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -193,6 +193,10 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			args: ['init', ...(pkgManager === 'npm' ? ['-y'] : []), ...(pkgManager === 'yarn' ? ['-2'] : [])],
 			opts: { cwd: outdir },
 		});
+
+		if (pkgManager === 'yarn') {
+			await writeSafe(path.join(outdir, '.yarnrc.yml'), '\nnodeLinker: node-modules\n');
+		}
 	}
 
 	await write(path.join(outdir, 'package.json'), JSON.stringify(outPackageJson, null, 2));
@@ -212,6 +216,8 @@ setup(
 	}
 ).then(({ run }) => run());`
 	);
+
+	await chmod(path.join(outdir, 'bin', `${name}.mjs`), 'a+x');
 
 	await run({
 		name: 'Initialize Git',
