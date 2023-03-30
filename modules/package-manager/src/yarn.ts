@@ -64,6 +64,7 @@ export const Yarn = {
 
 	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {
 		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
+		const publishable = new Set<T>(filtered);
 
 		let ndjson: string = '';
 		try {
@@ -76,19 +77,25 @@ export const Yarn = {
 			});
 			ndjson = res[0];
 		} catch (e) {
-			return workspaces;
+			if (Array.isArray(e)) {
+				ndjson = e[0];
+			} else {
+				return workspaces;
+			}
 		}
 
 		const responses = ndjson
 			.split('\n')
 			.filter((out) => Boolean(out.trim()))
 			.map((str) => JSON.parse(str) as { name: string; versions: Array<string> });
-		const publishable = new Set<T>();
 
 		for (const { name, versions } of responses) {
+			if (!name || !versions) {
+				continue;
+			}
 			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && ws.version && !versions.includes(ws.version)) {
-				publishable.add(ws);
+			if (ws && ws.version && versions.includes(ws.version)) {
+				publishable.delete(ws);
 			}
 		}
 

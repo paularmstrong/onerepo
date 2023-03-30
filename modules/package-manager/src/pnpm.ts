@@ -56,6 +56,7 @@ export const Pnpm = {
 
 	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {
 		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
+		const publishable = new Set<T>(filtered);
 
 		const responses = await batch(
 			filtered.map(({ name }) => ({
@@ -66,16 +67,14 @@ export const Pnpm = {
 			}))
 		);
 
-		const publishable = new Set<T>();
-
 		for (const res of responses) {
 			if (res instanceof Error || res[1]) {
 				continue;
 			}
 			const { name, versions } = JSON.parse(res[0]);
 			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && ws.version && !versions.includes(ws.version)) {
-				publishable.add(ws);
+			if (ws && ws.version && versions.includes(ws.version)) {
+				publishable.delete(ws);
 			}
 		}
 
