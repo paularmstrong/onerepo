@@ -1,5 +1,59 @@
 # onerepo
 
+## 0.7.0
+
+### Minor Changes
+
+- `git.getStatus()` has been removed in favor of `git.isClean()` and `git.getModifiedFiles` [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Dropped Node 16 support. [#217](https://github.com/paularmstrong/onerepo/pull/217) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds `name` and `description` options to template generation configs. [#201](https://github.com/paularmstrong/onerepo/pull/201) ([@paularmstrong](https://github.com/paularmstrong))
+
+  ```js title=".onegen.js"
+  export default {
+  	name: 'Module',
+  	description: 'A description for the module to generate',
+  	prompts: [],
+  };
+  ```
+
+  ```
+   ┌ Get template
+   └ ⠙
+  ? Choose a template… (Use arrow keys)
+  ❯ Command - Create a repo-local command
+    Module - Create a shared workspace in modules/
+    Plugin - Create a publishable oneRepo plugin
+  ```
+
+- `git.getModifiedFiles` will only return a list of files that have been modified – it is no longer a mapping of modification type. [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+- `builders.withAffected` now includes a `--staged` argument. When used with `--affected`, handler extras `getFilepaths` and `getWorkspaces` will only get files/workspaces based on the current git stage and ignore files that have not be added to the stage list. [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Reduced duplicative files built to the published modules. [`71f7ead`](https://github.com/paularmstrong/onerepo/commit/71f7eadc31effa5e92cb499efff8fe8317f7c01b) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Fixes `--silent` to ensure steps are not written when the terminal is TTY. [`25a09e1`](https://github.com/paularmstrong/onerepo/commit/25a09e1db45158a7a0576193ab2eac254fbe09e1) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Ensures that `devDependencies` and `peerDependencies` are checked for semantic version intersections when running `graph verify`. [#215](https://github.com/paularmstrong/onerepo/pull/215) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Typedefs for test files are now excluded from build & published modules. [`7f43b8d`](https://github.com/paularmstrong/onerepo/commit/7f43b8d0682917a1cca9f80d9c2ece7b58cfe4b9) ([@paularmstrong](https://github.com/paularmstrong))
+
+- When getting modified files (`git.getModifiedFiles()` or HandlerExtra's `getFilepaths()`), only return the staged files if in a state with modified files. This prevents running `eslint`, `prettier`, and others across uncommitted files, especially in git `pre-commit` hooks. [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`71f7ead`](https://github.com/paularmstrong/onerepo/commit/71f7eadc31effa5e92cb499efff8fe8317f7c01b), [`434f113`](https://github.com/paularmstrong/onerepo/commit/434f113be7d373ab5c14aa5e5e313201e4e00902), [`0fa0f63`](https://github.com/paularmstrong/onerepo/commit/0fa0f63e3eb6351489669953942c39c20910f881), [`25a09e1`](https://github.com/paularmstrong/onerepo/commit/25a09e1db45158a7a0576193ab2eac254fbe09e1), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`758af90`](https://github.com/paularmstrong/onerepo/commit/758af906e8be186000a864b0e6a14fe791c535d2), [`7f43b8d`](https://github.com/paularmstrong/onerepo/commit/7f43b8d0682917a1cca9f80d9c2ece7b58cfe4b9), [`10d66a9`](https://github.com/paularmstrong/onerepo/commit/10d66a9b93d6824a89915aa6e1ff3feeebcad91b), [`0b97317`](https://github.com/paularmstrong/onerepo/commit/0b973175a0efdee303896de2a2713987527a8194), [`2c4e8b3`](https://github.com/paularmstrong/onerepo/commit/2c4e8b38a667792aeb6cf99a6b27c3cd40c853ac), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`687583e`](https://github.com/paularmstrong/onerepo/commit/687583ed707e875f7941f77192528865ab77ae35)]:
+  - @onerepo/builders@0.2.0
+  - @onerepo/core@0.6.0
+  - @onerepo/file@0.3.0
+  - @onerepo/git@0.2.0
+  - @onerepo/graph@0.4.0
+  - @onerepo/logger@0.2.0
+  - @onerepo/package-manager@0.2.0
+  - @onerepo/subprocess@0.3.0
+  - @onerepo/yargs@0.2.0
+
 ## 0.6.0
 
 ### Minor Changes

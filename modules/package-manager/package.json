@@ -3,7 +3,7 @@
 	"alias": [
 		"pkg-mgr"
 	],
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,7 +23,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/subprocess": "0.2.1"
+		"@onerepo/subprocess": "0.3.0"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",

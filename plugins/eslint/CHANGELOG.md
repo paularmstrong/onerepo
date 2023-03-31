@@ -1,5 +1,30 @@
 # @onerepo/plugin-eslint
 
+## 0.4.0
+
+### Minor Changes
+
+- When using `--add`, `--staged` is automatically implied as `true`. Only files that are part of the git stage will be operated on and re-added to the git stage. [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Dropped Node 16 support. [#217](https://github.com/paularmstrong/onerepo/pull/217) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Reduced duplicative files built to the published modules. [`71f7ead`](https://github.com/paularmstrong/onerepo/commit/71f7eadc31effa5e92cb499efff8fe8317f7c01b) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Output is colored using ESLint’s [`--color` flag](https://eslint.org/docs/latest/use/command-line-interface#--color-and---no-color) by default. Disable with `--no-pretty`. [#202](https://github.com/paularmstrong/onerepo/pull/202) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Typedefs for test files are now excluded from build & published modules. [`7f43b8d`](https://github.com/paularmstrong/onerepo/commit/7f43b8d0682917a1cca9f80d9c2ece7b58cfe4b9) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Fixes some log output with steps not being grouped correctly. [#200](https://github.com/paularmstrong/onerepo/pull/200) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`71f7ead`](https://github.com/paularmstrong/onerepo/commit/71f7eadc31effa5e92cb499efff8fe8317f7c01b), [`25a09e1`](https://github.com/paularmstrong/onerepo/commit/25a09e1db45158a7a0576193ab2eac254fbe09e1), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`7f43b8d`](https://github.com/paularmstrong/onerepo/commit/7f43b8d0682917a1cca9f80d9c2ece7b58cfe4b9), [`10d66a9`](https://github.com/paularmstrong/onerepo/commit/10d66a9b93d6824a89915aa6e1ff3feeebcad91b), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`27e3398`](https://github.com/paularmstrong/onerepo/commit/27e3398383e300293938b3a0154315b0ad887f89), [`687583e`](https://github.com/paularmstrong/onerepo/commit/687583ed707e875f7941f77192528865ab77ae35)]:
+  - @onerepo/builders@0.2.0
+  - @onerepo/file@0.3.0
+  - @onerepo/git@0.2.0
+  - @onerepo/logger@0.2.0
+  - @onerepo/subprocess@0.3.0
+
 ## 0.3.0
 
 ### Minor Changes
