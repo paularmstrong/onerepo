@@ -160,17 +160,21 @@ describe('NPM', () => {
 
 	describe('publishable', () => {
 		test('filters workspaces by the ones with a version not in the registry', async () => {
-			jest.spyOn(subprocess, 'run').mockRejectedValue(new Error('foo'));
+			jest.spyOn(subprocess, 'run').mockRejectedValue([
+				`{"name":"tacos","versions":["1.2.5"]}
+{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"The remote server failed to provide the requested resource"}
+{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"Response Code\\u001b[39m: \\u001b]8;;https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404\\u0007\\u001b[38;2;255;215;0m404\\u001b[39m (Not Found)\\u001b]8;;\\u0007"}
+{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  \\u001b[38;2;135;175;255mRequest Method\\u001b[39m: GET"}
+{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  \\u001b[38;2;135;175;255mRequest URL\\u001b[39m: \\u001b[38;2;215;95;215mhttps://registry.yarnpkg.com/burritos\\u001b[39m"}`,
+				'',
+			]);
 
 			const publishable = await manager.publishable([
 				{ name: 'tacos', version: '1.2.5' },
 				{ name: 'burritos', version: '4.5.6' },
 			]);
 
-			expect(publishable).toEqual([
-				{ name: 'tacos', version: '1.2.5' },
-				{ name: 'burritos', version: '4.5.6' },
-			]);
+			expect(publishable).toEqual([{ name: 'burritos', version: '4.5.6' }]);
 		});
 	});
 
