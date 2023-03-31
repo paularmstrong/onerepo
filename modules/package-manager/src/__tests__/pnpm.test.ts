@@ -6,7 +6,7 @@ jest.mock('@onerepo/subprocess', () => ({
 	...jest.requireActual('@onerepo/subprocess'),
 }));
 
-describe('NPM', () => {
+describe('PNPm', () => {
 	beforeEach(() => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});

@@ -6,7 +6,7 @@ jest.mock('@onerepo/subprocess', () => ({
 	...jest.requireActual('@onerepo/subprocess'),
 }));
 
-describe('NPM', () => {
+describe('Yarn', () => {
 	beforeEach(() => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
@@ -160,14 +160,71 @@ describe('NPM', () => {
 
 	describe('publishable', () => {
 		test('filters workspaces by the ones with a version not in the registry', async () => {
-			jest.spyOn(subprocess, 'run').mockRejectedValue([
-				`{"name":"tacos","versions":["1.2.5"]}
-{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"The remote server failed to provide the requested resource"}
-{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"Response Code\\u001b[39m: \\u001b]8;;https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404\\u0007\\u001b[38;2;255;215;0m404\\u001b[39m (Not Found)\\u001b]8;;\\u0007"}
-{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  \\u001b[38;2;135;175;255mRequest Method\\u001b[39m: GET"}
-{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  \\u001b[38;2;135;175;255mRequest URL\\u001b[39m: \\u001b[38;2;215;95;215mhttps://registry.yarnpkg.com/burritos\\u001b[39m"}`,
-				'',
+			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+				return Promise.resolve(
+					calls.map(({ args }) => {
+						const versions: Array<string> = [];
+						if (args?.includes('tacos')) {
+							versions.push('1.2.3', '1.2.4');
+						} else if (args?.includes('burritos')) {
+							versions.push('4.5.6');
+						}
+
+						return [JSON.stringify({ name: args![2]!, versions }), ''];
+					}) as Array<[string, string]>
+				);
+			});
+
+			const publishable = await manager.publishable([
+				{ name: 'tacos', version: '1.2.5' },
+				{ name: 'burritos', version: '4.5.6' },
 			]);
+
+			expect(publishable).toEqual([{ name: 'tacos', version: '1.2.5' }]);
+		});
+
+		test('ignores errors', async () => {
+			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+				return Promise.resolve(
+					calls.map(({ args }) => {
+						const versions: Array<string> = [];
+						if (args?.includes('tacos')) {
+							versions.push('1.2.3', '1.2.5');
+						} else if (args?.includes('burritos')) {
+							return new Error('i do not know');
+						}
+
+						return [JSON.stringify({ name: args![2]!, versions }), ''];
+					}) as Array<[string, string]>
+				);
+			});
+
+			const publishable = await manager.publishable([
+				{ name: 'tacos', version: '1.2.5' },
+				{ name: 'burritos', version: '4.5.6' },
+			]);
+
+			expect(publishable).toEqual([{ name: 'burritos', version: '4.5.6' }]);
+		});
+
+		test('ignores when yarn npm info includes newlines', async () => {
+			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+				return Promise.resolve(
+					calls.map(({ args }) => {
+						const versions: Array<string> = [];
+						if (args?.includes('tacos')) {
+							versions.push('1.2.3', '1.2.5');
+						} else if (args?.includes('burritos')) {
+							return [
+								'{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"The remote server failed to provide the requested resource"}\n{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  Response Code: 404 (Not Found)"}\n{"type":"error","name":35,"displayName":"YN0035","indent":"","data":"  Request Method: GET"}',
+								'',
+							];
+						}
+
+						return [JSON.stringify({ name: args![2]!, versions }), ''];
+					}) as Array<[string, string]>
+				);
+			});
 
 			const publishable = await manager.publishable([
 				{ name: 'tacos', version: '1.2.5' },

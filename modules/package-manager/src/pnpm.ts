@@ -65,6 +65,7 @@ export const Pnpm = {
 				cmd: 'pnpm',
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
+				skipFailures: true,
 			}))
 		);
 

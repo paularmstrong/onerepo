@@ -56,7 +56,6 @@ export const Npm = {
 
 	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {
 		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
-
 		const publishable = new Set<T>(filtered);
 
 		const responses = await batch(
@@ -65,6 +64,7 @@ export const Npm = {
 				cmd: 'npm',
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
+				skipFailures: true,
 			}))
 		);
 

@@ -129,6 +129,9 @@ ${JSON.stringify(argv, null, 2)}`);
 						fallbackHandler(argv);
 					}
 				} catch (err) {
+					if (err instanceof BatchError) {
+						logger.error(err);
+					}
 					if (err && !(err instanceof SubprocessError) && !(err instanceof BatchError)) {
 						logger.error(err);
 						throw err;
