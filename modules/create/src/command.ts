@@ -217,7 +217,7 @@ setup(
 ).then(({ run }) => run());`
 	);
 
-	await chmod(path.join(outdir, 'bin', `${name}.mjs`), 'a+x');
+	await chmod(path.join(outdir, 'bin', `${name}.mjs`), 0o755);
 
 	await run({
 		name: 'Initialize Git',

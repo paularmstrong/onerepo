@@ -73,7 +73,7 @@ describe('handler', () => {
 
 		expect(file.write).toHaveBeenCalledWith('outdir/bin/tacos.mjs', expect.stringContaining('#!/usr/bin/env node'));
 		expect(file.write).toHaveBeenCalledWith('outdir/bin/tacos.mjs', expect.stringContaining("name: 'tacos'"));
-		expect(file.chmod).toHaveBeenCalledWith('outdir/bin/tacos.mjs', 'a+x');
+		expect(file.chmod).toHaveBeenCalledWith('outdir/bin/tacos.mjs', 0o755);
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
