@@ -7,10 +7,10 @@ title: Getting started with oneRepo
 
 ```sh
 # With Yarn
-yarn create @onerepo
+yarn create onerepo
 
 # With NPM
-npm create @onerepo
+npm create onerepo
 ```
 
 ## Manually integrating oneRepo

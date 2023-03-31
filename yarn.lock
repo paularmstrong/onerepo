@@ -2783,24 +2783,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/create@workspace:modules/create":
+"@onerepo/create@workspace:modules/create-scoped":
   version: 0.0.0-use.local
-  resolution: "@onerepo/create@workspace:modules/create"
+  resolution: "@onerepo/create@workspace:modules/create-scoped"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/file": 0.2.0
-    "@onerepo/package-manager": 0.1.0
-    "@onerepo/subprocess": 0.2.1
     "@onerepo/test-cli": 0.1.2
-    "@onerepo/yargs": 0.1.2
     "@types/inquirer": ^9
     "@types/js-yaml": ^4
+    create-onerepo: 0.0.0
     esbuild-register: ^3.4.0
-    inquirer: ^9.1.4
-    js-yaml: ^4.1.0
-    picocolors: ^1.0.0
-    yargs: ^17.6.2
   bin:
     create: ./src/bin.js
   languageName: unknown
@@ -6151,6 +6144,29 @@ __metadata:
   checksum: 1099559283b86e8a55390228b57ff4d57a74cac6aa8086aa4730f84317c9f93e914aeece115352f2d706a9df7ed75327ffacd86cfe23f040aef821231b528e76
   languageName: node
   linkType: hard
+
+"create-onerepo@0.0.0, create-onerepo@workspace:modules/create":
+  version: 0.0.0-use.local
+  resolution: "create-onerepo@workspace:modules/create"
+  dependencies:
+    "@internal/test-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    "@onerepo/file": 0.2.0
+    "@onerepo/package-manager": 0.1.0
+    "@onerepo/subprocess": 0.2.1
+    "@onerepo/test-cli": 0.1.2
+    "@onerepo/yargs": 0.1.2
+    "@types/inquirer": ^9
+    "@types/js-yaml": ^4
+    esbuild-register: ^3.4.0
+    inquirer: ^9.1.4
+    js-yaml: ^4.1.0
+    picocolors: ^1.0.0
+    yargs: ^17.6.2
+  bin:
+    create-onerepo: ./src/bin.js
+  languageName: unknown
+  linkType: soft
 
 "create-require@npm:^1.1.0":
   version: 1.1.1

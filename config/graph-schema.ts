@@ -16,7 +16,7 @@ export default {
 			required: ['name'],
 		},
 	},
-	'modules/!(onerepo)': {
+	'modules/!(onerepo|create)/': {
 		'package.json': {
 			type: 'object',
 			properties: {

@@ -1,5 +1,5 @@
-# @onerepo/create
+# create-onerepo
 
 ```sh
-npm create @onerepo
+npm create onerepo
 ```

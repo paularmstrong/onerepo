@@ -1,5 +1,5 @@
 {
-	"name": "create-onerepo",
+	"name": "@onerepo/create",
 	"version": "0.0.0",
 	"license": "MIT",
 	"repository": {
@@ -22,14 +22,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "0.2.0",
-		"@onerepo/package-manager": "0.1.0",
-		"@onerepo/subprocess": "0.2.1",
-		"@onerepo/yargs": "0.1.2",
-		"inquirer": "^9.1.4",
-		"js-yaml": "^4.1.0",
-		"picocolors": "^1.0.0",
-		"yargs": "^17.6.2"
+		"create-onerepo": "0.0.0"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
