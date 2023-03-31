@@ -67,33 +67,21 @@ export const Yarn = {
 		const filtered = workspaces.filter((ws) => !ws.private && ws.version);
 		const publishable = new Set<T>(filtered);
 
-		let ndjson: string = '';
-		try {
-			const res = await run({
-				name: 'Get versions',
+		const responses = await batch(
+			filtered.map(({ name }) => ({
+				name: `Get ${name} versions`,
 				cmd: 'yarn',
-				args: ['npm', 'info', ...filtered.map(({ name }) => name), '--json'],
+				args: ['npm', 'info', name, '--json'],
 				runDry: true,
 				skipFailures: true,
-			});
-			ndjson = res[0];
-		} catch (e) {
-			if (Array.isArray(e)) {
-				ndjson = e[0];
-			} else {
-				return workspaces;
-			}
-		}
+			}))
+		);
 
-		const responses = ndjson
-			.split('\n')
-			.filter((out) => Boolean(out.trim()))
-			.map((str) => JSON.parse(str) as { name: string; versions: Array<string> });
-
-		for (const { name, versions } of responses) {
-			if (!name || !versions) {
+		for (const res of responses) {
+			if (res instanceof Error || res[1] || res[0].includes('\n')) {
 				continue;
 			}
+			const { name, versions } = JSON.parse(res[0]);
 			const ws = workspaces.find((ws) => ws.name === name);
 			if (ws && ws.version && versions.includes(ws.version)) {
 				publishable.delete(ws);
