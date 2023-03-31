@@ -151,7 +151,8 @@ export default {
 					properties: {
 						node: {
 							type: 'string',
-							const: '>= 16.0.0 < 17 > 18.0.0 < 19',
+							const: '^18.0.0',
+							errorMessage: 'oneRepo only suppiorts "node": "^18.0.0"',
 						},
 					},
 					required: ['node'],

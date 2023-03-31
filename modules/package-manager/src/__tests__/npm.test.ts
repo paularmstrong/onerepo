@@ -195,7 +195,7 @@ describe('NPM', () => {
 					calls.map(({ args }) => {
 						const versions: Array<string> = [];
 						if (args?.includes('tacos')) {
-							versions.push('1.2.3', '1.2.4');
+							versions.push('1.2.3', '1.2.5');
 						} else if (args?.includes('burritos')) {
 							return new Error('i do not know');
 						}
@@ -210,7 +210,7 @@ describe('NPM', () => {
 				{ name: 'burritos', version: '4.5.6' },
 			]);
 
-			expect(publishable).toEqual([{ name: 'tacos', version: '1.2.5' }]);
+			expect(publishable).toEqual([{ name: 'burritos', version: '4.5.6' }]);
 		});
 	});
 
