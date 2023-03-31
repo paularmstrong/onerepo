@@ -34,6 +34,6 @@
 		"onerepo": "workspace:^"
 	},
 	"engines": {
-		"node": ">= 16.0.0 < 17 > 18.0.0 < 19"
+		"node": "^18.0.0"
 	}
 }
