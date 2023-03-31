@@ -5,6 +5,16 @@ title: Getting started with oneRepo
 
 # Getting started
 
+```sh
+# With Yarn
+yarn create onerepo
+
+# With NPM
+npm create onerepo
+```
+
+## Manually integrating oneRepo
+
 Install dependencies using your package manager of choice.
 
 ```sh

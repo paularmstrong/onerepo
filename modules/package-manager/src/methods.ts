@@ -20,7 +20,7 @@ export interface PackageManager {
 	/**
 	 * Install current dependencies as listed in the package manager's lock file
 	 */
-	install(): Promise<string>;
+	install(cwd?: string): Promise<string>;
 	/**
 	 * Check if the current user is logged in to the external registry
 	 */

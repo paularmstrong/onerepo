@@ -11,11 +11,12 @@ export const Yarn = {
 		});
 	},
 
-	install: async () => {
+	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
 			cmd: 'yarn',
 			args: ['install'],
+			opts: { cwd },
 		});
 
 		return 'yarn.lock';
