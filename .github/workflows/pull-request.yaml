@@ -33,8 +33,7 @@ jobs:
       fail-fast: false
       matrix:
         task: ${{ fromJSON(needs.setup.outputs.tasks) }}
-        node: [18]
-    name: v${{ matrix.node }} - ${{ matrix.task.name }}
+    name: ${{ matrix.task.name }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -42,7 +41,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 18
           cache: 'yarn'
       - run: yarn
 
