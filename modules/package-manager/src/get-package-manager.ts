@@ -17,28 +17,47 @@ export function getPackageManagerName(cwd: string, fromPkgJson?: string): 'npm' 
 		}
 	}
 
-	return getLockfile(cwd) ?? 'npm';
+	return guessPackageManager(cwd) ?? 'npm';
 }
 
-function getLockfile(cwd: string): 'npm' | 'pnpm' | 'yarn' | null {
-	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {
+function guessPackageManager(cwd: string): 'npm' | 'pnpm' | 'yarn' | null {
+	const lockfile = getLockfile(cwd);
+	if (lockfile?.endsWith('package-lock.json')) {
 		return 'npm';
 	}
+	if (lockfile?.endsWith('yarn.lock')) {
+		return 'yarn';
+	}
+	if (lockfile?.endsWith('pnpm-lock.yaml')) {
+		return 'pnpm';
+	}
 
-	if (
-		existsSync(path.resolve(cwd, 'yarn.lock')) ||
-		existsSync(path.resolve(cwd, '.yarnrc.yml')) ||
-		existsSync(path.resolve(cwd, '.yarnrc.yaml'))
-	) {
+	if (existsSync(path.resolve(cwd, '.yarnrc.yml')) || existsSync(path.resolve(cwd, '.yarnrc.yaml'))) {
 		return 'yarn';
 	}
 
 	if (
-		existsSync(path.resolve(cwd, 'pnpm-lock.json')) ||
-		existsSync(path.resolve(cwd, 'pnpm-workspace.yml')) ||
+		// From PNPm: 'The workspace manifest file should be named "pnpm-workspace.yaml"'
+		// pnpm-workspace.yml will throw an error from PNPm and not work.
 		existsSync(path.resolve(cwd, 'pnpm-workspace.yaml'))
 	) {
 		return 'pnpm';
+	}
+
+	return null;
+}
+
+export function getLockfile(cwd: string) {
+	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {
+		return path.resolve(cwd, 'package-lock.json');
+	}
+
+	if (existsSync(path.resolve(cwd, 'yarn.lock'))) {
+		return path.resolve(cwd, 'yarn.lock');
+	}
+
+	if (existsSync(path.resolve(cwd, 'pnpm-lock.yaml'))) {
+		return path.resolve(cwd, 'pnpm-lock.yaml');
 	}
 
 	return null;

@@ -17,7 +17,6 @@ describe('getPackageManagerName', () => {
 		['npm', 'packagelock'],
 		['pnpm', 'pnpmlock'],
 		['pnpm', 'pnpmworkyaml'],
-		['pnpm', 'pnpmworkyml'],
 		['yarn', 'yarnlock'],
 		['yarn', 'yarnrcyaml'],
 		['yarn', 'yarnrcyml'],
