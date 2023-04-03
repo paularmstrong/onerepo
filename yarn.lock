@@ -22,10 +22,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1, @astrojs/compiler@npm:^1.2.0":
+"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1":
   version: 1.2.0
   resolution: "@astrojs/compiler@npm:1.2.0"
   checksum: 1aa546450fd46f9478f5eb69c47614b9a398a46af17318cc7c77e37d4df058574b49d3eae6ae4cc30fc31072bbb1f77d87ea72c30855124514542efb33ae1995
+  languageName: node
+  linkType: hard
+
+"@astrojs/compiler@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@astrojs/compiler@npm:1.3.0"
+  checksum: d2eb523499289c567d2197b4d6b3106cab3449627dfd0017652cbf3829c73684bd5db8a2c011a3a96f058be3fdfbed2a46d23b6f04aece62b77808f6ee752e06
   languageName: node
   linkType: hard
 
@@ -51,7 +58,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-remark@npm:^2.1.0, @astrojs/markdown-remark@npm:^2.1.1":
+"@astrojs/markdown-remark@npm:^2.1.1, @astrojs/markdown-remark@npm:^2.1.2":
   version: 2.1.2
   resolution: "@astrojs/markdown-remark@npm:2.1.2"
   dependencies:
@@ -4572,12 +4579,12 @@ __metadata:
   linkType: hard
 
 "astro@npm:^2.0.16":
-  version: 2.1.3
-  resolution: "astro@npm:2.1.3"
+  version: 2.1.9
+  resolution: "astro@npm:2.1.9"
   dependencies:
-    "@astrojs/compiler": ^1.2.0
+    "@astrojs/compiler": ^1.3.0
     "@astrojs/language-server": ^0.28.3
-    "@astrojs/markdown-remark": ^2.1.0
+    "@astrojs/markdown-remark": ^2.1.2
     "@astrojs/telemetry": ^2.1.0
     "@astrojs/webapi": ^2.1.0
     "@babel/core": ^7.18.2
@@ -4605,7 +4612,6 @@ __metadata:
     github-slugger: ^2.0.0
     gray-matter: ^4.0.3
     html-escaper: ^3.0.3
-    image-size: ^1.0.2
     kleur: ^4.1.4
     magic-string: ^0.27.0
     mime: ^3.0.0
@@ -4636,7 +4642,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: 4b98ffbc9a51ed43b8b5f57393c61eee35c56fe9835f6ce0b88da7838f502fb5aa9a571f3ccdc5fb04c54eded260449b29ed104f6120769c031853e5dca55457
+  checksum: 42fdebd3c54b2c3339ef391970b9c23a49a22f703ff0d1d446e02adea14a8959c27a19dc0d2931d18f8154fc9655eefbe667d77281c344255d66889400a64ff8
   languageName: node
   linkType: hard
 
@@ -9794,17 +9800,6 @@ __metadata:
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
   checksum: 3d4c309c6006e2621659311783eaea7ebcd41fe4ca1d78c91c473157ad6666a57a2df790fe0d07a12300d9aac2888204d7be8d59f9aaf665b1c7fcdb432517ef
-  languageName: node
-  linkType: hard
-
-"image-size@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "image-size@npm:1.0.2"
-  dependencies:
-    queue: 6.0.2
-  bin:
-    image-size: bin/image-size.js
-  checksum: 01745fdb47f87cecf538e69c63f9adc5bfab30a345345c2de91105f3afbd1bfcfba1256af02bf3323077b33b0004469a837e077bf0cbb9c907e9c1e9e7547585
   languageName: node
   linkType: hard
 
@@ -15192,15 +15187,6 @@ __metadata:
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: b676f8c040cdc5b12723ad2f91414d267605b26419d5c821ff03befa817ddd10e238d22b25d604920340fd73efd8ba795465a0377c4adf45a4a41e4234e42dc4
-  languageName: node
-  linkType: hard
-
-"queue@npm:6.0.2":
-  version: 6.0.2
-  resolution: "queue@npm:6.0.2"
-  dependencies:
-    inherits: ~2.0.3
-  checksum: ebc23639248e4fe40a789f713c20548e513e053b3dc4924b6cb0ad741e3f264dcff948225c8737834dd4f9ec286dbc06a1a7c13858ea382d9379f4303bcc0916
   languageName: node
   linkType: hard
 
