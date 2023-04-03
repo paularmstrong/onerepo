@@ -1,9 +1,12 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
-import write from '@changesets/write';
+import changesetWrite from '@changesets/write';
 import { updateIndex } from '@onerepo/git';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
+
+// Changesets does not properly document its ESM exports in package.json, so this gets funky
+const writeChangeset = ('default' in changesetWrite ? changesetWrite.default : changesetWrite) as typeof changesetWrite;
 
 export const command = ['$0', 'add'];
 
@@ -109,7 +112,7 @@ ${pc.dim(
 	logger.unpause();
 
 	const writeStep = logger.createStep('Write changeset');
-	const uniqueId = await write(
+	const uniqueId = await writeChangeset(
 		{
 			summary: contents,
 			releases: chosen.map((name: string) => ({ name, type: semverType })),
