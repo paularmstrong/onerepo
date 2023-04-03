@@ -9008,9 +9008,9 @@ __metadata:
   linkType: hard
 
 "graph-data-structure@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "graph-data-structure@npm:3.2.0"
-  checksum: 0312e7854eba1679cb42a0696bbf9686c3f80618975828edd3c5aed2b69987dcd4cfa549db0cada63e57c798a714b2322f596a42dcf5b228946897863a1740cd
+  version: 3.3.0
+  resolution: "graph-data-structure@npm:3.3.0"
+  checksum: b6721b7a53a673c1d839427b2336ab6ef85db582cf8ed2099e2a7ab3650a6d64530d502f06fa3fd0cbd2e19412ba6043650411e89d0e817b64490e224c2c5e15
   languageName: node
   linkType: hard
 
