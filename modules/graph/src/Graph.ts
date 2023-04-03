@@ -45,12 +45,12 @@ export class Graph {
 	/**
 	 * @internal
 	 */
-	constructor(location: string, packageJson: PrivatePackageJson, moduleRequire = require) {
+	constructor(location: string, packageJson: PrivatePackageJson, workspaces: Array<string>, moduleRequire = require) {
 		this.#require = moduleRequire;
 		this.#rootLocation = location;
 		this.#addWorkspace(location, packageJson);
 
-		for (const pathGlob of packageJson.workspaces || []) {
+		for (const pathGlob of workspaces) {
 			const locations = globSync(path.join(pathGlob, 'package.json'), { cwd: this.#rootLocation });
 			for (const pkgLocation of locations.sort()) {
 				const location = path.dirname(pkgLocation);

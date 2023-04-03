@@ -1,0 +1,7 @@
+{
+	"name": "pnpm-1",
+	"version": "4.5.2",
+	"dependencies": {
+		"pnpm-0": "4.5.2"
+	}
+}

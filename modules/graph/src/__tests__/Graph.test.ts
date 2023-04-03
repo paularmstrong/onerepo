@@ -6,7 +6,7 @@ describe('Graph', () => {
 	test('bucket', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = await getRootPackageJson(location);
-		const repo = new Graph(location, result.json, require);
+		const repo = new Graph(location, result.json, result.json.workspaces!, require);
 		expect(repo.dependencies('fixture-burritos').map(({ name }) => name)).toEqual(['fixture-lettuce']);
 		expect(repo.dependencies('fixture-lettuce')).toEqual([]);
 		expect(repo.dependencies().map(({ name }) => name)).toEqual([
@@ -21,7 +21,7 @@ describe('Graph', () => {
 		const location = path.join(__dirname, '__fixtures__', 'reused-alias');
 		const result = await getRootPackageJson(location);
 
-		expect(() => new Graph(location, result.json, require)).toThrow(
+		expect(() => new Graph(location, result.json, result.json.workspaces!, require)).toThrow(
 			new Error('Cannot add alias "leaf" for spinach because it is already used for lettuce.')
 		);
 	});

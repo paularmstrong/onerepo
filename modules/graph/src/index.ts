@@ -1,6 +1,8 @@
 import { createRequire } from 'node:module';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import yaml from 'js-yaml';
+import { getLockfile, getPackageManagerName } from '@onerepo/package-manager';
 import { Graph } from './Graph';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 
@@ -16,7 +18,18 @@ const require = createRequire('/');
  */
 export function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
-	return new Graph(path.dirname(filePath), json as PrivatePackageJson, require);
+	const pkgmanager = getPackageManagerName(filePath, json.packageManager);
+	let workspaces = json.workspaces ?? [];
+	if (pkgmanager === 'pnpm') {
+		const yamlfile = path.join(workingDir, 'pnpm-workspace.yaml');
+		if (existsSync(yamlfile)) {
+			const rawFile = readFileSync(yamlfile, { encoding: 'utf8' });
+			const contents = yaml.load(rawFile) as { workspaces?: Array<string> };
+			workspaces = contents.workspaces ?? [];
+		}
+	}
+
+	return new Graph(workingDir, json as PrivatePackageJson, workspaces, require);
 }
 
 /**
@@ -26,12 +39,12 @@ export function getRootPackageJson(searchLocation: string): { filePath: string; 
 	let currLocation = searchLocation;
 	while (currLocation !== '/') {
 		const match = getPackageJson<PrivatePackageJson>(currLocation);
-		if ('workspaces' in match.json) {
+		if (getLockfile(path.dirname(match.filePath))) {
 			return match;
 		}
-		currLocation = path.dirname(currLocation);
+		currLocation = path.dirname(path.dirname(match.filePath));
 	}
-	throw new Error('No monorepo found. Missing "workspaces" declaration in any package.json');
+	throw new Error('No monorepo found. Unable to find lock file.');
 }
 
 function getPackageJson<T extends PackageJson = PackageJson>(root: string): { filePath: string; json: T } {
