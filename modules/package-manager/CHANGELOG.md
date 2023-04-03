@@ -1,5 +1,11 @@
 # @onerepo/package-manager
 
+## 0.2.1
+
+### Patch Changes
+
+- Fixes PNPm lookup for `pnpm-lock.yaml` files. [#220](https://github.com/paularmstrong/onerepo/pull/220) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.0
 
 ### Minor Changes

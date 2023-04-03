@@ -1,5 +1,14 @@
 # @onerepo/plugin-changesets
 
+## 0.6.1
+
+### Patch Changes
+
+- Fix critical error thrown by changesets when attempting to version and publish. Related upstream issue: [changesets/changesets#622](https://github.com/changesets/changesets/issues/622). [#231](https://github.com/paularmstrong/onerepo/pull/231) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`c556124`](https://github.com/paularmstrong/onerepo/commit/c5561241be974c39349e8e3181ff3a38902bf8d7)]:
+  - @onerepo/graph@0.5.0
+
 ## 0.6.0
 
 ### Minor Changes
