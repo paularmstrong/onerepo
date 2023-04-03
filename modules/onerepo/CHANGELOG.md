@@ -1,5 +1,14 @@
 # onerepo
 
+## 0.7.1
+
+### Patch Changes
+
+- Updated dependencies [[`c556124`](https://github.com/paularmstrong/onerepo/commit/c5561241be974c39349e8e3181ff3a38902bf8d7), [`c556124`](https://github.com/paularmstrong/onerepo/commit/c5561241be974c39349e8e3181ff3a38902bf8d7)]:
+  - @onerepo/graph@0.5.0
+  - @onerepo/package-manager@0.2.1
+  - @onerepo/core@0.6.1
+
 ## 0.7.0
 
 ### Minor Changes

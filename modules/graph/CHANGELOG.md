@@ -1,5 +1,16 @@
 # @onerepo/graph
 
+## 0.5.0
+
+### Minor Changes
+
+- Adds PNPm support. [#220](https://github.com/paularmstrong/onerepo/pull/220) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`c556124`](https://github.com/paularmstrong/onerepo/commit/c5561241be974c39349e8e3181ff3a38902bf8d7)]:
+  - @onerepo/package-manager@0.2.1
+
 ## 0.4.0
 
 ### Minor Changes
