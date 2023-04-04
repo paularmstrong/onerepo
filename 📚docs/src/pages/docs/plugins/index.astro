@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../../layouts/Docs.astro';
 
-const [readme] = await Astro.glob('../../../../../plugins/README.md');
+const [readme] = await Astro.glob('../../../../../🧩plugins/README.md');
 const plugins = await getCollection('plugins');
 
 const { Content } = readme;

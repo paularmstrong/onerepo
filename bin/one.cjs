@@ -22,7 +22,7 @@ setup(
 		core: {
 			docgen: {
 				outWorkspace: 'root',
-				outFile: 'docs/usage/cli.md',
+				outFile: '📚docs/usage/cli.md',
 				format: 'markdown',
 				safeWrite: true,
 			},

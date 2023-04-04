@@ -2536,9 +2536,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@onerepo/builders@0.2.0, @onerepo/builders@workspace:modules/builders":
+"@onerepo/builders@0.2.0, @onerepo/builders@workspace:📦modules/builders":
   version: 0.0.0-use.local
-  resolution: "@onerepo/builders@workspace:modules/builders"
+  resolution: "@onerepo/builders@workspace:📦modules/builders"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2549,9 +2549,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/core@0.6.1, @onerepo/core@workspace:^, @onerepo/core@workspace:modules/core":
+"@onerepo/core@0.6.1, @onerepo/core@workspace:^, @onerepo/core@workspace:📦modules/core":
   version: 0.0.0-use.local
-  resolution: "@onerepo/core@workspace:modules/core"
+  resolution: "@onerepo/core@workspace:📦modules/core"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2599,9 +2599,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/create@workspace:modules/create-scoped":
+"@onerepo/create@workspace:📦modules/create-scoped":
   version: 0.0.0-use.local
-  resolution: "@onerepo/create@workspace:modules/create-scoped"
+  resolution: "@onerepo/create@workspace:📦modules/create-scoped"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2615,9 +2615,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/docs@workspace:docs":
+"@onerepo/docs@workspace:📚docs":
   version: 0.0.0-use.local
-  resolution: "@onerepo/docs@workspace:docs"
+  resolution: "@onerepo/docs@workspace:📚docs"
   dependencies:
     "@astrojs/mdx": ^0.18.0
     "@astrojs/tailwind": ^3.0.1
@@ -2640,9 +2640,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.3.0, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.3.0, @onerepo/file@workspace:📦modules/file":
   version: 0.0.0-use.local
-  resolution: "@onerepo/file@workspace:modules/file"
+  resolution: "@onerepo/file@workspace:📦modules/file"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2651,9 +2651,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/git@0.2.0, @onerepo/git@workspace:modules/git":
+"@onerepo/git@0.2.0, @onerepo/git@workspace:📦modules/git":
   version: 0.0.0-use.local
-  resolution: "@onerepo/git@workspace:modules/git"
+  resolution: "@onerepo/git@workspace:📦modules/git"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2662,9 +2662,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/graph@0.5.0, @onerepo/graph@workspace:^, @onerepo/graph@workspace:modules/graph":
+"@onerepo/graph@0.5.0, @onerepo/graph@workspace:^, @onerepo/graph@workspace:📦modules/graph":
   version: 0.0.0-use.local
-  resolution: "@onerepo/graph@workspace:modules/graph"
+  resolution: "@onerepo/graph@workspace:📦modules/graph"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2678,9 +2678,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.2.0, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.2.0, @onerepo/logger@workspace:📦modules/logger":
   version: 0.0.0-use.local
-  resolution: "@onerepo/logger@workspace:modules/logger"
+  resolution: "@onerepo/logger@workspace:📦modules/logger"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2691,9 +2691,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/package-manager@0.2.1, @onerepo/package-manager@workspace:modules/package-manager":
+"@onerepo/package-manager@0.2.1, @onerepo/package-manager@workspace:📦modules/package-manager":
   version: 0.0.0-use.local
-  resolution: "@onerepo/package-manager@workspace:modules/package-manager"
+  resolution: "@onerepo/package-manager@workspace:📦modules/package-manager"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2703,9 +2703,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-changesets@workspace:^, @onerepo/plugin-changesets@workspace:plugins/changesets":
+"@onerepo/plugin-changesets@workspace:^, @onerepo/plugin-changesets@workspace:🧩plugins/changesets":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-changesets@workspace:plugins/changesets"
+  resolution: "@onerepo/plugin-changesets@workspace:🧩plugins/changesets"
   dependencies:
     "@changesets/apply-release-plan": ^6.1.3
     "@changesets/assemble-release-plan": ^5.2.3
@@ -2733,9 +2733,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-eslint@workspace:^, @onerepo/plugin-eslint@workspace:plugins/eslint":
+"@onerepo/plugin-eslint@workspace:^, @onerepo/plugin-eslint@workspace:🧩plugins/eslint":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-eslint@workspace:plugins/eslint"
+  resolution: "@onerepo/plugin-eslint@workspace:🧩plugins/eslint"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2757,9 +2757,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-jest@workspace:^, @onerepo/plugin-jest@workspace:plugins/jest":
+"@onerepo/plugin-jest@workspace:^, @onerepo/plugin-jest@workspace:🧩plugins/jest":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-jest@workspace:plugins/jest"
+  resolution: "@onerepo/plugin-jest@workspace:🧩plugins/jest"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2778,9 +2778,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-prettier@workspace:^, @onerepo/plugin-prettier@workspace:plugins/prettier":
+"@onerepo/plugin-prettier@workspace:^, @onerepo/plugin-prettier@workspace:🧩plugins/prettier":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
+  resolution: "@onerepo/plugin-prettier@workspace:🧩plugins/prettier"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2800,9 +2800,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-typescript@workspace:^, @onerepo/plugin-typescript@workspace:plugins/typescript":
+"@onerepo/plugin-typescript@workspace:^, @onerepo/plugin-typescript@workspace:🧩plugins/typescript":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-typescript@workspace:plugins/typescript"
+  resolution: "@onerepo/plugin-typescript@workspace:🧩plugins/typescript"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2815,9 +2815,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-vitest@workspace:plugins/vitest":
+"@onerepo/plugin-vitest@workspace:🧩plugins/vitest":
   version: 0.0.0-use.local
-  resolution: "@onerepo/plugin-vitest@workspace:plugins/vitest"
+  resolution: "@onerepo/plugin-vitest@workspace:🧩plugins/vitest"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2866,9 +2866,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/subprocess@0.3.0, @onerepo/subprocess@workspace:modules/subprocess":
+"@onerepo/subprocess@0.3.0, @onerepo/subprocess@workspace:📦modules/subprocess":
   version: 0.0.0-use.local
-  resolution: "@onerepo/subprocess@workspace:modules/subprocess"
+  resolution: "@onerepo/subprocess@workspace:📦modules/subprocess"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -2876,9 +2876,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/test-cli@0.2.1, @onerepo/test-cli@workspace:^, @onerepo/test-cli@workspace:modules/test-cli":
+"@onerepo/test-cli@0.2.1, @onerepo/test-cli@workspace:^, @onerepo/test-cli@workspace:📦modules/test-cli":
   version: 0.0.0-use.local
-  resolution: "@onerepo/test-cli@workspace:modules/test-cli"
+  resolution: "@onerepo/test-cli@workspace:📦modules/test-cli"
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.2.0
@@ -2894,9 +2894,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/yargs@0.2.0, @onerepo/yargs@workspace:modules/yargs":
+"@onerepo/yargs@0.2.0, @onerepo/yargs@workspace:📦modules/yargs":
   version: 0.0.0-use.local
-  resolution: "@onerepo/yargs@workspace:modules/yargs"
+  resolution: "@onerepo/yargs@workspace:📦modules/yargs"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -6072,9 +6072,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-onerepo@0.0.2, create-onerepo@workspace:modules/create":
+"create-onerepo@0.0.2, create-onerepo@workspace:📦modules/create":
   version: 0.0.0-use.local
-  resolution: "create-onerepo@workspace:modules/create"
+  resolution: "create-onerepo@workspace:📦modules/create"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
@@ -13901,9 +13901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"onerepo@0.7.1, onerepo@workspace:^, onerepo@workspace:modules/onerepo":
+"onerepo@0.7.1, onerepo@workspace:^, onerepo@workspace:📦modules/onerepo":
   version: 0.0.0-use.local
-  resolution: "onerepo@workspace:modules/onerepo"
+  resolution: "onerepo@workspace:📦modules/onerepo"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"

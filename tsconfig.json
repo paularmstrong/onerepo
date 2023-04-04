@@ -4,5 +4,5 @@
 		"outDir": "./dist/",
 		"composite": true
 	},
-	"exclude": ["./docs", "./internal", "./modules", "./plugins", "./coverage", "./commands/__tests__/__fixtures__"]
+	"exclude": ["./📚docs", "./internal", "./📦modules", "./🧩plugins", "./coverage", "./commands/__tests__/__fixtures__"]
 }

@@ -7,10 +7,10 @@
 		"one": "./bin/one.js"
 	},
 	"workspaces": [
-		"docs",
+		"📚docs",
 		"internal/*",
-		"modules/*",
-		"plugins/*"
+		"📦modules/*",
+		"🧩plugins/*"
 	],
 	"devDependencies": {
 		"@internal/eslint-plugin": "workspace:^",
