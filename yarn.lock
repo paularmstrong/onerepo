@@ -12992,11 +12992,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^7.0.0, minimatch@npm:^7.1.3, minimatch@npm:^7.2.0, minimatch@npm:^7.4.1":
-  version: 7.4.4
-  resolution: "minimatch@npm:7.4.4"
+  version: 7.4.5
+  resolution: "minimatch@npm:7.4.5"
   dependencies:
     brace-expansion: ^2.0.1
-  checksum: a96494db558cda25cf2f75c25b136f6c91543d72871d92b8b251691dcf578b5e64b679d64427cee609a1bf6a63cf233e171cb9d04d04c3c9ec3b6100c3b72f8e
+  checksum: dfb82497bd9007d3dde3f5e033ea4e314e221186ece26863521a8fa955e73f58f0fd11704b79eec37ba29be460be0cf92a7a6455dd41d5763b5b12072c6013c3
   languageName: node
   linkType: hard
 
