@@ -1,7 +1,7 @@
 {
-	"name": "fixture-burritos",
+	"name": "burritos",
 	"version": "4.5.2",
 	"dependencies": {
-		"fixture-lettuce": "4.5.2"
+		"lettuce": "4.5.2"
 	}
 }

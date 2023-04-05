@@ -1,7 +1,7 @@
 {
 	"name": "tacos",
 	"version": "0.2.0",
-	"dependencies": {
+	"devDependencies": {
 		"tortillas": "0.4.5"
 	}
 }
