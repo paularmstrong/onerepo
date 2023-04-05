@@ -37,15 +37,17 @@ describe('handler', () => {
 	});
 
 	test('prompts for all modules with changes only', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['burritos', 'churros', 'tortillas'], okay: true });
+
 		await run('', { graph });
 		expect(inquirer.prompt).toHaveBeenCalledWith([
 			expect.objectContaining({
-				choices: ['burritos', 'churros', 'tortillas'],
+				choices: ['burritos', 'churros', 'tacos', 'tortillas'],
 			}),
 		]);
 		expect(inquirer.prompt).not.toHaveBeenCalledWith([
 			expect.objectContaining({
-				choices: expect.arrayContaining(['tacos']),
+				choices: expect.arrayContaining(['tortas']),
 			}),
 		]);
 	});
@@ -71,9 +73,33 @@ describe('handler', () => {
 			expect.stringContaining('repo/modules/churros/CHANGELOG.md'),
 			expect.stringContaining('repo/modules/tacos/package.json'),
 			expect.stringContaining('repo/modules/tacos/CHANGELOG.md'),
+			expect.stringContaining('repo/modules/tortas/package.json'),
+			expect.stringContaining('repo/modules/tortas/CHANGELOG.md'),
 			expect.stringContaining('repo/modules/tortillas/package.json'),
 			expect.stringContaining('repo/modules/tortillas/CHANGELOG.md'),
 		]);
+	});
+
+	test('updates only prod dependencies', async () => {
+		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tacos'] });
+		await run('', { graph });
+
+		expect(applyReleasePlan.default).toHaveBeenCalledWith(
+			expect.objectContaining({
+				changesets: [expect.objectContaining({ id: 'guh-gaz-gop' })],
+				releases: [expect.objectContaining({ name: 'tacos', oldVersion: '0.2.0', newVersion: '0.3.0' })],
+			}),
+			expect.any(Object),
+			expect.any(Object)
+		);
+
+		expect(applyReleasePlan.default).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				releases: expect.arrayContaining([expect.objectContaining({ name: 'tortillas' })]),
+			}),
+			expect.any(Object),
+			expect.any(Object)
+		);
 	});
 
 	test('does nothing if no modules selected', async () => {

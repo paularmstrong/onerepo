@@ -9,6 +9,7 @@ import type { Package, Packages } from '@manypkg/get-packages';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { LogStep } from '@onerepo/logger';
 import type { NewChangeset } from '@changesets/types';
+import { DependencyType } from '@onerepo/graph';
 
 // Changesets does not properly document its ESM exports in package.json, so this gets funky
 const assembleReleasePlan = (
@@ -102,7 +103,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	}
 
 	const choiceDependencies = graph
-		.dependencies(choices, true)
+		.dependencies(choices, true, DependencyType.PROD)
 		.filter((ws) => !ws.private)
 		.map(({ name }) => name);
 

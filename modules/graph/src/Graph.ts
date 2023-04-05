@@ -8,11 +8,20 @@ import type { PackageManager } from '@onerepo/package-manager';
 import { Workspace } from './Workspace';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 
-const Dependency = {
-	prod: 3,
-	dev: 2,
-	peer: 1,
-};
+export const enum DependencyType {
+	/**
+	 * Production dependency (defined in `dependencies` of `package.json`)
+	 */
+	PROD = 3,
+	/**
+	 * Development-only dependency (defined in `devDependencies` keys of `package.json`)
+	 */
+	DEV = 2,
+	/**
+	 * Peer dependency (defined in `peerDependencies` key of `package.json`)
+	 */
+	PEER = 1,
+}
 
 export type { Serialized };
 
@@ -33,6 +42,13 @@ export class Graph {
 
 	#graph = graph();
 	#inverted = graph();
+
+	#prodGraph = graph();
+	#invertedProdGraph = graph();
+
+	#devGraph = graph();
+	#invertedDevGraph = graph();
+
 	#byName: Map<string, Workspace> = new Map();
 	#nameByLocation: Map<string, string> = new Map();
 	/**
@@ -60,9 +76,9 @@ export class Graph {
 		}
 
 		this.#byName.forEach((workspace, dependent) => {
-			this.#addEdges(dependent, workspace.dependencies, Dependency.prod);
-			this.#addEdges(dependent, workspace.devDependencies, Dependency.dev);
-			this.#addEdges(dependent, workspace.peerDependencies, Dependency.peer);
+			this.#addEdges(dependent, workspace.dependencies, DependencyType.PROD);
+			this.#addEdges(dependent, workspace.devDependencies, DependencyType.DEV);
+			this.#addEdges(dependent, workspace.peerDependencies, DependencyType.PEER);
 		});
 
 		this.#packageManager = getPackageManager(getPackageManagerName(location, packageJson.packageManager));
@@ -105,15 +121,25 @@ export class Graph {
 	 *
 	 * @param sources One or more workspaces by name or `Workspace` instance
 	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
+	 * @param type Filter the dependents to a dependency type.
 	 */
-	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
+	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DependencyType) {
+		const graph =
+			type === DependencyType.PROD
+				? this.#invertedProdGraph
+				: type === DependencyType.DEV
+				? this.#invertedDevGraph
+				: this.#inverted;
+
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
 				source instanceof Workspace ? source.name : this.getByName(source).name
 			);
-			return this.getAllByName(this.#inverted.topologicalSort(names, includeSelf));
+
+			return this.getAllByName(graph.topologicalSort(names, includeSelf));
 		}
-		return this.getAllByName(this.#inverted.topologicalSort());
+
+		return this.getAllByName(graph.topologicalSort());
 	}
 	/**
 	 * Get a list of workspaces that are dependencies of the given input sources.
@@ -124,16 +150,20 @@ export class Graph {
 	 *
 	 * @param sources One or more workspaces by name or `Workspace` instance
 	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
+	 * @param type Filter the dependencies to a dependency type.
 	 */
-	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false) {
+	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DependencyType) {
+		const graph =
+			type === DependencyType.PROD ? this.#prodGraph : type === DependencyType.DEV ? this.#devGraph : this.#graph;
+
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
 				source instanceof Workspace ? source.name : this.getByName(source).name
 			);
-			return this.getAllByName(this.#graph.topologicalSort(names, includeSelf));
+			return this.getAllByName(graph.topologicalSort(names, includeSelf));
 		}
 
-		return this.getAllByName(this.#graph.topologicalSort());
+		return this.getAllByName(graph.topologicalSort());
 	}
 
 	/**
@@ -147,9 +177,10 @@ export class Graph {
 	 * ```
 	 *
 	 * @param sources One or more workspaces by name or `Workspace` instance
+	 * @param type Filter the dependents to a dependency type.
 	 */
-	affected<T extends string | Workspace>(source: T | Array<T>): Array<Workspace> {
-		return this.dependents(source, true);
+	affected<T extends string | Workspace>(source: T | Array<T>, type?: DependencyType): Array<Workspace> {
+		return this.dependents(source, true, type);
 	}
 
 	/**
@@ -243,29 +274,38 @@ export class Graph {
 	/**
 	 * Get an isolated graph of dependents from the list of sources
 	 *
+	 * @param sources A list of workspace {@link Workspace#name}s or any available {@link Workspace#aliases}.
+	 * @param type Filter the graph to a dependency type.
 	 * @return This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 	 */
-	isolatedGraph(sources: Array<Workspace>): ReturnType<typeof graph> {
+	isolatedGraph(sources: Array<Workspace>, type?: DependencyType): ReturnType<typeof graph> {
 		const returnGraph = graph();
 
+		const inverted =
+			type === DependencyType.DEV
+				? this.#invertedDevGraph
+				: type === DependencyType.PROD
+				? this.#invertedProdGraph
+				: this.#inverted;
+
 		const addAdjacent = (ws: Workspace) => {
-			const adjacent = this.#inverted.adjacent(ws.name);
+			const adjacent = inverted.adjacent(ws.name);
 			for (const adj of adjacent) {
 				const dependent = this.getByName(adj)!;
 				returnGraph.addNode(adj);
 				if (ws.name in dependent.dependencies) {
 					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
-						returnGraph.addEdge(dependent.name, ws.name, Dependency.prod);
+						returnGraph.addEdge(dependent.name, ws.name, DependencyType.PROD);
 					}
 				}
 				if (ws.name in dependent.devDependencies) {
 					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
-						returnGraph.addEdge(dependent.name, ws.name, Dependency.dev);
+						returnGraph.addEdge(dependent.name, ws.name, DependencyType.DEV);
 					}
 				}
 				if (ws.name in dependent.peerDependencies) {
 					if (!returnGraph.hasEdge(dependent.name, ws.name)) {
-						returnGraph.addEdge(dependent.name, ws.name, Dependency.peer);
+						returnGraph.addEdge(dependent.name, ws.name, DependencyType.PEER);
 					}
 				}
 				addAdjacent(dependent);
@@ -294,15 +334,18 @@ export class Graph {
 			this.#nameByAlias.set(alias, workspace.name);
 		});
 		this.#nameByLocation.set(location, workspace.name);
+
 		this.#graph.addNode(workspace.name);
 		this.#inverted.addNode(workspace.name);
+
+		this.#prodGraph.addNode(workspace.name);
+		this.#invertedProdGraph.addNode(workspace.name);
+
+		this.#devGraph.addNode(workspace.name);
+		this.#invertedDevGraph.addNode(workspace.name);
 	}
 
-	#addEdges(
-		dependent: string,
-		dependencies: Record<string, string>,
-		weight: (typeof Dependency)[keyof typeof Dependency]
-	) {
+	#addEdges(dependent: string, dependencies: Record<string, string>, weight: DependencyType) {
 		for (const [dependency, version] of Object.entries(dependencies)) {
 			if (this.#byName.has(dependency)) {
 				if (!version.startsWith('workspace:') && version !== this.#byName.get(dependency)!.version) {
@@ -312,6 +355,9 @@ export class Graph {
 				}
 
 				this.#graph.addEdge(dependent, dependency, weight);
+				const graph = weight === DependencyType.DEV ? this.#devGraph : this.#prodGraph;
+				graph.addEdge(dependent, dependency);
+
 				if (this.#graph.hasCycle()) {
 					throw new Error(
 						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`
@@ -319,6 +365,9 @@ export class Graph {
 				}
 
 				this.#inverted.addEdge(dependency, dependent, weight);
+				const inverted = weight === DependencyType.DEV ? this.#invertedDevGraph : this.#invertedProdGraph;
+				inverted.addEdge(dependency, dependent);
+
 				if (this.#inverted.hasCycle()) {
 					throw new Error(
 						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`

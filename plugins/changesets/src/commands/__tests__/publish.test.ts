@@ -95,7 +95,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortillas'],
+				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortas', 'tortillas'],
 			})
 		);
 

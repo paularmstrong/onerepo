@@ -81,3 +81,9 @@ This causes issues when publishing shared modules for use outside of the monorep
 This plugin will trigger the [core `tasks`](https://onerepo.tools/docs/core/tasks/) `build` lifecycle for every workspace during pre-release and publish. There is no need to manually run a build before publishing.
 
 </aside>
+
+## Caveats
+
+- When publishing, `devDependencies` are explicitly stripped from the `package.json`. This is a safety mechanism to ensure that dependencies are not mis-identified.
+
+  To help prevent errors before publishing, it is recommended to include the [ESLint plugin](/docs/plugins/eslint/) with [eslint-plugin-import](https://github.com/import-js/eslint-plugin-import/blob/main/README.md) and the rule [`import/no-extraneous-dependencies`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md)

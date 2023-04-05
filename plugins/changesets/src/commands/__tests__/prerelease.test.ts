@@ -79,7 +79,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortillas'],
+				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortas', 'tortillas'],
 			})
 		);
 
@@ -90,6 +90,7 @@ describe('handler', () => {
 					expect.objectContaining({ name: 'burritos', newVersion: '0.0.0-pre.123456' }),
 					expect.objectContaining({ name: 'churros', newVersion: '0.0.0-pre.123456' }),
 					expect.objectContaining({ name: 'tacos', newVersion: '0.0.0-pre.123456' }),
+					expect.objectContaining({ name: 'tortas', newVersion: '0.0.0-pre.123456' }),
 					expect.objectContaining({ name: 'tortillas', newVersion: '0.0.0-pre.123456' }),
 				],
 				preState: undefined,
@@ -106,6 +107,7 @@ describe('handler', () => {
 				expect.objectContaining({ name: 'burritos' }),
 				expect.objectContaining({ name: 'churros' }),
 				expect.objectContaining({ name: 'tacos' }),
+				expect.objectContaining({ name: 'tortas' }),
 				expect.objectContaining({ name: 'tortillas' }),
 			],
 		});
