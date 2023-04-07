@@ -8,46 +8,36 @@ body:
     attributes:
       value: |
         First, to best help, it might be important to know some details about your system, as differing versions can be very impactful!
-  - type: dropdown
-    id: os
+  - type: textarea
+    id: envinfo
     attributes:
-      label: Operating System
-      options:
-        - Mac OS
-        - Windows
-        - Debian
-        - BSD
-        - Other (please specify)
-  - type: dropdown
-    id: shell
-    attributes:
-      label: Terminal shell
-      description: Not sure? Run `echo $SHELL` to see
-      options:
-        - ZSH
-        - Bash
-        - Other (unsupported, please specify)
-  - type: input
-    id: node
-    attributes:
-      label: Node version
-      description: Run `node --version` and paste the output here
-  - type: input
-    id: git
-    attributes:
-      label: Git version
-      description: Run `git --version` and paste the output here
+      label: Environment info
+      description: Run `npx envinfo --system --binaries` and paste the output here
+      placeholder: |
+        System:
+          OS: macOS 13.2
+          CPU: (16) x64 Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
+          Memory: 85.71 MB / 16.00 GB
+          Shell: 5.8.1 - /bin/zsh
+        Binaries:
+          Node: 18.15.0 - ~/.nvm/versions/node/v18.15.0/bin/node
+          Yarn: 3.3.1 - /usr/local/bin/yarn
+          npm: 9.5.0 - ~/.nvm/versions/node/v18.15.0/bin/npm
+      render: sh
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
         ---
         Okay, let’s figure out what's going on…
-  - type: input
+  - type: textarea
     id: command
     attributes:
       label: Command
       description: What was the exact command that was run?
       placeholder: one tasks -c pre-commit -w tacos
+      render: sh
     validations:
       required: true
   - type: textarea
