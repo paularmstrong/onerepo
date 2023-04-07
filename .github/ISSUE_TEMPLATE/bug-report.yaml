@@ -1,0 +1,77 @@
+name: 🐞 Report a bug
+description: Something has unexpectedly gone wrong and needs to be fixed
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        First, to best help, it might be important to know some details about your system, as differing versions can be very impactful!
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Mac OS
+        - Windows
+        - Debian
+        - BSD
+        - Other (please specify)
+  - type: dropdown
+    id: shell
+    attributes:
+      label: Terminal shell
+      description: Not sure? Run `echo $SHELL` to see
+      options:
+        - ZSH
+        - Bash
+        - Other (unsupported, please specify)
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      description: Run `node --version` and paste the output here
+  - type: input
+    id: git
+    attributes:
+      label: Git version
+      description: Run `git --version` and paste the output here
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Okay, let’s figure out what's going on…
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      description: What was the exact command that was run?
+      placeholder: one tasks -c pre-commit -w tacos
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened?
+      description: Please include relevant log output. If possible, re-run with `-vvvvv` (5 `v`s) to output extra verbosity.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://onerepo.tools/docs/contributing/code-of-conduct/)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
