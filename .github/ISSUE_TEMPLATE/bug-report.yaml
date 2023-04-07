@@ -12,7 +12,7 @@ body:
     id: envinfo
     attributes:
       label: Environment info
-      description: Run `npx envinfo --system --binaries` and paste the output here
+      description: Run `npx envinfo --system --binaries` and paste the output here. If this is a CI system, please enumerate information to your best guess.
       placeholder: |
         System:
           OS: macOS 13.2
