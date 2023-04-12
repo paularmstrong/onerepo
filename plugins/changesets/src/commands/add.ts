@@ -45,6 +45,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		memo.push(ws.name);
 		return memo;
 	}, [] as Array<string>);
+
 	const { chosen, major, minor, patch } = await inquirer.prompt([
 		{
 			type: 'checkbox',
@@ -55,8 +56,26 @@ ${pc.dim(
 	'  Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.'
 )}
  `,
-			choices,
-			pageSize: choices.length,
+			choices: [
+				...choices,
+				new inquirer.Separator('⎯'.repeat(20)),
+				{ name: 'More…', value: '_OTHER_' },
+				new inquirer.Separator('⎯'.repeat(20)),
+			],
+			pageSize: choices.length + 2,
+		},
+		{
+			type: 'checkbox',
+			name: 'other',
+			prefix: '📦',
+			message: `What ${pc.bold('other')} workspaces would you like to add a changeset for as well?`,
+			choices: graph.workspaces.map((ws) => ws.name).sort(),
+			when: ({ chosen }) => chosen.includes('_OTHER_'),
+			filter: (input, answers) => {
+				answers.chosen.splice(answers.chosen.indexOf('_OTHER_'), 1);
+				answers.chosen.push(...input.filter((name: string) => !answers.chosen.includes(name)));
+			},
+			pageSize: Math.min(12, graph.workspaces.length),
 		},
 		{
 			type: 'confirm',
