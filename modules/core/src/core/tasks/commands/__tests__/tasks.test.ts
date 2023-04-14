@@ -32,15 +32,23 @@ describe('builder', () => {
 });
 
 describe('handler', () => {
-	test('lists tasks for pre- prefix only', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+	let out = '';
 
-		let out = '';
+	beforeEach(() => {
+		out = '';
 		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
 			out += content.toString();
 			return true;
 		});
+	});
+
+	afterEach(() => {
+		out = '';
+	});
+
+	test('lists tasks for pre- prefix only', async () => {
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-commit --list', { graph });
 		expect(JSON.parse(out)).toEqual([
@@ -52,12 +60,6 @@ describe('handler', () => {
 	test('lists tasks for all pre-, normal, and post-', async () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
 
 		await run('--lifecycle commit --list', { graph });
 		expect(JSON.parse(out)).toEqual([
@@ -84,12 +86,6 @@ describe('handler', () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
-
 		await run('--lifecycle pre-merge --list', { graph });
 		expect(JSON.parse(out)).toEqual([
 			expect.objectContaining({
@@ -105,12 +101,6 @@ describe('handler', () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
-
 		await run('-c commit --list --ignore "modules/tacos/**/*"', { graph });
 
 		expect(out).toEqual('[]');
@@ -121,12 +111,6 @@ describe('handler', () => {
 			.spyOn(git, 'getModifiedFiles')
 			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
 
 		await run('-c post-commit --list --ignore "modules/tacos/**/*"', { graph });
 
@@ -146,12 +130,6 @@ describe('handler', () => {
 			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
-
 		await run('-c build --list', { graph });
 
 		expect(out).toEqual('[]');
@@ -160,12 +138,6 @@ describe('handler', () => {
 	test('includes tasks that match cross-workspaces', async () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
 
 		await run('-c publish --list', { graph });
 
@@ -177,15 +149,42 @@ describe('handler', () => {
 		]);
 	});
 
+	test('can use multiple matchers', async () => {
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/foo']);
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'multi-match'));
+
+		await run('-c pre-merge --list', { graph });
+
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"pre-merge"', '"burritos"'],
+			}),
+		]);
+
+		out = '';
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/asdf']);
+
+		await run('-c pre-merge --list', { graph });
+
+		expect(JSON.parse(out)).toEqual([
+			expect.objectContaining({
+				cmd: 'echo',
+				args: ['"pre-merge"', '"burritos"'],
+			}),
+		]);
+
+		out = '';
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/foobar']);
+
+		await run('-c pre-merge --list', { graph });
+
+		expect(JSON.parse(out)).toEqual([]);
+	});
+
 	test('runs all workspaces if the root is affected', async () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-
-		let out = '';
-		jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
-			return true;
-		});
 
 		await run('--lifecycle deploy --list', { graph });
 		expect(JSON.parse(out)).toEqual([
