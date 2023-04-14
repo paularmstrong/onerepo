@@ -224,7 +224,9 @@ function matchTask(force: boolean, task: Task, files: Array<string>, cwd: string
 		return force;
 	}
 
-	return minimatch.match(files, path.join(cwd, task.match)).length > 0;
+	return (Array.isArray(task.match) ? task.match : [task.match]).some(
+		(match) => minimatch.match(files, path.join(cwd, match)).length > 0
+	);
 }
 
 function slugify(str: string) {

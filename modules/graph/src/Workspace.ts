@@ -239,7 +239,7 @@ export type TaskDef = {
 	/**
 	 * Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
 	 */
-	match?: string;
+	match?: string | Array<string>;
 	/**
 	 * String command to run. Special values include:
 	 * - `$0`: the oneRepo CLI for your repository
