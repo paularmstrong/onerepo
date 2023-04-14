@@ -1,5 +1,18 @@
 # @onerepo/plugin-changesets
 
+## 0.7.0
+
+### Minor Changes
+
+- Allow selecting unmodified workspaces in `changeset add` through a `More…` option. [#253](https://github.com/paularmstrong/onerepo/pull/253) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- When versioning packages, only production dependencies will be versioned, even if dev dependencies have changes. This should be safe because `devDependencies` are explicitly stripped out during publish. [#241](https://github.com/paularmstrong/onerepo/pull/241) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`9004117`](https://github.com/paularmstrong/onerepo/commit/900411775b115763adc383e328b77f7d24ae6209), [`d88f906`](https://github.com/paularmstrong/onerepo/commit/d88f906381b729f052f347d6b7ebcec9bf6a24cc)]:
+  - @onerepo/graph@0.6.0
+
 ## 0.6.1
 
 ### Patch Changes

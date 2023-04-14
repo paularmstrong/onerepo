@@ -1,5 +1,19 @@
 # @onerepo/graph
 
+## 0.6.0
+
+### Minor Changes
+
+- Adds dependency and dependent filtering option with `DependencyType` enum. [#241](https://github.com/paularmstrong/onerepo/pull/241) ([@paularmstrong](https://github.com/paularmstrong))
+
+  Example: grab only production dependent workspaces:
+
+  ```ts
+  graph.dependents(myWorkspace, true, DependencyType.PROD);
+  ```
+
+- Task `match` can now be an array of glob strings. [#254](https://github.com/paularmstrong/onerepo/pull/254) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.5.0
 
 ### Minor Changes

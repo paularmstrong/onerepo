@@ -34,7 +34,7 @@
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/test-cli": "0.2.1",
+		"@onerepo/test-cli": "0.2.2",
 		"@types/inquirer": "^9",
 		"@types/js-yaml": "^4",
 		"esbuild-register": "^3.4.0"
