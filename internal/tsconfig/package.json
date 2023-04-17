@@ -6,6 +6,6 @@
 		"./base.json"
 	],
 	"dependencies": {
-		"@types/jest": "^29.4.0"
+		"@types/jest": "^29.5.0"
 	}
 }

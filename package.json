@@ -22,7 +22,7 @@
 		"@onerepo/plugin-jest": "workspace:^",
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
-		"@types/eslint": "^8",
+		"@types/eslint": "^8.37.0",
 		"esbuild": "^0.17.0",
 		"esbuild-jest": "^0.5.0",
 		"esbuild-register": "^3.4.0",

@@ -28,8 +28,8 @@
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "0.2.2",
-		"@types/inquirer": "^9",
-		"@types/js-yaml": "^4",
+		"@types/inquirer": "^9.0.3",
+		"@types/js-yaml": "^4.0.5",
 		"esbuild-register": "^3.4.0"
 	},
 	"engines": {

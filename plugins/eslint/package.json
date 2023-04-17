@@ -34,7 +34,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8",
+		"@types/eslint": "^8.37.0",
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.34.0",
 		"onerepo": "workspace:^",

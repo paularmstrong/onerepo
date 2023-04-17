@@ -1224,7 +1224,7 @@ __metadata:
   resolution: "@internal/eslint-plugin@workspace:internal/eslint-plugin"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.37.0
     "@typescript-eslint/eslint-plugin": ^5.52.0
     "@typescript-eslint/parser": ^5.51.0
     eslint-import-resolver-typescript: ^3.5.3
@@ -1253,7 +1253,7 @@ __metadata:
   resolution: "@internal/test-config@workspace:internal/test-config"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/jest": ^29.4.0
+    "@types/jest": ^29.5.0
     esbuild-jest: ^0.5.0
     jest: ^29.5.0
   peerDependencies:
@@ -1265,7 +1265,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/tsconfig@workspace:internal/tsconfig"
   dependencies:
-    "@types/jest": ^29.4.0
+    "@types/jest": ^29.5.0
   languageName: unknown
   linkType: soft
 
@@ -2572,14 +2572,14 @@ __metadata:
     "@onerepo/test-cli": 0.2.2
     "@onerepo/yargs": 0.2.0
     "@types/cjson": ^0.5.0
-    "@types/ejs": ^3
-    "@types/inquirer": ^9
-    "@types/js-yaml": ^4
+    "@types/ejs": ^3.1.2
+    "@types/inquirer": ^9.0.3
+    "@types/js-yaml": ^4.0.5
     "@types/npmlog": ^4.1.4
     "@types/semver": ^7.3.13
     "@types/unist": ^2.0.6
-    "@types/yargs": ^17
-    "@types/yargs-parser": ^21
+    "@types/yargs": ^17.0.24
+    "@types/yargs-parser": ^21.0.0
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
     cjson: ^0.5.0
@@ -2613,8 +2613,8 @@ __metadata:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/test-cli": 0.2.2
-    "@types/inquirer": ^9
-    "@types/js-yaml": ^4
+    "@types/inquirer": ^9.0.3
+    "@types/js-yaml": ^4.0.5
     create-onerepo: 0.0.2
     esbuild-register: ^3.4.0
   bin:
@@ -2728,7 +2728,7 @@ __metadata:
     "@onerepo/logger": 0.2.0
     "@onerepo/subprocess": 0.3.0
     "@onerepo/test-cli": "workspace:^"
-    "@types/inquirer": ^9
+    "@types/inquirer": ^9.0.3
     esbuild-register: ^3.4.2
     inquirer: ^9.1.4
     jest: ^29.5.0
@@ -2751,7 +2751,7 @@ __metadata:
     "@onerepo/logger": 0.2.0
     "@onerepo/subprocess": 0.3.0
     "@onerepo/test-cli": "workspace:^"
-    "@types/eslint": ^8
+    "@types/eslint": ^8.37.0
     esbuild-register: ^3.4.2
     eslint: ^8.34.0
     minimatch: ^7.2.0
@@ -2854,7 +2854,7 @@ __metadata:
     "@onerepo/plugin-jest": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
     "@onerepo/plugin-typescript": "workspace:^"
-    "@types/eslint": ^8
+    "@types/eslint": ^8.37.0
     esbuild: ^0.17.0
     esbuild-jest: ^0.5.0
     esbuild-register: ^3.4.0
@@ -2907,7 +2907,7 @@ __metadata:
     "@onerepo/builders": 0.2.0
     "@onerepo/logger": 0.2.0
     "@onerepo/subprocess": 0.3.0
-    "@types/yargs": ^17
+    "@types/yargs": ^17.0.24
   languageName: unknown
   linkType: soft
 
@@ -3231,14 +3231,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ejs@npm:^3":
+"@types/ejs@npm:^3.1.2":
   version: 3.1.2
   resolution: "@types/ejs@npm:3.1.2"
   checksum: e4f0745b6ed53a63c08bdfdeb019a7d0e0c400896722b44d6732b4ee6bf6061d2dc965206186b8b0ae2ecd71303c29f1af1feddbca2df0acbd7bd234a74ca518
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8, @types/eslint@npm:^8.4.10":
+"@types/eslint@npm:^8.37.0":
   version: 8.37.0
   resolution: "@types/eslint@npm:8.37.0"
   dependencies:
@@ -3319,7 +3319,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/inquirer@npm:^9":
+"@types/inquirer@npm:^9.0.3":
   version: 9.0.3
   resolution: "@types/inquirer@npm:9.0.3"
   dependencies:
@@ -3354,7 +3354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.4.0":
+"@types/jest@npm:^29.5.0":
   version: 29.5.0
   resolution: "@types/jest@npm:29.5.0"
   dependencies:
@@ -3364,7 +3364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/js-yaml@npm:^4":
+"@types/js-yaml@npm:^4.0.5":
   version: 4.0.5
   resolution: "@types/js-yaml@npm:4.0.5"
   checksum: 7dcac8c50fec31643cc9d6444b5503239a861414cdfaa7ae9a38bc22597c4d850c4b8cec3d82d73b3fbca408348ce223b0408d598b32e094470dfffc6d486b4d
@@ -3559,7 +3559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs-parser@npm:*, @types/yargs-parser@npm:^21, @types/yargs-parser@npm:^21.0.0":
+"@types/yargs-parser@npm:*, @types/yargs-parser@npm:^21.0.0":
   version: 21.0.0
   resolution: "@types/yargs-parser@npm:21.0.0"
   checksum: b2f4c8d12ac18a567440379909127cf2cec393daffb73f246d0a25df36ea983b93b7e9e824251f959e9f928cbc7c1aab6728d0a0ff15d6145f66cec2be67d9a2
@@ -3591,7 +3591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17, @types/yargs@npm:^17.0.8":
+"@types/yargs@npm:^17.0.24, @types/yargs@npm:^17.0.8":
   version: 17.0.24
   resolution: "@types/yargs@npm:17.0.24"
   dependencies:
@@ -6071,8 +6071,8 @@ __metadata:
     "@onerepo/subprocess": 0.3.0
     "@onerepo/test-cli": 0.2.2
     "@onerepo/yargs": 0.2.0
-    "@types/inquirer": ^9
-    "@types/js-yaml": ^4
+    "@types/inquirer": ^9.0.3
+    "@types/js-yaml": ^4.0.5
     esbuild-register: ^3.4.0
     inquirer: ^9.1.4
     js-yaml: ^4.1.0
