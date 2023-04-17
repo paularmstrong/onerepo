@@ -1,5 +1,5 @@
 import path from 'node:path';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import { logger } from '@onerepo/logger';
