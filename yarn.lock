@@ -2576,7 +2576,6 @@ __metadata:
     "@types/inquirer": ^9
     "@types/js-yaml": ^4
     "@types/npmlog": ^4.1.4
-    "@types/random-seed": ^0
     "@types/semver": ^7.3.13
     "@types/yargs": ^17
     "@types/yargs-parser": ^21
@@ -3489,13 +3488,6 @@ __metadata:
   version: 2.7.2
   resolution: "@types/prettier@npm:2.7.2"
   checksum: b47d76a5252265f8d25dd2fe2a5a61dc43ba0e6a96ffdd00c594cb4fd74c1982c2e346497e3472805d97915407a09423804cc2110a0b8e1b22cffcab246479b7
-  languageName: node
-  linkType: hard
-
-"@types/random-seed@npm:^0":
-  version: 0.3.3
-  resolution: "@types/random-seed@npm:0.3.3"
-  checksum: de0f4ce70d47af68424b9bfdb27fd07e2be31cbbafee1ef7f4e661b94576b2cf6a2f1f479697d5b79186bf70bad0988485a7d2ce76084fe7c0544d32b2ec0a67
   languageName: node
   linkType: hard
 
