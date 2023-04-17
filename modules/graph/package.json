@@ -21,14 +21,13 @@
 	],
 	"dependencies": {
 		"@onerepo/package-manager": "0.2.1",
-		"glob": "^9.0.0",
+		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
 		"js-yaml": "^4.1.0"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@types/glob": "^8.1.0",
 		"jest": "^29.5.0",
 		"typescript": "^5.0.0"
 	},

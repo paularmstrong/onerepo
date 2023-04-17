@@ -12,9 +12,8 @@
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"@types/glob": "^8.1.0",
 		"eslint-plugin-astro": "^0.24.0",
-		"glob": "^9.0.0",
+		"glob": "^10.1.0",
 		"netlify-cli": "^13.0.0",
 		"netlify-plugin-csp-generator": "^1.5.0",
 		"onerepo": "0.8.0",
