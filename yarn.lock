@@ -17325,11 +17325,12 @@ __metadata:
   linkType: hard
 
 "typedoc-plugin-markdown@npm:^4.0.0-next.3":
-  version: 4.0.0-next.3
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.3"
+  version: 4.0.0-next.6
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.6"
   peerDependencies:
-    typedoc: ">=0.23.0"
-  checksum: 788836c4a717b75f064784a7e037abb32829239472113e785e94c4deb056991553323bf1abe4d30bf2e5965a8ba2f7fb4632a37d7f44700da045282c03dc5b98
+    prettier: ">=1.8.0"
+    typedoc: ">=0.24.0"
+  checksum: e672e162e68375b51e5f2e22d727c4359ae18884805450f5504cde76a6d2182b9ede9e6529c9f12041e23d5c8b9465445a2777b2cfce4fc31bb13a2de0944a94
   languageName: node
   linkType: hard
 
