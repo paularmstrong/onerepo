@@ -25,16 +25,17 @@ export * from './LogStep';
  */
 export const logger = new Logger({ verbosity: 0 });
 
-type WrapperArgs = {
-	name: string;
-	step?: LogStep;
-};
-
 /**
  * @group Logger
  */
 export async function stepWrapper<T>(
-	{ name, step: inputStep }: WrapperArgs,
+	{
+		name,
+		step: inputStep,
+	}: {
+		name: string;
+		step?: LogStep;
+	},
 	fn: (step: LogStep) => Promise<T>
 ): Promise<T> {
 	const step = inputStep ?? logger.createStep(name);

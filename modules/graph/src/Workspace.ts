@@ -177,11 +177,11 @@ export class Workspace {
 	}
 }
 
-interface Person {
+export type Person = {
 	name?: string;
 	email?: string;
 	url?: string;
-}
+};
 
 export interface PackageJson {
 	name: string;
@@ -217,7 +217,7 @@ export interface PrivatePackageJson extends PackageJson {
 	workspaces?: Array<string>;
 }
 
-type PublishConfig = {
+export type PublishConfig = {
 	access?: 'public' | 'restricted';
 	registry?: string;
 	[key: string]: unknown;

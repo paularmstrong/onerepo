@@ -246,7 +246,7 @@ export interface HandlerExtra {
 	 */
 	getWorkspaces: (opts?: getters.GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * The full monorepo {@link Graph}.
+	 * The full monorepo {@link graph.Graph}.
 	 */
 	graph: Graph;
 	/**

@@ -6,7 +6,7 @@ import type { Graph, Workspace } from '@onerepo/graph';
 import type { LogStep } from '@onerepo/logger';
 import type { WithAllInputs } from './with-all-inputs';
 
-type Through = {
+export type Through = {
 	/**
 	 * Git ref to calculate changes _exclusively_ _since_.
 	 */
@@ -18,7 +18,7 @@ type Through = {
 	through?: string;
 };
 
-type Staged = {
+export type Staged = {
 	from?: never;
 	/**
 	 * Limit to only changes that are currently staged. This cannot be used with `from` and `through`.

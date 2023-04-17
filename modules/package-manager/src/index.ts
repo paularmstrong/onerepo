@@ -4,6 +4,7 @@ import { Yarn } from './yarn';
 import type { PackageManager } from './methods';
 
 export * from './get-package-manager';
+export * from './methods';
 
 /**
  * Get the {@link PackageManager} for the given package manager type (NPM, PNPm, or Yarn)
@@ -18,5 +19,3 @@ const managers: Record<'npm' | 'pnpm' | 'yarn', PackageManager> = {
 	pnpm: Pnpm,
 	yarn: Yarn,
 };
-
-export type { PackageManager };
