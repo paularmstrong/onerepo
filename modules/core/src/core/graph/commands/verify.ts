@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module';
 import cjson from 'cjson';
 import { glob } from 'glob';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
 import semver from 'semver';
 import { read } from '@onerepo/file';

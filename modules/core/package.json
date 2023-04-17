@@ -40,7 +40,7 @@
 		"inquirer": "^9.1.4",
 		"js-yaml": "^4.1.0",
 		"mdast-builder": "^1.1.1",
-		"minimatch": "^7.2.0",
+		"minimatch": "^9.0.0",
 		"picocolors": "^1.0.0",
 		"prettier": "^2",
 		"remark-gfm": "^3.0.1",
