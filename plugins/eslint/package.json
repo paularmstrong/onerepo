@@ -36,7 +36,7 @@
 		"@onerepo/test-cli": "workspace:^",
 		"@types/eslint": "^8.37.0",
 		"esbuild-register": "^3.4.2",
-		"eslint": "^8.34.0",
+		"eslint": "^8.38.0",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.0"
 	},
