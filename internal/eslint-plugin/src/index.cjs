@@ -34,7 +34,7 @@ module.exports = {
 				'import/no-relative-packages': 'error',
 				'import/no-extraneous-dependencies': [
 					'error',
-					{ devDependencies: ['**/*.test.ts', '**/*.config.js', '**/bin/*', '**/commands/*'] },
+					{ devDependencies: ['**/*.test.ts', '**/*.config.js', '**/bin/docgen.cjs'] },
 				],
 				'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 				'import/newline-after-import': 'error',
