@@ -58,29 +58,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-remark@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "@astrojs/markdown-remark@npm:2.1.3"
-  dependencies:
-    "@astrojs/prism": ^2.1.0
-    github-slugger: ^1.4.0
-    import-meta-resolve: ^2.1.0
-    rehype-raw: ^6.1.1
-    rehype-stringify: ^9.0.3
-    remark-gfm: ^3.0.1
-    remark-parse: ^10.0.1
-    remark-rehype: ^10.1.0
-    remark-smartypants: ^2.0.0
-    shiki: ^0.11.1
-    unified: ^10.1.2
-    unist-util-visit: ^4.1.0
-    vfile: ^5.3.2
-  peerDependencies:
-    astro: ^2.2.0
-  checksum: cf8cfabf2ad3f88b786ed38a71b662a973ce82a3f834cdc74d54c92191e870c35ad70ed29d1c8cfcc9499d8f4368aed4119236fa17d2cea2d03edff4fe9aefd3
-  languageName: node
-  linkType: hard
-
 "@astrojs/markdown-remark@npm:^2.1.4":
   version: 2.1.4
   resolution: "@astrojs/markdown-remark@npm:2.1.4"
@@ -104,11 +81,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/mdx@npm:^0.18.0":
-  version: 0.18.4
-  resolution: "@astrojs/mdx@npm:0.18.4"
+"@astrojs/mdx@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "@astrojs/mdx@npm:0.19.0"
   dependencies:
-    "@astrojs/markdown-remark": ^2.1.3
+    "@astrojs/markdown-remark": ^2.1.4
     "@astrojs/prism": ^2.1.1
     "@mdx-js/mdx": ^2.3.0
     "@mdx-js/rollup": ^2.3.0
@@ -126,7 +103,7 @@ __metadata:
     source-map: ^0.7.4
     unist-util-visit: ^4.1.0
     vfile: ^5.3.2
-  checksum: 4bd88ce578553aceec7937432d64500d610f06d29bffc92499ad6eaefdd429cd9162025016e01b007bd31c21d48ed76af21dd788fc2489e0afc24190c347d7ff
+  checksum: e547f03ba5ab1de48c67a73e26674091d847e533c182d43874d6b65e41fbb07e92ddd8542778ea1028f91faeb489c858fdc999cad4d15e652dd545a0d9108fa2
   languageName: node
   linkType: hard
 
@@ -139,7 +116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/tailwind@npm:^3.0.1":
+"@astrojs/tailwind@npm:^3.1.1":
   version: 3.1.1
   resolution: "@astrojs/tailwind@npm:3.1.1"
   dependencies:
@@ -2649,13 +2626,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
   dependencies:
-    "@astrojs/mdx": ^0.18.0
-    "@astrojs/tailwind": ^3.0.1
+    "@astrojs/mdx": ^0.19.0
+    "@astrojs/tailwind": ^3.1.1
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
-    astro: ^2.0.16
+    astro: ^2.3.0
     clsx: ^1.2.1
-    eslint-plugin-astro: ^0.24.0
+    eslint-plugin-astro: ^0.26.1
     glob: ^10.1.0
     netlify-cli: ^13.0.0
     netlify-plugin-csp-generator: ^1.5.0
@@ -4524,9 +4501,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-eslint-parser@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "astro-eslint-parser@npm:0.12.0"
+"astro-eslint-parser@npm:^0.13.1":
+  version: 0.13.3
+  resolution: "astro-eslint-parser@npm:0.13.3"
   dependencies:
     "@astrojs/compiler": ^1.0.0
     "@typescript-eslint/scope-manager": ^5.48.2
@@ -4535,11 +4512,12 @@ __metadata:
     debug: ^4.3.4
     eslint-visitor-keys: ^3.0.0
     espree: ^9.0.0
-  checksum: d149b9159b157355c4a718d1e9319938452e8bb1173bb6f53399d73f1c713f14c30373bf1bff647cd5cab34df9f1e64e0f0f0c4c99a71aa893ce5b1417eea8d5
+    semver: ^7.3.8
+  checksum: 5400c86f1bda5ea942ad200bbb6ce084496115dcdceb2df77630c00166a5181f459bcd39ab78f8953825be6ad97d572dd4fe5cc79a69ddda6a74f224442e0e43
   languageName: node
   linkType: hard
 
-"astro@npm:^2.0.16":
+"astro@npm:^2.3.0":
   version: 2.3.0
   resolution: "astro@npm:2.3.0"
   dependencies:
@@ -7328,19 +7306,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-astro@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "eslint-plugin-astro@npm:0.24.0"
+"eslint-plugin-astro@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "eslint-plugin-astro@npm:0.26.1"
   dependencies:
+    "@eslint-community/eslint-utils": ^4.2.0
     "@jridgewell/sourcemap-codec": ^1.4.14
     "@typescript-eslint/types": ^5.25.0
-    astro-eslint-parser: ^0.12.0
-    eslint-utils: ^3.0.0
+    astro-eslint-parser: ^0.13.1
     postcss: ^8.4.14
     postcss-selector-parser: ^6.0.10
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: af3dedbe7942d2b0d4108d45cb762e89e03e25f04253199dd7572db9823bb4cc55eead7ac5f4b3dd1f05adf08d8aff0e7b715089741726a18ac0628a20a726fc
+  checksum: dd1fce537bc8b7ee17bc02521780421448e9c8ce875b549b064b2b6ab8975b75cad6ef54917733cb1c661075b8947a6d583e4b5a07a786c6a42608930e295644
   languageName: node
   linkType: hard
 
@@ -7415,24 +7393,6 @@ __metadata:
     esrecurse: ^4.3.0
     estraverse: ^5.2.0
   checksum: 9f6e974ab2db641ca8ab13508c405b7b859e72afe9f254e8131ff154d2f40c99ad4545ce326fd9fde3212ff29707102562a4834f1c48617b35d98c71a97fbf3e
-  languageName: node
-  linkType: hard
-
-"eslint-utils@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "eslint-utils@npm:3.0.0"
-  dependencies:
-    eslint-visitor-keys: ^2.0.0
-  peerDependencies:
-    eslint: ">=5"
-  checksum: 0668fe02f5adab2e5a367eee5089f4c39033af20499df88fe4e6aba2015c20720404d8c3d6349b6f716b08fdf91b9da4e5d5481f265049278099c4c836ccb619
-  languageName: node
-  linkType: hard
-
-"eslint-visitor-keys@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "eslint-visitor-keys@npm:2.1.0"
-  checksum: e3081d7dd2611a35f0388bbdc2f5da60b3a3c5b8b6e928daffff7391146b434d691577aa95064c8b7faad0b8a680266bcda0a42439c18c717b80e6718d7e267d
   languageName: node
   linkType: hard
 
