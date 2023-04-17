@@ -59,6 +59,7 @@
 		"@types/inquirer": "^9",
 		"@types/js-yaml": "^4",
 		"@types/npmlog": "^4.1.4",
+		"@types/unist": "^2.0.6",
 		"@types/yargs": "^17",
 		"@types/yargs-parser": "^21",
 		"jest": "^29.5.0",

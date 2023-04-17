@@ -2577,6 +2577,7 @@ __metadata:
     "@types/js-yaml": ^4
     "@types/npmlog": ^4.1.4
     "@types/semver": ^7.3.13
+    "@types/unist": ^2.0.6
     "@types/yargs": ^17
     "@types/yargs-parser": ^21
     ajv: ^8.12.0
@@ -3551,7 +3552,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3":
+"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3, @types/unist@npm:^2.0.6":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
