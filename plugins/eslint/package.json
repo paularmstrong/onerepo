@@ -38,7 +38,7 @@
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.38.0",
 		"onerepo": "workspace:^",
-		"typescript": "^5.0.0"
+		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
 		"eslint": "^8"

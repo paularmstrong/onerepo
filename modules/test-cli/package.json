@@ -32,7 +32,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@types/yargs-unparser": "^2.0.1",
 		"jest": "^29.5.0",
-		"typescript": "^5.0.0"
+		"typescript": "^5.0.4"
 	},
 	"engines": {
 		"node": "^18.0.0"

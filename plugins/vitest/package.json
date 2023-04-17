@@ -35,7 +35,7 @@
 		"@types/yargs-unparser": "^2.0.1",
 		"esbuild-register": "^3.4.2",
 		"onerepo": "workspace:^",
-		"typescript": "^5.0.0"
+		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
 		"vitest": "^0"
