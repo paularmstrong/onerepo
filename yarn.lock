@@ -2637,9 +2637,9 @@ __metadata:
     netlify-cli: ^13.0.0
     netlify-plugin-csp-generator: ^1.5.0
     onerepo: 0.8.0
-    postcss: ^8.4.21
+    postcss: ^8.4.22
     rehype-pretty-code: ^0.9.4
-    tailwindcss: ^3.2.7
+    tailwindcss: ^3.3.1
     typedoc: ^0.23.26
     typedoc-plugin-markdown: ^4.0.0-next.3
     typescript: ^5.0.0
@@ -14757,7 +14757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.0.9, postcss@npm:^8.4.12, postcss@npm:^8.4.14, postcss@npm:^8.4.21, postcss@npm:^8.4.4":
+"postcss@npm:^8.0.9, postcss@npm:^8.4.12, postcss@npm:^8.4.14, postcss@npm:^8.4.21, postcss@npm:^8.4.22, postcss@npm:^8.4.4":
   version: 8.4.22
   resolution: "postcss@npm:8.4.22"
   dependencies:
@@ -16970,7 +16970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.7":
+"tailwindcss@npm:^3.3.1":
   version: 3.3.1
   resolution: "tailwindcss@npm:3.3.1"
   dependencies:
