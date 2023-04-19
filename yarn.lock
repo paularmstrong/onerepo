@@ -2633,7 +2633,7 @@ __metadata:
     postcss: ^8.4.22
     rehype-pretty-code: ^0.9.4
     tailwindcss: ^3.3.1
-    typedoc: ^0.23.26
+    typedoc: ^0.24.0
     typedoc-plugin-markdown: ^4.0.0-next.3
     typescript: ^5.0.4
   languageName: unknown
@@ -11816,12 +11816,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.2.12":
-  version: 4.2.12
-  resolution: "marked@npm:4.2.12"
+"marked@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "marked@npm:4.3.0"
   bin:
     marked: bin/marked.js
-  checksum: bd551cd61028ee639d4ca2ccdfcc5a6ba4227c1b143c4538f3cde27f569dcb57df8e6313560394645b418b84a7336c07ab1e438b89b6324c29d7d8cdd3102d63
+  checksum: 0db6817893952c3ec710eb9ceafb8468bf5ae38cb0f92b7b083baa13d70b19774674be04db5b817681fa7c5c6a088f61300815e4dd75a59696f4716ad69f6260
   languageName: node
   linkType: hard
 
@@ -12731,7 +12731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^7.0.0, minimatch@npm:^7.1.3":
+"minimatch@npm:^7.0.0":
   version: 7.4.6
   resolution: "minimatch@npm:7.4.6"
   dependencies:
@@ -17325,27 +17325,28 @@ __metadata:
   linkType: hard
 
 "typedoc-plugin-markdown@npm:^4.0.0-next.3":
-  version: 4.0.0-next.3
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.3"
+  version: 4.0.0-next.6
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.6"
   peerDependencies:
-    typedoc: ">=0.23.0"
-  checksum: 788836c4a717b75f064784a7e037abb32829239472113e785e94c4deb056991553323bf1abe4d30bf2e5965a8ba2f7fb4632a37d7f44700da045282c03dc5b98
+    prettier: ">=1.8.0"
+    typedoc: ">=0.24.0"
+  checksum: e672e162e68375b51e5f2e22d727c4359ae18884805450f5504cde76a6d2182b9ede9e6529c9f12041e23d5c8b9465445a2777b2cfce4fc31bb13a2de0944a94
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.23.26":
-  version: 0.23.28
-  resolution: "typedoc@npm:0.23.28"
+"typedoc@npm:^0.24.0":
+  version: 0.24.4
+  resolution: "typedoc@npm:0.24.4"
   dependencies:
     lunr: ^2.3.9
-    marked: ^4.2.12
-    minimatch: ^7.1.3
+    marked: ^4.3.0
+    minimatch: ^9.0.0
     shiki: ^0.14.1
   peerDependencies:
     typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x
   bin:
     typedoc: bin/typedoc
-  checksum: 40eb4e207aac1b734e09400cf03f543642cc7b11000895198dd5a0d3166315759ccf4ac30a2915153597c5c186101c72bac2f1fc12b428184a9274d3a0e44c5e
+  checksum: c6762aff2b40eb574fc348c82921471fa1c1dc8a83adc284457aab30ea61768770be469f424340ab646944472653290578fd8e6308d55ec2e611577472067dae
   languageName: node
   linkType: hard
 
