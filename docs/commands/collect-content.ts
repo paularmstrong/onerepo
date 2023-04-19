@@ -124,7 +124,6 @@ ${readme}
 	});
 
 	const dir = await file.makeTempDir('typedoc');
-	const coreDocsTwo = logger.createStep('Getting core type docs');
 	const typedocs: Array<RunSpec> = [];
 	for (const cmd of commands) {
 		typedocs.push({
@@ -137,7 +136,7 @@ ${readme}
 				`${cmd}.md`,
 				'--hideInPageTOC',
 				'--hideBreadcrumbs',
-				'--symbolsWithOwnFile',
+				'--reflectionsWithOwnFile',
 				'type',
 				'--hidePageTitle',
 				'--hideHierarchy',
@@ -150,18 +149,19 @@ ${readme}
 			},
 		});
 	}
-	await coreDocsTwo.end();
 
 	await batch(typedocs);
 
+	const coreDocsTwo = logger.createStep('Getting core type docs');
 	for (const cmd of commands) {
-		const contents = await file.read(path.join(dir, cmd, 'types/Options.md'), 'r', { step: coreDocsTwo });
+		const contents = await file.read(path.join(dir, cmd, 'types/type alias.Options.md'), 'r', { step: coreDocsTwo });
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),
 			contents.replace(/> `object`\n/m, '').replace(/\n## Type declaration\n/m, ''),
 			{ step: coreDocsTwo, sentinel: 'usage-typedoc' }
 		);
 	}
+	await coreDocsTwo.end();
 };
 
 async function writeChangelog(workspace: Workspace, docs: Workspace, step: LogStep) {
