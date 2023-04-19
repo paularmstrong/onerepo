@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import pc from 'picocolors';
 import { write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getBranch, isClean } from '@onerepo/git';
@@ -128,6 +129,12 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 				name: 'otp',
 				prefix: '🔐',
 				message: 'Please enter your npm OTP:',
+				validate: (input) => {
+					if (!input) {
+						return `${pc.bold(pc.red('Error:'))} Please enter a one-time passcode.`;
+					}
+					return true;
+				},
 			},
 		]);
 		otp = inputOtp;

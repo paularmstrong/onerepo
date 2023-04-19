@@ -114,6 +114,12 @@ Commit or stash your changes to continue.`);
 					new inquirer.Separator('⎯'.repeat(20)),
 				],
 				pageSize: Math.min(hasChanges.size + 4, 20),
+				validate: (input) => {
+					if (!input.length) {
+						return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+					}
+					return true;
+				},
 			},
 		]);
 
@@ -203,6 +209,12 @@ Commit or stash your changes to continue.`);
 				name: 'otp',
 				prefix: '🔐',
 				message: 'Please enter your npm OTP:',
+				validate: (input) => {
+					if (!input) {
+						return `${pc.bold(pc.red('Error:'))} Please enter a one-time passcode.`;
+					}
+					return true;
+				},
 			},
 		]);
 		otp = inputOtp;

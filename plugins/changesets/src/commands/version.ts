@@ -93,6 +93,12 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 `,
 			choices: available,
 			pageSize: available.length,
+			validate: (input) => {
+				if (!input.length) {
+					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+				}
+				return true;
+			},
 		},
 	]);
 	logger.unpause();
