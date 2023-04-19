@@ -63,6 +63,12 @@ ${pc.dim(
 				new inquirer.Separator('⎯'.repeat(20)),
 			],
 			pageSize: choices.length + 2,
+			validate: (input) => {
+				if (!input.length) {
+					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+				}
+				return true;
+			},
 		},
 		{
 			type: 'checkbox',
@@ -76,6 +82,12 @@ ${pc.dim(
 				answers.chosen.push(...input.filter((name: string) => !answers.chosen.includes(name)));
 			},
 			pageSize: Math.min(12, graph.workspaces.length),
+			validate: (input, answers) => {
+				if (!answers.chosen.length) {
+					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+				}
+				return true;
+			},
 		},
 		{
 			type: 'confirm',
@@ -125,6 +137,14 @@ ${pc.dim(
 			name: 'contents',
 			message: `Add a short changelog entry to explain the changes for ${chosen.join(', ')}.\n `,
 			waitForUserInput: true,
+			validate: (input) => {
+				if (!input.trim()) {
+					return `${pc.bold(
+						pc.red('Error:')
+					)} Entry is empty. Please enter a descriptive changeset and save the opened file to continue.`;
+				}
+				return true;
+			},
 		},
 	]);
 
