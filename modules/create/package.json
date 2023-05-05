@@ -1,6 +1,6 @@
 {
 	"name": "create-onerepo",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -22,10 +22,10 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "0.3.0",
-		"@onerepo/package-manager": "0.2.1",
-		"@onerepo/subprocess": "0.3.0",
-		"@onerepo/yargs": "0.2.0",
+		"@onerepo/file": "0.3.1",
+		"@onerepo/package-manager": "0.2.2",
+		"@onerepo/subprocess": "0.3.1",
+		"@onerepo/yargs": "0.2.1",
 		"inquirer": "^9.1.4",
 		"js-yaml": "^4.1.0",
 		"picocolors": "^1.0.0",
@@ -34,7 +34,7 @@
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/test-cli": "0.2.2",
+		"@onerepo/test-cli": "0.2.3",
 		"@types/inquirer": "^9.0.3",
 		"@types/js-yaml": "^4.0.5",
 		"esbuild-register": "^3.4.0"

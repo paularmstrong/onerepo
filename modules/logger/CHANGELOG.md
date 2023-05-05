@@ -1,5 +1,11 @@
 # @onerepo/logger
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.0
 
 ### Minor Changes

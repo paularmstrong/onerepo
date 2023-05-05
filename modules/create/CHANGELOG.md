@@ -1,5 +1,17 @@
 # create-onerepo
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7)]:
+  - @onerepo/file@0.3.1
+  - @onerepo/package-manager@0.2.2
+  - @onerepo/subprocess@0.3.1
+  - @onerepo/yargs@0.2.1
+
 ## 0.0.2
 
 ### Patch Changes

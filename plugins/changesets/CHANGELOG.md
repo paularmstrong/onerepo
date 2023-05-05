@@ -1,5 +1,23 @@
 # @onerepo/plugin-changesets
 
+## 0.8.0
+
+### Minor Changes
+
+- Add validation to input prompts when adding new changesets to ensure at least one workspace is added and a changeset entry is content. [#263](https://github.com/paularmstrong/onerepo/pull/263) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7)]:
+  - @onerepo/builders@0.2.1
+  - @onerepo/file@0.3.1
+  - @onerepo/git@0.2.1
+  - @onerepo/graph@0.6.1
+  - @onerepo/logger@0.2.1
+  - @onerepo/subprocess@0.3.1
+
 ## 0.7.0
 
 ### Minor Changes

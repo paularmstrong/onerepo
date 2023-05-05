@@ -1,5 +1,22 @@
 # @onerepo/core
 
+## 0.7.1
+
+### Patch Changes
+
+- Fix issue on install where husky doesn't install due to missing file [#284](https://github.com/paularmstrong/onerepo/pull/284) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7)]:
+  - @onerepo/builders@0.2.1
+  - @onerepo/file@0.3.1
+  - @onerepo/git@0.2.1
+  - @onerepo/graph@0.6.1
+  - @onerepo/logger@0.2.1
+  - @onerepo/subprocess@0.3.1
+  - @onerepo/yargs@0.2.1
+
 ## 0.7.0
 
 ### Minor Changes
