@@ -123,7 +123,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 		sentinel: `${name}-cmd-completions`,
 	});
 
-	if (await file.exists(graph.root.resolve('.husky', '_', 'husky.sh'))) {
+	if (await file.exists(graph.root.resolve('.husky'))) {
 		await run({
 			name: 'Install git hooks',
 			cmd: 'npx',
