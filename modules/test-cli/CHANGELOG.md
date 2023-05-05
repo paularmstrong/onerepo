@@ -1,5 +1,17 @@
 # @onerepo/test-cli
 
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`f434ba5`](https://github.com/paularmstrong/onerepo/commit/f434ba58f4d3de366697d367449440320d0a12a7)]:
+  - @onerepo/builders@0.2.1
+  - @onerepo/graph@0.6.1
+  - @onerepo/logger@0.2.1
+  - @onerepo/yargs@0.2.1
+
 ## 0.2.2
 
 ### Patch Changes

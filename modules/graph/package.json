@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/graph",
-	"version": "0.6.0",
+	"version": "0.6.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -20,7 +20,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/package-manager": "0.2.1",
+		"@onerepo/package-manager": "0.2.2",
 		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
 		"js-yaml": "^4.1.0"
