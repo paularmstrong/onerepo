@@ -36,6 +36,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@astrojs/compiler@npm:^1.4.0":
+  version: 1.4.1
+  resolution: "@astrojs/compiler@npm:1.4.1"
+  checksum: 134eb3b12528ff42fc6ef2c16af1750b21391298f55c23d7090a5a07d081e84f4d7cbd92361a7a97b819fdf0994c2a54ae228c8bb532e898755ba4a369819a77
+  languageName: node
+  linkType: hard
+
 "@astrojs/language-server@npm:^1.0.0":
   version: 1.0.0
   resolution: "@astrojs/language-server@npm:1.0.0"
@@ -80,6 +87,29 @@ __metadata:
   peerDependencies:
     astro: ^2.3.0
   checksum: 20f3d5843426393a5d02420f69cdf59331a8f17cb802e6f787564151a0cc2107cd8519c184a82d90ec21df904e8da62b2aaef39975ebcd8e5481be85a0f06398
+  languageName: node
+  linkType: hard
+
+"@astrojs/markdown-remark@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@astrojs/markdown-remark@npm:2.2.0"
+  dependencies:
+    "@astrojs/prism": ^2.1.0
+    github-slugger: ^1.4.0
+    import-meta-resolve: ^2.1.0
+    rehype-raw: ^6.1.1
+    rehype-stringify: ^9.0.3
+    remark-gfm: ^3.0.1
+    remark-parse: ^10.0.1
+    remark-rehype: ^10.1.0
+    remark-smartypants: ^2.0.0
+    shiki: ^0.14.1
+    unified: ^10.1.2
+    unist-util-visit: ^4.1.0
+    vfile: ^5.3.2
+  peerDependencies:
+    astro: ^2.4.0
+  checksum: 14d9ed6695efd84cfdf6c32173e15e8567fff1be0ed38c01d64a0a9f682227af815a870e89c4b9c6d7f49e1813ec850d2ec0a6082a6322d701659528e927c1de
   languageName: node
   linkType: hard
 
@@ -3952,7 +3982,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.0, acorn@npm:^8.2.4, acorn@npm:^8.4.1, acorn@npm:^8.6.0, acorn@npm:^8.8.0, acorn@npm:^8.8.1":
+"acorn@npm:^8.0.0, acorn@npm:^8.2.4, acorn@npm:^8.4.1, acorn@npm:^8.6.0, acorn@npm:^8.8.0, acorn@npm:^8.8.2":
   version: 8.8.2
   resolution: "acorn@npm:8.8.2"
   bin:
@@ -4502,12 +4532,12 @@ __metadata:
   linkType: hard
 
 "astro@npm:^2.3.0":
-  version: 2.3.3
-  resolution: "astro@npm:2.3.3"
+  version: 2.4.2
+  resolution: "astro@npm:2.4.2"
   dependencies:
-    "@astrojs/compiler": ^1.3.2
+    "@astrojs/compiler": ^1.4.0
     "@astrojs/language-server": ^1.0.0
-    "@astrojs/markdown-remark": ^2.1.4
+    "@astrojs/markdown-remark": ^2.2.0
     "@astrojs/telemetry": ^2.1.1
     "@astrojs/webapi": ^2.1.1
     "@babel/core": ^7.18.2
@@ -4518,7 +4548,7 @@ __metadata:
     "@babel/types": ^7.18.4
     "@types/babel__core": ^7.1.19
     "@types/yargs-parser": ^21.0.0
-    acorn: ^8.8.1
+    acorn: ^8.8.2
     boxen: ^6.2.1
     chokidar: ^3.5.3
     ci-info: ^3.3.1
@@ -4529,7 +4559,7 @@ __metadata:
     devalue: ^4.2.0
     diff: ^5.1.0
     es-module-lexer: ^1.1.0
-    estree-walker: ^3.0.1
+    estree-walker: 3.0.0
     execa: ^6.1.0
     fast-glob: ^3.2.11
     github-slugger: ^2.0.0
@@ -4545,7 +4575,7 @@ __metadata:
     rehype: ^12.0.1
     semver: ^7.3.8
     server-destroy: ^1.0.1
-    shiki: ^0.11.1
+    shiki: ^0.14.1
     slash: ^4.0.0
     string-width: ^5.1.2
     strip-ansi: ^7.0.1
@@ -4559,13 +4589,13 @@ __metadata:
     yargs-parser: ^21.0.1
     zod: ^3.20.6
   peerDependencies:
-    sharp: ^0.31.3
+    sharp: ">=0.31.0"
   peerDependenciesMeta:
     sharp:
       optional: true
   bin:
     astro: astro.js
-  checksum: a7165834a199ac812368ec512561e01cd284eeea403c7850d8dc2b71ea251fddcef7b472767c0e443342a984fb7de1d03da0f26979a3f8b18236557c55f36615
+  checksum: 60bc117b7bf39f312f3424194c7cb34f69e4849bdde2125dd2f2a72ee28511e1071bcb72b7e1cdc7d171e283b7fd5cc4a5e3c90bd058f4b2b605b289c76db000
   languageName: node
   linkType: hard
 
@@ -7508,7 +7538,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estree-walker@npm:^3.0.0, estree-walker@npm:^3.0.1":
+"estree-walker@npm:3.0.0":
+  version: 3.0.0
+  resolution: "estree-walker@npm:3.0.0"
+  checksum: 3b6b5fd5e37df9e2f472fe6b39eecee9f6ae395676c1535a9bca70ed6bf4a7233747c2f56b8cfa47bdb47411589b87e4ef108875d18415d7e3d2b2225b752e75
+  languageName: node
+  linkType: hard
+
+"estree-walker@npm:^3.0.0":
   version: 3.0.3
   resolution: "estree-walker@npm:3.0.3"
   dependencies:
