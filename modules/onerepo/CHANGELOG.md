@@ -1,5 +1,17 @@
 # onerepo
 
+## 0.8.2
+
+### Patch Changes
+
+- Gracefully handle git merge-base lookups when the `--fork-point` becomes lost due to `git gc` [#295](https://github.com/paularmstrong/onerepo/pull/295) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`7250772`](https://github.com/paularmstrong/onerepo/commit/72507722769e0f6a29acbab90b13ec495d4dea1f)]:
+  - @onerepo/git@0.2.2
+  - @onerepo/builders@0.2.2
+  - @onerepo/core@0.7.2
+  - @onerepo/yargs@0.2.2
+
 ## 0.8.1
 
 ### Patch Changes

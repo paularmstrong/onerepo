@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-jest",
 	"description": "Official Jest plugin for the oneRepo toolchain.",
 	"title": "Jest",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -22,8 +22,8 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.2.1",
-		"@onerepo/git": "0.2.1",
+		"@onerepo/builders": "0.2.2",
+		"@onerepo/git": "0.2.2",
 		"@onerepo/subprocess": "0.3.1",
 		"yargs-unparser": "^2.0.0"
 	},

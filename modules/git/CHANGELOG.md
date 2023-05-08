@@ -1,5 +1,11 @@
 # @onerepo/git
 
+## 0.2.2
+
+### Patch Changes
+
+- Gracefully handle git merge-base lookups when the `--fork-point` becomes lost due to `git gc` [#295](https://github.com/paularmstrong/onerepo/pull/295) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.1
 
 ### Patch Changes

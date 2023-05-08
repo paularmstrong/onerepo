@@ -1,5 +1,13 @@
 # @onerepo/plugin-changesets
 
+## 0.8.1
+
+### Patch Changes
+
+- Updated dependencies [[`7250772`](https://github.com/paularmstrong/onerepo/commit/72507722769e0f6a29acbab90b13ec495d4dea1f)]:
+  - @onerepo/git@0.2.2
+  - @onerepo/builders@0.2.2
+
 ## 0.8.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @onerepo/plugin-jest
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`7250772`](https://github.com/paularmstrong/onerepo/commit/72507722769e0f6a29acbab90b13ec495d4dea1f)]:
+  - @onerepo/git@0.2.2
+  - @onerepo/builders@0.2.2
+
 ## 0.1.1
 
 ### Patch Changes
