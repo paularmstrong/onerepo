@@ -94,12 +94,16 @@ export async function getMergeBase({ step }: Options = {}) {
 				skipFailures: true,
 			});
 
-			return base;
+			if (base) {
+				return base;
+			}
 		} catch (e) {
 			// don't worry about it
 		}
 
-		// TODO: figure out why fork point sometimes doesn't work
+		// Less accurate, but will resolve a commit if --fork-point fails
+		// See discussion on fork-point: https://git-scm.com/docs/git-merge-base#_discussion_on_fork_point_mode
+		// tl;dr: git gc may lose ref to the fork-point and return an empty result
 		const [base] = await run({
 			name: 'Get merge base',
 			cmd: 'git',
