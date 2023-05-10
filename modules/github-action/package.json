@@ -1,0 +1,34 @@
+{
+	"name": "@onerepo/github-action",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git"
+	},
+	"homepage": "https://onerepo.tools",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/**/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
+	"devDependencies": {
+		"@internal/test-config": "workspace:^",
+		"@internal/tsconfig": "workspace:^"
+	},
+	"engines": {
+		"node": "^18.0.0"
+	},
+	"dependencies": {
+		"@actions/core": "^1.10.0",
+		"glob": "^10.1.0",
+		"onerepo": "workspace:^"
+	}
+}

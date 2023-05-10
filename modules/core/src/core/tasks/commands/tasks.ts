@@ -5,7 +5,7 @@ import * as git from '@onerepo/git';
 import { logger } from '@onerepo/logger';
 import { builders } from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
-import type { Graph, Lifecycle, Task, Tasks, Workspace } from '@onerepo/graph';
+import type { Graph, Lifecycle, Task, TaskDef, Tasks, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'tasks';
@@ -82,22 +82,22 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	if (!files.length && !workspaceNames.length) {
 		logger.warn('No tasks to run');
 		if (list) {
-			process.stdout.write('[]');
+			process.stdout.write(JSON.stringify({ parallel: [], serial: [] }));
 		}
 		return;
 	}
 
-	const sequentialTasks: TaskSet = { pre: [], run: [], post: [] };
+	const serialTasks: TaskSet = { pre: [], run: [], post: [] };
 	const parallelTasks: TaskSet = { pre: [], run: [], post: [] };
 	let hasTasks = false;
 
 	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Required<Tasks>, type: keyof TaskSet) {
-		tasks.sequential.forEach((task) => {
+		tasks.serial.forEach((task) => {
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(argv.$0, graph, workspace, task, workspaceNames);
-				sequentialTasks[type].push(spec);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames);
+				serialTasks[type].push(specs);
 			}
 		});
 
@@ -105,8 +105,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const spec = taskToSpec(argv.$0, graph, workspace, task, workspaceNames);
-				parallelTasks[type].push(spec);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames);
+				parallelTasks[type].push(specs);
 			}
 		});
 	}
@@ -136,14 +136,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	}
 
 	if (list) {
-		const all = [
-			...parallelTasks.pre,
-			...sequentialTasks.pre,
-			...parallelTasks.run,
-			...sequentialTasks.run,
-			...parallelTasks.post,
-			...sequentialTasks.post,
-		];
+		const all = {
+			parallel: [...parallelTasks.pre, ...parallelTasks.run, ...parallelTasks.post],
+			serial: [...serialTasks.pre, ...serialTasks.run, ...serialTasks.post],
+		};
 		logger.debug(JSON.stringify(all, null, 2));
 		process.stdout.write(JSON.stringify(all));
 		return;
@@ -155,43 +151,53 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 	}
 
 	try {
-		await batch(parallelTasks.pre);
-		await batch(parallelTasks.run);
-		await batch(parallelTasks.post);
+		await batch(parallelTasks.pre.flat(1));
+		await batch(parallelTasks.run.flat(1));
+		await batch(parallelTasks.post.flat(1));
 	} catch (e) {
 		// continue so all tasks run
 	}
 
-	for (const task of sequentialTasks.pre) {
-		try {
-			await run(task);
-		} catch (e) {
-			// continue so all tasks run
-		}
-	}
-	for (const task of sequentialTasks.run) {
-		try {
-			await run(task);
-		} catch (e) {
-			// continue so all tasks run
-		}
-	}
-	for (const task of sequentialTasks.post) {
-		try {
-			await run(task);
-		} catch (e) {
-			// continue so all tasks run
-		}
-	}
+	await runSeq(serialTasks.pre.flat(1));
+	await runSeq(serialTasks.run.flat(1));
+	await runSeq(serialTasks.post.flat(1));
 
 	// Command will fail if any subprocesses failed
 };
 
-function taskToSpec(
+async function runSeq(cycle: Array<ExtendedRunSpec>) {
+	for (const task of cycle) {
+		try {
+			await run(task);
+		} catch (e) {
+			// continue so all tasks run
+		}
+	}
+}
+
+function taskToSpecs(
 	cliName: string,
 	graph: Graph,
 	workspace: Workspace,
 	task: Task,
+	wsNames: Array<string>
+): Array<ExtendedRunSpec> {
+	if (Array.isArray(task)) {
+		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames));
+	}
+
+	if (typeof task !== 'string' && Array.isArray(task.cmd)) {
+		return task.cmd.map((cmd) => singleTaskToSpec(cliName, graph, workspace, { ...task, cmd }, wsNames));
+	}
+
+	return [singleTaskToSpec(cliName, graph, workspace, task as string | (TaskDef & { cmd: string }), wsNames)];
+}
+
+function singleTaskToSpec(
+	cliName: string,
+	graph: Graph,
+	workspace: Workspace,
+	task: string | (TaskDef & { cmd: string }),
 	wsNames: Array<string>
 ): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
@@ -205,9 +211,7 @@ function taskToSpec(
 	].filter(Boolean) as Array<string>;
 
 	return {
-		name: `Run \`${command.replace(/^\$0/, cliName).replace('${workspaces}', wsNames.join(' '))}\` in \`${
-			workspace.name
-		}\``,
+		name: `${command.replace(/^\$0/, cliName)} (${workspace.name})`,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
@@ -220,7 +224,7 @@ function taskToSpec(
 }
 
 function matchTask(force: boolean, task: Task, files: Array<string>, cwd: string) {
-	if (typeof task === 'string' || !task.match) {
+	if (typeof task === 'string' || Array.isArray(task) || !task.match) {
 		return force;
 	}
 
@@ -234,4 +238,5 @@ function slugify(str: string) {
 }
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string } };
-type TaskSet = { pre: Array<ExtendedRunSpec>; run: Array<ExtendedRunSpec>; post: Array<ExtendedRunSpec> };
+type TaskList = Array<Array<ExtendedRunSpec>>;
+type TaskSet = { pre: TaskList; run: TaskList; post: TaskList };

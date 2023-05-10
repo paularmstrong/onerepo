@@ -1,0 +1,10 @@
+name: oneRepo
+description: Run oneRepo tasks on GitHub
+inputs:
+  task:
+    description: A single task or sequence of tasks from the oneRepo tasks --list output
+    required: true
+
+runs:
+  using: node16
+  main: ../../modules/github-action/dist/run-task.cjs

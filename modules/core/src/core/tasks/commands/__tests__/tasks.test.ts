@@ -51,10 +51,13 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-commit --list', { graph });
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint'] }),
-			expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc'] }),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc'] })],
+			],
+			serial: [],
+		});
 	});
 
 	test('lists tasks for all pre-, normal, and post-', async () => {
@@ -62,24 +65,22 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle commit --list', { graph });
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: expect.stringMatching(/test-runner$/),
-				args: ['lint'],
-				opts: { cwd: '.' },
-			}),
-			expect.objectContaining({
-				cmd: expect.stringMatching(/test-runner$/),
-				args: ['tsc'],
-				opts: { cwd: '.' },
-			}),
-			expect.objectContaining({ cmd: 'echo', args: ['"commit"'] }),
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"post-commit"'],
-				opts: { cwd: '.' },
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc'] })],
+			],
+			serial: [
+				[expect.objectContaining({ cmd: 'echo', args: ['"commit"'] })],
+				[
+					expect.objectContaining({
+						cmd: 'echo',
+						args: ['"post-commit"'],
+						opts: { cwd: '.' },
+					}),
+				],
+			],
+		});
 	});
 
 	test('includes meta information on task list', async () => {
@@ -87,14 +88,19 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-merge --list', { graph });
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"pre-merge"', '"burritos"'],
-				opts: { cwd: 'modules/burritos' },
-				meta: { good: 'yes', name: 'fixture-burritos', slug: 'fixture-burritos' },
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [],
+			serial: [
+				[
+					expect.objectContaining({
+						cmd: 'echo',
+						args: ['"pre-merge"', '"burritos"'],
+						opts: { cwd: 'modules/burritos' },
+						meta: { good: 'yes', name: 'fixture-burritos', slug: 'fixture-burritos' },
+					}),
+				],
+			],
+		});
 	});
 
 	test('returns no tasks if all files were ignored', async () => {
@@ -103,10 +109,10 @@ describe('handler', () => {
 
 		await run('-c commit --list --ignore "modules/tacos/**/*"', { graph });
 
-		expect(out).toEqual('[]');
+		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
-	test('ignores files', async () => {
+	test('can ignore files', async () => {
 		jest
 			.spyOn(git, 'getModifiedFiles')
 			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
@@ -114,14 +120,19 @@ describe('handler', () => {
 
 		await run('-c post-commit --list --ignore "modules/tacos/**/*"', { graph });
 
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"post-commit"'],
-				opts: { cwd: '.' },
-				meta: { name: 'fixture-root', slug: 'fixture-root' },
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [],
+			serial: [
+				[
+					expect.objectContaining({
+						cmd: 'echo',
+						args: ['"post-commit"'],
+						opts: { cwd: '.' },
+						meta: { name: 'fixture-root', slug: 'fixture-root' },
+					}),
+				],
+			],
+		});
 	});
 
 	test('filters out commands when matchers do not match', async () => {
@@ -132,7 +143,7 @@ describe('handler', () => {
 
 		await run('-c build --list', { graph });
 
-		expect(out).toEqual('[]');
+		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
 	test('includes tasks that match cross-workspaces', async () => {
@@ -141,12 +152,20 @@ describe('handler', () => {
 
 		await run('-c publish --list', { graph });
 
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'publish',
-				args: ['tacos'],
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[
+					{
+						args: ['tacos'],
+						cmd: 'publish',
+						meta: { name: 'fixture-tacos', slug: 'fixture-tacos' },
+						name: 'publish tacos (fixture-tacos)',
+						opts: { cwd: 'modules/tacos' },
+					},
+				],
+			],
+			serial: [],
+		});
 	});
 
 	test('can use multiple matchers', async () => {
@@ -155,31 +174,47 @@ describe('handler', () => {
 
 		await run('-c pre-merge --list', { graph });
 
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"pre-merge"', '"burritos"'],
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [],
+			serial: [
+				[
+					{
+						args: ['"pre-merge"', '"burritos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-burritos', slug: 'fixture-burritos' },
+						name: 'echo "pre-merge" "burritos" (fixture-burritos)',
+						opts: { cwd: 'modules/burritos' },
+					},
+				],
+			],
+		});
 
 		out = '';
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/asdf']);
 
 		await run('-c pre-merge --list', { graph });
 
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"pre-merge"', '"burritos"'],
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [],
+			serial: [
+				[
+					{
+						args: ['"pre-merge"', '"burritos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-burritos', slug: 'fixture-burritos' },
+						name: 'echo "pre-merge" "burritos" (fixture-burritos)',
+						opts: { cwd: 'modules/burritos' },
+					},
+				],
+			],
+		});
 
 		out = '';
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/foobar']);
 
 		await run('-c pre-merge --list', { graph });
 
-		expect(JSON.parse(out)).toEqual([]);
+		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
 	test('runs all workspaces if the root is affected', async () => {
@@ -187,22 +222,37 @@ describe('handler', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle deploy --list', { graph });
-		expect(JSON.parse(out)).toEqual([
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"deployroot"'],
-				opts: { cwd: '.' },
-			}),
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"deployburritos"'],
-				opts: { cwd: 'modules/burritos' },
-			}),
-			expect.objectContaining({
-				cmd: 'echo',
-				args: ['"deploytacos"'],
-				opts: { cwd: 'modules/tacos' },
-			}),
-		]);
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[
+					{
+						args: ['"deployroot"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-root', slug: 'fixture-root' },
+						name: 'echo "deployroot" (fixture-root)',
+						opts: { cwd: '.' },
+					},
+				],
+				[
+					{
+						args: ['"deployburritos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-burritos', slug: 'fixture-burritos' },
+						name: 'echo "deployburritos" (fixture-burritos)',
+						opts: { cwd: 'modules/burritos' },
+					},
+				],
+				[
+					{
+						args: ['"deploytacos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-tacos', slug: 'fixture-tacos' },
+						name: 'echo "deploytacos" (fixture-tacos)',
+						opts: { cwd: 'modules/tacos' },
+					},
+				],
+			],
+			serial: [],
+		});
 	});
 });

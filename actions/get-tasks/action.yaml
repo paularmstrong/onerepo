@@ -1,0 +1,15 @@
+name: oneRepo
+description: Run oneRepo tasks on GitHub
+inputs:
+  cli:
+    description: Path to your oneRepo cli (eg, ./bin/one.mjs)
+    required: true
+  lifecycle:
+    description: The lifecycle that will be run
+    required: true
+  verbosity:
+    description: How verbose to be
+
+runs:
+  using: node16
+  main: ../../modules/github-action/dist/get-tasks.cjs
