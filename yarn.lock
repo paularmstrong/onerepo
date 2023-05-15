@@ -17467,12 +17467,12 @@ __metadata:
   linkType: hard
 
 "typedoc-plugin-markdown@npm:^4.0.0-next.3":
-  version: 4.0.0-next.6
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.6"
+  version: 4.0.0-next.11
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.11"
   peerDependencies:
     prettier: ">=1.8.0"
     typedoc: ">=0.24.0"
-  checksum: e672e162e68375b51e5f2e22d727c4359ae18884805450f5504cde76a6d2182b9ede9e6529c9f12041e23d5c8b9465445a2777b2cfce4fc31bb13a2de0944a94
+  checksum: 51ee3a52d037cfe49e0993e11de6878349d090706762bd1aebf0c87c9690b47ff24da81e725a49300964943faecded8c2790da41c5af31fa7aaf55d4210675e7
   languageName: node
   linkType: hard
 
