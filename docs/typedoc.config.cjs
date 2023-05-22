@@ -7,7 +7,8 @@ module.exports = {
 	hideGenerator: true,
 	readme: 'none',
 	sourceLinkTemplate: 'https://github.com/paularmstrong/onerepo/blob/main/{path}#L{line}',
-	reflectionsWithOwnFile: ['class', 'interface'],
+	outputFileStrategy: 'modules',
+	typeDeclarationFormat: 'table',
 	kindSortOrder: [
 		'Reference',
 		'Project',
