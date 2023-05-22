@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-changesets",
 	"description": "Official Changesets plugin for the oneRepo toolchain.",
 	"title": "Changesets",
-	"version": "0.8.1",
+	"version": "0.8.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -30,7 +30,7 @@
 		"@onerepo/builders": "0.2.2",
 		"@onerepo/file": "0.3.1",
 		"@onerepo/git": "0.2.2",
-		"@onerepo/graph": "0.6.1",
+		"@onerepo/graph": "0.7.0",
 		"@onerepo/logger": "0.2.1",
 		"@onerepo/subprocess": "0.3.1",
 		"inquirer": "^9.1.4",

@@ -1,5 +1,33 @@
 # @onerepo/core
 
+## 0.8.0
+
+### Minor Changes
+
+- Added ability to have _sequential_ steps within both `parallel` and `serial` tasks by providing arrays of steps. [#298](https://github.com/paularmstrong/onerepo/pull/298) ([@paularmstrong](https://github.com/paularmstrong))
+
+  ```js
+  /** @type import('onerepo').graph.TaskConfig */
+  export default {
+  	'example-parallel': {
+  		parallel: ['echo "run separately"', ['echo "first"', 'echo "second"']],
+  	},
+  	'example-serial': {
+  		serial: [['echo "first"', 'echo "second"'], 'echo "run separately"'],
+  	},
+  	'example-serial-with-match': {
+  		serial: [{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' }, 'echo "run separately"'],
+  	},
+  };
+  ```
+
+- `sequential` has been renamed in Task configs to `serial` in order to differentiate between what _should_ be run separately to what _must_ be run in an ordered manner. [#298](https://github.com/paularmstrong/onerepo/pull/298) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`23f830c`](https://github.com/paularmstrong/onerepo/commit/23f830cd9632c65ae507d740bb7ceb7415961646), [`23f830c`](https://github.com/paularmstrong/onerepo/commit/23f830cd9632c65ae507d740bb7ceb7415961646)]:
+  - @onerepo/graph@0.7.0
+
 ## 0.7.2
 
 ### Patch Changes

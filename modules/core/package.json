@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/core",
-	"version": "0.7.2",
+	"version": "0.8.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,7 +23,7 @@
 		"@onerepo/builders": "0.2.2",
 		"@onerepo/file": "0.3.1",
 		"@onerepo/git": "0.2.2",
-		"@onerepo/graph": "0.6.1",
+		"@onerepo/graph": "0.7.0",
 		"@onerepo/logger": "0.2.1",
 		"@onerepo/subprocess": "0.3.1",
 		"@onerepo/yargs": "0.2.2",
@@ -53,7 +53,7 @@
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/test-cli": "0.2.4",
+		"@onerepo/test-cli": "0.2.5",
 		"@types/cjson": "^0.5.0",
 		"@types/ejs": "^3.1.2",
 		"@types/inquirer": "^9.0.3",

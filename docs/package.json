@@ -16,7 +16,7 @@
 		"glob": "^10.1.0",
 		"netlify-cli": "^14.0.0",
 		"netlify-plugin-csp-generator": "^1.5.0",
-		"onerepo": "0.8.2",
+		"onerepo": "0.9.0",
 		"postcss": "^8.4.22",
 		"rehype-pretty-code": "^0.9.4",
 		"typedoc": "^0.24.0",
