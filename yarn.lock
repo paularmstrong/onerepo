@@ -13277,8 +13277,8 @@ __metadata:
   linkType: hard
 
 "netlify-cli@npm:^14.0.0":
-  version: 14.3.1
-  resolution: "netlify-cli@npm:14.3.1"
+  version: 14.4.0
+  resolution: "netlify-cli@npm:14.4.0"
   dependencies:
     "@bugsnag/js": ^7.20.0
     "@fastify/static": ^6.6.0
@@ -13391,7 +13391,7 @@ __metadata:
   bin:
     netlify: bin/run.mjs
     ntl: bin/run.mjs
-  checksum: a02162ca79e5654246ede441435136a0d37c74a380cf6e99f8f2f525dae0b31389b2607e0195acf240b588c5de88fedd1996a64b562a9a5f1fe8f89a7c78357b
+  checksum: 4d1bb86465820b8e48611da7d827d2147df58f68591c4317411b478f4f77e6311fd596657a1a5d413fa72088e378b6a832d7a8e7541e9609a2771c1b118b5043
   languageName: node
   linkType: hard
 
