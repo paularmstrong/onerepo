@@ -8,7 +8,6 @@ import * as cmd from './commands/tasks';
 export type Options = {
 	/**
 	 * Array of fileglobs to ignore when calculating the changed workspaces.
-	 * @example `['**\/README']`
 	 */
 	ignore?: Array<string>;
 	/**

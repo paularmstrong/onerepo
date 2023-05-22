@@ -132,14 +132,16 @@ ${readme}
 			args: [
 				'--plugin',
 				'typedoc-plugin-markdown',
-				'--entryDocument',
+				'--entryFileName',
 				`${cmd}.md`,
 				'--hideInPageTOC',
 				'--hideBreadcrumbs',
-				'--reflectionsWithOwnFile',
-				'type',
+				'--outputFileStrategy',
+				'modules',
 				'--hidePageTitle',
 				'--hideHierarchy',
+				'--typeDeclarationFormat',
+				'table',
 				'--out',
 				path.join(dir, cmd),
 				core.resolve('src/core', cmd, 'index.ts'),
@@ -154,10 +156,15 @@ ${readme}
 
 	const coreDocsTwo = logger.createStep('Getting core type docs');
 	for (const cmd of commands) {
-		const contents = await file.read(path.join(dir, cmd, 'types/type alias.Options.md'), 'r', { step: coreDocsTwo });
+		const contents = await file.read(path.join(dir, cmd, 'API.md'), 'r', { step: coreDocsTwo });
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),
-			contents.replace(/> `object`\n/m, '').replace(/\n## Type declaration\n/m, ''),
+			contents
+				.replace(/[^]+#### Type declaration/gm, '')
+				.replace(/^\*\*Source:\*\*[^\n]+\n/gm, '')
+				.replace(/API\.md/g, '')
+				.replace(/####/g, '###')
+				.replace('Type declaration', 'Options'),
 			{ step: coreDocsTwo, sentinel: 'usage-typedoc' }
 		);
 	}
