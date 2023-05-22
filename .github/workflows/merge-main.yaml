@@ -39,7 +39,7 @@ jobs:
         task:
           - ${{ fromJSON(needs.setup.outputs.tasks).parallel }}
           - ${{ fromJSON(needs.setup.outputs.tasks).serial }}
-    name: ${{ matrix.task.name }}
+    name: ${{ join(matrix.task.*.name, ', ') }}
     steps:
       - uses: actions/checkout@v3
         with:
