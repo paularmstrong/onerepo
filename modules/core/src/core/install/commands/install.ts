@@ -96,8 +96,6 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 
 	const installLocation = path.join(location!, name);
 
-	logger.warn(`Requesting sudo permissions in order to write to ${installLocation}. `);
-
 	await sudo({
 		name: 'Create executable',
 		cmd: 'echo',
