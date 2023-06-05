@@ -174,30 +174,41 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
  * @group Subprocess
  */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
-	const log = logger.createStep(options.name);
+	const { name, runDry } = options;
+	const step = logger.createStep(name);
+	const commandString = `${options.cmd} ${(options.args || []).join(' ')}`;
+
+	if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
+		step.log(
+			`DRY-RUN command:
+    sudo ${commandString}\n`
+		);
+		await step.end();
+		return ['', ''];
+	}
 
 	return new Promise((resolve, reject) => {
 		try {
 			execSync('sudo -n true &> /dev/null');
 		} catch (e) {
-			log.warn('Sudo permissions are required to continue!');
-			log.warn(options.reason ?? 'If prompted, please type your password and hit [RETURN].');
-			log.debug(`Sudo permissions are being requested to run the following:
-		$ ${options.cmd} ${(options.args || []).join(' ')}
+			step.warn('Sudo permissions are required to continue!');
+			step.warn(options.reason ?? 'If prompted, please type your password and hit [RETURN].');
+			step.debug(`Sudo permissions are being requested to run the following:
+		$ ${commandString}
 	`);
 		}
 		logger.pause();
 
 		exec(
-			`sudo ${options.cmd} ${(options.args || []).join(' ')}`,
+			`sudo ${commandString}`,
 			{
 				cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
 			},
 			(error, stdout, stderr) => {
 				if (error) {
-					log.error(error);
+					step.error(error);
 					return Promise.resolve()
-						.then(() => log.end())
+						.then(() => step.end())
 						.then(() => reject(error));
 				}
 
@@ -207,7 +218,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 				return Promise.resolve()
 					.then(() => {
 						logger.unpause();
-						return log.end();
+						return step.end();
 					})
 					.then(() => resolve([stdout, stderr]));
 			}

@@ -212,7 +212,7 @@ export async function writeSafe(
 		const writeContent = `${start}\n${contents}\n${end}\n`;
 		const output =
 			matches && matches.length
-				? fileContents.replace(matches[1], writeContent)
+				? fileContents.replace(matches[1], () => writeContent)
 				: `${fileContents}\n\n${writeContent}\n`;
 
 		return await write(filename, output, { step });
