@@ -4,8 +4,8 @@ updates:
     directory: '/'
     rebase-strategy: auto
     schedule:
-      interval: weekly
+      interval: monthly
     versioning-strategy: lockfile-only
     labels:
       - dependencies
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 15
