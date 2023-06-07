@@ -42,7 +42,7 @@ describe('LogStep', () => {
 		expect(out).toMatchInlineSnapshot(`
 		" ┌ tacos
 		 │ [36m[1mLOG[22m[39m hellooooo
-		 └ [32m✔ [39m[2m0ms[22m
+		 └ [32m✔[39m [2m0ms[22m
 		"
 	`);
 	});
