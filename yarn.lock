@@ -131,17 +131,17 @@ __metadata:
   linkType: hard
 
 "@astrojs/tailwind@npm:^3.1.1":
-  version: 3.1.2
-  resolution: "@astrojs/tailwind@npm:3.1.2"
+  version: 3.1.3
+  resolution: "@astrojs/tailwind@npm:3.1.3"
   dependencies:
     "@proload/core": ^0.3.3
     autoprefixer: ^10.4.14
     postcss: ^8.4.23
     postcss-load-config: ^4.0.1
   peerDependencies:
-    astro: ^2.3.3
+    astro: ^2.5.0
     tailwindcss: ^3.0.24
-  checksum: cf9dfd0295ceca1bd41dfce4a9d62acf64705564d85117d74b2f168e050b9bebc51aceb13c09259a27ea1d1eb5f87f5876a3e68b3033446b6f330c0fc372de7d
+  checksum: 5f9d00a383884d2c090e312c925321b1fc96def37965f03eda22aee887c0ee41a22ca1b858de8a1171c9d4258b9e6871139e43c48bab99c5ef7bd47986a90cb6
   languageName: node
   linkType: hard
 
