@@ -34,16 +34,17 @@ const defaultConfig: Required<Config> = {
 };
 
 /**
- * Command-line application returned from setup
+ * Command-line application returned from {@link setup}.
  *
+ * @example
  * ```js
- * const setup().then(({ run }) => run());
+ * setup().then(({ run }) => run());
  * ```
  * @group Core
  */
 export type App = {
 	/**
-	 * (advanced) Further extend the yargs object before running the command handler.
+	 * (advanced) Further extend the yargs object before running the command handler. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more information.
 	 */
 	yargs: Yargs;
 	/**
