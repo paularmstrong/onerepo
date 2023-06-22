@@ -64,7 +64,7 @@ Filenames will be rendered using EJS as well. If a file includes something like 
 
 You will likely use [inquirer prompts](https://github.com/SBoudrias/Inquirer.js/blob/master/README.md) provided by each `.onegen.cjs` configuration to add input variables to your templates.
 
-```js title="templates/module/.onegen.js" {5-11}
+```js title="templates/module/.onegen.js" {9-15}
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 

@@ -32,7 +32,8 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			'typedoc-plugin-markdown',
 			'--entryFileName',
 			'index.md',
-			'--hideInPageTOC',
+			...options,
+			'--categorizeByGroup',
 			'--baseUrl',
 			'/docs/core/api/',
 			'--out',
@@ -52,6 +53,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		let out = contents
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\.md(#[^)]+)?/g, '/$1')
+			.replace(/^#+ Source\n\n\[([^:]+):(\d+)\]/gm, `**Source:** [$1:$2]`)
 			.replace('[**onerepo**](/docs/core/api/)\n\n---\n\n', '');
 		out = `---
 title: "API: ${doc.replace('.md', '')}"
@@ -70,3 +72,30 @@ ${out}`;
 
 	await fixFiles.end();
 };
+
+export const options: Array<string> = [
+	'--githubPages',
+	'false',
+	'--hideGenerator',
+	'true',
+	'--outputFileStrategy',
+	'modules',
+	'--readme',
+	'none',
+	'--sourceLinkTemplate',
+	'https://github.com/paularmstrong/onerepo/blob/main/{path}#L{line}',
+	'--enumMembersFormat',
+	'table',
+	'--excludePrivate',
+	'--excludeInternal',
+	'--hideBreadcrumbs',
+	'--hideHierarchy',
+	'--hideInPageTOC',
+	'--hideKindPrefix',
+	'--identifiersAsCodeBlocks',
+	'true',
+	'--propertiesFormat',
+	'table',
+	'--typeDeclarationFormat',
+	'table',
+];

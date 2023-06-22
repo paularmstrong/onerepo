@@ -192,6 +192,8 @@ module.exports = {
 					css: {
 						'code::before': { content: '""' },
 						'code::after': { content: '""' },
+						// When typedoc-plugin-markdown links code elements, it's unclear that they're clickable
+						'a > code::after': { content: '" 🔗"' },
 					},
 				},
 				pink: {

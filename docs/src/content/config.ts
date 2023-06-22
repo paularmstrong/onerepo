@@ -7,6 +7,11 @@ export const collections = {
 			usage: z.string().optional(),
 		}),
 	}),
+	docs: defineCollection({
+		schema: z.object({
+			title: z.string(),
+		}),
+	}),
 	plugins: defineCollection({
 		schema: z.object({
 			title: z.string(),

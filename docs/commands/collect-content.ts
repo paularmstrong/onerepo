@@ -3,6 +3,7 @@ import { glob } from 'glob';
 import { batch, file, builders, run } from 'onerepo';
 import type { Builder, Handler, RunSpec, LogStep } from 'onerepo';
 import type { Workspace } from '@onerepo/graph';
+import { options } from './typedoc';
 
 export const command = 'collect-content';
 
@@ -134,14 +135,7 @@ ${readme}
 				'typedoc-plugin-markdown',
 				'--entryFileName',
 				`${cmd}.md`,
-				'--hideInPageTOC',
-				'--hideBreadcrumbs',
-				'--outputFileStrategy',
-				'modules',
-				'--hidePageTitle',
-				'--hideHierarchy',
-				'--typeDeclarationFormat',
-				'table',
+				...options,
 				'--out',
 				path.join(dir, cmd),
 				core.resolve('src/core', cmd, 'index.ts'),
@@ -156,15 +150,12 @@ ${readme}
 
 	const coreDocsTwo = logger.createStep('Getting core type docs');
 	for (const cmd of commands) {
-		const contents = await file.read(path.join(dir, cmd, 'API.md'), 'r', { step: coreDocsTwo });
+		const contents = await file.read(path.join(dir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),
 			contents
-				.replace(/[^]+#### Type declaration/gm, '')
-				.replace(/^\*\*Source:\*\*[^\n]+\n/gm, '')
-				.replace(/API\.md/g, '')
-				.replace(/####/g, '###')
-				.replace('Type declaration', 'Options'),
+				.replace(/[^]+#+ Type declaration/gm, '')
+				.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
 			{ step: coreDocsTwo, sentinel: 'usage-typedoc' }
 		);
 	}

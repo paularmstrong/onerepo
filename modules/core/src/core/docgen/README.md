@@ -33,8 +33,8 @@ This content will be auto-generated. Do not edit
 
 ## Usage
 
-<!-- start-auto-generated-from-cli-generate -->
+<!-- start-auto-generated-from-cli-docgen -->
 
 This content will be auto-generated. Do not edit
 
-<!-- end-auto-generated-from-cli-generate -->
+<!-- end-auto-generated-from-cli-docgen -->

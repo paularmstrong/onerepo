@@ -15,10 +15,25 @@ export type { DocgenOptions, GenerateOptions, GraphOptions, InstallOptions, Task
  * @group Core
  */
 export type CoreConfig = {
+	/**
+	 * Configuration options fopr the [Docgen](/docs/core/docgen/) core module.
+	 */
 	docgen?: DocgenOptions | false;
+	/**
+	 * Configuration options fopr the [Generate](/docs/core/generate/) core module.
+	 */
 	generate?: GenerateOptions | false;
+	/**
+	 * Configuration options fopr the [Graph](/docs/core/graph/) core module.
+	 */
 	graph?: GraphOptions | false;
+	/**
+	 * Configuration options fopr the [Install](/docs/core/install/) core module.
+	 */
 	install?: InstallOptions | false;
+	/**
+	 * Configuration options fopr the [Tasks](/docs/core/tasks/) core module.
+	 */
 	tasks?: TasksOptions | false;
 };
 
@@ -65,7 +80,7 @@ export type Config = {
 /**
  * @group Core
  */
-export interface PluginObject {
+export type PluginObject = {
 	/**
 	 * A function that is called with the CLI's `yargs` object and a visitor.
 	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
@@ -79,7 +94,7 @@ export interface PluginObject {
 	 * Run after any command `handler` function is finished
 	 */
 	postHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
-}
+};
 
 /**
  * @group Core

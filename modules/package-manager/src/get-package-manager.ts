@@ -47,6 +47,10 @@ function guessPackageManager(cwd: string): 'npm' | 'pnpm' | 'yarn' | null {
 	return null;
 }
 
+/**
+ * Get the absolute path for the package manager's lock file for this repository.
+ * @group Package Management
+ */
 export function getLockfile(cwd: string) {
 	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {
 		return path.resolve(cwd, 'package-lock.json');

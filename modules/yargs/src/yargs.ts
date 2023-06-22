@@ -162,7 +162,7 @@ ${JSON.stringify(argv, null, 2)}`);
 /**
  * Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#builder) and [`Handler`](#handler).
  *
- * @group Commands
+ * @group Command type aliases
  */
 export type DefaultArgv = {
 	/**
@@ -184,7 +184,7 @@ export type DefaultArgv = {
 /**
  * Always present in Builder and Handler arguments.
  *
- * @group Commands
+ * @group Command type aliases
  */
 export interface DefaultArguments {
 	/**
@@ -203,23 +203,28 @@ export interface DefaultArguments {
 /**
  * Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
  *
- * @group Commands
+ * @param CommandArgv Arguments that will be parsed for this command
+ *
+ * @group Command type aliases
+ * @internal
  */
-export type Arguments<T = object> = { [key in keyof T]: T[key] } & DefaultArguments;
+export type Arguments<CommandArgv = object> = { [key in keyof CommandArgv]: CommandArgv[key] } & DefaultArguments;
 
 /**
  * A [yargs object](http://yargs.js.org/docs/).
  *
+ * @group Command type aliases
  * @internal
  */
-export type Yargs<T = DefaultArgv> = Yargv<T>;
+export type Yargs<CommandArgv = DefaultArgv> = Yargv<CommandArgv>;
 
 /**
  * Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
  *
- * @group Commands
+ * @param CommandArgv Arguments that will be parsed for this command
+ * @group Command type aliases
  */
-export type Argv<T = object> = Arguments<T & DefaultArgv>;
+export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
 
 /**
  * Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
@@ -272,9 +277,12 @@ export interface HandlerExtra {
  * 		});
  * ```
  *
- * @group Commands
+ * @param CommandArgv Arguments that will be parsed for this command
+ * @param Yargs The Yargs instance. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule)
+ *
+ * @group Command type aliases
  */
-export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
+export type Builder<CommandArgv = object> = (yargs: Yargs) => Yargv<CommandArgv>;
 
 /**
  * Command handler that includes oneRepo tools like `graph`, `logger`, and more. This function is type-safe if `Argv` is correctly passed through to the type definition.
@@ -284,11 +292,13 @@ export type Builder<U = object> = (argv: Yargs) => Yargv<U>;
  *   'with-tacos'?: boolean;
  * };
  * export const handler: Handler<Argv> = (argv, { logger }) => {
- * 	const { 'with-tacos': withTacos } = argv;
+ * 	const { 'with-tacos': withTacos, '--': passthrough } = argv;
  * 	logger.log(withTacos ? 'Include tacos' : 'No tacos, thanks');
+ *  logger.debug(passthrough);
  * };
  * ```
  *
- * @group Commands
+ * @param CommandArgv Arguments that will be parsed for this command. DefaultArguments will be automatically merged into this object for use within the handler.
+ * @group Command type aliases
  */
-export type Handler<T = object> = (argv: Argv<T>, extra: HandlerExtra) => Promise<void>;
+export type Handler<CommandArgv = object> = (argv: Argv<CommandArgv>, extra: HandlerExtra) => Promise<void>;
