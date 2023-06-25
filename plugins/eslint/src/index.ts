@@ -1,7 +1,20 @@
 import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/eslint';
 
-type Options = {
+/**
+ * @example
+ *
+ * ```js
+ * setup({
+ * 	plugins: [
+ * 		eslint({
+ * 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs']
+ * 		}),
+ * 	],
+ * });
+ * ```
+ */
+export type Options = {
 	/**
 	 * List of file extensions (without the `.`) that ESLint should operate across.
 	 */
@@ -16,6 +29,21 @@ type Options = {
 	quiet?: boolean;
 };
 
+/**
+ * Include the `eslint` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js {3,6}
+ * #!/usr/bin/env node
+ * import { setup } from 'onerepo';
+ * import { eslint } from '@onerepo/plugin-eslint';
+ *
+ * setup({
+ * 	plugins: [eslint()],
+ * }).then(({ run }) => run());
+ * ```
+ */
 export function eslint(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {

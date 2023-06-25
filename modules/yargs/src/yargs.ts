@@ -229,6 +229,9 @@ export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
 /**
  * Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
  *
+ * @group Command type aliases
+ *
+ * @example
  * ```ts
  * export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace, logger }) => {
  * 	logger.warn('Nothing to do!');
@@ -263,6 +266,8 @@ export interface HandlerExtra {
 
 /**
  * Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.
+ *
+ * For common arguments that work in conjunction with {@link HandlerExtra} methods like `getAffected()`, you can use helpers from the {@link builders! | `builders` namespace}, like {@link builders!withAffected | `builders.withAffected()`}.
  *
  * ```ts
  * type Argv = {

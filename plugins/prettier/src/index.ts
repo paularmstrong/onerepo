@@ -1,10 +1,38 @@
 import type { Plugin } from '@onerepo/core';
 import * as cmd from './commands/prettier';
 
-type Options = {
+/**
+ * @example
+ *
+ * ```js
+ * setup({
+ * 	plugins: [
+ * 		prettier({
+ * 			name: ['format', 'prettier']
+ * 		}),
+ * 	],
+ * });
+ * ```
+ */
+export type Options = {
 	name?: string | Array<string>;
 };
 
+/**
+ * Include the `prettier` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js {3,6}
+ * #!/usr/bin/env node
+ * import { setup } from 'onerepo';
+ * import { prettier } from '@onerepo/plugin-prettier';
+ *
+ * setup({
+ * 	plugins: [prettier()],
+ * }).then(({ run }) => run());
+ * ```
+ */
 export function prettier(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {

@@ -73,6 +73,33 @@ ${out}`;
 	await fixFiles.end();
 };
 
+const kindSort: Array<string> = [
+	'Project',
+	'Module',
+	'Namespace',
+	'Variable',
+	'Class',
+	'Function',
+	'Constructor',
+	'Property',
+	'Accessor',
+	'Method',
+	'Parameter',
+	'Interface',
+	'Enum',
+	'EnumMember',
+	'Reference',
+	'TypeAlias',
+	'ObjectLiteral',
+	'TypeParameter',
+	'TypeLiteral',
+	'CallSignature',
+	'ConstructorSignature',
+	'IndexSignature',
+	'GetSignature',
+	'SetSignature',
+];
+
 export const options: Array<string> = [
 	'--githubPages',
 	'false',
@@ -98,4 +125,9 @@ export const options: Array<string> = [
 	'table',
 	'--typeDeclarationFormat',
 	'table',
+	'--sort',
+	'kind',
+	'--sort',
+	'alphabetical',
+	...kindSort.map((sort) => ['--kindSortOrder', sort]).flat(),
 ];

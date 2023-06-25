@@ -1,5 +1,7 @@
 /**
  * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link graph.Graph} & {@link graph.Workspace}s.
+ *
+ * @group Package management
  */
 export interface PackageManager {
 	/**
@@ -73,6 +75,9 @@ export interface PackageManager {
 	remove(packages: string | Array<string>): Promise<void>;
 }
 
+/**
+ * @group Package management
+ */
 export interface MinimalWorkspace {
 	name: string;
 	version?: string;
