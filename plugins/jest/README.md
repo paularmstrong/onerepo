@@ -8,20 +8,6 @@ The added benefit of Jest is that as you are working, you can run this single co
 npm install --save-dev @onerepo/plugin-jest
 ```
 
-Add the plugin to your oneRepo bin file:
-
-```js {1,5-7}
-const { jest } = require('@onerepo/plugin-jest');
-
-setup({
-	plugins: [
-		jest({
-			// ...options
-		}),
-	],
-}).then(({ run }) => run());
-```
-
 Create a root level jest config with the appropriate references to your workspace Jest configs:
 
 ```js title="jest.config.js"
@@ -30,3 +16,6 @@ export default {
 	projects: ['<rootDir>/apps/*/jest.config.js', '<rootDir>/modules/*/jest.config.js'],
 };
 ```
+
+<!-- start-install-typedoc -->
+<!-- end-install-typedoc -->

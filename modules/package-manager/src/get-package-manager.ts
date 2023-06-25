@@ -7,7 +7,7 @@ import { existsSync } from 'node:fs';
  * @param cwd Current working directory. Should be the root of the module/repository.
  * @param fromPkgJson Value as defined in a package.json file, typically the `packageManager` value
  *
- * @group Package Management
+ * @group Package management
  */
 export function getPackageManagerName(cwd: string, fromPkgJson?: string): 'npm' | 'pnpm' | 'yarn' {
 	if (fromPkgJson) {
@@ -49,7 +49,7 @@ function guessPackageManager(cwd: string): 'npm' | 'pnpm' | 'yarn' | null {
 
 /**
  * Get the absolute path for the package manager's lock file for this repository.
- * @group Package Management
+ * @group Package management
  */
 export function getLockfile(cwd: string) {
 	if (existsSync(path.resolve(cwd, 'package-lock.json'))) {

@@ -8,7 +8,7 @@ export * from './methods';
 
 /**
  * Get the {@link PackageManager} for the given package manager type (NPM, PNPm, or Yarn)
- * @group Package Management
+ * @group Package management
  */
 export function getPackageManager(type: 'npm' | 'pnpm' | 'yarn'): PackageManager {
 	return managers[type];

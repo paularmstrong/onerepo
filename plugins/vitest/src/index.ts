@@ -1,11 +1,42 @@
 import type { PluginObject } from '@onerepo/core';
 import * as cmd from './commands/vitest';
 
-type Options = {
+/**
+ * @example
+ *
+ * ```js
+ * setup({
+ * 	plugins: [
+ * 		vitest({
+ * 			name: ['test']
+ * 		}),
+ * 	],
+ * });
+ * ```
+ */
+export type Options = {
 	config?: string;
+	/**
+	 * The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers.
+	 */
 	name?: string | Array<string>;
 };
 
+/**
+ * Include the `vitest` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js {3,6}
+ * #!/usr/bin/env node
+ * import { setup } from 'onerepo';
+ * import { vitest } from '@onerepo/plugin-vitest';
+ *
+ * setup({
+ * 	plugins: [vitest()],
+ * }).then(({ run }) => run());
+ * ```
+ */
 export function vitest(opts: Options = {}): PluginObject {
 	return {
 		yargs: (yargs, visitor) => {

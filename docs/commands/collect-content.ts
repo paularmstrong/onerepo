@@ -15,6 +15,17 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const { verbosity } = argv;
 	const docs = graph.getByName('docs');
 
+	const [typedoc] = await run({
+		name: 'Get bin',
+		cmd: 'yarn',
+		args: ['bin', 'typedoc'],
+		opts: {
+			cwd: docs.location,
+		},
+		runDry: true,
+	});
+	const typedocTempDir = await file.makeTempDir('typedoc');
+
 	const generators: Array<RunSpec> = [
 		{
 			name: 'Generate internal CLI usage',
@@ -50,6 +61,7 @@ version: '${ws.version}'
 ${readme}
 
 ## Usage
+
 `,
 			{ step: readmeStep }
 		);
@@ -58,23 +70,44 @@ ${readme}
 
 		const outFile = docs.resolve('src', 'content', 'plugins', `${shortName}.md`);
 
-		generators.push({
-			name: `Generate for ${ws.name}`,
-			cmd: bin,
-			args: [
-				'docgen',
-				'--format',
-				'markdown',
-				'--out-file',
-				outFile,
-				'--out-workspace',
-				'docs',
-				`-${'v'.repeat(verbosity)}`,
-				'--safe-write',
-				'--command',
-				shortName,
-			],
-		});
+		generators.push(
+			{
+				name: `Generate for ${ws.name}`,
+				cmd: bin,
+				args: [
+					'docgen',
+					'--format',
+					'markdown',
+					'--heading-level',
+					'3',
+					'--out-file',
+					outFile,
+					'--out-workspace',
+					'docs',
+					`-${'v'.repeat(verbosity)}`,
+					'--safe-write',
+					'--command',
+					shortName,
+				],
+			},
+			{
+				name: `Gen typedoc for ${ws.name}`,
+				cmd: typedoc,
+				args: [
+					'--plugin',
+					'typedoc-plugin-markdown',
+					'--entryFileName',
+					`${shortName}.md`,
+					...options,
+					'--out',
+					path.join(typedocTempDir, shortName),
+					ws.resolve('src/index.ts'),
+				],
+				opts: {
+					cwd: ws.location,
+				},
+			}
+		);
 	}
 	await readmeStep.end();
 
@@ -114,17 +147,35 @@ ${readme}
 
 	await batch(generators);
 
-	const [typedoc] = await run({
-		name: 'Get bin',
-		cmd: 'yarn',
-		args: ['bin', 'typedoc'],
-		opts: {
-			cwd: docs.location,
-		},
-		runDry: true,
-	});
+	const pluginTypedoc = logger.createStep('Writing plugin configs');
+	for (const ws of graph.workspaces) {
+		const bin = ws.resolve('bin', 'docgen.cjs');
+		if (!ws.name.startsWith('@onerepo/plugin-') || !(await file.exists(bin, { step: pluginTypedoc }))) {
+			continue;
+		}
+		const shortName = ws.name.replace('@onerepo/plugin-', '');
+		const contents = await file.read(path.join(typedocTempDir, shortName, `${shortName}.md`), 'r', {
+			step: pluginTypedoc,
+		});
+		const sourceFixed = contents
+			.replace(/^#+ Returns[^#]+/gm, '')
+			.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${shortName}/$1.ts]`)
+			// fix URLs to not poitn to /name.md
+			.replace(new RegExp(`${shortName}.md#`, 'g'), '#');
 
-	const dir = await file.makeTempDir('typedoc');
+		const splits = sourceFixed.split(/^## ([^\n]+)$/gm);
+		const functionIndex = splits.indexOf('Functions') + 1;
+		const typeIndex = splits.indexOf('Type Aliases') + 1;
+		const functions = functionIndex > 0 ? splits[functionIndex] : '';
+		const types = typeIndex > 0 ? splits[typeIndex] : '';
+
+		await file.writeSafe(docs.resolve(`src/content/plugins/${shortName}.md`), `${functions}\n\n${types}`, {
+			step: pluginTypedoc,
+			sentinel: 'install-typedoc',
+		});
+	}
+	await pluginTypedoc.end();
+
 	const typedocs: Array<RunSpec> = [];
 	for (const cmd of commands) {
 		typedocs.push({
@@ -137,7 +188,7 @@ ${readme}
 				`${cmd}.md`,
 				...options,
 				'--out',
-				path.join(dir, cmd),
+				path.join(typedocTempDir, cmd),
 				core.resolve('src/core', cmd, 'index.ts'),
 			],
 			opts: {
@@ -150,7 +201,7 @@ ${readme}
 
 	const coreDocsTwo = logger.createStep('Getting core type docs');
 	for (const cmd of commands) {
-		const contents = await file.read(path.join(dir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
+		const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),
 			contents

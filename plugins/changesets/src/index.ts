@@ -1,10 +1,38 @@
 import type { Plugin } from '@onerepo/core';
 import * as commands from './commands';
 
-type Options = {
+/**
+ * @example
+ *
+ * ```js
+ * setup({
+ * 	plugins: [
+ * 		dependencies({
+ * 			name: ['changelog']
+ * 		}),
+ * 	],
+ * });
+ * ```
+ */
+export type Options = {
 	name?: string | Array<string>;
 };
 
+/**
+ * Include the `changesets` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js {3,6}
+ * #!/usr/bin/env node
+ * import { setup } from 'onerepo';
+ * import { changesets } from '@onerepo/plugin-changesets';
+ *
+ * setup({
+ * 	plugins: [changesets()],
+ * }).then(({ run }) => run());
+ * ```
+ */
 export function changesets(opts: Options = {}): Plugin {
 	const name = opts.name ?? ['change', 'changeset', 'changesets'];
 	return () => ({

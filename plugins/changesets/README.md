@@ -6,17 +6,8 @@
 npm install --save-dev @onerepo/plugin-changesets
 ```
 
-```js {1,5-7}
-const { changesets } = require('@onerepo/plugin-changesets');
-
-setup({
-	plugins: [
-		changesets({
-			// ...options
-		}),
-	],
-}).then(({ run }) => run());
-```
+<!-- start-install-typedoc -->
+<!-- end-install-typedoc -->
 
 ## Publish config
 
