@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
@@ -36,6 +37,17 @@ describe('builder', () => {
 });
 
 describe('handler', () => {
+	let GITHUB_RUN_ID: string | undefined;
+
+	beforeEach(() => {
+		GITHUB_RUN_ID = process.env.GITHUB_RUN_ID;
+		delete process.env.GITHUB_RUN_ID;
+	});
+
+	afterEach(() => {
+		process.env.GITHUB_RUN_ID = GITHUB_RUN_ID;
+	});
+
 	test('can run across all files', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
@@ -126,5 +138,19 @@ bar/**/*
 			})
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
+	});
+
+	test('annotates github for file errors', async () => {
+		process.env.GITHUB_RUN_ID = '123';
+		jest.spyOn(core, 'error').mockReturnValue();
+		jest.spyOn(subprocess, 'run').mockImplementation(() => {
+			throw new Error('foo.js\nbop.js\n');
+		});
+
+		await expect(run('-f foo.js -f bop.js -f bar.js')).rejects.toBeUndefined();
+
+		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'foo.js' });
+		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'bop.js' });
+		expect(core.error).not.toHaveBeenCalledWith(expect.any(String), { file: 'bar.js' });
 	});
 });

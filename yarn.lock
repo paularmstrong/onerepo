@@ -3016,6 +3016,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
   dependencies:
+    "@actions/core": ^1.10.0
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.2.2
