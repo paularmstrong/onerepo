@@ -44,7 +44,21 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', '.'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--color',
+					'--format',
+					'onerepo',
+					'--cache',
+					'--cache-strategy=content',
+					'--fix',
+					'.',
+				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -67,12 +81,17 @@ describe('handler', () => {
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
+					'--format',
+					'onerepo',
 					'--cache',
 					'--cache-strategy=content',
 					'--fix',
 					'modules/burritos',
 					'modules/tacos',
 				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -85,7 +104,20 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '.'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--color',
+					'--format',
+					'onerepo',
+					'--cache',
+					'--cache-strategy=content',
+					'.',
+				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -98,7 +130,10 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--fix', '.'],
+				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--format', 'onerepo', '--fix', '.'],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -111,7 +146,21 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--color',
+					'--format',
+					'onerepo',
+					'--cache',
+					'--cache-strategy=content',
+					'--fix',
+					'bar.js',
+				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -134,7 +183,21 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--color',
+					'--format',
+					'onerepo',
+					'--cache',
+					'--cache-strategy=content',
+					'--fix',
+					'foo.js',
+				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 	});
@@ -148,7 +211,21 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--cache', '--cache-strategy=content', '--fix', 'bar.js'],
+				args: [
+					'eslint',
+					'--ext',
+					'js,cjs,mjs',
+					'--color',
+					'--format',
+					'onerepo',
+					'--cache',
+					'--cache-strategy=content',
+					'--fix',
+					'bar.js',
+				],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
 			})
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
@@ -176,5 +253,49 @@ bar/**/*
 				args: expect.arrayContaining(['eslint', '--no-color']),
 			})
 		);
+	});
+
+	test('can override the default formatter', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await run('-a -- --format junit');
+
+		expect(subprocess.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({
+				args: expect.arrayContaining(['--format', 'onerepo']),
+			})
+		);
+	});
+
+	test('can disable GitHub annotations', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+
+		await run('-a --no-github-annotate');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'false' },
+				},
+			})
+		);
+	});
+
+	test('proxies github annotations to stdout directly', async () => {
+		jest.spyOn(process.stdout, 'write').mockReturnValue(true);
+		jest.spyOn(subprocess, 'run').mockResolvedValue([
+			`
+::error burritos
+
+something
+::warning tacos
+`,
+			'',
+		]);
+
+		await expect(run('-a')).rejects.toBeUndefined();
+
+		expect(process.stdout.write).toHaveBeenCalledWith('::error burritos\n::warning tacos');
+		expect(process.stdout.write).toHaveBeenCalledWith('\n');
 	});
 });

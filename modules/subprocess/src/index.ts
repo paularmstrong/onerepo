@@ -199,6 +199,7 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 		cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
 		stdio: ['inherit', 'pipe', 'pipe'],
 		...opts,
+		env: { ...process.env, ...opts.env },
 	});
 
 	if (!subprocess) {

@@ -27,6 +27,10 @@ export type Options = {
 	 * Control the ESLint setting default to suppress warnings and only report errors.
 	 */
 	quiet?: boolean;
+	/**
+	 * When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
+	 */
+	githubAnnotate?: boolean;
 };
 
 /**
@@ -53,7 +57,9 @@ export function eslint(opts: Options = {}): Plugin {
 				opts.name ?? command,
 				description,
 				(yargs) => {
-					const y = builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`);
+					const y = builder(yargs)
+						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
+						.default('github-annotate', opts.githubAnnotate ?? true);
 					if (opts.extensions) {
 						y.default('extensions', opts.extensions);
 					}

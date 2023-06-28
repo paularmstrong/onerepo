@@ -2983,6 +2983,7 @@ __metadata:
     "@types/eslint": ^8.37.0
     esbuild-register: ^3.4.2
     eslint: ^8.38.0
+    eslint-formatter-onerepo: 0.0.0
     minimatch: ^9.0.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
@@ -7372,6 +7373,19 @@ __metadata:
   checksum: 5aa6b2966fafe0545e4e77936300cc94ad57cfe4dc4ebff9950492eaba83eef634503f12d7e3cbd644ecc1bab388ad0e92b06fd32222c9281a75d1cf02ec6cef
   languageName: node
   linkType: hard
+
+"eslint-formatter-onerepo@0.0.0, eslint-formatter-onerepo@workspace:modules/eslint-formatter":
+  version: 0.0.0-use.local
+  resolution: "eslint-formatter-onerepo@workspace:modules/eslint-formatter"
+  dependencies:
+    "@actions/core": ^1.10.0
+    "@internal/test-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    eslint: ^8.38.0
+  peerDependencies:
+    eslint: ^8
+  languageName: unknown
+  linkType: soft
 
 "eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7

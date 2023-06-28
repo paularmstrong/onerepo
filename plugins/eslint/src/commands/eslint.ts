@@ -15,6 +15,7 @@ type Args = builders.WithAllInputs & {
 	cache: boolean;
 	extensions: Array<string>;
 	fix: boolean;
+	'github-annotate': boolean;
 	pretty: boolean;
 	quiet: boolean;
 };
@@ -52,6 +53,12 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Report errors only',
 			default: false,
 		})
+		.option('github-annotate', {
+			description: 'Annotate files in GitHub with errors when failing lint checks in GitHub Actions',
+			type: 'boolean',
+			default: true,
+			hidden: true,
+		})
 		.middleware((argv) => {
 			if (argv.add && !('staged' in argv)) {
 				argv.staged = true;
@@ -59,7 +66,18 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
-	const { add, all, cache, 'dry-run': isDry, extensions, fix, pretty, quiet } = argv;
+	const {
+		add,
+		all,
+		cache,
+		'dry-run': isDry,
+		extensions,
+		fix,
+		'github-annotate': github,
+		pretty,
+		quiet,
+		'--': passthrough = [],
+	} = argv;
 
 	const filteredPaths = [];
 	if (!all) {
@@ -100,6 +118,9 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 
 	const args = ['eslint', '--ext', extensions.join(','), pretty ? '--color' : '--no-color'];
+	if (!(passthrough.includes('-f') || passthrough.includes('--format'))) {
+		args.push('--format', 'onerepo');
+	}
 	if (cache) {
 		args.push('--cache', '--cache-strategy=content');
 	}
@@ -109,11 +130,30 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	if (quiet) {
 		args.push('--quiet');
 	}
-	await run({
+
+	const runStep = logger.createStep('Lint files');
+	const [out] = await run({
 		name: `Lint ${all ? '' : filteredPaths.join(', ').substring(0, 40)}…`,
 		cmd: 'npx',
-		args: [...args, ...(all ? ['.'] : filteredPaths)],
+		args: [...args, ...(all ? ['.'] : filteredPaths), ...passthrough],
+		opts: {
+			env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: github ? 'true' : 'false' },
+		},
+		step: runStep,
+		skipFailures: true,
 	});
+
+	if (out) {
+		// GitHub needs to read these from the start of the line. The Logger will prefix with ERR by default, so we need to proxy directly to process.stdout instead
+		const ghLines = out.match(/^::.*$/gm);
+		if (ghLines) {
+			process.stdout.write(ghLines.join('\n'));
+			process.stdout.write('\n');
+		}
+
+		runStep.error(out.replace(/^::.*$/gm, ''));
+	}
+	await runStep.end();
 
 	if (add && filteredPaths.length) {
 		await updateIndex(filteredPaths);
