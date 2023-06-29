@@ -7,8 +7,10 @@ import semver from 'semver';
 import { read } from '@onerepo/file';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
+import type { AnySchema } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import type { Builder, Handler } from '@onerepo/yargs';
+import type { Graph, Workspace } from '@onerepo/graph';
 import { defaultValidators } from '../schema';
 import type { GraphSchemaValidators } from '../schema';
 
@@ -95,22 +97,22 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	ajv.addMetaSchema(draft7);
 	ajvErrors(ajv);
 
-	importSchema(ajv, defaultValidators);
+	let availableSchema = importSchema({}, defaultValidators);
 
 	logger.debug(`Getting custom schema '${customSchema}'`);
 	if (customSchema) {
-		const schema = require(customSchema);
-		importSchema(ajv, schema.default ?? schema);
+		const custom = require(customSchema);
+		availableSchema = importSchema(availableSchema, custom.default ?? custom);
 	}
 
-	const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
+	// const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
 
 	for (const workspace of graph.workspaces) {
 		const relativePath = graph.root.relative(workspace.location);
 
 		// Build a map so the log output is nicer if there are multiple schema for the same file
 		const map: Record<string, Array<string>> = {};
-		for (const schemaKey of availableSchema) {
+		for (const schemaKey of Object.keys(availableSchema)) {
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
 			// Check if this schema applies to this workspace
 			if (minimatch(relativePath, locGlob)) {
@@ -142,10 +144,11 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 					schemaStep.error(`Unable to read file with unknown type: ${workspace.resolve(file)}`);
 				}
 
-				const validate = ajv.getSchema(schemaKey)!;
-				if (!validate(contents)) {
+				const schema = availableSchema[schemaKey];
+				const valid = ajv.validate(typeof schema === 'function' ? schema(workspace, graph) : schema, contents)!;
+				if (!valid) {
 					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
-					validate.errors?.forEach((err) => {
+					ajv.errors?.forEach((err) => {
 						if (err.keyword === 'if') {
 							return;
 						}
@@ -162,12 +165,17 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	}
 };
 
-function importSchema(ajv: Ajv, GraphSchemaValidators: GraphSchemaValidators) {
+function importSchema(
+	ajv: Record<string, AnySchema | ((ws: Workspace, graph: Graph) => AnySchema)>,
+	GraphSchemaValidators: GraphSchemaValidators
+) {
 	Object.entries(GraphSchemaValidators).forEach(([locglob, matches]) => {
 		Object.entries(matches).forEach(([fileglob, schema]) => {
-			ajv.addSchema(schema, `${locglob}${splitChar}${fileglob}`);
+			ajv[`${locglob}${splitChar}${fileglob}`] = schema;
 		});
 	});
+
+	return ajv;
 }
 
 // This is a zero-width space.

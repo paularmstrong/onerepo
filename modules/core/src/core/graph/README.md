@@ -98,6 +98,32 @@ export default {
 } satisfies GraphSchemaValidators;
 ```
 
+### Functional schema
+
+There are cases where more information about a workspace is needed for the schema to be complete. For this, the schema may also be a function that accepts two arguments, `workspace` and `graph`:
+
+```ts
+import type { graph, GraphSchemaValidators } from 'onerepo';
+
+export default {
+	'**': {
+		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+			type: 'object',
+			properties: {
+				repository: {
+					type: 'object',
+					properties: {
+						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+					},
+					required: ['directory'],
+				},
+			},
+			required: ['repository'],
+		}),
+	},
+} satisfies GraphSchemaValidators;
+```
+
 ### Base schema
 
 oneRepo provides a base schema with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:

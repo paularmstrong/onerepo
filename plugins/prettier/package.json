@@ -6,7 +6,8 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/paularmstrong/onerepo.git"
+		"url": "git://github.com/paularmstrong/onerepo.git",
+		"directory": "plugins/prettier"
 	},
 	"homepage": "https://onerepo.tools/docs/plugins/prettier/",
 	"type": "module",

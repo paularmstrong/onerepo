@@ -6,7 +6,8 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/paularmstrong/onerepo.git"
+		"url": "git://github.com/paularmstrong/onerepo.git",
+		"directory": "plugins/typescript"
 	},
 	"homepage": "https://onerepo.tools/docs/plugins/typescript",
 	"type": "module",
