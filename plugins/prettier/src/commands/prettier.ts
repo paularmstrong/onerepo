@@ -15,6 +15,7 @@ export const description = 'Format files with prettier';
 type Args = {
 	add?: boolean;
 	check?: boolean;
+	'github-annotate': boolean;
 } & builders.WithAllInputs;
 
 export const builder: Builder<Args> = (yargs) =>
@@ -42,7 +43,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph }) {
-	const { add, all, check, 'dry-run': isDry, $0: cmd, _: positionals } = argv;
+	const { add, all, check, 'dry-run': isDry, 'github-annotate': github, $0: cmd, _: positionals } = argv;
 
 	const filteredPaths = [];
 	if (!all) {
@@ -101,7 +102,7 @@ To resolve the issue, run Prettier formatting and commit the resulting changes:
   $ ${cmd} ${positionals[0]}
 	`);
 
-		if (process.env.GITHUB_RUN_ID) {
+		if (process.env.GITHUB_RUN_ID && github) {
 			const msg = `This file needs formatting. Fix by running \`${cmd} ${positionals[0]}\``;
 			files.forEach((file) => core.error(msg, { file }));
 		}

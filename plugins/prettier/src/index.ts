@@ -22,7 +22,7 @@ export type Options = {
 	/**
 	 * When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
 	 */
-	annotateGithub?: boolean;
+	githubAnnotate?: boolean;
 };
 
 /**
@@ -51,7 +51,7 @@ export function prettier(opts: Options = {}): Plugin {
 				(yargs) =>
 					builder(yargs)
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
-						.default('github-annotate', opts.annotateGithub ?? true),
+						.default('github-annotate', opts.githubAnnotate ?? true),
 				handler
 			);
 		},

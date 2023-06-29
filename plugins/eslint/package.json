@@ -27,6 +27,7 @@
 		"@onerepo/git": "0.2.2",
 		"@onerepo/logger": "0.2.1",
 		"@onerepo/subprocess": "0.3.1",
+		"eslint-formatter-onerepo": "0.0.0",
 		"minimatch": "^9.0.0"
 	},
 	"devDependencies": {
