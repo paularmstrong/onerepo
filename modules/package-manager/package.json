@@ -7,7 +7,8 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/paularmstrong/onerepo.git"
+		"url": "git://github.com/paularmstrong/onerepo.git",
+		"directory": "modules/package-manager"
 	},
 	"homepage": "https://onerepo.tools",
 	"type": "module",

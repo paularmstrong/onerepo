@@ -1,4 +1,5 @@
 import type { GraphSchemaValidators } from '@onerepo/core';
+import type { graph } from 'onerepo';
 
 export default {
 	'internal/*': {
@@ -82,7 +83,7 @@ export default {
 			},
 			required: ['extends', 'include', 'compilerOptions'],
 		},
-		'package.json': {
+		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
 			type: 'object',
 			properties: {
 				files: {
@@ -138,8 +139,14 @@ export default {
 							const: 'git://github.com/paularmstrong/onerepo.git',
 							errorMessage: '"repository.url" must be "git://github.com/paularmstrong/onerepo.git".',
 						},
+						directory: { type: 'string', const: graph.root.relative(workspace.location) },
 					},
-					required: ['type', 'url'],
+					required: ['type', 'url', 'directory'],
+					errorMessage: {
+						required: {
+							directory: `repository.directory equal "${graph.root.relative(workspace.location)}"`,
+						},
+					},
 				},
 				license: {
 					type: 'string',
@@ -159,7 +166,7 @@ export default {
 				},
 			},
 			required: ['files', 'publishConfig', 'homepage', 'repository', 'license', 'engines'],
-		},
+		}),
 		'jest.config.js': {
 			type: 'object',
 			properties: {

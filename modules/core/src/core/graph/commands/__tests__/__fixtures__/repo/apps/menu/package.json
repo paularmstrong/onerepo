@@ -4,5 +4,8 @@
 	"main": "./src/index.ts",
 	"dependencies": {
 		"fixture-tacos": "workspace:^"
+	},
+	"repository": {
+		"directory": "apps/menu"
 	}
 }

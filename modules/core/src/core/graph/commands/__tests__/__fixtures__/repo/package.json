@@ -2,6 +2,9 @@
 	"name": "fixture-root",
 	"private": true,
 	"type": "commonjs",
+	"repository": {
+		"directory": ""
+	},
 	"workspaces": [
 		"apps/*",
 		"modules/*"
