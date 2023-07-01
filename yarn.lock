@@ -883,16 +883,16 @@ __metadata:
   linkType: hard
 
 "@changesets/assemble-release-plan@npm:^5.2.3":
-  version: 5.2.3
-  resolution: "@changesets/assemble-release-plan@npm:5.2.3"
+  version: 5.2.4
+  resolution: "@changesets/assemble-release-plan@npm:5.2.4"
   dependencies:
     "@babel/runtime": ^7.20.1
     "@changesets/errors": ^0.1.4
-    "@changesets/get-dependents-graph": ^1.3.5
+    "@changesets/get-dependents-graph": ^1.3.6
     "@changesets/types": ^5.2.1
     "@manypkg/get-packages": ^1.1.3
-    semver: ^5.4.1
-  checksum: 2c61894414736b12e9a26903d73c387b65f4caba398e280488b885f4d0f4bb307aaa6bae140dfd754c85de6557bd07645accda2af6b8794837ab43823ba6215c
+    semver: ^7.5.3
+  checksum: 32f443a0afec3d5a4afc68c8de32e8ff88531ea24976b50583b1d6870d71cec2729f27952af82854eb54e2ad0a619872d211d654c596ee0eb42c83ab54ad15ae
   languageName: node
   linkType: hard
 
@@ -930,6 +930,19 @@ __metadata:
     fs-extra: ^7.0.1
     semver: ^5.4.1
   checksum: d7abb1da21804fd66b1458e46be2f2aec741145a43500b0463a5acfbb420ac5ce776a7328fa660ad4e6e811f933bd6f36e7bbaf00fb3f591d46f0b8e7108fdcd
+  languageName: node
+  linkType: hard
+
+"@changesets/get-dependents-graph@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "@changesets/get-dependents-graph@npm:1.3.6"
+  dependencies:
+    "@changesets/types": ^5.2.1
+    "@manypkg/get-packages": ^1.1.3
+    chalk: ^2.1.0
+    fs-extra: ^7.0.1
+    semver: ^7.5.3
+  checksum: d2cbbc5041063b939899502d1b264a0d9edb655acefd7f6197883229156bb7cfd1ace642ae4a1f7f7b432f2c51429f5dc9851ff5a9ed47f1c0159916e66627a9
   languageName: node
   linkType: hard
 
@@ -16123,6 +16136,17 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.5.3":
+  version: 7.5.3
+  resolution: "semver@npm:7.5.3"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 9d58db16525e9f749ad0a696a1f27deabaa51f66e91d2fa2b0db3de3e9644e8677de3b7d7a03f4c15bc81521e0c3916d7369e0572dbde250d9bedf5194e2a8a7
   languageName: node
   linkType: hard
 
