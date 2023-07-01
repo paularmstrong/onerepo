@@ -96,8 +96,8 @@ __metadata:
   linkType: hard
 
 "@astrojs/mdx@npm:^0.19.0":
-  version: 0.19.6
-  resolution: "@astrojs/mdx@npm:0.19.6"
+  version: 0.19.7
+  resolution: "@astrojs/mdx@npm:0.19.7"
   dependencies:
     "@astrojs/markdown-remark": ^2.2.1
     "@astrojs/prism": ^2.1.2
@@ -117,7 +117,7 @@ __metadata:
     source-map: ^0.7.4
     unist-util-visit: ^4.1.0
     vfile: ^5.3.2
-  checksum: bbf8cfd767013c4130037f4cabe10d5ba91d4860778e5ed5a4a8d52955edf95a2508bd99020f64f458a428d562111f0a268882a616b6b37f3ec49614f0c12e5f
+  checksum: 366a865ba0fa98e4901f9b65f677cd1dc0760b7fb05d8cfa5e3bc821904ac872cc00a59e246b510c266d3982f7837f01ca0464b6b56ccd840c16d51c6c751b8d
   languageName: node
   linkType: hard
 
