@@ -1,9 +1,0 @@
-coverage:
-  status:
-    project:
-      default:
-        target: 20% # the required coverage value
-        threshold: 1% # the leniency in hitting the target
-
-# off for now, coverage is too low and we will work to get it to a better spot before turning anything on
-comment: false
