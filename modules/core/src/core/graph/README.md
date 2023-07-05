@@ -31,6 +31,14 @@ This content will be auto-generated. Do not edit
 
 <!-- end-usage-typedoc -->
 
+## Usage
+
+<!-- start-auto-generated-from-cli-graph -->
+
+This content will be auto-generated. Do not edit
+
+<!-- end-auto-generated-from-cli-graph -->
+
 ## Validating configurations
 
 The Graph module in oneRepo has support for validating most configuration files in workspaces, including JSON, CJSON, YAML, and static JavaScript/TypeScript configurations.
@@ -92,7 +100,7 @@ export default {
 					required: ['displayname', 'clearMocks', 'resetMocks'],
 				}
 			},
-			require: ['default']
+			required: ['default']
 		},
 	},
 } satisfies GraphSchemaValidators;
@@ -138,11 +146,30 @@ module.export = {
 };
 ```
 
+## Extensions
+
+### Required files
+
+To mark a file as required, the JSON schema validation has been extended to include a key `$required` at the top level of each file schema. Setting this key to `true` will result in errors if a matched workspace does not include this file:
+
+```ts {7} /$required/
+import type { graph, GraphSchemaValidators } from 'onerepo';
+
+export default {
+	'**': {
+		'package.json': {
+			type: 'object',
+			$required: true,
+		},
+	},
+} satisfies GraphSchemaValidators;
+```
+
 ## Disabling
 
 Warning: disabling the graph will disable all the `graph`-specifc commands as well as all workspace-specific commands. While this is allowed, it is _not_ recommended.
 
-```js {3,4}
+```js {3,4} /false/
 setup({
 	core: {
 		// Disable the graph entirely from your CLI
@@ -150,11 +177,3 @@ setup({
 	},
 }).then({ run } => run());
 ```
-
-## Usage
-
-<!-- start-auto-generated-from-cli-graph -->
-
-This content will be auto-generated. Do not edit
-
-<!-- end-auto-generated-from-cli-graph -->

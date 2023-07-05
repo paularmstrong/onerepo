@@ -96,6 +96,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	const ajv = new Ajv({ allErrors: true });
 	ajv.addMetaSchema(draft7);
 	ajvErrors(ajv);
+	ajv.addVocabulary(['$required']);
 
 	let availableSchema = importSchema({}, defaultValidators);
 
@@ -105,8 +106,6 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		availableSchema = importSchema(availableSchema, custom.default ?? custom);
 	}
 
-	// const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
-
 	for (const workspace of graph.workspaces) {
 		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
 		const relativePath = graph.root.relative(workspace.location);
@@ -114,11 +113,17 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		// Build a map so the log output is nicer if there are multiple schema for the same file
 		const map: Record<string, Array<string>> = {};
 		for (const schemaKey of Object.keys(availableSchema)) {
+			const rawSchema = availableSchema[schemaKey];
+			const schema = typeof rawSchema === 'function' ? rawSchema(workspace, graph) : rawSchema;
+			const required = schema.$required;
 			const [locGlob, fileGlob] = schemaKey.split(splitChar);
 			// Check if this schema applies to this workspace
 			if (minimatch(relativePath, locGlob)) {
 				// get all files according to the schema in the workspace
 				const files = await glob(fileGlob, { cwd: workspace.location });
+				if (required && files.length === 0) {
+					schemaStep.error(`❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`);
+				}
 				for (const file of files) {
 					if (!(file in map)) {
 						map[file] = [];
@@ -159,7 +164,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 };
 
 function importSchema(
-	ajv: Record<string, AnySchema | ((ws: Workspace, graph: Graph) => AnySchema)>,
+	ajv: Record<string, ExtendedSchema | ((ws: Workspace, graph: Graph) => ExtendedSchema)>,
 	GraphSchemaValidators: GraphSchemaValidators
 ) {
 	Object.entries(GraphSchemaValidators).forEach(([locglob, matches]) => {
@@ -173,3 +178,5 @@ function importSchema(
 
 // This is a zero-width space.
 const splitChar = '\u200b';
+
+type ExtendedSchema = AnySchema & { $required?: boolean };
