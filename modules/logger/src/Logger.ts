@@ -1,3 +1,4 @@
+import type { Writable } from 'node:stream';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
 import { LogStep } from './LogStep';
@@ -18,6 +19,10 @@ interface LoggerOptions {
 	 * | `>= 5` | Timing   | Extra performance timing metrics will be written |
 	 */
 	verbosity: number;
+	/**
+	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
+	 */
+	stream?: Writable;
 }
 
 const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
@@ -31,9 +36,7 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  *
  * If the current terminal is a TTY, output will be buffered and asynchronous steps will animated with a progress logger.
  *
- * ```ts
- * import { logger } from 'onerepo';
- * ```
+ * See {@link HandlerExtra} for access the the global Logger instance.
  *
  * @group Logger
  */
@@ -43,6 +46,7 @@ export class Logger {
 	#verbosity = 0;
 	#updater: LogUpdate;
 	#frame = 0;
+	#stream: Writable;
 
 	#paused = false;
 	#updaterTimeout: NodeJS.Timeout | undefined;
@@ -53,11 +57,18 @@ export class Logger {
 	constructor(options: LoggerOptions) {
 		this.verbosity = options.verbosity;
 
-		this.#updater = createLogUpdate(process.stderr);
-		this.#logger = new LogStep('', { onEnd: this.#onEnd, onError: this.#onError, verbosity: this.verbosity });
+		this.#stream = options.stream ?? process.stderr;
+		this.#updater = createLogUpdate(this.#stream);
+
+		this.#logger = new LogStep('', {
+			onEnd: this.#onEnd,
+			onError: this.#onError,
+			verbosity: this.verbosity,
+			stream: this.#stream,
+		});
 		this.#logger.activate(true);
 
-		if (process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
+		if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
 			this.#runUpdater();
 		}
 	}
@@ -91,6 +102,15 @@ export class Logger {
 	 */
 	set hasError(has: boolean) {
 		this.#logger.hasError = has;
+	}
+
+	/**
+	 * @internal
+	 */
+	set stream(stream: Writable) {
+		this.#stream = stream;
+		this.#updater.clear();
+		this.#updater = createLogUpdate(this.#stream);
 	}
 
 	/**
@@ -150,7 +170,12 @@ export class Logger {
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
 	createStep(name: string) {
-		const step = new LogStep(name, { onEnd: this.#onEnd, onError: this.#onError, verbosity: this.verbosity });
+		const step = new LogStep(name, {
+			onEnd: this.#onEnd,
+			onError: this.#onError,
+			verbosity: this.verbosity,
+			stream: this.#stream,
+		});
 		this.#steps.push(step);
 		this.#activate(step);
 		return step;
@@ -215,22 +240,29 @@ export class Logger {
 		for (const step of this.#steps) {
 			this.#activate(step);
 			await step.end();
-			await step.flush();
 		}
-		await this.#logger.end();
-		await this.#logger.flush();
-		clearTimeout(this.#updaterTimeout);
 
+		clearTimeout(this.#updaterTimeout);
+		await this.#logger.end();
+
+		// TODO: may not need to do this
 		return new Promise<void>((resolve) => {
 			setImmediate(() => {
-				clearTimeout(this.#updaterTimeout);
+				if (this.#stream !== process.stderr) {
+					this.#stream.end(() => {
+						resolve();
+					});
+					this.#stream.end();
+					return;
+				}
+
 				resolve();
 			});
 		});
 	}
 
 	#activate = (step: LogStep) => {
-		if (!process.stderr.isTTY) {
+		if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
 			const activeStep = this.#steps.find((step) => step.active);
 			if (activeStep) {
 				return;

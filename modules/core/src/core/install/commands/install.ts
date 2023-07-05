@@ -63,7 +63,7 @@ export const builder: Builder<Args> = (yargs) =>
 			'As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).'
 		);
 
-export const handler: Handler<Args> = async function handler(argv, { graph }) {
+export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const { force, location, name } = argv;
 
 	if (!force) {

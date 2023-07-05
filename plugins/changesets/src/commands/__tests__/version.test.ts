@@ -23,7 +23,9 @@ describe('handler', () => {
 
 	test('does nothing if git working tree is dirty', async () => {
 		jest.spyOn(git, 'isClean').mockResolvedValue(false);
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch(
+			'Working directory must be unmodified to ensure correct versioning'
+		);
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
 		expect(applyReleasePlan.default).not.toHaveBeenCalled();

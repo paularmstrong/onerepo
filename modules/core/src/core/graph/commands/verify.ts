@@ -108,6 +108,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	// const availableSchema = Object.keys(ajv.schemas).filter((key) => key.includes(splitChar));
 
 	for (const workspace of graph.workspaces) {
+		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
 		const relativePath = graph.root.relative(workspace.location);
 
 		// Build a map so the log output is nicer if there are multiple schema for the same file
@@ -127,7 +128,6 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 			}
 		}
 
-		const schemaStep = logger.createStep(`Validating ${workspace.name}`);
 		for (const [file, fileSchema] of Object.entries(map)) {
 			for (const schemaKey of fileSchema) {
 				schemaStep.debug(`Using schema for "${schemaKey}"`);
@@ -149,13 +149,6 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				if (!valid) {
 					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
 					ajv.errors?.forEach((err) => {
-						if (err.keyword === 'if') {
-							return;
-						}
-						if (process.env.NODE_ENV === 'test') {
-							throw new Error(err.message);
-						}
-
 						schemaStep.error(`  ↳ ${err.message}`);
 					});
 				}

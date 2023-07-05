@@ -2,6 +2,15 @@ import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
 import { LogStep } from '../LogStep';
 
+async function waitStreamEnd(stream: PassThrough) {
+	return new Promise<void>((resolve) => {
+		stream.on('end', () => {
+			resolve();
+		});
+		stream.end();
+	});
+}
+
 describe('LogStep', () => {
 	test('setup', async () => {
 		const onEnd = jest.fn();
@@ -23,7 +32,7 @@ describe('LogStep', () => {
 		expect(step.active).toBe(true);
 	});
 
-	test('when activated, flushes its logs to stderr', async () => {
+	test('when activated, flushes its logs to the stream', async () => {
 		const onEnd = jest.fn(() => Promise.resolve());
 		const onError = jest.fn();
 		const stream = new PassThrough();
@@ -38,6 +47,7 @@ describe('LogStep', () => {
 		step.activate();
 		await step.end();
 		await step.flush();
+		await waitStreamEnd(stream);
 
 		expect(out).toMatchInlineSnapshot(`
 		" ┌ tacos
@@ -81,13 +91,19 @@ describe('LogStep', () => {
 		await step.end();
 		await step.flush();
 
+		// Some funky stuff happening here
+		// @ts-ignore
+		if (verbosity === 0) {
+			stream.end();
+		}
+
+		await waitStreamEnd(stream);
+
 		for (const [method, str] of Object.entries(logs)) {
 			// @ts-ignore
 			if (!methods.includes(method)) {
-				// @ts-ignore
 				expect(out).not.toMatch(str);
 			} else {
-				// @ts-ignore
 				expect(out).toMatch(str);
 			}
 		}
@@ -126,6 +142,7 @@ describe('LogStep', () => {
 		step.activate();
 		await step.end();
 		await step.flush();
+		await waitStreamEnd(stream);
 
 		expect(out).toMatch(exp);
 	});

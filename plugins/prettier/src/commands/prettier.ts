@@ -5,7 +5,6 @@ import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
-import { logger } from '@onerepo/logger';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'prettier';
@@ -42,7 +41,7 @@ export const builder: Builder<Args> = (yargs) =>
 			}
 		});
 
-export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph }) {
+export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
 	const { add, all, check, 'dry-run': isDry, 'github-annotate': github, $0: cmd, _: positionals } = argv;
 
 	const filteredPaths = [];
@@ -93,14 +92,14 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		});
 	} catch (e) {
 		const files = (e instanceof Error ? e.message : `${e}`).trim().split('\n');
-		const err = new Error(`The following files were not properly formatted.
+		const err = `The following files were not properly formatted.
 
 ${files.map((f) => `  - ${f}`).join('\n')}
 
 To resolve the issue, run Prettier formatting and commit the resulting changes:
 
   $ ${cmd} ${positionals[0]}
-	`);
+	`;
 
 		if (process.env.GITHUB_RUN_ID && github) {
 			const msg = `This file needs formatting. Fix by running \`${cmd} ${positionals[0]}\``;

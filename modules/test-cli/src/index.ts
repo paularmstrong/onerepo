@@ -1,3 +1,4 @@
+import { PassThrough } from 'node:stream';
 import path from 'node:path';
 import url from 'node:url';
 import Yargs from 'yargs';
@@ -5,7 +6,7 @@ import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import { getters } from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
-import { logger } from '@onerepo/logger';
+import { logger as rootLogger, Logger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
@@ -27,7 +28,6 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 
 	process.env.ONE_REPO_VERBOSITY = '4';
 	process.env.ONE_REPO_HEAD_BRANCH = 'main';
-	logger.verbosity = 4;
 	process.argv[1] = 'onerepo-test-runner';
 
 	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
@@ -55,7 +55,7 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 		throw new Error('Builder must be a function');
 	}
 
-	const out = builder(setupYargs(yargs).default('verbosity', 0).demandCommand(0));
+	const out = builder(setupYargs(yargs).demandCommand(0));
 
 	const resolvedOut = await (out instanceof Promise ? out : Promise.resolve(out));
 
@@ -84,10 +84,15 @@ export async function runHandler<R = Record<string, unknown>>(
 		extras: Partial<Extras>;
 	},
 	cmd = ''
-): Promise<void> {
-	logger.hasError = false;
-	logger.verbosity = 4;
-	logger.pause();
+): Promise<string> {
+	let out = '';
+	const stream = new PassThrough();
+	stream.on('data', (chunk) => {
+		out += chunk.toString();
+	});
+	rootLogger.verbosity = 0;
+	rootLogger.stream = stream;
+	const logger = new Logger({ stream, verbosity: 4 });
 
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
@@ -111,17 +116,13 @@ export async function runHandler<R = Record<string, unknown>>(
 		error = e;
 	}
 
-	// await logger.end();
+	await logger.end();
 
-	await new Promise<void>((resolve, reject) => {
-		setImmediate(() => {
-			if (logger.hasError || error) {
-				reject(error);
-				return;
-			}
-			resolve();
-		});
-	});
+	if (logger.hasError || rootLogger.hasError || error) {
+		return Promise.reject(out || error);
+	}
+
+	return out;
 }
 
 export function getCommand<R = Record<string, unknown>>({

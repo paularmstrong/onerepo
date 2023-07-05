@@ -49,7 +49,7 @@ describe('handler', () => {
 			chosen: [],
 		});
 
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch('No workspaces were chosen');
 
 		expect(changesetWrite.default).not.toHaveBeenCalled();
 		expect(git.updateIndex).not.toHaveBeenCalled();
@@ -60,7 +60,7 @@ describe('handler', () => {
 			chosen: ['burritos'],
 		});
 
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch('No semantic version type chosen');
 
 		expect(changesetWrite.default).not.toHaveBeenCalled();
 		expect(git.updateIndex).not.toHaveBeenCalled();

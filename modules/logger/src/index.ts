@@ -7,12 +7,6 @@ export * from './LogStep';
 /**
  * This logger is a singleton instance for use across all of oneRepo and its commands.
  *
- * Available as a root import:
- *
- * ```ts
- * import { logger } from 'onerepo';
- * ```
- *
  * Available as extras on Handler functions:
  *
  * ```ts

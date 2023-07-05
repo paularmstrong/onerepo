@@ -2,11 +2,11 @@ import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
-import { logger } from '@onerepo/logger';
 import { builders } from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Tasks, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
+import type { Logger } from '@onerepo/logger';
 
 export const command = 'tasks';
 
@@ -68,7 +68,7 @@ export const builder: Builder<Argv> = (yargs) =>
 			hidden: true,
 		});
 
-export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
 
 	const requested = await getWorkspaces({ ignore });
@@ -96,7 +96,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
 				serialTasks[type].push(specs);
 			}
 		});
@@ -105,7 +105,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
 				parallelTasks[type].push(specs);
 			}
 		});
@@ -180,17 +180,18 @@ function taskToSpecs(
 	graph: Graph,
 	workspace: Workspace,
 	task: Task,
-	wsNames: Array<string>
+	wsNames: Array<string>,
+	logger: Logger
 ): Array<ExtendedRunSpec> {
 	if (Array.isArray(task)) {
-		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames));
+		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames, logger));
 	}
 
 	if (typeof task !== 'string' && Array.isArray(task.cmd)) {
-		return task.cmd.map((cmd) => singleTaskToSpec(cliName, graph, workspace, { ...task, cmd }, wsNames));
+		return task.cmd.map((cmd) => singleTaskToSpec(cliName, graph, workspace, { ...task, cmd }, wsNames, logger));
 	}
 
-	return [singleTaskToSpec(cliName, graph, workspace, task as string | (TaskDef & { cmd: string }), wsNames)];
+	return [singleTaskToSpec(cliName, graph, workspace, task as string | (TaskDef & { cmd: string }), wsNames, logger)];
 }
 
 function singleTaskToSpec(
@@ -198,7 +199,8 @@ function singleTaskToSpec(
 	graph: Graph,
 	workspace: Workspace,
 	task: string | (TaskDef & { cmd: string }),
-	wsNames: Array<string>
+	wsNames: Array<string>,
+	logger: Logger
 ): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const meta = typeof task !== 'string' ? task.meta ?? {} : {};

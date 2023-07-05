@@ -50,7 +50,7 @@ describe('handler', () => {
 
 	test('does nothing if git working tree is dirty', async () => {
 		jest.spyOn(git, 'isClean').mockResolvedValue(false);
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch('Working directory must be unmodified to ensure safe publish.');
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
@@ -61,7 +61,9 @@ describe('handler', () => {
 
 	test('does nothing if not on head branch', async () => {
 		jest.spyOn(git, 'getBranch').mockResolvedValue('tacos-tacos-tacos');
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch(
+			'Publish is only available from the branch "main", but you are currently on "tacos-tacos-tacos". Please switch branches and re-run to continue.'
+		);
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
@@ -79,7 +81,9 @@ describe('handler', () => {
 
 	test('ensures logged in to the registry', async () => {
 		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch(
+			'You do not appear to have publish rights to the configured registr'
+		);
 	});
 
 	test('can bypass the registry auth check', async () => {
@@ -95,7 +99,19 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortas', 'tortillas'],
+				args: [
+					'tasks',
+					'-c',
+					'build',
+					'--no-affected',
+					'-w',
+					'burritos',
+					'churros',
+					'tacos',
+					'tortas',
+					'tortillas',
+					'-vv',
+				],
 			})
 		);
 

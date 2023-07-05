@@ -34,7 +34,9 @@ describe('handler', () => {
 		jest.spyOn(file, 'writeSafe').mockResolvedValue();
 		jest.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
 
-		await expect(run('--name tacos')).rejects.toBeUndefined();
+		await expect(run('--name tacos')).rejects.toMatch(
+			'Refusing to install with name `tacos` because it already exists'
+		);
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 	});
 
@@ -46,7 +48,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'read').mockResolvedValue('onerepo-test-runner');
 		jest.spyOn(os, 'platform').mockReturnValue('darwin');
 
-		await expect(run('--name tacos')).resolves.toBeUndefined();
+		await expect(run('--name tacos')).resolves.toBeTruthy();
 
 		expect(subprocess.sudo).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -70,7 +72,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'read').mockResolvedValue('asdfasdf');
 		jest.spyOn(os, 'platform').mockReturnValue('darwin');
 
-		await expect(run('--name tacos --force')).resolves.toBeUndefined();
+		await expect(run('--name tacos --force')).resolves.toBeTruthy();
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 
 		expect(subprocess.sudo).toHaveBeenCalledWith(
@@ -95,7 +97,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
-		await expect(run('--name tacos')).resolves.toBeUndefined();
+		await expect(run('--name tacos')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -113,7 +115,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
-		await expect(run('--name tacos')).resolves.toBeUndefined();
+		await expect(run('--name tacos')).resolves.toBeTruthy();
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(
 			expect.objectContaining({
