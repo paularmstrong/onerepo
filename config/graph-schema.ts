@@ -82,6 +82,7 @@ export default {
 				},
 			},
 			required: ['extends', 'include', 'compilerOptions'],
+			$required: true,
 		},
 		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
 			type: 'object',
