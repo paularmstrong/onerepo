@@ -40,7 +40,7 @@ describe('handler', () => {
 
 	test('does nothing if git working tree is dirty', async () => {
 		jest.spyOn(git, 'isClean').mockResolvedValue(false);
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch('Working directory must be unmodified to ensure safe pre-publis');
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
@@ -60,7 +60,9 @@ describe('handler', () => {
 		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
 		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
 		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
-		await expect(run('', { graph })).rejects.toBeUndefined();
+		await expect(run('', { graph })).rejects.toMatch(
+			'You do not appear to have publish rights to the configured registry'
+		);
 		expect(graph.packageManager.loggedIn).toHaveBeenCalled();
 	});
 
@@ -79,7 +81,19 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'churros', 'tacos', 'tortas', 'tortillas'],
+				args: [
+					'tasks',
+					'-c',
+					'build',
+					'--no-affected',
+					'-w',
+					'burritos',
+					'churros',
+					'tacos',
+					'tortas',
+					'tortillas',
+					'-vv',
+				],
 			})
 		);
 
@@ -120,7 +134,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: process.argv[1],
-				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'tortillas'],
+				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'tortillas', '-vv'],
 			})
 		);
 

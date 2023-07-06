@@ -107,8 +107,8 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 				'--no-affected',
 				'-w',
 				...publishable.map((ws) => ws.name),
-				verbosity ? `-${'v'.repeat(verbosity)}` : '',
-			].filter(Boolean),
+				...(verbosity ? [`-${'v'.repeat(verbosity)}`] : []),
+			],
 			runDry: true,
 		});
 	}

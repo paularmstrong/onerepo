@@ -69,7 +69,7 @@ describe('handler', () => {
 			{ isDirectory: () => true }
 		);
 
-		await expect(run('-w burritos -w tacos')).resolves.toBeUndefined();
+		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -82,7 +82,7 @@ describe('handler', () => {
 	test('does not write in dry-run', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
-		await expect(run('-a --dry-run')).resolves.toBeUndefined();
+		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -103,7 +103,7 @@ bar/**/*
 			// @ts-ignore mock
 			{ isDirectory: () => false }
 		);
-		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeUndefined();
+		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
 
 		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.prettierignore$/), expect.any(Object));
 
@@ -129,7 +129,7 @@ bar/**/*
 
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 
-		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeUndefined();
+		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -147,7 +147,9 @@ bar/**/*
 			throw new Error('foo.js\nbop.js\n');
 		});
 
-		await expect(run('-f foo.js -f bop.js -f bar.js')).rejects.toBeUndefined();
+		await expect(run('-f foo.js -f bop.js -f bar.js')).rejects.toMatch(
+			'The following files were not properly formatted'
+		);
 
 		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'foo.js' });
 		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'bop.js' });

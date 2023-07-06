@@ -71,7 +71,7 @@ describe('handler', () => {
 			{ isDirectory: () => true }
 		);
 
-		await expect(run('-w burritos -w tacos')).resolves.toBeUndefined();
+		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -99,7 +99,7 @@ describe('handler', () => {
 	test('does not fix in dry-run', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
-		await expect(run('-a --dry-run')).resolves.toBeUndefined();
+		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -125,7 +125,7 @@ describe('handler', () => {
 	test('does not fix in no-cache', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
-		await expect(run('-a --no-cache')).resolves.toBeUndefined();
+		await expect(run('-a --no-cache')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -141,7 +141,7 @@ describe('handler', () => {
 	test('filters unapproved extensions', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 
-		await expect(run('-f foo.xd -f bar.js')).resolves.toBeUndefined();
+		await expect(run('-f foo.xd -f bar.js')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -176,7 +176,7 @@ bar/**/*
 			// @ts-ignore mock
 			{ isDirectory: () => false }
 		);
-		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeUndefined();
+		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
 
 		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
 
@@ -206,7 +206,7 @@ bar/**/*
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 
-		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeUndefined();
+		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -293,7 +293,7 @@ something
 			'',
 		]);
 
-		await expect(run('-a')).rejects.toBeUndefined();
+		await expect(run('-a')).rejects.toMatch('something');
 
 		expect(process.stdout.write).toHaveBeenCalledWith('::error burritos\n::warning tacos');
 		expect(process.stdout.write).toHaveBeenCalledWith('\n');

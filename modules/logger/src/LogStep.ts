@@ -1,4 +1,5 @@
 import { performance } from 'node:perf_hooks';
+import type { Writable } from 'node:stream';
 import { Duplex } from 'node:stream';
 import pc from 'picocolors';
 
@@ -6,7 +7,7 @@ type StepOptions = {
 	verbosity: number;
 	onEnd: (step: LogStep) => Promise<void>;
 	onError: () => void;
-	stream?: Duplex;
+	stream?: Writable;
 };
 
 const MARK_FAIL = pc.red('✘');
@@ -34,7 +35,8 @@ const PREFIX_END = pc.dim(pc.bold('■'));
 export class LogStep {
 	#name: string;
 	#verbosity: number;
-	#stream: Duplex;
+	#buffer: Duplex;
+	#stream: Writable;
 	#active = false;
 	#onEnd: (step: LogStep) => Promise<void>;
 	#onError: () => void;
@@ -56,7 +58,8 @@ export class LogStep {
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
-		this.#stream = stream ?? new LogData({});
+		this.#buffer = new LogData({});
+		this.#stream = stream ?? process.stderr;
 		if (this.name) {
 			this.#writeStream(this.#prefixStart(this.name));
 		} else {
@@ -107,7 +110,7 @@ export class LogStep {
 	 *
 	 * @internal
 	 */
-	activate(enableWrite = !process.stderr.isTTY) {
+	activate(enableWrite = this.#stream === process.stderr && !process.stderr.isTTY) {
 		if (this.#active) {
 			return;
 		}
@@ -119,16 +122,13 @@ export class LogStep {
 	}
 
 	#enableWrite() {
-		if (process.env.NODE_ENV === 'test' || this.verbosity <= 0) {
-			// Do not write logs in test – ever.
+		if (this.verbosity <= 0) {
+			// no-op to get into "flowing mode"
+			this.#buffer.on('data', () => {});
 			return;
 		}
-		this.#stream.on('data', (chunk) => {
-			// All log output goes to stderr. No exceptions.
-			// This allows commands to write to stdout and not mix log information with true output.
-			// However, if you plan on writing to a file, consider actually writing to a file with the fs api.
-			process.stderr.write(chunk.toString());
-		});
+		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
+		this.#buffer.on('data', (chunk) => this.#stream.write(chunk));
 	}
 
 	/**
@@ -160,17 +160,24 @@ export class LogStep {
 	 */
 	async flush(): Promise<void> {
 		this.#active = true;
-		if (process.stderr.isTTY) {
-			this.#enableWrite();
+		this.#enableWrite();
+
+		// if no name, this is the root logger step
+		// if not writable, then we can't actually flush/end anything
+		if (!this.name || !this.#buffer.writable) {
+			return;
 		}
 
-		return new Promise((resolve) => {
-			if (this.name && this.#stream.writable) {
-				this.#stream.end('');
-			}
-
-			resolve();
+		// End the buffer, helps with memory/gc
+		// But do it after immediate otherwise the buffer may not be done flushing to stream
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				this.#buffer.end();
+				resolve();
+			});
 		});
+
+		return;
 	}
 
 	/**
@@ -242,7 +249,7 @@ export class LogStep {
 	}
 
 	#writeStream(line: string) {
-		this.#stream.write(ensureNewline(line));
+		this.#buffer.write(ensureNewline(line));
 		if (this.#active) {
 			const lines = line.split('\n');
 			const lastThree = lines.slice(-3);
@@ -276,8 +283,9 @@ class LogData extends Duplex {
 		callback();
 	}
 
-	_final() {
+	_final(callback: () => void) {
 		this.push(null);
+		callback();
 	}
 }
 
