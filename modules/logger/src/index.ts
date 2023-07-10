@@ -20,7 +20,7 @@ export * from './LogStep';
 export const logger = new Logger({ verbosity: 0 });
 
 /**
- * For cases where multiple processes need to be completed, but should be joined under a single {@link LogStep} to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
+ * For cases where multiple processes need to be completed, but should be joined under a single {@link LogStep | `LogStep`} to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
  *
  * @example
  *

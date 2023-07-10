@@ -32,7 +32,7 @@ export type Options = {
 	 */
 	outWorkspace?: string;
 	/**
-	 * Set to true to write to the given file using the {@link file.writeSafe} option.
+	 * Set to true to amend content to the given file using the {@link file.writeSafe | `file.writeSafe`} method.
 	 */
 	safeWrite?: boolean;
 };

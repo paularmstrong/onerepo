@@ -1,7 +1,7 @@
 import type { Yargs } from '@onerepo/yargs';
 
 /**
- * Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getFiles`](#getfiles).
+ * Adds the following input arguments to command {@link Handler | `Handler`}. Typically used in conjunction with getters like {@link !getters.filepaths | `getters.filepaths`}.
  * - `--files`
  *
  * See [`WithFiles`](#withfiles-1) for type safety.
@@ -22,7 +22,7 @@ export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 	});
 
 /**
- * To be paired with the [`withFiles()` builder](#withfiles). Adds types for arguments parsed.
+ * To be paired with the {@link withFiles | `builders.withFiles`}. Adds types for arguments parsed.
  *
  * ```ts title="commands/mycommand.ts"
  * type Argv = builders.WithFiles & {

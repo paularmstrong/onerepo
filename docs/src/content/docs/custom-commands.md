@@ -39,7 +39,7 @@ oneRepo provides a robust API and suite of tools to flesh out your commands. Ple
 
 ## Common use-cases
 
-oneRepo exports helpers in the form of [`builders`](/docs/core/api/namespaces/namespace.builders/) for common input arguments and [`getters`](/docs/core/api/namespaces/namespace.getters/) for le and workspace querying based on the `builders`’ input arguments.
+oneRepo exports helpers in the form of [`builders`](/docs/core/api/namespaces/namespace.builders/) for common input arguments and [`getters`](/docs/core/api/namespaces/namespace.getters/) for file and workspace querying based on the `builders`’ input arguments.
 
 ```ts
 export const builder: Builder<WithWorkspaces> = (yargs) => builders.withWorkspaces(yargs);
@@ -56,7 +56,7 @@ Using the previous command, we can then get the list of _affected_ workspaces ba
 one my-command --workspace some-workspace --affected
 ```
 
-For a full list of available helpers on handlers, see {@link HandlerExtra}.
+For a full list of available helpers on handlers, see [`HandlerExtra`](/docs/core/api/#handlerextra).
 
 ## Write helpful documentation
 

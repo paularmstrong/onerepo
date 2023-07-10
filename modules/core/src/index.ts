@@ -34,7 +34,7 @@ const defaultConfig: Required<Config> = {
 };
 
 /**
- * Command-line application returned from {@link setup}.
+ * Command-line application returned from {@link setup | `setup()`}.
  *
  * @example
  * ```js

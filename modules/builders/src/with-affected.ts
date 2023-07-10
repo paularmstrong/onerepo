@@ -1,7 +1,7 @@
 import type { Yargs } from '@onerepo/yargs';
 
 /**
- * Adds the following input arguments to command [handler](#handler). Typically used in conjunction with getters like [`getAffected`](#getaffected), [`getFiles`](#getfiles), and [`getWorkspaces`](#getworkspaces).
+ * Adds the following input arguments to command {@link !Handler | `Handler`}. Typically used in conjunction with getters like {@link !getters.affected | `getters.affected`}, {@link !getters.filepaths | `getters.filepaths`}, and {@link !getters.workspaces | `getters.getWorkspaces`}.
  * - `--affected`
  * - `--from-ref`
  * - `--through-ref`
@@ -49,7 +49,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 		});
 
 /**
- * To be paired with the [`withAffected()` builder](#withaffected). Adds types for arguments parsed.
+ * To be paired with the {@link withAffected | `builders.withAffected`}. Adds types for arguments parsed.
  *
  * @example
  * ```ts title="commands/mycommand.ts"

@@ -49,7 +49,7 @@ export type Argv = WithAllInputs;
 /**
  * Get a list of the affected workspaces.
  *
- * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ * Typically, this should be used from the helpers provided by the command {@link !Handler | `Handler`}, in which case the first argument has been scoped for you already.
  *
  * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
  *
@@ -95,9 +95,9 @@ export function affected(graph: Graph, { from, ignore, staged, step, through }: 
 }
 
 /**
- * Get a list of workspaces based on the input arguments made available with the builders [`withAffected`](#withaffected), [`withAllInputs`](#withallinputs), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces).
+ * Get a list of workspaces based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
  *
- * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ * Typically, this should be used from the helpers provided by the command {@link !Handler | `Handler`}, in which case the first argument has been scoped for you already.
  *
  * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
  *
@@ -159,11 +159,11 @@ export async function workspaces(
 }
 
 /**
- * Get a list of filepaths based on the input arguments made available with the builders [`withAffected`](#withaffected), [`withAllInputs`](#withallinputs), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces).
+ * Get a list of filepaths based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
  *
  * When providing `--workspaces <names>`, the paths will be paths to the requested workspaces, not individual files.
  *
- * Typically, this should be used from the helpers provided by the command [`Handler`](#handler), in which case the first argument has been scoped for you already.
+ * Typically, this should be used from the helpers provided by the command handler’s {@link !HandlerExtra | `HandlerExtra`}, in which case the first argument has been scoped for you already.
  *
  * ```ts
  * export const handler: Handler = (argv, { getFilepaths, logger }) => {
@@ -174,6 +174,7 @@ export async function workspaces(
  * };
  * ```
  *
+ * @see !HandlerExtra
  * @group Getter
  */
 export async function filepaths(graph: Graph, argv: Argv, { step, from, staged, through }: GetterOptions = {}) {

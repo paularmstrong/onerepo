@@ -36,7 +36,7 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  *
  * If the current terminal is a TTY, output will be buffered and asynchronous steps will animated with a progress logger.
  *
- * See {@link HandlerExtra} for access the the global Logger instance.
+ * See {@link !HandlerExtra | `HandlerExtra`} for access the the global Logger instance.
  *
  * @group Logger
  */
@@ -114,9 +114,9 @@ export class Logger {
 	}
 
 	/**
-	 * When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and {@link Logger#unpause} when complete.
+	 * When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and {@link Logger#unpause | `logger.unpause()`} when complete.
 	 *
-	 * This process is also automated by the {@link run} function when `stdio` is set to `pipe`.
+	 * This process is also automated by the {@link !run | `run()`} function when `stdio` is set to `pipe`.
 	 *
 	 * ```ts
 	 * logger.pause();
@@ -131,7 +131,7 @@ export class Logger {
 	}
 
 	/**
-	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause} for more information.
+	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
 		this.#updater.clear();
@@ -159,7 +159,7 @@ export class Logger {
 	}
 
 	/**
-	 * Create a sub-step, {@link LogStep}, for the logger. This and any other step will be tracked and required to finish before exit.
+	 * Create a sub-step, {@link LogStep | `LogStep`}, for the logger. This and any other step will be tracked and required to finish before exit.
 	 *
 	 * ```ts
 	 * const step = logger.createStep('Do fun stuff');
@@ -182,7 +182,7 @@ export class Logger {
 	}
 
 	/**
-	 * Log an error. This will cause the root logger to include an error and fail a command. This is a pass-through for the main step’s {@link LogStep#log} method.
+	 * Log an error. This will cause the root logger to include an error and fail a command. This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -192,7 +192,7 @@ export class Logger {
 	}
 
 	/**
-	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error} method.
+	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -202,7 +202,7 @@ export class Logger {
 	}
 
 	/**
-	 * Log general information. This is a pass-through for the main step’s {@link LogStep#warn} method.
+	 * Log general information. This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -212,7 +212,7 @@ export class Logger {
 	}
 
 	/**
-	 * Extra debug logging when verbosity greater than or equal to 4. This is a pass-through for the main step’s {@link LogStep#debug} method.
+	 * Extra debug logging when verbosity greater than or equal to 4. This is a pass-through for the main step’s {@link LogStep#debug | `debug()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -222,7 +222,7 @@ export class Logger {
 	}
 
 	/**
-	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options). This is a pass-through for the main step’s {@link LogStep#timing} method.
+	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options). This is a pass-through for the main step’s {@link LogStep#timing | `timing()`} method.
 	 *
 	 * @group Logging
 	 * @param start A `PerformanceMark` entry name

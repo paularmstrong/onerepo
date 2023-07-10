@@ -7,7 +7,7 @@ import { logger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
 /**
- * The core configuration for {@link run}, {@link start}, {@link sudo}, and {@link batch} subprocessing.
+ * The core configuration for {@link run | `run`}, {@link start | `start`}, {@link sudo | `sudo`}, and {@link batch | `batch`} subprocessing.
  * @group Subprocess
  */
 export type RunSpec = {
@@ -43,11 +43,11 @@ export type RunSpec = {
 	 */
 	runDry?: boolean;
 	/**
-	 * Pass a custom {@link LogStep} to bundle this process input & output into another step instead of creating a new one.
+	 * Pass a custom {@link LogStep | `LogStep`} to bundle this process input & output into another step instead of creating a new one.
 	 */
 	step?: LogStep;
 	/**
-	 * Prevents throwing a {@link SubprocessError} in the event of the process failing and exiting with an unclean state.
+	 * Prevents throwing a {@link SubprocessError | `SubprocessError`} in the event of the process failing and exiting with an unclean state.
 	 */
 	skipFailures?: boolean;
 };
@@ -67,7 +67,7 @@ export type RunSpec = {
  *
  * @example **Skipping failures:**
  *
- * If a subprocess fails when called through `run()`, a {@link SubprocessError} will be thrown. Some third-party tooling will exit with error codes as an informational tool. While this is discouraged, there’s nothing we can do about how they’ve been chosen to work. To prevent throwing errors, but still act on the `stderr` response, include the `skipFailures` option:
+ * If a subprocess fails when called through `run()`, a {@link SubprocessError | `SubprocessError`} will be thrown. Some third-party tooling will exit with error codes as an informational tool. While this is discouraged, there’s nothing we can do about how they’ve been chosen to work. To prevent throwing errors, but still act on the `stderr` response, include the `skipFailures` option:
  *
  * ```ts
  * const [stdout, stderr] = await run({
@@ -82,7 +82,7 @@ export type RunSpec = {
  *
  * @example **Dry-run:**
  *
- * By default, `run()` will respect oneRepo’s `--dry-run` option (see {@link DefaultArgv}, `process.env.ONE_REPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
+ * By default, `run()` will respect oneRepo’s `--dry-run` option (see {@link DefaultArgv | `DefaultArgv`}, `process.env.ONE_REPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
  *
  * ```ts
  * await run({
@@ -95,7 +95,7 @@ export type RunSpec = {
  *
  * @group Subprocess
  * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
- * @throws {@link SubprocessError} if not `skipFailures` and the spawned process does not exit cleanly (with code `0`)
+ * @throws {@link SubprocessError | `SubprocessError`} if not `skipFailures` and the spawned process does not exit cleanly (with code `0`)
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
@@ -301,7 +301,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  * ```
  *
  * @group Subprocess
- * @throws {@link BatchError} An object that includes a list of all of the {@link SubprocessError}s thrown.
+ * @throws {@link BatchError | `BatchError`} An object that includes a list of all of the {@link SubprocessError | `SubprocessError`}s thrown.
  */
 export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];

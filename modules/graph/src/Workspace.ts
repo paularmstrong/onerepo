@@ -257,7 +257,7 @@ export type TaskDef = {
 /**
  * A Task can either be a string or TaskDef object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
  *
- * To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a {@link TaskDef}.
+ * To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a {@link TaskDef | `TaskDef`}.
  *
  * @group Tasks
  */
@@ -277,7 +277,7 @@ export type Tasks = {
 export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
 
 /**
- * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle}
+ * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle | `Lifecycle`}
  * @group Tasks
  */
 export type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;

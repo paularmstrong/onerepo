@@ -22,7 +22,7 @@ const PREFIX_DBG = pc.magenta(pc.bold('DBG'));
 const PREFIX_END = pc.dim(pc.bold('■'));
 
 /**
- * Log steps should only be created via the {@link Logger#createStep} method.
+ * Log steps should only be created via the {@link Logger#createStep | `logger.createStep()`} method.
  *
  * ```ts
  * const step = logger.createStep('Do some work');

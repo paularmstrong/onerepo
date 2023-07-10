@@ -7,7 +7,7 @@ import type { WithFiles } from './with-files';
 import type { WithWorkspaces } from './with-workspaces';
 
 /**
- * Helper to chain all of [`withAffected`](#withaffected), [`withFiles`](#withfiles), and [`withWorkspaces`](#withworkspaces) on a [`Builder`](#builder).
+ * Helper to chain all of {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`} on a {@link !Builder | `Builder`}.
  *
  * ```js title="commands/mycommand.js"
  * export const builder = (yargs) => builders.withAllInputs(yargs);
@@ -19,7 +19,7 @@ export const withAllInputs = (yargs: Yargs<DefaultArgv>): Yargs<WithAllInputs> =
 	withAffected(withFiles(withWorkspaces(yargs)));
 
 /**
- * Helper to include all of [`WithAffected`](#withaffected-1), [`WithFiles`](#withfiles-1), and [`WithWorkspaces`](#withworkspaces-1) on builder [`Argv`](#argv).
+ * Helper to include all of {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`} on builder {@link !Argv | `Argv`}.
  *
  * ```ts title="commands/mycommand.ts"
  * type Argv = builders.WithAllInputs & {

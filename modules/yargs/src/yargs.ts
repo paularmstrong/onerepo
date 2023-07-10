@@ -160,7 +160,7 @@ ${JSON.stringify(argv, null, 2)}`);
 });
 
 /**
- * Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#builder) and [`Handler`](#handler).
+ * Default arguments provided globally for all commands. These arguments are included by when using {@link Builder | `Builder`} and {@link Handler | `Handler`}.
  *
  * @group Command type aliases
  */
@@ -182,11 +182,11 @@ export type DefaultArgv = {
 };
 
 /**
- * Always present in Builder and Handler arguments.
+ * Always present in Builder and Handler arguments as parsed by Yargs.
  *
  * @group Command type aliases
  */
-export interface DefaultArguments {
+export interface PositionalArgv {
 	/**
 	 * Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.
 	 */
@@ -203,12 +203,12 @@ export interface DefaultArguments {
 /**
  * Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
  *
- * @param CommandArgv Arguments that will be parsed for this command
+ * @typeParam CommandArgv Arguments that will be parsed for this command
  *
  * @group Command type aliases
  * @internal
  */
-export type Arguments<CommandArgv = object> = { [key in keyof CommandArgv]: CommandArgv[key] } & DefaultArguments;
+export type Arguments<CommandArgv = object> = { [key in keyof CommandArgv]: CommandArgv[key] } & PositionalArgv;
 
 /**
  * A [yargs object](http://yargs.js.org/docs/).
@@ -221,7 +221,7 @@ export type Yargs<CommandArgv = DefaultArgv> = Yargv<CommandArgv>;
 /**
  * Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
  *
- * @param CommandArgv Arguments that will be parsed for this command
+ * @typeParam CommandArgv Arguments that will be parsed for this command, always a union with {@link DefaultArgv | `DefaultArgv`} and {@link PositionalArgv | `PositionalArgv`}.
  * @group Command type aliases
  */
 export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
@@ -240,25 +240,31 @@ export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
  */
 export interface HandlerExtra {
 	/**
-	 * Get the affected workspaces based on the current state of the repository. This is a wrapped implementation of {@link getters.affected | getters.affected} that does not require passing the `graph` argument.
+	 * Get the affected workspaces based on the current state of the repository.
+	 *
+	 * This is a wrapped implementation of {@link getters.affected | `getters.affected`} that does not require passing the `graph` argument.
 	 */
 	getAffected: (opts?: getters.GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * Get the affected filepaths based on the current inputs and state of the repository. This is a wrapped implementation of {@link getters.filepaths | getters.filepaths} that does not require the `graph` and `argv` arguments.
+	 * Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by {@link builders.withFiles | `builders.withFiles`} if provided.
+	 *
+	 * This is a wrapped implementation of {@link getters.filepaths | `getters.filepaths`} that does not require the `graph` and `argv` arguments.
 	 */
 	getFilepaths: (opts?: getters.GetterOptions) => Promise<Array<string>>;
 	/**
 	 * Get the affected workspaces based on the current inputs and the state of the repository.
-	 * This function differs from `getAffected` in that it respects input arguments provided by
-	 * `withWorkspaces`, `withFiles` and `withAffected`. This is a wrapped implementation of {@link getters.workspaces | getters.workspaces} that does not require the `graph` and `argv` arguments.
+	 * This function differs from `getAffected` in that it respects all input arguments provided by
+	 * {@link builders.withWorkspaces | `builders.withWorkspaces`}, {@link builders.withFiles | `builders.withFiles`} and {@link builders.withAffected | `builders.withAffected`}.
+	 *
+	 * This is a wrapped implementation of {@link getters.workspaces | `getters.workspaces`} that does not require the `graph` and `argv` arguments.
 	 */
 	getWorkspaces: (opts?: getters.GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * The full monorepo {@link graph.Graph}.
+	 * The full monorepo {@link graph.Graph | `graph.Graph`}.
 	 */
 	graph: Graph;
 	/**
-	 * Standard {@link Logger}. This should _always_ be used in place of `console.log` methods unless you have
+	 * Standard {@link Logger | `Logger`}. This should _always_ be used in place of `console.log` methods unless you have
 	 * a specific need to write to standard out differently.
 	 */
 	logger: Logger;
@@ -267,8 +273,9 @@ export interface HandlerExtra {
 /**
  * Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.
  *
- * For common arguments that work in conjunction with {@link HandlerExtra} methods like `getAffected()`, you can use helpers from the {@link builders! | `builders` namespace}, like {@link builders!withAffected | `builders.withAffected()`}.
+ * For common arguments that work in conjunction with {@link HandlerExtra | `HandlerExtra`} methods like `getAffected()`, you can use helpers from the {@link builders! | `builders` namespace}, like {@link builders!withAffected | `builders.withAffected()`}.
  *
+ * @example
  * ```ts
  * type Argv = {
  *   'with-tacos'?: boolean;
@@ -282,8 +289,11 @@ export interface HandlerExtra {
  * 		});
  * ```
  *
- * @param CommandArgv Arguments that will be parsed for this command
- * @param Yargs The Yargs instance. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule)
+ * @typeParam CommandArgv Arguments that will be parsed for this command
+ * @param yargs The Yargs instance. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule)
+ *
+ * @see [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
+ * @see Common extensions via the {@link !builders | `builders`} namespace.
  *
  * @group Command type aliases
  */
@@ -292,6 +302,7 @@ export type Builder<CommandArgv = object> = (yargs: Yargs) => Yargv<CommandArgv>
 /**
  * Command handler that includes oneRepo tools like `graph`, `logger`, and more. This function is type-safe if `Argv` is correctly passed through to the type definition.
  *
+ * @example
  * ```ts
  * type Argv = {
  *   'with-tacos'?: boolean;
@@ -303,7 +314,11 @@ export type Builder<CommandArgv = object> = (yargs: Yargs) => Yargv<CommandArgv>
  * };
  * ```
  *
- * @param CommandArgv Arguments that will be parsed for this command. DefaultArguments will be automatically merged into this object for use within the handler.
+ * @typeParam CommandArgv Arguments that will be parsed for this command. DefaultArguments will be automatically merged into this object for use within the handler.
+ *
+ * @see [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
+ * @see {@link HandlerExtra | `HandlerExtra`} for extended extra arguments provided above and beyond the scope of Yargs.
+ *
  * @group Command type aliases
  */
 export type Handler<CommandArgv = object> = (argv: Argv<CommandArgv>, extra: HandlerExtra) => Promise<void>;
