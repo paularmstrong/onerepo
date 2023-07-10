@@ -8,6 +8,7 @@ type StepOptions = {
 	onEnd: (step: LogStep) => Promise<void>;
 	onError: () => void;
 	stream?: Writable;
+	description?: string;
 };
 
 const MARK_FAIL = pc.red('✘');
@@ -20,6 +21,8 @@ const PREFIX_WARN = pc.yellow(pc.bold('WRN'));
 const PREFIX_LOG = pc.cyan(pc.bold('LOG'));
 const PREFIX_DBG = pc.magenta(pc.bold('DBG'));
 const PREFIX_END = pc.dim(pc.bold('■'));
+
+const noop = () => {};
 
 /**
  * Log steps should only be created via the {@link Logger#createStep | `logger.createStep()`} method.
@@ -41,6 +44,7 @@ export class LogStep {
 	#onEnd: (step: LogStep) => Promise<void>;
 	#onError: () => void;
 	#lastThree: Array<string> = [];
+	#writing: boolean = false;
 
 	/**
 	 * Whether or not this step has logged an error.
@@ -52,8 +56,10 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onError, verbosity, stream }: StepOptions) {
-		performance.mark(`start_${name || 'logger'}`);
+	constructor(name: string, { onEnd, onError, verbosity, stream, description }: StepOptions) {
+		performance.mark(`onerepo_start_${name || 'logger'}`, {
+			detail: description,
+		});
 		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
@@ -62,8 +68,6 @@ export class LogStep {
 		this.#stream = stream ?? process.stderr;
 		if (this.name) {
 			this.#writeStream(this.#prefixStart(this.name));
-		} else {
-			this.#enableWrite();
 		}
 	}
 
@@ -95,7 +99,6 @@ export class LogStep {
 	 */
 	set verbosity(verbosity: number) {
 		this.#verbosity = verbosity;
-		this.activate();
 	}
 
 	/**
@@ -122,13 +125,21 @@ export class LogStep {
 	}
 
 	#enableWrite() {
-		if (this.verbosity <= 0) {
-			// no-op to get into "flowing mode"
-			this.#buffer.on('data', () => {});
+		if (this.#writing) {
 			return;
 		}
+
+		if (this.verbosity <= 0) {
+			// no-op to get into "flowing mode"
+			this.#buffer.on('data', noop);
+			this.#writing = false;
+			return;
+		}
+
+		this.#buffer.off('data', noop);
 		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
 		this.#buffer.on('data', (chunk) => this.#stream.write(chunk));
+		this.#writing = true;
 	}
 
 	/**
@@ -139,14 +150,12 @@ export class LogStep {
 	 * ```
 	 */
 	async end() {
-		const endMark = `end_${this.name || 'logger'}`;
-		performance.mark(endMark);
+		const endMark = performance.mark(`onerepo_end_${this.name || 'logger'}`);
+		const [startMark] = performance.getEntriesByName(`onerepo_start_${this.name || 'logger'}`);
 
 		// TODO: jest.useFakeTimers does not seem to be applying to performance correctly
 		const duration =
-			process.env.NODE_ENV === 'test'
-				? 0
-				: Math.round(performance.measure(this.name || 'logger', `start_${this.name || 'logger'}`, endMark).duration);
+			!startMark || process.env.NODE_ENV === 'test' ? 0 : Math.round(endMark.startTime - startMark.startTime);
 		const text = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
@@ -170,14 +179,12 @@ export class LogStep {
 
 		// End the buffer, helps with memory/gc
 		// But do it after immediate otherwise the buffer may not be done flushing to stream
-		await new Promise<void>((resolve) => {
+		return await new Promise<void>((resolve) => {
 			setImmediate(() => {
 				this.#buffer.end();
 				resolve();
 			});
 		});
-
-		return;
 	}
 
 	/**
@@ -239,11 +246,14 @@ export class LogStep {
 	 */
 	timing(start: string, end: string) {
 		if (this.verbosity >= 5) {
+			const [startMark] = performance.getEntriesByName(start);
+			const [endMark] = performance.getEntriesByName(end);
+			if (!startMark || !endMark) {
+				this.warn(`Unable to log timing. Missing either mark ${start} → ${end}`);
+				return;
+			}
 			this.#writeStream(
-				this.#prefix(
-					MARK_TIMER,
-					`${start} → ${end}: ${Math.round(performance.measure(`${start} to ${end}`, start, end).duration)}ms`
-				)
+				this.#prefix(MARK_TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`)
 			);
 		}
 	}

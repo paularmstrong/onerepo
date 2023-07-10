@@ -98,7 +98,7 @@ export const commandDirOptions = ({
 			description,
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
-				performance.mark('one_handler_start');
+				performance.mark(`onerepo_start_Handler: ${command}`);
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
 
@@ -120,7 +120,9 @@ ${JSON.stringify(argv, null, 2)}`);
 					logger,
 				};
 
+				performance.mark('onerepo_start_Pre-Handler');
 				await preHandler(argv, extra);
+				performance.mark('onerepo_end_Pre-Handler');
 
 				try {
 					if (handler) {
@@ -131,28 +133,30 @@ ${JSON.stringify(argv, null, 2)}`);
 				} catch (err) {
 					if (err instanceof BatchError) {
 						logger.error(err);
-					}
-					if (err && !(err instanceof SubprocessError) && !(err instanceof BatchError)) {
+					} else if (err && !(err instanceof SubprocessError)) {
 						logger.error(err);
-						throw err;
 					}
 
 					process.exitCode = 1;
-				} finally {
-					performance.mark('one_shutdown');
-					await postHandler(argv, extra);
-					logger.timing('one_handler_start', 'one_shutdown');
-					logger.timing('one_startup', 'one_shutdown');
-					if (performance.getEntriesByName('one_register').length) {
-						logger.timing('one_register', 'one_startup');
-					}
-					await logger.end();
-					setImmediate(() => {
-						if (logger.hasError) {
-							process.exitCode = 1;
-						}
-						process.exit(process.exitCode);
-					});
+				}
+
+				performance.mark(`onerepo_end_Handler: ${command}`);
+
+				performance.mark('onerepo_start_Post-Handler');
+				await postHandler(argv, extra);
+				performance.mark('onerepo_end_Post-Handler');
+
+				logger.timing(`onerepo_start_Handler: ${command}`, `onerepo_end_Handler: ${command}`);
+
+				await logger.end();
+				await new Promise<void>((resolve) => {
+					setTimeout(() => {
+						resolve();
+					}, 1);
+				});
+
+				if (logger.hasError) {
+					process.exitCode = 1;
 				}
 			},
 		};

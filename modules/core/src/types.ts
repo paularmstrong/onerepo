@@ -44,35 +44,47 @@ export type CoreConfig = {
 export type Config = {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
+	 * @default `{}`
 	 */
 	core?: CoreConfig;
-	/**
-	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
-	 */
-	head?: string;
-	/**
-	 * When using subcommandDir, include a regular expression here to ignore files. By default, we will try to override *.(test|spec).* files and maybe some more. This will override the default.
-	 */
-	ignoreCommands?: RegExp;
 	/**
 	 * When you ask for `--help` at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
 	 */
 	description?: string;
 	/**
+	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
+	 * @default `'main'`
+	 */
+	head?: string;
+	/**
+	 * When using subcommandDir, include a regular expression here to ignore files.
+	 * @default `/(\/__\w+__\/|\.test\.|\.spec\.)/`
+	 */
+	ignoreCommands?: RegExp;
+	/**
+	 * Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.
+	 * @default `true`
+	 */
+	measurePerformance?: boolean;
+	/**
 	 * Give your CLI a unique name that's short and easy to remember.
 	 * If not provided, will default to `one`. That's great, but will cause conflicts if you try to use multiple monorepos that are both using oneRepo. But then again, what's the point of having multiple monorepos. Isn't that a bit besides the point?
+	 * @default `'one'`
 	 */
 	name?: string;
 	/**
-	 * Add shared commands. https://onerepo.tools/docs/plugins/
+	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
+	 * @default `[]`
 	 */
 	plugins?: Array<Plugin>;
 	/**
 	 * Absolute path location to the root of the repository.
+	 * @default `process.cwd()`
 	 */
 	root?: string;
 	/**
 	 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
+	 * @default `'commands'`
 	 */
 	subcommandDir?: string | false;
 };

@@ -1,6 +1,12 @@
 import path from 'node:path';
 import createYargs from 'yargs/yargs';
 import { setup } from '..';
+import * as perf from '../performance';
+
+jest.mock('../performance', () => ({
+	__esModule: true,
+	...jest.requireActual('../performance'),
+}));
 
 describe('setup', () => {
 	test('sets env variables', async () => {
@@ -31,6 +37,26 @@ describe('setup', () => {
 		);
 
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
+	});
+
+	test('runs performance measurement', async () => {
+		jest.spyOn(perf, 'measure');
+		const root = path.join(__dirname, '__fixtures__', 'repo');
+		jest.spyOn(process, 'cwd').mockReturnValue(root);
+		const yargs = createYargs(['one', 'graph', 'verify']);
+		const argv = { tacos: true, $0: 'foo', _: [] };
+		jest.spyOn(yargs, 'parse').mockResolvedValue(argv);
+
+		const { run } = await setup(
+			{
+				root,
+				head: 'tacos',
+			},
+			yargs
+		);
+		await run();
+
+		expect(perf.measure).toHaveBeenCalledWith(argv);
 	});
 
 	// yargs says it's not building a singleton, but it's help documentation actually is
