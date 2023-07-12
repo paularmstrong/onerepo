@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const path = require('node:path');
-const { performance } = require('node:perf_hooks');
+// const { performance } = require('node:perf_hooks');
 
-performance.mark('one_register');
 require('esbuild-register/dist/node').register({});
 
 const { setup } = require('onerepo');
@@ -42,4 +41,10 @@ setup(
 			typescript({ tsconfig: 'tsconfig.json' }),
 		],
 	}
-).then(({ run }) => run());
+)
+	.then(({ run }) => run())
+	.then(() => {
+		// Example do something with the performance measurements
+		// const measures = performance.getEntriesByType('measure');
+		// console.log(JSON.stringify(measures, null, 2));
+	});

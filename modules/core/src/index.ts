@@ -17,20 +17,22 @@ import { generate as generatePlugin } from './core/generate';
 import { graph as graphPlugin } from './core/graph';
 import { install as installPlugin } from './core/install';
 import { tasks as tasksPlugin } from './core/tasks';
+import { measure } from './performance';
 import type { Config, PluginObject } from './types';
 
 export type { GraphSchemaValidators } from './core/graph';
 export * from './types';
 
 const defaultConfig: Required<Config> = {
-	name: 'one',
-	head: 'main',
 	core: {},
-	plugins: [],
-	subcommandDir: 'commands',
-	root: process.cwd(),
-	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.)/,
 	description: 'oneRepo’s very own `one` CLI.',
+	head: 'main',
+	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.)/,
+	measurePerformance: true,
+	name: 'one',
+	plugins: [],
+	root: process.cwd(),
+	subcommandDir: 'commands',
 };
 
 /**
@@ -77,10 +79,11 @@ export async function setup(
 	yargsInstance: Yargv = createYargs(process.argv.slice(2))
 ): Promise<App> {
 	register({});
-	performance.mark('one_startup');
+	performance.mark('onerepo_start_Program');
 
 	const resolvedConfig = { ...defaultConfig, ...config };
-	const { description, name, core, head, plugins, subcommandDir, root, ignoreCommands } = resolvedConfig;
+	const { core, description, head, ignoreCommands, measurePerformance, name, plugins, subcommandDir, root } =
+		resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
@@ -101,7 +104,12 @@ export async function setup(
 		await Promise.all(post.map((fn) => fn(argv, extra)));
 	}
 
-	const options = commandDirOptions({ graph, exclude: ignoreCommands, preHandler, postHandler });
+	const options = commandDirOptions({
+		graph,
+		exclude: ignoreCommands,
+		preHandler,
+		postHandler,
+	});
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
 	// TODO: find a better way
@@ -171,7 +179,16 @@ export async function setup(
 	return {
 		yargs,
 		run: async () => {
-			yargs.argv;
+			const argv = await yargs.parse();
+			if (!measurePerformance) {
+				return;
+			}
+			performance.mark('onerepo_end_Program', {
+				detail:
+					'The measure of time from the beginning of parsing program setup and CLI arguments through the end of the handler & any postHandler options.',
+			});
+
+			measure(argv);
 		},
 	};
 }

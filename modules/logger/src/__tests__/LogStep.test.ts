@@ -63,6 +63,7 @@ describe('LogStep', () => {
 		[2, ['error', 'warn']],
 		[3, ['error', 'warn', 'log']],
 		[4, ['error', 'warn', 'log', 'debug']],
+		[5, ['error', 'warn', 'log', 'debug', 'timing']],
 	] as Array<[number, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
 		const onEnd = jest.fn(() => Promise.resolve());
 		const onError = jest.fn();
@@ -74,6 +75,7 @@ describe('LogStep', () => {
 			warn: ` │ ${pc.yellow(pc.bold('WRN'))} a warning`,
 			log: ` │ ${pc.cyan(pc.bold('LOG'))} a log`,
 			debug: ` │ ${pc.magenta(pc.bold('DBG'))} a debug`,
+			timing: ` │ ${pc.red('⏳')} foo → bar: 0ms`,
 		};
 
 		let out = '';
@@ -87,6 +89,9 @@ describe('LogStep', () => {
 		step.warn('a warning');
 		step.log('a log');
 		step.debug('a debug');
+		performance.mark('foo');
+		performance.mark('bar');
+		step.timing('foo', 'bar');
 
 		await step.end();
 		await step.flush();

@@ -51,7 +51,7 @@ export interface PackageManager {
 		workspaces?: Array<T>;
 		/**
 		 * Set the registry access level for the package
-		 * @default 'public' inferred from workspaces publishConfig.access
+		 * @default inferred from workspaces `publishConfig.access` or `'public'`
 		 */
 		access?: 'restricted' | 'public';
 		/**

@@ -99,8 +99,15 @@ export type RunSpec = {
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
-		performance.mark(`${options.name}_start`);
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;
+
+		const {
+			opts: { env, ...opts },
+		} = { ...withoutLogger, opts: withoutLogger.opts ?? {} };
+		performance.mark(`onerepo_start_Subprocess: ${options.name}`, {
+			detail: { description: 'Spawned subprocess', subprocess: { ...withoutLogger, opts } },
+		});
+
 		if (options.opts?.stdio === 'inherit') {
 			logger.pause();
 		}
@@ -164,7 +171,13 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? proces
 		}
 
 		subprocess.on('exit', (code) => {
-			performance.mark(`${options.name}_end`);
+			performance.mark(`onerepo_end_Subprocess: ${options.name}`, {
+				detail: {
+					exitCode: code,
+					failed: Boolean(code && isFinite(code)),
+				},
+			});
+
 			if (code && isFinite(code) && !options.skipFailures) {
 				const error = new SubprocessError(`${out || err || code}`);
 				step.error(out.trim() || err.trim());
@@ -174,7 +187,10 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? proces
 					reject(error);
 				});
 			}
-			step.timing(`${options.name}_start`, `${options.name}_end`);
+
+			if (inputStep) {
+				step.timing(`onerepo_start_Subprocess: ${options.name}`, `onerepo_end_Subprocess: ${options.name}`);
+			}
 
 			return Promise.resolve()
 				.then(() => {

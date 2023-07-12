@@ -45,7 +45,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	for (const workspace of workspaces) {
 		if (workspace.private) {
-			logger.warn(`Not building \`${workspace.name}\` because it is private`);
+			buildableStep.warn(`Not building \`${workspace.name}\` because it is private`);
 			continue;
 		}
 
@@ -66,7 +66,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const main = workspace.resolve(workspace.packageJson.main!);
 		addFile(main);
 
-		if (await file.exists(workspace.resolve('src/fixtures'))) {
+		if (await file.exists(workspace.resolve('src/fixtures'), { step: buildableStep })) {
 			postCopy.push(() => file.copy(workspace.resolve('src/fixtures'), workspace.resolve('dist/fixtures')));
 		}
 

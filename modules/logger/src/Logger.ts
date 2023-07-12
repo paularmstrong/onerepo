@@ -66,10 +66,11 @@ export class Logger {
 			verbosity: this.verbosity,
 			stream: this.#stream,
 		});
-		this.#logger.activate(true);
 
 		if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
-			this.#runUpdater();
+			process.nextTick(() => {
+				this.#runUpdater();
+			});
 		}
 	}
 
@@ -85,6 +86,7 @@ export class Logger {
 
 		if (this.#logger) {
 			this.#logger.verbosity = this.#verbosity;
+			this.#logger.activate(true);
 		}
 
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
@@ -244,18 +246,11 @@ export class Logger {
 
 		clearTimeout(this.#updaterTimeout);
 		await this.#logger.end();
+		await this.#logger.flush();
 
-		// TODO: may not need to do this
+		// Allows flushing to complete, probably
 		return new Promise<void>((resolve) => {
 			setImmediate(() => {
-				if (this.#stream !== process.stderr) {
-					this.#stream.end(() => {
-						resolve();
-					});
-					this.#stream.end();
-					return;
-				}
-
 				resolve();
 			});
 		});
