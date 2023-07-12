@@ -235,10 +235,17 @@ export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
  *
  * @group Command type aliases
  *
- * @example
+ * @example All extras are available as the second argument on your {@link Handler | `Handler`}
  * ```ts
  * export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace, logger }) => {
  * 	logger.warn('Nothing to do!');
+ * };
+ * ```
+ *
+ * @example Overriding the affected threshold in `getFilepaths`
+ * ```ts
+ * export const handler: Handler = (argv, { getFilepaths }) => {
+ * 	const filepaths = await getFilepaths({ affectedThreshold: 0 });
  * };
  * ```
  */
@@ -253,8 +260,11 @@ export interface HandlerExtra {
 	 * Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by {@link builders.withFiles | `builders.withFiles`} if provided.
 	 *
 	 * This is a wrapped implementation of {@link getters.filepaths | `getters.filepaths`} that does not require the `graph` and `argv` arguments.
+	 *
+	 * **Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit.
+	 *
 	 */
-	getFilepaths: (opts?: getters.GetterOptions) => Promise<Array<string>>;
+	getFilepaths: (opts?: getters.FileGetterOptions) => Promise<Array<string>>;
 	/**
 	 * Get the affected workspaces based on the current inputs and the state of the repository.
 	 * This function differs from `getAffected` in that it respects all input arguments provided by

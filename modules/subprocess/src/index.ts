@@ -74,7 +74,7 @@ export type RunSpec = {
  * 	name: 'Run dry',
  * 	cmd: 'echo',
  * 	args: ['"hello"'],
- * 	skipFaiolures: true,
+ * 	skipFailures: true,
  * });
  *
  * logger.error(stderr);

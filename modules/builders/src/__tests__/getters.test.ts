@@ -50,6 +50,24 @@ describe('filepaths', () => {
 		const pathAffected = await filepaths(graph, { all: true, affected: true });
 		expect(pathAffected).toEqual(['.']);
 	});
+
+	test('returns workspace locations if threshold is hit', async () => {
+		jest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue(['modules/burritos/package.json', 'modules/burritos/bar', 'modules/burritos/baz']);
+
+		const paths = await filepaths(graph, { affected: true }, { affectedThreshold: 2 });
+		expect(paths).toEqual(['modules/burritos']);
+	});
+
+	test('if threshold is zero, returns all files', async () => {
+		jest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue(['modules/burritos/foo', 'modules/burritos/bar', 'modules/burritos/baz']);
+
+		const paths = await filepaths(graph, { affected: true }, { affectedThreshold: 0 });
+		expect(paths).toEqual(['modules/burritos/foo', 'modules/burritos/bar', 'modules/burritos/baz']);
+	});
 });
 
 describe('workspaces', () => {
