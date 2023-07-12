@@ -158,6 +158,15 @@ export async function workspaces(
 	});
 }
 
+export type FileGetterOptions = GetterOptions & {
+	/**
+	 * Threshold of number of files until we fall-back and swap to workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
+	 *
+	 * @defaultValue 100
+	 */
+	affectedThreshold?: number;
+};
+
 /**
  * Get a list of filepaths based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
  *
@@ -165,6 +174,9 @@ export async function workspaces(
  *
  * Typically, this should be used from the helpers provided by the command handler’s {@link !HandlerExtra | `HandlerExtra`}, in which case the first argument has been scoped for you already.
  *
+ * When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading {@link !run | subprocess `run`} arguments. When the threshold is hit, this function will swap to return the set of parent workspace locations for the affected file lists.
+ *
+ * @example
  * ```ts
  * export const handler: Handler = (argv, { getFilepaths, logger }) => {
  * 	const filepaths = await getFilepaths();
@@ -177,9 +189,14 @@ export async function workspaces(
  * @see !HandlerExtra
  * @group Getter
  */
-export async function filepaths(graph: Graph, argv: Argv, { step, from, staged, through }: GetterOptions = {}) {
+export async function filepaths(
+	graph: Graph,
+	argv: Argv,
+	{ step, from, staged, through, affectedThreshold }: FileGetterOptions = {}
+) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {
 		step.debug(argv);
+
 		const paths: Array<string> = [];
 		const workspaces: Array<Workspace> = [];
 		if ('all' in argv && argv.all) {
@@ -206,8 +223,14 @@ export async function filepaths(graph: Graph, argv: Argv, { step, from, staged, 
 					};
 				}
 
+				const threshold = affectedThreshold ?? 100;
 				const files = await getModifiedFiles(opts, { step });
-				paths.push(...files);
+				if (threshold === 0 || files.length < threshold) {
+					paths.push(...files);
+				} else {
+					const workspaces = graph.getAllByLocation(files.map((f) => graph.root.resolve(f)));
+					paths.push(...workspaces.map((ws) => graph.root.relative(ws.location)));
+				}
 			} else {
 				step.log('`affected` requested from workspaces');
 				const affected = await graph.affected(argv.workspaces!);
