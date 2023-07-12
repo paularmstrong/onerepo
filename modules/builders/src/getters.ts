@@ -229,6 +229,9 @@ export async function filepaths(
 					paths.push(...files);
 				} else {
 					const workspaces = graph.getAllByLocation(files.map((f) => graph.root.resolve(f)));
+					if (workspaces.includes(graph.root)) {
+						return ['.'];
+					}
 					paths.push(...workspaces.map((ws) => graph.root.relative(ws.location)));
 				}
 			} else {

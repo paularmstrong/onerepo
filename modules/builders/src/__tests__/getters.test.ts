@@ -68,6 +68,13 @@ describe('filepaths', () => {
 		const paths = await filepaths(graph, { affected: true }, { affectedThreshold: 0 });
 		expect(paths).toEqual(['modules/burritos/foo', 'modules/burritos/bar', 'modules/burritos/baz']);
 	});
+
+	test('if root is affected and over threshold, only returns root filepath', async () => {
+		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo', 'modules/burritos/bar', 'modules/burritos/baz']);
+
+		const paths = await filepaths(graph, { affected: true }, { affectedThreshold: 2 });
+		expect(paths).toEqual(['.']);
+	});
 });
 
 describe('workspaces', () => {
