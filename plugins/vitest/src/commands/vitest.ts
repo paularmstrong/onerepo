@@ -24,10 +24,10 @@ export const builder: Builder<Args> = (yargs) =>
 		.example(`$0 ${command} -- --watch`, 'Run vitest in --watch mode.')
 		.example(`$0 ${command} -- -w path/to/test.ts`, 'Run vitest in watch mode with a particular file.')
 		.epilogue(
-			'This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.'
+			'This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.',
 		)
 		.epilogue(
-			'Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be passed as passthrough arguments as well.'
+			'Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be passed as passthrough arguments as well.',
 		)
 		.option('inspect', {
 			type: 'boolean',

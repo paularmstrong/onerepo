@@ -18,7 +18,7 @@ describe('handler', () => {
 					cmd: 'npx',
 					args: ['tsc', '-p', expect.stringMatching('tsconfig.json'), '--noEmit', '--pretty'],
 				}),
-			])
+			]),
 		);
 	});
 
@@ -33,7 +33,7 @@ describe('handler', () => {
 					cmd: 'npx',
 					args: ['tsc', '-p', expect.stringMatching('tsconfig.json'), '--noEmit', '--no-pretty'],
 				}),
-			])
+			]),
 		);
 	});
 });

@@ -122,7 +122,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
 			step.log(
 				`DRY-RUN command:
-		${JSON.stringify(withoutLogger, null, 2)}\n`
+		${JSON.stringify(withoutLogger, null, 2)}\n`,
 			);
 
 			return Promise.resolve()
@@ -140,7 +140,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 
 		step.debug(
 			`Running command:
-${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? process.cwd()}\n`
+${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? process.cwd()}\n`,
 		);
 
 		const subprocess = start(options);
@@ -162,13 +162,13 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? proces
 				makeTransformer((str: string) => {
 					out += str;
 					step.log(str);
-				})
+				}),
 			);
 			subprocess.stderr.pipe(
 				makeTransformer((str: string) => {
 					err += str;
 					step.log(str);
-				})
+				}),
 			);
 		}
 
@@ -255,7 +255,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
 		step.log(
 			`DRY-RUN command:
-    sudo ${commandString}\n`
+    sudo ${commandString}\n`,
 		);
 		await step.end();
 		return ['', ''];
@@ -295,7 +295,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 						return step.end();
 					})
 					.then(() => resolve([stdout, stderr]));
-			}
+			},
 		);
 	});
 }

@@ -55,7 +55,7 @@ export function typescript(opts: Options = {}): Plugin {
 					}
 					return y;
 				},
-				handler
+				handler,
 			);
 		},
 	};

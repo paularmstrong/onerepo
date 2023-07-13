@@ -180,7 +180,7 @@ export type ModifiedStaged = {
  */
 export async function getModifiedFiles(
 	{ from, staged, through }: ModifiedStaged | ModifiedFromThrough = {},
-	{ step }: Options = {}
+	{ step }: Options = {},
 ) {
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
 		const base = await (from ?? getMergeBase({ step }));

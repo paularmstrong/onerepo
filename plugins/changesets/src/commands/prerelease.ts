@@ -74,7 +74,7 @@ Commit or stash your changes to continue.`);
 	}
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
-		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location } as Package)
+		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location }) as Package,
 	);
 	const packages: Packages = {
 		tool: 'root',
@@ -146,7 +146,7 @@ Commit or stash your changes to continue.`);
 		});
 		if (!isLoggedIn) {
 			logger.error(
-				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.'
+				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.',
 			);
 			return;
 		}

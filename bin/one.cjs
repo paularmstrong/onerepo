@@ -40,7 +40,7 @@ setup(
 			prettier({ name: 'format' }),
 			typescript({ tsconfig: 'tsconfig.json' }),
 		],
-	}
+	},
 )
 	.then(({ run }) => run())
 	.then(() => {

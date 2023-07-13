@@ -4,7 +4,6 @@ import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
 import { stepWrapper } from '@onerepo/logger';
-import prettier from 'prettier';
 import type { LogStep } from '@onerepo/logger';
 
 /**
@@ -190,7 +189,7 @@ const fallbackCommentStyle = ['# ', ''];
 export async function writeSafe(
 	filename: string,
 	contents: string,
-	{ sentinel = 'onerepo-sentinel', step }: Options & { sentinel?: string } = {}
+	{ sentinel = 'onerepo-sentinel', step }: Options & { sentinel?: string } = {},
 ) {
 	return stepWrapper({ step, name: `Write to ${filename}` }, async (step) => {
 		let fileContents = '';
@@ -221,6 +220,12 @@ export async function writeSafe(
 
 async function format(filename: string, contents: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Format ${filename}` }, async (step) => {
+		let prettier;
+		try {
+			prettier = await import('prettier');
+		} catch (e) {
+			return contents;
+		}
 		try {
 			const info = await prettier.getFileInfo(filename, {});
 			step.debug(`File info for prettier: ${JSON.stringify(info)}`);

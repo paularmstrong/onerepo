@@ -61,7 +61,7 @@ describe('handler', () => {
 		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
 		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
 		await expect(run('', { graph })).rejects.toMatch(
-			'You do not appear to have publish rights to the configured registry'
+			'You do not appear to have publish rights to the configured registry',
 		);
 		expect(graph.packageManager.loggedIn).toHaveBeenCalled();
 	});
@@ -94,7 +94,7 @@ describe('handler', () => {
 					'tortillas',
 					'-vv',
 				],
-			})
+			}),
 		);
 
 		expect(applyReleasePlan.default).toHaveBeenCalledWith(
@@ -110,7 +110,7 @@ describe('handler', () => {
 				preState: undefined,
 			},
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
@@ -135,7 +135,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: process.argv[1],
 				args: ['tasks', '-c', 'build', '--no-affected', '-w', 'burritos', 'tortillas', '-vv'],
-			})
+			}),
 		);
 
 		expect(applyReleasePlan.default).toHaveBeenCalledWith(
@@ -148,7 +148,7 @@ describe('handler', () => {
 				preState: undefined,
 			},
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({

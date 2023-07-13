@@ -59,7 +59,7 @@ describe('handler', () => {
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -68,7 +68,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
-			{ isDirectory: () => true }
+			{ isDirectory: () => true },
 		);
 
 		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
@@ -92,7 +92,7 @@ describe('handler', () => {
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -118,7 +118,7 @@ describe('handler', () => {
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -134,7 +134,7 @@ describe('handler', () => {
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -161,7 +161,7 @@ describe('handler', () => {
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -174,7 +174,7 @@ bar/**/*
 `);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
-			{ isDirectory: () => false }
+			{ isDirectory: () => false },
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
 
@@ -198,7 +198,7 @@ bar/**/*
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 	});
 
@@ -226,7 +226,7 @@ bar/**/*
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
-			})
+			}),
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
 	});
@@ -239,7 +239,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['eslint', '--quiet']),
-			})
+			}),
 		);
 	});
 
@@ -251,7 +251,7 @@ bar/**/*
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['eslint', '--no-color']),
-			})
+			}),
 		);
 	});
 
@@ -263,7 +263,7 @@ bar/**/*
 		expect(subprocess.run).not.toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['--format', 'onerepo']),
-			})
+			}),
 		);
 	});
 
@@ -277,7 +277,7 @@ bar/**/*
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'false' },
 				},
-			})
+			}),
 		);
 	});
 

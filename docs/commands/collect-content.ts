@@ -63,7 +63,7 @@ ${readme}
 ## Usage
 
 `,
-			{ step: readmeStep }
+			{ step: readmeStep },
 		);
 
 		await writeChangelog(ws, docs, readmeStep);
@@ -106,7 +106,7 @@ ${readme}
 				opts: {
 					cwd: ws.location,
 				},
-			}
+			},
 		);
 	}
 	await readmeStep.end();
@@ -207,7 +207,7 @@ ${readme}
 			contents
 				.replace(/[^]+#+ Type declaration/gm, '')
 				.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
-			{ step: coreDocsTwo, sentinel: 'usage-typedoc' }
+			{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
 		);
 	}
 	await coreDocsTwo.end();
@@ -230,6 +230,6 @@ description: ''
 
 ${changelog.replace(new RegExp(`^# ${workspace.name}`, 'm'), '')}
 `,
-		{ step }
+		{ step },
 	);
 }

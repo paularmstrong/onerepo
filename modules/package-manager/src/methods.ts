@@ -17,7 +17,7 @@ export interface PackageManager {
 			 * @default false
 			 */
 			dev?: boolean;
-		}
+		},
 	): Promise<void>;
 	/**
 	 * Install current dependencies as listed in the package manager's lock file

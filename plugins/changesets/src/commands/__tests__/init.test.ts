@@ -31,7 +31,7 @@ describe('handler', () => {
 		await run('', { graph });
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'npx', args: ['changeset', 'init'] })
+			expect.objectContaining({ cmd: 'npx', args: ['changeset', 'init'] }),
 		);
 	});
 });

@@ -27,10 +27,10 @@ export function tasks(opts: Options = { lifecycles: [] }): Plugin {
 					builder(yargs)
 						.choices(
 							'lifecycle',
-							[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i)
+							[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i),
 						)
 						.default('ignore', ['.changesets/*', ...(opts.ignore ?? [])]),
-				handler
+				handler,
 			);
 		},
 	};

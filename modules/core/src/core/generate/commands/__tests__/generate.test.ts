@@ -60,7 +60,7 @@ describe('handler', () => {
 					type: 'input',
 					message: 'How would you describe tacos?',
 				},
-			])
+			]),
 		);
 	});
 
@@ -77,7 +77,7 @@ describe('handler', () => {
 						expect.objectContaining({ name: `Modules ${pc.dim('A fancy description')}` }),
 					]),
 				}),
-			])
+			]),
 		);
 	});
 
@@ -91,7 +91,7 @@ describe('handler', () => {
 					type: 'list',
 					message: 'Choose a template…',
 				}),
-			])
+			]),
 		);
 	});
 

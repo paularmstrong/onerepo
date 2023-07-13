@@ -15,7 +15,7 @@ process.emit = (event: string, error: unknown) => {
 		process,
 		// @ts-ignore
 		event,
-		error
+		error,
 		// eslint-disable-next-line no-mixed-spaces-and-tabs
 	);
 };

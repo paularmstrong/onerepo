@@ -19,7 +19,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['add', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -30,7 +30,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['add', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 
@@ -41,7 +41,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['add', 'tacos', 'burritos', '--save-dev'],
-				})
+				}),
 			);
 		});
 	});
@@ -53,7 +53,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['install'],
-				})
+				}),
 			);
 		});
 	});
@@ -74,7 +74,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['whoami', '--registry', 'foobar'],
-				})
+				}),
 			);
 		});
 	});
@@ -96,7 +96,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks'],
-				})
+				}),
 			);
 		});
 
@@ -110,7 +110,7 @@ describe('PNPm', () => {
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks', '--dry-run'],
 					runDry: true,
-				})
+				}),
 			);
 		});
 
@@ -121,7 +121,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks', '--access', 'restricted'],
-				})
+				}),
 			);
 		});
 
@@ -132,7 +132,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks', '--tag', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -143,7 +143,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks', '--otp', 'taco123'],
-				})
+				}),
 			);
 		});
 
@@ -159,7 +159,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['publish', '--no-git-checks', '--filter', 'tacos', '--filter', 'burritos'],
-				})
+				}),
 			);
 		});
 	});
@@ -177,7 +177,7 @@ describe('PNPm', () => {
 						}
 
 						return [JSON.stringify({ name: args![1]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -201,7 +201,7 @@ describe('PNPm', () => {
 						}
 
 						return [JSON.stringify({ name: args![1]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -222,7 +222,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['remove', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -233,7 +233,7 @@ describe('PNPm', () => {
 				expect.objectContaining({
 					cmd: 'pnpm',
 					args: ['remove', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 	});

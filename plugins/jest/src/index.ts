@@ -61,7 +61,7 @@ export function jest(opts: Options = {}): Plugin {
 					}
 					return y;
 				},
-				handler
+				handler,
 			);
 		},
 	};

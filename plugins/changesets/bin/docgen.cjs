@@ -19,7 +19,7 @@ const { changesets } = require('../src');
 				tasks: false,
 			},
 			plugins: [changesets()],
-		}
+		},
 	);
 
 	await run();

@@ -19,7 +19,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['install', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -30,7 +30,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['install', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 
@@ -41,7 +41,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['install', 'tacos', 'burritos', '--save-dev'],
-				})
+				}),
 			);
 		});
 	});
@@ -53,7 +53,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['install'],
-				})
+				}),
 			);
 		});
 	});
@@ -74,7 +74,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['whoami', '--registry', 'foobar'],
-				})
+				}),
 			);
 		});
 	});
@@ -96,7 +96,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish'],
-				})
+				}),
 			);
 		});
 
@@ -110,7 +110,7 @@ describe('NPM', () => {
 					cmd: 'npm',
 					args: ['publish', '--dry-run'],
 					runDry: true,
-				})
+				}),
 			);
 		});
 
@@ -121,7 +121,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish', '--access', 'restricted'],
-				})
+				}),
 			);
 		});
 
@@ -132,7 +132,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish', '--tag', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -143,7 +143,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish', '--otp', 'taco123'],
-				})
+				}),
 			);
 		});
 
@@ -159,7 +159,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['publish', '--workspaces', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 	});
@@ -177,7 +177,7 @@ describe('NPM', () => {
 						}
 
 						return [JSON.stringify({ name: args![1]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -201,7 +201,7 @@ describe('NPM', () => {
 						}
 
 						return [JSON.stringify({ name: args![1]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -222,7 +222,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['uninstall', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -233,7 +233,7 @@ describe('NPM', () => {
 				expect.objectContaining({
 					cmd: 'npm',
 					args: ['uninstall', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 	});

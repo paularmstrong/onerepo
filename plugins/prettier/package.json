@@ -41,7 +41,7 @@
 		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
-		"prettier": "^2"
+		"prettier": "^2 || ^3"
 	},
 	"engines": {
 		"node": "^18.0.0"

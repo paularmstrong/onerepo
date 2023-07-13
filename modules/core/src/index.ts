@@ -77,7 +77,7 @@ export async function setup(
 	 * @internal
 	 * Override the initial yargs instance. Really only useful for dependency-injection during unit test
 	 */
-	yargsInstance: Yargv = createYargs(process.argv.slice(2))
+	yargsInstance: Yargv = createYargs(process.argv.slice(2)),
 ): Promise<App> {
 	register({});
 	performance.mark('onerepo_start_Program');
@@ -208,7 +208,7 @@ export async function setup(
  */
 function patchCommandDir(
 	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
-	commandDir: Yargs['commandDir']
+	commandDir: Yargs['commandDir'],
 ) {
 	const require = createRequire('/');
 	return function (this: Yargs, pathname: string) {
@@ -216,7 +216,7 @@ function patchCommandDir(
 			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
 			{
 				nodir: true,
-			}
+			},
 		);
 		this.commandDir = patchCommandDir(options, commandDir);
 
@@ -256,7 +256,7 @@ function getActualRoot(root: string) {
 			throw new Error('Not a valid worktree');
 		} catch (e) {
 			throw new Error(
-				`\nPlease change your working directory to a valid worktree or the repo root to continue:\n $ cd ${root}\n\n`
+				`\nPlease change your working directory to a valid worktree or the repo root to continue:\n $ cd ${root}\n\n`,
 			);
 		}
 	}

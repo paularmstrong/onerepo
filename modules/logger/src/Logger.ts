@@ -156,7 +156,7 @@ export class Logger {
 			return;
 		}
 		this.#updater(
-			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n')
+			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n'),
 		);
 	}
 

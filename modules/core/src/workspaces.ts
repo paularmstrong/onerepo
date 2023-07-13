@@ -9,7 +9,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 			.example('$0 ws myapp start [options]', 'Using alias `ws` instead of the full command `workspace`')
 			.example(
 				'$0 myapp start',
-				'The `workspace` command can be completely ommitted and the workspace name can be used as a top-level command instead. This make things quick and easy to remember.'
+				'The `workspace` command can be completely ommitted and the workspace name can be used as a top-level command instead. This make things quick and easy to remember.',
 			)
 			.positional('name', {
 				description: 'Workspace name – may be the fully qualified package name or an available alias.',
@@ -22,7 +22,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 				type: 'string',
 			})
 			.epilogue(
-				`Add commands to the \`${dirname}\` directory within a workspace to create workspace-specific commands.`
+				`Add commands to the \`${dirname}\` directory within a workspace to create workspace-specific commands.`,
 			);
 
 		const workspaceName = process.argv[3];
@@ -43,11 +43,11 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 				.usage('$0 workspace <command> [options]')
 				.usage('$0 ws <command> [options]')
 				.epilogue(
-					`You are currently working in the ${workingWorkspace.name} workspace, so workspace-specific commands will be run by default when a suitable name or alias for this workspace is omitted.`
+					`You are currently working in the ${workingWorkspace.name} workspace, so workspace-specific commands will be run by default when a suitable name or alias for this workspace is omitted.`,
 				);
 			return addCommandDir(yargs, workingWorkspace, dirname).demandCommand(
 				2,
-				`Please enter a valid command for the ${workingWorkspace.name} workspace or enter the name of another workspace for more choices.`
+				`Please enter a valid command for the ${workingWorkspace.name} workspace or enter the name of another workspace for more choices.`,
 			);
 		}
 

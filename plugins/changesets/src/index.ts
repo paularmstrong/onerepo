@@ -49,7 +49,7 @@ export function changesets(opts: Options = {}): Plugin {
 					}
 					return yargs;
 				},
-				() => {}
+				() => {},
 			);
 		},
 	});

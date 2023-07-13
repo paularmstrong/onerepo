@@ -43,13 +43,11 @@
 		"mdast-builder": "^1.1.1",
 		"minimatch": "^9.0.0",
 		"picocolors": "^1.0.0",
-		"prettier": "^2",
 		"remark-gfm": "^3.0.1",
 		"remark-parse": "^10.0.1",
 		"remark-stringify": "^10.0.2",
 		"unified": "^10.1.2",
-		"yargs": "^17.6.2",
-		"yargs-parser": "^21.1.1"
+		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
@@ -62,7 +60,6 @@
 		"@types/npmlog": "^4.1.4",
 		"@types/unist": "^2.0.6",
 		"@types/yargs": "^17.0.24",
-		"@types/yargs-parser": "^21.0.0",
 		"jest": "^29.5.0",
 		"typescript": "^5.0.4"
 	},

@@ -37,14 +37,14 @@ export const builder: Builder<Args> = (yargs) =>
 			const { shell } = os.userInfo();
 			if (!/\/(?:zsh|bash)$/.test(shell)) {
 				logger.warn(
-					`You are using an incompatible shell, "${shell}". To get the most out of ${argv.name}, switch to either zsh (preferred) or bash.`
+					`You are using an incompatible shell, "${shell}". To get the most out of ${argv.name}, switch to either zsh (preferred) or bash.`,
 				);
 			}
 			if (os.platform() === 'win32') {
 				logger.error(
 					new Error(
-						'Windows is not supported by oneRepo. Sorry, but we do not have sufficient resources for that. If you are interested in contributing and maintaining windows support long-term, please reach out on GitHub: https://github.com/paularmstrong/onerepo/discussions'
-					)
+						'Windows is not supported by oneRepo. Sorry, but we do not have sufficient resources for that. If you are interested in contributing and maintaining windows support long-term, please reach out on GitHub: https://github.com/paularmstrong/onerepo/discussions',
+					),
 				);
 				process.exit(1);
 			}
@@ -58,10 +58,10 @@ export const builder: Builder<Args> = (yargs) =>
 			}
 		})
 		.epilogue(
-			'`npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.'
+			'`npx something-something`? `npm run what`? `yarn that-thing`? `../../../bin/one`? Forget all of that; no more will you need to figure out how to run your CLI. Just install it directly into your user bin PATH with this command.',
 		)
 		.epilogue(
-			'As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).'
+			'As an added bonus, tab-completions will be added to your .zshrc or .bash_profile (depending on your current shell).',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
@@ -89,7 +89,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 			}
 
 			step.warn(
-				`"${name}" has already been installed. It should be safe to overwrite previous installation. Continuing…`
+				`"${name}" has already been installed. It should be safe to overwrite previous installation. Continuing…`,
 			);
 		}
 		await step.end();

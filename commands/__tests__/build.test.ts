@@ -63,7 +63,7 @@ describe('handler', () => {
 						'--format=esm',
 					],
 				}),
-			])
+			]),
 		);
 	});
 
@@ -83,7 +83,7 @@ describe('handler', () => {
 						'--format=esm',
 					],
 				}),
-			])
+			]),
 		);
 	});
 
@@ -105,7 +105,7 @@ describe('handler', () => {
 						cwd: expect.stringMatching(/build\/modules\/churros/),
 					},
 				}),
-			])
+			]),
 		);
 	});
 
@@ -127,7 +127,7 @@ describe('handler', () => {
 						cwd: expect.stringMatching(/build\/modules\/tacos/),
 					},
 				}),
-			])
+			]),
 		);
 	});
 
@@ -136,11 +136,11 @@ describe('handler', () => {
 
 		expect(oneRepo.file.remove).toHaveBeenCalledWith(
 			expect.stringMatching(/build\/modules\/burritos\/dist$/),
-			expect.any(Object)
+			expect.any(Object),
 		);
 		expect(oneRepo.file.remove).toHaveBeenCalledWith(
 			expect.stringMatching(/build\/modules\/churros\/dist$/),
-			expect.any(Object)
+			expect.any(Object),
 		);
 	});
 
@@ -150,7 +150,7 @@ describe('handler', () => {
 
 		expect(oneRepo.file.copy).toHaveBeenCalledWith(
 			expect.stringMatching(/burritos\/src\/fixtures$/),
-			expect.stringMatching(/burritos\/dist\/fixtures$/)
+			expect.stringMatching(/burritos\/dist\/fixtures$/),
 		);
 	});
 });

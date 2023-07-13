@@ -53,7 +53,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			prefix: '📦',
 			message: `What workspaces would you like to add a changeset for?
 ${pc.dim(
-	'  Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.'
+	'  Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.',
 )}
  `,
 			choices: [
@@ -103,7 +103,7 @@ ${pc.dim(
 			default: false,
 			prefix: '🎁',
 			message: `Are there ${pc.green(
-				pc.bold('new features')
+				pc.bold('new features'),
 			)} that can be opted into that do not require modifications to existing integrations?`,
 			when: (state) => !type && state.chosen.length && !state.patch,
 		},
@@ -140,7 +140,7 @@ ${pc.dim(
 			validate: (input) => {
 				if (!input.trim()) {
 					return `${pc.bold(
-						pc.red('Error:')
+						pc.red('Error:'),
 					)} Entry is empty. Please enter a descriptive changeset and save the opened file to continue.`;
 				}
 				return true;
@@ -156,7 +156,7 @@ ${pc.dim(
 			summary: contents,
 			releases: chosen.map((name: string) => ({ name, type: semverType })),
 		},
-		graph.root.location
+		graph.root.location,
 	);
 	await writeStep.end();
 

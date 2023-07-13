@@ -13,7 +13,7 @@ const { setup } = require('../src');
 			root: path.join(__dirname, '..', '..', '..'),
 			subcommandDir: false,
 			core: {},
-		}
+		},
 	);
 
 	await run();

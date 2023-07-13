@@ -179,7 +179,7 @@ describe('my-command', () => {
 			expect.objectContaining({
 				cmd: 'foo',
 				args: ['...'],
-			})
+			}),
 		);
 	});
 });

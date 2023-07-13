@@ -18,8 +18,8 @@ export const builder: Builder<Args> = (yargs) =>
 				.version(false)
 				.example('$0 build', 'Build all workspaces.')
 				.example('$0 build -w graph', 'Build the `graph` workspace only.')
-				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.')
-		)
+				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.'),
+		),
 	);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, logger }) {

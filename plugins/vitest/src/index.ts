@@ -52,7 +52,7 @@ export function vitest(opts: Options = {}): PluginObject {
 					}
 					return y;
 				},
-				handler
+				handler,
 			);
 		},
 	};

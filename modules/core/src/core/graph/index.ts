@@ -49,13 +49,13 @@ export function graph(opts: Options = {}): Plugin {
 								}
 								return y;
 							},
-							verify.handler
+							verify.handler,
 						)
 						.demandCommand(1);
 
 					return y;
 				},
-				noop
+				noop,
 			);
 		},
 	});

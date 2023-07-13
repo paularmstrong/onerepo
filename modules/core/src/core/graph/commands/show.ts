@@ -27,11 +27,11 @@ export const builder: Builder<Args> = (yargs) =>
 			choices: ['mermaid', 'plain', 'json'],
 		} as const)
 		.epilogue(
-			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.`
+			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.`,
 		)
 		.example(
 			'$0 show --format=mermaid -w <workspace> > ./out.mermaid',
-			'Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.'
+			'Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getWorkspaces, logger }) {
@@ -72,7 +72,7 @@ function writeStdio(graph: Serialized): void {
 				const resolved = typeof col === 'string' ? { text: col } : col;
 				// @ts-ignore cliui doesn't expose Column <smh>
 				return { padding: [0, 1, 0, 1], ...resolved };
-			})
+			}),
 		);
 	}
 	div({ text: '⎯'.repeat(width), padding: [1, 0, 1, 0] });
@@ -90,7 +90,7 @@ function writeStdio(graph: Serialized): void {
 				memo[depType[weight] as keyof typeof memo].push(target);
 				return memo;
 			},
-			{ prod: [], dev: [], peer: [] } as Deps
+			{ prod: [], dev: [], peer: [] } as Deps,
 		);
 
 		const maxRows = Math.max(...Object.values(deps).map((d) => d.length));
@@ -123,7 +123,7 @@ ${isolated.nodes
 	.join('\n')}
 ${isolated.links
 	.map(
-		({ source, target, weight }) => `  ${target.replace(/\W+/g, '')} ${arrow[weight]}> ${source.replace(/\W+/g, '')}`
+		({ source, target, weight }) => `  ${target.replace(/\W+/g, '')} ${arrow[weight]}> ${source.replace(/\W+/g, '')}`,
 	)
 	.join('\n')}
 `);

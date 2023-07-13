@@ -34,13 +34,13 @@ export function generate(opts: Options = { templatesDir: './config/templates' })
 						.epilogue(
 							`To create new templates add a new folder to ${path.relative(
 								process.cwd(),
-								opts.templatesDir
-							)} and create a \`.onegen.cjs\` configuration file. Follow the instructions online for more: https://onerepo.tools/docs/plugins/generate/`
+								opts.templatesDir,
+							)} and create a \`.onegen.cjs\` configuration file. Follow the instructions online for more: https://onerepo.tools/docs/plugins/generate/`,
 						);
 
 					return y;
 				},
-				handler
+				handler,
 			);
 		},
 	};

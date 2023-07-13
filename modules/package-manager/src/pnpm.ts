@@ -66,7 +66,7 @@ export const Pnpm = {
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
 				skipFailures: true,
-			}))
+			})),
 		);
 
 		for (const res of responses) {
