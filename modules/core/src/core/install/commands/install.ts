@@ -2,7 +2,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { run, sudo } from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
-import { logger } from '@onerepo/logger';
+import { getLogger } from '@onerepo/logger';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'install';
@@ -33,6 +33,7 @@ export const builder: Builder<Args> = (yargs) =>
 				'Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type.',
 		})
 		.middleware((argv) => {
+			const logger = getLogger();
 			const { shell } = os.userInfo();
 			if (!/\/(?:zsh|bash)$/.test(shell)) {
 				logger.warn(

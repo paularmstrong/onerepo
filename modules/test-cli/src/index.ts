@@ -6,7 +6,7 @@ import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
 import { getters } from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
-import { logger as rootLogger, Logger } from '@onerepo/logger';
+import { destroyLogger, getLogger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
@@ -90,9 +90,8 @@ export async function runHandler<R = Record<string, unknown>>(
 	stream.on('data', (chunk) => {
 		out += chunk.toString();
 	});
-	rootLogger.verbosity = 0;
-	rootLogger.stream = stream;
-	const logger = new Logger({ stream, verbosity: 4 });
+	destroyLogger();
+	const logger = getLogger({ verbosity: 0, stream });
 
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
@@ -118,10 +117,12 @@ export async function runHandler<R = Record<string, unknown>>(
 
 	await logger.end();
 
-	if (logger.hasError || rootLogger.hasError || error) {
+	if (logger.hasError || error) {
+		destroyLogger();
 		return Promise.reject(out || error);
 	}
 
+	destroyLogger();
 	return out;
 }
 

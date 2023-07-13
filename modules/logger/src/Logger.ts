@@ -247,13 +247,6 @@ export class Logger {
 		clearTimeout(this.#updaterTimeout);
 		await this.#logger.end();
 		await this.#logger.flush();
-
-		// Allows flushing to complete, probably
-		return new Promise<void>((resolve) => {
-			setImmediate(() => {
-				resolve();
-			});
-		});
 	}
 
 	#activate = (step: LogStep) => {

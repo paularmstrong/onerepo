@@ -1,5 +1,5 @@
 import { performance } from 'node:perf_hooks';
-import { logger } from '@onerepo/logger';
+import { getLogger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
 import { getters } from '@onerepo/builders';
 import type { Logger } from '@onerepo/logger';
@@ -98,6 +98,8 @@ export const commandDirOptions = ({
 			description,
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
+				const logger = getLogger();
+
 				performance.mark(`onerepo_start_Handler: ${command}`);
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
@@ -135,6 +137,7 @@ ${JSON.stringify(argv, null, 2)}`);
 						logger.error(err);
 					} else if (err && !(err instanceof SubprocessError)) {
 						logger.error(err);
+						throw err;
 					}
 
 					process.exitCode = 1;
@@ -149,11 +152,6 @@ ${JSON.stringify(argv, null, 2)}`);
 				logger.timing(`onerepo_start_Handler: ${command}`, `onerepo_end_Handler: ${command}`);
 
 				await logger.end();
-				await new Promise<void>((resolve) => {
-					setTimeout(() => {
-						resolve();
-					}, 1);
-				});
 
 				if (logger.hasError) {
 					process.exitCode = 1;
