@@ -3,8 +3,10 @@ import { exec, execSync, spawn } from 'node:child_process';
 import os from 'node:os';
 import { Transform } from 'node:stream';
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
-import { logger } from '@onerepo/logger';
+import { getLogger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
+
+const logger = getLogger();
 
 /**
  * The core configuration for {@link run | `run`}, {@link start | `start`}, {@link sudo | `sudo`}, and {@link batch | `batch`} subprocessing.

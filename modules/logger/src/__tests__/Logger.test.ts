@@ -4,8 +4,10 @@ import { Logger } from '../Logger';
 
 async function waitStreamEnd(stream: PassThrough) {
 	return new Promise<void>((resolve) => {
-		stream.end(() => {
-			resolve();
+		setImmediate(() => {
+			stream.end(() => {
+				resolve();
+			});
 		});
 	});
 }

@@ -180,8 +180,7 @@ export class LogStep {
 		// End the buffer, helps with memory/gc
 		// But do it after immediate otherwise the buffer may not be done flushing to stream
 		return await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				this.#buffer.end();
+			this.#buffer.end(() => {
 				resolve();
 			});
 		});

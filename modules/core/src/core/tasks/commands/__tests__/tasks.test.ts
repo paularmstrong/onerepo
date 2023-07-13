@@ -53,8 +53,8 @@ describe('handler', () => {
 		await run('--lifecycle pre-commit --list', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint', '-vvvv'] })],
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vvvv'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint', '-vv'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vv'] })],
 			],
 			serial: [],
 		});
@@ -67,8 +67,8 @@ describe('handler', () => {
 		await run('--lifecycle commit --list', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint', '-vvvv'] })],
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vvvv'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint', '-vv'] })],
+				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vv'] })],
 			],
 			serial: [
 				[expect.objectContaining({ cmd: 'echo', args: ['"commit"'] })],

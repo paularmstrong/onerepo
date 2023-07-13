@@ -1,4 +1,4 @@
-import { logger } from '@onerepo/logger';
+import { getLogger } from '@onerepo/logger';
 import type { Argv } from 'yargs';
 
 export const sudoCheckMiddleware = (yargs: Argv) =>
@@ -7,7 +7,7 @@ export const sudoCheckMiddleware = (yargs: Argv) =>
 			yargs.showHelp();
 			const msg =
 				'Do not run commands with `sudo`! If elevated permissions are required, commands will prompt you for your password only if and when necessary.';
-			logger.error(msg);
+			getLogger().error(msg);
 			yargs.exit(1, new Error(msg));
 		}
 	};

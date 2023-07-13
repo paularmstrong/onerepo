@@ -9,6 +9,7 @@ import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
+import { destroyLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
 import { workspaceBuilder } from './workspaces';
@@ -180,6 +181,7 @@ export async function setup(
 		yargs,
 		run: async () => {
 			const argv = await yargs.parse();
+			destroyLogger();
 			if (!measurePerformance) {
 				return;
 			}
