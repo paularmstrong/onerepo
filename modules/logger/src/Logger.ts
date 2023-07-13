@@ -141,7 +141,7 @@ export class Logger {
 	}
 
 	#runUpdater() {
-		if (!this.#logger.active || this.#paused) {
+		if (this.#paused) {
 			return;
 		}
 		this.#updaterTimeout = setTimeout(() => {
