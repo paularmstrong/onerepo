@@ -12,7 +12,7 @@
 
 - Adds `repository.directory` to `package.json` so CHANGELOGs are picked up properly by npm, renovate, etc. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
 
-- Does not apply regex substitues during `file.writeSafe` calls (will write out string literals for `
+- Does not apply regex substitues during `file.writeSafe` calls (will write out string literals for `$'`, `$\``, etc.) [#324](https://github.com/paularmstrong/onerepo/pull/324) ([@paularmstrong](https://github.com/paularmstrong))
 
 ## 0.3.1
 

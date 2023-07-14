@@ -68,7 +68,7 @@
 
 - Clarified usage of `logger` should be restricted to only the one that is given in `HandlerExtra` [#366](https://github.com/paularmstrong/onerepo/pull/366) ([@paularmstrong](https://github.com/paularmstrong))
 
-- Does not apply regex substitues during `file.writeSafe` calls (will write out string literals for `
+- Does not apply regex substitues during `file.writeSafe` calls (will write out string literals for `$'`, `$\``, etc.) [#324](https://github.com/paularmstrong/onerepo/pull/324) ([@paularmstrong](https://github.com/paularmstrong))
 
 ## 0.9.0
 
