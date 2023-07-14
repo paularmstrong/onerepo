@@ -20,6 +20,9 @@ export function makeConfig(config) {
 			...(rest.coveragePathIgnorePatterns ?? []),
 		],
 		rootDir: path.dirname(fileURLToPath(rootDir)),
+		moduleNameMapper: {
+			'^prettier$': path.join(path.dirname(fileURLToPath(import.meta.url)), 'mocks/prettier.js'),
+		},
 		modulePathIgnorePatterns: ['fixtures'],
 		testPathIgnorePatterns: ['/dist/'],
 		transformIgnorePatterns: ['/node_modules/(?!(inquirer|log-update))/', ...(config.transformIgnorePatterns ?? [])],

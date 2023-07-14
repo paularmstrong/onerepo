@@ -111,7 +111,7 @@ export class Yargs {
 		instance: Yargs,
 		command: string | Array<string>,
 		description: string | false,
-		builder: BuilderCallback<unknown, unknown> | CommandBuilder<unknown, unknown>
+		builder: BuilderCallback<unknown, unknown> | CommandBuilder<unknown, unknown>,
 	) {
 		const cmd = Array.isArray(command) ? command.find((cmd) => cmd !== '$0') || this.#name : command;
 
@@ -129,10 +129,13 @@ export class Yargs {
 
 	_serialize(name?: string): Docs {
 		const filePath = path.relative(this._rootPath, path.join(this._commandDirectory, this._filePath));
-		const commands = Object.entries(this.#commands).reduce((memo, [command, instance]) => {
-			memo[command] = instance._serialize(command);
-			return memo;
-		}, {} as Record<string, Docs>);
+		const commands = Object.entries(this.#commands).reduce(
+			(memo, [command, instance]) => {
+				memo[command] = instance._serialize(command);
+				return memo;
+			},
+			{} as Record<string, Docs>,
+		);
 		return {
 			aliases: this.#aliases,
 			command: name || this.#name,
@@ -196,7 +199,7 @@ export class Yargs {
 	command(
 		command: string | Array<string> | CommandModule,
 		description: string | false,
-		builder: BuilderCallback<unknown, unknown>
+		builder: BuilderCallback<unknown, unknown>,
 	) {
 		const instance = new Yargs();
 		instance._rootPath = this._rootPath;
@@ -212,7 +215,7 @@ export class Yargs {
 				[...arrayIfy(command.command!), ...arrayIfy(command.aliases!)],
 				// @ts-ignore description was deprecated and removed from types
 				command.description || command.describe,
-				command.builder || ((yargs) => yargs)
+				command.builder || ((yargs) => yargs),
 			);
 		}
 		return this;

@@ -58,7 +58,7 @@ export const Yarn = {
 					cmd: 'yarn',
 					args: ['npm', 'publish', ...options],
 					opts: { cwd: ws.location },
-				}))
+				})),
 			);
 		}
 	},
@@ -74,7 +74,7 @@ export const Yarn = {
 				args: ['npm', 'info', name, '--json'],
 				runDry: true,
 				skipFailures: true,
-			}))
+			})),
 		);
 
 		for (const res of responses) {

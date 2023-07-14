@@ -67,8 +67,8 @@ describe('handler', () => {
 					workspaces: ['foo/*', 'bar/*'],
 				},
 				null,
-				2
-			)
+				2,
+			),
 		);
 
 		expect(file.write).toHaveBeenCalledWith('outdir/bin/tacos.mjs', expect.stringContaining('#!/usr/bin/env node'));
@@ -80,7 +80,7 @@ describe('handler', () => {
 				cmd: 'git',
 				args: ['init'],
 				opts: { cwd: 'outdir' },
-			})
+			}),
 		);
 	});
 

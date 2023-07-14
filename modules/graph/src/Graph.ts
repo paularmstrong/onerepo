@@ -133,7 +133,7 @@ export class Graph {
 
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
-				source instanceof Workspace ? source.name : this.getByName(source).name
+				source instanceof Workspace ? source.name : this.getByName(source).name,
 			);
 
 			return this.getAllByName(graph.topologicalSort(names, includeSelf));
@@ -158,7 +158,7 @@ export class Graph {
 
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
-				source instanceof Workspace ? source.name : this.getByName(source).name
+				source instanceof Workspace ? source.name : this.getByName(source).name,
 			);
 			return this.getAllByName(graph.topologicalSort(names, includeSelf));
 		}
@@ -327,8 +327,8 @@ export class Graph {
 			if (this.#nameByAlias.has(alias)) {
 				throw new Error(
 					`Cannot add alias "${alias}" for ${workspace.name} because it is already used for ${this.#nameByAlias.get(
-						alias
-					)}.`
+						alias,
+					)}.`,
 				);
 			}
 			this.#nameByAlias.set(alias, workspace.name);
@@ -360,7 +360,7 @@ export class Graph {
 
 				if (this.#graph.hasCycle()) {
 					throw new Error(
-						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`
+						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`,
 					);
 				}
 
@@ -370,7 +370,7 @@ export class Graph {
 
 				if (this.#inverted.hasCycle()) {
 					throw new Error(
-						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`
+						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`,
 					);
 				}
 			}

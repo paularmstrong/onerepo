@@ -54,7 +54,7 @@ describe('handler', () => {
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'npm', args: expect.arrayContaining(['publish']) })
+			expect.objectContaining({ cmd: 'npm', args: expect.arrayContaining(['publish']) }),
 		);
 		expect(subprocess.batch).not.toHaveBeenCalled();
 	});
@@ -62,12 +62,12 @@ describe('handler', () => {
 	test('does nothing if not on head branch', async () => {
 		jest.spyOn(git, 'getBranch').mockResolvedValue('tacos-tacos-tacos');
 		await expect(run('', { graph })).rejects.toMatch(
-			'Publish is only available from the branch "main", but you are currently on "tacos-tacos-tacos". Please switch branches and re-run to continue.'
+			'Publish is only available from the branch "main", but you are currently on "tacos-tacos-tacos". Please switch branches and re-run to continue.',
 		);
 
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ name: 'Build workspaces' }));
 		expect(subprocess.run).not.toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'npm', args: expect.arrayContaining(['publish']) })
+			expect.objectContaining({ cmd: 'npm', args: expect.arrayContaining(['publish']) }),
 		);
 		expect(subprocess.batch).not.toHaveBeenCalled();
 	});
@@ -82,7 +82,7 @@ describe('handler', () => {
 	test('ensures logged in to the registry', async () => {
 		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toMatch(
-			'You do not appear to have publish rights to the configured registr'
+			'You do not appear to have publish rights to the configured registr',
 		);
 	});
 
@@ -112,7 +112,7 @@ describe('handler', () => {
 					'tortillas',
 					'-vv',
 				],
-			})
+			}),
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
@@ -131,7 +131,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: process.argv[1],
 				args: expect.arrayContaining(['tasks', '-c', 'build', '--no-affected', '-w', 'burritos']),
-			})
+			}),
 		);
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
@@ -163,7 +163,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: process.argv[1],
 				args: expect.arrayContaining(['tasks', '-c', 'build', '--no-affected']),
-			})
+			}),
 		);
 	});
 });

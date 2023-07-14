@@ -17,7 +17,7 @@ describe('Graph', () => {
 		const result = await getRootPackageJson(location);
 
 		expect(() => new Graph(location, result.json, result.json.workspaces!, require)).toThrow(
-			new Error('Cannot add alias "leaf" for spinach because it is already used for lettuce.')
+			new Error('Cannot add alias "leaf" for spinach because it is already used for lettuce.'),
 		);
 	});
 

@@ -25,7 +25,7 @@ export function install(opts: Options = {}): Plugin {
 					builder(yargs)
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
 						.default('name', config.name),
-				handler
+				handler,
 			);
 		},
 	});

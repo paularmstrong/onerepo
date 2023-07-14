@@ -53,7 +53,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		const cleanStep = logger.createStep('Ensure clean working directory');
 		if (!(await isClean({ step: cleanStep }))) {
 			cleanStep.error(
-				'Working directory must be unmodified to ensure correct versioning. Advanced: Use `--allow-dirty` to bypass this check.'
+				'Working directory must be unmodified to ensure correct versioning. Advanced: Use `--allow-dirty` to bypass this check.',
 			);
 			await cleanStep.end();
 			return;
@@ -64,7 +64,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const requestStep = logger.createStep('Get changesets');
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
-		(ws) => ({ packageJson: ws.packageJson, dir: ws.location } as Package)
+		(ws) => ({ packageJson: ws.packageJson, dir: ws.location }) as Package,
 	);
 	const packages: Packages = {
 		tool: 'root',
@@ -119,7 +119,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				.filter((name) => !choices.includes(name))
 				.sort()
 				.map((name) => ` - ${name}`)
-				.join('\n')}`
+				.join('\n')}`,
 		);
 	}
 
@@ -142,13 +142,13 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				type: 'confirm',
 				name: 'okay',
 				message: `Due to changesets related to multiple workspaces not chosen, the following ${pc.red(
-					'also'
+					'also',
 				)} need to be published!\n${pc.dim(
 					affectedChoices
 						.filter((name) => !choiceDependencies.includes(name))
 						.sort()
 						.map((name) => name)
-						.join(', ')
+						.join(', '),
 				)}\nIs it okay to proceed?`,
 			},
 		]);
@@ -185,7 +185,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 function filterChangesets(
 	changesets: Array<NewChangeset>,
 	affectedChoices: Array<string>,
-	step: LogStep
+	step: LogStep,
 ): { filteredChangesets: Array<NewChangeset>; affectedChoices: Array<string> } {
 	const filteredChangesets = changesets.filter(({ releases }) => {
 		return releases.some(({ name }) => affectedChoices.includes(name));

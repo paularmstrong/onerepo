@@ -35,7 +35,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
 
 		await expect(run('--name tacos')).rejects.toMatch(
-			'Refusing to install with name `tacos` because it already exists'
+			'Refusing to install with name `tacos` because it already exists',
 		);
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 	});
@@ -54,10 +54,10 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'echo',
 				args: [`"#!/bin/zsh\n\n${process.argv[1]} \\$@"`, '|', 'sudo', 'tee', '/usr/local/bin/tacos'],
-			})
+			}),
 		);
 		expect(subprocess.sudo).toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] })
+			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] }),
 		);
 		expect(file.writeSafe).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
 			sentinel: 'tacos-cmd-completions',
@@ -79,10 +79,10 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'echo',
 				args: [`"#!/bin/zsh\n\n${process.argv[1]} \\$@"`, '|', 'sudo', 'tee', '/usr/local/bin/tacos'],
-			})
+			}),
 		);
 		expect(subprocess.sudo).toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] })
+			expect.objectContaining({ cmd: 'chmod', args: ['a+x', '/usr/local/bin/tacos'] }),
 		);
 		expect(file.writeSafe).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
 			sentinel: 'tacos-cmd-completions',
@@ -103,7 +103,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['husky', 'install'],
-			})
+			}),
 		);
 	});
 
@@ -121,7 +121,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['husky', 'install'],
-			})
+			}),
 		);
 	});
 });

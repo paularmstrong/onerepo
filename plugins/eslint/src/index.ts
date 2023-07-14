@@ -68,7 +68,7 @@ export function eslint(opts: Options = {}): Plugin {
 					}
 					return y;
 				},
-				handler
+				handler,
 			);
 		},
 	};

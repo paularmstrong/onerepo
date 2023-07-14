@@ -21,12 +21,15 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "0.2.1",
-		"prettier": "^2"
+		"@onerepo/logger": "0.2.1"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
-		"@internal/tsconfig": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"prettier": "^3.0.0"
+	},
+	"peerDependencies": {
+		"prettier": "^2 || ^3"
 	},
 	"engines": {
 		"node": "^18.0.0"

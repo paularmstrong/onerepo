@@ -16,7 +16,7 @@ describe('setup', () => {
 			{
 				root,
 			},
-			createYargs(['one', '--help'])
+			createYargs(['one', '--help']),
 		);
 
 		expect(process.env.ONE_REPO_ROOT).toMatch(/\/__tests__\/__fixtures__\/repo$/);
@@ -33,7 +33,7 @@ describe('setup', () => {
 				root,
 				head: 'tacos',
 			},
-			createYargs(['one', '--help'])
+			createYargs(['one', '--help']),
 		);
 
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
@@ -52,7 +52,7 @@ describe('setup', () => {
 				root,
 				head: 'tacos',
 			},
-			yargs
+			yargs,
 		);
 		await run();
 
@@ -69,7 +69,7 @@ describe('setup', () => {
 				root,
 				core,
 			},
-			createYargs(['one', '--help'])
+			createYargs(['one', '--help']),
 		);
 
 		const comp = await yargs.getHelp();

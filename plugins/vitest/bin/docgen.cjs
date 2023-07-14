@@ -19,7 +19,7 @@ const { vitest } = require('../src');
 				tasks: false,
 			},
 			plugins: [vitest()],
-		}
+		},
 	);
 
 	await run();

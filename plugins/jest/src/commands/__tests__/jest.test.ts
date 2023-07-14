@@ -23,7 +23,7 @@ describe('handler', () => {
 				cmd: 'node',
 				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '--changedSince', 'tacobase'],
 				opts: { stdio: 'inherit' },
-			})
+			}),
 		);
 	});
 
@@ -41,7 +41,7 @@ describe('handler', () => {
 					expect.stringMatching(/modules\/burritos$/),
 				],
 				opts: { stdio: 'inherit' },
-			})
+			}),
 		);
 	});
 
@@ -64,7 +64,7 @@ describe('handler', () => {
 					'--changedSince',
 					'burritobase',
 				],
-			})
+			}),
 		);
 	});
 
@@ -75,7 +75,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'node',
 				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '-w', 'foo'],
-			})
+			}),
 		);
 	});
 
@@ -86,7 +86,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'node',
 				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '.'],
-			})
+			}),
 		);
 	});
 
@@ -96,7 +96,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['node_modules/.bin/jest', '--no-colors']),
-			})
+			}),
 		);
 	});
 });

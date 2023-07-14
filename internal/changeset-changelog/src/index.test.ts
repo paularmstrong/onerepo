@@ -48,7 +48,7 @@ const getChangeset = (content: string, commit: string | undefined) => {
 
   something
   ${content}
-  `
+  `,
 			),
 			id: 'some-id',
 			commit,
@@ -71,17 +71,17 @@ describe('changeset-changelog', () => {
 			test.each(['with #', 'without #'] as const)('%s', async (kind) => {
 				expect(
 					await getReleaseLine(
-						...getChangeset(`${keyword}: ${kind === 'with #' ? '#' : ''}${data.pull}`, commitFromChangeset)
-					)
+						...getChangeset(`${keyword}: ${kind === 'with #' ? '#' : ''}${data.pull}`, commitFromChangeset),
+					),
 				).toEqual(
-					`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`
+					`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`,
 				);
 			});
 		});
 
 		test('override commit with commit keyword', async () => {
 			expect(await getReleaseLine(...getChangeset(`commit: ${data.commit}`, commitFromChangeset))).toEqual(
-				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`
+				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@paularmstrong](https://github.com/paularmstrong))\n`,
 			);
 		});
 	});
@@ -89,9 +89,9 @@ describe('changeset-changelog', () => {
 	describe.each(['author', 'user'])('override author with %s keyword', (keyword) => {
 		test.each(['with @', 'without @'] as const)('%s', async (kind) => {
 			expect(
-				await getReleaseLine(...getChangeset(`${keyword}: ${kind === 'with @' ? '@' : ''}other`, data.commit))
+				await getReleaseLine(...getChangeset(`${keyword}: ${kind === 'with @' ? '@' : ''}other`, data.commit)),
 			).toEqual(
-				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@other](https://github.com/other))\n`
+				`\n\n- something [#1613](https://github.com/paularmstrong/onerepo/pull/1613) ([@other](https://github.com/other))\n`,
 			);
 		});
 	});
@@ -99,8 +99,8 @@ describe('changeset-changelog', () => {
 	test('with multiple authors', async () => {
 		expect(
 			await getReleaseLine(
-				...getChangeset(['author: @paularmstrong', 'author: @mitchellhamilton'].join('\n'), data.commit)
-			)
+				...getChangeset(['author: @paularmstrong', 'author: @mitchellhamilton'].join('\n'), data.commit),
+			),
 		).toMatchInlineSnapshot(`
     "
 

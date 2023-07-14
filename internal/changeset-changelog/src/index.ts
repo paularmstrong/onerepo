@@ -5,7 +5,7 @@ const changelogFunctions: ChangelogFunctions = {
 	getDependencyReleaseLine: async (changesets, dependenciesUpdated, options) => {
 		if (!options.repo) {
 			throw new Error(
-				'Please provide a repo to this changelog generator like this:\n"changelog": ["@onerepo/changesets-changelog", { "repo": "org/repo" }]'
+				'Please provide a repo to this changelog generator like this:\n"changelog": ["@onerepo/changesets-changelog", { "repo": "org/repo" }]',
 			);
 		}
 		if (dependenciesUpdated.length === 0) return '';
@@ -20,14 +20,14 @@ const changelogFunctions: ChangelogFunctions = {
 						});
 						return links.commit;
 					}
-				})
+				}),
 			)
 		)
 			.filter((_) => _)
 			.join(', ')}]:`;
 
 		const updatedDepenenciesList = dependenciesUpdated.map(
-			(dependency) => `  - ${dependency.name}@${dependency.newVersion}`
+			(dependency) => `  - ${dependency.name}@${dependency.newVersion}`,
 		);
 
 		return [changesetLink, ...updatedDepenenciesList].join('\n');
@@ -35,7 +35,7 @@ const changelogFunctions: ChangelogFunctions = {
 	getReleaseLine: async (changeset, type, options) => {
 		if (!options || !options.repo) {
 			throw new Error(
-				'Please provide a repo to this changelog generator like this:\n"changelog": ["@onerepo/changesets-changelog", { "repo": "org/repo" }]'
+				'Please provide a repo to this changelog generator like this:\n"changelog": ["@onerepo/changesets-changelog", { "repo": "org/repo" }]',
 			);
 		}
 

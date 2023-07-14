@@ -19,7 +19,7 @@ const { eslint } = require('../src');
 				tasks: false,
 			},
 			plugins: [eslint()],
-		}
+		},
 	);
 
 	await run();

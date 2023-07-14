@@ -46,7 +46,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.withAffected(builders.withWorkspaces(yargs))
 		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
 		.epilogue(
-			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.'
+			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.',
 		)
 		.option('lifecycle', {
 			alias: 'c',
@@ -181,7 +181,7 @@ function taskToSpecs(
 	workspace: Workspace,
 	task: Task,
 	wsNames: Array<string>,
-	logger: Logger
+	logger: Logger,
 ): Array<ExtendedRunSpec> {
 	if (Array.isArray(task)) {
 		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames, logger));
@@ -200,7 +200,7 @@ function singleTaskToSpec(
 	workspace: Workspace,
 	task: string | (TaskDef & { cmd: string }),
 	wsNames: Array<string>,
-	logger: Logger
+	logger: Logger,
 ): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
@@ -231,7 +231,7 @@ function matchTask(force: boolean, task: Task, files: Array<string>, cwd: string
 	}
 
 	return (Array.isArray(task.match) ? task.match : [task.match]).some(
-		(match) => minimatch.match(files, path.join(cwd, match)).length > 0
+		(match) => minimatch.match(files, path.join(cwd, match)).length > 0,
 	);
 }
 

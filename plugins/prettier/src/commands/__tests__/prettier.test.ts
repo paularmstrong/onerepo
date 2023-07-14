@@ -57,7 +57,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['prettier', '--ignore-unknown', '--write', '.'],
-			})
+			}),
 		);
 	});
 
@@ -66,7 +66,7 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
-			{ isDirectory: () => true }
+			{ isDirectory: () => true },
 		);
 
 		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
@@ -75,7 +75,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['prettier', '--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
-			})
+			}),
 		);
 	});
 
@@ -88,7 +88,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['prettier', '--ignore-unknown', '--list-different', '.'],
-			})
+			}),
 		);
 	});
 
@@ -101,7 +101,7 @@ bar/**/*
 `);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
-			{ isDirectory: () => false }
+			{ isDirectory: () => false },
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
 
@@ -111,7 +111,7 @@ bar/**/*
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['prettier', '--ignore-unknown', '--write', 'foo.js'],
-			})
+			}),
 		);
 	});
 
@@ -124,7 +124,7 @@ bar/**/*
 `);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
-			{ isDirectory: () => false }
+			{ isDirectory: () => false },
 		);
 
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
@@ -135,7 +135,7 @@ bar/**/*
 			expect.objectContaining({
 				cmd: 'npx',
 				args: ['prettier', '--ignore-unknown', '--write', 'bar.js'],
-			})
+			}),
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
 	});
@@ -148,7 +148,7 @@ bar/**/*
 		});
 
 		await expect(run('-f foo.js -f bop.js -f bar.js')).rejects.toMatch(
-			'The following files were not properly formatted'
+			'The following files were not properly formatted',
 		);
 
 		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'foo.js' });

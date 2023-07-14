@@ -48,13 +48,13 @@ export const builder: Builder<Args> = (yargs) =>
 		.example(`$0 ${command} --watch -- path/to/test.ts`, 'Run Jest in watch mode against a particular file.')
 		.example(
 			`$0 ${command} -- --runInBand --detectOpenHandles`,
-			'Pass any other Jest CLI options after the argument separator.'
+			'Pass any other Jest CLI options after the argument separator.',
 		)
 		.epilogue(
-			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.'
+			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.',
 		)
 		.epilogue(
-			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator: (two dasshes `--`)'
+			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator: (two dasshes `--`)',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {

@@ -115,7 +115,7 @@ export function affected(graph: Graph, { from, ignore, staged, step, through }: 
 export async function workspaces(
 	graph: Graph,
 	argv: Argv,
-	{ step, from, staged, through, ...opts }: GetterOptions = {}
+	{ step, from, staged, through, ...opts }: GetterOptions = {},
 ): Promise<Array<Workspace>> {
 	return stepWrapper({ step, name: 'Get workspaces from inputs' }, async (step) => {
 		let workspaces: Array<Workspace> = [];
@@ -192,7 +192,7 @@ export type FileGetterOptions = GetterOptions & {
 export async function filepaths(
 	graph: Graph,
 	argv: Argv,
-	{ step, from, staged, through, affectedThreshold }: FileGetterOptions = {}
+	{ step, from, staged, through, affectedThreshold }: FileGetterOptions = {},
 ) {
 	return stepWrapper({ step, name: 'Get filepaths from inputs' }, async (step) => {
 		step.debug(argv);

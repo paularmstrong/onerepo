@@ -19,7 +19,7 @@ const { prettier } = require('../src');
 				tasks: false,
 			},
 			plugins: [prettier()],
-		}
+		},
 	);
 
 	await run();

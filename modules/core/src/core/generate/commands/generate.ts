@@ -67,13 +67,13 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		template = templates.find(
 			({ value: { config, dir } }) =>
 				type.toLowerCase() === config.name.toLowerCase() ||
-				type.toLowerCase() === dir.split('/')[dir.split('/').length - 1].toLowerCase()
+				type.toLowerCase() === dir.split('/')[dir.split('/').length - 1].toLowerCase(),
 		)?.value;
 	}
 
 	if (!template) {
 		step.error(
-			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templatesDir}/${type}/.onegen.js"`
+			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templatesDir}/${type}/.onegen.js"`,
 		);
 		return;
 	}

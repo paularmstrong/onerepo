@@ -19,7 +19,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['add', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -30,7 +30,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['add', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 
@@ -41,7 +41,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['add', 'tacos', 'burritos', '--dev'],
-				})
+				}),
 			);
 		});
 	});
@@ -53,7 +53,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['install'],
-				})
+				}),
 			);
 		});
 	});
@@ -74,7 +74,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['npm', 'whoami', '--scope', 'foobar'],
-				})
+				}),
 			);
 		});
 	});
@@ -87,7 +87,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['npm', 'publish'],
-				})
+				}),
 			);
 		});
 
@@ -107,7 +107,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['npm', 'publish', '--access', 'restricted'],
-				})
+				}),
 			);
 		});
 
@@ -118,7 +118,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['npm', 'publish', '--tag', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -129,7 +129,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['npm', 'publish', '--otp', 'taco123'],
-				})
+				}),
 			);
 		});
 
@@ -171,7 +171,7 @@ describe('Yarn', () => {
 						}
 
 						return [JSON.stringify({ name: args![2]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -195,7 +195,7 @@ describe('Yarn', () => {
 						}
 
 						return [JSON.stringify({ name: args![2]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -222,7 +222,7 @@ describe('Yarn', () => {
 						}
 
 						return [JSON.stringify({ name: args![2]!, versions }), ''];
-					}) as Array<[string, string]>
+					}) as Array<[string, string]>,
 				);
 			});
 
@@ -243,7 +243,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['remove', 'tacos'],
-				})
+				}),
 			);
 		});
 
@@ -254,7 +254,7 @@ describe('Yarn', () => {
 				expect.objectContaining({
 					cmd: 'yarn',
 					args: ['remove', 'tacos', 'burritos'],
-				})
+				}),
 			);
 		});
 	});

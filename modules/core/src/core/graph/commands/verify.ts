@@ -31,7 +31,7 @@ export const builder: Builder<Argv> = (yargs) =>
 
 - \`off\`: No validation will occur. Everything goes.
 - \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
-`
+`,
 		)
 		.option('custom-schema', {
 			type: 'string',
@@ -71,7 +71,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 						}
 						if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
 							errs.push(
-								`depends on "${dep}@${deps[dep]}", but other dependency "${dependency.name}" requires non-intersecting version "${version}"`
+								`depends on "${dep}@${deps[dep]}", but other dependency "${dependency.name}" requires non-intersecting version "${version}"`,
 							);
 						}
 					}
@@ -165,7 +165,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 
 function importSchema(
 	ajv: Record<string, ExtendedSchema | ((ws: Workspace, graph: Graph) => ExtendedSchema)>,
-	GraphSchemaValidators: GraphSchemaValidators
+	GraphSchemaValidators: GraphSchemaValidators,
 ) {
 	Object.entries(GraphSchemaValidators).forEach(([locglob, matches]) => {
 		Object.entries(matches).forEach(([fileglob, schema]) => {

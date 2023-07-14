@@ -57,7 +57,7 @@ describe('mermaid', () => {
   menu[["menu"]]
   fixturetacos("fixture-tacos")
   fixtureburritos("fixture-burritos")
-  fixturetacos ---> menu`
+  fixturetacos ---> menu`,
 		);
 	});
 
@@ -71,7 +71,7 @@ describe('mermaid', () => {
 			`graph RL
   fixturetacos("fixture-tacos")
   menu[["menu"]]
-  fixturetacos ---> menu`
+  fixturetacos ---> menu`,
 		);
 	});
 });

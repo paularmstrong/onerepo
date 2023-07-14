@@ -34,7 +34,7 @@ export function toMarkdown(docs: Docs, headingLevel: number = 2) {
 
 	return processor.stringify(
 		// @ts-ignore root returns Parent which extends Node. works, but is technically incompatible
-		root(ast)
+		root(ast),
 	);
 }
 
@@ -113,7 +113,7 @@ function options(cmd: Docs): Array<Node> {
 						text('The '),
 						inlineCode(cmd.command),
 						text(' command may accept an unknown set of option arguments.'),
-					])
+					]),
 				),
 			];
 		}
@@ -148,7 +148,7 @@ function positionals(cmd: Docs): Array<Node> {
 						text('The '),
 						inlineCode(cmd.command),
 						text(' command may accept an unknown set of positional arguments.'),
-					])
+					]),
 				),
 			];
 		}
@@ -178,14 +178,14 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 									text(', '),
 									inlineCode(`${alias.length === 1 ? '-' : '--'}${alias}`),
 								]),
-							].flat()
+							].flat(),
 						),
 						tableCell(typeAndDefault(opt)),
 						tableCell(parse(opt.description || '')?.children || []),
 						tableCell(opt.required ? text('✅') : text('')),
-					])
+					]),
 				),
-			]
+			],
 		),
 	];
 }

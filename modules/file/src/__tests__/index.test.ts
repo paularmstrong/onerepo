@@ -25,7 +25,7 @@ describe('file', () => {
 add some contents
 # end-onerepo-sentinel
 
-`
+`,
 			);
 		});
 
@@ -43,7 +43,7 @@ add some contents
 add some contents
 # end-onerepo-sentinel
 
-`
+`,
 			);
 		});
 
@@ -65,7 +65,7 @@ add some contents
 # start-onerepo-sentinel
 this is new
 # end-onerepo-sentinel
-`
+`,
 			);
 		});
 
@@ -87,7 +87,7 @@ add some contents
 # start-onerepo-sentinel
 this is new $' $\` $1 $$ $&
 # end-onerepo-sentinel
-`
+`,
 			);
 		});
 
@@ -109,7 +109,7 @@ add some contents
 # start-tacos
 this is new
 # end-tacos
-`
+`,
 			);
 		});
 	});

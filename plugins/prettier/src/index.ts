@@ -52,7 +52,7 @@ export function prettier(opts: Options = {}): Plugin {
 					builder(yargs)
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
 						.default('github-annotate', opts.githubAnnotate ?? true),
-				handler
+				handler,
 			);
 		},
 	};

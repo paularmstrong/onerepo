@@ -47,9 +47,9 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const pluginSearch = await fetch(
 		new URL(
 			`-/v1/search?${new URLSearchParams({ text: '@onerepo/plugin-' }).toString()}`,
-			'https://registry.npmjs.org'
+			'https://registry.npmjs.org',
 		),
-		{}
+		{},
 	);
 	const { objects: foundPlugins } = (await pluginSearch.json()) as SearchResponse;
 
@@ -60,7 +60,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	logger.pause();
 	console.clear();
 	process.stderr.write(
-		logo('Welcome to oneRepo!', '', 'There are just a couple things to answer', 'before we get started.')
+		logo('Welcome to oneRepo!', '', 'There are just a couple things to answer', 'before we get started.'),
 	);
 
 	const { dir } = await inquirer.prompt([
@@ -168,10 +168,13 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		dependencies: {
 			...(packageJson?.dependencies ?? {}),
 			onerepo: `^${version}`,
-			...plugins.reduce((memo, { name, version }) => {
-				memo[name] = `^${version}`;
-				return memo;
-			}, {} as Record<string, string>),
+			...plugins.reduce(
+				(memo, { name, version }) => {
+					memo[name] = `^${version}`;
+					return memo;
+				},
+				{} as Record<string, string>,
+			),
 		},
 	};
 
@@ -180,7 +183,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	} else {
 		await write(
 			path.join(outdir, 'pnpm-workspace.yaml'),
-			`workspaces:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`).join('\n')}`
+			`workspaces:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`).join('\n')}`,
 		);
 	}
 
@@ -214,7 +217,7 @@ setup(
 		name: '${name}',
 		root: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
 	}
-).then(({ run }) => run());`
+).then(({ run }) => run());`,
 	);
 
 	await chmod(path.join(outdir, 'bin', `${name}.mjs`), 0o755);
@@ -242,8 +245,8 @@ setup(
 			'To get started, switch to your set up repo and install:',
 			'',
 			`  cd ${outdir}`,
-			`  ./bin/${name}.mjs install`
-		)
+			`  ./bin/${name}.mjs install`,
+		),
 	);
 };
 

@@ -252,7 +252,7 @@ export class LogStep {
 				return;
 			}
 			this.#writeStream(
-				this.#prefix(MARK_TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`)
+				this.#prefix(MARK_TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`),
 			);
 		}
 	}

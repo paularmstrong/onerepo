@@ -71,7 +71,7 @@ export async function stepWrapper<T>(
 		name: string;
 		step?: LogStep;
 	},
-	fn: (step: LogStep) => Promise<T>
+	fn: (step: LogStep) => Promise<T>,
 ): Promise<T> {
 	const { name, step: inputStep } = options;
 	const step = inputStep ?? getLogger().createStep(name);

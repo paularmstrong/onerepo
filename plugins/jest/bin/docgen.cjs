@@ -19,7 +19,7 @@ const { jest } = require('../src');
 				tasks: false,
 			},
 			plugins: [jest()],
-		}
+		},
 	);
 
 	await run();

@@ -42,7 +42,7 @@ export function changesets(opts: Options = {}): Plugin {
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`)
 						.commandDir(path.join(__dirname, 'commands'))
 						.demandCommand(1),
-				() => {}
+				() => {},
 			);
 		},
 	});

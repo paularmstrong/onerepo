@@ -19,7 +19,7 @@ const { typescript } = require('../src');
 				tasks: false,
 			},
 			plugins: [typescript()],
-		}
+		},
 	);
 
 	await run();

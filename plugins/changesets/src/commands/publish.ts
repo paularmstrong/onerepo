@@ -42,7 +42,7 @@ export const builder: Builder<Args> = (yargs) =>
 			default: false,
 		})
 		.epilogue(
-			'This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.'
+			'This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.',
 		);
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
@@ -53,7 +53,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		const branch = await getBranch({ step: cleanStep });
 		if (branch !== process.env.ONE_REPO_HEAD_BRANCH) {
 			cleanStep.error(
-				`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`
+				`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`,
 			);
 			await cleanStep.end();
 			return;
@@ -61,7 +61,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 
 		if (!(await isClean({ step: cleanStep }))) {
 			cleanStep.error(
-				`Working directory must be unmodified to ensure safe publish.\nAdvanced: Skip this check with \`--allow-dirty\`.`
+				`Working directory must be unmodified to ensure safe publish.\nAdvanced: Skip this check with \`--allow-dirty\`.`,
 			);
 			await cleanStep.end();
 			return;
@@ -90,7 +90,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		});
 		if (!isLoggedIn) {
 			logger.error(
-				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.'
+				'You do not appear to have publish rights to the configured registry. Either log in with your package manager or re-run this command with `--skip-auth` to continue.',
 			);
 			return;
 		}

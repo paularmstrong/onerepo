@@ -21,7 +21,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
 				args: ['--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
-			})
+			}),
 		);
 	});
 
@@ -32,7 +32,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
 				args: ['--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
-			})
+			}),
 		);
 	});
 
@@ -53,7 +53,7 @@ describe('handler', () => {
 					'related',
 					'foo.js',
 				],
-			})
+			}),
 		);
 	});
 
@@ -64,7 +64,7 @@ describe('handler', () => {
 			expect.objectContaining({
 				cmd: 'node_modules/.bin/vitest',
 				args: ['--config', './jest.config.ts', '-w', 'foo'],
-			})
+			}),
 		);
 	});
 });

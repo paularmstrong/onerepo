@@ -38,7 +38,7 @@ describe('handler', () => {
 					{ name: 'churros', type: 'minor' },
 				],
 			},
-			graph.root.location
+			graph.root.location,
 		);
 
 		expect(git.updateIndex).toHaveBeenCalledWith(graph.root.resolve('.changeset/smelly-tacos-fart.md'));

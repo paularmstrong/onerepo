@@ -48,7 +48,7 @@ export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R
 		});
 	testRunner.spyOn(yargs, 'showHelp').mockImplementation(
 		// @ts-ignore not sure if safe, but prevents writing help to stderr
-		() => ''
+		() => '',
 	);
 
 	if (typeof builder !== 'function') {
@@ -83,7 +83,7 @@ export async function runHandler<R = Record<string, unknown>>(
 		handler: Handler<R>;
 		extras: Partial<Extras>;
 	},
-	cmd = ''
+	cmd = '',
 ): Promise<string> {
 	let out = '';
 	const stream = new PassThrough();

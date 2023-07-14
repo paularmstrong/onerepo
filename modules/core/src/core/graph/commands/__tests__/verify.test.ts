@@ -14,12 +14,12 @@ describe('verify', () => {
 	test('can verify the graph dependencies', async () => {
 		const graphProd = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 		await expect(run('--dependencies loose', { graph: graphProd })).rejects.toMatch(
-			'Version mismatches found in "menu"'
+			'Version mismatches found in "menu"',
 		);
 
 		const graphDev = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo-dev'));
 		await expect(run('--dependencies loose', { graph: graphDev })).rejects.toMatch(
-			'Version mismatches found in "menu"'
+			'Version mismatches found in "menu"',
 		);
 	});
 
@@ -33,7 +33,7 @@ describe('verify', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/js-schema.ts');
 		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toMatch(
-			"must have required property 'displayName'"
+			"must have required property 'displayName'",
 		);
 	});
 
@@ -52,7 +52,7 @@ describe('verify', () => {
 		const badGraph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 
 		await expect(run(`--custom-schema ${schema}`, { graph: badGraph })).rejects.toMatch(
-			"must have required property 'repository'"
+			"must have required property 'repository'",
 		);
 	});
 });

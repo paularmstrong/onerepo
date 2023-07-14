@@ -73,7 +73,7 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 			await fn(
 				config,
 				// @ts-ignore
-				docsYargs
+				docsYargs,
 			);
 			docsYargs._rootPath = config.root as string;
 			docsYargs._commandDirectory = (config.subcommandDir as string) ?? 'commands';
@@ -124,10 +124,10 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 				yargs
 					.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
 					.epilogue(
-						'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!'
+						'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!',
 					)
 					.epilogue(
-						'Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.'
+						'Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.',
 					)
 					.option('add', {
 						type: 'boolean',
@@ -166,7 +166,7 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 						hidden: true,
 						description: 'Start at the given command, skip the root and any others',
 					}),
-			wrappedHandler
+			wrappedHandler,
 		);
 	},
 });

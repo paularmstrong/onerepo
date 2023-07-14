@@ -24,7 +24,7 @@ describe('handler', () => {
 	test('does nothing if git working tree is dirty', async () => {
 		jest.spyOn(git, 'isClean').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toMatch(
-			'Working directory must be unmodified to ensure correct versioning'
+			'Working directory must be unmodified to ensure correct versioning',
 		);
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
@@ -62,7 +62,7 @@ describe('handler', () => {
 		expect(applyReleasePlan.default).toHaveBeenCalledWith(
 			expect.objectContaining({ changesets: [expect.objectContaining({ id: 'baz-bop-qux' })] }),
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 
 		expect(git.updateIndex).toHaveBeenCalledWith([
@@ -92,7 +92,7 @@ describe('handler', () => {
 				releases: [expect.objectContaining({ name: 'tacos', oldVersion: '0.2.0', newVersion: '0.3.0' })],
 			}),
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 
 		expect(applyReleasePlan.default).not.toHaveBeenCalledWith(
@@ -100,7 +100,7 @@ describe('handler', () => {
 				releases: expect.arrayContaining([expect.objectContaining({ name: 'tortillas' })]),
 			}),
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 	});
 
@@ -149,7 +149,7 @@ describe('handler', () => {
 				]),
 			}),
 			expect.any(Object),
-			expect.any(Object)
+			expect.any(Object),
 		);
 	});
 

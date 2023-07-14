@@ -65,7 +65,7 @@ export const Npm = {
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
 				skipFailures: true,
-			}))
+			})),
 		);
 
 		for (const res of responses) {
