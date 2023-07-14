@@ -1,5 +1,62 @@
 # @onerepo/core
 
+## 0.9.0
+
+### Minor Changes
+
+- Added optional key `$required` to JSON schema validation via `graph verify` to mark files as required. If set to true and no files via the file glob are found in matching workspaces, an error will be logged and the command will fail. [#365](https://github.com/paularmstrong/onerepo/pull/365) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Overhauled performance logging. All marks are pairs that start with `onerepo_start_` and `onerepo_end_`. By default, these will be converted into [Node.js performance `measure` entries](https://nodejs.org/api/perf_hooks.html#class-performancemeasure) for use in your own telemetry implementation. [#368](https://github.com/paularmstrong/onerepo/pull/368) ([@paularmstrong](https://github.com/paularmstrong))
+
+- No longer re-throws errors thrown from handlers. If an error is encountered, the process will still set the exit code (`1`), but will not crash the process to ensure cleanup and post-handlers are completed properly. [#368](https://github.com/paularmstrong/onerepo/pull/368) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Allows custom schema validators for `graph verify` to be functions that return JSONSchema. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
+
+  As a function, the schema accepts two arguments, `workspace` and `graph`:
+
+  ```ts
+  import type { graph } from 'onerepo';
+
+  export default {
+  	'**': {
+  		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+  			type: 'object',
+  			properties: {
+  				repository: {
+  					type: 'object',
+  					properties: {
+  						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+  					},
+  					required: ['directory'],
+  				},
+  			},
+  			required: ['repository'],
+  		}),
+  	},
+  };
+  ```
+
+### Patch Changes
+
+- Clarified some documentation and improved linking in typedoc blocks. [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adjustments for using `logger` from the `HandlerExtras`. Commands no longer throw or return incorrectly when there are errors. [#366](https://github.com/paularmstrong/onerepo/pull/366) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds `repository.directory` to `package.json` so CHANGELOGs are picked up properly by npm, renovate, etc. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Running `install` multiple times will no longer break tab-completions. [#324](https://github.com/paularmstrong/onerepo/pull/324) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Clarified usage of `logger` should be restricted to only the one that is given in `HandlerExtra` [#366](https://github.com/paularmstrong/onerepo/pull/366) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`4b845a5`](https://github.com/paularmstrong/onerepo/commit/4b845a52b009ce94cf021d2c6dd760d944a249cd), [`4d662c8`](https://github.com/paularmstrong/onerepo/commit/4d662c88427e0604f04e4e721b668290475e28e4), [`9035e6f`](https://github.com/paularmstrong/onerepo/commit/9035e6f8281a19cc33e2b4ae41bea46acee94a3d), [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba), [`47bd7ae`](https://github.com/paularmstrong/onerepo/commit/47bd7ae880134110a5df430a46f7be823896417d), [`4b845a5`](https://github.com/paularmstrong/onerepo/commit/4b845a52b009ce94cf021d2c6dd760d944a249cd), [`63ada57`](https://github.com/paularmstrong/onerepo/commit/63ada577da7e630e127dcb0fe44523e55fa61840), [`4b845a5`](https://github.com/paularmstrong/onerepo/commit/4b845a52b009ce94cf021d2c6dd760d944a249cd), [`97eb0fe`](https://github.com/paularmstrong/onerepo/commit/97eb0fe489425b82a6ef566ecf8920be1801e474), [`26d2eed`](https://github.com/paularmstrong/onerepo/commit/26d2eed3c38e8d6d9b7a407a4b09a76efd608f43), [`47bd7ae`](https://github.com/paularmstrong/onerepo/commit/47bd7ae880134110a5df430a46f7be823896417d), [`772a27d`](https://github.com/paularmstrong/onerepo/commit/772a27d1e4f97565bb7d568b3e063b14733c29f7), [`97eb0fe`](https://github.com/paularmstrong/onerepo/commit/97eb0fe489425b82a6ef566ecf8920be1801e474), [`a0e863e`](https://github.com/paularmstrong/onerepo/commit/a0e863e4bc9c92baa8c4f8af5c138cf989e555e3)]:
+  - @onerepo/logger@0.3.0
+  - @onerepo/subprocess@0.4.0
+  - @onerepo/builders@0.3.0
+  - @onerepo/file@0.4.0
+  - @onerepo/git@0.2.3
+  - @onerepo/graph@0.7.1
+  - @onerepo/yargs@0.3.0
+
 ## 0.8.0
 
 ### Minor Changes

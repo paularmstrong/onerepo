@@ -1,5 +1,34 @@
 # @onerepo/subprocess
 
+## 0.4.0
+
+### Minor Changes
+
+- Overhauled performance logging. All marks are pairs that start with `onerepo_start_` and `onerepo_end_`. By default, these will be converted into [Node.js performance `measure` entries](https://nodejs.org/api/perf_hooks.html#class-performancemeasure) for use in your own telemetry implementation. [#368](https://github.com/paularmstrong/onerepo/pull/368) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Ensures current environment variables are passed through to subprocesses (normally the default) when passing in extra custom environment variables. [#346](https://github.com/paularmstrong/onerepo/pull/346) ([@paularmstrong](https://github.com/paularmstrong))
+
+  ```ts
+  await run({
+  	// ...
+  	opts: {
+  		// The following will be merged with `...process.env`
+  		env: { MY_ENV_VAR: 'true' },
+  	},
+  });
+  ```
+
+- Clarified some documentation and improved linking in typedoc blocks. [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Subprocess `sudo` command will now respect `--dry-run` settings [#324](https://github.com/paularmstrong/onerepo/pull/324) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds `repository.directory` to `package.json` so CHANGELOGs are picked up properly by npm, renovate, etc. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`4b845a5`](https://github.com/paularmstrong/onerepo/commit/4b845a52b009ce94cf021d2c6dd760d944a249cd), [`4d662c8`](https://github.com/paularmstrong/onerepo/commit/4d662c88427e0604f04e4e721b668290475e28e4), [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba), [`4b845a5`](https://github.com/paularmstrong/onerepo/commit/4b845a52b009ce94cf021d2c6dd760d944a249cd), [`63ada57`](https://github.com/paularmstrong/onerepo/commit/63ada577da7e630e127dcb0fe44523e55fa61840), [`97eb0fe`](https://github.com/paularmstrong/onerepo/commit/97eb0fe489425b82a6ef566ecf8920be1801e474), [`97eb0fe`](https://github.com/paularmstrong/onerepo/commit/97eb0fe489425b82a6ef566ecf8920be1801e474), [`a0e863e`](https://github.com/paularmstrong/onerepo/commit/a0e863e4bc9c92baa8c4f8af5c138cf989e555e3)]:
+  - @onerepo/logger@0.3.0
+
 ## 0.3.1
 
 ### Patch Changes

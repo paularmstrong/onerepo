@@ -1,5 +1,27 @@
 # @onerepo/logger
 
+## 0.3.0
+
+### Minor Changes
+
+- Overhauled performance logging. All marks are pairs that start with `onerepo_start_` and `onerepo_end_`. By default, these will be converted into [Node.js performance `measure` entries](https://nodejs.org/api/perf_hooks.html#class-performancemeasure) for use in your own telemetry implementation. [#368](https://github.com/paularmstrong/onerepo/pull/368) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Allows passing in a custom stream to override writing to `process.stderr`. Mostly useful for dependency injection during testing. [#366](https://github.com/paularmstrong/onerepo/pull/366) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Fixed a regression that prevented the default logger from writing out any logs until after all steps were completed. [#368](https://github.com/paularmstrong/onerepo/pull/368) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Prevents "maximum call stack exceeded" in logging when attempting to dim output through picocolors [#342](https://github.com/paularmstrong/onerepo/pull/342) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Clarified some documentation and improved linking in typedoc blocks. [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds `repository.directory` to `package.json` so CHANGELOGs are picked up properly by npm, renovate, etc. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Clarified usage of `logger` should be restricted to only the one that is given in `HandlerExtra` [#366](https://github.com/paularmstrong/onerepo/pull/366) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Ensures the logger closes all timers and file descriptors. [#372](https://github.com/paularmstrong/onerepo/pull/372) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.1
 
 ### Patch Changes

@@ -2587,33 +2587,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@onerepo/builders@0.2.2, @onerepo/builders@workspace:modules/builders":
+"@onerepo/builders@0.3.0, @onerepo/builders@workspace:modules/builders":
   version: 0.0.0-use.local
   resolution: "@onerepo/builders@workspace:modules/builders"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/git": 0.2.2
+    "@onerepo/git": 0.2.3
     "@onerepo/graph": "workspace:^"
-    "@onerepo/logger": 0.2.1
+    "@onerepo/logger": 0.3.0
     minimatch: ^9.0.0
   languageName: unknown
   linkType: soft
 
-"@onerepo/core@0.8.0, @onerepo/core@workspace:^, @onerepo/core@workspace:modules/core":
+"@onerepo/core@0.9.0, @onerepo/core@workspace:^, @onerepo/core@workspace:modules/core":
   version: 0.0.0-use.local
   resolution: "@onerepo/core@workspace:modules/core"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
-    "@onerepo/file": 0.3.1
-    "@onerepo/git": 0.2.2
-    "@onerepo/graph": 0.7.0
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
-    "@onerepo/test-cli": 0.2.5
-    "@onerepo/yargs": 0.2.2
+    "@onerepo/builders": 0.3.0
+    "@onerepo/file": 0.4.0
+    "@onerepo/git": 0.2.3
+    "@onerepo/graph": 0.7.1
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
+    "@onerepo/test-cli": 0.3.0
+    "@onerepo/yargs": 0.3.0
     "@types/cjson": ^0.5.0
     "@types/ejs": ^3.1.2
     "@types/inquirer": ^9.0.3
@@ -2652,10 +2652,10 @@ __metadata:
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/test-cli": 0.2.5
+    "@onerepo/test-cli": 0.3.0
     "@types/inquirer": ^9.0.3
     "@types/js-yaml": ^4.0.5
-    create-onerepo: 0.0.4
+    create-onerepo: 0.0.5
     esbuild-register: ^3.4.0
   bin:
     create: ./src/bin.js
@@ -2676,7 +2676,7 @@ __metadata:
     glob: ^10.1.0
     netlify-cli: ^14.0.0
     netlify-plugin-csp-generator: ^1.5.0
-    onerepo: 0.9.0
+    onerepo: 0.10.0
     postcss: ^8.4.22
     rehype-pretty-code: ^0.9.4
     tailwindcss: ^3.3.1
@@ -2686,27 +2686,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.3.1, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.4.0, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/logger": 0.2.1
+    "@onerepo/logger": 0.3.0
     prettier: ^3.0.0
   peerDependencies:
     prettier: ^2 || ^3
   languageName: unknown
   linkType: soft
 
-"@onerepo/git@0.2.2, @onerepo/git@workspace:modules/git":
+"@onerepo/git@0.2.3, @onerepo/git@workspace:modules/git":
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
   languageName: unknown
   linkType: soft
 
@@ -2722,13 +2722,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/graph@0.7.0, @onerepo/graph@workspace:^, @onerepo/graph@workspace:modules/graph":
+"@onerepo/graph@0.7.1, @onerepo/graph@workspace:^, @onerepo/graph@workspace:modules/graph":
   version: 0.0.0-use.local
   resolution: "@onerepo/graph@workspace:modules/graph"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/package-manager": 0.2.2
+    "@onerepo/package-manager": 0.2.3
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
     jest: ^29.5.0
@@ -2737,7 +2737,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.2.1, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.3.0, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -2750,13 +2750,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/package-manager@0.2.2, @onerepo/package-manager@workspace:modules/package-manager":
+"@onerepo/package-manager@0.2.3, @onerepo/package-manager@workspace:modules/package-manager":
   version: 0.0.0-use.local
   resolution: "@onerepo/package-manager@workspace:modules/package-manager"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/subprocess": 0.4.0
     jest: ^29.5.0
     typescript: ^5.0.4
   languageName: unknown
@@ -2774,13 +2774,13 @@ __metadata:
     "@changesets/write": ^0.2.3
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/file": 0.3.1
-    "@onerepo/git": 0.2.2
-    "@onerepo/graph": 0.7.0
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/file": 0.4.0
+    "@onerepo/git": 0.2.3
+    "@onerepo/graph": 0.7.1
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     "@types/inquirer": ^9.0.3
     esbuild-register: ^3.4.2
@@ -2798,17 +2798,17 @@ __metadata:
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/file": 0.3.1
-    "@onerepo/git": 0.2.2
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/file": 0.4.0
+    "@onerepo/git": 0.2.3
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     "@types/eslint": ^8.37.0
     esbuild-register: ^3.4.2
     eslint: ^8.38.0
-    eslint-formatter-onerepo: 0.0.0
+    eslint-formatter-onerepo: 0.0.1
     minimatch: ^9.0.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
@@ -2823,10 +2823,10 @@ __metadata:
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/git": 0.2.2
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/git": 0.2.3
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.4.2
@@ -2845,12 +2845,12 @@ __metadata:
     "@actions/core": ^1.10.0
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/file": 0.3.1
-    "@onerepo/git": 0.2.2
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/file": 0.4.0
+    "@onerepo/git": 0.2.3
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     esbuild-register: ^3.4.2
     minimatch: ^9.0.0
@@ -2867,9 +2867,9 @@ __metadata:
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     esbuild-register: ^3.4.2
     onerepo: "workspace:^"
@@ -2882,10 +2882,10 @@ __metadata:
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
+    "@onerepo/builders": 0.3.0
     "@onerepo/core": "workspace:^"
-    "@onerepo/git": 0.2.2
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/git": 0.2.3
+    "@onerepo/subprocess": 0.4.0
     "@onerepo/test-cli": "workspace:^"
     "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.4.2
@@ -2926,25 +2926,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/subprocess@0.3.1, @onerepo/subprocess@workspace:modules/subprocess":
+"@onerepo/subprocess@0.4.0, @onerepo/subprocess@workspace:modules/subprocess":
   version: 0.0.0-use.local
   resolution: "@onerepo/subprocess@workspace:modules/subprocess"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/logger": 0.2.1
+    "@onerepo/logger": 0.3.0
   languageName: unknown
   linkType: soft
 
-"@onerepo/test-cli@0.2.5, @onerepo/test-cli@workspace:^, @onerepo/test-cli@workspace:modules/test-cli":
+"@onerepo/test-cli@0.3.0, @onerepo/test-cli@workspace:^, @onerepo/test-cli@workspace:modules/test-cli":
   version: 0.0.0-use.local
   resolution: "@onerepo/test-cli@workspace:modules/test-cli"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
-    "@onerepo/graph": 0.7.0
-    "@onerepo/logger": 0.2.1
-    "@onerepo/yargs": 0.2.2
+    "@onerepo/builders": 0.3.0
+    "@onerepo/graph": 0.7.1
+    "@onerepo/logger": 0.3.0
+    "@onerepo/yargs": 0.3.0
     "@types/yargs-unparser": ^2.0.1
     jest: ^29.5.0
     typescript: ^5.0.4
@@ -2954,15 +2954,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/yargs@0.2.2, @onerepo/yargs@workspace:modules/yargs":
+"@onerepo/yargs@0.3.0, @onerepo/yargs@workspace:modules/yargs":
   version: 0.0.0-use.local
   resolution: "@onerepo/yargs@workspace:modules/yargs"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
-    "@onerepo/logger": 0.2.1
-    "@onerepo/subprocess": 0.3.1
+    "@onerepo/builders": 0.3.0
+    "@onerepo/logger": 0.3.0
+    "@onerepo/subprocess": 0.4.0
     "@types/yargs": ^17.0.24
   languageName: unknown
   linkType: soft
@@ -5949,17 +5949,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-onerepo@0.0.4, create-onerepo@workspace:modules/create":
+"create-onerepo@0.0.5, create-onerepo@workspace:modules/create":
   version: 0.0.0-use.local
   resolution: "create-onerepo@workspace:modules/create"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/file": 0.3.1
-    "@onerepo/package-manager": 0.2.2
-    "@onerepo/subprocess": 0.3.1
-    "@onerepo/test-cli": 0.2.5
-    "@onerepo/yargs": 0.2.2
+    "@onerepo/file": 0.4.0
+    "@onerepo/package-manager": 0.2.3
+    "@onerepo/subprocess": 0.4.0
+    "@onerepo/test-cli": 0.3.0
+    "@onerepo/yargs": 0.3.0
     "@types/inquirer": ^9.0.3
     "@types/js-yaml": ^4.0.5
     esbuild-register: ^3.4.0
@@ -7135,7 +7135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-formatter-onerepo@0.0.0, eslint-formatter-onerepo@workspace:modules/eslint-formatter":
+"eslint-formatter-onerepo@0.0.1, eslint-formatter-onerepo@workspace:modules/eslint-formatter":
   version: 0.0.0-use.local
   resolution: "eslint-formatter-onerepo@workspace:modules/eslint-formatter"
   dependencies:
@@ -13731,21 +13731,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"onerepo@0.9.0, onerepo@workspace:^, onerepo@workspace:modules/onerepo":
+"onerepo@0.10.0, onerepo@workspace:^, onerepo@workspace:modules/onerepo":
   version: 0.0.0-use.local
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 0.2.2
-    "@onerepo/core": 0.8.0
-    "@onerepo/file": 0.3.1
-    "@onerepo/git": 0.2.2
-    "@onerepo/graph": 0.7.0
-    "@onerepo/logger": 0.2.1
-    "@onerepo/package-manager": 0.2.2
-    "@onerepo/subprocess": 0.3.1
-    "@onerepo/yargs": 0.2.2
+    "@onerepo/builders": 0.3.0
+    "@onerepo/core": 0.9.0
+    "@onerepo/file": 0.4.0
+    "@onerepo/git": 0.2.3
+    "@onerepo/graph": 0.7.1
+    "@onerepo/logger": 0.3.0
+    "@onerepo/package-manager": 0.2.3
+    "@onerepo/subprocess": 0.4.0
+    "@onerepo/yargs": 0.3.0
     jest: ^29.5.0
     typescript: ^5.0.4
   languageName: unknown

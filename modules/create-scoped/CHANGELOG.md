@@ -1,5 +1,16 @@
 # @onerepo/create
 
+## 0.0.5
+
+### Patch Changes
+
+- Clarified some documentation and improved linking in typedoc blocks. [`eaaeac2`](https://github.com/paularmstrong/onerepo/commit/eaaeac257d06164adb3df11f454302c1ef2da2ba) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Adds `repository.directory` to `package.json` so CHANGELOGs are picked up properly by npm, renovate, etc. [#347](https://github.com/paularmstrong/onerepo/pull/347) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`63ada57`](https://github.com/paularmstrong/onerepo/commit/63ada577da7e630e127dcb0fe44523e55fa61840)]:
+  - create-onerepo@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes
