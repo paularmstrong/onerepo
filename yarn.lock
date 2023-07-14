@@ -2685,7 +2685,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.4.0, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.4.0, @onerepo/file@workspace:^, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
@@ -2736,7 +2736,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.3.0, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.3.0, @onerepo/logger@workspace:^, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -2837,6 +2837,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@onerepo/plugin-performance-writer@workspace:^, @onerepo/plugin-performance-writer@workspace:plugins/performance-writer":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/plugin-performance-writer@workspace:plugins/performance-writer"
+  dependencies:
+    "@internal/test-config": "workspace:^"
+    "@internal/tsconfig": "workspace:^"
+    "@onerepo/core": "workspace:^"
+    "@onerepo/file": "workspace:^"
+    "@onerepo/logger": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@onerepo/plugin-prettier@workspace:^, @onerepo/plugin-prettier@workspace:plugins/prettier":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-prettier@workspace:plugins/prettier"
@@ -2907,6 +2919,7 @@ __metadata:
     "@onerepo/plugin-changesets": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-jest": "workspace:^"
+    "@onerepo/plugin-performance-writer": "workspace:^"
     "@onerepo/plugin-prettier": "workspace:^"
     "@onerepo/plugin-typescript": "workspace:^"
     "@types/eslint": ^8.37.0

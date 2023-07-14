@@ -4,6 +4,6 @@
 		"outDir": "./dist/",
 		"composite": true
 	},
-	"include": ["./src"],
+	"include": ["./src", "../../plugins/performance-writer/src/performance.test.ts"],
 	"exclude": ["dist", "**/__fixtures__/**"]
 }

@@ -2,7 +2,7 @@
 
 Keep in mind that you may not need a plugin if your need is specific to your own repository and can be accomplished using a local [command](/docs/commands/) instead. However, if you would like to write a shared plugin for use across other monorepos using **oneRepo**, please continue.
 
-## Anatomy of a plugin:
+### Anatomy of a plugin:
 
 ```ts
 type PluginObject = {
@@ -12,13 +12,15 @@ type PluginObject = {
 	 */
 	yargs?: (yargs: Yargs, visitor: NonNullable<RequireDirectoryOptions['visit']>) => Yargs;
 	/**
-	 * Run before any command `handler` function is invoked
+	 * Runs before any and all commands after argument parsing. This is similar to global Yargs middleware, but guaranteed to have the fully resolved and parsed arguments.
+	 *
+	 * Use this function for setting up global even listeners like `PerformanceObserver`, `process` events, etc.
 	 */
-	preHandler?: PluginPrePostHandler;
+	startup?: (argv: Argv<DefaultArgv>) => Promise<void> | void;
 	/**
-	 * Run after any command `handler` function is finished
+	 * Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.
 	 */
-	postHandler?: PluginPrePostHandler;
+	shutdown?: (argv: Argv<DefaultArgv>) => Promise<Record<string, unknown> | void>;
 };
 ```
 
