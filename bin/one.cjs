@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const path = require('node:path');
-// const { performance } = require('node:perf_hooks');
 
 require('esbuild-register/dist/node').register({});
 
@@ -18,6 +17,7 @@ setup(
 		description: 'oneRepo’s very own `one` CLI.',
 		root: path.join(__dirname, '..'),
 		subcommandDir: 'commands',
+		measurePerformance: 'temp',
 		core: {
 			docgen: {
 				outWorkspace: 'root',
@@ -43,8 +43,6 @@ setup(
 	},
 )
 	.then(({ run }) => run())
-	.then(() => {
-		// Example do something with the performance measurements
-		// const measures = performance.getEntriesByType('measure');
-		// console.log(JSON.stringify(measures, null, 2));
+	.then((/* out */) => {
+		// console.log(out.performanceResults);
 	});

@@ -63,9 +63,14 @@ export type Config = {
 	ignoreCommands?: RegExp;
 	/**
 	 * Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.
+	 *
+	 * - `true`: Will create Node.js performance `measure` entries, but nothing else
+	 * - `temp`: Will do the same as `true` and also write a JSON dump of the measurement entries to a temporary file. The filepath will be returned from the `run()` call of your application.
+	 * - `string`: Will do the same as `'temp'`, but use this string as the filepath.
+	 * - `false`: Will do none of the above.
 	 * @default `true`
 	 */
-	measurePerformance?: boolean;
+	measurePerformance?: boolean | string | 'temp';
 	/**
 	 * Give your CLI a unique name that's short and easy to remember.
 	 * If not provided, will default to `one`. That's great, but will cause conflicts if you try to use multiple monorepos that are both using oneRepo. But then again, what's the point of having multiple monorepos. Isn't that a bit besides the point?

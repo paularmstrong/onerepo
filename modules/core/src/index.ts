@@ -37,6 +37,13 @@ const defaultConfig: Required<Config> = {
 };
 
 /**
+ * @group Core
+ */
+export interface AppRunResult {
+	performanceResults: string | null;
+}
+
+/**
  * Command-line application returned from {@link setup | `setup()`}.
  *
  * @example
@@ -53,7 +60,7 @@ export type App = {
 	/**
 	 * Run the command handler.
 	 */
-	run: () => Promise<void>;
+	run: () => Promise<AppRunResult>;
 };
 
 /**
@@ -181,16 +188,19 @@ export async function setup(
 		yargs,
 		run: async () => {
 			const argv = await yargs.parse();
-			destroyLogger();
-			if (!measurePerformance) {
-				return;
-			}
+
 			performance.mark('onerepo_end_Program', {
 				detail:
 					'The measure of time from the beginning of parsing program setup and CLI arguments through the end of the handler & any postHandler options.',
 			});
 
-			measure(argv);
+			const performanceResults = await measure(measurePerformance, argv);
+
+			destroyLogger();
+
+			return {
+				performanceResults,
+			} satisfies AppRunResult;
 		},
 	};
 }
