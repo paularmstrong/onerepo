@@ -4,4 +4,4 @@
 '@onerepo/yargs': minor
 ---
 
-No longer re-throws errors thrown from handlers. If an error is encountered, the process will still exit with a code (`1`), but will not crash the process to ensure cleanup and post-handlers are completed properly.
+No longer re-throws errors thrown from handlers. If an error is encountered, the process will still set the exit code (`1`), but will not crash the process to ensure cleanup and post-handlers are completed properly.

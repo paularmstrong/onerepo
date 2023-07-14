@@ -1,5 +1,6 @@
 ---
 '@onerepo/core': minor
+'onerepo': minor
 ---
 
 Allows custom schema validators for `graph verify` to be functions that return JSONSchema.
