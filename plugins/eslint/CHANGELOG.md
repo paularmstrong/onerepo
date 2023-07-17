@@ -1,5 +1,14 @@
 # @onerepo/plugin-eslint
 
+## 0.5.1
+
+### Patch Changes
+
+- Fixes an issue with the ESLint plugin that caused it to never error. Internally, this fixes the build/distribution of `eslint-formatter-onerepo` to build as commonjs instead of esm, since eslint cannot do esm. [#377](https://github.com/paularmstrong/onerepo/pull/377) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`da685e6`](https://github.com/paularmstrong/onerepo/commit/da685e6c6b409485617f17bd55a7b943e8af6a7a)]:
+  - eslint-formatter-onerepo@0.0.2
+
 ## 0.5.0
 
 ### Minor Changes

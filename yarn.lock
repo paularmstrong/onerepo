@@ -2808,7 +2808,7 @@ __metadata:
     "@types/eslint": ^8.37.0
     esbuild-register: ^3.4.2
     eslint: ^8.38.0
-    eslint-formatter-onerepo: 0.0.1
+    eslint-formatter-onerepo: 0.0.2
     minimatch: ^9.0.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
@@ -7135,7 +7135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-formatter-onerepo@0.0.1, eslint-formatter-onerepo@workspace:modules/eslint-formatter":
+"eslint-formatter-onerepo@0.0.2, eslint-formatter-onerepo@workspace:modules/eslint-formatter":
   version: 0.0.0-use.local
   resolution: "eslint-formatter-onerepo@workspace:modules/eslint-formatter"
   dependencies:
