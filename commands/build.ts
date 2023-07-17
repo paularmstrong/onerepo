@@ -91,7 +91,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 					'--packages=external',
 					`--outdir=${workspace.resolve('dist')}`,
 					'--platform=node',
-					'--format=esm',
+					`--format=${'type' in workspace.packageJson && workspace.packageJson.type === 'module' ? 'esm' : 'cjs'}`,
 				],
 			});
 
