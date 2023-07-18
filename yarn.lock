@@ -48,10 +48,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1, @astrojs/compiler@npm:^1.3.2, @astrojs/compiler@npm:^1.5.0":
-  version: 1.5.3
-  resolution: "@astrojs/compiler@npm:1.5.3"
-  checksum: b4b450cf578ed7d46b8b48ae5495c0a05ec0e7c0f64e2a871f50479db096ddecc18002d44f8e71fac1dd344a3b5a70c5c70cb662442a4eb7937cecb3604185b4
+"@astrojs/compiler@npm:^1.0.0, @astrojs/compiler@npm:^1.0.1, @astrojs/compiler@npm:^1.3.2, @astrojs/compiler@npm:^1.5.3, @astrojs/compiler@npm:^1.5.5":
+  version: 1.5.7
+  resolution: "@astrojs/compiler@npm:1.5.7"
+  checksum: d16437c33b9e9dd33fda7cfd9ac60ab3075dbd607a31dd6e7a8aaeb123851f47efe046240300d134172a8a541d64f1df3bdce7476207fd1325eb9ba1f000d298
   languageName: node
   linkType: hard
 
@@ -109,7 +109,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/mdx@npm:^0.19.0":
+"@astrojs/mdx@npm:^0.19.7":
   version: 0.19.7
   resolution: "@astrojs/mdx@npm:0.19.7"
   dependencies:
@@ -144,18 +144,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/tailwind@npm:^3.1.1":
-  version: 3.1.3
-  resolution: "@astrojs/tailwind@npm:3.1.3"
+"@astrojs/tailwind@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@astrojs/tailwind@npm:4.0.0"
   dependencies:
-    "@proload/core": ^0.3.3
     autoprefixer: ^10.4.14
-    postcss: ^8.4.23
+    postcss: ^8.4.24
     postcss-load-config: ^4.0.1
   peerDependencies:
-    astro: ^2.5.0
+    astro: ^2.6.5
     tailwindcss: ^3.0.24
-  checksum: 5f9d00a383884d2c090e312c925321b1fc96def37965f03eda22aee887c0ee41a22ca1b858de8a1171c9d4258b9e6871139e43c48bab99c5ef7bd47986a90cb6
+  checksum: 0619428920f55485aa2f46f87ac5a088a8bb57abe620b948ef720b7ea2e4d3ed553840620a06bfdfec5b42a13e40f88328c66fbafe24b01f1fe6d6d8981b5501
   languageName: node
   linkType: hard
 
@@ -1280,7 +1279,7 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@types/prettier": ^2.7.2
-    prettier-plugin-astro: ^0.8.0
+    prettier-plugin-astro: ^0.11.0
   peerDependencies:
     prettier: ^2 || ^3
   languageName: unknown
@@ -2666,13 +2665,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
   dependencies:
-    "@astrojs/mdx": ^0.19.0
-    "@astrojs/tailwind": ^3.1.1
+    "@astrojs/mdx": ^0.19.7
+    "@astrojs/tailwind": ^4.0.0
     "@internal/tsconfig": "workspace:^"
     "@tailwindcss/typography": ^0.5.9
-    astro: ^2.3.0
+    astro: ^2.8.4
     clsx: ^1.2.1
-    eslint-plugin-astro: ^0.26.1
+    eslint-plugin-astro: ^0.27.2
     glob: ^10.1.0
     netlify-cli: ^14.0.0
     netlify-plugin-csp-generator: ^1.5.0
@@ -2997,16 +2996,6 @@ __metadata:
     "@pnpm/network.ca-file": ^1.0.1
     config-chain: ^1.1.11
   checksum: 0c5f1a63782309a877b70e3cbdd21ff1da57549924a941772bafd0117323881fdcda0e9753f0a695c3f85f4360f5ca27a0e20153abae6985350502f2d94b7d40
-  languageName: node
-  linkType: hard
-
-"@proload/core@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@proload/core@npm:0.3.3"
-  dependencies:
-    deepmerge: ^4.2.2
-    escalade: ^3.1.1
-  checksum: bf1483f21928eabbf632b3d34bb53b0d86d0c44d22c2bf798151351c0179db4fdefa6801176bff6a6318e01caa3bc486d600d3b1afd963a57cf227168639bc7f
   languageName: node
   linkType: hard
 
@@ -4405,9 +4394,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-eslint-parser@npm:^0.13.1":
-  version: 0.13.3
-  resolution: "astro-eslint-parser@npm:0.13.3"
+"astro-eslint-parser@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "astro-eslint-parser@npm:0.14.0"
   dependencies:
     "@astrojs/compiler": ^1.0.0
     "@typescript-eslint/scope-manager": ^5.48.2
@@ -4417,15 +4406,15 @@ __metadata:
     eslint-visitor-keys: ^3.0.0
     espree: ^9.0.0
     semver: ^7.3.8
-  checksum: 5400c86f1bda5ea942ad200bbb6ce084496115dcdceb2df77630c00166a5181f459bcd39ab78f8953825be6ad97d572dd4fe5cc79a69ddda6a74f224442e0e43
+  checksum: 04f07255801d812c5b2605c937e27eb71bb78b105403dff65c31d499d9c640f80f5032f65f9459d24b47db9461e31ba695d275ba6b3f118f6c5b7a3821a29f70
   languageName: node
   linkType: hard
 
-"astro@npm:^2.3.0":
-  version: 2.7.2
-  resolution: "astro@npm:2.7.2"
+"astro@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "astro@npm:2.8.4"
   dependencies:
-    "@astrojs/compiler": ^1.5.0
+    "@astrojs/compiler": ^1.5.3
     "@astrojs/internal-helpers": ^0.1.1
     "@astrojs/language-server": ^1.0.0
     "@astrojs/markdown-remark": ^2.2.1
@@ -4478,6 +4467,7 @@ __metadata:
     vfile: ^5.3.7
     vite: ^4.3.9
     vitefu: ^0.2.4
+    which-pm: ^2.0.0
     yargs-parser: ^21.1.1
     zod: ^3.20.6
   peerDependencies:
@@ -4487,7 +4477,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: 44c6424e4f2b33652280a7539751ea9354d536d5265be5db2d9a1634ae2059d73a3645b746d2b1fc7eb75dc2194656c3dbcd3c59124e5652a4159d4d61235249
+  checksum: 6cf539c816155e6566e7bf7d78fa788cc4c5e2da6a186fdf9cb14120b7807a026511f82cdb91968103679bf38cd58a11687b97dfb5625166288335d3d193ff8a
   languageName: node
   linkType: hard
 
@@ -7190,19 +7180,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-astro@npm:^0.26.1":
-  version: 0.26.2
-  resolution: "eslint-plugin-astro@npm:0.26.2"
+"eslint-plugin-astro@npm:^0.27.2":
+  version: 0.27.2
+  resolution: "eslint-plugin-astro@npm:0.27.2"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@jridgewell/sourcemap-codec": ^1.4.14
     "@typescript-eslint/types": ^5.25.0
-    astro-eslint-parser: ^0.13.1
+    astro-eslint-parser: ^0.14.0
     postcss: ^8.4.14
     postcss-selector-parser: ^6.0.10
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: d853b032147acd2b20caff8a7af7dad6ef3eeec105229a023f225827ca3897732505975d14ffab8810a5f8e50051e8ec85889d21af7a50155fc87204e2b01bef
+  checksum: 8d88dc9613f2df1c6c06647d5647159b464d937957c463191244b49d388b7ca9de1e675715ba2eaf922751666ac74386679e1184462e07b76fac7cb744cae3a8
   languageName: node
   linkType: hard
 
@@ -14585,14 +14575,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.14, postcss@npm:^8.4.22, postcss@npm:^8.4.23, postcss@npm:^8.4.4":
-  version: 8.4.24
-  resolution: "postcss@npm:8.4.24"
+"postcss@npm:^8.4.14, postcss@npm:^8.4.22, postcss@npm:^8.4.23, postcss@npm:^8.4.24, postcss@npm:^8.4.4":
+  version: 8.4.26
+  resolution: "postcss@npm:8.4.26"
   dependencies:
     nanoid: ^3.3.6
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
-  checksum: 814e2126dacfea313588eda09cc99a9b4c26ec55c059188aa7a916d20d26d483483106dc5ff9e560731b59f45c5bb91b945dfadc670aed875cc90ddbbf4e787d
+  checksum: 1cf08ee10d58cbe98f94bf12ac49a5e5ed1588507d333d2642aacc24369ca987274e1f60ff4cbf0081f70d2ab18a5cd3a4a273f188d835b8e7f3ba381b184e57
   languageName: node
   linkType: hard
 
@@ -14655,6 +14645,17 @@ __metadata:
   version: 2.0.0
   resolution: "prepend-http@npm:2.0.0"
   checksum: 7694a9525405447662c1ffd352fcb41b6410c705b739b6f4e3a3e21cf5fdede8377890088e8934436b8b17ba55365a615f153960f30877bf0d0392f9e93503ea
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-astro@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "prettier-plugin-astro@npm:0.11.0"
+  dependencies:
+    "@astrojs/compiler": ^1.5.5
+    prettier: ^3.0.0
+    sass-formatter: ^0.7.6
+  checksum: d1d0a21a009372ab5c893dd4b7548cc07e263f3a47023d0fff07bc70a4b3cbfd8d29f1710d6c07fcde8845d6940622579077b7c991a41e3237f79db251b00c8c
   languageName: node
   linkType: hard
 
@@ -15804,12 +15805,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-formatter@npm:^0.7.5":
-  version: 0.7.5
-  resolution: "sass-formatter@npm:0.7.5"
+"sass-formatter@npm:^0.7.5, sass-formatter@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "sass-formatter@npm:0.7.6"
   dependencies:
     suf-log: ^2.5.3
-  checksum: 967d789635359cf829f029595789d5e095dd0bb3e57b62d2e3ba7e013c68a89587f8c843ffcdaba0302859c4d69f0a3258f6d2131caf661775dd31868e8ae830
+  checksum: 2c123f7c75d8614fd951c82d1376d4897ea676a87f2bc82a5c9cb8d0c8572662d79f6605e6af6f6339d3d44a95d78f62c6e8bec6ec77db8712839e41cc2fd5ee
   languageName: node
   linkType: hard
 
@@ -18250,7 +18251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"which-pm@npm:2.0.0":
+"which-pm@npm:2.0.0, which-pm@npm:^2.0.0":
   version: 2.0.0
   resolution: "which-pm@npm:2.0.0"
   dependencies:
