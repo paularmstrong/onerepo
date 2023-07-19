@@ -1,5 +1,16 @@
 # @onerepo/core
 
+## 0.10.0
+
+### Minor Changes
+
+- Changed plugin API `preHandler` and `postHandler` functions to `startup` and `shutdown` (with different arguments available). [#375](https://github.com/paularmstrong/onerepo/pull/375) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`1b8566d`](https://github.com/paularmstrong/onerepo/commit/1b8566d1ee4cca60cacd237c5891d57a834c491d)]:
+  - @onerepo/yargs@0.4.0
+
 ## 0.9.0
 
 ### Minor Changes

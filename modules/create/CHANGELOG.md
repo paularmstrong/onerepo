@@ -1,5 +1,12 @@
 # create-onerepo
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`1b8566d`](https://github.com/paularmstrong/onerepo/commit/1b8566d1ee4cca60cacd237c5891d57a834c491d)]:
+  - @onerepo/yargs@0.4.0
+
 ## 0.0.5
 
 ### Patch Changes

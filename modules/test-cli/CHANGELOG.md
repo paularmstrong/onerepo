@@ -1,5 +1,12 @@
 # @onerepo/test-cli
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`1b8566d`](https://github.com/paularmstrong/onerepo/commit/1b8566d1ee4cca60cacd237c5891d57a834c491d)]:
+  - @onerepo/yargs@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes

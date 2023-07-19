@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/create",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,12 +23,12 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"create-onerepo": "0.0.5"
+		"create-onerepo": "0.0.6"
 	},
 	"devDependencies": {
 		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/test-cli": "0.3.0",
+		"@onerepo/test-cli": "0.3.1",
 		"@types/inquirer": "^9.0.3",
 		"@types/js-yaml": "^4.0.5",
 		"esbuild-register": "^3.4.0"

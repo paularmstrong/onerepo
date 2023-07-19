@@ -1,5 +1,11 @@
 # @onerepo/yargs
 
+## 0.4.0
+
+### Minor Changes
+
+- Changed plugin API `preHandler` and `postHandler` functions to `startup` and `shutdown` (with different arguments available). [#375](https://github.com/paularmstrong/onerepo/pull/375) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.3.0
 
 ### Minor Changes
