@@ -1,5 +1,5 @@
 import type { RequireDirectoryOptions } from 'yargs';
-import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
+import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { Options as DocgenOptions } from './core/docgen';
 import type { Options as GenerateOptions } from './core/generate';
 import type { Options as GraphOptions } from './core/graph';
@@ -62,11 +62,6 @@ export type Config = {
 	 */
 	ignoreCommands?: RegExp;
 	/**
-	 * Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.
-	 * @default `true`
-	 */
-	measurePerformance?: boolean;
-	/**
 	 * Give your CLI a unique name that's short and easy to remember.
 	 * If not provided, will default to `one`. That's great, but will cause conflicts if you try to use multiple monorepos that are both using oneRepo. But then again, what's the point of having multiple monorepos. Isn't that a bit besides the point?
 	 * @default `'one'`
@@ -99,13 +94,24 @@ export type PluginObject = {
 	 */
 	yargs?: (yargs: Yargs, visitor: NonNullable<RequireDirectoryOptions['visit']>) => Yargs;
 	/**
-	 * Run before any command `handler` function is invoked
+	 * Runs before any and all commands after argument parsing. This is similar to global Yargs middleware, but guaranteed to have the fully resolved and parsed arguments.
+	 *
+	 * Use this function for setting up global even listeners like `PerformanceObserver`, `process` events, etc.
 	 */
-	preHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
+	startup?: (argv: Argv<DefaultArgv>) => Promise<void> | void;
 	/**
-	 * Run after any command `handler` function is finished
+	 * Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.
+	 *
+	 * @example Reading the shutdown response object
+	 * ```ts
+	 * setup({ /* ... *\/ })
+	 * 	.then(({ run }) => run())
+	 * 	.then((shutdownResponse) => {
+	 * 		console.log(shutdownResponse);
+	 * 	});
+	 * ```
 	 */
-	postHandler?: (argv: Argv<DefaultArgv>, extra: HandlerExtra) => Promise<void> | void;
+	shutdown?: (argv: Argv<DefaultArgv>) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
 };
 
 /**

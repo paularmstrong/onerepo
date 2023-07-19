@@ -69,8 +69,7 @@ function fallbackHandler(argv: Arguments<DefaultArgv>) {
 type CommandDirOpts = {
 	graph: Graph;
 	exclude?: RegExp;
-	preHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
-	postHandler: (argv: Arguments<DefaultArgv>, extra: HandlerExtra) => Promise<void>;
+	startup: (argv: Arguments<DefaultArgv>) => Promise<void>;
 };
 
 /**
@@ -79,8 +78,7 @@ type CommandDirOpts = {
 export const commandDirOptions = ({
 	exclude,
 	graph,
-	preHandler,
-	postHandler,
+	startup,
 }: CommandDirOpts): RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> } => ({
 	extensions: ['ts', 'js', 'cjs', 'mjs'],
 	exclude,
@@ -99,6 +97,12 @@ export const commandDirOptions = ({
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
 				const logger = getLogger();
+				const currentVerbosity = logger.verbosity;
+				logger.verbosity = -1;
+				performance.mark('onerepo_start_Startup hooks');
+				await startup(argv);
+				performance.mark('onerepo_end_Pre-Startup hooks');
+				logger.verbosity = currentVerbosity;
 
 				performance.mark(`onerepo_start_Handler: ${command}`);
 				logger.debug(`Resolved CLI arguments:
@@ -122,10 +126,6 @@ ${JSON.stringify(argv, null, 2)}`);
 					logger,
 				};
 
-				performance.mark('onerepo_start_Pre-Handler');
-				await preHandler(argv, extra);
-				performance.mark('onerepo_end_Pre-Handler');
-
 				try {
 					if (handler) {
 						await handler(argv, extra);
@@ -145,13 +145,7 @@ ${JSON.stringify(argv, null, 2)}`);
 
 				performance.mark(`onerepo_end_Handler: ${command}`);
 
-				performance.mark('onerepo_start_Post-Handler');
-				await postHandler(argv, extra);
-				performance.mark('onerepo_end_Post-Handler');
-
 				logger.timing(`onerepo_start_Handler: ${command}`, `onerepo_end_Handler: ${command}`);
-
-				await logger.end();
 
 				if (logger.hasError) {
 					process.exitCode = 1;

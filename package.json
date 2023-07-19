@@ -20,6 +20,7 @@
 		"@onerepo/plugin-changesets": "workspace:^",
 		"@onerepo/plugin-eslint": "workspace:^",
 		"@onerepo/plugin-jest": "workspace:^",
+		"@onerepo/plugin-performance-writer": "workspace:^",
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@types/eslint": "^8.37.0",

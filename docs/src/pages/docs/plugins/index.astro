@@ -25,7 +25,10 @@ const { Content } = readme;
 								href={`/docs/plugins/${entry.slug}/`}
 							>
 								{entry.data.tool ? (
-									<img src={`/images/plugins/${entry.data.tool.toLowerCase()}.webp`} class="aspect-square h-16" />
+									<img
+										src={`/images/plugins/${entry.data.tool.toLowerCase().replace(' ', '-')}.webp`}
+										class="aspect-square h-16"
+									/>
 								) : undefined}
 								<div class="">
 									<div class="text-xs text-zinc-500">{entry.data.title}</div>

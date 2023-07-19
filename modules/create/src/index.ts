@@ -23,8 +23,6 @@ process.emit = (event: string, error: unknown) => {
 const { visit } = commandDirOptions({
 	// @ts-ignore
 	graph: null,
-	preHandler: async () => {},
-	postHandler: async () => {},
 });
 
 yargs.demandCommand(0).command(visit(command));

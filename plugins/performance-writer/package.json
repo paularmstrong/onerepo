@@ -1,0 +1,37 @@
+{
+	"name": "@onerepo/plugin-performance-writer",
+	"description": "Write performance measurements from oneRepo invocations to files.",
+	"version": "0.0.0",
+	"license": "MIT",
+	"title": "Performance Writer",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git",
+		"directory": "plugins/performance-writer"
+	},
+	"homepage": "https://onerepo.tools/docs/plugins/performance-writer/",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/**/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
+	"dependencies": {
+		"@onerepo/core": "workspace:^",
+		"@onerepo/file": "workspace:^",
+		"@onerepo/logger": "workspace:^"
+	},
+	"devDependencies": {
+		"@internal/test-config": "workspace:^",
+		"@internal/tsconfig": "workspace:^"
+	},
+	"engines": {
+		"node": "^18.0.0"
+	}
+}

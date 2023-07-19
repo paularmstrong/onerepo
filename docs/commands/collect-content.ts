@@ -41,7 +41,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const readmeStep = logger.createStep('Building plugin docs');
 	for (const ws of graph.workspaces) {
 		const bin = ws.resolve('bin', 'docgen.cjs');
-		if (!ws.name.startsWith('@onerepo/plugin-') || !(await file.exists(bin, { step: readmeStep }))) {
+		if (!ws.name.startsWith('@onerepo/plugin-')) {
 			continue;
 		}
 
@@ -70,8 +70,8 @@ ${readme}
 
 		const outFile = docs.resolve('src', 'content', 'plugins', `${shortName}.md`);
 
-		generators.push(
-			{
+		if (await file.exists(bin, { step: readmeStep })) {
+			generators.push({
 				name: `Generate for ${ws.name}`,
 				cmd: bin,
 				args: [
@@ -89,25 +89,25 @@ ${readme}
 					'--command',
 					shortName,
 				],
+			});
+		}
+		generators.push({
+			name: `Gen typedoc for ${ws.name}`,
+			cmd: typedoc,
+			args: [
+				'--plugin',
+				'typedoc-plugin-markdown',
+				'--entryFileName',
+				`${shortName}.md`,
+				...options,
+				'--out',
+				path.join(typedocTempDir, shortName),
+				ws.resolve('src/index.ts'),
+			],
+			opts: {
+				cwd: ws.location,
 			},
-			{
-				name: `Gen typedoc for ${ws.name}`,
-				cmd: typedoc,
-				args: [
-					'--plugin',
-					'typedoc-plugin-markdown',
-					'--entryFileName',
-					`${shortName}.md`,
-					...options,
-					'--out',
-					path.join(typedocTempDir, shortName),
-					ws.resolve('src/index.ts'),
-				],
-				opts: {
-					cwd: ws.location,
-				},
-			},
-		);
+		});
 	}
 	await readmeStep.end();
 
@@ -149,8 +149,7 @@ ${readme}
 
 	const pluginTypedoc = logger.createStep('Writing plugin configs');
 	for (const ws of graph.workspaces) {
-		const bin = ws.resolve('bin', 'docgen.cjs');
-		if (!ws.name.startsWith('@onerepo/plugin-') || !(await file.exists(bin, { step: pluginTypedoc }))) {
+		if (!ws.name.startsWith('@onerepo/plugin-')) {
 			continue;
 		}
 		const shortName = ws.name.replace('@onerepo/plugin-', '');

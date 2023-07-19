@@ -9,16 +9,15 @@ import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import createYargs from 'yargs/yargs';
 import { getGraph } from '@onerepo/graph';
-import { destroyLogger } from '@onerepo/logger';
+import { destroyLogger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
-import type { Argv, DefaultArgv, HandlerExtra, Yargs } from '@onerepo/yargs';
+import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { workspaceBuilder } from './workspaces';
 import { docgen as docgenPlugin } from './core/docgen';
 import { generate as generatePlugin } from './core/generate';
 import { graph as graphPlugin } from './core/graph';
 import { install as installPlugin } from './core/install';
 import { tasks as tasksPlugin } from './core/tasks';
-import { measure } from './performance';
 import type { Config, PluginObject } from './types';
 
 export type { GraphSchemaValidators } from './core/graph';
@@ -29,7 +28,6 @@ const defaultConfig: Required<Config> = {
 	description: 'oneRepo’s very own `one` CLI.',
 	head: 'main',
 	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.)/,
-	measurePerformance: true,
 	name: 'one',
 	plugins: [],
 	root: process.cwd(),
@@ -53,7 +51,7 @@ export type App = {
 	/**
 	 * Run the command handler.
 	 */
-	run: () => Promise<void>;
+	run: () => Promise<Record<string, unknown>>;
 };
 
 /**
@@ -83,8 +81,7 @@ export async function setup(
 	performance.mark('onerepo_start_Program');
 
 	const resolvedConfig = { ...defaultConfig, ...config };
-	const { core, description, head, ignoreCommands, measurePerformance, name, plugins, subcommandDir, root } =
-		resolvedConfig;
+	const { core, description, head, ignoreCommands, name, plugins, subcommandDir, root } = resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
@@ -96,20 +93,20 @@ export async function setup(
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 
-	const pre: Array<NonNullable<PluginObject['preHandler']>> = [];
-	async function preHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
-		await Promise.all(pre.map((fn) => fn(argv, extra)));
+	const startupFns: Array<NonNullable<PluginObject['startup']>> = [];
+	async function startup(argv: Argv<DefaultArgv>) {
+		await Promise.all(startupFns.map((fn) => fn(argv)));
 	}
-	const post: Array<NonNullable<PluginObject['postHandler']>> = [];
-	async function postHandler(argv: Argv<DefaultArgv>, extra: HandlerExtra) {
-		await Promise.all(post.map((fn) => fn(argv, extra)));
+
+	const shutdownFns: Array<NonNullable<PluginObject['shutdown']>> = [];
+	async function shutdown(argv: Argv<DefaultArgv>): Promise<Array<Record<string, unknown> | void>> {
+		return await Promise.all(shutdownFns.map((fn) => fn(argv)));
 	}
 
 	const options = commandDirOptions({
 		graph,
 		exclude: ignoreCommands,
-		preHandler,
-		postHandler,
+		startup,
 	});
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
@@ -140,17 +137,17 @@ export async function setup(
 	for (const plugin of plugins) {
 		const {
 			yargs: pluginYargs,
-			preHandler,
-			postHandler,
+			startup: startupHandler,
+			shutdown: shutdownHandler,
 		} = typeof plugin === 'function' ? plugin(resolvedConfig) : plugin;
 		if (typeof pluginYargs === 'function') {
 			pluginYargs(yargs, options.visit);
 		}
-		if (typeof preHandler === 'function') {
-			pre.push(preHandler);
+		if (typeof startupHandler === 'function') {
+			startupFns.push(startupHandler);
 		}
-		if (typeof postHandler === 'function') {
-			post.push(postHandler);
+		if (typeof shutdownHandler === 'function') {
+			shutdownFns.push(shutdownHandler);
 		}
 	}
 
@@ -176,21 +173,40 @@ export async function setup(
 			});
 		}
 	}
-
 	return {
 		yargs,
 		run: async () => {
-			const argv = await yargs.parse();
-			destroyLogger();
-			if (!measurePerformance) {
-				return;
-			}
+			// @ts-expect-error Yargs types are slightly incorrect here, missing `'--': Array<string>`.
+			const argv = (await yargs.parse()) as Argv<DefaultArgv>;
+
 			performance.mark('onerepo_end_Program', {
 				detail:
 					'The measure of time from the beginning of parsing program setup and CLI arguments through the end of the handler & any postHandler options.',
 			});
 
-			measure(argv);
+			// allow the last performance mark to propagate to observers. Super hacky.
+			await new Promise<void>((resolve) => {
+				setImmediate(() => {
+					resolve();
+				});
+			});
+
+			// Silence the logger so that shutdown handlers do not write logs
+			const logger = getLogger({ verbosity: -1 });
+
+			const results = await shutdown(argv);
+
+			await logger.end();
+
+			// Destroy _after_ shutdown.
+			destroyLogger();
+
+			const merged = results.reduce(
+				(memo, res) => ({ ...memo, ...(typeof res === 'object' ? res : {}) }),
+				{} as Record<string, unknown>,
+			);
+
+			return merged ?? {};
 		},
 	};
 }

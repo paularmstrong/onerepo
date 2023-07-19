@@ -1,12 +1,6 @@
 import path from 'node:path';
 import createYargs from 'yargs/yargs';
 import { setup } from '..';
-import * as perf from '../performance';
-
-jest.mock('../performance', () => ({
-	__esModule: true,
-	...jest.requireActual('../performance'),
-}));
 
 describe('setup', () => {
 	test('sets env variables', async () => {
@@ -39,8 +33,7 @@ describe('setup', () => {
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
 	});
 
-	test('runs performance measurement', async () => {
-		jest.spyOn(perf, 'measure');
+	test('returns shutdown results', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		jest.spyOn(process, 'cwd').mockReturnValue(root);
 		const yargs = createYargs(['one', 'graph', 'verify']);
@@ -51,12 +44,25 @@ describe('setup', () => {
 			{
 				root,
 				head: 'tacos',
+				plugins: [
+					{
+						// @ts-ignore
+						shutdown() {
+							return { tacos: 'yep' };
+						},
+					},
+					{
+						// @ts-ignore
+						shutdown: function () {
+							return Promise.resolve({ burritos: 'yes' });
+						},
+					},
+				],
 			},
 			yargs,
 		);
-		await run();
 
-		expect(perf.measure).toHaveBeenCalledWith(argv);
+		await expect(run()).resolves.toEqual({ tacos: 'yep', burritos: 'yes' });
 	});
 
 	// yargs says it's not building a singleton, but it's help documentation actually is
