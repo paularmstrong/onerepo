@@ -14,7 +14,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"eslint-plugin-astro": "^0.27.2",
 		"glob": "^10.1.0",
-		"netlify-cli": "^14.0.0",
+		"netlify-cli": "^15.9.1",
 		"netlify-plugin-csp-generator": "^1.5.0",
 		"onerepo": "0.11.0",
 		"postcss": "^8.4.22",
