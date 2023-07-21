@@ -4,7 +4,7 @@ import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import { builders } from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
-import type { Graph, Lifecycle, Task, TaskDef, Tasks, Workspace } from '@onerepo/graph';
+import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Logger } from '@onerepo/logger';
 
@@ -22,23 +22,13 @@ type Argv = {
 
 export const lifecycles: Array<Lifecycle> = [
 	'pre-commit',
-	'commit',
 	'post-commit',
-	'pre-checkout',
-	'checkout',
 	'post-checkout',
 	'pre-merge',
-	'merge',
 	'post-merge',
-	'pre-build',
 	'build',
-	'post-build',
-	'pre-deploy',
 	'deploy',
-	'post-deploy',
-	'pre-publish',
 	'publish',
-	'post-publish',
 ];
 
 export const builder: Builder<Argv> = (yargs) =>
@@ -51,7 +41,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.option('lifecycle', {
 			alias: 'c',
 			description:
-				'Task lifecycle to run. `pre-` and `post-` lifecycles will automatically be run for non-prefixed lifecycles.',
+				'Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.',
 			demandOption: true,
 			type: 'string',
 			choices: lifecycles,
@@ -87,17 +77,22 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		return;
 	}
 
-	const serialTasks: TaskSet = { pre: [], run: [], post: [] };
-	const parallelTasks: TaskSet = { pre: [], run: [], post: [] };
+	const serialTasks: TaskList = [];
+	const parallelTasks: TaskList = [];
 	let hasTasks = false;
 
-	function addTasks(force: (task: Task) => boolean, workspace: Workspace, tasks: Required<Tasks>, type: keyof TaskSet) {
+	for (const workspace of graph.workspaces) {
+		logger.log(`Looking for tasks in ${workspace.name}`);
+
+		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || workspaces.includes(workspace);
+
+		const tasks = workspace.getTasks(lifecycle);
 		tasks.serial.forEach((task) => {
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
 				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
-				serialTasks[type].push(specs);
+				serialTasks.push(specs);
 			}
 		});
 
@@ -106,39 +101,15 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			if (shouldRun) {
 				hasTasks = true;
 				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
-				parallelTasks[type].push(specs);
+				parallelTasks.push(specs);
 			}
 		});
 	}
 
-	for (const workspace of graph.workspaces) {
-		logger.log(`Looking for tasks in ${workspace.name}`);
-
-		const isPre = lifecycle.startsWith('pre-');
-		const isPost = lifecycle.startsWith('post-');
-
-		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || workspaces.includes(workspace);
-
-		if (isPre || !isPost) {
-			const tasks = workspace.getTasks(isPre ? lifecycle : `pre-${lifecycle}`);
-			addTasks(force, workspace, tasks, 'pre');
-		}
-
-		if (!isPre && !isPost) {
-			const tasks = workspace.getTasks(lifecycle);
-			addTasks(force, workspace, tasks, 'run');
-		}
-
-		if (isPost || !isPre) {
-			const tasks = workspace.getTasks(isPost ? lifecycle : `post-${lifecycle}`);
-			addTasks(force, workspace, tasks, 'post');
-		}
-	}
-
 	if (list) {
 		const all = {
-			parallel: [...parallelTasks.pre, ...parallelTasks.run, ...parallelTasks.post],
-			serial: [...serialTasks.pre, ...serialTasks.run, ...serialTasks.post],
+			parallel: parallelTasks,
+			serial: serialTasks,
 		};
 		logger.debug(JSON.stringify(all, null, 2));
 		process.stdout.write(JSON.stringify(all));
@@ -151,29 +122,21 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	}
 
 	try {
-		await batch(parallelTasks.pre.flat(1));
-		await batch(parallelTasks.run.flat(1));
-		await batch(parallelTasks.post.flat(1));
+		await batch(parallelTasks.flat(1));
 	} catch (e) {
 		// continue so all tasks run
 	}
 
-	await runSeq(serialTasks.pre.flat(1));
-	await runSeq(serialTasks.run.flat(1));
-	await runSeq(serialTasks.post.flat(1));
-
-	// Command will fail if any subprocesses failed
-};
-
-async function runSeq(cycle: Array<ExtendedRunSpec>) {
-	for (const task of cycle) {
+	for (const task of serialTasks.flat(1)) {
 		try {
 			await run(task);
 		} catch (e) {
 			// continue so all tasks run
 		}
 	}
-}
+
+	// Command will fail if any subprocesses failed
+};
 
 function taskToSpecs(
 	cliName: string,
@@ -241,4 +204,3 @@ function slugify(str: string) {
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string } };
 type TaskList = Array<Array<ExtendedRunSpec>>;
-type TaskSet = { pre: TaskList; run: TaskList; post: TaskList };

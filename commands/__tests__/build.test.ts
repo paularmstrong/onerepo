@@ -63,6 +63,17 @@ describe('handler', () => {
 						'--format=esm',
 					],
 				}),
+				expect.objectContaining({
+					cmd: 'esbuild',
+					args: [
+						expect.stringMatching(/build\/modules\/tacos\/src\/index\.ts$/),
+						'--bundle',
+						'--packages=external',
+						expect.stringMatching(/build\/modules\/tacos\/dist$/),
+						'--platform=node',
+						'--format=esm',
+					],
+				}),
 			]),
 		);
 	});
