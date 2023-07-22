@@ -5,8 +5,8 @@ import Sun from './icons/Sun.astro';
 
 <label class="relative block cursor-pointer p-2 transition-colors duration-200 hover:text-cyan-400">
 	<span class="sr-only">Theme</span>
-	<span id="theme-icon-light" data-theme-icon="light" class="block h-6 w-6"><Sun /></span>
-	<span id="theme-icon-dark" data-theme-icon="dark" class="block h-6 w-6"><Moon /></span>
+	<span data-theme-icon="light" id="theme-icon-light" class="block h-6 w-6"><Sun /></span>
+	<span data-theme-icon="dark" id="theme-icon-dark" class="block h-6 w-6"><Moon /></span>
 	<select id="theme-switcher" name="theme" class="absolute inset-0 opacity-0">
 		<option value="auto">Auto</option>
 		<option value="light">Light</option>
