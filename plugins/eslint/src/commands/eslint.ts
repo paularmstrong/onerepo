@@ -132,7 +132,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 
 	const runStep = logger.createStep('Lint files');
-	const [out] = await run({
+	const [out, err] = await run({
 		name: `Lint ${all ? '' : filteredPaths.join(', ').substring(0, 40)}…`,
 		cmd: 'npx',
 		args: [...args, ...(all ? ['.'] : filteredPaths), ...passthrough],
@@ -153,6 +153,12 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 		runStep.error(out.replace(/^::.*$/gm, ''));
 	}
+
+	// If eslint has an internal or config problem, it logs to stderr, not stdout
+	if (err) {
+		runStep.error(err);
+	}
+
 	await runStep.end();
 
 	if (add && filteredPaths.length) {

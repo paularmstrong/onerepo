@@ -298,4 +298,10 @@ something
 		expect(process.stdout.write).toHaveBeenCalledWith('::error burritos\n::warning tacos');
 		expect(process.stdout.write).toHaveBeenCalledWith('\n');
 	});
+
+	test('if eslint returns with any stderr, the command will fail', async () => {
+		jest.spyOn(subprocess, 'run').mockResolvedValue(['', 'oh no!']);
+
+		await expect(run('-a')).rejects.toMatch('oh no!');
+	});
 });
