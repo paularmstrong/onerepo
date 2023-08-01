@@ -1702,6 +1702,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ljharb/through@npm:^2.3.9":
+  version: 2.3.9
+  resolution: "@ljharb/through@npm:2.3.9"
+  checksum: a47ffed12ef4b08d07458db8bff5f7a13a7030fddf7dbfa947a765581a634d42ee90f7b8c249315aad122c21ad061e97a74f65aef3c03d2c09291d11312f0bfb
+  languageName: node
+  linkType: hard
+
 "@lukeed/ms@npm:^2.0.1":
   version: 2.0.1
   resolution: "@lukeed/ms@npm:2.0.1"
@@ -5832,6 +5839,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chalk@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "chalk@npm:5.3.0"
+  checksum: 623922e077b7d1e9dedaea6f8b9e9352921f8ae3afe739132e0e00c275971bdd331268183b2628cf4ab1727c45ea1f28d7e24ac23ce1db1eb653c414ca8a5a80
+  languageName: node
+  linkType: hard
+
 "char-regex@npm:^1.0.2":
   version: 1.0.2
   resolution: "char-regex@npm:1.0.2"
@@ -9916,11 +9930,12 @@ __metadata:
   linkType: hard
 
 "inquirer@npm:^9.1.4":
-  version: 9.2.7
-  resolution: "inquirer@npm:9.2.7"
+  version: 9.2.9
+  resolution: "inquirer@npm:9.2.9"
   dependencies:
+    "@ljharb/through": ^2.3.9
     ansi-escapes: ^4.3.2
-    chalk: ^5.2.0
+    chalk: ^5.3.0
     cli-cursor: ^3.1.0
     cli-width: ^4.0.0
     external-editor: ^3.0.3
@@ -9932,9 +9947,8 @@ __metadata:
     rxjs: ^7.8.1
     string-width: ^4.2.3
     strip-ansi: ^6.0.1
-    through: ^2.3.6
     wrap-ansi: ^6.0.1
-  checksum: 5522fd4af72aec151d92a8156d24ff55c2e5f68177eac1e704a594004b31b3215ff92c59a3105691b8e237640995efd55df0aa2e3b47053fb27768ded760fbf5
+  checksum: 2d287e43de80def6392fe61f24644610dd7dd85ce2b6ed8b73a22fbd50b36d42c58fcdb2b00f0d07fb9073cc3e01ed5ac21bb6110ae7a686402888e98af39aec
   languageName: node
   linkType: hard
 
