@@ -48,15 +48,15 @@ export const Yarn = {
 			await run({
 				name: 'Publish',
 				cmd: 'yarn',
-				args: ['npm', 'publish', ...options],
-				opts: cwd ? { cwd: cwd } : {},
+				args: ['npm', 'publish', '--tolerate-republish', ...options],
+				opts: cwd ? { cwd } : {},
 			});
 		} else {
 			await batch(
 				workspaces.map((ws) => ({
 					name: `Publish ${ws.name}`,
 					cmd: 'yarn',
-					args: ['npm', 'publish', ...options],
+					args: ['npm', 'publish', '--tolerate-republish', ...options],
 					opts: { cwd: ws.location },
 				})),
 			);
@@ -81,10 +81,14 @@ export const Yarn = {
 			if (res instanceof Error || res[1] || res[0].includes('\n')) {
 				continue;
 			}
-			const { name, versions } = JSON.parse(res[0]);
-			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && ws.version && versions.includes(ws.version)) {
-				publishable.delete(ws);
+			try {
+				const { name, versions } = JSON.parse(res[0]);
+				const ws = workspaces.find((ws) => ws.name === name);
+				if (ws && ws.version && versions.includes(ws.version)) {
+					publishable.delete(ws);
+				}
+			} catch (e) {
+				// no catch
 			}
 		}
 

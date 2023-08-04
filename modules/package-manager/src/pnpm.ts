@@ -73,10 +73,14 @@ export const Pnpm = {
 			if (res instanceof Error || res[1]) {
 				continue;
 			}
-			const { name, versions } = JSON.parse(res[0]);
-			const ws = workspaces.find((ws) => ws.name === name);
-			if (ws && ws.version && versions.includes(ws.version)) {
-				publishable.delete(ws);
+			try {
+				const { name, versions } = JSON.parse(res[0]);
+				const ws = workspaces.find((ws) => ws.name === name);
+				if (ws && ws.version && versions.includes(ws.version)) {
+					publishable.delete(ws);
+				}
+			} catch (e) {
+				// no catch
 			}
 		}
 
