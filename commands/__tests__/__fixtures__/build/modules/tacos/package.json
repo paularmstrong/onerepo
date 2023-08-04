@@ -1,5 +1,6 @@
 {
 	"name": "tacos",
 	"main": "./src/index.ts",
+	"type": "module",
 	"version": "1.2.3"
 }

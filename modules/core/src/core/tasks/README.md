@@ -135,7 +135,7 @@ setup({
 }).then(({ run }) => run());
 ```
 
-Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos`, `burritos`, and any variant of those with `pre-` or `post-` prefixes.
+Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos` and `burritos`.
 
 ```sh
 one tasks -c pre-tacos

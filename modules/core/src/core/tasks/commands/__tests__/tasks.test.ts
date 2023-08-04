@@ -14,12 +14,12 @@ describe('builder', () => {
 	});
 
 	test('succeeds with --lifecycle', async () => {
-		await expect(build('--lifecycle commit')).resolves.toMatchObject({ lifecycle: 'commit' });
-		await expect(build('--lifecycle pre-build')).resolves.toMatchObject({ lifecycle: 'pre-build' });
+		await expect(build('--lifecycle pre-commit')).resolves.toMatchObject({ lifecycle: 'pre-commit' });
+		await expect(build('--lifecycle build')).resolves.toMatchObject({ lifecycle: 'build' });
 	});
 
 	test('-c is an alias for --lifecycle', async () => {
-		await expect(build('-c pre-build')).resolves.toMatchObject({ lifecycle: 'pre-build' });
+		await expect(build('-c build')).resolves.toMatchObject({ lifecycle: 'build' });
 	});
 
 	test('includes other options', async () => {
@@ -46,7 +46,7 @@ describe('handler', () => {
 		out = '';
 	});
 
-	test('lists tasks for pre- prefix only', async () => {
+	test('lists tasks for the given lifecycle', async () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
@@ -57,29 +57,6 @@ describe('handler', () => {
 				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vv'] })],
 			],
 			serial: [],
-		});
-	});
-
-	test('lists tasks for all pre-, normal, and post-', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-
-		await run('--lifecycle commit --list', { graph });
-		expect(JSON.parse(out)).toEqual({
-			parallel: [
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['lint', '-vv'] })],
-				[expect.objectContaining({ cmd: expect.stringMatching(/test-runner$/), args: ['tsc', '-vv'] })],
-			],
-			serial: [
-				[expect.objectContaining({ cmd: 'echo', args: ['"commit"'] })],
-				[
-					expect.objectContaining({
-						cmd: 'echo',
-						args: ['"post-commit"'],
-						opts: { cwd: '.' },
-					}),
-				],
-			],
 		});
 	});
 
@@ -107,7 +84,7 @@ describe('handler', () => {
 		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		await run('-c commit --list --ignore "modules/tacos/**/*"', { graph });
+		await run('-c pre-commit --list --ignore "modules/tacos/**/*"', { graph });
 
 		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});

@@ -274,20 +274,17 @@ export type Tasks = {
 /**
  * @group Tasks
  */
-export type StandardLifecycles = 'commit' | 'checkout' | 'merge' | 'build' | 'deploy' | 'publish';
-
-/**
- * Adds `pre-` and `post-` prefixes to any literal {@link Lifecycle | `Lifecycle`}
- * @group Tasks
- */
-export type MakeLifecycles<T extends string> = `pre-${T}` | T | `post-${T}`;
-
-/**
- * @group Tasks
- */
-export type Lifecycle = MakeLifecycles<StandardLifecycles>;
+export type Lifecycle =
+	| 'pre-commit'
+	| 'post-commit'
+	| 'post-checkout'
+	| 'pre-merge'
+	| 'post-merge'
+	| 'build'
+	| 'deploy'
+	| 'publish';
 
 /**
  * @group Tasks
  */
-export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | MakeLifecycles<L>, Tasks>>;
+export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | L, Tasks>>;
