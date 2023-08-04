@@ -86,7 +86,7 @@ describe('Yarn', () => {
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish'],
+					args: ['npm', 'publish', '--tolerate-republish'],
 				}),
 			);
 		});
@@ -106,7 +106,7 @@ describe('Yarn', () => {
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish', '--access', 'restricted'],
+					args: ['npm', 'publish', '--tolerate-republish', '--access', 'restricted'],
 				}),
 			);
 		});
@@ -117,7 +117,7 @@ describe('Yarn', () => {
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish', '--tag', 'tacos'],
+					args: ['npm', 'publish', '--tolerate-republish', '--tag', 'tacos'],
 				}),
 			);
 		});
@@ -128,7 +128,7 @@ describe('Yarn', () => {
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish', '--otp', 'taco123'],
+					args: ['npm', 'publish', '--tolerate-republish', '--otp', 'taco123'],
 				}),
 			);
 		});
@@ -146,12 +146,12 @@ describe('Yarn', () => {
 			expect(subprocess.batch).toHaveBeenCalledWith([
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish'],
+					args: ['npm', 'publish', '--tolerate-republish'],
 					opts: { cwd: 'modules/tacos' },
 				}),
 				expect.objectContaining({
 					cmd: 'yarn',
-					args: ['npm', 'publish'],
+					args: ['npm', 'publish', '--tolerate-republish'],
 					opts: { cwd: 'modules/burritos' },
 				}),
 			]);
@@ -232,6 +232,32 @@ describe('Yarn', () => {
 			]);
 
 			expect(publishable).toEqual([{ name: 'burritos', version: '4.5.6' }]);
+		});
+
+		test('does not fail for unparseable json', async () => {
+			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+				return Promise.resolve(
+					calls.map(({ args }) => {
+						const versions: Array<string> = [];
+						if (args?.includes('tacos')) {
+							return ['', ''];
+						} else if (args?.includes('burritos')) {
+							return ['LOL', ''];
+						}
+
+						return [JSON.stringify({ name: args![2]!, versions }), ''];
+					}) as Array<[string, string]>,
+				);
+			});
+			const publishable = await manager.publishable([
+				{ name: 'tacos', version: '1.2.5' },
+				{ name: 'burritos', version: '4.5.6' },
+			]);
+
+			expect(publishable).toEqual([
+				{ name: 'tacos', version: '1.2.5' },
+				{ name: 'burritos', version: '4.5.6' },
+			]);
 		});
 	});
 
