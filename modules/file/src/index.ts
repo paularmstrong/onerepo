@@ -223,6 +223,9 @@ async function format(filename: string, contents: string, { step }: Options = {}
 		let prettier;
 		try {
 			prettier = await import('prettier');
+			if ('default' in prettier) {
+				prettier = prettier.default;
+			}
 		} catch (e) {
 			return contents;
 		}
