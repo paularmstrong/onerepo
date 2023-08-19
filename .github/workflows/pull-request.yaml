@@ -19,7 +19,7 @@ jobs:
 
       - run: yarn
 
-      - uses: paularmstrong/onerepo/actions/get-tasks@main
+      - uses: "paularmstrong/onerepo/actions/get-tasks@${{ github.sha }}"
         id: tasks
         with:
           cli: ./bin/one.cjs
@@ -49,7 +49,7 @@ jobs:
 
       - run: yarn
 
-      - uses: paularmstrong/onerepo/actions/run-task@main
+      - uses: "paularmstrong/onerepo/actions/run-task@${{ github.sha }}"
         with:
           task: |
             ${{ toJSON(matrix.task) }}
