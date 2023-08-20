@@ -11,6 +11,16 @@ export const Yarn = {
 		});
 	},
 
+	batch: async (processes) => {
+		return batch(
+			processes.map((proc) => ({
+				...proc,
+				cmd: 'yarn',
+				args: ['exec', proc.cmd, ...(proc.args ?? [])],
+			})),
+		);
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
@@ -101,6 +111,14 @@ export const Yarn = {
 			name: 'Remove packages',
 			cmd: 'yarn',
 			args: ['remove', ...pkgs],
+		});
+	},
+
+	run: async (opts) => {
+		return await run({
+			...opts,
+			cmd: 'yarn',
+			args: ['exec', opts.cmd, ...(opts.args ?? [])],
 		});
 	},
 } satisfies PackageManager;

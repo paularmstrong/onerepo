@@ -19,8 +19,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
+				cmd: 'node',
+				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
 			}),
 		);
 	});
@@ -30,8 +30,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
+				cmd: 'node',
+				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
 			}),
 		);
 	});
@@ -62,8 +62,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node_modules/.bin/vitest',
-				args: ['--config', './jest.config.ts', '-w', 'foo'],
+				cmd: 'node',
+				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', '-w', 'foo'],
 			}),
 		);
 	});

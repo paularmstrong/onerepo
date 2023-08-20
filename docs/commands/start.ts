@@ -28,10 +28,10 @@ export const handler: Handler = async (argv, { graph }) => {
 		},
 	});
 
-	await run({
+	await graph.packageManager.run({
 		name: 'Run astro',
-		cmd: 'npx',
-		args: ['netlify', 'dev'],
+		cmd: 'netlify',
+		args: ['dev'],
 		opts: {
 			cwd: ws.location,
 			stdio: 'inherit',

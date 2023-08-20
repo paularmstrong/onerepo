@@ -1,6 +1,5 @@
 import { existsSync } from 'node:fs';
 import { builders } from '@onerepo/builders';
-import { batch } from '@onerepo/subprocess';
 import type { RunSpec } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';
@@ -27,20 +26,20 @@ export const builder: Builder<Argv> = (yargs) =>
 		})
 		.epilogue('Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.');
 
-export const handler: Handler<Argv> = async (argv, { getWorkspaces }) => {
-	const { pretty } = argv;
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
+	const { pretty, tsconfig } = argv;
 	const workspaces = await getWorkspaces();
 
 	const procs = workspaces.reduce((memo: Array<RunSpec>, workspace: Workspace) => {
-		if (existsSync(workspace.resolve('tsconfig.json'))) {
+		if (existsSync(workspace.resolve(tsconfig))) {
 			memo.push({
 				name: `Typecheck ${workspace.name}`,
-				cmd: 'npx',
-				args: ['tsc', '-p', workspace.resolve('tsconfig.json'), '--noEmit', pretty ? '--pretty' : '--no-pretty'],
+				cmd: 'tsc',
+				args: ['-p', workspace.resolve(tsconfig), '--noEmit', pretty ? '--pretty' : '--no-pretty'],
 			});
 		}
 		return memo;
 	}, [] as Array<RunSpec>);
 
-	await batch(procs);
+	await graph.packageManager.batch(procs);
 };

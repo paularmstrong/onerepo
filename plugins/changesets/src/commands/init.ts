@@ -1,4 +1,3 @@
-import { run } from '@onerepo/subprocess';
 import { exists } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 
@@ -18,9 +17,9 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	}
 	await step.end();
 
-	await run({
+	await graph.packageManager.run({
 		name: 'Initialized changesets',
-		cmd: 'npx',
-		args: ['changeset', 'init'],
+		cmd: 'changeset',
+		args: ['init'],
 	});
 };

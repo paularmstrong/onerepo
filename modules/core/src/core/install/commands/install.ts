@@ -123,10 +123,10 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	});
 
 	if (await file.exists(graph.root.resolve('.husky'))) {
-		await run({
+		await graph.packageManager.run({
 			name: 'Install git hooks',
-			cmd: 'npx',
-			args: ['husky', 'install'],
+			cmd: 'husky',
+			args: ['install'],
 		});
 	}
 };
