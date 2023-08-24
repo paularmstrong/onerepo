@@ -67,7 +67,7 @@ describe('handler', () => {
 		await run('--lifecycle pre-merge --list', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [],
-			serial: [
+			serial: expect.arrayContaining([
 				[
 					expect.objectContaining({
 						cmd: 'echo',
@@ -76,7 +76,7 @@ describe('handler', () => {
 						meta: { good: 'yes', name: 'fixture-burritos', slug: 'fixture-burritos' },
 					}),
 				],
-			],
+			]),
 		});
 	});
 
@@ -106,6 +106,42 @@ describe('handler', () => {
 						args: ['"post-commit"'],
 						opts: { cwd: '.' },
 						meta: { name: 'fixture-root', slug: 'fixture-root' },
+					}),
+				],
+			],
+		});
+	});
+
+	test('includes sequential tasks', async () => {
+		jest
+			.spyOn(git, 'getModifiedFiles')
+			.mockResolvedValue(['modules/tacos/src/index.ts', 'modules/burritos/src/index.ts']);
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		await run('-c pre-merge --list', { graph });
+
+		expect(JSON.parse(out)).toEqual({
+			parallel: [],
+			serial: [
+				[
+					expect.objectContaining({
+						cmd: expect.stringMatching(/test-runner$/),
+						args: ['lint', '-vv'],
+						opts: { cwd: '.' },
+						meta: { name: 'fixture-root', slug: 'fixture-root' },
+					}),
+					expect.objectContaining({
+						cmd: expect.stringMatching(/test-runner$/),
+						args: ['format', '-vv'],
+						opts: { cwd: '.' },
+						meta: { name: 'fixture-root', slug: 'fixture-root' },
+					}),
+				],
+				[
+					expect.objectContaining({
+						cmd: 'echo',
+						args: ['"pre-merge"', '"burritos"'],
+						opts: { cwd: 'modules/burritos' },
 					}),
 				],
 			],
