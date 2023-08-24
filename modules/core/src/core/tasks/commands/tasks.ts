@@ -84,7 +84,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	for (const workspace of graph.workspaces) {
 		logger.log(`Looking for tasks in ${workspace.name}`);
 
-		const force = (task: Task) => (typeof task === 'string' && workspace.isRoot) || workspaces.includes(workspace);
+		const force = (task: Task) =>
+			(workspace.isRoot && (typeof task === 'string' || Array.isArray(task))) || workspaces.includes(workspace);
 
 		const tasks = workspace.getTasks(lifecycle);
 		tasks.serial.forEach((task) => {
