@@ -1,5 +1,16 @@
 # @onerepo/plugin-eslint
 
+## 0.5.2
+
+### Patch Changes
+
+- Made running third-party executables more resilient to package manager exclusions. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Properly fails eslint in the event of eslint having configuration or internal problems. [#383](https://github.com/paularmstrong/onerepo/pull/383) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`ebd9cfe`](https://github.com/paularmstrong/onerepo/commit/ebd9cfea826e17830d7878bec6a46a9a42e975d7)]:
+  - @onerepo/file@0.4.1
+
 ## 0.5.1
 
 ### Patch Changes
