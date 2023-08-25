@@ -1,3 +1,5 @@
+import type { RunSpec } from '@onerepo/subprocess';
+
 /**
  * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link graph.Graph | `graph.Graph`} & {@link graph.Workspace | `graph.Workspace`}s.
  *
@@ -19,10 +21,24 @@ export interface PackageManager {
 			dev?: boolean;
 		},
 	): Promise<void>;
+
+	/**
+	 * Batch commands from npm packages as a batch of subprocesses using the package manager. Alternative to batching with `npm exec` and compatible APIs.
+	 * @see {@link batch | `batch`} for general subprocess batching.
+	 */
+	batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>>;
+
+	/**
+	 * Run a command from an npm package as a subprocess using the package manager. Alternative to `npm exec` and compatible APIs.
+	 * @see {@link batch | `batch`} for general subprocess running.
+	 */
+	run(opts: RunSpec): Promise<[string, string]>;
+
 	/**
 	 * Install current dependencies as listed in the package manager's lock file
 	 */
 	install(cwd?: string): Promise<string>;
+
 	/**
 	 * Check if the current user is logged in to the external registry
 	 */
@@ -36,11 +52,13 @@ export interface PackageManager {
 		 */
 		registry?: string;
 	}): Promise<boolean>;
+
 	/**
 	 * Filter workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
 	 * @param workspaces List of compatible {@link graph.Workspace | `graph.Workspace`} objects.
 	 */
 	publishable<T extends MinimalWorkspace>(workspaces: Array<T>): Promise<Array<T>>;
+
 	/**
 	 * Publish workspaces to the external registry
 	 */
@@ -68,6 +86,7 @@ export interface PackageManager {
 		 */
 		tag?: string;
 	}): Promise<void>;
+
 	/**
 	 * Remove one or more packages.
 	 * @param packages One or more packages, by name

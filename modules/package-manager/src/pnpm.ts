@@ -11,6 +11,16 @@ export const Pnpm = {
 		});
 	},
 
+	batch: async (processes) => {
+		return batch(
+			processes.map((proc) => ({
+				...proc,
+				cmd: 'pnpm',
+				args: ['exec', proc.cmd, ...(proc.args ?? [])],
+			})),
+		);
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
@@ -93,6 +103,14 @@ export const Pnpm = {
 			name: 'Remove packages',
 			cmd: 'pnpm',
 			args: ['remove', ...pkgs],
+		});
+	},
+
+	run: async (opts) => {
+		return await run({
+			...opts,
+			cmd: 'pnpm',
+			args: ['exec', opts.cmd, ...(opts.args ?? [])],
 		});
 	},
 } satisfies PackageManager;

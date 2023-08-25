@@ -1,4 +1,3 @@
-import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
@@ -11,7 +10,7 @@ jest.mock('@onerepo/file', () => ({
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { build, run } = getCommand(Eslint);
+const { build, run, graph } = getCommand(Eslint);
 
 describe('builder', () => {
 	test('sets --staged to true when --add is true', async () => {
@@ -37,15 +36,14 @@ describe('builder', () => {
 
 describe('handler', () => {
 	test('can run across all files', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
+				cmd: 'eslint',
 				args: [
-					'eslint',
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
@@ -64,7 +62,7 @@ describe('handler', () => {
 	});
 
 	test('can run across individual workspaces', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
@@ -73,11 +71,10 @@ describe('handler', () => {
 
 		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
+				cmd: 'eslint',
 				args: [
-					'eslint',
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
@@ -97,24 +94,14 @@ describe('handler', () => {
 	});
 
 	test('does not fix in dry-run', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: [
-					'eslint',
-					'--ext',
-					'js,cjs,mjs',
-					'--color',
-					'--format',
-					'onerepo',
-					'--cache',
-					'--cache-strategy=content',
-					'.',
-				],
+				cmd: 'eslint',
+				args: ['--ext', 'js,cjs,mjs', '--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '.'],
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
@@ -123,14 +110,14 @@ describe('handler', () => {
 	});
 
 	test('does not fix in no-cache', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --no-cache')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['eslint', '--ext', 'js,cjs,mjs', '--color', '--format', 'onerepo', '--fix', '.'],
+				cmd: 'eslint',
+				args: ['--ext', 'js,cjs,mjs', '--color', '--format', 'onerepo', '--fix', '.'],
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
@@ -139,15 +126,14 @@ describe('handler', () => {
 	});
 
 	test('filters unapproved extensions', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-f foo.xd -f bar.js')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
+				cmd: 'eslint',
 				args: [
-					'eslint',
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
@@ -166,7 +152,7 @@ describe('handler', () => {
 	});
 
 	test('filters with .eslintignore', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		jest.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
@@ -180,11 +166,10 @@ bar/**/*
 
 		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
+				cmd: 'eslint',
 				args: [
-					'eslint',
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
@@ -203,16 +188,15 @@ bar/**/*
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
+				cmd: 'eslint',
 				args: [
-					'eslint',
 					'--ext',
 					'js,cjs,mjs',
 					'--color',
@@ -232,35 +216,37 @@ bar/**/*
 	});
 
 	test('if --quiet, reports errors only', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all --quiet');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				args: expect.arrayContaining(['eslint', '--quiet']),
+				cmd: 'eslint',
+				args: expect.arrayContaining(['--quiet']),
 			}),
 		);
 	});
 
 	test('can turn off colors with --no-pretty', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--no-pretty -a');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				args: expect.arrayContaining(['eslint', '--no-color']),
+				cmd: 'eslint',
+				args: expect.arrayContaining(['--no-color']),
 			}),
 		);
 	});
 
 	test('can override the default formatter', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('-a -- --format junit');
 
-		expect(subprocess.run).not.toHaveBeenCalledWith(
+		expect(graph.packageManager.run).not.toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['--format', 'onerepo']),
 			}),
@@ -268,11 +254,11 @@ bar/**/*
 	});
 
 	test('can disable GitHub annotations', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('-a --no-github-annotate');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				opts: {
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'false' },
@@ -283,7 +269,7 @@ bar/**/*
 
 	test('proxies github annotations to stdout directly', async () => {
 		jest.spyOn(process.stdout, 'write').mockReturnValue(true);
-		jest.spyOn(subprocess, 'run').mockResolvedValue([
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue([
 			`
 ::error burritos
 
@@ -300,7 +286,7 @@ something
 	});
 
 	test('if eslint returns with any stderr, the command will fail', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', 'oh no!']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', 'oh no!']);
 
 		await expect(run('-a')).rejects.toMatch('oh no!');
 	});

@@ -64,9 +64,10 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	await run({
 		name: 'Run tests',
-		cmd: inspect ? 'node' : 'node_modules/.bin/vitest',
+		cmd: 'node',
 		args: [
-			...(inspect ? ['--inspect', '--inspect-brk', 'node_modules/.bin/vitest'] : []),
+			...(inspect ? ['--inspect', '--inspect-brk'] : []),
+			'node_modules/.bin/vitest',
 			'--config',
 			config,
 			...related.filter((filepath) => !filepath.endsWith('.json')),

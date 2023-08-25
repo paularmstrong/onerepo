@@ -3,7 +3,6 @@ import { minimatch } from 'minimatch';
 import * as core from '@actions/core';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
-import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
@@ -79,15 +78,10 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 	const runStep = logger.createStep('Format files');
 	try {
-		await run({
+		await graph.packageManager.run({
 			name: `Format files ${all ? '' : filteredPaths.join(', ').substring(0, 60)}…`,
-			cmd: 'npx',
-			args: [
-				'prettier',
-				'--ignore-unknown',
-				isDry || check ? '--list-different' : '--write',
-				...(all ? ['.'] : filteredPaths),
-			],
+			cmd: 'prettier',
+			args: ['--ignore-unknown', isDry || check ? '--list-different' : '--write', ...(all ? ['.'] : filteredPaths)],
 			step: runStep,
 		});
 	} catch (e) {
@@ -110,6 +104,7 @@ To resolve the issue, run Prettier formatting and commit the resulting changes:
 		await runStep.end();
 		return;
 	}
+	await runStep.end();
 
 	if (add && filteredPaths.length) {
 		await updateIndex(filteredPaths);

@@ -102,6 +102,8 @@ export const handler: Handler = async (argv, { logger }) => {
 
 oneRepo includes advanced child process spawning via the [`run`](/docs/core/api/#run) and [`batch`](/docs/core/api/#batch) functions. These async functions work like Node.js [`child_process.spawn`](https://nodejs.org/docs/latest-v18.x/api/child_process.html#child_processspawncommand-args-options), but are promise-based asynchronous functions that handle redirecting and buffering output as well as failure tracking for you. These should be used in favor of the direct Node.js builtins.
 
+If the command you're trying to run is installed by a third party node module through your package manager (NPM, Yarn, or pNPM), you are encouraged to use [`graph.packageManager.run`](/docs/core/api/#packagemanager) and [`graph.packageManager.batch`](/docs/core/api/#packagemanager) functions. These will determine the correct install path to the executable and avoid potential issues across package manager install locations.
+
 ### Run single processes
 
 ```ts

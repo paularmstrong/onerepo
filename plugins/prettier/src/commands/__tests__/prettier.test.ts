@@ -1,18 +1,16 @@
 import * as core from '@actions/core';
-import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import * as Prettier from '../prettier';
 
 jest.mock('@onerepo/git');
-jest.mock('@onerepo/subprocess');
 jest.mock('@onerepo/file', () => ({
 	__esModule: true,
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { build, run } = getCommand(Prettier);
+const { build, graph, run } = getCommand(Prettier);
 
 describe('builder', () => {
 	test('sets --staged to true when --add is true', async () => {
@@ -49,20 +47,20 @@ describe('handler', () => {
 	});
 
 	test('can run across all files', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', '.'],
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--write', '.'],
 			}),
 		);
 	});
 
 	test('can run across individual workspaces', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		jest.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
@@ -71,29 +69,29 @@ describe('handler', () => {
 
 		await expect(run('-w burritos -w tacos')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
 			}),
 		);
 	});
 
 	test('does not write in dry-run', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--list-different', '.'],
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--list-different', '.'],
 			}),
 		);
 	});
 
 	test('filters with .prettierignore', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		jest.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
@@ -107,16 +105,16 @@ bar/**/*
 
 		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.prettierignore$/), expect.any(Object));
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'foo.js'],
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--write', 'foo.js'],
 			}),
 		);
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		jest.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
@@ -131,10 +129,10 @@ bar/**/*
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['prettier', '--ignore-unknown', '--write', 'bar.js'],
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--write', 'bar.js'],
 			}),
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
@@ -143,7 +141,7 @@ bar/**/*
 	test('annotates github for file errors', async () => {
 		process.env.GITHUB_RUN_ID = '123';
 		jest.spyOn(core, 'error').mockReturnValue();
-		jest.spyOn(subprocess, 'run').mockImplementation(() => {
+		jest.spyOn(graph.packageManager, 'run').mockImplementation(() => {
 			throw new Error('foo.js\nbop.js\n');
 		});
 

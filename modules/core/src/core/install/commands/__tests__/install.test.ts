@@ -8,7 +8,7 @@ import * as Tasks from '../install';
 jest.mock('@onerepo/subprocess');
 jest.mock('@onerepo/file');
 
-const { build, run } = getCommand(Tasks);
+const { build, graph, run } = getCommand(Tasks);
 
 describe('builder', () => {
 	test('defaults verbosity to show warnings', async () => {
@@ -91,6 +91,7 @@ describe('handler', () => {
 
 	test('runs husky install husky is found', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		jest.spyOn(file, 'writeSafe').mockResolvedValue();
@@ -99,16 +100,17 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(true);
 		await expect(run('--name tacos')).resolves.toBeTruthy();
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['husky', 'install'],
+				cmd: 'husky',
+				args: ['install'],
 			}),
 		);
 	});
 
 	test('does not run husky install husky is NOT found', async () => {
 		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
 		jest.spyOn(file, 'writeSafe').mockResolvedValue();
@@ -117,10 +119,10 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		await expect(run('--name tacos')).resolves.toBeTruthy();
 
-		expect(subprocess.run).not.toHaveBeenCalledWith(
+		expect(graph.packageManager.run).not.toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npx',
-				args: ['husky', 'install'],
+				cmd: 'husky',
+				args: ['install'],
 			}),
 		);
 	});

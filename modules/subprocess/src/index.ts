@@ -98,6 +98,7 @@ export type RunSpec = {
  * @group Subprocess
  * @return A promise with an array of `[stdout, stderr]`, as captured from the command run.
  * @throws {@link SubprocessError | `SubprocessError`} if not `skipFailures` and the spawned process does not exit cleanly (with code `0`)
+ * @see {@link PackageManager.run | `PackageManager.run`} to safely run executables exposed from third party modules.
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
@@ -320,6 +321,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  *
  * @group Subprocess
  * @throws {@link BatchError | `BatchError`} An object that includes a list of all of the {@link SubprocessError | `SubprocessError`}s thrown.
+ * @see {@link PackageManager.batch | `PackageManager.batch`} to safely batch executables exposed from third party modules.
  */
 export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];

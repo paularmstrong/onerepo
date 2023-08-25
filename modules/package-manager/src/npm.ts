@@ -11,6 +11,16 @@ export const Npm = {
 		});
 	},
 
+	batch: async (processes) => {
+		return batch(
+			processes.map((proc) => ({
+				...proc,
+				cmd: 'npm',
+				args: ['exec', proc.cmd, ...(proc.args ?? [])],
+			})),
+		);
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
@@ -92,6 +102,14 @@ export const Npm = {
 			name: 'Remove packages',
 			cmd: 'npm',
 			args: ['uninstall', ...pkgs],
+		});
+	},
+
+	run: async (opts) => {
+		return await run({
+			...opts,
+			cmd: 'npm',
+			args: ['exec', opts.cmd, ...(opts.args ?? [])],
 		});
 	},
 } satisfies PackageManager;

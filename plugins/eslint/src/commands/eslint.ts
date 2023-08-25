@@ -2,7 +2,6 @@ import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
-import { run } from '@onerepo/subprocess';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
@@ -117,7 +116,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		return;
 	}
 
-	const args = ['eslint', '--ext', extensions.join(','), pretty ? '--color' : '--no-color'];
+	const args = ['--ext', extensions.join(','), pretty ? '--color' : '--no-color'];
 	if (!(passthrough.includes('-f') || passthrough.includes('--format'))) {
 		args.push('--format', 'onerepo');
 	}
@@ -132,9 +131,9 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 
 	const runStep = logger.createStep('Lint files');
-	const [out, err] = await run({
+	const [out, err] = await graph.packageManager.run({
 		name: `Lint ${all ? '' : filteredPaths.join(', ').substring(0, 40)}…`,
-		cmd: 'npx',
+		cmd: 'eslint',
 		args: [...args, ...(all ? ['.'] : filteredPaths), ...passthrough],
 		opts: {
 			env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: github ? 'true' : 'false' },

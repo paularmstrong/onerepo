@@ -1,21 +1,19 @@
 import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as file from '@onerepo/file';
-import * as subprocess from '@onerepo/subprocess';
 import { getCommand } from '@onerepo/test-cli';
 import * as Init from '../init';
 
-jest.mock('@onerepo/subprocess');
 jest.mock('@onerepo/file', () => ({
 	__esModule: true,
 	...jest.requireActual('@onerepo/file'),
 }));
 
-const { run } = getCommand(Init);
+const { graph, run } = getCommand(Init);
 
 describe('handler', () => {
 	beforeEach(async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('Initializes changeset', async () => {
@@ -23,15 +21,17 @@ describe('handler', () => {
 		jest.spyOn(file, 'exists').mockResolvedValue(false);
 		await run('', { graph });
 
-		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'npx', args: ['changeset', 'init'] }));
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({ cmd: 'changeset', args: ['init'] }),
+		);
 	});
 
 	test('Does not re-initialize', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		await run('', { graph });
 
-		expect(subprocess.run).not.toHaveBeenCalledWith(
-			expect.objectContaining({ cmd: 'npx', args: ['changeset', 'init'] }),
+		expect(graph.packageManager.run).not.toHaveBeenCalledWith(
+			expect.objectContaining({ cmd: 'changeset', args: ['init'] }),
 		);
 	});
 });
