@@ -1,5 +1,11 @@
 # @onerepo/file
 
+## 0.4.1
+
+### Patch Changes
+
+- Fixed file `write`, `writeSafe`, and `format` when using prettier@2 in which prettier formatting would not be run at all. [#400](https://github.com/paularmstrong/onerepo/pull/400) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.0
 
 ### Minor Changes

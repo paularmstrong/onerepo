@@ -1,5 +1,27 @@
 # onerepo
 
+## 0.12.0
+
+### Minor Changes
+
+- Added `packageManager.batch` for batching third party module bins, similar to `npm exec`. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added `packageManager.run` for running third party module bins, similar to `npm exec`. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Attempt to recover from JSON parsing issues when determining publishable modules. [#399](https://github.com/paularmstrong/onerepo/pull/399) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Sequential tasks at the root level were not being forcefully included for all changes. [#405](https://github.com/paularmstrong/onerepo/pull/405) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Fixed file `write`, `writeSafe`, and `format` when using prettier@2 in which prettier formatting would not be run at all. [#400](https://github.com/paularmstrong/onerepo/pull/400) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`71a61cf`](https://github.com/paularmstrong/onerepo/commit/71a61cf1582f1eee5d9cd16a6bf52de014c6cce5), [`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`873693d`](https://github.com/paularmstrong/onerepo/commit/873693da7c058c3bcc48554f8ccc794b6f335e8b), [`ab1866c`](https://github.com/paularmstrong/onerepo/commit/ab1866c4dedc04f912f6dad5a5b506af8394a41f), [`ebd9cfe`](https://github.com/paularmstrong/onerepo/commit/ebd9cfea826e17830d7878bec6a46a9a42e975d7)]:
+  - @onerepo/core@0.11.0
+  - @onerepo/graph@0.8.0
+  - @onerepo/package-manager@0.3.0
+  - @onerepo/file@0.4.1
+
 ## 0.11.0
 
 ### Minor Changes

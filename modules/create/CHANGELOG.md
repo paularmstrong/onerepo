@@ -1,5 +1,13 @@
 # create-onerepo
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`71a61cf`](https://github.com/paularmstrong/onerepo/commit/71a61cf1582f1eee5d9cd16a6bf52de014c6cce5), [`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`ebd9cfe`](https://github.com/paularmstrong/onerepo/commit/ebd9cfea826e17830d7878bec6a46a9a42e975d7)]:
+  - @onerepo/package-manager@0.3.0
+  - @onerepo/file@0.4.1
+
 ## 0.0.6
 
 ### Patch Changes

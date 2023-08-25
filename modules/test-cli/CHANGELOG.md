@@ -1,5 +1,12 @@
 # @onerepo/test-cli
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff)]:
+  - @onerepo/graph@0.8.0
+
 ## 0.3.1
 
 ### Patch Changes

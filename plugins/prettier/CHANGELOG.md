@@ -1,5 +1,14 @@
 # @onerepo/plugin-prettier
 
+## 0.4.1
+
+### Patch Changes
+
+- Made running third-party executables more resilient to package manager exclusions. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`ebd9cfe`](https://github.com/paularmstrong/onerepo/commit/ebd9cfea826e17830d7878bec6a46a9a42e975d7)]:
+  - @onerepo/file@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

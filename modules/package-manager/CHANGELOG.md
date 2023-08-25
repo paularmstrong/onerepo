@@ -1,5 +1,17 @@
 # @onerepo/package-manager
 
+## 0.3.0
+
+### Minor Changes
+
+- Added `packageManager.batch` for batching third party module bins, similar to `npm exec`. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added `packageManager.run` for running third party module bins, similar to `npm exec`. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Attempt to recover from JSON parsing issues when determining publishable modules. [#399](https://github.com/paularmstrong/onerepo/pull/399) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.3
 
 ### Patch Changes

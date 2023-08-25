@@ -1,5 +1,21 @@
 # @onerepo/core
 
+## 0.11.0
+
+### Minor Changes
+
+- Added `packageManager.batch` for batching third party module bins, similar to `npm exec`. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Removed implicit `pre-` and `post-` lifecycles for all non-prefixed lifecycles. No longer with running `--lifecycle=commit` auto run `pre-commit`, `commit`, and `post-commit` sequentially. If this behavior is still needed, change your task configurations to use the [sequential tasks](https://onerepo.tools/docs/core/tasks/#sequential-tasks) format. [#382](https://github.com/paularmstrong/onerepo/pull/382) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Sequential tasks at the root level were not being forcefully included for all changes. [#405](https://github.com/paularmstrong/onerepo/pull/405) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`01b478b`](https://github.com/paularmstrong/onerepo/commit/01b478b72be4c4f989788c1a987a08f5ac63eaff), [`ebd9cfe`](https://github.com/paularmstrong/onerepo/commit/ebd9cfea826e17830d7878bec6a46a9a42e975d7)]:
+  - @onerepo/graph@0.8.0
+  - @onerepo/file@0.4.1
+
 ## 0.10.0
 
 ### Minor Changes

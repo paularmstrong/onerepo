@@ -1,5 +1,13 @@
 # @onerepo/plugin-typescript
 
+## 0.2.4
+
+### Patch Changes
+
+- Respect the `tsconfig` option when looking up workspaces to check. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Made running third-party executables more resilient to package manager exclusions. [#402](https://github.com/paularmstrong/onerepo/pull/402) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.2.3
 
 ### Patch Changes
