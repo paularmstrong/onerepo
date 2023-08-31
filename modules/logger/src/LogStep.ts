@@ -20,6 +20,7 @@ const PREFIX_ERR = pc.red(pc.bold('ERR'));
 const PREFIX_WARN = pc.yellow(pc.bold('WRN'));
 const PREFIX_LOG = pc.cyan(pc.bold('LOG'));
 const PREFIX_DBG = pc.magenta(pc.bold('DBG'));
+const PREFIX_SUCC = pc.green(pc.bold('SUCC'));
 const PREFIX_END = pc.dim(pc.bold('■'));
 
 const noop = () => {};
@@ -184,6 +185,16 @@ export class LogStep {
 				resolve();
 			});
 		});
+	}
+
+	/**
+	 * Log a success message.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
+	success(contents: unknown) {
+		this.#writeStream(this.#prefix(PREFIX_SUCC, stringify(contents)));
 	}
 
 	/**

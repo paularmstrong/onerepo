@@ -194,6 +194,16 @@ export class Logger {
 	}
 
 	/**
+	 * Log a success message, this will log regardless of log verbosity. This is a pass-through for the main step’s {@link LogStep#success | `success()`} method.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
+	success(contents: unknown) {
+		this.#logger.success(contents);
+	}
+
+	/**
 	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 *
 	 * @group Logging
