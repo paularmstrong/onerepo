@@ -59,11 +59,11 @@ describe('LogStep', () => {
 
 	test.concurrent.each([
 		[0, []],
-		[1, ['error']],
-		[2, ['error', 'warn']],
-		[3, ['error', 'warn', 'log']],
-		[4, ['error', 'warn', 'log', 'debug']],
-		[5, ['error', 'warn', 'log', 'debug', 'timing']],
+		[1, ['info', 'error']],
+		[2, ['info', 'error', 'warn']],
+		[3, ['info', 'error', 'warn', 'log']],
+		[4, ['info', 'error', 'warn', 'log', 'debug']],
+		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
 	] as Array<[number, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
 		const onEnd = jest.fn(() => Promise.resolve());
 		const onError = jest.fn();
@@ -71,6 +71,7 @@ describe('LogStep', () => {
 		const step = new LogStep('tacos', { onEnd, onError, verbosity, stream });
 
 		const logs = {
+			info: `${pc.blue(pc.bold('INFO'))} some information`,
 			error: ` │ ${pc.red(pc.bold('ERR'))} an error`,
 			warn: ` │ ${pc.yellow(pc.bold('WRN'))} a warning`,
 			log: ` │ ${pc.cyan(pc.bold('LOG'))} a log`,
@@ -85,6 +86,7 @@ describe('LogStep', () => {
 
 		step.activate();
 
+		step.info('some information');
 		step.error('an error');
 		step.warn('a warning');
 		step.log('a log');

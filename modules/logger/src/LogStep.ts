@@ -20,6 +20,7 @@ const PREFIX_ERR = pc.red(pc.bold('ERR'));
 const PREFIX_WARN = pc.yellow(pc.bold('WRN'));
 const PREFIX_LOG = pc.cyan(pc.bold('LOG'));
 const PREFIX_DBG = pc.magenta(pc.bold('DBG'));
+const PREFIX_INFO = pc.blue(pc.bold('INFO'));
 const PREFIX_END = pc.dim(pc.bold('■'));
 
 const noop = () => {};
@@ -184,6 +185,18 @@ export class LogStep {
 				resolve();
 			});
 		});
+	}
+
+	/**
+	 * Log an informative message. Should be used when trying to convey information with a user.
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 */
+	info(contents: unknown) {
+		if (this.verbosity >= 1) {
+			this.#writeStream(this.#prefix(PREFIX_INFO, stringify(contents)));
+		}
 	}
 
 	/**
