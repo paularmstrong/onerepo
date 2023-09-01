@@ -121,7 +121,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		let err = '';
 
 		if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
-			step.log(
+			step.info(
 				`DRY-RUN command:
 		${JSON.stringify(withoutLogger, null, 2)}\n`,
 			);
@@ -254,7 +254,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	const commandString = `${options.cmd} ${(options.args || []).join(' ')}`;
 
 	if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
-		step.log(
+		step.info(
 			`DRY-RUN command:
     sudo ${commandString}\n`,
 		);

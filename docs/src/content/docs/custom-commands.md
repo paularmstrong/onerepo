@@ -69,7 +69,9 @@ You can also generate Markdown documentation of the full CLI using the [docgen c
 At the core of oneRepo command output is the [`Logger`](/docs/core/api/#logger). This logger is responsible for tracking output and ensuring that all subprocess output is buffered and redirected appropriately for a better debugging experience.
 
 <aside>
+
 This logger should always be used instead of directly writing to `console.log` or `process.stdout` unless you explicitly know that your output should be piped to another process (e.g. you want to write JSON to `stdout`).
+
 </aside>
 
 The `logger` instance is primarily available in command handlers via the [`HandlerExtra`](/docs/core/api/#handlerextra). Logger verbosity is controlled via the global counter argument `--verbosity`, or `-v`.
@@ -78,6 +80,7 @@ The `logger` instance is primarily available in command handlers via the [`Handl
 export const handler: Handler = async (argv, { logger }) => {
 	// -v (1)
 	logger.error('This will output an error (and also set cause this run to exit with code 1)');
+	logger.info('This will output an important informative message.');
 	// -vv (2, default)
 	logger.warn('This will output a warning');
 	// -vvv (3)

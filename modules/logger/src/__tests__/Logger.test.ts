@@ -1,5 +1,6 @@
 import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
+import type { LoggerOptions } from '../Logger';
 import { Logger } from '../Logger';
 
 async function waitStreamEnd(stream: PassThrough) {
@@ -23,46 +24,49 @@ describe('Logger', () => {
 		[3, ['info', 'error', 'warn', 'log']],
 		[4, ['info', 'error', 'warn', 'log', 'debug']],
 		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
-	] as Array<[number, Array<keyof Logger>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
-		const stream = new PassThrough();
-		let out = '';
-		stream.on('data', (chunk) => {
-			out += chunk.toString();
-		});
+	] as Array<[LoggerOptions['verbosity'], Array<keyof Logger>]>)(
+		'verbosity = %d writes %j',
+		async (verbosity, methods) => {
+			const stream = new PassThrough();
+			let out = '';
+			stream.on('data', (chunk) => {
+				out += chunk.toString();
+			});
 
-		const logger = new Logger({ verbosity, stream });
+			const logger = new Logger({ verbosity, stream });
 
-		const logs = {
-			info: `${pc.blue(pc.bold('INFO'))} some information`,
-			error: `${pc.red(pc.bold('ERR'))} an error`,
-			warn: `${pc.yellow(pc.bold('WRN'))} a warning`,
-			// log: `${pc.cyan(pc.bold('LOG'))} a log`,
-			log: ' a log',
-			debug: `${pc.magenta(pc.bold('DBG'))} a debug`,
-			timing: `${pc.red('⏳')} foo → bar: 0ms`,
-		};
+			const logs = {
+				info: `${pc.blue(pc.bold('INFO'))} some information`,
+				error: `${pc.red(pc.bold('ERR'))} an error`,
+				warn: `${pc.yellow(pc.bold('WRN'))} a warning`,
+				// log: `${pc.cyan(pc.bold('LOG'))} a log`,
+				log: ' a log',
+				debug: `${pc.magenta(pc.bold('DBG'))} a debug`,
+				timing: `${pc.red('⏳')} foo → bar: 0ms`,
+			};
 
-		logger.info('some information');
-		logger.error('an error');
-		logger.warn('a warning');
-		logger.log('a log');
-		logger.debug('a debug');
-		performance.mark('foo');
-		performance.mark('bar');
-		logger.timing('foo', 'bar');
+			logger.info('some information');
+			logger.error('an error');
+			logger.warn('a warning');
+			logger.log('a log');
+			logger.debug('a debug');
+			performance.mark('foo');
+			performance.mark('bar');
+			logger.timing('foo', 'bar');
 
-		await logger.end();
-		await waitStreamEnd(stream);
+			await logger.end();
+			await waitStreamEnd(stream);
 
-		for (const [method, str] of Object.entries(logs)) {
-			// @ts-ignore
-			if (!methods.includes(method)) {
-				expect(out).not.toMatch(str);
-			} else {
-				expect(out).toMatch(str);
+			for (const [method, str] of Object.entries(logs)) {
+				// @ts-ignore
+				if (!methods.includes(method)) {
+					expect(out).not.toMatch(str);
+				} else {
+					expect(out).toMatch(str);
+				}
 			}
-		}
-	});
+		},
+	);
 
 	test('logs "completed" message', async () => {
 		const stream = new PassThrough();

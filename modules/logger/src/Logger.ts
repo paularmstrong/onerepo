@@ -5,20 +5,22 @@ import { LogStep } from './LogStep';
 
 type LogUpdate = typeof logUpdate;
 
-interface LoggerOptions {
+/**
+ * | Value  | What           | Description                                      |
+ * | ------ | -------------- | ------------------------------------------------ |
+ * | `<= 0` | Silent         | No output will be read or written.               |
+ * | `>= 1` | Error, Info    |                                                  |
+ * | `>= 2` | Warnings       |                                                  |
+ * | `>= 3` | Log            |                                                  |
+ * | `>= 4` | Debug          | `logger.debug()` will be included                |
+ * | `>= 5` | Timing         | Extra performance timing metrics will be written |
+ * @group Logger
+ */
+export interface LoggerOptions {
 	/**
 	 * Verbosity ranges from 0 to 5
-	 *
-	 * | Value  | What     | Description                                      |
-	 * | ------ | -------- | ------------------------------------------------ |
-	 * | `<= 0` | Silent   | No output will be read or written.               |
-	 * | `>= 1` | Error    |                                                  |
-	 * | `>= 2` | Warnings |                                                  |
-	 * | `>= 3` | Log      |                                                  |
-	 * | `>= 4` | Debug    | `logger.debug()` will be included                |
-	 * | `>= 5` | Timing   | Extra performance timing metrics will be written |
 	 */
-	verbosity: number;
+	verbosity: 0 | 1 | 2 | 3 | 4 | 5;
 	/**
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
@@ -184,10 +186,11 @@ export class Logger {
 	}
 
 	/**
-	 * Log an error. This will cause the root logger to include an error and fail a command. This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
+	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
 	 */
 	log(contents: unknown) {
 		this.#logger.log(contents);
@@ -195,51 +198,55 @@ export class Logger {
 
 	/**
 	 * Should be used to convey information or instructions through the log, will log when verbositu >= 1
-	 * This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#info | `info()`} This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 */
 	info(contents: unknown) {
 		this.#logger.info(contents);
 	}
 
 	/**
-	 * Log a warning. Does not have any effect on the command run, but will be called out. This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
+	 * Log an error. This will cause the root logger to include an error and fail a command.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#error | `error()`} This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 */
 	error(contents: unknown) {
 		this.#logger.error(contents);
 	}
 
 	/**
-	 * Log general information. This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
+	 * Log a warning. Does not have any effect on the command run, but will be called out.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#warn | `warn()`} This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
 	 */
 	warn(contents: unknown) {
 		this.#logger.warn(contents);
 	}
 
 	/**
-	 * Extra debug logging when verbosity greater than or equal to 4. This is a pass-through for the main step’s {@link LogStep#debug | `debug()`} method.
+	 * Extra debug logging when verbosity greater than or equal to 4.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#debug | `debug()`} This is a pass-through for the main step’s {@link LogStep#debug | `debug()`} method.
 	 */
 	debug(contents: unknown) {
 		this.#logger.debug(contents);
 	}
 
 	/**
-	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options). This is a pass-through for the main step’s {@link LogStep#timing | `timing()`} method.
+	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
 	 *
 	 * @group Logging
 	 * @param start A `PerformanceMark` entry name
 	 * @param end A `PerformanceMark` entry name
+	 * @see {@link LogStep#timing | `timing()`} This is a pass-through for the main step’s {@link LogStep#timing | `timing()`} method.
 	 */
 	timing(start: string, end: string) {
 		this.#logger.timing(start, end);
