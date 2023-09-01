@@ -2942,7 +2942,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/github-action@workspace:modules/github-action"
   dependencies:
-    "@actions/core": ^1.10.0
     "@internal/test-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     glob: ^10.1.0
