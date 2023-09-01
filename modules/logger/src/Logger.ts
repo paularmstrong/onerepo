@@ -194,13 +194,14 @@ export class Logger {
 	}
 
 	/**
-	 * Log a success message, this will log regardless of log verbosity. This is a pass-through for the main step’s {@link LogStep#success | `success()`} method.
+	 * Should be used to convey information or instructions through the log, will log when verbositu >= 1
+	 * This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
-	success(contents: unknown) {
-		this.#logger.success(contents);
+	info(contents: unknown) {
+		this.#logger.info(contents);
 	}
 
 	/**

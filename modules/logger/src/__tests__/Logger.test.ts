@@ -14,11 +14,11 @@ async function waitStreamEnd(stream: PassThrough) {
 describe('Logger', () => {
 	test.concurrent.each([
 		[0, []],
-		[1, ['success', 'error']],
-		[2, ['success', 'error', 'warn']],
-		[3, ['success', 'error', 'warn', 'log']],
-		[4, ['success', 'error', 'warn', 'log', 'debug']],
-		[5, ['success', 'error', 'warn', 'log', 'debug', 'timing']],
+		[1, ['info', 'error']],
+		[2, ['info', 'error', 'warn']],
+		[3, ['info', 'error', 'warn', 'log']],
+		[4, ['info', 'error', 'warn', 'log', 'debug']],
+		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
 	] as Array<[number, Array<keyof Logger>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
 		const stream = new PassThrough();
 		let out = '';
@@ -29,7 +29,7 @@ describe('Logger', () => {
 		const logger = new Logger({ verbosity, stream });
 
 		const logs = {
-			success: `${pc.green(pc.bold('SUCC'))} a success`,
+			info: `${pc.blue(pc.bold('INFO'))} some information`,
 			error: `${pc.red(pc.bold('ERR'))} an error`,
 			warn: `${pc.yellow(pc.bold('WRN'))} a warning`,
 			// log: `${pc.cyan(pc.bold('LOG'))} a log`,
@@ -38,7 +38,7 @@ describe('Logger', () => {
 			timing: `${pc.red('⏳')} foo → bar: 0ms`,
 		};
 
-		logger.success('a success');
+		logger.info('some information');
 		logger.error('an error');
 		logger.warn('a warning');
 		logger.log('a log');
