@@ -1,6 +1,5 @@
 {
 	"name": "@onerepo/github-action",
-	"private": true,
 	"license": "MIT",
 	"repository": {
 		"type": "git",

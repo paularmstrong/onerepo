@@ -278,6 +278,9 @@ export class Logger {
 
 		this.#updater.clear();
 		await step.flush();
+		if (step.hasError && process.env.GITHUB_RUN_ID) {
+			this.error('The previous step has errors.');
+		}
 
 		const index = this.#steps.findIndex((s) => s === step);
 		if (index >= 0) {

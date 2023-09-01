@@ -1,10 +1,8 @@
 import { spawn } from 'node:child_process';
 import type { RunSpec } from 'onerepo';
+import { getInput } from '@actions/core';
 
-const input = process.env.INPUT_TASK;
-if (!input) {
-	throw new Error('Missing required input "tasks"');
-}
+const input = getInput('task', { required: true });
 const parsed: RunSpec | Array<RunSpec> = JSON.parse(input);
 
 const tasks = Array.isArray(parsed) ? parsed : [parsed];
