@@ -7790,21 +7790,20 @@ __metadata:
   linkType: hard
 
 "eslint-import-resolver-typescript@npm:^3.5.5":
-  version: 3.5.5
-  resolution: "eslint-import-resolver-typescript@npm:3.5.5"
+  version: 3.6.0
+  resolution: "eslint-import-resolver-typescript@npm:3.6.0"
   dependencies:
     debug: ^4.3.4
     enhanced-resolve: ^5.12.0
     eslint-module-utils: ^2.7.4
+    fast-glob: ^3.3.1
     get-tsconfig: ^4.5.0
-    globby: ^13.1.3
     is-core-module: ^2.11.0
     is-glob: ^4.0.3
-    synckit: ^0.8.5
   peerDependencies:
     eslint: "*"
     eslint-plugin-import: "*"
-  checksum: 27e6276fdff5d377c9036362ff736ac29852106e883ff589ea9092dc57d4bc2a67a82d75134221124f05045f9a7e2114a159b2c827d1f9f64d091f7afeab0f58
+  checksum: 57b1b3859149f847e0d4174ff979cf35362d60c951df047f01b96f4c3794a7ea0d4e1ec85be25e610d3706902c3acfb964a66b825c1a55e3ce3a124b9a7a13bd
   languageName: node
   linkType: hard
 
@@ -8422,6 +8421,19 @@ __metadata:
     merge2: ^1.3.0
     micromatch: ^4.0.4
   checksum: 20df62be28eb5426fe8e40e0d05601a63b1daceb7c3d87534afcad91bdcf1e4b1743cf2d5247d6e225b120b46df0b9053a032b2691ba34ee121e033acd81f547
+  languageName: node
+  linkType: hard
+
+"fast-glob@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "fast-glob@npm:3.3.1"
+  dependencies:
+    "@nodelib/fs.stat": ^2.0.2
+    "@nodelib/fs.walk": ^1.2.3
+    glob-parent: ^5.1.2
+    merge2: ^1.3.0
+    micromatch: ^4.0.4
+  checksum: b6f3add6403e02cf3a798bfbb1183d0f6da2afd368f27456010c0bc1f9640aea308243d4cb2c0ab142f618276e65ecb8be1661d7c62a7b4e5ba774b9ce5432e5
   languageName: node
   linkType: hard
 
@@ -9394,7 +9406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^13.0.0, globby@npm:^13.1.1, globby@npm:^13.1.3":
+"globby@npm:^13.0.0, globby@npm:^13.1.1":
   version: 13.2.2
   resolution: "globby@npm:13.2.2"
   dependencies:
@@ -17172,7 +17184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"synckit@npm:^0.8.0, synckit@npm:^0.8.4, synckit@npm:^0.8.5":
+"synckit@npm:^0.8.0, synckit@npm:^0.8.4":
   version: 0.8.5
   resolution: "synckit@npm:0.8.5"
   dependencies:
