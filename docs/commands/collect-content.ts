@@ -3,7 +3,6 @@ import { glob } from 'glob';
 import { batch, file, builders, run } from 'onerepo';
 import type { Builder, Handler, RunSpec, LogStep } from 'onerepo';
 import type { Workspace } from '@onerepo/graph';
-import { options } from './typedoc';
 
 export const command = 'collect-content';
 
@@ -99,7 +98,8 @@ ${readme}
 				'typedoc-plugin-markdown',
 				'--entryFileName',
 				`${shortName}.md`,
-				...options,
+				'--options',
+				docs.resolve('typedoc.cjs'),
 				'--out',
 				path.join(typedocTempDir, shortName),
 				ws.resolve('src/index.ts'),
@@ -185,7 +185,8 @@ ${readme}
 				'typedoc-plugin-markdown',
 				'--entryFileName',
 				`${cmd}.md`,
-				...options,
+				'--options',
+				docs.resolve('typedoc.cjs'),
 				'--out',
 				path.join(typedocTempDir, cmd),
 				core.resolve('src/core', cmd, 'index.ts'),
@@ -204,7 +205,7 @@ ${readme}
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),
 			contents
-				.replace(/[^]+#+ Type declaration/gm, '')
+				.replace(/[^]+#+ Options/gm, '')
 				.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
 			{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
 		);

@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Workspace } from '@onerepo/graph';

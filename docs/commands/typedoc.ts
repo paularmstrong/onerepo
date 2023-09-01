@@ -32,10 +32,11 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			'typedoc-plugin-markdown',
 			'--entryFileName',
 			'index.md',
-			...options,
+			'--options',
+			docs.resolve('typedoc.cjs'),
 			'--categorizeByGroup',
-			'--baseUrl',
-			'/docs/core/api/',
+			'--basePath',
+			graph.root.location,
 			'--out',
 			docs.resolve(outPath),
 			ws.resolve(ws.packageJson.main!),
@@ -50,6 +51,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const fixFiles = logger.createStep('Fix doc URLs');
 	for (const doc of outFiles) {
 		const contents = await file.read(docs.resolve(outPath, doc), 'r', { step: fixFiles });
+		const title = doc === 'index.md' ? 'oneRepo API' : doc.replace('.md', '').replace('namespaces/', 'API: ');
 		let out = contents
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\.md(#[^)]+)?/g, '/$1')
@@ -57,8 +59,10 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			.replace(/(?:<br(?: \/)?>)+\*\*(Default(?: Value)?)\*\*(?:<br(?: \/)?>)+/g, '<br /><br />**$1:** ')
 			.replace('[**onerepo**](/docs/core/api/)\n\n---\n\n', '');
 		out = `---
-title: "API: ${doc.replace('.md', '')}"
+title: "API: ${title}"
 ---
+
+# ${title}
 
 <!--
 Do not modify!
@@ -73,62 +77,3 @@ ${out}`;
 
 	await fixFiles.end();
 };
-
-const kindSort: Array<string> = [
-	'Project',
-	'Module',
-	'Namespace',
-	'Variable',
-	'Class',
-	'Function',
-	'Constructor',
-	'Property',
-	'Accessor',
-	'Method',
-	'Parameter',
-	'Interface',
-	'Enum',
-	'EnumMember',
-	'Reference',
-	'TypeAlias',
-	'ObjectLiteral',
-	'TypeParameter',
-	'TypeLiteral',
-	'CallSignature',
-	'ConstructorSignature',
-	'IndexSignature',
-	'GetSignature',
-	'SetSignature',
-];
-
-export const options: Array<string> = [
-	'--githubPages',
-	'false',
-	'--hideGenerator',
-	'true',
-	'--outputFileStrategy',
-	'modules',
-	'--readme',
-	'none',
-	'--sourceLinkTemplate',
-	'https://github.com/paularmstrong/onerepo/blob/main/{path}#L{line}',
-	'--enumMembersFormat',
-	'table',
-	'--excludePrivate',
-	'--excludeInternal',
-	'--hideBreadcrumbs',
-	'--hideHierarchy',
-	'--hideInPageTOC',
-	'--hideKindPrefix',
-	'--identifiersAsCodeBlocks',
-	'true',
-	'--propertiesFormat',
-	'table',
-	'--typeDeclarationFormat',
-	'table',
-	'--sort',
-	'kind',
-	'--sort',
-	'alphabetical',
-	...kindSort.map((sort) => ['--kindSortOrder', sort]).flat(),
-];

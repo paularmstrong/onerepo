@@ -183,7 +183,7 @@ export type Person = {
 	url?: string;
 };
 
-export interface PackageJson {
+export type PackageJson = {
 	name: string;
 	description?: string;
 	version?: string;
@@ -209,13 +209,13 @@ export interface PackageJson {
 	// Custom
 	alias?: Array<string>;
 	packageManager?: string;
-}
+};
 
-export interface PrivatePackageJson extends PackageJson {
+export type PrivatePackageJson = PackageJson & {
 	private: true;
 	license?: 'UNLICENSED';
 	workspaces?: Array<string>;
-}
+};
 
 export type PublishConfig = {
 	access?: 'public' | 'restricted';
@@ -223,14 +223,14 @@ export type PublishConfig = {
 	[key: string]: unknown;
 };
 
-export interface PublicPackageJson extends PackageJson {
+export type PublicPackageJson = PackageJson & {
 	private?: false;
 	publishConfig?: PublishConfig;
-}
+};
 
-export interface PackageJsonWithLocation extends PackageJson {
+export type PackageJsonWithLocation = PackageJson & {
 	location: string;
-}
+};
 
 /**
  * @group Tasks

@@ -1,7 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import { getLogger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
-import { getters } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Logger } from '@onerepo/logger';
 import type { Graph, Workspace } from '@onerepo/graph';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
@@ -108,11 +108,12 @@ export const commandDirOptions = ({
 				logger.debug(`Resolved CLI arguments:
 ${JSON.stringify(argv, null, 2)}`);
 
-				const wrappedGetAffected = (opts?: Parameters<typeof getters.affected>[1]) => getters.affected(graph, opts);
-				const wrappedGetWorkspaces = (opts?: Parameters<typeof getters.workspaces>[2]) =>
-					getters.workspaces(graph, argv as getters.Argv, opts);
-				const wrappedGetFilepaths = (opts?: Parameters<typeof getters.filepaths>[2]) =>
-					getters.filepaths(graph, argv as getters.Argv, opts);
+				const wrappedGetAffected = (opts?: Parameters<typeof builders.getAffected>[1]) =>
+					builders.getAffected(graph, opts);
+				const wrappedGetWorkspaces = (opts?: Parameters<typeof builders.getWorkspaces>[2]) =>
+					builders.getWorkspaces(graph, argv as builders.Argv, opts);
+				const wrappedGetFilepaths = (opts?: Parameters<typeof builders.getFilepaths>[2]) =>
+					builders.getFilepaths(graph, argv as builders.Argv, opts);
 
 				process.on('unhandledRejection', (reason, promise) => {
 					throw new Error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
@@ -182,7 +183,7 @@ export type DefaultArgv = {
  *
  * @group Command type aliases
  */
-export interface PositionalArgv {
+export type PositionalArgv = {
 	/**
 	 * Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.
 	 */
@@ -195,7 +196,7 @@ export interface PositionalArgv {
 	 * Any content that comes after " -- " gets populated here. These are useful for spreading through to spawned `run` functions that may take extra options that you don't want to enumerate and validate.
 	 */
 	'--': Array<string>;
-}
+};
 /**
  * Reimplementation of this type from Yargs because we do not allow unknowns, nor camelCase
  *
@@ -241,30 +242,30 @@ export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
  * };
  * ```
  */
-export interface HandlerExtra {
+export type HandlerExtra = {
 	/**
 	 * Get the affected workspaces based on the current state of the repository.
 	 *
-	 * This is a wrapped implementation of {@link getters.affected | `getters.affected`} that does not require passing the `graph` argument.
+	 * This is a wrapped implementation of {@link builders.getAffected | `builders.getAffected`} that does not require passing the `graph` argument.
 	 */
-	getAffected: (opts?: getters.GetterOptions) => Promise<Array<Workspace>>;
+	getAffected: (opts?: builders.GetterOptions) => Promise<Array<Workspace>>;
 	/**
 	 * Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by {@link builders.withFiles | `builders.withFiles`} if provided.
 	 *
-	 * This is a wrapped implementation of {@link getters.filepaths | `getters.filepaths`} that does not require the `graph` and `argv` arguments.
+	 * This is a wrapped implementation of {@link builders.getFilepaths | `builders.getFilepaths`} that does not require the `graph` and `argv` arguments.
 	 *
 	 * **Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit.
 	 *
 	 */
-	getFilepaths: (opts?: getters.FileGetterOptions) => Promise<Array<string>>;
+	getFilepaths: (opts?: builders.FileGetterOptions) => Promise<Array<string>>;
 	/**
 	 * Get the affected workspaces based on the current inputs and the state of the repository.
 	 * This function differs from `getAffected` in that it respects all input arguments provided by
 	 * {@link builders.withWorkspaces | `builders.withWorkspaces`}, {@link builders.withFiles | `builders.withFiles`} and {@link builders.withAffected | `builders.withAffected`}.
 	 *
-	 * This is a wrapped implementation of {@link getters.workspaces | `getters.workspaces`} that does not require the `graph` and `argv` arguments.
+	 * This is a wrapped implementation of {@link builders.getWorkspaces | `builders.getWorkspaces`} that does not require the `graph` and `argv` arguments.
 	 */
-	getWorkspaces: (opts?: getters.GetterOptions) => Promise<Array<Workspace>>;
+	getWorkspaces: (opts?: builders.GetterOptions) => Promise<Array<Workspace>>;
 	/**
 	 * The full monorepo {@link graph.Graph | `graph.Graph`}.
 	 */
@@ -274,7 +275,7 @@ export interface HandlerExtra {
 	 * a specific need to write to standard out differently.
 	 */
 	logger: Logger;
-}
+};
 
 /**
  * Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.

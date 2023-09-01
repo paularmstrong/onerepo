@@ -97,9 +97,9 @@ export interface PackageManager {
 /**
  * @group Package management
  */
-export interface MinimalWorkspace {
+export type MinimalWorkspace = {
 	name: string;
 	version?: string;
 	private?: boolean;
 	location?: string;
-}
+};

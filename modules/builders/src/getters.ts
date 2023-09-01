@@ -64,7 +64,7 @@ export type Argv = WithAllInputs;
  *
  * @group Getter
  */
-export function affected(graph: Graph, { from, ignore, staged, step, through }: GetterOptions = {}) {
+export function getAffected(graph: Graph, { from, ignore, staged, step, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
 		const modifiedOpts = staged ? { staged } : { from, through };
 		const all = await getModifiedFiles(modifiedOpts, { step });
@@ -112,7 +112,7 @@ export function affected(graph: Graph, { from, ignore, staged, step, through }: 
  *
  * @group Getter
  */
-export async function workspaces(
+export async function getWorkspaces(
 	graph: Graph,
 	argv: Argv,
 	{ step, from, staged, through, ...opts }: GetterOptions = {},
@@ -133,7 +133,7 @@ export async function workspaces(
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
 				step.log(`\`affected\` requested`);
-				workspaces = await affected(graph, {
+				workspaces = await getAffected(graph, {
 					...opts,
 					from: argv['from-ref'] ?? from,
 					through: argv['through-ref'] ?? through,
@@ -189,7 +189,7 @@ export type FileGetterOptions = GetterOptions & {
  * @see !HandlerExtra
  * @group Getter
  */
-export async function filepaths(
+export async function getFilepaths(
 	graph: Graph,
 	argv: Argv,
 	{ step, from, staged, through, affectedThreshold }: FileGetterOptions = {},

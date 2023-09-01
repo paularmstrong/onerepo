@@ -2,7 +2,7 @@ import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'eslint';

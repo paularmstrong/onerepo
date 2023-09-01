@@ -1,5 +1,5 @@
 import { getMergeBase } from '@onerepo/git';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'vitest';

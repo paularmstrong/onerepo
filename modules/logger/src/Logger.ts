@@ -16,7 +16,7 @@ type LogUpdate = typeof logUpdate;
  * | `>= 5` | Timing         | Extra performance timing metrics will be written |
  * @group Logger
  */
-export interface LoggerOptions {
+export type LoggerOptions = {
 	/**
 	 * Verbosity ranges from 0 to 5
 	 */
@@ -25,7 +25,7 @@ export interface LoggerOptions {
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
 	stream?: Writable;
-}
+};
 
 const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 

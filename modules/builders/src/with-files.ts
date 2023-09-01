@@ -1,7 +1,7 @@
 import type { Yargs } from '@onerepo/yargs';
 
 /**
- * Adds the following input arguments to command {@link Handler | `Handler`}. Typically used in conjunction with getters like {@link !getters.filepaths | `getters.filepaths`}.
+ * Adds the following input arguments to command {@link Handler | `Handler`}. Typically used in conjunction with getters like {@link !builders.getFilepaths | `builders.getFilepaths`}.
  * - `--files`
  *
  * See [`WithFiles`](#withfiles-1) for type safety.

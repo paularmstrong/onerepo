@@ -1,3 +1,8 @@
+/**
+ * The workspace graph sits at the center of oneRepo. It determines workspaces, their relationships, and how changes affect the repository.
+ *
+ * @module
+ */
 import { createRequire } from 'node:module';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
