@@ -213,6 +213,9 @@ export class LogStep {
 		this.hasError = true;
 		this.#onError();
 		if (this.verbosity >= 1) {
+			if (process.env.GITHUB_RUN_ID) {
+				this.#writeStream(`::error::${stringify(contents)}`);
+			}
 			this.#writeStream(this.#prefix(PREFIX_ERR, stringify(contents)));
 		}
 	}
@@ -225,6 +228,9 @@ export class LogStep {
 	 */
 	warn(contents: unknown) {
 		if (this.verbosity >= 2) {
+			if (process.env.GITHUB_RUN_ID) {
+				this.#writeStream(`::warning::${stringify(contents)}`);
+			}
 			this.#writeStream(this.#prefix(PREFIX_WARN, stringify(contents)));
 		}
 	}
