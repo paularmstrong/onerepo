@@ -13566,8 +13566,8 @@ __metadata:
   linkType: hard
 
 "netlify-cli@npm:^15.9.1":
-  version: 15.10.0
-  resolution: "netlify-cli@npm:15.10.0"
+  version: 15.11.0
+  resolution: "netlify-cli@npm:15.11.0"
   dependencies:
     "@bugsnag/js": 7.20.2
     "@fastify/static": 6.10.2
@@ -13680,7 +13680,7 @@ __metadata:
   bin:
     netlify: bin/run.mjs
     ntl: bin/run.mjs
-  checksum: f955d6f93d24c9b21003e2b223ca738b190da871fb55e11d2724ea1e05ba621bd4d975e3648a69d3b9f75ce3e580208d3b555a0c5116c7a36cc21b186ffab9d7
+  checksum: 2d5e487832dc1f947f54145451c60fecee767d5ddeb7c2a7d98ed4fb082f806bc2a13a1639666b3d809d3f431465d35a6b09ed37dcf9acf1228ede2197428c84
   languageName: node
   linkType: hard
 
