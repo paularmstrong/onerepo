@@ -12,6 +12,17 @@ async function waitStreamEnd(stream: PassThrough) {
 	});
 }
 describe('Logger', () => {
+	let originalRunId: string | undefined;
+
+	beforeEach(() => {
+		originalRunId = process.env.GITHUB_RUN_ID;
+		delete process.env.GITHUB_RUN_ID;
+	});
+
+	afterEach(() => {
+		process.env.GITHUB_RUN_ID = originalRunId;
+	});
+
 	test.concurrent.each([
 		[0, []],
 		[1, ['info', 'error']],
@@ -99,6 +110,26 @@ describe('Logger', () => {
 		expect(out).toEqual(` ${pc.yellow(pc.bold('WRN'))} this is a warning
  ┌ tacos
  └ ${pc.green('✔')} ${pc.dim('0ms')}
+ ${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed ${pc.dim('0ms')}
+`);
+	});
+
+	test('does not group the root logger with GITHUB_RUN_ID', async () => {
+		process.env.GITHUB_RUN_ID = 'yes';
+		const stream = new PassThrough();
+		let out = '';
+		stream.on('data', (chunk) => {
+			out += chunk.toString();
+		});
+
+		const logger = new Logger({ verbosity: 3, stream });
+
+		logger.log('Hello');
+
+		await logger.end();
+		await waitStreamEnd(stream);
+
+		expect(out).toEqual(`  Hello
  ${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed ${pc.dim('0ms')}
 `);
 	});

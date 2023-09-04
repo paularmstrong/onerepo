@@ -12,6 +12,17 @@ async function waitStreamEnd(stream: PassThrough) {
 }
 
 describe('LogStep', () => {
+	let originalRunId: string | undefined;
+
+	beforeEach(() => {
+		originalRunId = process.env.GITHUB_RUN_ID;
+		delete process.env.GITHUB_RUN_ID;
+	});
+
+	afterEach(() => {
+		process.env.GITHUB_RUN_ID = originalRunId;
+	});
+
 	test('setup', async () => {
 		const onEnd = jest.fn();
 		const onError = jest.fn();
@@ -30,6 +41,32 @@ describe('LogStep', () => {
 		step.activate();
 
 		expect(step.active).toBe(true);
+	});
+
+	test('writes group & endgroup when GITHUB_RUN_ID is set', async () => {
+		process.env.GITHUB_RUN_ID = 'yes';
+		const onEnd = jest.fn(() => Promise.resolve());
+		const onError = jest.fn();
+		const stream = new PassThrough();
+		const step = new LogStep('tacos', { onEnd, onError, verbosity: 4, stream });
+
+		let out = '';
+		stream.on('data', (chunk) => {
+			out += chunk.toString();
+		});
+		step.activate();
+
+		step.log('hello');
+		await step.end();
+		await step.flush();
+		await waitStreamEnd(stream);
+
+		expect(out).toEqual(`::group::tacos
+ ┌ tacos
+ │ [36m[1mLOG[22m[39m hello
+ └ [32m✔[39m [2m0ms[22m
+::endgroup::
+`);
 	});
 
 	test('when activated, flushes its logs to the stream', async () => {

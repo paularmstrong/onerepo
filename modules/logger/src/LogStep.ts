@@ -11,17 +11,18 @@ type StepOptions = {
 	description?: string;
 };
 
-const MARK_FAIL = pc.red('✘');
-const MARK_SUCCESS = pc.green('✔');
-const MARK_TIMER = pc.red('⏳');
-
-const PREFIX_START = pc.dim(pc.bold('▶︎'));
-const PREFIX_ERR = pc.red(pc.bold('ERR'));
-const PREFIX_WARN = pc.yellow(pc.bold('WRN'));
-const PREFIX_LOG = pc.cyan(pc.bold('LOG'));
-const PREFIX_DBG = pc.magenta(pc.bold('DBG'));
-const PREFIX_INFO = pc.blue(pc.bold('INFO'));
-const PREFIX_END = pc.dim(pc.bold('■'));
+const prefix = {
+	FAIL: pc.red('✘'),
+	SUCCESS: pc.green('✔'),
+	TIMER: pc.red('⏳'),
+	START: pc.dim(pc.bold('▶︎')),
+	END: pc.dim(pc.bold('■')),
+	ERR: pc.red(pc.bold('ERR')),
+	WARN: pc.yellow(pc.bold('WRN')),
+	LOG: pc.cyan(pc.bold('LOG')),
+	DBG: pc.magenta(pc.bold('DBG')),
+	INFO: pc.blue(pc.bold('INFO')),
+};
 
 const noop = () => {};
 
@@ -163,8 +164,8 @@ export class LogStep {
 		const text = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
-		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? MARK_FAIL : MARK_SUCCESS} ${text}`)));
-		if (this.name) {
+		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? prefix.FAIL : prefix.SUCCESS} ${text}`)));
+		if (this.name && process.env.GITHUB_RUN_ID) {
 			this.#writeStream('::endgroup::\n');
 		}
 
@@ -201,7 +202,7 @@ export class LogStep {
 	 */
 	info(contents: unknown) {
 		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(PREFIX_INFO, stringify(contents)));
+			this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)));
 		}
 	}
 
@@ -215,7 +216,7 @@ export class LogStep {
 		this.hasError = true;
 		this.#onError();
 		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(PREFIX_ERR, stringify(contents)));
+			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
 		}
 	}
 
@@ -227,7 +228,7 @@ export class LogStep {
 	 */
 	warn(contents: unknown) {
 		if (this.verbosity >= 2) {
-			this.#writeStream(this.#prefix(PREFIX_WARN, stringify(contents)));
+			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
 		}
 	}
 
@@ -239,7 +240,7 @@ export class LogStep {
 	 */
 	log(contents: unknown) {
 		if (this.verbosity >= 3) {
-			this.#writeStream(this.#prefix(this.name ? PREFIX_LOG : '', stringify(contents)));
+			this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)));
 		}
 	}
 
@@ -251,7 +252,7 @@ export class LogStep {
 	 */
 	debug(contents: unknown) {
 		if (this.verbosity >= 4) {
-			this.#writeStream(this.#prefix(PREFIX_DBG, stringify(contents)));
+			this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)));
 		}
 	}
 
@@ -271,7 +272,7 @@ export class LogStep {
 				return;
 			}
 			this.#writeStream(
-				this.#prefix(MARK_TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`),
+				this.#prefix(prefix.TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`),
 			);
 		}
 	}
@@ -287,7 +288,7 @@ export class LogStep {
 	}
 
 	#prefixStart(output: string) {
-		return ` ${this.name ? '┌' : PREFIX_START} ${output}`;
+		return ` ${this.name ? '┌' : prefix.START} ${output}`;
 	}
 
 	#prefix(prefix: string, output: string) {
@@ -298,7 +299,7 @@ export class LogStep {
 	}
 
 	#prefixEnd(output: string) {
-		return ` ${this.name ? '└' : PREFIX_END} ${output}`;
+		return ` ${this.name ? '└' : prefix.END} ${output}`;
 	}
 }
 
