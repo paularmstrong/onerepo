@@ -11,7 +11,7 @@ The [oneRepo repository](https://github.com/paularmstrong/onerepo) uses itself! 
 
 1. Fork the [oneRepo repository](https://github.com/paularmstrong/onerepo/fork).
 2. Clone your fork
-3. Ensure you are using Node.js v18
+3. Ensure you are using Node.js v18 or v20
 4. If you do not yet have Yarn, enable it with [Corepack](https://nodejs.org/docs/latest-v18.x/api/corepack.html)
 
    ```sh

@@ -41,6 +41,6 @@
 		"esbuild-register": "^3.4.0"
 	},
 	"engines": {
-		"node": "^18.0.0"
+		"node": "^18 || ^20"
 	}
 }

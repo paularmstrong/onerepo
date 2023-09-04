@@ -11,5 +11,5 @@ inputs:
     description: How verbose to be
 
 runs:
-  using: node16
+  using: node20
   main: ../../modules/github-action/dist/get-tasks.cjs

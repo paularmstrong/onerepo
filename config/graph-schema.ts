@@ -159,8 +159,8 @@ export default {
 					properties: {
 						node: {
 							type: 'string',
-							const: '^18.0.0',
-							errorMessage: 'oneRepo only suppiorts "node": "^18.0.0"',
+							const: '^18 || ^20',
+							errorMessage: 'oneRepo only suppiorts "node": "^18 || ^20"',
 						},
 					},
 					required: ['node'],
