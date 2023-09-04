@@ -54,7 +54,7 @@ export async function write(filename: string, contents: string, { step }: Option
 		await mkdirp(path.dirname(filename), { step });
 
 		if (isDryRun()) {
-			step.warn(`DRY RUN: Not writing to ${filename}`);
+			step.info(`DRY RUN: Not writing to ${filename}`);
 			return;
 		}
 
@@ -83,7 +83,7 @@ export async function copy(input: string, output: string, { step }: Options = {}
 		await mkdirp(path.dirname(output), { step });
 
 		if (isDryRun()) {
-			step.warn(`DRY RUN: Not copy to ${output}`);
+			step.info(`DRY RUN: Not copy to ${output}`);
 			return;
 		}
 
@@ -148,7 +148,7 @@ export async function read(filename: string, flag: OpenMode = 'r', { step }: Opt
 export async function mkdirp(pathname: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Create path \`${pathname}\`` }, async (step) => {
 		if (isDryRun()) {
-			step.warn(`DRY RUN: Not creating directory ${pathname}`);
+			step.info(`DRY RUN: Not creating directory ${pathname}`);
 		}
 		step.debug(`Creating dir \`${pathname}\``);
 		await fs.mkdir(pathname, { recursive: true });
@@ -165,7 +165,7 @@ export async function mkdirp(pathname: string, { step }: Options = {}) {
 export async function remove(pathname: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Removing path \`${pathname}\`` }, async (step) => {
 		if (isDryRun()) {
-			step.warn(`DRY RUN: Not removing ${pathname}`);
+			step.info(`DRY RUN: Not removing ${pathname}`);
 		}
 		step.debug(`Deleting \`${pathname}\``);
 		await fs.rm(pathname, { recursive: true, force: true });
@@ -257,7 +257,7 @@ export async function makeTempDir(prefix: string, { step }: Options = {}) {
 		const tempdir = path.join(tmpdir(), prefix);
 
 		if (isDryRun()) {
-			step.warn(`DRY RUN: Create temporary directory ${tempdir}`);
+			step.info(`DRY RUN: Create temporary directory ${tempdir}`);
 			return tempdir;
 		}
 
@@ -276,7 +276,7 @@ export async function makeTempDir(prefix: string, { step }: Options = {}) {
 export async function chmod(filename: string, mode: string | number, { step }: Options = {}) {
 	return stepWrapper({ step, name: `chmod ${filename}` }, async (step) => {
 		if (isDryRun()) {
-			step.warn(`DRY RUN: chmod ${filename} ${mode}`);
+			step.info(`DRY RUN: chmod ${filename} ${mode}`);
 			return;
 		}
 

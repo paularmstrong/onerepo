@@ -195,7 +195,7 @@ export class LogStep {
 	}
 
 	/**
-	 * Log an informative message. Should be used when trying to convey information with a user.
+	 * Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -233,7 +233,7 @@ export class LogStep {
 	}
 
 	/**
-	 * Log general information.
+	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.

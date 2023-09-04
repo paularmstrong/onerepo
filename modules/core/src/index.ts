@@ -192,7 +192,7 @@ export async function setup(
 			});
 
 			// Silence the logger so that shutdown handlers do not write logs
-			const logger = getLogger({ verbosity: -1 });
+			const logger = getLogger({ verbosity: 0 });
 
 			const results = await shutdown(argv);
 
