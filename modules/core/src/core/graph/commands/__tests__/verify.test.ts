@@ -6,6 +6,10 @@ import * as Verify from '../verify';
 const { run } = getCommand(Verify);
 
 describe('verify', () => {
+	beforeEach(() => {
+		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: undefined });
+	});
+
 	test('can turn off graph dependency verification', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 		await expect(run('--dependencies off', { graph })).resolves.toBeTruthy();

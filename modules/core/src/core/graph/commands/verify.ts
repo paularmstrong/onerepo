@@ -84,6 +84,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				writeGithubError(mismatch, pkgjson);
 				for (const err of errs) {
 					dependencyStep.error(` ↳ ${err}`);
+					writeGithubError(err, pkgjson);
 				}
 			}
 		}
@@ -160,7 +161,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
 					ajv.errors?.forEach((err) => {
 						schemaStep.error(`  ↳ ${err.message}`);
-						writeGithubError(err.message, file);
+						writeGithubError(err.message, graph.root.relative(workspace.resolve(file)));
 					});
 				}
 			}
