@@ -743,18 +743,18 @@ var require_tunnel = __commonJS({
             res.statusCode
           );
           socket.destroy();
-          var error2 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
-          error2.code = "ECONNRESET";
-          options.request.emit("error", error2);
+          var error = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+          error.code = "ECONNRESET";
+          options.request.emit("error", error);
           self.removeSocket(placeholder);
           return;
         }
         if (head.length > 0) {
           debug("got illegal response body from proxy");
           socket.destroy();
-          var error2 = new Error("got illegal response body from proxy");
-          error2.code = "ECONNRESET";
-          options.request.emit("error", error2);
+          var error = new Error("got illegal response body from proxy");
+          error.code = "ECONNRESET";
+          options.request.emit("error", error);
           self.removeSocket(placeholder);
           return;
         }
@@ -769,9 +769,9 @@ var require_tunnel = __commonJS({
           cause.message,
           cause.stack
         );
-        var error2 = new Error("tunneling socket could not be established, cause=" + cause.message);
-        error2.code = "ECONNRESET";
-        options.request.emit("error", error2);
+        var error = new Error("tunneling socket could not be established, cause=" + cause.message);
+        error.code = "ECONNRESET";
+        options.request.emit("error", error);
         self.removeSocket(placeholder);
       }
     };
@@ -1598,12 +1598,12 @@ var require_oidc_utils = __commonJS({
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
           const httpclient = OidcClient.createHttpClient();
-          const res = yield httpclient.getJson(id_token_url).catch((error2) => {
+          const res = yield httpclient.getJson(id_token_url).catch((error) => {
             throw new Error(`Failed to get ID Token. 
  
-        Error Code : ${error2.statusCode}
+        Error Code : ${error.statusCode}
  
-        Error Message: ${error2.result.message}`);
+        Error Message: ${error.result.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -1624,8 +1624,8 @@ var require_oidc_utils = __commonJS({
             const id_token = yield OidcClient.getCall(id_token_url);
             core_1.setSecret(id_token);
             return id_token;
-          } catch (error2) {
-            throw new Error(`Error message: ${error2.message}`);
+          } catch (error) {
+            throw new Error(`Error message: ${error.message}`);
           }
         });
       }
@@ -2120,7 +2120,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports.setCommandEcho = setCommandEcho;
     function setFailed(message) {
       process.exitCode = ExitCode.Failure;
-      error2(message);
+      error(message);
     }
     exports.setFailed = setFailed;
     function isDebug() {
@@ -2131,10 +2131,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("debug", {}, message);
     }
     exports.debug = debug;
-    function error2(message, properties = {}) {
+    function error(message, properties = {}) {
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.error = error2;
+    exports.error = error;
     function warning(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -2155,7 +2155,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("endgroup");
     }
     exports.endGroup = endGroup;
-    function group2(name, fn) {
+    function group(name, fn) {
       return __awaiter(this, void 0, void 0, function* () {
         startGroup(name);
         let result;
@@ -2167,7 +2167,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         return result;
       });
     }
-    exports.group = group2;
+    exports.group = group;
     function saveState(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
@@ -2209,25 +2209,22 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 
 // modules/github-action/src/run-task.ts
 var import_node_child_process = require("node:child_process");
-var core = __toESM(require_core(), 1);
-var input = core.getInput("task", { required: true });
+var import_core = __toESM(require_core(), 1);
+var input = (0, import_core.getInput)("task", { required: true });
 var parsed = JSON.parse(input);
 var tasks = Array.isArray(parsed) ? parsed : [parsed];
 async function run() {
   let failures = false;
   for (const task of tasks) {
-    await core.group(task.name, async () => {
-      await new Promise((resolve) => {
-        const proc = (0, import_node_child_process.spawn)(task.cmd, task.args ?? [], { ...task.opts ?? {}, stdio: "inherit" });
-        proc.on("exit", (code) => {
-          if (code && isFinite(code)) {
-            failures = true;
-            resolve(code);
-            core.error(`${task.name} failed with exit code ${code}`);
-            return;
-          }
-          resolve(0);
-        });
+    await new Promise((resolve) => {
+      const proc = (0, import_node_child_process.spawn)(task.cmd, task.args ?? [], { ...task.opts ?? {}, stdio: "inherit" });
+      proc.on("exit", (code) => {
+        if (code && isFinite(code)) {
+          failures = true;
+          resolve(code);
+          return;
+        }
+        resolve(0);
       });
     });
   }

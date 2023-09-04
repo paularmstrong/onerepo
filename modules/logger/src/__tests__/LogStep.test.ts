@@ -12,6 +12,10 @@ async function waitStreamEnd(stream: PassThrough) {
 }
 
 describe('LogStep', () => {
+	beforeEach(() => {
+		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: undefined });
+	});
+
 	test('setup', async () => {
 		const onEnd = jest.fn();
 		const onError = jest.fn();
@@ -32,7 +36,30 @@ describe('LogStep', () => {
 		expect(step.active).toBe(true);
 	});
 
+	test('writes group & endgroup when GITHUB_RUN_ID is set', async () => {
+		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: 'yes' });
+		const onEnd = jest.fn(() => Promise.resolve());
+		const onError = jest.fn();
+		const stream = new PassThrough();
+		const step = new LogStep('tacos', { onEnd, onError, verbosity: 4, stream });
+
+		let out = '';
+		stream.on('data', (chunk) => {
+			out += chunk.toString();
+		});
+		step.activate();
+
+		step.log('hello');
+		await step.end();
+		await step.flush();
+		await waitStreamEnd(stream);
+
+		expect(out).toMatch(/^::group::tacos\n/);
+		expect(out).toMatch(/::endgroup::\n$/);
+	});
+
 	test('when activated, flushes its logs to the stream', async () => {
+		jest.restoreAllMocks();
 		const onEnd = jest.fn(() => Promise.resolve());
 		const onError = jest.fn();
 		const stream = new PassThrough();
@@ -49,12 +76,12 @@ describe('LogStep', () => {
 		await step.flush();
 		await waitStreamEnd(stream);
 
-		expect(out).toMatchInlineSnapshot(`
-		" ┌ tacos
-		 │ [36m[1mLOG[22m[39m hellooooo
-		 └ [32m✔[39m [2m0ms[22m
-		"
-	`);
+		expect(out).toEqual(
+			` ┌ tacos
+ │ [36m[1mLOG[22m[39m hellooooo
+ └ [32m✔[39m [2m0ms[22m
+`,
+		);
 	});
 
 	test.concurrent.each([
