@@ -15020,13 +15020,13 @@ __metadata:
   linkType: hard
 
 "prettier-plugin-astro@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "prettier-plugin-astro@npm:0.11.0"
+  version: 0.11.1
+  resolution: "prettier-plugin-astro@npm:0.11.1"
   dependencies:
     "@astrojs/compiler": ^1.5.5
     prettier: ^3.0.0
     sass-formatter: ^0.7.6
-  checksum: d1d0a21a009372ab5c893dd4b7548cc07e263f3a47023d0fff07bc70a4b3cbfd8d29f1710d6c07fcde8845d6940622579077b7c991a41e3237f79db251b00c8c
+  checksum: 387ab72accdbbaad0e0da37fab2f3de91a94ea512caff5a4b8c51aecd61a217ef655a648fd5e4f4f2d1b1bea8d8ed34e6e9d4654b14287cdd26946fb77c51aa2
   languageName: node
   linkType: hard
 
