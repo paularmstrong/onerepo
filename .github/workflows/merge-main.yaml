@@ -39,7 +39,10 @@ jobs:
         task:
           - ${{ fromJSON(needs.setup.outputs.tasks).parallel }}
           - ${{ fromJSON(needs.setup.outputs.tasks).serial }}
-    name: ${{ join(matrix.task.*.name, ', ') }}
+        node:
+          - 18
+          - 20
+    name: v${{ matrix.node }} ${{ join(matrix.task.*.name, ', ') }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -47,7 +50,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{ matrix.node }}
           cache: yarn
 
       - run: yarn
