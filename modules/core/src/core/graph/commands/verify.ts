@@ -78,7 +78,10 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				}
 			}
 			if (errs.length) {
-				dependencyStep.error(`Version mismatches found in "${workspace.name}"`);
+				const mismatch = `Version mismatches found in "${workspace.name}"`;
+				dependencyStep.error(mismatch);
+				const pkgjson = graph.root.relative(workspace.resolve('package.json'));
+				writeGithubError(mismatch, pkgjson);
 				for (const err of errs) {
 					dependencyStep.error(` ↳ ${err}`);
 				}
@@ -122,7 +125,9 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				// get all files according to the schema in the workspace
 				const files = await glob(fileGlob, { cwd: workspace.location });
 				if (required && files.length === 0) {
-					schemaStep.error(`❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`);
+					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
+					schemaStep.error(msg);
+					writeGithubError(msg);
 				}
 				for (const file of files) {
 					if (!(file in map)) {
@@ -155,6 +160,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
 					ajv.errors?.forEach((err) => {
 						schemaStep.error(`  ↳ ${err.message}`);
+						writeGithubError(err.message, file);
 					});
 				}
 			}
@@ -180,3 +186,9 @@ function importSchema(
 const splitChar = '\u200b';
 
 type ExtendedSchema = AnySchema & { $required?: boolean };
+
+function writeGithubError(message: string | undefined, filename?: string) {
+	if (process.env.GITHUB_RUN_ID) {
+		process.stderr.write(`::error${filename ? ` file=${filename}` : ''}::${message}\n`);
+	}
+}
