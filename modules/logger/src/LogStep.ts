@@ -67,10 +67,10 @@ export class LogStep {
 		this.#onError = onError;
 		this.#buffer = new LogData({});
 		this.#stream = stream ?? process.stderr;
-		if (process.env.GITHUB_RUN_ID) {
-			this.#writeStream(`::group::${this.name}`);
-		}
 		if (this.name) {
+			if (process.env.GITHUB_RUN_ID) {
+				this.#writeStream(`::group::${this.name}\n`);
+			}
 			this.#writeStream(this.#prefixStart(this.name));
 		}
 	}
@@ -164,7 +164,9 @@ export class LogStep {
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
 		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? MARK_FAIL : MARK_SUCCESS} ${text}`)));
-		this.#writeStream('::endgroup::');
+		if (this.name) {
+			this.#writeStream('::endgroup::\n');
+		}
 
 		return this.#onEnd(this);
 	}
