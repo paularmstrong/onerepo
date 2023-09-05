@@ -1,5 +1,16 @@
 # @onerepo/create
 
+## 0.1.0
+
+### Minor Changes
+
+- Increase support matrix for both Node ^18 and ^20. [#426](https://github.com/paularmstrong/onerepo/pull/426) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`045f173`](https://github.com/paularmstrong/onerepo/commit/045f173bf14acadf953d8e9de77b035659dec093)]:
+  - create-onerepo@0.1.0
+
 ## 0.0.7
 
 ### Patch Changes

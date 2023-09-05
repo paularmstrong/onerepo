@@ -1,5 +1,26 @@
 # @onerepo/core
 
+## 0.12.0
+
+### Minor Changes
+
+- When run in GitHub workflows, `graph verify` will annotate files with errors. [#425](https://github.com/paularmstrong/onerepo/pull/425) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Increase support matrix for both Node ^18 and ^20. [#426](https://github.com/paularmstrong/onerepo/pull/426) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Logger verbosity is now explicitly number `0` through `5`. [#423](https://github.com/paularmstrong/onerepo/pull/423) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`727304d`](https://github.com/paularmstrong/onerepo/commit/727304d014fd492eb51839faa3b5743db104d40f), [`6cb8819`](https://github.com/paularmstrong/onerepo/commit/6cb8819afb4e56f30629a6f6c06c57b0fc001cb4), [`045f173`](https://github.com/paularmstrong/onerepo/commit/045f173bf14acadf953d8e9de77b035659dec093), [`3a9371c`](https://github.com/paularmstrong/onerepo/commit/3a9371cda959afc71c86d4b3593f7a9deef8e63b), [`3a9371c`](https://github.com/paularmstrong/onerepo/commit/3a9371cda959afc71c86d4b3593f7a9deef8e63b)]:
+  - @onerepo/logger@0.4.0
+  - @onerepo/builders@0.4.0
+  - @onerepo/file@0.5.0
+  - @onerepo/git@0.3.0
+  - @onerepo/graph@0.9.0
+  - @onerepo/subprocess@0.5.0
+  - @onerepo/yargs@0.5.0
+
 ## 0.11.0
 
 ### Minor Changes
