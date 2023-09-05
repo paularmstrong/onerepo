@@ -1,5 +1,11 @@
 # eslint-formatter-onerepo
 
+## 0.1.0
+
+### Minor Changes
+
+- Increase support matrix for both Node ^18 and ^20. [#426](https://github.com/paularmstrong/onerepo/pull/426) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.0.2
 
 ### Patch Changes

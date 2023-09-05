@@ -1,5 +1,19 @@
 # @onerepo/logger
 
+## 0.4.0
+
+### Minor Changes
+
+- When run in GitHub workflows, log steps will be collapsed as grouped output for faster scanning and debugging. [#425](https://github.com/paularmstrong/onerepo/pull/425) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Add Logger info method to be used to convey information and instrctions through the logs [#407](https://github.com/paularmstrong/onerepo/pull/407) ([@jakeleveroni](https://github.com/jakeleveroni))
+
+- Increase support matrix for both Node ^18 and ^20. [#426](https://github.com/paularmstrong/onerepo/pull/426) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Logger verbosity is now explicitly number `0` through `5`. [#423](https://github.com/paularmstrong/onerepo/pull/423) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.3.0
 
 ### Minor Changes

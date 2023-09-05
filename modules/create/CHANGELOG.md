@@ -1,5 +1,19 @@
 # create-onerepo
 
+## 0.1.0
+
+### Minor Changes
+
+- Increase support matrix for both Node ^18 and ^20. [#426](https://github.com/paularmstrong/onerepo/pull/426) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`045f173`](https://github.com/paularmstrong/onerepo/commit/045f173bf14acadf953d8e9de77b035659dec093), [`3a9371c`](https://github.com/paularmstrong/onerepo/commit/3a9371cda959afc71c86d4b3593f7a9deef8e63b)]:
+  - @onerepo/file@0.5.0
+  - @onerepo/package-manager@0.4.0
+  - @onerepo/subprocess@0.5.0
+  - @onerepo/yargs@0.5.0
+
 ## 0.0.7
 
 ### Patch Changes
