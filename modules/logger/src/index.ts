@@ -28,9 +28,8 @@ export function getLogger(opts: Partial<ConstructorParameters<typeof Logger>[0]>
 	const logger = // @ts-ignore
 		global[loggerSym] as Logger;
 
-	if (opts.verbosity) {
-		logger.verbosity = opts.verbosity;
-	}
+	logger.verbosity = opts.verbosity ?? logger.verbosity;
+
 	if (opts.stream) {
 		logger.stream = opts.stream;
 	}
