@@ -16,13 +16,13 @@ export type RunSpec = {
 	 */
 	name: string;
 	/**
-	 * The command to run. Thsi should be an available executable or path to an executable.
+	 * The command to run. This should be an available executable or path to an executable.
 	 */
 	cmd: string;
 	/**
 	 * Arguments to pass to the executable. All arguments must be separate string entries.
 	 *
-	 * Beware that come commands have different ways of parsing arguments.
+	 * Beware that some commands have different ways of parsing arguments.
 	 *
 	 * Typically, it is safest to have separate entries in the `args` array for the flag and its value:
 	 * ```
@@ -74,7 +74,7 @@ export type RunSpec = {
  * 	name: 'Run dry',
  * 	cmd: 'echo',
  * 	args: ['"hello"'],
- * 	skipFaiolures: true,
+ * 	skipFailures: true,
  * });
  *
  * logger.error(stderr);

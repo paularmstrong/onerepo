@@ -18,7 +18,7 @@ yarn add --dev onerepo
 npm install --save-dev onerepo
 ```
 
-Create an entrypoint for you CLI. Not that this file _should_ be ESM-compatible. Either use the `.mjs` extension or set `"type": "module"` in your root `package.json`.
+Create an entrypoint for your CLI. Note that this file _should_ be ESM-compatible. Either use the `.mjs` extension or set `"type": "module"` in your root `package.json`.
 
 ```js title="./bin/one.mjs"
 #!/usr/bin/env node
