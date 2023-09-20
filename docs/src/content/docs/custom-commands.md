@@ -60,7 +60,7 @@ For a full list of available helpers on handlers, see [`HandlerExtra`](/docs/cor
 
 ## Write helpful documentation
 
-The more explanation and context that you can provide, the better it will be for your peers using commands. nsider adding [epilogues](http://yargs.js.org/docs/#api-reference-epiloguestr) and [examples](http://yargs.js.g/docs/#api-reference-examplecmd-desc) along with the required `description`.
+The more explanation and context that you can provide, the better it will be for your peers using commands. Consider adding [epilogues](http://yargs.js.org/docs/#api-reference-epiloguestr) and [examples](http://yargs.js.g/docs/#api-reference-examplecmd-desc) along with the required `description`.
 
 You can also generate Markdown documentation of the full CLI using the [docgen command](/docs/core/docgen/)!
 

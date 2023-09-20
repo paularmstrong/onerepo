@@ -9,7 +9,7 @@ usage: graph
 
 ## Configuration
 
-The `one graph verify` command comes with some basic schema for validating `package.json` files and no configuration is _require_.
+The `one graph verify` command comes with some basic schema for validating `package.json` files and no configuration is _required_.
 
 However, you can enhance this by providing custom schema to match to workspaces and their files:
 
