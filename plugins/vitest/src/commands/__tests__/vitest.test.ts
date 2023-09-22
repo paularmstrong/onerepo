@@ -11,6 +11,7 @@ vi.mock('@onerepo/git');
 describe('handler', () => {
 	beforeEach(() => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(git, 'getMergeBase').mockResolvedValue('abc123');
 	});
 
 	test('runs files related to changes by default', async () => {
@@ -19,16 +20,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: [
-					'node_modules/.bin/vitest',
-					'--config',
-					'./vitest.config.ts',
-					'--no-watch',
-					'foo.js',
-					'bar/baz.js',
-					'related',
-				],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', '--changed', 'abc123'],
 			}),
 		);
 	});
@@ -38,14 +31,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: [
-					'node_modules/.bin/vitest',
-					'--config',
-					'./vitest.config.ts',
-					'--no-watch',
-					expect.stringMatching(/\/burritos$/),
-				],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', expect.stringMatching(/\/burritos$/)],
 			}),
 		);
 	});
@@ -57,16 +44,17 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
+				cmd: 'npm',
 				args: [
+					'exec',
+					'vitest',
 					'--inspect',
 					'--inspect-brk',
-					'node_modules/.bin/vitest',
 					'--config',
 					'./vitest.config.ts',
-					'--no-watch',
-					'foo.js',
-					'related',
+					'--run',
+					'--changed',
+					'abc123',
 				],
 			}),
 		);
@@ -77,8 +65,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './vitest.config.ts', '--watch', 'foo'],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--watch', 'foo'],
 			}),
 		);
 	});

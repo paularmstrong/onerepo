@@ -1,9 +1,10 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
-import writeChangeset from '@changesets/write';
 import { updateIndex } from '@onerepo/git';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
+import type Write from '@changesets/write';
+import { importChangesets } from '../fix-changesets-esm';
 
 export const command = ['$0', 'add'];
 
@@ -33,6 +34,7 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { add, type } = argv;
 	logger.pause();
+	const writeChangeset = await importChangesets<typeof Write>('@changesets/write');
 
 	const workspaces = await getWorkspaces();
 	const choices = workspaces.reduce((memo, ws) => {

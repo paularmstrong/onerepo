@@ -1,8 +1,5 @@
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import assembleReleasePlan from '@changesets/assemble-release-plan';
-import applyReleasePlan from '@changesets/apply-release-plan';
-import readChangesets from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
 import { isClean, updateIndex } from '@onerepo/git';
 import type { Package, Packages } from '@manypkg/get-packages';
@@ -10,6 +7,10 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import type { LogStep } from '@onerepo/logger';
 import type { NewChangeset } from '@changesets/types';
 import { DependencyType } from '@onerepo/graph';
+import type Assemble from '@changesets/assemble-release-plan';
+import type Apply from '@changesets/apply-release-plan';
+import type Read from '@changesets/read';
+import { importChangesets } from '../fix-changesets-esm';
 
 export const command = 'version';
 
@@ -39,6 +40,10 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { add, 'allow-dirty': allowDirty, 'dry-run': isDryRun } = argv;
+
+	const assembleReleasePlan = await importChangesets<typeof Assemble>('@changesets/assemble-release-plan');
+	const applyReleasePlan = await importChangesets<typeof Apply>('@changesets/apply-release-plan');
+	const readChangesets = await importChangesets<typeof Read>('@changesets/read');
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');

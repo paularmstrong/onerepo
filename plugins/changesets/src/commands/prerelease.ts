@@ -1,14 +1,15 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
-import applyReleasePlan from '@changesets/apply-release-plan';
-import readChangesets from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
 import { run } from '@onerepo/subprocess';
 import { isClean } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { ReleasePlan } from '@changesets/types';
 import type { Package, Packages } from '@manypkg/get-packages';
+import type Apply from '@changesets/apply-release-plan';
+import type Read from '@changesets/read';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
+import { importChangesets } from '../fix-changesets-esm';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 
@@ -55,6 +56,9 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		'skip-auth': skipAuth,
 		verbosity,
 	} = argv;
+
+	const applyReleasePlan = await importChangesets<typeof Apply>('@changesets/apply-release-plan');
+	const readChangesets = await importChangesets<typeof Read>('@changesets/read');
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');

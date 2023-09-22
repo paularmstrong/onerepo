@@ -1,5 +1,4 @@
-import { getModifiedFiles } from '@onerepo/git';
-import { run } from '@onerepo/subprocess';
+import { getMergeBase } from '@onerepo/git';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
@@ -45,10 +44,10 @@ export const builder: Builder<Args> = (yargs) =>
 			'Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be used as passthrough arguments as well after an argument separator (two dashes ` -- `).',
 		);
 
-export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
+export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, graph }) {
 	const { '--': other = [], affected, config, inspect, watch, workspaces } = argv;
 
-	const args: Array<string> = ['node_modules/.bin/vitest', '--config', config];
+	const args: Array<string> = ['--config', config];
 
 	const wOther = other.indexOf('-w');
 	const watchOther = other.indexOf('--watch');
@@ -59,7 +58,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			other.splice(idx, 1);
 		}
 	} else {
-		args.push('--no-watch');
+		args.push('--run');
 	}
 
 	if (inspect) {
@@ -69,9 +68,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
-			const all = await getModifiedFiles();
-			args.push(...all.filter((f) => !f.endsWith('.json')));
-			args.push('related');
+			const since = await getMergeBase();
+			args.push('--changed', since);
 		} else {
 			const workspaces = await getWorkspaces();
 			workspaces.forEach((ws) => {
@@ -82,9 +80,9 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	args.push(...other);
 
-	await run({
+	await graph.packageManager.run({
 		name: 'Run tests',
-		cmd: 'node',
+		cmd: 'vitest',
 		args,
 		opts: { stdio: 'inherit' },
 	});
