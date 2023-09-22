@@ -21,7 +21,6 @@
 		"./CHANGELOG.md"
 	],
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^"
 	},
 	"engines": {

@@ -26,7 +26,7 @@
 		"create-onerepo": "0.1.0"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
+		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "0.4.0",
 		"@types/inquirer": "^9.0.3",

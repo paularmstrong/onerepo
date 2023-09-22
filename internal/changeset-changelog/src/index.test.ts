@@ -4,7 +4,7 @@ import changelogFunctions from './index';
 const getReleaseLine = changelogFunctions.getReleaseLine;
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-jest.mock('@changesets/get-github-info', (): typeof import('@changesets/get-github-info') => {
+vi.mock('@changesets/get-github-info', (): typeof import('@changesets/get-github-info') => {
 	const data = {
 		commit: 'a085003',
 		user: 'paularmstrong',

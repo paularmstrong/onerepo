@@ -7,6 +7,7 @@ const { setup } = require('onerepo');
 const { changesets } = require('@onerepo/plugin-changesets');
 const { eslint } = require('@onerepo/plugin-eslint');
 const { jest } = require('@onerepo/plugin-jest');
+const { vitest } = require('@onerepo/plugin-vitest');
 const { prettier } = require('@onerepo/plugin-prettier');
 const { typescript } = require('@onerepo/plugin-typescript');
 const { performanceWriter } = require('@onerepo/plugin-performance-writer');
@@ -35,7 +36,8 @@ setup(
 		},
 		plugins: [
 			changesets(),
-			jest({ name: 'test' }),
+			vitest({ name: ['test', 'vitest'] }),
+			jest(),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
 			typescript({ tsconfig: 'tsconfig.json' }),

@@ -24,8 +24,8 @@
 		"@onerepo/logger": "0.4.0"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^",
 		"prettier": "^3.0.0"
 	},
 	"peerDependencies": {

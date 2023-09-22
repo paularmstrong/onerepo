@@ -8,13 +8,10 @@ export const command = 'jest';
 export const description = 'Run tests using Jest';
 
 type Args = {
-	affected?: boolean;
-	all?: boolean;
 	config: string;
 	inspect: boolean;
 	pretty: boolean;
 	watch?: boolean;
-	workspaces?: Array<string>;
 } & builders.WithAffected &
 	builders.WithWorkspaces;
 
@@ -51,10 +48,10 @@ export const builder: Builder<Args> = (yargs) =>
 			'Pass any other Jest CLI options after the argument separator.',
 		)
 		.epilogue(
-			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.',
+			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes ` -- `), you can further restrict the tests to those files and paths.',
 		)
 		.epilogue(
-			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator: (two dasshes `--`)',
+			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes ` -- `)',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {

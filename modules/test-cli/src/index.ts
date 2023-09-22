@@ -91,7 +91,7 @@ export async function runHandler<R = Record<string, unknown>>(
 		out += chunk.toString();
 	});
 	destroyLogger();
-	const logger = getLogger({ verbosity: 0, stream });
+	const logger = getLogger({ verbosity: 5, stream });
 
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);

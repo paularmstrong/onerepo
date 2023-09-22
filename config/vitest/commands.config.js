@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
-import { makeConfig } from '@internal/test-config';
+import { makeConfig } from '@internal/jest-config';
 
 /** @type {import('jest').Config} */
 export default makeConfig({

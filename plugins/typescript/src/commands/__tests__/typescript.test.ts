@@ -5,8 +5,8 @@ const { graph, run } = getCommand(command);
 
 describe('handler', () => {
 	test('includes --pretty', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
 		await run('-a');
 
 		expect(graph.packageManager.batch).toHaveBeenCalledWith(
@@ -20,8 +20,8 @@ describe('handler', () => {
 	});
 
 	test('can turn off --pretty', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
 		await run('-a --no-pretty');
 
 		expect(graph.packageManager.batch).toHaveBeenCalledWith(

@@ -4,12 +4,6 @@ import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import * as Prettier from '../prettier';
 
-jest.mock('@onerepo/git');
-jest.mock('@onerepo/file', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/file'),
-}));
-
 const { build, graph, run } = getCommand(Prettier);
 
 describe('builder', () => {
@@ -47,7 +41,7 @@ describe('handler', () => {
 	});
 
 	test('can run across all files', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all');
 
@@ -60,9 +54,9 @@ describe('handler', () => {
 	});
 
 	test('can run across individual workspaces', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(false);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
+		vi.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => true },
 		);
@@ -78,7 +72,7 @@ describe('handler', () => {
 	});
 
 	test('does not write in dry-run', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
@@ -91,13 +85,13 @@ describe('handler', () => {
 	});
 
 	test('filters with .prettierignore', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
-		jest.spyOn(file, 'read').mockResolvedValue(`
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
 bar/**/*
 `);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => false },
 		);
@@ -114,18 +108,18 @@ bar/**/*
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
-		jest.spyOn(file, 'read').mockResolvedValue(`
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
 *.xd
 `);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => false },
 		);
 
-		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
+		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
@@ -140,8 +134,8 @@ bar/**/*
 
 	test('annotates github for file errors', async () => {
 		process.env.GITHUB_RUN_ID = '123';
-		jest.spyOn(core, 'error').mockReturnValue();
-		jest.spyOn(graph.packageManager, 'run').mockImplementation(() => {
+		vi.spyOn(core, 'error').mockReturnValue();
+		vi.spyOn(graph.packageManager, 'run').mockImplementation(() => {
 			throw new Error('foo.js\nbop.js\n');
 		});
 

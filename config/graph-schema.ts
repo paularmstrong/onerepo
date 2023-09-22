@@ -71,12 +71,8 @@ export default {
 					type: 'array',
 					oneOf: [
 						{
-							contains: { type: 'string', enum: ['./src'] },
-							errorMessage: '`./src` or `./**/*` must be included in the tsconfig',
-						},
-						{
 							contains: { type: 'string', enum: ['./**/*'] },
-							errorMessage: '`./src` or `./**/*` must be included in the tsconfig',
+							errorMessage: '`./**/*` must be included in the tsconfig',
 						},
 					],
 				},

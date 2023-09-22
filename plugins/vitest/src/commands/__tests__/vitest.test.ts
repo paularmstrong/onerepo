@@ -5,22 +5,30 @@ import * as Vitest from '../vitest';
 
 const { run } = getCommand(Vitest);
 
-jest.mock('@onerepo/subprocess');
-jest.mock('@onerepo/git');
+vi.mock('@onerepo/subprocess');
+vi.mock('@onerepo/git');
 
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
 		await run('');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
+				args: [
+					'node_modules/.bin/vitest',
+					'--config',
+					'./vitest.config.ts',
+					'--no-watch',
+					'foo.js',
+					'bar/baz.js',
+					'related',
+				],
 			}),
 		);
 	});
@@ -31,13 +39,19 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
+				args: [
+					'node_modules/.bin/vitest',
+					'--config',
+					'./vitest.config.ts',
+					'--no-watch',
+					expect.stringMatching(/\/burritos$/),
+				],
 			}),
 		);
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
 
 		await run('--inspect');
 
@@ -49,9 +63,10 @@ describe('handler', () => {
 					'--inspect-brk',
 					'node_modules/.bin/vitest',
 					'--config',
-					'./jest.config.ts',
-					'related',
+					'./vitest.config.ts',
+					'--no-watch',
 					'foo.js',
+					'related',
 				],
 			}),
 		);
@@ -63,7 +78,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', '-w', 'foo'],
+				args: ['node_modules/.bin/vitest', '--config', './vitest.config.ts', '--watch', 'foo'],
 			}),
 		);
 	});

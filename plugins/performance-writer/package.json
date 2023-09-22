@@ -28,8 +28,8 @@
 		"@onerepo/logger": "workspace:^"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
-		"@internal/tsconfig": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^"
 	},
 	"engines": {
 		"node": "^18 || ^20"

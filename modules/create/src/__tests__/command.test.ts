@@ -7,18 +7,17 @@ import * as command from '../command';
 
 const { run } = getCommand(command);
 
-jest.mock('@onerepo/file');
-jest.mock('@onerepo/subprocess');
+vi.mock('@onerepo/file');
 
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(process.stderr, 'write').mockImplementation(() => {
+		vi.spyOn(process.stderr, 'write').mockImplementation(() => {
 			return true;
 		});
-		jest.spyOn(file, 'write').mockResolvedValue();
-		jest.spyOn(file, 'exists').mockResolvedValue(false);
-		jest.spyOn(file, 'chmod').mockResolvedValue();
-		jest.spyOn(subprocess, 'run').mockImplementation(async ({ cmd, args }) => {
+		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
+		vi.spyOn(file, 'chmod').mockResolvedValue();
+		vi.spyOn(subprocess, 'run').mockImplementation(async ({ cmd, args }) => {
 			if (cmd === 'yarn') {
 				if (args && args[0] === '--version') {
 					return ['3.5.0', ''];
@@ -39,16 +38,19 @@ describe('handler', () => {
 
 			return ['', ''];
 		});
-		jest
-			.spyOn(global, 'fetch')
+		vi.spyOn(global, 'fetch')
 			.mockResolvedValueOnce(new Response(JSON.stringify(mockSearchResponse)))
 			.mockResolvedValueOnce(new Response(JSON.stringify(mockPackageResponse)));
 	});
 
 	test('prompts and uses responses', async () => {
-		jest
-			.spyOn(inquirer, 'prompt')
-			.mockResolvedValue({ dir: 'outdir', pkgmanager: 'yarn', name: 'tacos', workspaces: 'foo,bar', plugins: [] });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
+			dir: 'outdir',
+			pkgmanager: 'yarn',
+			name: 'tacos',
+			workspaces: 'foo,bar',
+			plugins: [],
+		});
 		await run();
 
 		expect(inquirer.prompt).toHaveBeenCalledTimes(2);
@@ -90,10 +92,14 @@ describe('handler', () => {
 		['pnpm', ['init']],
 	] as const)('initializes %s', async (pkgmanager, args) => {
 		const mgr = getPackageManager(pkgmanager);
-		jest.spyOn(mgr, 'install').mockResolvedValue('');
-		jest
-			.spyOn(inquirer, 'prompt')
-			.mockResolvedValue({ dir: 'outdir', pkgmanager, name: 'tacos', workspaces: 'foo,bar', plugins: [] });
+		vi.spyOn(mgr, 'install').mockResolvedValue('');
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
+			dir: 'outdir',
+			pkgmanager,
+			name: 'tacos',
+			workspaces: 'foo,bar',
+			plugins: [],
+		});
 
 		await run();
 
@@ -108,7 +114,7 @@ const mockSearchResponse = {
 	objects: [
 		{
 			package: {
-				name: '@onerepo/plugin-jest',
+				name: '@onerepo/plugin-vi',
 				version: '1.2.3',
 			},
 		},

@@ -32,8 +32,8 @@
 		"minimatch": "^9.0.0"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^",
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild-register": "^3.4.2",

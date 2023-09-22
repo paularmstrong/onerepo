@@ -1,12 +1,9 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
-import changesetWrite from '@changesets/write';
+import writeChangeset from '@changesets/write';
 import { updateIndex } from '@onerepo/git';
 import { builders } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
-
-// Changesets does not properly document its ESM exports in package.json, so this gets funky
-const writeChangeset = ('default' in changesetWrite ? changesetWrite.default : changesetWrite) as typeof changesetWrite;
 
 export const command = ['$0', 'add'];
 

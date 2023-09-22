@@ -2,17 +2,13 @@ import * as fsSync from 'node:fs';
 import * as fs from 'node:fs/promises';
 import * as file from '..';
 
-jest.mock('node:fs');
-jest.mock('node:fs/promises');
-jest.mock('..', () => ({
-	...jest.requireActual('..'),
-	__esModule: true,
-}));
+vi.mock('node:fs');
+vi.mock('node:fs/promises');
 
 describe('file', () => {
 	describe('writeSafe', () => {
 		test('writes to file if it does not exist', async () => {
-			jest.spyOn(fsSync, 'existsSync').mockReturnValue(false);
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(false);
 
 			await file.writeSafe('tacos.txt', 'add some contents');
 
@@ -30,8 +26,8 @@ add some contents
 		});
 
 		test('appends to a file contents when no sentinel is found', async () => {
-			jest.spyOn(fsSync, 'existsSync').mockReturnValue(true);
-			jest.spyOn(fs, 'readFile').mockResolvedValue('original contents');
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue('original contents');
 
 			await file.writeSafe('tacos.txt', 'add some contents');
 
@@ -48,8 +44,8 @@ add some contents
 		});
 
 		test('replaces previous content', async () => {
-			jest.spyOn(fsSync, 'existsSync').mockReturnValue(true);
-			jest.spyOn(fs, 'readFile').mockResolvedValue(`original contents
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue(`original contents
 
 # start-onerepo-sentinel
 add some contents
@@ -70,8 +66,8 @@ this is new
 		});
 
 		test('escapes/avoids special substitutions', async () => {
-			jest.spyOn(fsSync, 'existsSync').mockReturnValue(true);
-			jest.spyOn(fs, 'readFile').mockResolvedValue(`original contents
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue(`original contents
 
 # start-onerepo-sentinel
 add some contents
@@ -92,8 +88,8 @@ this is new $' $\` $1 $$ $&
 		});
 
 		test('can use a custom sentinel', async () => {
-			jest.spyOn(fsSync, 'existsSync').mockReturnValue(true);
-			jest.spyOn(fs, 'readFile').mockResolvedValue(`original contents
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue(`original contents
 
 # start-tacos
 add some contents

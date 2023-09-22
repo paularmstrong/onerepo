@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
-import changesetApply from '@changesets/apply-release-plan';
-import changesetRead from '@changesets/read';
+import applyReleasePlan from '@changesets/apply-release-plan';
+import readChangesets from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
 import { run } from '@onerepo/subprocess';
 import { isClean } from '@onerepo/git';
@@ -9,12 +9,6 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import type { ReleasePlan } from '@changesets/types';
 import type { Package, Packages } from '@manypkg/get-packages';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
-
-// Changesets does not properly document its ESM exports in package.json, so this gets funky
-const applyReleasePlan = (
-	'default' in changesetApply ? changesetApply.default : changesetApply
-) as typeof changesetApply;
-const readChangesets = ('default' in changesetRead ? changesetRead.default : changesetRead) as typeof changesetRead;
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 

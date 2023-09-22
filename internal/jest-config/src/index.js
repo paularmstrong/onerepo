@@ -1,6 +1,13 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+function localPath(
+	/** @type {string} */
+	filepath,
+) {
+	return path.join(path.dirname(fileURLToPath(import.meta.url)), filepath);
+}
+
 /**
  * @param config {import('jest').Config}
  * @return {import('jest').Config}
@@ -21,9 +28,10 @@ export function makeConfig(config) {
 		],
 		rootDir: path.dirname(fileURLToPath(rootDir)),
 		moduleNameMapper: {
-			'^prettier$': path.join(path.dirname(fileURLToPath(import.meta.url)), 'mocks/prettier.js'),
+			'^prettier$': localPath('mocks/prettier.js'),
 		},
 		modulePathIgnorePatterns: ['fixtures'],
+		setupFiles: [localPath('globals.js')],
 		testPathIgnorePatterns: ['/dist/'],
 		transformIgnorePatterns: ['/node_modules/(?!(inquirer|log-update))/', ...(config.transformIgnorePatterns ?? [])],
 		transform: {

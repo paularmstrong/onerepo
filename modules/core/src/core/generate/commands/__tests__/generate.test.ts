@@ -5,11 +5,6 @@ import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import * as Generate from '../generate';
 
-jest.mock('@onerepo/file', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/file'),
-}));
-
 const { run: mainRun, graph } = getCommand(Generate);
 
 function run(cmd: string) {
@@ -26,16 +21,16 @@ function templateInput(name: 'app' | 'module' = 'app') {
 
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+		vi.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
 			templateInput: templateInput('app'),
 		});
-		jest.spyOn(file, 'write').mockResolvedValue();
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
 	});
 
 	test('will prompt for type', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: templateInput('app'), name: 'burritos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: templateInput('app'), name: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([
@@ -48,9 +43,11 @@ describe('handler', () => {
 	});
 
 	test('can have custom prompts', async () => {
-		jest
-			.spyOn(inquirer, 'prompt')
-			.mockResolvedValue({ templateInput: templateInput('module'), name: 'burritos', description: 'yum' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
+			templateInput: templateInput('module'),
+			name: 'burritos',
+			description: 'yum',
+		});
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -65,9 +62,11 @@ describe('handler', () => {
 	});
 
 	test('can have a custom name/description', async () => {
-		jest
-			.spyOn(inquirer, 'prompt')
-			.mockResolvedValue({ templateInput: templateInput('module'), name: 'burritos', description: 'yum' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
+			templateInput: templateInput('module'),
+			name: 'burritos',
+			description: 'yum',
+		});
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -82,7 +81,7 @@ describe('handler', () => {
 	});
 
 	test('if type is provided, does not prompt', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
 		await run('--type app');
 		expect(inquirer.prompt).not.toHaveBeenCalledWith(
 			expect.arrayContaining([
@@ -96,7 +95,7 @@ describe('handler', () => {
 	});
 
 	test('renders files', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
 		await run('--type app');
 
 		expect(file.write).toHaveBeenCalledWith('apps/tacos/index.ts', 'tacos\n', expect.any(Object));
@@ -106,14 +105,14 @@ describe('handler', () => {
 	});
 
 	test('does not run pkgMgr install if no package.json file was templated', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
 		await run('--type module');
 
 		expect(graph.packageManager.install).not.toHaveBeenCalled();
 	});
 
 	test('runs pkgMgr install after creating package.json file', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ name: 'tacos' });
 		await run('--type app');
 
 		expect(graph.packageManager.install).toHaveBeenCalled();

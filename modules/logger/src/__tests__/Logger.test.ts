@@ -13,8 +13,15 @@ async function waitStreamEnd(stream: PassThrough) {
 	});
 }
 describe('Logger', () => {
+	let runId: string | undefined;
+
 	beforeEach(() => {
-		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: undefined });
+		runId = process.env.GITHUB_RUN_ID;
+		delete process.env.GITHUB_RUN_ID;
+	});
+
+	afterEach(() => {
+		process.env.GITHUB_RUN_ID = runId;
 	});
 
 	test.concurrent.each([
@@ -87,7 +94,7 @@ describe('Logger', () => {
 	});
 
 	test('writes logs if verbosity increased after construction', async () => {
-		jest.restoreAllMocks();
+		vi.restoreAllMocks();
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -113,7 +120,7 @@ describe('Logger', () => {
 	});
 
 	test('does not group the root logger with GITHUB_RUN_ID', async () => {
-		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: 'yes' });
+		process.env.GITHUB_RUN_ID = 'yes';
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {

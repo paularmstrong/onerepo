@@ -12,13 +12,20 @@ async function waitStreamEnd(stream: PassThrough) {
 }
 
 describe('LogStep', () => {
+	let runId: string | undefined;
+
 	beforeEach(() => {
-		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: undefined });
+		runId = process.env.GITHUB_RUN_ID;
+		delete process.env.GITHUB_RUN_ID;
+	});
+
+	afterEach(() => {
+		process.env.GITHUB_RUN_ID = runId;
 	});
 
 	test('setup', async () => {
-		const onEnd = jest.fn();
-		const onError = jest.fn();
+		const onEnd = vi.fn();
+		const onError = vi.fn();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity: 3 });
 
 		expect(step.name).toBe('tacos');
@@ -28,8 +35,8 @@ describe('LogStep', () => {
 	});
 
 	test('can be activated', async () => {
-		const onEnd = jest.fn();
-		const onError = jest.fn();
+		const onEnd = vi.fn();
+		const onError = vi.fn();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity: 3 });
 		step.activate();
 
@@ -37,9 +44,9 @@ describe('LogStep', () => {
 	});
 
 	test('writes group & endgroup when GITHUB_RUN_ID is set', async () => {
-		jest.replaceProperty(process, 'env', { GITHUB_RUN_ID: 'yes' });
-		const onEnd = jest.fn(() => Promise.resolve());
-		const onError = jest.fn();
+		process.env.GITHUB_RUN_ID = 'yes';
+		const onEnd = vi.fn(() => Promise.resolve());
+		const onError = vi.fn();
 		const stream = new PassThrough();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity: 4, stream });
 
@@ -59,9 +66,9 @@ describe('LogStep', () => {
 	});
 
 	test('when activated, flushes its logs to the stream', async () => {
-		jest.restoreAllMocks();
-		const onEnd = jest.fn(() => Promise.resolve());
-		const onError = jest.fn();
+		vi.restoreAllMocks();
+		const onEnd = vi.fn(() => Promise.resolve());
+		const onError = vi.fn();
 		const stream = new PassThrough();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity: 3, stream });
 
@@ -92,8 +99,8 @@ describe('LogStep', () => {
 		[4, ['info', 'error', 'warn', 'log', 'debug']],
 		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
 	] as Array<[number, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
-		const onEnd = jest.fn(() => Promise.resolve());
-		const onError = jest.fn();
+		const onEnd = vi.fn(() => Promise.resolve());
+		const onError = vi.fn();
 		const stream = new PassThrough();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity, stream });
 
@@ -162,8 +169,8 @@ describe('LogStep', () => {
 		],
 		['date', new Date('2023-03-11'), ` │ ${pc.cyan(pc.bold('LOG'))} 2023-03-11T00:00:00.000Z`],
 	])('can stringify %s', async (name, obj, exp) => {
-		const onEnd = jest.fn(() => Promise.resolve());
-		const onError = jest.fn();
+		const onEnd = vi.fn(() => Promise.resolve());
+		const onError = vi.fn();
 		const stream = new PassThrough();
 		const step = new LogStep('tacos', { onEnd, onError, verbosity: 3, stream });
 

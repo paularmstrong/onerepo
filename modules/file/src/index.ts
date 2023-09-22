@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { existsSync } from 'node:fs';
-import fs from 'node:fs/promises';
+import { chmod as fsChmod, cp, lstat as fsLstat, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
 import { stepWrapper } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
@@ -61,7 +61,7 @@ export async function write(filename: string, contents: string, { step }: Option
 		const formatted = await format(filename, contents, { step });
 
 		try {
-			return await fs.writeFile(filename, formatted);
+			return await writeFile(filename, formatted);
 		} catch (e) {
 			step.error(e);
 			throw e;
@@ -88,7 +88,7 @@ export async function copy(input: string, output: string, { step }: Options = {}
 		}
 
 		try {
-			return await fs.cp(input, output, { recursive: true });
+			return await cp(input, output, { recursive: true });
 		} catch (e) {
 			step.error(e);
 			throw e;
@@ -109,7 +109,7 @@ export async function copy(input: string, output: string, { step }: Options = {}
 export async function lstat(filename: string, { step }: Options = {}) {
 	return stepWrapper({ step, name: `Stat ${filename}` }, async () => {
 		try {
-			const stat = await fs.lstat(filename);
+			const stat = await fsLstat(filename);
 			return stat;
 		} catch (e) {
 			return null;
@@ -127,7 +127,7 @@ export async function lstat(filename: string, { step }: Options = {}) {
 export async function read(filename: string, flag: OpenMode = 'r', { step }: Options = {}) {
 	return stepWrapper({ step, name: `Read ${filename}` }, async (step) => {
 		try {
-			const contents = await fs.readFile(filename, { flag });
+			const contents = await readFile(filename, { flag });
 			step.debug(`###- ${filename} start -###\n${contents}\n###- ${filename} end -###`);
 
 			return contents.toString();
@@ -151,7 +151,7 @@ export async function mkdirp(pathname: string, { step }: Options = {}) {
 			step.info(`DRY RUN: Not creating directory ${pathname}`);
 		}
 		step.debug(`Creating dir \`${pathname}\``);
-		await fs.mkdir(pathname, { recursive: true });
+		await mkdir(pathname, { recursive: true });
 	});
 }
 
@@ -168,7 +168,7 @@ export async function remove(pathname: string, { step }: Options = {}) {
 			step.info(`DRY RUN: Not removing ${pathname}`);
 		}
 		step.debug(`Deleting \`${pathname}\``);
-		await fs.rm(pathname, { recursive: true, force: true });
+		await rm(pathname, { recursive: true, force: true });
 	});
 }
 
@@ -261,7 +261,7 @@ export async function makeTempDir(prefix: string, { step }: Options = {}) {
 			return tempdir;
 		}
 
-		await fs.mkdtemp(tempdir);
+		await mkdtemp(tempdir);
 		return tempdir;
 	});
 }
@@ -280,6 +280,6 @@ export async function chmod(filename: string, mode: string | number, { step }: O
 			return;
 		}
 
-		return await fs.chmod(filename, mode);
+		return await fsChmod(filename, mode);
 	});
 }

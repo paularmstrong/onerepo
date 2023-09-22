@@ -9,22 +9,22 @@
   "homepage": "https://onerepo.tools",
   "type": "module",
   "main": "./src/index.ts",
-	"publishConfig": {
-		"access": "public",
-		"main": "./dist/index.js",
-		"typings": "./dist/src/index.d.ts"
-	},
-	"files": [
-		"./dist/**/*",
-		"./README.md",
-		"./CHANGELOG.md"
-	],
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "typings": "./dist/src/index.d.ts"
+  },
+  "files": [
+    "./dist/**/*",
+    "./README.md",
+    "./CHANGELOG.md"
+  ],
   "dependencies": {},
-	"devDependencies": {
-    "@internal/test-config": "workspace:^",
-		"@internal/tsconfig": "workspace:^",
+  "devDependencies": {
+    "@internal/tsconfig": "workspace:^",
+    "@internal/vite-config": "workspace:^",
   },
   "engines": {
     "node": "^18 || ^20"
-	}
+  }
 }

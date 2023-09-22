@@ -10,7 +10,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
 		"lib": ["esnext"],
-		"module": "es2022",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
@@ -18,6 +18,6 @@
 		"resolveJsonModule": true,
 		"strict": true,
 		"target": "es2022",
-		"types": ["node", "@types/jest"]
+		"types": ["node", "vitest/globals"]
 	}
 }

@@ -6,8 +6,8 @@
 	"devDependencies": {
 		"@changesets/parse": "^0.3.16",
 		"@changesets/types": "^5.2.1",
-		"@internal/test-config": "workspace:^",
-		"@internal/tsconfig": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^"
 	},
 	"dependencies": {
 		"@changesets/get-github-info": "^0.5.2"

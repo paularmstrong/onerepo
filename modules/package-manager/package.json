@@ -27,9 +27,8 @@
 		"@onerepo/subprocess": "0.5.0"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"jest": "^29.5.0",
+		"@internal/vitest-config": "workspace:^",
 		"typescript": "^5.0.4"
 	},
 	"engines": {

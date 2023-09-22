@@ -5,7 +5,7 @@ import { setup } from '..';
 describe('setup', () => {
 	test('sets env variables', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
-		jest.spyOn(process, 'cwd').mockReturnValue(root);
+		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		await setup(
 			{
 				root,
@@ -21,7 +21,7 @@ describe('setup', () => {
 
 	test('sets head branch from config', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
-		jest.spyOn(process, 'cwd').mockReturnValue(root);
+		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		await setup(
 			{
 				root,
@@ -35,10 +35,10 @@ describe('setup', () => {
 
 	test('returns shutdown results', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
-		jest.spyOn(process, 'cwd').mockReturnValue(root);
+		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		const yargs = createYargs(['one', 'graph', 'verify']);
 		const argv = { tacos: true, $0: 'foo', _: [] };
-		jest.spyOn(yargs, 'parse').mockResolvedValue(argv);
+		vi.spyOn(yargs, 'parse').mockResolvedValue(argv);
 
 		const { run } = await setup(
 			{
@@ -68,7 +68,7 @@ describe('setup', () => {
 	// yargs says it's not building a singleton, but it's help documentation actually is
 	test.skip.each([['generate']])('does not include %s when set to false', async (key) => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
-		jest.spyOn(process, 'cwd').mockReturnValue(root);
+		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		const core = { [key]: false };
 		const { yargs } = await setup(
 			{
