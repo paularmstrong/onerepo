@@ -3,22 +3,22 @@
 	"type": "module",
 	"private": true,
 	"dependencies": {
-		"@astrojs/mdx": "^0.19.7",
-		"@astrojs/tailwind": "^4.0.0",
-		"@tailwindcss/typography": "^0.5.9",
-		"astro": "^2.8.4",
-		"clsx": "^1.2.1",
-		"tailwindcss": "^3.3.1"
+		"@astrojs/mdx": "^1.1.0",
+		"@astrojs/tailwind": "^5.0.0",
+		"@tailwindcss/typography": "^0.5.10",
+		"astro": "^3.1.2",
+		"clsx": "^2.0.0",
+		"tailwindcss": "^3.3.3"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"eslint-plugin-astro": "^0.27.2",
+		"eslint-plugin-astro": "^0.29.0",
 		"glob": "^10.1.0",
 		"netlify-cli": "^15.9.1",
 		"netlify-plugin-csp-generator": "^1.5.0",
 		"onerepo": "0.13.0",
 		"postcss": "^8.4.22",
-		"rehype-pretty-code": "^0.9.4",
+		"rehype-pretty-code": "^0.10.1",
 		"typedoc": "^0.25.1",
 		"typedoc-plugin-markdown": "^4.0.0-next.22",
 		"typescript": "^5.0.4"

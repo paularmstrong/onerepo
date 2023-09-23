@@ -17,9 +17,15 @@ const rehypePlugins = [
 				if (node.children.length === 0) {
 					node.children = [{ type: 'text', value: ' ' }];
 				}
+				if (!node.properties.className) {
+					node.properties.className = [''];
+				}
 				node.properties.className.push('inline-block', 'w-full', 'px-4', 'border-transparent');
 			},
 			onVisitHighlightedLine(node) {
+				if (!node.properties.className) {
+					node.properties.className = [''];
+				}
 				node.properties.className.push('bg-pink-600/20');
 			},
 			onVisitHighlightedWord(node) {

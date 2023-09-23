@@ -1,6 +1,6 @@
 [dev]
   framework = "astro"
-  targetPort = 3000
+  targetPort = 4321
   autoLaunch = false
 
 [build]

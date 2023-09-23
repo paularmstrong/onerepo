@@ -31,7 +31,7 @@
 		"@onerepo/test-cli": "0.4.0",
 		"@types/inquirer": "^9.0.3",
 		"@types/js-yaml": "^4.0.6",
-		"esbuild-register": "^3.4.0"
+		"esbuild-register": "^3.5.0"
 	},
 	"engines": {
 		"node": "^18 || ^20"

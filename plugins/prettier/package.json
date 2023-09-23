@@ -36,7 +36,7 @@
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"esbuild-register": "^3.4.2",
+		"esbuild-register": "^3.5.0",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.4"
 	},

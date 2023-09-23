@@ -1,6 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../../../layouts/Docs.astro';
+// eslint-disable-next-line import/no-unresolved
+import { pluginImage } from '../../../images/plugins';
 
 const [readme] = await Astro.glob('../../../../../plugins/README.md');
 const plugins = await getCollection('plugins');
@@ -18,17 +21,15 @@ const { Content } = readme;
 		<ul class="grid auto-cols-fr grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 			{
 				plugins.map((entry) => {
+					const lowerName = entry.data.tool.toLowerCase().replace(' ', '-') as keyof typeof pluginImage;
 					return (
 						<li>
 							<a
 								class="group flex h-full flex-row gap-2 rounded border border-zinc-200 bg-white/50 p-2 shadow transition-colors duration-200 hover:bg-white/80 hover:shadow-xl active:bg-zinc-100 active:shadow-inner dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-800 dark:active:bg-zinc-800/80"
 								href={`/docs/plugins/${entry.slug}/`}
 							>
-								{entry.data.tool ? (
-									<img
-										src={`/images/plugins/${entry.data.tool.toLowerCase().replace(' ', '-')}.webp`}
-										class="aspect-square h-16"
-									/>
+								{lowerName in pluginImage ? (
+									<Image alt="" src={pluginImage[lowerName]} class="aspect-square h-16" width={96} height={96} />
 								) : undefined}
 								<div class="">
 									<div class="text-xs text-zinc-500">{entry.data.title}</div>
