@@ -2,11 +2,6 @@ import { performance } from 'node:perf_hooks';
 import * as file from '@onerepo/file';
 import { performanceWriter } from '..';
 
-jest.mock('@onerepo/file', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/file'),
-}));
-
 async function tick() {
 	return new Promise<void>((resolve) => {
 		setImmediate(() => {
@@ -154,7 +149,7 @@ describe('measure', () => {
 	});
 
 	test('can write to a file with a filepath', async () => {
-		jest.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(file, 'write').mockResolvedValue();
 		const { startup, shutdown } = performanceWriter({ output: '/foo' });
 		startup!(
 			argv,
@@ -167,9 +162,9 @@ describe('measure', () => {
 	});
 
 	test('can write to a generated temporary file', async () => {
-		jest.spyOn(Date, 'now').mockReturnValue(123);
-		jest.spyOn(file, 'write').mockResolvedValue();
-		jest.spyOn(file, 'makeTempDir').mockResolvedValue('/tmp/foo/onerepo-perf');
+		vi.spyOn(Date, 'now').mockReturnValue(123);
+		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(file, 'makeTempDir').mockResolvedValue('/tmp/foo/onerepo-perf');
 		const { startup, shutdown } = performanceWriter();
 		startup!(
 			argv,

@@ -159,12 +159,6 @@ import * as oneRepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
 import * as MyCommand from '../my-command';
 
-// Enable mocking oneRepo methods
-jest.mock('onerepo', () => ({
-	__esModule: true,
-	...jest.requireActual('onerepo'),
-}));
-
 const { build, run } = getCommand(MyCommand);
 
 describe('my-command', () => {
@@ -177,7 +171,7 @@ describe('my-command', () => {
 	});
 
 	test('can test the handler', async () => {
-		jest.spyOn(oneRepo, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(oneRepo, 'run').mockResolvedValue(['', '']);
 		await run('--arg1 --arg2=foo');
 
 		expect(oneRepo.run).toHaveBeenCalledWith(

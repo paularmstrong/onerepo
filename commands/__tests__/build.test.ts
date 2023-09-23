@@ -5,20 +5,11 @@ import * as Build from '../build';
 
 const { run } = getCommand(Build);
 
-jest.mock('onerepo', () => ({
-	__esModule: true,
-	...jest.requireActual('onerepo'),
-	file: {
-		__esModule: true,
-		...jest.requireActual('@onerepo/file'),
-	},
-}));
-
 const graph = oneRepo.graph.getGraph(path.join(__dirname, '__fixtures__', 'build'));
 
 describe('handler', () => {
 	beforeEach(async () => {
-		jest.spyOn(oneRepo, 'run').mockImplementation(({ cmd, args }) => {
+		vi.spyOn(oneRepo, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'yarn' && args?.includes('bin')) {
 				if (args.includes('vite')) {
 					return Promise.resolve(['vite', '']);
@@ -32,8 +23,8 @@ describe('handler', () => {
 			}
 			return Promise.resolve(['', '']);
 		});
-		jest.spyOn(oneRepo, 'batch').mockResolvedValue([]);
-		jest.spyOn(oneRepo.file, 'remove').mockResolvedValue();
+		vi.spyOn(oneRepo, 'batch').mockResolvedValue([]);
+		vi.spyOn(oneRepo.file, 'remove').mockResolvedValue();
 	});
 
 	test('builds all workspaces', async () => {
@@ -156,7 +147,7 @@ describe('handler', () => {
 	});
 
 	test('copies fixtures', async () => {
-		jest.spyOn(oneRepo.file, 'copy').mockResolvedValue();
+		vi.spyOn(oneRepo.file, 'copy').mockResolvedValue();
 		await run('', { graph });
 
 		expect(oneRepo.file.copy).toHaveBeenCalledWith(

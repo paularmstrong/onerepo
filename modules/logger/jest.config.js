@@ -1,4 +1,4 @@
-import { makeConfig } from '@internal/test-config';
+import { makeConfig } from '@internal/jest-config';
 
 const config = makeConfig({
 	displayName: 'logger',

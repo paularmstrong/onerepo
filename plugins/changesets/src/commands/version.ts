@@ -1,8 +1,5 @@
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import changesetAssemble from '@changesets/assemble-release-plan';
-import changesetApply from '@changesets/apply-release-plan';
-import changesetRead from '@changesets/read';
 import { read as readConfig } from '@changesets/config';
 import { isClean, updateIndex } from '@onerepo/git';
 import type { Package, Packages } from '@manypkg/get-packages';
@@ -10,15 +7,10 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import type { LogStep } from '@onerepo/logger';
 import type { NewChangeset } from '@changesets/types';
 import { DependencyType } from '@onerepo/graph';
-
-// Changesets does not properly document its ESM exports in package.json, so this gets funky
-const assembleReleasePlan = (
-	'default' in changesetAssemble ? changesetAssemble.default : changesetAssemble
-) as typeof changesetAssemble;
-const applyReleasePlan = (
-	'default' in changesetApply ? changesetApply.default : changesetApply
-) as typeof changesetApply;
-const readChangesets = ('default' in changesetRead ? changesetRead.default : changesetRead) as typeof changesetRead;
+import type Assemble from '@changesets/assemble-release-plan';
+import type Apply from '@changesets/apply-release-plan';
+import type Read from '@changesets/read';
+import { importChangesets } from '../fix-changesets-esm';
 
 export const command = 'version';
 
@@ -48,6 +40,10 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { add, 'allow-dirty': allowDirty, 'dry-run': isDryRun } = argv;
+
+	const assembleReleasePlan = await importChangesets<typeof Assemble>('@changesets/assemble-release-plan');
+	const applyReleasePlan = await importChangesets<typeof Apply>('@changesets/apply-release-plan');
+	const readChangesets = await importChangesets<typeof Read>('@changesets/read');
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');

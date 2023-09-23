@@ -27,7 +27,7 @@ const defaultConfig: Required<Config> = {
 	core: {},
 	description: 'oneRepo’s very own `one` CLI.',
 	head: 'main',
-	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.)/,
+	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
 	name: 'one',
 	plugins: [],
 	root: process.cwd(),

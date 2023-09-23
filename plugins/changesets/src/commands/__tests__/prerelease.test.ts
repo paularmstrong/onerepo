@@ -10,36 +10,30 @@ import * as PublishConfig from '../../publish-config';
 
 const { run } = getCommand(Prerelease);
 
-jest.mock('@changesets/apply-release-plan');
-jest.mock('@onerepo/git');
-jest.mock('@onerepo/subprocess');
-jest.mock('../../publish-config', () => ({
-	__esModule: true,
-	...jest.requireActual('../../publish-config'),
-}));
+vi.mock('@changesets/apply-release-plan');
 
 describe('handler', () => {
 	const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 	beforeEach(async () => {
-		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
-		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(true);
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
-		jest.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
-		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
-		jest.spyOn(git, 'isClean').mockResolvedValue(true);
-		jest.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		vi.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
+		vi.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(true);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
+		vi.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
+		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+		vi.spyOn(git, 'isClean').mockResolvedValue(true);
+		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}
 			return Promise.resolve(['', '']);
 		});
-		jest.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
-		jest.spyOn(PublishConfig, 'resetPackageJson').mockResolvedValue();
+		vi.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
+		vi.spyOn(PublishConfig, 'resetPackageJson').mockResolvedValue();
 	});
 
 	test('does nothing if git working tree is dirty', async () => {
-		jest.spyOn(git, 'isClean').mockResolvedValue(false);
+		vi.spyOn(git, 'isClean').mockResolvedValue(false);
 		await expect(run('', { graph })).rejects.toMatch('Working directory must be unmodified to ensure safe pre-publis');
 
 		expect(inquirer.prompt).not.toHaveBeenCalled();
@@ -48,8 +42,8 @@ describe('handler', () => {
 	});
 
 	test('can bypass the dirty working state check', async () => {
-		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
-		jest.spyOn(git, 'isClean').mockResolvedValue(false);
+		vi.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
+		vi.spyOn(git, 'isClean').mockResolvedValue(false);
 		await run('--allow-dirty', { graph });
 
 		expect(git.isClean).not.toHaveBeenCalled();
@@ -57,9 +51,9 @@ describe('handler', () => {
 	});
 
 	test('ensures logged in to the registry', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
-		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
-		jest.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
+		vi.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
+		vi.spyOn(graph.packageManager, 'publish').mockResolvedValue(undefined);
 		await expect(run('', { graph })).rejects.toMatch(
 			'You do not appear to have publish rights to the configured registry',
 		);
@@ -67,15 +61,15 @@ describe('handler', () => {
 	});
 
 	test('can bypass the registry auth check', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
-		jest.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
+		vi.spyOn(graph.packageManager, 'loggedIn').mockResolvedValue(false);
 		await run('--skip-auth', { graph });
 
 		expect(graph.packageManager.loggedIn).not.toHaveBeenCalled();
 	});
 
 	test('can prerelease all publishable workspaces', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['_ALL_'] });
 		await run('', { graph });
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -128,7 +122,7 @@ describe('handler', () => {
 	});
 
 	test('can prerelease selected workspaces with dependencies', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['burritos'] });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['burritos'] });
 		await run('', { graph });
 
 		expect(subprocess.run).toHaveBeenCalledWith(
@@ -160,7 +154,7 @@ describe('handler', () => {
 	});
 
 	test('prompts for OTP and passes to publish', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ otp: '789012', choices: ['burritos'] });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ otp: '789012', choices: ['burritos'] });
 		await run('--otp', { graph });
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({
@@ -172,7 +166,7 @@ describe('handler', () => {
 	});
 
 	test('adds --access from the first workspace', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['churros'] });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['churros'] });
 		await run('--otp', { graph });
 
 		expect(graph.packageManager.publish).toHaveBeenCalledWith({

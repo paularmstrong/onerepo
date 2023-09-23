@@ -7,7 +7,7 @@ const { run } = getCommand(Show);
 
 function processStdoutSpy() {
 	let out = '';
-	jest.spyOn(process.stdout, 'write').mockImplementation((content) => {
+	vi.spyOn(process.stdout, 'write').mockImplementation((content) => {
 		out += content.toString();
 		return true;
 	});

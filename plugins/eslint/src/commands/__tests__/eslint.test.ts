@@ -3,13 +3,6 @@ import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import * as Eslint from '../eslint';
 
-jest.mock('@onerepo/git');
-jest.mock('@onerepo/subprocess');
-jest.mock('@onerepo/file', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/file'),
-}));
-
 const { build, run, graph } = getCommand(Eslint);
 
 describe('builder', () => {
@@ -36,7 +29,7 @@ describe('builder', () => {
 
 describe('handler', () => {
 	test('can run across all files', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all');
 
@@ -62,9 +55,9 @@ describe('handler', () => {
 	});
 
 	test('can run across individual workspaces', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(false);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
+		vi.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => true },
 		);
@@ -94,7 +87,7 @@ describe('handler', () => {
 	});
 
 	test('does not fix in dry-run', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --dry-run')).resolves.toBeTruthy();
 
@@ -110,7 +103,7 @@ describe('handler', () => {
 	});
 
 	test('does not fix in no-cache', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-a --no-cache')).resolves.toBeTruthy();
 
@@ -126,7 +119,7 @@ describe('handler', () => {
 	});
 
 	test('filters unapproved extensions', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await expect(run('-f foo.xd -f bar.js')).resolves.toBeTruthy();
 
@@ -152,13 +145,13 @@ describe('handler', () => {
 	});
 
 	test('filters with .eslintignore', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
-		jest.spyOn(file, 'read').mockResolvedValue(`
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'read').mockResolvedValue(`
 # ignore the comment
 bar/**/*
 `);
-		jest.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => false },
 		);
@@ -188,8 +181,8 @@ bar/**/*
 	});
 
 	test('updates the git index for filtered paths with --add', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('-f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
@@ -216,7 +209,7 @@ bar/**/*
 	});
 
 	test('if --quiet, reports errors only', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--all --quiet');
 
@@ -229,7 +222,7 @@ bar/**/*
 	});
 
 	test('can turn off colors with --no-pretty', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('--no-pretty -a');
 
@@ -242,7 +235,7 @@ bar/**/*
 	});
 
 	test('can override the default formatter', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('-a -- --format junit');
 
@@ -254,7 +247,7 @@ bar/**/*
 	});
 
 	test('can disable GitHub annotations', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
 		await run('-a --no-github-annotate');
 
@@ -268,8 +261,8 @@ bar/**/*
 	});
 
 	test('proxies github annotations to stdout directly', async () => {
-		jest.spyOn(process.stdout, 'write').mockReturnValue(true);
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue([
+		vi.spyOn(process.stdout, 'write').mockReturnValue(true);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue([
 			`
 ::error burritos
 
@@ -286,7 +279,7 @@ something
 	});
 
 	test('if eslint returns with any stderr, the command will fail', async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', 'oh no!']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', 'oh no!']);
 
 		await expect(run('-a')).rejects.toMatch('oh no!');
 	});

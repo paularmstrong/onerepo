@@ -4,21 +4,16 @@ import * as file from '@onerepo/file';
 import { getCommand } from '@onerepo/test-cli';
 import * as Init from '../init';
 
-jest.mock('@onerepo/file', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/file'),
-}));
-
 const { graph, run } = getCommand(Init);
 
 describe('handler', () => {
 	beforeEach(async () => {
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('Initializes changeset', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
-		jest.spyOn(file, 'exists').mockResolvedValue(false);
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
 		await run('', { graph });
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(

@@ -1,14 +1,9 @@
 import * as subprocess from '@onerepo/subprocess';
 import { Pnpm as manager } from '../pnpm';
 
-jest.mock('@onerepo/subprocess', () => ({
-	__esModule: true,
-	...jest.requireActual('@onerepo/subprocess'),
-}));
-
 describe('PNPm', () => {
 	beforeEach(() => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	describe('add', () => {
@@ -60,7 +55,7 @@ describe('PNPm', () => {
 
 	describe('loggedIn', () => {
 		test('returns false if cmd fails', async () => {
-			jest.spyOn(subprocess, 'run').mockRejectedValue(new Error());
+			vi.spyOn(subprocess, 'run').mockRejectedValue(new Error());
 			await expect(manager.loggedIn()).resolves.toBe(false);
 		});
 
@@ -166,7 +161,7 @@ describe('PNPm', () => {
 
 	describe('publishable', () => {
 		test('filters workspaces by the ones with a version not in the registry', async () => {
-			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
 					calls.map(({ args }) => {
 						const versions: Array<string> = [];
@@ -190,7 +185,7 @@ describe('PNPm', () => {
 		});
 
 		test('ignores errors', async () => {
-			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
 					calls.map(({ args }) => {
 						const versions: Array<string> = [];
@@ -214,7 +209,7 @@ describe('PNPm', () => {
 		});
 
 		test('does not fail for unparseable json', async () => {
-			jest.spyOn(subprocess, 'batch').mockImplementation((calls) => {
+			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
 					calls.map(({ args }) => {
 						const versions: Array<string> = [];

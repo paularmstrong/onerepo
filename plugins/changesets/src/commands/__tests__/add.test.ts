@@ -9,19 +9,18 @@ import * as Command from '../add';
 const { run } = getCommand(Command);
 const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-jest.mock('@changesets/write');
-jest.mock('@onerepo/git');
+vi.mock('@changesets/write');
 
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
-		jest.spyOn(changesetWrite, 'default').mockResolvedValue('smelly-tacos-fart');
-		jest.spyOn(git, 'updateIndex').mockResolvedValue('');
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos']);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: [] });
+		vi.spyOn(changesetWrite, 'default').mockResolvedValue('smelly-tacos-fart');
+		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos']);
 	});
 
-	test('writes a changeset', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+	test.only('writes a changeset', async () => {
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
 			chosen: ['burritos', 'churros'],
 			patch: false,
 			minor: true,
@@ -45,7 +44,7 @@ describe('handler', () => {
 	});
 
 	test('exits if no chosen workspaces', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
 			chosen: [],
 		});
 
@@ -56,7 +55,7 @@ describe('handler', () => {
 	});
 
 	test('exits if no semver type', async () => {
-		jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
 			chosen: ['burritos'],
 		});
 

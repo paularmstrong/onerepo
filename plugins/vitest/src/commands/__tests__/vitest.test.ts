@@ -5,22 +5,23 @@ import * as Vitest from '../vitest';
 
 const { run } = getCommand(Vitest);
 
-jest.mock('@onerepo/subprocess');
-jest.mock('@onerepo/git');
+vi.mock('@onerepo/subprocess');
+vi.mock('@onerepo/git');
 
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(git, 'getMergeBase').mockResolvedValue('abc123');
 	});
 
 	test('runs files related to changes by default', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
 		await run('');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', 'related', 'foo.js', 'bar/baz.js'],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', '--changed', 'abc123'],
 			}),
 		);
 	});
@@ -30,28 +31,30 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', expect.stringMatching(/\/burritos$/)],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', expect.stringMatching(/\/burritos$/)],
 			}),
 		);
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		jest.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
 
 		await run('--inspect');
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
+				cmd: 'npm',
 				args: [
+					'exec',
+					'vitest',
 					'--inspect',
 					'--inspect-brk',
-					'node_modules/.bin/vitest',
 					'--config',
-					'./jest.config.ts',
-					'related',
-					'foo.js',
+					'./vitest.config.ts',
+					'--run',
+					'--changed',
+					'abc123',
 				],
 			}),
 		);
@@ -62,8 +65,8 @@ describe('handler', () => {
 
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'node',
-				args: ['node_modules/.bin/vitest', '--config', './jest.config.ts', '-w', 'foo'],
+				cmd: 'npm',
+				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--watch', 'foo'],
 			}),
 		);
 	});

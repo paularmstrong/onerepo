@@ -5,8 +5,8 @@ import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import * as Tasks from '../install';
 
-jest.mock('@onerepo/subprocess');
-jest.mock('@onerepo/file');
+vi.mock('@onerepo/subprocess');
+vi.mock('@onerepo/file');
 
 const { build, graph, run } = getCommand(Tasks);
 
@@ -16,23 +16,23 @@ describe('builder', () => {
 	});
 
 	test('sets location based on system', async () => {
-		jest.spyOn(os, 'platform').mockReturnValue('darwin');
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 		await expect(build('--name tacos')).resolves.toMatchObject({ location: '/usr/local/bin' });
 
-		jest.spyOn(os, 'platform').mockReturnValue('linux');
+		vi.spyOn(os, 'platform').mockReturnValue('linux');
 		const info = os.userInfo();
-		jest.spyOn(os, 'userInfo').mockReturnValue({ ...info, homedir: '/foo/bar' });
+		vi.spyOn(os, 'userInfo').mockReturnValue({ ...info, homedir: '/foo/bar' });
 		await expect(build('--name tacos')).resolves.toMatchObject({ location: '/foo/bar/bin' });
 	});
 });
 
 describe('handler', () => {
 	test('exits if bin exists in path', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		jest.spyOn(file, 'writeSafe').mockResolvedValue();
-		jest.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('asdfkujhasdfkljh');
 
 		await expect(run('--name tacos')).rejects.toMatch(
 			'Refusing to install with name `tacos` because it already exists',
@@ -41,12 +41,12 @@ describe('handler', () => {
 	});
 
 	test('continues if bin exists but is self-referential', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		jest.spyOn(file, 'writeSafe').mockResolvedValue();
-		jest.spyOn(file, 'read').mockResolvedValue('onerepo-test-runner');
-		jest.spyOn(os, 'platform').mockReturnValue('darwin');
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('onerepo-test-runner');
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos')).resolves.toBeTruthy();
 
@@ -65,12 +65,12 @@ describe('handler', () => {
 	});
 
 	test('continues if bin exists with --force', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
-		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		jest.spyOn(file, 'writeSafe').mockResolvedValue();
-		jest.spyOn(file, 'read').mockResolvedValue('asdfasdf');
-		jest.spyOn(os, 'platform').mockReturnValue('darwin');
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('asdfasdf');
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
 		await expect(run('--name tacos --force')).resolves.toEqual('');
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
@@ -90,14 +90,14 @@ describe('handler', () => {
 	});
 
 	test('runs husky install husky is found', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		jest.spyOn(file, 'writeSafe').mockResolvedValue();
-		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
-		jest.spyOn(file, 'exists').mockResolvedValue(true);
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
 		await expect(run('--name tacos')).resolves.toBeTruthy();
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
@@ -109,14 +109,14 @@ describe('handler', () => {
 	});
 
 	test('does not run husky install husky is NOT found', async () => {
-		jest.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		jest.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
-		jest.spyOn(child_process, 'execSync').mockImplementation(() => '');
-		jest.spyOn(file, 'writeSafe').mockResolvedValue();
-		jest.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue(process.argv[1]);
 
-		jest.spyOn(file, 'exists').mockResolvedValue(false);
+		vi.spyOn(file, 'exists').mockResolvedValue(false);
 		await expect(run('--name tacos')).resolves.toBeTruthy();
 
 		expect(graph.packageManager.run).not.toHaveBeenCalledWith(

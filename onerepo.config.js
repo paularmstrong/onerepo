@@ -8,6 +8,7 @@ export default {
 		serial: [
 			['$0 lint --all --no-fix', '$0 format --check'],
 			'$0 test --affected -w ${workspaces} -- --passWithNoTests',
+			'$0 jest --affected -w ${workspaces} -- --passWithNoTests',
 			'$0 tsc',
 			'$0 build',
 		],

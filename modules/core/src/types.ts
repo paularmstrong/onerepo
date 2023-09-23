@@ -58,7 +58,7 @@ export type Config = {
 	head?: string;
 	/**
 	 * When using subcommandDir, include a regular expression here to ignore files.
-	 * @default `/(\/__\w+__\/|\.test\.|\.spec\.)/`
+	 * @default `/(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/`
 	 */
 	ignoreCommands?: RegExp;
 	/**

@@ -33,8 +33,8 @@
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
-		"@internal/test-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "0.4.0",
 		"@types/inquirer": "^9.0.3",
 		"@types/js-yaml": "^4.0.5",

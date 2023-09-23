@@ -1,0 +1,13 @@
+{
+	"name": "@internal/vitest-config",
+	"private": true,
+	"type": "module",
+	"main": "./src/index.js",
+	"devDependencies": {
+		"@internal/tsconfig": "workspace:^",
+		"vitest": "^0.34.5"
+	},
+	"peerDependencies": {
+		"vitest": "^0.34.5"
+	}
+}

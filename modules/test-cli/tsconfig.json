@@ -4,6 +4,6 @@
 		"outDir": "./dist/",
 		"composite": true
 	},
-	"include": ["./src"],
+	"include": ["./**/*"],
 	"exclude": ["dist"]
 }
