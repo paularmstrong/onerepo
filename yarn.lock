@@ -4021,9 +4021,9 @@ __metadata:
   linkType: hard
 
 "@types/cjson@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@types/cjson@npm:0.5.0"
-  checksum: fdedfff6b2c023de940b57e29b4948b7d88263067419160c2bcd4f46343f6648c6e026e707d75d6c858a85f4f6fa18e9be7616c48b92d5c3ba0a75ff2915f42f
+  version: 0.5.1
+  resolution: "@types/cjson@npm:0.5.1"
+  checksum: b3544299e86413bf195d9c35f01c5e70d0eb57da63e604af3388c1abcda6f9d803d1c98d10141d9a9d941a86067de3cad03fb87a70cb4328b0d71ed81f6ab15d
   languageName: node
   linkType: hard
 
