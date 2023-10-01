@@ -93,7 +93,7 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 				return;
 			}
 
-			const output = format === 'markdown' ? toMarkdown(outputDocs, headingLevel) : JSON.stringify(outputDocs);
+			const output = format === 'markdown' ? `${toMarkdown(outputDocs, headingLevel)}` : JSON.stringify(outputDocs);
 
 			if (outPath) {
 				if (safeWrite) {

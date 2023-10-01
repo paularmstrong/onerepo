@@ -9,7 +9,7 @@ module.exports = {
 	extends: ['plugin:astro/recommended'],
 
 	rules: {
-		'import/no-unresolved': ['error', { ignore: ['astro:content'] }],
+		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
 	},
 

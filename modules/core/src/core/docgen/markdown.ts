@@ -32,10 +32,7 @@ export function toMarkdown(docs: Docs, headingLevel: number = 2) {
 		incrementListMarker: false,
 	});
 
-	return processor.stringify(
-		// @ts-ignore root returns Parent which extends Node. works, but is technically incompatible
-		root(ast),
-	);
+	return processor.stringify(root(ast));
 }
 
 function command(cmd: Docs, depth: number): Array<Node> {
@@ -84,7 +81,8 @@ function description(cmd: Docs): Array<Node> {
 		return [];
 	}
 
-	return [...(parse(cmd.description)?.children ?? [])];
+	// @ts-expect-error the unified types lie
+	return parse(cmd.description)?.children ?? [];
 }
 
 function epilogue(cmd: Docs): Array<Node> {
@@ -92,7 +90,13 @@ function epilogue(cmd: Docs): Array<Node> {
 		return [];
 	}
 
-	return cmd.epilogue.map((ep) => parse(ep)?.children ?? []).flat();
+	return cmd.epilogue
+		.map(
+			(ep) =>
+				// @ts-expect-error the unified types lie
+				parse(ep)?.children ?? [],
+		)
+		.flat();
 }
 
 function usage(cmd: Docs): Array<Node> {
@@ -181,7 +185,10 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 							].flat(),
 						),
 						tableCell(typeAndDefault(opt)),
-						tableCell(parse(opt.description || '')?.children || []),
+						tableCell(
+							// @ts-expect-error the unified types lie
+							parse(opt.description || '')?.children || [],
+						),
 						tableCell(opt.required ? text('✅') : text('')),
 					]),
 				),
@@ -190,7 +197,7 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 	];
 }
 
-function typeAndDefault(opt: Option | Positional) {
+function typeAndDefault(opt: Option | Positional): Array<Node> {
 	const nodes = opt.choices
 		? opt.choices.reduce((memo, c, i) => {
 				if (i !== 0) {

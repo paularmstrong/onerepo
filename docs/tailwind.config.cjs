@@ -54,12 +54,10 @@ module.exports = {
 						borderWidth: '1px',
 						borderStyle: 'solid',
 						borderColor: theme('colors.zinc.300'),
-						boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
 						backgroundColor: `${theme('colors.zinc.200')}88`,
 
 						'.dark &': {
 							borderColor: theme('colors.zinc.700'),
-							boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3)',
 							backgroundColor: theme('colors.zinc.800'),
 						},
 

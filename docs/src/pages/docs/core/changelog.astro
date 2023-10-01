@@ -1,9 +1,9 @@
 ---
-import { getEntryBySlug } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Docs from '../../../layouts/Docs.astro';
 import TableOfContents from '../../../components/TableOfContents.astro';
 
-const entry = await getEntryBySlug('changelogs', 'onerepo');
+const entry = await getEntry('changelogs', 'onerepo');
 
 const { title, description } = entry!.data;
 const { Content, headings } = await entry!.render();
