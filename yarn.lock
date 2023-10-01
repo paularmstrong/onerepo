@@ -1450,7 +1450,7 @@ __metadata:
   resolution: "@internal/eslint-plugin@workspace:internal/eslint-plugin"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/eslint": ^8.37.0
+    "@types/eslint": ^8.44.3
     "@typescript-eslint/eslint-plugin": ^5.59.0
     "@typescript-eslint/parser": ^5.59.0
     eslint-import-resolver-typescript: ^3.5.5
@@ -1468,7 +1468,7 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@jest/globals": ^29.7.0
-    "@types/jest": ^29.5.0
+    "@types/jest": ^29.5.5
     esbuild-jest: ^0.5.0
     jest: ^29.5.0
   peerDependencies:
@@ -1481,7 +1481,7 @@ __metadata:
   resolution: "@internal/prettier-config@workspace:internal/prettier-config"
   dependencies:
     "@internal/tsconfig": "workspace:^"
-    "@types/prettier": ^2.7.2
+    "@types/prettier": ^3.0.0
     prettier-plugin-astro: ^0.11.0
   peerDependencies:
     prettier: ^2 || ^3
@@ -1492,7 +1492,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/tsconfig@workspace:internal/tsconfig"
   dependencies:
-    "@types/jest": ^29.5.0
+    "@types/jest": ^29.5.5
   languageName: unknown
   linkType: soft
 
@@ -2957,14 +2957,14 @@ __metadata:
     "@onerepo/subprocess": 0.5.0
     "@onerepo/test-cli": 0.4.0
     "@onerepo/yargs": 0.5.0
-    "@types/cjson": ^0.5.0
-    "@types/ejs": ^3.1.2
+    "@types/cjson": ^0.5.1
+    "@types/ejs": ^3.1.3
     "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.5
+    "@types/js-yaml": ^4.0.6
     "@types/npmlog": ^4.1.4
-    "@types/semver": ^7.3.13
-    "@types/unist": ^2.0.6
-    "@types/yargs": ^17.0.24
+    "@types/semver": ^7.5.3
+    "@types/unist": ^2.0.8
+    "@types/yargs": ^17.0.26
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
     cjson: ^0.5.0
@@ -2996,7 +2996,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@onerepo/test-cli": 0.4.0
     "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.5
+    "@types/js-yaml": ^4.0.6
     create-onerepo: 0.1.0
     esbuild-register: ^3.4.0
   bin:
@@ -3143,7 +3143,7 @@ __metadata:
     "@onerepo/logger": 0.4.0
     "@onerepo/subprocess": 0.5.0
     "@onerepo/test-cli": "workspace:^"
-    "@types/eslint": ^8.37.0
+    "@types/eslint": ^8.44.3
     esbuild-register: ^3.4.2
     eslint: ^8.38.0
     eslint-formatter-onerepo: 0.1.0
@@ -3262,7 +3262,7 @@ __metadata:
     "@onerepo/plugin-prettier": "workspace:^"
     "@onerepo/plugin-typescript": "workspace:^"
     "@onerepo/plugin-vitest": "workspace:^"
-    "@types/eslint": ^8.37.0
+    "@types/eslint": ^8.44.3
     esbuild: ^0.17.0
     esbuild-jest: ^0.5.0
     esbuild-register: ^3.4.0
@@ -3314,7 +3314,7 @@ __metadata:
     "@onerepo/builders": 0.4.0
     "@onerepo/logger": 0.4.0
     "@onerepo/subprocess": 0.5.0
-    "@types/yargs": ^17.0.24
+    "@types/yargs": ^17.0.26
   languageName: unknown
   linkType: soft
 
@@ -4020,10 +4020,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cjson@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@types/cjson@npm:0.5.0"
-  checksum: fdedfff6b2c023de940b57e29b4948b7d88263067419160c2bcd4f46343f6648c6e026e707d75d6c858a85f4f6fa18e9be7616c48b92d5c3ba0a75ff2915f42f
+"@types/cjson@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@types/cjson@npm:0.5.1"
+  checksum: b3544299e86413bf195d9c35f01c5e70d0eb57da63e604af3388c1abcda6f9d803d1c98d10141d9a9d941a86067de3cad03fb87a70cb4328b0d71ed81f6ab15d
   languageName: node
   linkType: hard
 
@@ -4043,20 +4043,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ejs@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "@types/ejs@npm:3.1.2"
-  checksum: e4f0745b6ed53a63c08bdfdeb019a7d0e0c400896722b44d6732b4ee6bf6061d2dc965206186b8b0ae2ecd71303c29f1af1feddbca2df0acbd7bd234a74ca518
+"@types/ejs@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "@types/ejs@npm:3.1.3"
+  checksum: b1b1c6c9d331d237523ebc410789f42edcdbb1d4cdd4a7a37ac61d2ce9c3fbcfbfe7d7f1a7f61c9334812347a0036afd52258ad2198f85545ebfb26d63475a75
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.37.0":
-  version: 8.44.1
-  resolution: "@types/eslint@npm:8.44.1"
+"@types/eslint@npm:^8.44.3":
+  version: 8.44.3
+  resolution: "@types/eslint@npm:8.44.3"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 8b45be72d3c22a1ee0b1cc7e7fb0e34e32bbf959e6b7e0e46d160c17894aedf159c1db5c85750f10068884c741eebc37a1cc7ea659de23a8df0c9a3203e2ff9d
+  checksum: 3a0d152785400cb83a887a646d9c8877468e686b6fb439635c64856b70dbe91019e588d2b32bc923cd60642bf5dca7f70b2cf61eb431cf25fbdf2932f6e13dd3
   languageName: node
   linkType: hard
 
@@ -4145,20 +4145,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.5.0":
-  version: 29.5.3
-  resolution: "@types/jest@npm:29.5.3"
+"@types/jest@npm:^29.5.5":
+  version: 29.5.5
+  resolution: "@types/jest@npm:29.5.5"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: e36bb92e0b9e5ea7d6f8832baa42f087fc1697f6cd30ec309a07ea4c268e06ec460f1f0cfd2581daf5eff5763475190ec1ad8ac6520c49ccfe4f5c0a48bfa676
+  checksum: 56e55cde9949bcc0ee2fa34ce5b7c32c2bfb20e53424aa4ff3a210859eeaaa3fdf6f42f81a3f655238039cdaaaf108b054b7a8602f394e6c52b903659338d8c6
   languageName: node
   linkType: hard
 
-"@types/js-yaml@npm:^4.0.5":
-  version: 4.0.5
-  resolution: "@types/js-yaml@npm:4.0.5"
-  checksum: 7dcac8c50fec31643cc9d6444b5503239a861414cdfaa7ae9a38bc22597c4d850c4b8cec3d82d73b3fbca408348ce223b0408d598b32e094470dfffc6d486b4d
+"@types/js-yaml@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "@types/js-yaml@npm:4.0.6"
+  checksum: d4439ec2cc830d355c2a1d7508f49888931b2cfe59d786d27621edd530bf06314b1dceeaa759e21f9b035a0ff623a0ca306752ebb73df9485c02abe045bd962c
   languageName: node
   linkType: hard
 
@@ -4257,10 +4257,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.7.2":
-  version: 2.7.3
-  resolution: "@types/prettier@npm:2.7.3"
-  checksum: 705384209cea6d1433ff6c187c80dcc0b95d99d5c5ce21a46a9a58060c527973506822e428789d842761e0280d25e3359300f017fbe77b9755bc772ab3dc2f83
+"@types/prettier@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/prettier@npm:3.0.0"
+  dependencies:
+    prettier: "*"
+  checksum: a2a512d304e5bcf78f38089dc88ad19215e6ab871d435a17aef3ce538a63b07c0e359c18db23989dc1ed9fff96d99eee1f680416080184df5c7e0e3bf767e165
   languageName: node
   linkType: hard
 
@@ -4278,10 +4280,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12, @types/semver@npm:^7.3.13":
+"@types/semver@npm:^7.3.12":
   version: 7.5.0
   resolution: "@types/semver@npm:7.5.0"
   checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7.5.3":
+  version: 7.5.3
+  resolution: "@types/semver@npm:7.5.3"
+  checksum: 349fdd1ab6c213bac5c991bac766bd07b8b12e63762462bb058740dcd2eb09c8193d068bb226f134661275f2022976214c0e727a4e5eb83ec1b131127c980d3e
   languageName: node
   linkType: hard
 
@@ -4308,10 +4317,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3, @types/unist@npm:^2.0.6":
+"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
+  languageName: node
+  linkType: hard
+
+"@types/unist@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "@types/unist@npm:2.0.8"
+  checksum: f4852d10a6752dc70df363917ef74453e5d2fd42824c0f6d09d19d530618e1402193977b1207366af4415aaec81d4e262c64d00345402020c4ca179216e553c7
   languageName: node
   linkType: hard
 
@@ -4347,7 +4363,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.24, @types/yargs@npm:^17.0.8":
+"@types/yargs@npm:^17.0.26":
+  version: 17.0.26
+  resolution: "@types/yargs@npm:17.0.26"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: 26611969674f4972080c3b22239d4579eaadc5287f95f7802f893c4a9bb292c141467bd70f1e66eb834486c63a23c4f10032618b3d2e7b1ddc05051d08db4078
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^17.0.8":
   version: 17.0.24
   resolution: "@types/yargs@npm:17.0.24"
   dependencies:
@@ -6863,7 +6888,7 @@ __metadata:
     "@onerepo/test-cli": 0.4.0
     "@onerepo/yargs": 0.5.0
     "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.5
+    "@types/js-yaml": ^4.0.6
     esbuild-register: ^3.4.0
     inquirer: ^9.1.4
     js-yaml: ^4.1.0
@@ -15512,6 +15537,15 @@ __metadata:
     sass-formatter: ^0.7.5
     synckit: ^0.8.4
   checksum: 9aee16a3d60172ef2d654a12b064f747b8b4d73eb3eb6fd3c532a238f2c98f515258d3151c1754554f704b95bf299f52f725dde7d64fc65f17838371ae115027
+  languageName: node
+  linkType: hard
+
+"prettier@npm:*":
+  version: 3.0.3
+  resolution: "prettier@npm:3.0.3"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: e10b9af02b281f6c617362ebd2571b1d7fc9fb8a3bd17e371754428cda992e5e8d8b7a046e8f7d3e2da1dcd21aa001e2e3c797402ebb6111b5cd19609dd228e0
   languageName: node
   linkType: hard
 

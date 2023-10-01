@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"@types/yargs": "^17.0.24"
+		"@types/yargs": "^17.0.26"
 	},
 	"engines": {
 		"node": "^18 || ^20"
