@@ -1,6 +1,6 @@
 import { getMergeBase, isClean } from '@onerepo/git';
 import { run } from '@onerepo/subprocess';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'jest';

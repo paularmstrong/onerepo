@@ -1,7 +1,7 @@
 /**
  * Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
  *
- * Note that while `builders` are available, `getters` should typically be referenced from the extra arguments passed to your `handler` function:
+ * Note that while `builders` are available, the “getters” should typically be referenced from the extra arguments passed to your `handler` function:
  *
  * ```ts
  * import { builders } from 'onerepo';
@@ -24,5 +24,8 @@
  *
  * @module
  */
-export * as getters from './getters';
-export * as builders from './builders';
+export * from './getters';
+export * from './with-affected';
+export * from './with-all-inputs';
+export * from './with-files';
+export * from './with-workspaces';

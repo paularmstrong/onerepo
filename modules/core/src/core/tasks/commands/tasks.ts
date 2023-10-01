@@ -2,7 +2,7 @@ import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';

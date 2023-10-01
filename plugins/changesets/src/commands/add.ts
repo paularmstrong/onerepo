@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 import inquirer from 'inquirer';
 import { updateIndex } from '@onerepo/git';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type Write from '@changesets/write';
 import { importChangesets } from '../fix-changesets-esm';

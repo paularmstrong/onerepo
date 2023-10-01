@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 // @ts-ignore
 import cliui from 'cliui';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';

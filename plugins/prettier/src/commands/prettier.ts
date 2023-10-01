@@ -3,7 +3,7 @@ import { minimatch } from 'minimatch';
 import * as core from '@actions/core';
 import { updateIndex } from '@onerepo/git';
 import { exists, lstat, read } from '@onerepo/file';
-import { builders } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'prettier';

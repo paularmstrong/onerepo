@@ -4,7 +4,7 @@ import url from 'node:url';
 import Yargs from 'yargs';
 import parser from 'yargs-parser';
 import unparser from 'yargs-unparser';
-import { getters } from '@onerepo/builders';
+import * as builders from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { destroyLogger, getLogger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
@@ -96,11 +96,11 @@ export async function runHandler<R = Record<string, unknown>>(
 	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd);
 
-	const wrappedGetAffected = (opts?: Parameters<typeof getters.affected>[1]) => getters.affected(graph, opts);
-	const wrappedGetWorkspaces = (opts?: Parameters<typeof getters.workspaces>[2]) =>
-		getters.workspaces(graph, argv as getters.Argv, opts);
-	const wrappedGetFilepaths = (opts?: Parameters<typeof getters.filepaths>[2]) =>
-		getters.filepaths(graph, argv as getters.Argv, opts);
+	const wrappedGetAffected = (opts?: Parameters<typeof builders.getAffected>[1]) => builders.getAffected(graph, opts);
+	const wrappedGetWorkspaces = (opts?: Parameters<typeof builders.getWorkspaces>[2]) =>
+		builders.getWorkspaces(graph, argv as builders.Argv, opts);
+	const wrappedGetFilepaths = (opts?: Parameters<typeof builders.getFilepaths>[2]) =>
+		builders.getFilepaths(graph, argv as builders.Argv, opts);
 
 	let error: unknown = undefined;
 	try {

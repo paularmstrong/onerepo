@@ -19,8 +19,8 @@
 		"onerepo": "0.13.0",
 		"postcss": "^8.4.22",
 		"rehype-pretty-code": "^0.9.4",
-		"typedoc": "^0.24.0",
-		"typedoc-plugin-markdown": "^4.0.0-next.17",
+		"typedoc": "^0.25.1",
+		"typedoc-plugin-markdown": "^4.0.0-next.22",
 		"typescript": "^5.0.4"
 	}
 }
