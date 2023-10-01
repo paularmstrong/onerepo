@@ -36,7 +36,7 @@
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8.37.0",
+		"@types/eslint": "^8.44.3",
 		"esbuild-register": "^3.4.2",
 		"eslint": "^8.38.0",
 		"onerepo": "workspace:^",
