@@ -22,14 +22,12 @@ setup(
 		core: {
 			docgen: {
 				outWorkspace: 'root',
-				outFile: 'docs/usage/cli.md',
+				outFile: './docs/usage/cli.md',
 				format: 'markdown',
 				safeWrite: true,
 			},
-			generate: {
-				templatesDir: path.join(__dirname, '..', 'config', 'templates'),
-			},
-			graph: { customSchema: path.join(__dirname, '..', 'config', 'graph-schema.ts') },
+			generate: { templatesDir: './config/templates' },
+			graph: { customSchema: './config/graph-schema.ts' },
 			tasks: {
 				ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
 			},
