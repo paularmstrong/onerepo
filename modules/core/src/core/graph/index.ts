@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { Plugin } from '../../types';
 import * as Show from './commands/show';
 import * as Verify from './commands/verify';
@@ -25,6 +26,16 @@ export type Options = {
 
 export function graph(opts: Options = {}): Plugin {
 	const name = opts.name ?? 'graph';
+	let resolvedSchema: string | undefined = opts.customSchema;
+	if (resolvedSchema) {
+		if (path.isAbsolute(resolvedSchema)) {
+			throw new Error(
+				'Invalid path specified for graph.customSchema. Path must be relative to the repository root, like "./config/graph-schema.ts"',
+			);
+		}
+		resolvedSchema = path.resolve(process.env.ONE_REPO_ROOT!, resolvedSchema);
+	}
+
 	return () => ({
 		yargs: (yargs, visitor) => {
 			const show = visitor(Show);
@@ -41,8 +52,8 @@ export function graph(opts: Options = {}): Plugin {
 							verify.description,
 							(yargs) => {
 								const y = verify.builder(yargs);
-								if (opts.customSchema) {
-									y.default('custom-schema', opts.customSchema);
+								if (resolvedSchema) {
+									y.default('custom-schema', resolvedSchema);
 								}
 								if (opts.dependencies) {
 									y.default('dependencies', opts.dependencies);
