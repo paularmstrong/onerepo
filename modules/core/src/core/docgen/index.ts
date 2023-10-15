@@ -75,7 +75,8 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 					outPath = workspace.resolve(outFile);
 				}
 
-				const docsYargs = new Yargs();
+				const parseStep = logger.createStep('Parse commands');
+				const docsYargs = new Yargs(parseStep);
 				await fn(
 					config,
 					// @ts-ignore
@@ -84,6 +85,7 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 				docsYargs._rootPath = config.root as string;
 				docsYargs._commandDirectory = (config.subcommandDir as string) ?? 'commands';
 				const docs = docsYargs._serialize();
+				await parseStep.end();
 
 				let outputDocs: Docs | undefined = docs;
 				if (command) {

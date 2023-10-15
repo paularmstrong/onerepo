@@ -10,6 +10,7 @@ import type {
 	Options as YargsOptions,
 	PositionalOptions as YargsPositionalOptions,
 } from 'yargs';
+import type { LogStep } from '@onerepo/logger';
 
 type Examples = Record<string, string>;
 
@@ -83,6 +84,7 @@ export interface Docs {
 const require = createRequire('/');
 
 export class Yargs {
+	_logger: LogStep;
 	_rootPath: string = process.cwd();
 	_commandDirectory: string = process.cwd();
 	_filePath = '';
@@ -91,10 +93,10 @@ export class Yargs {
 	#options: Options = {};
 	#positionals: Positionals = {};
 	#name = '';
-	#description: string | false = '';
+	_description: string | false = '';
 	#strictCommands = false;
 	#strictOptions = false;
-	#aliases: Array<string> = [];
+	_aliases: Array<string> = [];
 	#epilogue: Array<string> = [];
 	#commands: Record<string, Yargs> = {};
 	#usage: Array<string> = [];
@@ -115,11 +117,11 @@ export class Yargs {
 	) {
 		const cmd = Array.isArray(command) ? command.find((cmd) => cmd !== '$0') || this.#name : command;
 
-		instance.#description = description;
+		instance._description = description;
 		instance.strictCommands(this.#strictCommands);
 		instance.strictCommands(this.#strictOptions);
 		instance.scriptName(`${this.#name} ${cmd}`);
-		instance.#aliases = Array.isArray(command) ? command.filter((command) => command !== cmd) : [];
+		instance._aliases = Array.isArray(command) ? command.filter((command) => command !== cmd) : [];
 
 		// @ts-ignore
 		builder(instance);
@@ -137,13 +139,13 @@ export class Yargs {
 			{} as Record<string, Docs>,
 		);
 		return {
-			aliases: this.#aliases,
+			aliases: this._aliases,
 			command: name || this.#name,
 			commands: sorter(commands),
-			description: this.#description,
+			description: this._description,
 			epilogue: this.#epilogue,
 			examples: Object.entries(this.#examples).reduce((memo, [example, description]) => {
-				memo[replaceBin(example, name ?? this.#name, this.#aliases, this.#name)] = description;
+				memo[replaceBin(example, name ?? this.#name, this._aliases, this.#name)] = description;
 				return memo;
 			}, {} as Examples),
 			filePath,
@@ -152,8 +154,27 @@ export class Yargs {
 			positionals: sorter(this.#positionals),
 			strictCommands: this.#strictCommands,
 			strictOptions: this.#strictOptions,
-			usage: this.#usage.map((usage) => replaceBin(usage, name ?? this.#name, this.#aliases, this.#name)),
+			usage: this.#usage.map((usage) => replaceBin(usage, name ?? this.#name, this._aliases, this.#name)),
 		};
+	}
+
+	constructor(logger: LogStep) {
+		this._logger = logger;
+		return new Proxy(this, {
+			get(target: Yargs, property: string | symbol, receiver: unknown) {
+				if (Reflect.has(target, property)) {
+					return function (...args: Array<unknown>) {
+						const ret = Reflect.get(target, property).bind(target)(...args);
+						return typeof ret === 'undefined' ? receiver : ret;
+					};
+				}
+
+				return function unimplemented() {
+					target._logger.warn(`Unimplemented yargs function "${String(property)}" will be ignored.`);
+					return receiver;
+				}.bind(target);
+			},
+		});
 	}
 
 	get argv() {
@@ -168,40 +189,30 @@ export class Yargs {
 				aliases: [...(this.#options[longName]?.aliases || []), ...arrayIfy(shortName)],
 			};
 		});
-		return this;
 	}
 
 	array(key: string) {
 		this.#options[key] = { ...this.#options[key], type: 'array' };
-		return this;
 	}
 
 	boolean(key: string) {
 		this.#options[key] = { ...this.#options[key], type: 'boolean' };
-		return this;
 	}
 
-	// Irrelevant
-	check() {
-		return this;
-	}
+	check() {}
 
 	choices(key: string, choices: Choices) {
 		this.#options[key] = { ...this.#options[key], choices };
-		return this;
 	}
 
-	// Irrelevant
-	coerce() {
-		return this;
-	}
+	coerce() {}
 
 	command(
 		command: string | Array<string> | CommandModule,
 		description: string | false,
 		builder: BuilderCallback<unknown, unknown>,
 	) {
-		const instance = new Yargs();
+		const instance = new Yargs(this._logger);
 		instance._rootPath = this._rootPath;
 		instance._commandDirOpts = this._commandDirOpts;
 		instance.strictCommands(this.#strictCommands);
@@ -218,7 +229,6 @@ export class Yargs {
 				command.builder || ((yargs) => yargs),
 			);
 		}
-		return this;
 	}
 
 	commandDir(pathName: string, opts?: RequireDirectoryOptions) {
@@ -242,7 +252,7 @@ export class Yargs {
 			}
 
 			const { builder, command, description } = require(path.join(this._rootPath, filepath));
-			const instance = new Yargs();
+			const instance = new Yargs(this._logger);
 			instance.strictCommands(this.#strictCommands);
 			instance.strictOptions(this.#strictOptions);
 			instance._rootPath = this._rootPath;
@@ -251,29 +261,20 @@ export class Yargs {
 			instance._commandDirOpts = this._commandDirOpts;
 			this.#builder(instance, command, description, builder);
 		}
-
-		return this;
 	}
 
-	// Irrelevant
 	completion(command?: string, description?: string | false) {
 		this.command(command || 'completion', description ?? false, () => {});
-		return this;
 	}
 
-	// Irrelevant
-	config() {
-		return this;
-	}
+	config() {}
 
 	conflicts(x: string, y: string | Array<string>) {
 		this.#options[x] = { ...this.#options[x], conflicts: [...(this.#options[x]?.conflicts || []), ...arrayIfy(y)] };
-		return this;
 	}
 
 	count(key: string) {
 		this.#options[key] = { ...this.#options[key], type: 'count' };
-		return this;
 	}
 
 	default(key: string, value: unknown) {
@@ -281,34 +282,25 @@ export class Yargs {
 			const normalized = this.#options[key].normalize ? path.relative(this._filePath, value as string) : value;
 			this.#options[key] = { ...this.#options[key], default: normalized };
 		}
-		return this;
 	}
 
 	/**
 	 * @deprecated
 	 */
-	demand() {
-		return this;
-	}
+	demand() {}
 
 	demandOption(key: string, reason?: string | boolean) {
 		this.#options[key] = { ...this.#options[key], required: Boolean(reason) };
-		return this;
 	}
 
-	// Irrelevant
-	demandCommand() {
-		return this;
-	}
+	demandCommand() {}
 
 	deprecateOption(key: string, reason?: string | boolean) {
 		this.#options[key] = { ...this.#options[key], deprecated: reason === false ? false : reason || true };
-		return this;
 	}
 
 	describe(key: string, description: string | false) {
 		this.#options[key] = { ...this.#options[key], description };
-		return this;
 	}
 
 	epilog(message: string) {
@@ -317,29 +309,24 @@ export class Yargs {
 
 	epilogue(message: string) {
 		this.#epilogue.push(message);
-		return this;
 	}
 
 	example(command: string, description: string) {
 		this.#examples[command] = description;
-		return this;
 	}
 
 	global(key: string) {
 		this.#options[key] = { ...this.#options[key], global: true };
-		return this;
 	}
 
 	group(key: string, group: string) {
 		this.#options[key] = { ...this.#options[key], group };
-		return this;
 	}
 
 	hide(key: string) {
 		if (key in this.#options) {
 			this.#options[key] = { ...this.#options[key], hidden: true };
 		}
-		return this;
 	}
 
 	help(key: string, description: string) {
@@ -348,34 +335,26 @@ export class Yargs {
 			hidden: true,
 			type: 'boolean',
 		});
-		return this;
 	}
 
 	implies(x: string, y: string | Array<string>) {
 		this.#options[x] = { ...this.#options[x], implied: [...(this.#options[x]?.implied || []), ...arrayIfy(y)] };
-		return this;
 	}
 
-	// Irrelevant
-	middleware() {
-		return this;
-	}
+	// no-op
+	middleware() {}
 
 	nargs(key: string, count: number) {
 		this.#options[key] = { ...this.#options[key], nargs: count };
-		return this;
 	}
 
-	// Irrelevant
 	normalize(key: string) {
 		this.#options[key] = { ...this.#options[key], normalize: true };
 		this.default(key, this.#options[key].default);
-		return this;
 	}
 
 	number(key: string) {
 		this.#options[key] = { ...this.#options[key], type: 'number' };
-		return this;
 	}
 
 	option(key: string, option: YargsOptions) {
@@ -414,19 +393,14 @@ export class Yargs {
 		this.deprecateOption(key, option.deprecate || option.deprecated);
 
 		option.choices && this.choices(key, option.choices);
-
-		return this;
 	}
 
 	// TODO
 	// options<O extends { [key: string]: YargsOptions }>(options: O) {
-	// 	return this;
+	//
 	// }
 
-	// Irrelevant
-	parserConfiguration() {
-		return this;
-	}
+	parserConfiguration() {}
 
 	positional(name: string, positional: YargsPositionalOptions) {
 		this.#positionals[name] = {
@@ -442,18 +416,10 @@ export class Yargs {
 			required: positional.demand || positional.required || positional.require || positional.demandOption,
 			type: positional.array ? 'array' : `${positional.type}`,
 		};
-
-		return this;
-	}
-
-	// Irrelevant
-	recommendCommands() {
-		return this;
 	}
 
 	scriptName(name: string) {
 		this.#name = name;
-		return this;
 	}
 
 	showHidden(key: string, description?: string) {
@@ -461,47 +427,37 @@ export class Yargs {
 			description: description || 'Show hidden arguments.',
 			type: 'boolean',
 		});
-		return this;
 	}
 
 	strict(strict = true) {
 		this.#strictCommands = strict;
 		this.#strictOptions = strict;
-		return this;
 	}
 
 	strictCommands(strict = true) {
 		this.#strictCommands = strict;
-		return this;
 	}
 
 	strictOptions(strict = true) {
 		this.#strictOptions = strict;
-		return this;
 	}
 
 	string(key: string) {
 		this.#options[key] = { ...this.#options[key], type: 'string' };
-		return this;
 	}
 
 	usage(message: string) {
 		this.#usage.push(message);
-		return this;
 	}
 
 	version(name: string | false = 'version', description = 'Show this CLI’s version number') {
 		if (!name) {
-			return this;
+			return;
 		}
 		this.option(name, { type: 'boolean', description });
-		return this;
 	}
 
-	// Irrelevant
-	wrap() {
-		return this;
-	}
+	wrap() {}
 }
 
 function arrayIfy<T extends string | number | boolean | undefined>(value: T | Array<T> | ReadonlyArray<T>): Array<T> {
