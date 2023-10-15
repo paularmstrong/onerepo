@@ -192,6 +192,7 @@ module.exports = {
 						'code::after': { content: '""' },
 						// When typedoc-plugin-markdown links code elements, it's unclear that they're clickable
 						'a > code::after': { content: '" 🔗"' },
+						// code: { fontSize: 'inherit' },
 					},
 				},
 				pink: {
