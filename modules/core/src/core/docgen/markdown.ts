@@ -35,12 +35,14 @@ export function toMarkdown(docs: Docs, headingLevel: number = 2) {
 	return processor.stringify(root(ast));
 }
 
-function command(cmd: Docs, depth: number): Array<Node> {
+function command(cmd: Docs, depth: number, includeBreak: boolean = false): Array<Node> {
 	// False commands are undocumented
 	if (cmd.description === false) {
 		return [];
 	}
+
 	return [
+		...(includeBreak ? [{ type: 'thematicBreak' }] : []),
 		depth <= 6 ? heading(depth, inlineCode(cmd.fullCommand)) : strong(inlineCode(cmd.fullCommand)),
 		...aliases(cmd),
 		...description(cmd),
@@ -50,7 +52,7 @@ function command(cmd: Docs, depth: number): Array<Node> {
 		...options(cmd),
 		...examples(cmd),
 		...Object.values(cmd.commands)
-			.map((cmd) => command(cmd, depth + 1))
+			.map((cmd) => command(cmd, depth + 1, true))
 			.flat(),
 	];
 }
