@@ -40,6 +40,25 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 	});
 
+	test('escapes spaces in installation path', async () => {
+		const location = 'Dev Location';
+
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
+		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
+		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
+		vi.spyOn(file, 'writeSafe').mockResolvedValue();
+		vi.spyOn(file, 'read').mockResolvedValue('Dev Location');
+		vi.spyOn(os, 'platform').mockReturnValue('darwin');
+
+		await expect(run('--name tacos', { builderExtras: { executable: location } })).resolves.toBeTruthy();
+
+		expect(subprocess.sudo).toHaveBeenCalledWith({
+			name: 'Create executable',
+			cmd: 'echo',
+			args: [`"#!/bin/zsh\n\n${location.replace(' ', '\\ ')} \\$@"`, '|', 'sudo', 'tee', '/usr/local/bin/tacos'],
+		});
+	});
+
 	test('continues if bin exists but is self-referential', async () => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
@@ -47,9 +66,7 @@ describe('handler', () => {
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
 		vi.spyOn(file, 'read').mockResolvedValue('onerepo-test-runner');
 		vi.spyOn(os, 'platform').mockReturnValue('darwin');
-
 		await expect(run('--name tacos')).resolves.toBeTruthy();
-
 		expect(subprocess.sudo).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'echo',

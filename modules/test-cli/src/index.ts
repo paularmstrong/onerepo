@@ -21,14 +21,23 @@ const testRunner: typeof vitest | typeof jest =
 const mocker = testRunner.mock;
 mocker('yargs');
 
-export async function runBuilder<R = Record<string, unknown>>(builder: Builder<R>, cmd = ''): Promise<Argv<R>> {
+export async function runBuilder<R = Record<string, unknown>>(
+	builder: Builder<R>,
+	cmd = '',
+	builderExtras?: BuilderExtras,
+): Promise<Argv<R>> {
 	const inputArgs = parser(cmd, {
 		configuration: parserConfiguration,
 	});
 
-	process.env.ONE_REPO_VERBOSITY = '4';
-	process.env.ONE_REPO_HEAD_BRANCH = 'main';
-	process.argv[1] = 'onerepo-test-runner';
+	process.env = {
+		...process.env,
+		ONE_REPO_VERBOSITY: '4',
+		ONE_REPO_HEAD_BRANCH: 'main',
+		...(builderExtras?.env ?? {}),
+	};
+
+	process.argv[1] = builderExtras?.executable ?? 'onerepo-test-runner';
 
 	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -93,8 +102,8 @@ export async function runHandler<R = Record<string, unknown>>(
 	destroyLogger();
 	const logger = getLogger({ verbosity: 5, stream });
 
-	const { graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
-	const argv = await runBuilder(builder, cmd);
+	const { builderExtras, graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
+	const argv = await runBuilder(builder, cmd, builderExtras);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof builders.getAffected>[1]) => builders.getAffected(graph, opts);
 	const wrappedGetWorkspaces = (opts?: Parameters<typeof builders.getWorkspaces>[2]) =>
@@ -135,11 +144,19 @@ export function getCommand<R = Record<string, unknown>>({
 }) {
 	const graph = getGraph(path.join(dirname, 'fixtures', 'repo'));
 	return {
-		build: async (cmd = '') => runBuilder<R>(builder, cmd),
+		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, extras),
 		graph,
 		run: async (cmd = '', extras: Partial<Extras> = {}) =>
 			runHandler<R>({ builder, handler, extras: { graph, ...extras } }, cmd),
 	};
 }
 
-type Extras = Omit<HandlerExtra, 'getAffected' | 'getFilepaths' | 'getWorkspaces' | 'logger'>;
+type Extras = { builderExtras?: BuilderExtras } & Omit<
+	HandlerExtra,
+	'getAffected' | 'getFilepaths' | 'getWorkspaces' | 'logger'
+>;
+
+type BuilderExtras = {
+	executable?: string;
+	env?: Exclude<typeof process.env, 'clear'>;
+};
