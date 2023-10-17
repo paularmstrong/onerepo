@@ -3,12 +3,12 @@ import os from 'node:os';
 import { getCommand } from '@onerepo/test-cli';
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
-import { builder, handler } from '../install';
+import * as Tasks from '../install';
 
 vi.mock('@onerepo/subprocess');
 vi.mock('@onerepo/file');
 
-const { build, graph, run } = getCommand({ builder, handler });
+const { build, graph, run } = getCommand(Tasks);
 
 describe('builder', () => {
 	test('defaults verbosity to show warnings', async () => {
@@ -42,13 +42,7 @@ describe('handler', () => {
 
 	test('escapes spaces in installation path', async () => {
 		const location = 'Dev Location';
-		const { run: overrideRun } = getCommand({
-			builder,
-			builderArgs: {
-				argv: ['tacos', location],
-			},
-			handler,
-		});
+
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['/usr/local/bin/tacos', '']);
 		vi.spyOn(subprocess, 'sudo').mockResolvedValue(['', '']);
 		vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
@@ -56,7 +50,7 @@ describe('handler', () => {
 		vi.spyOn(file, 'read').mockResolvedValue('Dev Location');
 		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
-		await expect(overrideRun('--name tacos')).resolves.toBeTruthy();
+		await expect(run('--name tacos', { builderExtras: { executable: location } })).resolves.toBeTruthy();
 
 		expect(subprocess.sudo).toHaveBeenCalledWith({
 			name: 'Create executable',

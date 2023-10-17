@@ -30,8 +30,6 @@ export async function runBuilder<R = Record<string, unknown>>(
 		configuration: parserConfiguration,
 	});
 
-	process.env.ONE_REPO_VERBOSITY = '4';
-	process.env.ONE_REPO_HEAD_BRANCH = 'main';
 	process.env = {
 		...process.env,
 		ONE_REPO_VERBOSITY: '4',
@@ -39,7 +37,7 @@ export async function runBuilder<R = Record<string, unknown>>(
 		...(builderExtras?.env ?? {}),
 	};
 
-	process.argv = builderExtras?.argv ?? ['', 'onerepo-test-runner'];
+	process.argv[1] = builderExtras?.executable ?? 'onerepo-test-runner';
 
 	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -140,18 +138,16 @@ export async function runHandler<R = Record<string, unknown>>(
 export function getCommand<R = Record<string, unknown>>({
 	builder,
 	handler,
-	builderArgs = undefined,
 }: {
 	builder: Builder<R>;
 	handler: Handler<R>;
-	builderArgs?: BuilderExtras;
 }) {
 	const graph = getGraph(path.join(dirname, 'fixtures', 'repo'));
 	return {
-		build: async (cmd = '') => runBuilder<R>(builder, cmd, builderArgs),
+		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, extras),
 		graph,
 		run: async (cmd = '', extras: Partial<Extras> = {}) =>
-			runHandler<R>({ builder, handler, extras: { graph, builderExtras: builderArgs, ...extras } }, cmd),
+			runHandler<R>({ builder, handler, extras: { graph, ...extras } }, cmd),
 	};
 }
 
@@ -161,6 +157,6 @@ type Extras = { builderExtras?: BuilderExtras } & Omit<
 >;
 
 type BuilderExtras = {
-	argv?: Array<string>;
+	executable?: string;
 	env?: Exclude<typeof process.env, 'clear'>;
 };

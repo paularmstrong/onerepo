@@ -100,7 +100,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	await sudo({
 		name: 'Create executable',
 		cmd: 'echo',
-		args: [`"#!/bin/zsh\n\n${process.argv[1].replace(' ', '\\ ')} \\$@"`, '|', 'sudo', 'tee', installLocation],
+		args: [`"#!/bin/zsh\n\n${process.argv[1].replace(/ /g, '\\ ')} \\$@"`, '|', 'sudo', 'tee', installLocation],
 	});
 
 	await sudo({
