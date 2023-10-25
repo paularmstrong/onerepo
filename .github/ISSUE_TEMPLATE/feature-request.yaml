@@ -1,0 +1,29 @@
+name: 💡 Feature request
+description: I have a need for a new feature
+labels:
+  - feature
+  - triage
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the problem or issue that you’re looking to solve
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution
+      description: Explain the way that oneRepo might be changed to handle the problem described
+      render: sh
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://onerepo.tools/docs/contributing/code-of-conduct/)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
