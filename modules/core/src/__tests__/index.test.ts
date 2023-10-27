@@ -1,6 +1,6 @@
 import path from 'node:path';
 import createYargs from 'yargs/yargs';
-import { setup } from '..';
+import { setup } from '../setup';
 
 describe('setup', () => {
 	test('sets env variables', async () => {
@@ -11,6 +11,7 @@ describe('setup', () => {
 				root,
 			},
 			createYargs(['one', '--help']),
+			{},
 		);
 
 		expect(process.env.ONE_REPO_ROOT).toMatch(/\/__tests__\/__fixtures__\/repo$/);
@@ -28,6 +29,7 @@ describe('setup', () => {
 				head: 'tacos',
 			},
 			createYargs(['one', '--help']),
+			{},
 		);
 
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
@@ -60,6 +62,7 @@ describe('setup', () => {
 				],
 			},
 			yargs,
+			{},
 		);
 
 		await expect(run()).resolves.toEqual({ tacos: 'yep', burritos: 'yes' });
@@ -76,6 +79,7 @@ describe('setup', () => {
 				core,
 			},
 			createYargs(['one', '--help']),
+			{},
 		);
 
 		const comp = await yargs.getHelp();

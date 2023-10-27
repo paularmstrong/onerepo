@@ -24,7 +24,11 @@ describe('handler', () => {
 		vi.spyOn(git, 'isClean').mockResolvedValue(true);
 		vi.spyOn(git, 'getBranch').mockResolvedValue(process.env.ONE_REPO_HEAD_BRANCH ?? 'main');
 
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		vi.spyOn(subprocess, 'run').mockImplementation((spec) => {
+			if (typeof spec === 'function') {
+				return spec();
+			}
+			const { cmd, args } = spec;
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}

@@ -17,7 +17,11 @@ describe('handler', () => {
 		vi.spyOn(file, 'write').mockResolvedValue();
 		vi.spyOn(file, 'exists').mockResolvedValue(false);
 		vi.spyOn(file, 'chmod').mockResolvedValue();
-		vi.spyOn(subprocess, 'run').mockImplementation(async ({ cmd, args }) => {
+		vi.spyOn(subprocess, 'run').mockImplementation(async (spec) => {
+			if (typeof spec === 'function') {
+				return spec();
+			}
+			const { cmd, args } = spec;
 			if (cmd === 'yarn') {
 				if (args && args[0] === '--version') {
 					return ['3.5.0', ''];

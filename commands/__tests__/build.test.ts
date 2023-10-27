@@ -9,7 +9,11 @@ const graph = oneRepo.graph.getGraph(path.join(__dirname, '__fixtures__', 'build
 
 describe('handler', () => {
 	beforeEach(async () => {
-		vi.spyOn(oneRepo, 'run').mockImplementation(({ cmd, args }) => {
+		vi.spyOn(oneRepo, 'run').mockImplementation((spec) => {
+			if (typeof spec === 'function') {
+				return spec();
+			}
+			const { cmd, args } = spec;
 			if (cmd === 'yarn' && args?.includes('bin')) {
 				if (args.includes('vite')) {
 					return Promise.resolve(['vite', '']);

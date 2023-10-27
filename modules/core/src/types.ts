@@ -1,10 +1,10 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
-import type { Options as DocgenOptions } from './core/docgen';
-import type { Options as GenerateOptions } from './core/generate';
-import type { Options as GraphOptions } from './core/graph';
-import type { Options as InstallOptions } from './core/install';
-import type { Options as TasksOptions } from './core/tasks';
+import type { Options as DocgenOptions, docgen as DocgenPlugin } from './core/docgen';
+import type { Options as GenerateOptions, generate as GeneratePlugin } from './core/generate';
+import type { Options as GraphOptions, graph as GraphPlugin } from './core/graph';
+import type { Options as InstallOptions, install as InstallPlugin } from './core/install';
+import type { Options as TasksOptions, tasks as TasksPlugin } from './core/tasks';
 
 /**
  * @group Core
@@ -118,3 +118,14 @@ export type PluginObject = {
  * @group Core
  */
 export type Plugin = PluginObject | ((config: Config) => PluginObject);
+
+/**
+ * @internal
+ */
+export type CorePlugins = {
+	docgen?: typeof DocgenPlugin;
+	generate?: typeof GeneratePlugin;
+	graph?: typeof GraphPlugin;
+	install?: typeof InstallPlugin;
+	tasks?: typeof TasksPlugin;
+};

@@ -22,7 +22,12 @@ describe('handler', () => {
 		vi.spyOn(applyReleasePlan, 'default').mockImplementation(async () => []);
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
 		vi.spyOn(git, 'isClean').mockResolvedValue(true);
-		vi.spyOn(subprocess, 'run').mockImplementation(({ cmd, args }) => {
+		vi.spyOn(subprocess, 'run').mockImplementation((spec) => {
+			if (typeof spec === 'function') {
+				return spec();
+			}
+			const { cmd, args } = spec;
+
 			if (cmd === 'git' && args?.includes('rev-parse')) {
 				return Promise.resolve(['123456', '']);
 			}

@@ -70,6 +70,10 @@ type CommandDirOpts = {
 	graph: Graph;
 	exclude?: RegExp;
 	startup: (argv: Arguments<DefaultArgv>) => Promise<void>;
+	/**
+	 * @internal
+	 */
+	config: Record<string, unknown>;
 };
 
 /**
@@ -79,6 +83,7 @@ export const commandDirOptions = ({
 	exclude,
 	graph,
 	startup,
+	config,
 }: CommandDirOpts): RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> } => ({
 	extensions: ['ts', 'js', 'cjs', 'mjs'],
 	exclude,
@@ -98,7 +103,7 @@ export const commandDirOptions = ({
 			handler: async (argv: Arguments<DefaultArgv>) => {
 				const logger = getLogger();
 				const currentVerbosity = logger.verbosity;
-				logger.verbosity = -1;
+				logger.verbosity = 0;
 				performance.mark('onerepo_start_Startup hooks');
 				await startup(argv);
 				performance.mark('onerepo_end_Pre-Startup hooks');
@@ -125,6 +130,7 @@ ${JSON.stringify(argv, null, 2)}`);
 					getWorkspaces: wrappedGetWorkspaces,
 					graph,
 					logger,
+					config,
 				};
 
 				try {
@@ -275,6 +281,10 @@ export type HandlerExtra = {
 	 * a specific need to write to standard out differently.
 	 */
 	logger: Logger;
+	/**
+	 * @internal
+	 */
+	config: Record<string, unknown>;
 };
 
 /**
