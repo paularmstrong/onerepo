@@ -16,13 +16,13 @@ process.emit = (event: string, error: unknown) => {
 		// @ts-ignore
 		event,
 		error,
-		// eslint-disable-next-line no-mixed-spaces-and-tabs
 	);
 };
 
 const { visit } = commandDirOptions({
 	// @ts-ignore
 	graph: null,
+	startup: () => Promise.resolve(),
 });
 
 yargs.demandCommand(0).command(visit(command));
