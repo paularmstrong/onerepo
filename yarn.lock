@@ -4217,9 +4217,9 @@ __metadata:
   linkType: hard
 
 "@types/yargs-unparser@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@types/yargs-unparser@npm:2.0.1"
-  checksum: 487da23fec6749efc888f1540a30ff229572e680fe2b8a440c974283ab51a093490ba8fefc8f478f68dc4416a226ccac9f7ed0e60c2e5dc4695a57a40b3fdf65
+  version: 2.0.2
+  resolution: "@types/yargs-unparser@npm:2.0.2"
+  checksum: 448938ef68edd954a02f440ff3c4eae2b6c29824b81895bd9998d25496b9aedcd73fe14694fd7958eb78d8f2433a0eb12884a062c4e41f016da7af6ce1ea1f7a
   languageName: node
   linkType: hard
 
