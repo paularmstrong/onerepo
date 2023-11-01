@@ -128,16 +128,16 @@ __metadata:
   linkType: hard
 
 "@astrojs/tailwind@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@astrojs/tailwind@npm:5.0.0"
+  version: 5.0.2
+  resolution: "@astrojs/tailwind@npm:5.0.2"
   dependencies:
     autoprefixer: ^10.4.15
     postcss: ^8.4.28
     postcss-load-config: ^4.0.1
   peerDependencies:
-    astro: ^3.0.0
+    astro: ^3.2.4
     tailwindcss: ^3.0.24
-  checksum: e21c785d7c931e3abcb46bc6d5e1c3984e24f16db2e2a32e838c30cce32485b8aa2880d9755bbb9d703ee26bd4297c05e9541738b023fe636f8052ed27092e9c
+  checksum: 906e61b8be1dd9b8b2affcca17c5e949b090830d66341143c95c8b283c2511aac059766ae69734bc17f2422992a0ef2046f43b872daaed487fc2939d5260d67c
   languageName: node
   linkType: hard
 
