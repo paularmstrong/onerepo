@@ -3898,9 +3898,9 @@ __metadata:
   linkType: hard
 
 "@types/cjson@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "@types/cjson@npm:0.5.1"
-  checksum: b3544299e86413bf195d9c35f01c5e70d0eb57da63e604af3388c1abcda6f9d803d1c98d10141d9a9d941a86067de3cad03fb87a70cb4328b0d71ed81f6ab15d
+  version: 0.5.2
+  resolution: "@types/cjson@npm:0.5.2"
+  checksum: e9c16b39946845f65fe4af94f25cc2aefbe756b0cf7a1350968f1e9324c19bbdb520792f7105dc6c51a1a177af434787a24d2105d2a99719323069d7f541ca57
   languageName: node
   linkType: hard
 
