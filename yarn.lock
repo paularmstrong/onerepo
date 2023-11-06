@@ -2865,6 +2865,7 @@ __metadata:
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
     remark-stringify: ^10.0.2
+    semver: ^7.5.4
     typescript: ^5.0.4
     unified: ^10.1.2
     yargs: ^17.6.2
@@ -3049,11 +3050,9 @@ __metadata:
     "@onerepo/git": 0.3.0
     "@onerepo/subprocess": 0.5.0
     "@onerepo/test-cli": "workspace:^"
-    "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.5.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
-    yargs-unparser: ^2.0.0
   peerDependencies:
     jest: ">=29"
   languageName: unknown
@@ -3120,11 +3119,9 @@ __metadata:
     "@onerepo/git": 0.3.0
     "@onerepo/subprocess": 0.5.0
     "@onerepo/test-cli": "workspace:^"
-    "@types/yargs-unparser": ^2.0.1
     esbuild-register: ^3.5.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
-    yargs-unparser: ^2.0.0
   peerDependencies:
     vitest: ^0
   languageName: unknown
@@ -3181,11 +3178,8 @@ __metadata:
     "@onerepo/graph": 0.9.0
     "@onerepo/logger": 0.4.0
     "@onerepo/yargs": 0.5.0
-    "@types/yargs-unparser": ^2.0.1
     typescript: ^5.0.4
     yargs: ^17.6.2
-    yargs-parser: ^21.1.1
-    yargs-unparser: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -4213,13 +4207,6 @@ __metadata:
   version: 21.0.0
   resolution: "@types/yargs-parser@npm:21.0.0"
   checksum: b2f4c8d12ac18a567440379909127cf2cec393daffb73f246d0a25df36ea983b93b7e9e824251f959e9f928cbc7c1aab6728d0a0ff15d6145f66cec2be67d9a2
-  languageName: node
-  linkType: hard
-
-"@types/yargs-unparser@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@types/yargs-unparser@npm:2.0.1"
-  checksum: 487da23fec6749efc888f1540a30ff229572e680fe2b8a440c974283ab51a093490ba8fefc8f478f68dc4416a226ccac9f7ed0e60c2e5dc4695a57a40b3fdf65
   languageName: node
   linkType: hard
 
@@ -5938,7 +5925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"camelcase@npm:^6.0.0, camelcase@npm:^6.2.0":
+"camelcase@npm:^6.2.0":
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
   checksum: 8c96818a9076434998511251dcb2761a94817ea17dbdc37f47ac080bd088fc62c7369429a19e2178b993497132c8cbcf5cc1f44ba963e76782ba469c0474938d
@@ -6904,13 +6891,6 @@ __metadata:
   dependencies:
     callsite: ^1.0.0
   checksum: e88d0c5b27266d3dcab96aed5c34c02551cea4b5ec4df452a07ea89b35426e63053ba5f07d6837ecb958f7ebfea5adaa12c353da7b2f242f89cdef1aa3ba30c2
-  languageName: node
-  linkType: hard
-
-"decamelize@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "decamelize@npm:4.0.0"
-  checksum: b7d09b82652c39eead4d6678bb578e3bebd848add894b76d0f6b395bc45b2d692fb88d977e7cfb93c4ed6c119b05a1347cef261174916c2e75c0a8ca57da1809
   languageName: node
   linkType: hard
 
@@ -8893,15 +8873,6 @@ __metadata:
     flatted: ^3.1.0
     rimraf: ^3.0.2
   checksum: 4fdd10ecbcbf7d520f9040dd1340eb5dfe951e6f0ecf2252edeec03ee68d989ec8b9a20f4434270e71bcfd57800dc09b3344fca3966b2eb8f613072c7d9a2365
-  languageName: node
-  linkType: hard
-
-"flat@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "flat@npm:5.0.2"
-  bin:
-    flat: cli.js
-  checksum: 12a1536ac746db74881316a181499a78ef953632ddd28050b7a3a43c62ef5462e3357c8c29d76072bb635f147f7a9a1f0c02efef6b4be28f8db62ceb3d5c7f5d
   languageName: node
   linkType: hard
 
@@ -19387,18 +19358,6 @@ __metadata:
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
   checksum: ed2d96a616a9e3e1cc7d204c62ecc61f7aaab633dcbfab2c6df50f7f87b393993fe6640d017759fe112d0cb1e0119f2b4150a87305cc873fd90831c6a58ccf1c
-  languageName: node
-  linkType: hard
-
-"yargs-unparser@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "yargs-unparser@npm:2.0.0"
-  dependencies:
-    camelcase: ^6.0.0
-    decamelize: ^4.0.0
-    flat: ^5.0.2
-    is-plain-obj: ^2.1.0
-  checksum: 68f9a542c6927c3768c2f16c28f71b19008710abd6b8f8efbac6dcce26bbb68ab6503bed1d5994bdbc2df9a5c87c161110c1dfe04c6a3fe5c6ad1b0e15d9a8a3
   languageName: node
   linkType: hard
 
