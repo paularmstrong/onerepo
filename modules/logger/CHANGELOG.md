@@ -1,5 +1,13 @@
 # @onerepo/logger
 
+## 0.4.1
+
+### Patch Changes
+
+- Ability to set `logger.verbosity` to `0` via `getLogger()` method. [#428](https://github.com/paularmstrong/onerepo/pull/428) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.0
 
 ### Minor Changes

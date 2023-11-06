@@ -1,5 +1,16 @@
 # @onerepo/plugin-jest
 
+## 0.2.1
+
+### Patch Changes
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`894497a`](https://github.com/paularmstrong/onerepo/commit/894497aa07572f88e45135b5027a5bf18e83c7a9), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - @onerepo/builders@0.5.0
+  - @onerepo/git@0.3.1
+  - @onerepo/subprocess@0.5.1
+
 ## 0.2.0
 
 ### Minor Changes

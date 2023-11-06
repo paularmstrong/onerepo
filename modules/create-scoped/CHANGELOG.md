@@ -1,5 +1,16 @@
 # @onerepo/create
 
+## 0.1.1
+
+### Patch Changes
+
+- Fix error "TypeError: startup is not a function" when running `create onerepo` [#457](https://github.com/paularmstrong/onerepo/pull/457) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`013b145`](https://github.com/paularmstrong/onerepo/commit/013b1458d21061af740794097518162bdc347a2a), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - create-onerepo@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

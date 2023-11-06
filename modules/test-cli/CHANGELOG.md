@@ -1,5 +1,35 @@
 # @onerepo/test-cli
 
+## 0.5.0
+
+### Minor Changes
+
+- `build()` and `run()` now allow overriding the executable (`process.argv[1]`) as well as some hard-coded `ONE_REPO_` environment variables through the second argument to each function. [`9b070c4`](https://github.com/paularmstrong/onerepo/commit/9b070c411c9c33cad8b48c84acb8d3dc37358f9f) ([@jakeleveroni](https://github.com/jakeleveroni))
+
+  ```ts
+  const { build, run } = getCommand(Command);
+
+  test('in build', async () => {
+    await expect(build('foo', { argv: '/foo/bar/bin', env: { … } })).toEqual({ … });
+  });
+
+  test('in run', async () => {
+    await run('foo', { graph, argv: '/foo/bar/bin', env: { … } });
+  });
+  ```
+
+### Patch Changes
+
+- Made parsing input arguments to `run()` and `build()` in tests more reliable by going straight to Yargs instead of parse/unparse. [#473](https://github.com/paularmstrong/onerepo/pull/473) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`7c11522`](https://github.com/paularmstrong/onerepo/commit/7c115223c1d29852528c402728c4921fdbecb2f8), [`894497a`](https://github.com/paularmstrong/onerepo/commit/894497aa07572f88e45135b5027a5bf18e83c7a9), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - @onerepo/logger@0.4.1
+  - @onerepo/builders@0.5.0
+  - @onerepo/graph@0.9.1
+  - @onerepo/yargs@0.5.1
+
 ## 0.4.0
 
 ### Minor Changes
