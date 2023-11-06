@@ -2,15 +2,12 @@ import { PassThrough } from 'node:stream';
 import path from 'node:path';
 import url from 'node:url';
 import Yargs from 'yargs';
-import parser from 'yargs-parser';
-import unparser from 'yargs-unparser';
 import * as builders from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { destroyLogger, getLogger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
-import type { Arguments } from 'yargs-unparser';
 
 // @ts-ignore
 const testRunner: typeof vitest | typeof jest =
@@ -26,10 +23,6 @@ export async function runBuilder<R = Record<string, unknown>>(
 	cmd = '',
 	builderExtras?: BuilderExtras,
 ): Promise<Argv<R>> {
-	const inputArgs = parser(cmd, {
-		configuration: parserConfiguration,
-	});
-
 	process.env = {
 		...process.env,
 		ONE_REPO_VERBOSITY: '4',
@@ -41,7 +34,7 @@ export async function runBuilder<R = Record<string, unknown>>(
 
 	const spy = testRunner.spyOn(console, 'error').mockImplementation(() => {});
 
-	const yargs = Yargs(unparser(inputArgs as Arguments).join(' '));
+	const yargs = Yargs(cmd).parserConfiguration(parserConfiguration);
 
 	testRunner.spyOn(yargs, 'exit').mockImplementation(() => {
 		throw new Error('Process unexpectedly exited early');

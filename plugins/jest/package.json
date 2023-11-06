@@ -25,15 +25,13 @@
 	"dependencies": {
 		"@onerepo/builders": "0.4.0",
 		"@onerepo/git": "0.3.0",
-		"@onerepo/subprocess": "0.5.0",
-		"yargs-unparser": "^2.0.0"
+		"@onerepo/subprocess": "0.5.0"
 	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/yargs-unparser": "^2.0.1",
 		"esbuild-register": "^3.5.0",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.4"
