@@ -1,5 +1,11 @@
 # eslint-formatter-onerepo
 
+## 0.1.1
+
+### Patch Changes
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.1.0
 
 ### Minor Changes

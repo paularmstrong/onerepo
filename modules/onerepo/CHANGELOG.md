@@ -1,5 +1,40 @@
 # onerepo
 
+## 0.14.0
+
+### Minor Changes
+
+- Ignore `*.config.*` files in commands directories [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Removed `getters` export. All “getters” are available from `builders.getX`, where `X` is the TitleCase version of the original function, eg `getters.affected()` is now `builders.getAffected()`. Users are still encouraged to use the `HandlerExtra` provided variants instead. [#424](https://github.com/paularmstrong/onerepo/pull/424) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Include thematic breaks between commands for markdown generated from `docgen` [#451](https://github.com/paularmstrong/onerepo/pull/451) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Ability to set `logger.verbosity` to `0` via `getLogger()` method. [#428](https://github.com/paularmstrong/onerepo/pull/428) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Fixed a bug where `one install` would fail due to spaces in the repository's file path. [`9b070c4`](https://github.com/paularmstrong/onerepo/commit/9b070c411c9c33cad8b48c84acb8d3dc37358f9f) ([@jakeleveroni](https://github.com/jakeleveroni))
+
+- Add missing dependency, 'semver'. [#473](https://github.com/paularmstrong/onerepo/pull/473) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Prevent hard-failures during `docgen` when yargs methods are encountered that are not implemented in documentation generation. [#450](https://github.com/paularmstrong/onerepo/pull/450) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Ensures path configuration options for core commands `docgen`, `generate`, and `graph` are relative to the repository root to ensure correct resolution across git worktrees. [#449](https://github.com/paularmstrong/onerepo/pull/449) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`7c11522`](https://github.com/paularmstrong/onerepo/commit/7c115223c1d29852528c402728c4921fdbecb2f8), [`9b070c4`](https://github.com/paularmstrong/onerepo/commit/9b070c411c9c33cad8b48c84acb8d3dc37358f9f), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c), [`894497a`](https://github.com/paularmstrong/onerepo/commit/894497aa07572f88e45135b5027a5bf18e83c7a9), [`e0b2745`](https://github.com/paularmstrong/onerepo/commit/e0b274538f33431edbaf04e461ce1f6dd5c1d521), [`a70d59e`](https://github.com/paularmstrong/onerepo/commit/a70d59e5996725cc74f60b43c42af4660a72d46e), [`a78a6bf`](https://github.com/paularmstrong/onerepo/commit/a78a6bf9d126de496c669cc19522897628ae912a), [`5b70d80`](https://github.com/paularmstrong/onerepo/commit/5b70d80b0af2a3d46719a81169308639b0fdfb81), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - @onerepo/core@0.13.0
+  - @onerepo/logger@0.4.1
+  - @onerepo/builders@0.5.0
+  - @onerepo/file@0.5.1
+  - @onerepo/git@0.3.1
+  - @onerepo/graph@0.9.1
+  - @onerepo/package-manager@0.4.1
+  - @onerepo/subprocess@0.5.1
+  - @onerepo/yargs@0.5.1
+
 ## 0.13.0
 
 ### Minor Changes

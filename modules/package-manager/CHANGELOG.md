@@ -1,5 +1,14 @@
 # @onerepo/package-manager
 
+## 0.4.1
+
+### Patch Changes
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - @onerepo/subprocess@0.5.1
+
 ## 0.4.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @onerepo/plugin-eslint
 
+## 0.6.1
+
+### Patch Changes
+
+- Minor updates to internal import methods [#430](https://github.com/paularmstrong/onerepo/pull/430) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`7c11522`](https://github.com/paularmstrong/onerepo/commit/7c115223c1d29852528c402728c4921fdbecb2f8), [`894497a`](https://github.com/paularmstrong/onerepo/commit/894497aa07572f88e45135b5027a5bf18e83c7a9), [`28410b7`](https://github.com/paularmstrong/onerepo/commit/28410b7cfaeed011c7e01973acb041a7d3aa984c)]:
+  - @onerepo/logger@0.4.1
+  - @onerepo/builders@0.5.0
+  - eslint-formatter-onerepo@0.1.1
+  - @onerepo/file@0.5.1
+  - @onerepo/git@0.3.1
+  - @onerepo/subprocess@0.5.1
+
 ## 0.6.0
 
 ### Minor Changes
