@@ -112,7 +112,7 @@ describe('Logger', () => {
 		await logger.end();
 		await waitStreamEnd(stream);
 
-		expect(out).toEqual(` ${pc.yellow(pc.bold('WRN'))} this is a warning
+		expect(out).toEqual(`  ${pc.yellow(pc.bold('WRN'))} this is a warning
  ┌ tacos
  └ ${pc.green('✔')} ${pc.dim('0ms')}
  ${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed ${pc.dim('0ms')}

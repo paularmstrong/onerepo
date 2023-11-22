@@ -222,7 +222,7 @@ function singleTaskToSpec(
 	if (cmd === '$0') {
 		logger.info([cmd, ...args]);
 		fn = async () => {
-			const step = logger.createStep(name);
+			const step = logger.createStep(name, { writePrefixes: false });
 			const buffer = new StepBuffer();
 			const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
 			buffer.on('data', (chunk) => {

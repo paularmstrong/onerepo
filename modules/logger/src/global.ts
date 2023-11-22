@@ -1,22 +1,30 @@
 import type { Logger } from './Logger';
 
-declare global {
-	// eslint-disable-next-line no-var
-	var ONEREPO_LOGGERS: Array<Logger>;
+const sym = Symbol.for('onerepo_loggers');
+
+function getLoggers(): Array<Logger> {
+	// @ts-ignore Cannot type symbol as key on global
+	if (!global[sym]) {
+		// @ts-ignore
+		global[sym] = [];
+	}
+	// @ts-ignore
+	return global[sym];
 }
 
-global.ONEREPO_LOGGERS = [];
-
 export function getCurrent() {
-	return global.ONEREPO_LOGGERS.length ? global.ONEREPO_LOGGERS[0] : undefined;
+	const loggers = getLoggers();
+	return loggers[0];
 }
 
 export function setCurrent(logger: Logger) {
-	if (!global.ONEREPO_LOGGERS.includes(logger)) {
-		global.ONEREPO_LOGGERS.unshift(logger);
+	const loggers = getLoggers();
+	if (!loggers.includes(logger)) {
+		loggers.unshift(logger);
 	}
 }
 
 export function destroyCurrent() {
-	global.ONEREPO_LOGGERS.shift();
+	const loggers = getLoggers();
+	loggers.shift();
 }

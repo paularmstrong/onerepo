@@ -102,12 +102,9 @@ export const commandDirOptions = ({
 			description,
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
-				const currentVerbosity = logger.verbosity;
-				logger.verbosity = 0;
 				performance.mark('onerepo_start_Startup hooks');
 				await startup(argv);
 				performance.mark('onerepo_end_Pre-Startup hooks');
-				logger.verbosity = currentVerbosity;
 
 				performance.mark(`onerepo_start_Handler: ${command}`);
 				logger.debug(`Resolved CLI arguments:

@@ -80,6 +80,9 @@ export class Logger {
 		setCurrent(this);
 	}
 
+	/**
+	 * Get the logger's verbosity level
+	 */
 	get verbosity(): Verbosity {
 		return this.#verbosity;
 	}
@@ -181,12 +184,13 @@ export class Logger {
 	 *
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
-	createStep(name: string) {
+	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
 		const step = new LogStep(name, {
 			onEnd: this.#onEnd,
 			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
+			writePrefixes,
 		});
 		this.#steps.push(step);
 		this.#activate(step);

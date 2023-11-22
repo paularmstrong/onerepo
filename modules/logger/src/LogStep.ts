@@ -9,6 +9,7 @@ type StepOptions = {
 	onError: () => void;
 	stream?: Writable;
 	description?: string;
+	writePrefixes?: boolean;
 };
 
 const prefix = {
@@ -47,6 +48,7 @@ export class LogStep {
 	#onError: () => void;
 	#lastThree: Array<string> = [];
 	#writing: boolean = false;
+	#writePrefixes: boolean = true;
 
 	/**
 	 * Whether or not this step has logged an error.
@@ -58,7 +60,7 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onError, verbosity, stream, description }: StepOptions) {
+	constructor(name: string, { onEnd, onError, verbosity, stream, description, writePrefixes }: StepOptions) {
 		performance.mark(`onerepo_start_${name || 'logger'}`, {
 			detail: description,
 		});
@@ -68,6 +70,7 @@ export class LogStep {
 		this.#onError = onError;
 		this.#buffer = new LogData({});
 		this.#stream = stream ?? process.stderr;
+		this.#writePrefixes = writePrefixes ?? true;
 		if (this.name) {
 			if (process.env.GITHUB_RUN_ID) {
 				this.#writeStream(`::group::${this.name}\n`);
@@ -301,7 +304,7 @@ export class LogStep {
 	#prefix(prefix: string, output: string) {
 		return output
 			.split('\n')
-			.map((line) => ` ${this.name ? '│ ' : ''}${prefix} ${line}`)
+			.map((line) => ` ${this.name ? '│' : ''}${this.#writePrefixes ? ` ${prefix} ` : ''}${line}`)
 			.join('\n');
 	}
 
