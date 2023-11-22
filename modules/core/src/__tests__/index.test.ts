@@ -17,7 +17,6 @@ describe('setup', () => {
 		expect(process.env.ONE_REPO_ROOT).toMatch(/\/__tests__\/__fixtures__\/repo$/);
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('main');
 		expect(process.env.ONE_REPO_DRY_RUN).toEqual('false');
-		expect(process.env.ONE_REPO_VERBOSITY).toEqual('0');
 	});
 
 	test('sets head branch from config', async () => {

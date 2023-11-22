@@ -33,7 +33,6 @@ async function runBuilder<R = Record<string, unknown>>(
 
 	process.env = {
 		...process.env,
-		ONE_REPO_VERBOSITY: '4',
 		ONE_REPO_HEAD_BRANCH: 'main',
 		...(builderExtras?.env ?? {}),
 	};

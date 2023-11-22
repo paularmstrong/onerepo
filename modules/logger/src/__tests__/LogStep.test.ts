@@ -187,4 +187,35 @@ describe('LogStep', () => {
 
 		expect(out).toMatch(exp);
 	});
+
+	test('can omit prefixes', async () => {
+		const onEnd = vi.fn(() => Promise.resolve());
+		const onError = vi.fn();
+		const stream = new PassThrough();
+		const step = new LogStep('tacos', { onEnd, onError, verbosity: 4, stream, writePrefixes: false });
+
+		let out = '';
+		stream.on('data', (chunk) => {
+			out += chunk.toString();
+		});
+
+		step.error('error');
+		step.warn('warn');
+		step.info('info');
+		step.log('log');
+		step.debug('debug');
+		step.activate();
+		await step.end();
+		await step.flush();
+		await waitStreamEnd(stream);
+
+		expect(out).toEqual(` ┌ tacos
+ │error
+ │warn
+ │info
+ │log
+ │debug
+ └ [31m✘[39m [2m0ms[22m
+`);
+	});
 });

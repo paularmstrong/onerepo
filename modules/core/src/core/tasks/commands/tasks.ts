@@ -226,13 +226,24 @@ function singleTaskToSpec(
 			const buffer = new StepBuffer();
 			const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
 			buffer.on('data', (chunk) => {
-				if (subLogger.hasError && subLogger.writable) {
+				if (!step.writable) {
+					return;
+				}
+				if (subLogger.hasError) {
 					step.error(chunk.toString().trimEnd());
+				} else if (logger.verbosity > 3) {
+					step.info(chunk.toString().trimEnd());
 				}
 			});
-			const { yargs } = await setup(config, createYargs(args), plugins, subLogger);
+			const { yargs } = await setup(config, createYargs([...args, ...passthrough]), plugins, subLogger);
 			await yargs.parse();
-			await subLogger.end();
+			await new Promise<void>((resolve) => {
+				setImmediate(async () => {
+					await subLogger.end();
+					resolve();
+				});
+			});
+
 			await step.end();
 			return ['', ''];
 		};

@@ -86,7 +86,6 @@ export async function setup(
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 	process.env.ONE_REPO_DRY_RUN = 'false';
-	process.env.ONE_REPO_VERBOSITY = '0';
 
 	const yargs = setupYargs(yargsInstance.scriptName(name)).epilogue(description);
 	yargs.completion(`${name}-completion`, false);
