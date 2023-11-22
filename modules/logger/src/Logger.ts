@@ -2,8 +2,10 @@ import type { Writable } from 'node:stream';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
 import { LogStep } from './LogStep';
+import { destroyCurrent, setCurrent } from './global';
 
 type LogUpdate = typeof logUpdate;
+export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
 
 /**
  * | Value  | What           | Description                                      |
@@ -20,7 +22,7 @@ export type LoggerOptions = {
 	/**
 	 * Verbosity ranges from 0 to 5
 	 */
-	verbosity: 0 | 1 | 2 | 3 | 4 | 5;
+	verbosity: Verbosity;
 	/**
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
@@ -45,7 +47,7 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
 export class Logger {
 	#logger: LogStep;
 	#steps: Array<LogStep> = [];
-	#verbosity = 0;
+	#verbosity: Verbosity = 0;
 	#updater: LogUpdate;
 	#frame = 0;
 	#stream: Writable;
@@ -74,17 +76,19 @@ export class Logger {
 				this.#runUpdater();
 			});
 		}
+
+		setCurrent(this);
 	}
 
-	get verbosity() {
+	get verbosity(): Verbosity {
 		return this.#verbosity;
 	}
 
 	/**
 	 * Recursively applies the new verbosity to the logger and all of its active steps.
 	 */
-	set verbosity(value: number) {
-		this.#verbosity = Math.max(0, value);
+	set verbosity(value: Verbosity) {
+		this.#verbosity = Math.max(0, value) as Verbosity;
 
 		if (this.#logger) {
 			this.#logger.verbosity = this.#verbosity;
@@ -92,6 +96,10 @@ export class Logger {
 		}
 
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
+	}
+
+	get writable() {
+		return this.#logger.writable;
 	}
 
 	/**
@@ -265,6 +273,7 @@ export class Logger {
 		clearTimeout(this.#updaterTimeout);
 		await this.#logger.end();
 		await this.#logger.flush();
+		destroyCurrent();
 	}
 
 	#activate = (step: LogStep) => {

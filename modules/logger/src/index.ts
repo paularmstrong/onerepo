@@ -1,10 +1,9 @@
 import { Logger } from './Logger';
 import type { LogStep } from './LogStep';
+import { destroyCurrent, getCurrent, setCurrent } from './global';
 
 export * from './Logger';
 export * from './LogStep';
-
-const loggerSym = Symbol.for('onerepo-logger');
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.
@@ -19,14 +18,11 @@ const loggerSym = Symbol.for('onerepo-logger');
  * @group Logger
  */
 export function getLogger(opts: Partial<ConstructorParameters<typeof Logger>[0]> = {}): Logger {
-	// @ts-ignore
-	if (!global[loggerSym]) {
-		// @ts-ignore
-		global[loggerSym] = new Logger({ verbosity: 0, ...opts });
+	let logger = getCurrent();
+	if (!logger) {
+		logger = new Logger({ verbosity: 0, ...opts });
+		setCurrent(logger);
 	}
-
-	const logger = // @ts-ignore
-		global[loggerSym] as Logger;
 
 	logger.verbosity = opts.verbosity ?? logger.verbosity;
 
@@ -41,13 +37,7 @@ export function getLogger(opts: Partial<ConstructorParameters<typeof Logger>[0]>
  * @internal
  */
 export function destroyLogger() {
-	if (!(loggerSym in global)) {
-		return;
-	}
-	// @ts-ignore
-	global[loggerSym] = null;
-	// @ts-ignore
-	delete global[loggerSym];
+	destroyCurrent();
 }
 
 /**

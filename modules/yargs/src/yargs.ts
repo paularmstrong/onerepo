@@ -1,5 +1,4 @@
 import { performance } from 'node:perf_hooks';
-import { getLogger } from '@onerepo/logger';
 import { BatchError, SubprocessError } from '@onerepo/subprocess';
 import * as builders from '@onerepo/builders';
 import type { Logger } from '@onerepo/logger';
@@ -74,6 +73,7 @@ type CommandDirOpts = {
 	 * @internal
 	 */
 	config: Record<string, unknown>;
+	logger: Logger;
 };
 
 /**
@@ -84,6 +84,7 @@ export const commandDirOptions = ({
 	graph,
 	startup,
 	config,
+	logger,
 }: CommandDirOpts): RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> } => ({
 	extensions: ['ts', 'js', 'cjs', 'mjs'],
 	exclude,
@@ -101,7 +102,6 @@ export const commandDirOptions = ({
 			description,
 			...rest,
 			handler: async (argv: Arguments<DefaultArgv>) => {
-				const logger = getLogger();
 				const currentVerbosity = logger.verbosity;
 				logger.verbosity = 0;
 				performance.mark('onerepo_start_Startup hooks');

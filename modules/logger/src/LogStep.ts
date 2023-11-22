@@ -79,6 +79,13 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
+	get writable() {
+		return this.#stream.writable && this.#buffer.writable;
+	}
+
+	/**
+	 * @internal
+	 */
 	get name() {
 		return this.#name;
 	}

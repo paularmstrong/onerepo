@@ -8,6 +8,7 @@ import { register } from 'esbuild-register/dist/node';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import { getGraph } from '@onerepo/graph';
+import type { Logger } from '@onerepo/logger';
 import { destroyLogger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
@@ -71,6 +72,10 @@ export async function setup(
 	 * @internal
 	 */
 	corePlugins: CorePlugins,
+	/**
+	 * @internal
+	 */
+	logger?: Logger,
 ): Promise<App> {
 	register({});
 	performance.mark('onerepo_start_Program');
@@ -103,6 +108,7 @@ export async function setup(
 		exclude: ignoreCommands,
 		startup,
 		config,
+		logger: logger ?? getLogger(),
 	});
 
 	yargs.commandDir = patchCommandDir(options, yargs.commandDir);

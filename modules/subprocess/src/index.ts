@@ -6,8 +6,6 @@ import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { getLogger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
-const logger = getLogger();
-
 export type PromiseFn = () => Promise<[string, string]>;
 
 /**
@@ -108,6 +106,7 @@ export async function run(options: RunSpec | PromiseFn): Promise<[string, string
 	}
 
 	return new Promise((resolve, reject) => {
+		const logger = getLogger();
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;
 
 		const {
@@ -256,6 +255,7 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
  */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const { name, runDry } = options;
+	const logger = getLogger();
 	const step = logger.createStep(name);
 	const commandString = `${options.cmd} ${(options.args || []).join(' ')}`;
 
@@ -345,6 +345,7 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 	const maxParallel = Math.min(cpus === 2 ? 2 : cpus - 1, tasks.length);
 
 	return new Promise((resolve, reject) => {
+		const logger = getLogger();
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
 		function runTask(runner: () => Promise<[string, string]>): Promise<void> {
 			return runner()

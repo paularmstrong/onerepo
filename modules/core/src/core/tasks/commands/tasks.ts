@@ -1,3 +1,4 @@
+import { Duplex } from 'node:stream';
 import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
@@ -6,7 +7,7 @@ import * as builders from '@onerepo/builders';
 import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type { Logger } from '@onerepo/logger';
+import { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { setup } from '../../../setup';
 import type { Config, CorePlugins } from '../../../types';
@@ -215,18 +216,30 @@ function singleTaskToSpec(
 		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;
 
+	const name = `${command.replace(/^\$0/, cliName)} (${workspace.name})`;
+
 	let fn: PromiseFn | undefined;
 	if (cmd === '$0') {
 		logger.info([cmd, ...args]);
 		fn = async () => {
-			const { yargs } = await setup(config, createYargs(args), plugins);
+			const step = logger.createStep(name);
+			const buffer = new StepBuffer();
+			const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
+			buffer.on('data', (chunk) => {
+				if (subLogger.hasError && subLogger.writable) {
+					step.error(chunk.toString().trimEnd());
+				}
+			});
+			const { yargs } = await setup(config, createYargs(args), plugins, subLogger);
 			await yargs.parse();
+			await subLogger.end();
+			await step.end();
 			return ['', ''];
 		};
 	}
 
 	return {
-		name: `${command.replace(/^\$0/, cliName)} (${workspace.name})`,
+		name,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
@@ -255,3 +268,18 @@ function slugify(str: string) {
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string }; fn?: PromiseFn };
 type TaskList = Array<Array<ExtendedRunSpec>>;
+
+class StepBuffer extends Duplex {
+	_read() {}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_write(chunk: string, encoding = 'utf8', callback: () => void) {
+		this.push(chunk.toString());
+		callback();
+	}
+
+	_final(callback: () => void) {
+		this.push(null);
+		callback();
+	}
+}
