@@ -9,3 +9,22 @@ updates:
     labels:
       - dependencies
     open-pull-requests-limit: 15
+    groups:
+      production-dependencies:
+        dependency-type: production
+      typescript:
+        patterns:
+          - typescript
+          - '@types/*'
+        exclude-patterns:
+          - '@types/eslint'
+      docs:
+        patterns:
+          - 'astro'
+          - '@astrojs/*'
+          - 'tailwindcss'
+          - 'postcss'
+          - 'netlify-*'
+      eslint:
+        patterns:
+          - '*eslint*'
