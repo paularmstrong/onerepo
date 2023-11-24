@@ -86,6 +86,8 @@ export async function stepWrapper<T>(
  * await subLogger.end();
  * await step.en();
  * ```
+ *
+ * @group Logger
  */
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
