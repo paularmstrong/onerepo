@@ -100,11 +100,7 @@ export type RunSpec = {
  * @throws {@link SubprocessError | `SubprocessError`} if not `skipFailures` and the spawned process does not exit cleanly (with code `0`)
  * @see {@link PackageManager.run | `PackageManager.run`} to safely run executables exposed from third party modules.
  */
-export async function run(options: RunSpec | PromiseFn): Promise<[string, string]> {
-	if (typeof options === 'function') {
-		return options();
-	}
-
+export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;
@@ -337,6 +333,10 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 	}
 
 	const tasks = processes.map((proc) => () => {
+		if (typeof proc === 'function') {
+			return proc();
+		}
+
 		return run(proc);
 	});
 

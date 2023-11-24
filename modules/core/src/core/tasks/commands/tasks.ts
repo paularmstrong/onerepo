@@ -164,6 +164,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	for (const task of serialTasks.flat(1).map((task) => task.fn ?? task)) {
 		try {
+			if (typeof task === 'function') {
+				await task();
+				continue;
+			}
 			await run(task);
 		} catch (e) {
 			// continue so all tasks run
