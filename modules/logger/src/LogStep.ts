@@ -1,7 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import type { Writable } from 'node:stream';
-import { Duplex } from 'node:stream';
 import pc from 'picocolors';
+import { LogBuffer } from './LogBuffer';
 
 type StepOptions = {
 	verbosity: number;
@@ -9,6 +9,7 @@ type StepOptions = {
 	onError: () => void;
 	stream?: Writable;
 	description?: string;
+	writePrefixes?: boolean;
 };
 
 const prefix = {
@@ -40,13 +41,14 @@ const noop = () => {};
 export class LogStep {
 	#name: string;
 	#verbosity: number;
-	#buffer: Duplex;
+	#buffer: LogBuffer;
 	#stream: Writable;
 	#active = false;
 	#onEnd: (step: LogStep) => Promise<void>;
 	#onError: () => void;
 	#lastThree: Array<string> = [];
 	#writing: boolean = false;
+	#writePrefixes: boolean = true;
 
 	/**
 	 * Whether or not this step has logged an error.
@@ -58,7 +60,7 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onError, verbosity, stream, description }: StepOptions) {
+	constructor(name: string, { onEnd, onError, verbosity, stream, description, writePrefixes }: StepOptions) {
 		performance.mark(`onerepo_start_${name || 'logger'}`, {
 			detail: description,
 		});
@@ -66,14 +68,22 @@ export class LogStep {
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
-		this.#buffer = new LogData({});
+		this.#buffer = new LogBuffer({});
 		this.#stream = stream ?? process.stderr;
+		this.#writePrefixes = writePrefixes ?? true;
 		if (this.name) {
 			if (process.env.GITHUB_RUN_ID) {
 				this.#writeStream(`::group::${this.name}\n`);
 			}
 			this.#writeStream(this.#prefixStart(this.name));
 		}
+	}
+
+	/**
+	 * @internal
+	 */
+	get writable() {
+		return this.#stream.writable && this.#buffer.writable;
 	}
 
 	/**
@@ -143,7 +153,7 @@ export class LogStep {
 
 		this.#buffer.off('data', noop);
 		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
-		this.#buffer.on('data', (chunk) => this.#stream.write(chunk));
+		this.#buffer.on('data', (chunk: unknown) => this.#stream.write(chunk));
 		this.#writing = true;
 	}
 
@@ -294,27 +304,12 @@ export class LogStep {
 	#prefix(prefix: string, output: string) {
 		return output
 			.split('\n')
-			.map((line) => ` ${this.name ? '│ ' : ''}${prefix} ${line}`)
+			.map((line) => ` ${this.name ? '│' : ''}${this.#writePrefixes ? ` ${prefix} ` : ''}${line}`)
 			.join('\n');
 	}
 
 	#prefixEnd(output: string) {
 		return ` ${this.name ? '└' : prefix.END} ${output}`;
-	}
-}
-
-class LogData extends Duplex {
-	_read() {}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	_write(chunk: string, encoding = 'utf8', callback: () => void) {
-		this.push(chunk);
-		callback();
-	}
-
-	_final(callback: () => void) {
-		this.push(null);
-		callback();
 	}
 }
 

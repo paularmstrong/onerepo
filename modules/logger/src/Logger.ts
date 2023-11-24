@@ -2,10 +2,13 @@ import type { Writable } from 'node:stream';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
 import { LogStep } from './LogStep';
+import { destroyCurrent, setCurrent } from './global';
 
 type LogUpdate = typeof logUpdate;
 
 /**
+ * Control the verbosity of the log output
+ *
  * | Value  | What           | Description                                      |
  * | ------ | -------------- | ------------------------------------------------ |
  * | `<= 0` | Silent         | No output will be read or written.               |
@@ -14,13 +17,19 @@ type LogUpdate = typeof logUpdate;
  * | `>= 3` | Log            |                                                  |
  * | `>= 4` | Debug          | `logger.debug()` will be included                |
  * | `>= 5` | Timing         | Extra performance timing metrics will be written |
+ *
+ * @group Logger
+ */
+export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
+
+/**
  * @group Logger
  */
 export type LoggerOptions = {
 	/**
-	 * Verbosity ranges from 0 to 5
+	 * Control how much and what kind of output the Logger will provide.
 	 */
-	verbosity: 0 | 1 | 2 | 3 | 4 | 5;
+	verbosity: Verbosity;
 	/**
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
@@ -45,7 +54,7 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
 export class Logger {
 	#logger: LogStep;
 	#steps: Array<LogStep> = [];
-	#verbosity = 0;
+	#verbosity: Verbosity = 0;
 	#updater: LogUpdate;
 	#frame = 0;
 	#stream: Writable;
@@ -74,17 +83,22 @@ export class Logger {
 				this.#runUpdater();
 			});
 		}
+
+		setCurrent(this);
 	}
 
-	get verbosity() {
+	/**
+	 * Get the logger's verbosity level
+	 */
+	get verbosity(): Verbosity {
 		return this.#verbosity;
 	}
 
 	/**
 	 * Recursively applies the new verbosity to the logger and all of its active steps.
 	 */
-	set verbosity(value: number) {
-		this.#verbosity = Math.max(0, value);
+	set verbosity(value: Verbosity) {
+		this.#verbosity = Math.max(0, value) as Verbosity;
 
 		if (this.#logger) {
 			this.#logger.verbosity = this.#verbosity;
@@ -92,6 +106,10 @@ export class Logger {
 		}
 
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
+	}
+
+	get writable() {
+		return this.#logger.writable;
 	}
 
 	/**
@@ -173,12 +191,13 @@ export class Logger {
 	 *
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
-	createStep(name: string) {
+	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
 		const step = new LogStep(name, {
 			onEnd: this.#onEnd,
 			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
+			writePrefixes,
 		});
 		this.#steps.push(step);
 		this.#activate(step);
@@ -265,6 +284,7 @@ export class Logger {
 		clearTimeout(this.#updaterTimeout);
 		await this.#logger.end();
 		await this.#logger.flush();
+		destroyCurrent();
 	}
 
 	#activate = (step: LogStep) => {

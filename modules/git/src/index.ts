@@ -213,7 +213,7 @@ export async function getModifiedFiles(
 		return modified
 			.replace(/\\u0000$/, '')
 			.split('\u0000')
-			.filter(Boolean);
+			.filter(Boolean) as Array<string>;
 	});
 }
 

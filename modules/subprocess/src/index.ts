@@ -6,7 +6,7 @@ import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { getLogger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
-const logger = getLogger();
+export type PromiseFn = () => Promise<[string, string]>;
 
 /**
  * The core configuration for {@link run | `run`}, {@link start | `start`}, {@link sudo | `sudo`}, and {@link batch | `batch`} subprocessing.
@@ -102,6 +102,7 @@ export type RunSpec = {
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
 	return new Promise((resolve, reject) => {
+		const logger = getLogger();
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;
 
 		const {
@@ -250,6 +251,7 @@ export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
  */
 export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string }): Promise<[string, string]> {
 	const { name, runDry } = options;
+	const logger = getLogger();
 	const step = logger.createStep(name);
 	const commandString = `${options.cmd} ${(options.args || []).join(' ')}`;
 
@@ -323,7 +325,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  * @throws {@link BatchError | `BatchError`} An object that includes a list of all of the {@link SubprocessError | `SubprocessError`}s thrown.
  * @see {@link PackageManager.batch | `PackageManager.batch`} to safely batch executables exposed from third party modules.
  */
-export async function batch(processes: Array<RunSpec>): Promise<Array<[string, string] | Error>> {
+export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = [];
 
 	if (processes.length === 0) {
@@ -331,6 +333,10 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 	}
 
 	const tasks = processes.map((proc) => () => {
+		if (typeof proc === 'function') {
+			return proc();
+		}
+
 		return run(proc);
 	});
 
@@ -339,6 +345,7 @@ export async function batch(processes: Array<RunSpec>): Promise<Array<[string, s
 	const maxParallel = Math.min(cpus === 2 ? 2 : cpus - 1, tasks.length);
 
 	return new Promise((resolve, reject) => {
+		const logger = getLogger();
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
 		function runTask(runner: () => Promise<[string, string]>): Promise<void> {
 			return runner()

@@ -163,7 +163,11 @@ describe('NPM', () => {
 		test('filters workspaces by the ones with a version not in the registry', async () => {
 			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
-					calls.map(({ args }) => {
+					calls.map((spec) => {
+						if (typeof spec === 'function') {
+							return spec();
+						}
+						const { args } = spec;
 						const versions: Array<string> = [];
 						if (args?.includes('tacos')) {
 							versions.push('1.2.3', '1.2.4');
@@ -187,7 +191,11 @@ describe('NPM', () => {
 		test('ignores errors', async () => {
 			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
-					calls.map(({ args }) => {
+					calls.map((spec) => {
+						if (typeof spec === 'function') {
+							return spec();
+						}
+						const { args } = spec;
 						const versions: Array<string> = [];
 						if (args?.includes('tacos')) {
 							versions.push('1.2.3', '1.2.5');
@@ -211,7 +219,11 @@ describe('NPM', () => {
 		test('does not fail for unparseable json', async () => {
 			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
-					calls.map(({ args }) => {
+					calls.map((spec) => {
+						if (typeof spec === 'function') {
+							return spec();
+						}
+						const { args } = spec;
 						const versions: Array<string> = [];
 						if (args?.includes('tacos')) {
 							return ['', ''];

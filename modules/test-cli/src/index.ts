@@ -5,6 +5,7 @@ import Yargs from 'yargs';
 import * as builders from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
 import { destroyLogger, getLogger } from '@onerepo/logger';
+import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
@@ -18,14 +19,13 @@ const testRunner: typeof vitest | typeof jest =
 const mocker = testRunner.mock;
 mocker('yargs');
 
-export async function runBuilder<R = Record<string, unknown>>(
+async function runBuilder<R = Record<string, unknown>>(
 	builder: Builder<R>,
 	cmd = '',
 	builderExtras?: BuilderExtras,
 ): Promise<Argv<R>> {
 	process.env = {
 		...process.env,
-		ONE_REPO_VERBOSITY: '4',
 		ONE_REPO_HEAD_BRANCH: 'main',
 		...(builderExtras?.env ?? {}),
 	};
@@ -75,7 +75,7 @@ export async function runBuilder<R = Record<string, unknown>>(
 const dirname =
 	typeof __dirname !== 'undefined' ? __dirname : path.resolve(path.dirname(url.fileURLToPath(import.meta.url)));
 
-export async function runHandler<R = Record<string, unknown>>(
+async function runHandler<R = Record<string, unknown>>(
 	{
 		builder,
 		handler,
@@ -112,6 +112,7 @@ export async function runHandler<R = Record<string, unknown>>(
 			getFilepaths: wrappedGetFilepaths,
 			getWorkspaces: wrappedGetWorkspaces,
 			graph,
+			config: {},
 		});
 	} catch (e) {
 		error = e;
@@ -128,14 +129,16 @@ export async function runHandler<R = Record<string, unknown>>(
 	return out;
 }
 
-export function getCommand<R = Record<string, unknown>>({
-	builder,
-	handler,
-}: {
-	builder: Builder<R>;
-	handler: Handler<R>;
-}) {
-	const graph = getGraph(path.join(dirname, 'fixtures', 'repo'));
+export function getCommand<R = Record<string, unknown>>(
+	{
+		builder,
+		handler,
+	}: {
+		builder: Builder<R>;
+		handler: Handler<R>;
+	},
+	graph: Graph = getGraph(path.join(dirname, 'fixtures', 'repo')),
+) {
 	return {
 		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, extras),
 		graph,

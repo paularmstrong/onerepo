@@ -3,10 +3,25 @@ import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import * as builders from '@onerepo/builders';
-import type { RunSpec } from '@onerepo/subprocess';
+import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
+import { bufferSubLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
+import createYargs from 'yargs/yargs';
+import { setup } from '../../../setup';
+import type { Config, CorePlugins } from '../../../types';
+import { docgen } from '../../docgen';
+import { generate } from '../../generate';
+import { graph } from '../../graph';
+import { install } from '../../install';
+
+const plugins: CorePlugins = {
+	docgen,
+	generate,
+	graph,
+	install,
+};
 
 export const command = 'tasks';
 
@@ -58,22 +73,26 @@ export const builder: Builder<Argv> = (yargs) =>
 			hidden: true,
 		});
 
-export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
 	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
 
-	const requested = await getWorkspaces({ ignore });
+	const setupStep = logger.createStep('Determining tasks');
+	const requested = await getWorkspaces({ ignore, step: setupStep });
 	const workspaces = affected ? graph.affected(requested) : requested;
 	const workspaceNames = workspaces.map(({ name }) => name);
 
-	const modifiedOpts = staged ? { staged: true } : { from: fromRef, through: throughRef };
+	const modifiedOpts = staged
+		? { staged: true, step: setupStep }
+		: { from: fromRef, through: throughRef, step: setupStep };
 	const allFiles = await git.getModifiedFiles(modifiedOpts);
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
 	if (!files.length && !workspaceNames.length) {
-		logger.warn('No tasks to run');
+		setupStep.warn('No tasks to run');
 		if (list) {
 			process.stdout.write(JSON.stringify({ parallel: [], serial: [] }));
 		}
+		await setupStep.end();
 		return;
 	}
 
@@ -82,7 +101,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	let hasTasks = false;
 
 	for (const workspace of graph.workspaces) {
-		logger.log(`Looking for tasks in ${workspace.name}`);
+		setupStep.log(`Looking for tasks in ${workspace.name}`);
 
 		const force = (task: Task) =>
 			(workspace.isRoot && (typeof task === 'string' || Array.isArray(task))) || workspaces.includes(workspace);
@@ -92,7 +111,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger, config);
 				serialTasks.push(specs);
 			}
 		});
@@ -101,19 +120,35 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const shouldRun = matchTask(force(task), task, files, graph.root.relative(workspace.location));
 			if (shouldRun) {
 				hasTasks = true;
-				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger);
+				const specs = taskToSpecs(argv.$0, graph, workspace, task, workspaceNames, logger, config);
 				parallelTasks.push(specs);
 			}
 		});
 	}
 
+	await setupStep.end();
+
 	if (list) {
+		const step = logger.createStep('Listing tasks');
 		const all = {
 			parallel: parallelTasks,
 			serial: serialTasks,
 		};
-		logger.debug(JSON.stringify(all, null, 2));
-		process.stdout.write(JSON.stringify(all));
+		process.stdout.write(
+			JSON.stringify(
+				all,
+				(key, value) => {
+					// Filter out the alternative `fn` so we don't try to JSONify it
+					if (value && !Array.isArray(value) && typeof value === 'object' && 'fn' in value) {
+						const { fn, ...task } = value;
+						return task;
+					}
+					return value;
+				},
+				2,
+			),
+		);
+		await step.end();
 		return;
 	}
 
@@ -123,13 +158,17 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	}
 
 	try {
-		await batch(parallelTasks.flat(1));
+		await batch(parallelTasks.flat(1).map((task) => task.fn ?? task));
 	} catch (e) {
 		// continue so all tasks run
 	}
 
-	for (const task of serialTasks.flat(1)) {
+	for (const task of serialTasks.flat(1).map((task) => task.fn ?? task)) {
 		try {
+			if (typeof task === 'function') {
+				await task();
+				continue;
+			}
 			await run(task);
 		} catch (e) {
 			// continue so all tasks run
@@ -146,16 +185,21 @@ function taskToSpecs(
 	task: Task,
 	wsNames: Array<string>,
 	logger: Logger,
+	config: Config,
 ): Array<ExtendedRunSpec> {
 	if (Array.isArray(task)) {
-		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames, logger));
+		return task.map((t) => singleTaskToSpec(cliName, graph, workspace, t, wsNames, logger, config));
 	}
 
 	if (typeof task !== 'string' && Array.isArray(task.cmd)) {
-		return task.cmd.map((cmd) => singleTaskToSpec(cliName, graph, workspace, { ...task, cmd }, wsNames, logger));
+		return task.cmd.map((cmd) =>
+			singleTaskToSpec(cliName, graph, workspace, { ...task, cmd }, wsNames, logger, config),
+		);
 	}
 
-	return [singleTaskToSpec(cliName, graph, workspace, task as string | (TaskDef & { cmd: string }), wsNames, logger)];
+	return [
+		singleTaskToSpec(cliName, graph, workspace, task as string | (TaskDef & { cmd: string }), wsNames, logger, config),
+	];
 }
 
 function singleTaskToSpec(
@@ -165,6 +209,7 @@ function singleTaskToSpec(
 	task: string | (TaskDef & { cmd: string }),
 	wsNames: Array<string>,
 	logger: Logger,
+	config: Config,
 ): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
 	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
@@ -176,8 +221,25 @@ function singleTaskToSpec(
 		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;
 
+	const name = `${command.replace(/^\$0/, cliName)} (${workspace.name})`;
+
+	let fn: PromiseFn | undefined;
+	if (cmd === '$0') {
+		logger.info([cmd, ...args]);
+		fn = async () => {
+			const step = logger.createStep(name, { writePrefixes: false });
+			const subLogger = bufferSubLogger(step);
+			const { yargs } = await setup(config, createYargs([...args, ...passthrough]), plugins, subLogger.logger);
+			await yargs.parse();
+			await subLogger.end();
+
+			await step.end();
+			return ['', ''];
+		};
+	}
+
 	return {
-		name: `${command.replace(/^\$0/, cliName)} (${workspace.name})`,
+		name,
 		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
@@ -186,6 +248,7 @@ function singleTaskToSpec(
 			name: workspace.name,
 			slug: slugify(workspace.name),
 		},
+		fn,
 	};
 }
 
@@ -203,5 +266,5 @@ function slugify(str: string) {
 	return str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
 }
 
-type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string } };
+type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string }; fn?: PromiseFn };
 type TaskList = Array<Array<ExtendedRunSpec>>;

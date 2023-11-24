@@ -4,7 +4,7 @@ import { write, writeSafe } from '@onerepo/file';
 import type { Argv as Yargv } from 'yargs';
 import type { Handler } from '@onerepo/yargs';
 import type { Plugin, App } from '@onerepo/core';
-import type { Config } from '../../types';
+import type { Config, CorePlugins } from '../../types';
 import { toMarkdown } from './markdown';
 import { Yargs } from './yargs';
 import type { Docs } from './yargs';
@@ -48,7 +48,12 @@ interface Args {
 	command?: string;
 }
 
-export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<App>, config: Config): Plugin => {
+export const docgen = (
+	opts: Options = {},
+	fn: (c: Config, y: Yargv, p: CorePlugins) => Promise<App>,
+	config: Config,
+	corePlugins: CorePlugins,
+): Plugin => {
 	if (typeof opts.outFile === 'string' && (!opts.outFile || path.isAbsolute(opts.outFile))) {
 		throw new Error('Invalid path specified for `core.docgen.outFile`. Path must be relative, eg, "./docs/usage.md"');
 	}
@@ -81,6 +86,7 @@ export const docgen = (opts: Options = {}, fn: (c: Config, y: Yargv) => Promise<
 					config,
 					// @ts-ignore
 					docsYargs,
+					corePlugins,
 				);
 				docsYargs._rootPath = config.root as string;
 				docsYargs._commandDirectory = (config.subcommandDir as string) ?? 'commands';
