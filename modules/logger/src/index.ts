@@ -1,6 +1,7 @@
 import { Logger } from './Logger';
 import type { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
+import { LogBuffer } from './LogBuffer';
 
 export * from './Logger';
 export * from './LogStep';
@@ -70,4 +71,46 @@ export async function stepWrapper<T>(
 	!inputStep && (await step.end());
 
 	return out;
+}
+
+/**
+ * Create a new Logger instance that has its output buffered up to a LogStep.
+ *
+ * @example
+ * ```ts
+ * const step = logger.createStep(name, { writePrefixes: false });
+ * const subLogger = bufferSubLogger(step);
+ * const substep = subLogger.logger.createStep('Sub-step');
+ * substep.warning('This gets buffered');
+ * await substep.end();
+ * await subLogger.end();
+ * await step.en();
+ * ```
+ */
+export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
+	const logger = getLogger();
+	const buffer = new LogBuffer();
+	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
+	buffer.on('data', (chunk) => {
+		if (!step.writable) {
+			return;
+		}
+		if (subLogger.hasError) {
+			step.error(chunk.toString().trimEnd());
+		} else if (logger.verbosity > 3) {
+			step.log(chunk.toString().trimEnd());
+		}
+	});
+
+	return {
+		logger: subLogger,
+		async end() {
+			await new Promise<void>((resolve) => {
+				setImmediate(async () => {
+					await subLogger.end();
+					resolve();
+				});
+			});
+		},
+	};
 }

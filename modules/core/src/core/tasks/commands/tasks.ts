@@ -1,4 +1,3 @@
-import { Duplex } from 'node:stream';
 import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
@@ -7,7 +6,8 @@ import * as builders from '@onerepo/builders';
 import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
-import { Logger } from '@onerepo/logger';
+import { bufferSubLogger } from '@onerepo/logger';
+import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { setup } from '../../../setup';
 import type { Config, CorePlugins } from '../../../types';
@@ -223,26 +223,10 @@ function singleTaskToSpec(
 		logger.info([cmd, ...args]);
 		fn = async () => {
 			const step = logger.createStep(name, { writePrefixes: false });
-			const buffer = new StepBuffer();
-			const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
-			buffer.on('data', (chunk) => {
-				if (!step.writable) {
-					return;
-				}
-				if (subLogger.hasError) {
-					step.error(chunk.toString().trimEnd());
-				} else if (logger.verbosity > 3) {
-					step.info(chunk.toString().trimEnd());
-				}
-			});
-			const { yargs } = await setup(config, createYargs([...args, ...passthrough]), plugins, subLogger);
+			const subLogger = bufferSubLogger(step);
+			const { yargs } = await setup(config, createYargs([...args, ...passthrough]), plugins, subLogger.logger);
 			await yargs.parse();
-			await new Promise<void>((resolve) => {
-				setImmediate(async () => {
-					await subLogger.end();
-					resolve();
-				});
-			});
+			await subLogger.end();
 
 			await step.end();
 			return ['', ''];
@@ -279,18 +263,3 @@ function slugify(str: string) {
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string }; fn?: PromiseFn };
 type TaskList = Array<Array<ExtendedRunSpec>>;
-
-class StepBuffer extends Duplex {
-	_read() {}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	_write(chunk: string, encoding = 'utf8', callback: () => void) {
-		this.push(chunk.toString());
-		callback();
-	}
-
-	_final(callback: () => void) {
-		this.push(null);
-		callback();
-	}
-}

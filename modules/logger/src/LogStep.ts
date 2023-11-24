@@ -1,7 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import type { Writable } from 'node:stream';
-import { Duplex } from 'node:stream';
 import pc from 'picocolors';
+import { LogBuffer } from './LogBuffer';
 
 type StepOptions = {
 	verbosity: number;
@@ -41,7 +41,7 @@ const noop = () => {};
 export class LogStep {
 	#name: string;
 	#verbosity: number;
-	#buffer: Duplex;
+	#buffer: LogBuffer;
 	#stream: Writable;
 	#active = false;
 	#onEnd: (step: LogStep) => Promise<void>;
@@ -68,7 +68,7 @@ export class LogStep {
 		this.#name = name;
 		this.#onEnd = onEnd;
 		this.#onError = onError;
-		this.#buffer = new LogData({});
+		this.#buffer = new LogBuffer({});
 		this.#stream = stream ?? process.stderr;
 		this.#writePrefixes = writePrefixes ?? true;
 		if (this.name) {
@@ -153,7 +153,7 @@ export class LogStep {
 
 		this.#buffer.off('data', noop);
 		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
-		this.#buffer.on('data', (chunk) => this.#stream.write(chunk));
+		this.#buffer.on('data', (chunk: unknown) => this.#stream.write(chunk));
 		this.#writing = true;
 	}
 
@@ -310,21 +310,6 @@ export class LogStep {
 
 	#prefixEnd(output: string) {
 		return ` ${this.name ? '└' : prefix.END} ${output}`;
-	}
-}
-
-class LogData extends Duplex {
-	_read() {}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	_write(chunk: string, encoding = 'utf8', callback: () => void) {
-		this.push(chunk);
-		callback();
-	}
-
-	_final(callback: () => void) {
-		this.push(null);
-		callback();
 	}
 }
 
