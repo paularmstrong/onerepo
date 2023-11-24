@@ -5,9 +5,10 @@ import { LogStep } from './LogStep';
 import { destroyCurrent, setCurrent } from './global';
 
 type LogUpdate = typeof logUpdate;
-export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
 
 /**
+ * Control the verbosity of the log output
+ *
  * | Value  | What           | Description                                      |
  * | ------ | -------------- | ------------------------------------------------ |
  * | `<= 0` | Silent         | No output will be read or written.               |
@@ -16,11 +17,17 @@ export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
  * | `>= 3` | Log            |                                                  |
  * | `>= 4` | Debug          | `logger.debug()` will be included                |
  * | `>= 5` | Timing         | Extra performance timing metrics will be written |
+ *
+ * @group Logger
+ */
+export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
+
+/**
  * @group Logger
  */
 export type LoggerOptions = {
 	/**
-	 * Verbosity ranges from 0 to 5
+	 * Control how much and what kind of output the Logger will provide.
 	 */
 	verbosity: Verbosity;
 	/**
