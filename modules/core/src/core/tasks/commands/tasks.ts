@@ -138,6 +138,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			JSON.stringify(
 				all,
 				(key, value) => {
+					// Filter out the alternative `fn` so we don't try to JSONify it
 					if (value && !Array.isArray(value) && typeof value === 'object' && 'fn' in value) {
 						const { fn, ...task } = value;
 						return task;
