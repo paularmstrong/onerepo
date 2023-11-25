@@ -77,13 +77,13 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
 	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
 
-	const setupStep = logger.createStep('Determining tasks');
-	const requested = await getWorkspaces({ ignore, step: setupStep });
-
 	const stagingWorkflow = new StagingWorkflow({ graph, logger });
 	if (lifecycle === 'pre-commit') {
 		await stagingWorkflow.saveUnstaged();
 	}
+
+	const setupStep = logger.createStep('Determining tasks');
+	const requested = await getWorkspaces({ ignore, step: setupStep });
 
 	const workspaces = affected ? graph.affected(requested) : requested;
 	const workspaceNames = workspaces.map(({ name }) => name);
