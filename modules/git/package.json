@@ -21,6 +21,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@onerepo/file": "workspace:^",
 		"@onerepo/logger": "0.4.1",
 		"@onerepo/subprocess": "0.5.1"
 	},

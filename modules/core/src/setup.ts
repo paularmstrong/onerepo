@@ -174,9 +174,36 @@ export async function setup(
 			});
 		}
 	}
+
+	async function safeShutdown(argv?: Argv<DefaultArgv>) {
+		// allow the last performance mark to propagate to observers. Super hacky.
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				resolve();
+			});
+		});
+
+		const logger = getLogger({ verbosity: 0 });
+		let results: Array<Record<string, unknown> | void> = [];
+		if (argv) {
+			// Silence the logger so that shutdown handlers do not write logs
+			results = await shutdown(argv);
+		}
+
+		await logger.end();
+
+		// Destroy _after_ shutdown.
+		destroyLogger();
+		return results;
+	}
+
 	return {
 		yargs,
 		run: async () => {
+			process.on('SIGINT', async () => {
+				await safeShutdown();
+			});
+
 			// @ts-expect-error Yargs types are slightly incorrect here, missing `'--': Array<string>`.
 			const argv = (await yargs.parse()) as Argv<DefaultArgv>;
 
@@ -185,22 +212,7 @@ export async function setup(
 					'The measure of time from the beginning of parsing program setup and CLI arguments through the end of the handler & any postHandler options.',
 			});
 
-			// allow the last performance mark to propagate to observers. Super hacky.
-			await new Promise<void>((resolve) => {
-				setImmediate(() => {
-					resolve();
-				});
-			});
-
-			// Silence the logger so that shutdown handlers do not write logs
-			const logger = getLogger({ verbosity: 0 });
-
-			const results = await shutdown(argv);
-
-			await logger.end();
-
-			// Destroy _after_ shutdown.
-			destroyLogger();
+			const results = await safeShutdown(argv);
 
 			const merged = results.reduce(
 				(memo, res) => ({ ...memo, ...(typeof res === 'object' ? res : {}) }),

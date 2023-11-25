@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { batch, run } from '@onerepo/subprocess';
-import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import * as builders from '@onerepo/builders';
 import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
@@ -10,6 +9,7 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import { bufferSubLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
+import { StagingWorkflow } from '@onerepo/git';
 import { setup } from '../../../setup';
 import type { Config, CorePlugins } from '../../../types';
 import { docgen } from '../../docgen';
@@ -79,9 +79,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	const setupStep = logger.createStep('Determining tasks');
 	const requested = await getWorkspaces({ ignore, step: setupStep });
-	let backup: Awaited<ReturnType<typeof saveUnstagedPatch>> | undefined;
+
+	const stagingWorkflow = new StagingWorkflow({ graph, logger });
 	if (lifecycle === 'pre-commit') {
-		backup = await saveUnstagedPatch(graph);
+		await stagingWorkflow.saveUnstaged();
 	}
 
 	const workspaces = affected ? graph.affected(requested) : requested;
@@ -181,8 +182,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		}
 	}
 
-	if (backup) {
-		await restoreUnstagedPatch(graph, backup);
+	if (lifecycle === 'pre-commit') {
+		await stagingWorkflow.restoreUnstaged();
 	}
 
 	// Command will fail if any subprocesses failed
@@ -278,96 +279,3 @@ function slugify(str: string) {
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string }; fn?: PromiseFn };
 type TaskList = Array<Array<ExtendedRunSpec>>;
-
-async function saveUnstagedPatch(graph: Graph) {
-	await run({
-		name: 'Save unstaged changes',
-		cmd: 'git',
-		args: [
-			'diff',
-			'--binary',
-			'--unified=0',
-			'--no-color',
-			'--no-ext-diff',
-			'--patch',
-			'--output',
-			graph.root.resolve('.git/onerepo_unstaged.patch'),
-		],
-	});
-
-	const mergeHead = await file.read(graph.root.resolve('.git/MERGE_HEAD'));
-	const mergeMode = await file.read(graph.root.resolve('.git/MERGE_MODE'));
-	const mergeMsg = await file.read(graph.root.resolve('.git/MERGE_MSG'));
-
-	const [hash] = await run({
-		name: 'Backup state',
-		cmd: 'git',
-		args: ['stash', 'create'],
-	});
-
-	await run({
-		name: 'Save state',
-		cmd: 'git',
-		args: ['stash', 'store', '--quiet', '--message', 'oneRepo stash', hash],
-	});
-
-	await run({
-		name: 'Hide unstaged changes',
-		cmd: 'git',
-		args: ['checkout', '--force', '.'],
-	});
-
-	return { hash, mergeHead, mergeMode, mergeMsg };
-}
-
-async function restoreUnstagedPatch(graph: Graph, backup: Awaited<ReturnType<typeof saveUnstagedPatch>>) {
-	const args = [
-		'-v',
-		'--whitespace=nowarn',
-		'--recount',
-		'--unidiff-zero',
-		graph.root.resolve('.git/onerepo_unstaged.patch'),
-	];
-
-	try {
-		await run({
-			name: 'Restore unstaged changes',
-			cmd: 'git',
-			args: ['apply', ...args],
-			skipFailures: true,
-		});
-	} catch (e) {
-		try {
-			await run({
-				name: 'Retry restoring unstaged changes with 3way merge',
-				cmd: 'git',
-				args: ['apply', '--3way', ...args],
-			});
-		} catch (e) {
-			await run({
-				name: 'Reset to HEAD',
-				cmd: 'git',
-				args: ['reset', '--hard', 'HEAD'],
-			});
-			await run({
-				name: 'Apply stash',
-				cmd: 'git',
-				args: ['stash', 'apply', '--quiet', '--index', backup.hash],
-			});
-
-			await Promise.all([
-				file.write(graph.root.resolve('.git/MERGE_HEAD'), backup.mergeHead),
-				file.write(graph.root.resolve('.git/MERGE_MODE'), backup.mergeMode),
-				file.write(graph.root.resolve('.git/MERGE_MSG'), backup.mergeMsg),
-			]);
-		}
-	}
-
-	await file.remove(graph.root.resolve('.git/onerepo_unstaged.patch'));
-
-	await run({
-		name: 'Clear backup stash',
-		cmd: 'git',
-		args: ['stash', 'drop', '--quiet', backup.hash],
-	});
-}
