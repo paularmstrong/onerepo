@@ -38,11 +38,13 @@ export class StagingWorkflow {
 		if (!(await exists(files.head, { step }))) {
 			return;
 		}
+
 		const [head, mode, message] = await Promise.all([
 			read(files.head, 'r', { step }).catch(() => ''),
 			read(files.mode, 'r', { step }).catch(() => ''),
 			read(files.message, 'r', { step }).catch(() => ''),
 		]);
+
 		this.#mergeBackups = { head, mode, message };
 	}
 
@@ -125,21 +127,23 @@ export class StagingWorkflow {
 			step,
 		});
 
-		await run({
-			name: 'Save state',
-			cmd: 'git',
-			args: ['stash', 'store', '--quiet', '--message', stashMessage, hash],
-			runDry: true,
-			step,
-		});
+		if (hash) {
+			await run({
+				name: 'Save state',
+				cmd: 'git',
+				args: ['stash', 'store', '--quiet', '--message', stashMessage, hash],
+				runDry: true,
+				step,
+			});
 
-		await run({
-			name: 'Hide unstaged changes',
-			cmd: 'git',
-			args: ['checkout', '--force', '.'],
-			runDry: true,
-			step,
-		});
+			await run({
+				name: 'Hide unstaged changes',
+				cmd: 'git',
+				args: ['checkout', '--force', '.'],
+				runDry: true,
+				step,
+			});
+		}
 
 		await step.end();
 	}
