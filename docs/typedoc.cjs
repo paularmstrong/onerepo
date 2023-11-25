@@ -18,7 +18,7 @@ module.exports = {
 	indexFormat: 'table',
 	sort: ['kind', 'enum-value-ascending', 'alphabetical'],
 	// namedAnchors: true,
-	titleTemplate: '{name}',
+	memberPageTitle: '{name}',
 	kindSortOrder: [
 		'Project',
 		'Module',

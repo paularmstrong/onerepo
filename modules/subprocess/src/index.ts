@@ -6,6 +6,9 @@ import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { getLogger } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 
+/**
+ * @group Subprocess
+ */
 export type PromiseFn = () => Promise<[string, string]>;
 
 /**

@@ -2907,7 +2907,7 @@ __metadata:
     rehype-pretty-code: ^0.10.1
     tailwindcss: ^3.3.3
     typedoc: ^0.25.1
-    typedoc-plugin-markdown: ^4.0.0-next.22
+    typedoc-plugin-markdown: ^4.0.0-next.31
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
@@ -18195,12 +18195,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^4.0.0-next.22":
-  version: 4.0.0-next.22
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.22"
+"typedoc-plugin-markdown@npm:^4.0.0-next.31":
+  version: 4.0.0-next.31
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.31"
   peerDependencies:
-    typedoc: ">=0.25.0"
-  checksum: a27a76ee7c7ef1a46fad0177159c067bb7890bc293fcf207110d2b8354aeba337ada6d9a99cec68ba3745807ab64581282acf8a21532b4d4f4748a6a644501b2
+    typedoc: 0.25.x
+  checksum: 1f73e5ad29cc49192e8f7c411cb1451711b943a8c344e2f35a97b104cc37a5e89c4445213ec50d3e4fd38fd12286eba2254eacdd47fac368d19c3f0ab39432fd
   languageName: node
   linkType: hard
 
