@@ -8,12 +8,18 @@ import * as cmd from './commands/tasks';
 export type Options = {
 	/**
 	 * Array of fileglobs to ignore when calculating the changed workspaces.
+	 * @default ['.changesets/*']
 	 */
 	ignore?: Array<string>;
 	/**
 	 * Additional lifecycles to make available.
 	 */
 	lifecycles?: Array<string>;
+	/**
+	 * Only operate against staged changes for these lifecycles. When set, unstaged changes will be backed up and omitted before determining and running tasks. The unstaged changes will be re-applied after task run completion or SIGKILL event is received.
+	 * @default ['pre-commit']
+	 */
+	stagedOnly?: Array<string>;
 };
 
 export function tasks(opts: Options = { lifecycles: [] }): Plugin {
@@ -23,13 +29,21 @@ export function tasks(opts: Options = { lifecycles: [] }): Plugin {
 			return yargs.command(
 				command,
 				description,
-				(yargs) =>
-					builder(yargs)
-						.choices(
-							'lifecycle',
-							[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i),
-						)
-						.default('ignore', ['.changesets/*', ...(opts.ignore ?? [])]),
+				(yargs) => {
+					const y = builder(yargs).choices(
+						'lifecycle',
+						[...(opts.lifecycles || []), ...cmd.lifecycles].filter((v, i, self) => self.indexOf(v) === i),
+					);
+
+					if (opts.ignore) {
+						y.default('ignore', ['.changesets/*', ...opts.ignore]);
+					}
+
+					if (opts.stagedOnly) {
+						y.default('staged-only-lifecycles', opts.stagedOnly);
+					}
+					return y;
+				},
 				handler,
 			);
 		},

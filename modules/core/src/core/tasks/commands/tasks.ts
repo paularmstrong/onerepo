@@ -33,6 +33,8 @@ type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
+	'staged-only-lifecycles': Array<string>;
+	'ignore-unstaged'?: boolean;
 } & builders.WithWorkspaces &
 	builders.WithAffected;
 
@@ -72,13 +74,37 @@ export const builder: Builder<Argv> = (yargs) =>
 			string: true,
 			default: [],
 			hidden: true,
+		})
+		.option('ignore-unstaged', {
+			description:
+				'Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.',
+			type: 'boolean',
+		})
+		.option('staged-only-lifecycles', {
+			description: 'Ignore unstaged changes for these lifecycles.',
+			type: 'array',
+			string: true,
+			default: ['pre-commit'],
+			hidden: true,
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
-	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
+	const {
+		affected,
+		ignore,
+		'ignore-unstaged': ignoreUnstaged,
+		lifecycle,
+		list,
+		'from-ref': fromRef,
+		staged,
+		'staged-only-lifecycles': stagedOnly,
+		'through-ref': throughRef,
+	} = argv;
+
+	const unstagedOnly = stagedOnly.includes(lifecycle) || ignoreUnstaged;
 
 	const stagingWorkflow = new StagingWorkflow({ graph, logger });
-	if (lifecycle === 'pre-commit') {
+	if (unstagedOnly) {
 		await stagingWorkflow.saveUnstaged();
 	}
 
@@ -182,7 +208,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		}
 	}
 
-	if (lifecycle === 'pre-commit') {
+	if (unstagedOnly) {
 		await stagingWorkflow.restoreUnstaged();
 	}
 

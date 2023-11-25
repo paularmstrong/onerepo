@@ -3,11 +3,12 @@ import { exists, read, remove, write } from '@onerepo/file';
 import type { Graph } from '@onerepo/graph';
 import type { Logger, LogStep } from '@onerepo/logger';
 
-const stashMessage = '__oneRepo_stash__';
+const stashPrefix = 'oneRepo_';
 
 export class StagingWorkflow {
 	#graph: Graph;
 	#logger: Logger;
+	#stashHash?: string;
 
 	#mergeBackups?: {
 		head: string;
@@ -128,10 +129,11 @@ export class StagingWorkflow {
 		});
 
 		if (hash) {
+			this.#stashHash = hash;
 			await run({
 				name: 'Save state',
 				cmd: 'git',
-				args: ['stash', 'store', '--quiet', '--message', stashMessage, hash],
+				args: ['stash', 'store', '--quiet', '--message', `${stashPrefix}${hash}`, hash],
 				runDry: true,
 				step,
 			});
@@ -162,7 +164,7 @@ export class StagingWorkflow {
 		});
 		const stashIndex = stashes
 			.split('\u0000')
-			.findIndex((msg) => msg.includes(stashMessage))
+			.findIndex((msg) => msg.includes(`${stashPrefix}${this.#stashHash}`))
 			.toString();
 
 		if (await exists(this.#patchFilePath, { step })) {
@@ -194,6 +196,17 @@ export class StagingWorkflow {
 						step,
 					});
 
+					if (stashIndex !== '-1') {
+						await run({
+							name: 'Apply stash',
+							cmd: 'git',
+							args: ['stash', 'apply', '--quiet', '--index', stashIndex],
+							runDry: true,
+							step,
+							skipFailures: true,
+						});
+					}
+
 					await this.#restoreBackupStatus({ step });
 
 					await Promise.all(this.#deletedFiles.map((filepath) => remove(filepath, { step })));
@@ -204,13 +217,6 @@ export class StagingWorkflow {
 		}
 
 		if (stashIndex !== '-1') {
-			await run({
-				name: 'Apply stash',
-				cmd: 'git',
-				args: ['stash', 'apply', '--quiet', '--index', stashIndex],
-				runDry: true,
-				step,
-			});
 			await run({
 				name: 'Clear backup stash',
 				cmd: 'git',
