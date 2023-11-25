@@ -207,7 +207,6 @@ function typeAndDefault(opt: Option | Positional): Array<Node> {
 				}
 				memo.push(inlineCode(`"${c}"`));
 				return memo;
-				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  }, [] as Array<Node>)
 		: [inlineCode(opt.type)];
 	if (opt.default) {

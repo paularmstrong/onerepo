@@ -20,6 +20,7 @@ module.exports = {
 				'no-undef': 'off', // @typescript-eslint/no-unused-vars
 				indent: 'off', // Prettier is used for this
 				'global-require': 'error',
+				'no-mixed-spaces-and-tabs': 'off', // Prettier
 
 				'tailwindcss/classnames-order': 'error',
 				'tailwindcss/enforces-negative-arbitrary-values': 'error',
