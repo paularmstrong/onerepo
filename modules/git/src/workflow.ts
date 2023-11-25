@@ -35,7 +35,7 @@ export class StagingWorkflow {
 
 	async #backupMergeStatus({ step }: { step: LogStep }) {
 		const files = this.#mergeFiles;
-		if (!(await exists(files.head))) {
+		if (!(await exists(files.head, { step }))) {
 			return;
 		}
 		const [head, mode, message] = await Promise.all([
