@@ -3,6 +3,8 @@ import { exists, read, remove, write } from '@onerepo/file';
 import type { Graph } from '@onerepo/graph';
 import type { Logger, LogStep } from '@onerepo/logger';
 
+const stashMessage = '__oneRepo_stash__';
+
 export class StagingWorkflow {
 	#graph: Graph;
 	#logger: Logger;
@@ -13,7 +15,6 @@ export class StagingWorkflow {
 		message: string;
 	};
 	#deletedFiles: Array<string> = [];
-	#stashHash?: string;
 
 	constructor({ graph, logger }: { graph: Graph; logger: Logger }) {
 		this.#graph = graph;
@@ -62,6 +63,7 @@ export class StagingWorkflow {
 
 		process.on('SIGINT', async () => {
 			await this.restoreUnstaged();
+			process.exit(127);
 		});
 
 		const [status] = await run({
@@ -122,12 +124,11 @@ export class StagingWorkflow {
 			runDry: true,
 			step,
 		});
-		this.#stashHash = hash;
 
 		await run({
 			name: 'Save state',
 			cmd: 'git',
-			args: ['stash', 'store', '--quiet', '--message', 'oneRepo stash', hash],
+			args: ['stash', 'store', '--quiet', '--message', stashMessage, hash],
 			runDry: true,
 			step,
 		});
@@ -147,6 +148,18 @@ export class StagingWorkflow {
 		const step = this.#logger.createStep('Restoring unstaged changes');
 
 		const args = ['-v', '--whitespace=nowarn', '--recount', '--unidiff-zero', this.#patchFilePath];
+
+		const [stashes] = await run({
+			name: 'Get stashes',
+			cmd: 'git',
+			args: ['stash', 'list', '-z'],
+			runDry: true,
+			step,
+		});
+		const stashIndex = stashes
+			.split('\u0000')
+			.findIndex((msg) => msg.includes(stashMessage))
+			.toString();
 
 		if (await exists(this.#patchFilePath, { step })) {
 			try {
@@ -176,13 +189,6 @@ export class StagingWorkflow {
 						runDry: true,
 						step,
 					});
-					await run({
-						name: 'Apply stash',
-						cmd: 'git',
-						args: ['stash', 'apply', '--quiet', '--index', this.#stashHash!],
-						runDry: true,
-						step,
-					});
 
 					await this.#restoreBackupStatus({ step });
 
@@ -193,14 +199,23 @@ export class StagingWorkflow {
 			await remove(this.#patchFilePath), { step };
 		}
 
-		await run({
-			name: 'Clear backup stash',
-			cmd: 'git',
-			args: ['stash', 'drop', '--quiet', this.#stashHash!],
-			runDry: true,
-			step,
-			skipFailures: true,
-		});
+		if (stashIndex !== '-1') {
+			await run({
+				name: 'Apply stash',
+				cmd: 'git',
+				args: ['stash', 'apply', '--quiet', '--index', stashIndex],
+				runDry: true,
+				step,
+			});
+			await run({
+				name: 'Clear backup stash',
+				cmd: 'git',
+				args: ['stash', 'drop', '--quiet', stashIndex],
+				runDry: true,
+				step,
+				skipFailures: true,
+			});
+		}
 
 		await step.end();
 	}
