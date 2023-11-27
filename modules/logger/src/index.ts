@@ -108,6 +108,7 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 		} else if (logger.verbosity >= 4) {
 			step.debug(chunk.toString().trimEnd());
 		}
+		const foo = 'bar';
 	});
 
 	return {
