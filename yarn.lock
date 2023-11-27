@@ -2930,7 +2930,9 @@ __metadata:
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
     "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
     "@onerepo/file": "workspace:^"
+    "@onerepo/graph": "workspace:^"
     "@onerepo/logger": 0.4.1
     "@onerepo/subprocess": 0.5.1
   languageName: unknown
