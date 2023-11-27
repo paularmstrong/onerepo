@@ -62,6 +62,11 @@ export class Logger {
 	#paused = false;
 	#updaterTimeout: NodeJS.Timeout | undefined;
 
+	#hasError = false;
+	#hasWarning = false;
+	#hasInfo = false;
+	#hasLog = false;
+
 	/**
 	 * @internal
 	 */
@@ -115,28 +120,28 @@ export class Logger {
 	 * Whether or not an error has been sent to the logger or any of its steps. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in the `Logger` or any `Step` instance.
 	 */
 	get hasError() {
-		return this.#logger.hasError;
+		return this.#hasError;
 	}
 
 	/**
 	 * Whether or not a warning has been sent to the logger or any of its steps.
 	 */
 	get hasWarning() {
-		return this.#logger.hasWarning;
+		return this.#hasWarning;
 	}
 
 	/**
 	 * Whether or not an info message has been sent to the logger or any of its steps.
 	 */
 	get hasInfo() {
-		return this.#logger.hasInfo;
+		return this.#hasInfo;
 	}
 
 	/**
 	 * Whether or not a log message has been sent to the logger or any of its steps.
 	 */
 	get hasLog() {
-		return this.#logger.hasLog;
+		return this.#hasLog;
 	}
 
 	/**
@@ -314,6 +319,11 @@ export class Logger {
 		if (step === this.#logger) {
 			return;
 		}
+
+		this.#hasError = this.#hasError || step.hasError;
+		this.#hasWarning = this.#hasWarning || step.hasWarning;
+		this.#hasInfo = this.#hasInfo || step.hasInfo;
+		this.#hasLog = this.#hasLog || step.hasLog;
 
 		this.#updater.clear();
 		await step.flush();

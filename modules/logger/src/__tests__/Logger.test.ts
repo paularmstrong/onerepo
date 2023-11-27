@@ -2,6 +2,7 @@ import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
 import type { LoggerOptions } from '../Logger';
 import { Logger } from '../Logger';
+import type { LogStep } from '../LogStep';
 
 async function waitStreamEnd(stream: PassThrough) {
 	return new Promise<void>((resolve) => {
@@ -137,4 +138,32 @@ describe('Logger', () => {
 		expect(out).not.toMatch('::group::');
 		expect(out).not.toMatch('::endgroup::');
 	});
+
+	test.concurrent.each([
+		['error', 'hasError'],
+		['warn', 'hasWarning'],
+		['info', 'hasInfo'],
+		['log', 'hasLog'],
+	] as Array<[keyof InstanceType<typeof LogStep>, keyof InstanceType<typeof Logger>]>)(
+		'calling %s() on a step sets %s to true',
+		async (method, getter) => {
+			const stream = new PassThrough();
+			const logger = new Logger({ verbosity: 2, stream });
+
+			const step = logger.createStep('tacos');
+			await step.end();
+
+			expect(logger[getter]).toBe(false);
+
+			const step2 = logger.createStep('burritos');
+			// @ts-ignore
+			step2[method]('yum');
+			await step2.end();
+
+			expect(logger[getter]).toBe(true);
+
+			await logger.end();
+			stream.destroy();
+		},
+	);
 });
