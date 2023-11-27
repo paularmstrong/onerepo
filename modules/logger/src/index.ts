@@ -97,10 +97,16 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 		if (!step.writable) {
 			return;
 		}
-		if (subLogger.hasError) {
+		if (subLogger.hasError && logger.verbosity >= 1) {
 			step.error(chunk.toString().trimEnd());
-		} else if (logger.verbosity > 3) {
+		} else if (subLogger.hasInfo && logger.verbosity >= 1) {
+			step.info(chunk.toString().trimEnd());
+		} else if (subLogger.hasWarning && logger.verbosity >= 2) {
+			step.warn(chunk.toString().trimEnd());
+		} else if (subLogger.hasLog && logger.verbosity >= 3) {
 			step.log(chunk.toString().trimEnd());
+		} else if (logger.verbosity >= 4) {
+			step.debug(chunk.toString().trimEnd());
 		}
 	});
 

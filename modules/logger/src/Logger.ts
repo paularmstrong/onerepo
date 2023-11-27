@@ -73,7 +73,6 @@ export class Logger {
 
 		this.#logger = new LogStep('', {
 			onEnd: this.#onEnd,
-			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
 		});
@@ -120,10 +119,24 @@ export class Logger {
 	}
 
 	/**
-	 * Escape hatch, mostly for testing purposes. You probably shouldn’t use this.
+	 * Whether or not a warning has been sent to the logger or any of its steps.
 	 */
-	set hasError(has: boolean) {
-		this.#logger.hasError = has;
+	get hasWarning() {
+		return this.#logger.hasWarning;
+	}
+
+	/**
+	 * Whether or not an info message has been sent to the logger or any of its steps.
+	 */
+	get hasInfo() {
+		return this.#logger.hasInfo;
+	}
+
+	/**
+	 * Whether or not a log message has been sent to the logger or any of its steps.
+	 */
+	get hasLog() {
+		return this.#logger.hasLog;
 	}
 
 	/**
@@ -194,7 +207,6 @@ export class Logger {
 	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
 		const step = new LogStep(name, {
 			onEnd: this.#onEnd,
-			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
 			writePrefixes,
@@ -316,9 +328,5 @@ export class Logger {
 		if (this.#steps.length) {
 			this.#activate(this.#steps[0]);
 		}
-	};
-
-	#onError = () => {
-		this.#logger.hasError = true;
 	};
 }
