@@ -23,9 +23,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/core": "workspace:^",
-		"@onerepo/file": "workspace:^",
-		"@onerepo/logger": "workspace:^"
+		"@onerepo/core": "0.13.0",
+		"@onerepo/file": "0.5.1",
+		"@onerepo/logger": "0.4.1"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
