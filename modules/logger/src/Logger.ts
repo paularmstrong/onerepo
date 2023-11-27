@@ -62,6 +62,11 @@ export class Logger {
 	#paused = false;
 	#updaterTimeout: NodeJS.Timeout | undefined;
 
+	#hasError = false;
+	#hasWarning = false;
+	#hasInfo = false;
+	#hasLog = false;
+
 	/**
 	 * @internal
 	 */
@@ -73,7 +78,6 @@ export class Logger {
 
 		this.#logger = new LogStep('', {
 			onEnd: this.#onEnd,
-			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
 		});
@@ -116,14 +120,28 @@ export class Logger {
 	 * Whether or not an error has been sent to the logger or any of its steps. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in the `Logger` or any `Step` instance.
 	 */
 	get hasError() {
-		return this.#logger.hasError;
+		return this.#hasError;
 	}
 
 	/**
-	 * Escape hatch, mostly for testing purposes. You probably shouldn’t use this.
+	 * Whether or not a warning has been sent to the logger or any of its steps.
 	 */
-	set hasError(has: boolean) {
-		this.#logger.hasError = has;
+	get hasWarning() {
+		return this.#hasWarning;
+	}
+
+	/**
+	 * Whether or not an info message has been sent to the logger or any of its steps.
+	 */
+	get hasInfo() {
+		return this.#hasInfo;
+	}
+
+	/**
+	 * Whether or not a log message has been sent to the logger or any of its steps.
+	 */
+	get hasLog() {
+		return this.#hasLog;
 	}
 
 	/**
@@ -194,7 +212,6 @@ export class Logger {
 	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
 		const step = new LogStep(name, {
 			onEnd: this.#onEnd,
-			onError: this.#onError,
 			verbosity: this.verbosity,
 			stream: this.#stream,
 			writePrefixes,
@@ -303,6 +320,11 @@ export class Logger {
 			return;
 		}
 
+		this.#hasError = this.#hasError || step.hasError;
+		this.#hasWarning = this.#hasWarning || step.hasWarning;
+		this.#hasInfo = this.#hasInfo || step.hasInfo;
+		this.#hasLog = this.#hasLog || step.hasLog;
+
 		this.#updater.clear();
 		await step.flush();
 		if (step.hasError && process.env.GITHUB_RUN_ID) {
@@ -316,9 +338,5 @@ export class Logger {
 		if (this.#steps.length) {
 			this.#activate(this.#steps[0]);
 		}
-	};
-
-	#onError = () => {
-		this.#logger.hasError = true;
 	};
 }

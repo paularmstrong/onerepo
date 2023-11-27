@@ -6,7 +6,6 @@ import { LogBuffer } from './LogBuffer';
 type StepOptions = {
 	verbosity: number;
 	onEnd: (step: LogStep) => Promise<void>;
-	onError: () => void;
 	stream?: Writable;
 	description?: string;
 	writePrefixes?: boolean;
@@ -45,29 +44,37 @@ export class LogStep {
 	#stream: Writable;
 	#active = false;
 	#onEnd: (step: LogStep) => Promise<void>;
-	#onError: () => void;
 	#lastThree: Array<string> = [];
 	#writing: boolean = false;
 	#writePrefixes: boolean = true;
 
 	/**
-	 * Whether or not this step has logged an error.
-	 *
-	 * @internal
+	 * Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step.
 	 */
 	hasError = false;
+	/**
+	 * Whether or not a warning has been sent to this step.
+	 */
+	hasWarning = false;
+	/**
+	 * Whether or not an info message has been sent to this step.
+	 */
+	hasInfo = false;
+	/**
+	 * Whether or not a log message has been sent to this step.
+	 */
+	hasLog = false;
 
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onError, verbosity, stream, description, writePrefixes }: StepOptions) {
+	constructor(name: string, { onEnd, verbosity, stream, description, writePrefixes }: StepOptions) {
 		performance.mark(`onerepo_start_${name || 'logger'}`, {
 			detail: description,
 		});
 		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
-		this.#onError = onError;
 		this.#buffer = new LogBuffer({});
 		this.#stream = stream ?? process.stderr;
 		this.#writePrefixes = writePrefixes ?? true;
@@ -211,6 +218,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	info(contents: unknown) {
+		this.hasInfo = true;
 		if (this.verbosity >= 1) {
 			this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)));
 		}
@@ -224,7 +232,6 @@ export class LogStep {
 	 */
 	error(contents: unknown) {
 		this.hasError = true;
-		this.#onError();
 		if (this.verbosity >= 1) {
 			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
 		}
@@ -237,6 +244,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
+		this.hasWarning = true;
 		if (this.verbosity >= 2) {
 			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
 		}
@@ -249,6 +257,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
+		this.hasLog = true;
 		if (this.verbosity >= 3) {
 			this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)));
 		}
