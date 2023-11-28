@@ -8,8 +8,7 @@ import { register } from 'esbuild-register/dist/node';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import { getGraph } from '@onerepo/graph';
-import type { Logger } from '@onerepo/logger';
-import { destroyLogger, getLogger } from '@onerepo/logger';
+import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { workspaceBuilder } from './workspaces';
@@ -186,6 +185,8 @@ export async function setup(
 					'The measure of time from the beginning of parsing program setup and CLI arguments through the end of the handler & any postHandler options.',
 			});
 
+			const logger = getLogger();
+
 			// allow the last performance mark to propagate to observers. Super hacky.
 			await new Promise<void>((resolve) => {
 				setImmediate(() => {
@@ -193,14 +194,13 @@ export async function setup(
 				});
 			});
 
-			const logger = getLogger({ verbosity: 0 });
+			// Register a new logger on the  top of the stack to silence output
+			const silencedLogger = new Logger({ verbosity: 0 });
 			// Silence the logger so that shutdown handlers do not write logs
 			const results = await shutdown(argv);
 
+			await silencedLogger.end();
 			await logger.end();
-
-			// Destroy _after_ shutdown.
-			destroyLogger();
 
 			const merged = results.reduce(
 				(memo, res) => ({ ...memo, ...(typeof res === 'object' ? res : {}) }),

@@ -262,7 +262,6 @@ function singleTaskToSpec(
 
 	let fn: PromiseFn | undefined;
 	if (cmd === '$0') {
-		logger.info([cmd, ...args]);
 		fn = async () => {
 			const step = logger.createStep(name, { writePrefixes: false });
 			const subLogger = bufferSubLogger(step);

@@ -6,6 +6,7 @@ import { LogBuffer } from './LogBuffer';
 type StepOptions = {
 	verbosity: number;
 	onEnd: (step: LogStep) => Promise<void>;
+	onMessage: (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => void;
 	stream?: Writable;
 	description?: string;
 	writePrefixes?: boolean;
@@ -43,7 +44,8 @@ export class LogStep {
 	#buffer: LogBuffer;
 	#stream: Writable;
 	#active = false;
-	#onEnd: (step: LogStep) => Promise<void>;
+	#onEnd: StepOptions['onEnd'];
+	#onMessage: StepOptions['onMessage'];
 	#lastThree: Array<string> = [];
 	#writing: boolean = false;
 	#writePrefixes: boolean = true;
@@ -68,13 +70,14 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, verbosity, stream, description, writePrefixes }: StepOptions) {
+	constructor(name: string, { onEnd, onMessage, verbosity, stream, description, writePrefixes }: StepOptions) {
 		performance.mark(`onerepo_start_${name || 'logger'}`, {
 			detail: description,
 		});
 		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
+		this.#onMessage = onMessage;
 		this.#buffer = new LogBuffer({});
 		this.#stream = stream ?? process.stderr;
 		this.#writePrefixes = writePrefixes ?? true;
@@ -135,14 +138,31 @@ export class LogStep {
 	 *
 	 * @internal
 	 */
-	activate(enableWrite = this.#stream === process.stderr && !process.stderr.isTTY) {
-		if (this.#active) {
+	activate(enableWrite = !('isTTY' in this.#stream && this.#stream.isTTY)) {
+		if (this.#active && this.#writing === enableWrite) {
 			return;
 		}
 
 		this.#active = true;
+
 		if (enableWrite) {
 			this.#enableWrite();
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	deactivate() {
+		if (!this.#active) {
+			return;
+		}
+
+		this.#active = false;
+		if (this.#writing) {
+			this.#buffer.off('data', noop);
+			this.#buffer.off('data', this.#write);
+			this.#writing = false;
 		}
 	}
 
@@ -160,9 +180,11 @@ export class LogStep {
 
 		this.#buffer.off('data', noop);
 		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
-		this.#buffer.on('data', (chunk: unknown) => this.#stream.write(chunk));
+		this.#buffer.on('data', this.#write);
 		this.#writing = true;
 	}
+
+	#write = (chunk: unknown) => this.#stream.write(chunk);
 
 	/**
 	 * Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
@@ -196,17 +218,18 @@ export class LogStep {
 		this.#active = true;
 		this.#enableWrite();
 
-		// if no name, this is the root logger step
 		// if not writable, then we can't actually flush/end anything
-		if (!this.name || !this.#buffer.writable) {
+		if (!this.#buffer.writable) {
 			return;
 		}
 
 		// End the buffer, helps with memory/gc
 		// But do it after immediate otherwise the buffer may not be done flushing to stream
 		return await new Promise<void>((resolve) => {
-			this.#buffer.end(() => {
-				resolve();
+			setImmediate(() => {
+				this.#buffer.end(() => {
+					resolve();
+				});
 			});
 		});
 	}
@@ -218,6 +241,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	info(contents: unknown) {
+		this.#onMessage('info');
 		this.hasInfo = true;
 		if (this.verbosity >= 1) {
 			this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)));
@@ -231,6 +255,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
+		this.#onMessage('error');
 		this.hasError = true;
 		if (this.verbosity >= 1) {
 			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
@@ -244,6 +269,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
+		this.#onMessage('warn');
 		this.hasWarning = true;
 		if (this.verbosity >= 2) {
 			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
@@ -257,6 +283,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
+		this.#onMessage('log');
 		this.hasLog = true;
 		if (this.verbosity >= 3) {
 			this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)));
@@ -270,6 +297,7 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	debug(contents: unknown) {
+		this.#onMessage('debug');
 		if (this.verbosity >= 4) {
 			this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)));
 		}

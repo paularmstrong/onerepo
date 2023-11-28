@@ -4,7 +4,7 @@ import url from 'node:url';
 import Yargs from 'yargs';
 import * as builders from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
-import { destroyLogger, getLogger } from '@onerepo/logger';
+import { Logger } from '@onerepo/logger';
 import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
@@ -92,8 +92,7 @@ async function runHandler<R = Record<string, unknown>>(
 	stream.on('data', (chunk) => {
 		out += chunk.toString();
 	});
-	destroyLogger();
-	const logger = getLogger({ verbosity: 5, stream });
+	const logger = new Logger({ verbosity: 5, stream });
 
 	const { builderExtras, graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd, builderExtras);
@@ -104,28 +103,22 @@ async function runHandler<R = Record<string, unknown>>(
 	const wrappedGetFilepaths = (opts?: Parameters<typeof builders.getFilepaths>[2]) =>
 		builders.getFilepaths(graph, argv as builders.Argv, opts);
 
-	let error: unknown = undefined;
-	try {
-		await handler(argv, {
-			logger,
-			getAffected: wrappedGetAffected,
-			getFilepaths: wrappedGetFilepaths,
-			getWorkspaces: wrappedGetWorkspaces,
-			graph,
-			config: {},
-		});
-	} catch (e) {
-		error = e;
-	}
+	const error: unknown = undefined;
+	await handler(argv, {
+		logger,
+		getAffected: wrappedGetAffected,
+		getFilepaths: wrappedGetFilepaths,
+		getWorkspaces: wrappedGetWorkspaces,
+		graph,
+		config: {},
+	});
 
 	await logger.end();
 
 	if (logger.hasError || error) {
-		destroyLogger();
 		return Promise.reject(out || error);
 	}
 
-	destroyLogger();
 	return out;
 }
 

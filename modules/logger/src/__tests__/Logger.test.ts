@@ -4,15 +4,14 @@ import type { LoggerOptions } from '../Logger';
 import { Logger } from '../Logger';
 import type { LogStep } from '../LogStep';
 
-async function waitStreamEnd(stream: PassThrough) {
+async function runPendingImmediates() {
 	return new Promise<void>((resolve) => {
 		setImmediate(() => {
-			stream.end(() => {
-				resolve();
-			});
+			resolve();
 		});
 	});
 }
+
 describe('Logger', () => {
 	let runId: string | undefined;
 
@@ -63,7 +62,6 @@ describe('Logger', () => {
 			logger.timing('foo', 'bar');
 
 			await logger.end();
-			await waitStreamEnd(stream);
 
 			for (const [method, str] of Object.entries(logs)) {
 				// @ts-ignore
@@ -89,13 +87,11 @@ describe('Logger', () => {
 		await step.end();
 
 		await logger.end();
-		await waitStreamEnd(stream);
 
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
 	});
 
 	test('writes logs if verbosity increased after construction', async () => {
-		vi.restoreAllMocks();
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -106,12 +102,11 @@ describe('Logger', () => {
 		logger.verbosity = 2;
 
 		logger.warn('this is a warning');
-
+		await runPendingImmediates();
 		const step = logger.createStep('tacos');
 		await step.end();
 
 		await logger.end();
-		await waitStreamEnd(stream);
 
 		expect(out).toEqual(`  ${pc.yellow(pc.bold('WRN'))} this is a warning
  ┌ tacos
@@ -133,7 +128,6 @@ describe('Logger', () => {
 		logger.log('Hello');
 
 		await logger.end();
-		await waitStreamEnd(stream);
 
 		expect(out).not.toMatch('::group::');
 		expect(out).not.toMatch('::endgroup::');

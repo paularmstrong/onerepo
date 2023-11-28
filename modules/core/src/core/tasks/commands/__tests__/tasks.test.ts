@@ -2,6 +2,7 @@ import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
+import * as subprocess from '@onerepo/subprocess';
 import * as Tasks from '../tasks';
 
 const { build, run } = getCommand(Tasks);
@@ -38,6 +39,7 @@ describe('handler', () => {
 			out += content.toString();
 			return true;
 		});
+		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
 	});
 
 	afterEach(() => {
