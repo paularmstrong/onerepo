@@ -218,7 +218,6 @@ export class LogStep {
 		this.#active = true;
 		this.#enableWrite();
 
-		// if no name, this is the root logger step
 		// if not writable, then we can't actually flush/end anything
 		if (!this.#buffer.writable) {
 			return;
