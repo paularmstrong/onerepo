@@ -142,11 +142,8 @@ ${JSON.stringify(argv, null, 2)}`);
 						fallbackHandler(argv);
 					}
 				} catch (err) {
-					if (err instanceof BatchError) {
+					if (err instanceof BatchError || (err && !(err instanceof SubprocessError))) {
 						logger.error(err);
-					} else if (err && !(err instanceof SubprocessError)) {
-						logger.error(err);
-						// throw err;
 					}
 
 					process.exitCode = 1;

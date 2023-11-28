@@ -25,7 +25,7 @@ describe('LogStep', () => {
 
 	test('setup', async () => {
 		const onEnd = vi.fn();
-		const step = new LogStep('tacos', { onEnd, verbosity: 3 });
+		const step = new LogStep('tacos', { onEnd, verbosity: 3, onMessage: () => {} });
 
 		expect(step.name).toBe('tacos');
 		expect(step.verbosity).toBe(3);
@@ -35,7 +35,7 @@ describe('LogStep', () => {
 
 	test('can be activated', async () => {
 		const onEnd = vi.fn();
-		const step = new LogStep('tacos', { onEnd, verbosity: 3 });
+		const step = new LogStep('tacos', { onEnd, verbosity: 3, onMessage: () => {} });
 		step.activate();
 
 		expect(step.active).toBe(true);
@@ -45,7 +45,7 @@ describe('LogStep', () => {
 		process.env.GITHUB_RUN_ID = 'yes';
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream });
+		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, onMessage: () => {} });
 
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -66,7 +66,7 @@ describe('LogStep', () => {
 		vi.restoreAllMocks();
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream });
+		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream, onMessage: () => {} });
 
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -97,7 +97,7 @@ describe('LogStep', () => {
 	] as Array<[number, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity, stream });
+		const step = new LogStep('tacos', { onEnd, verbosity, stream, onMessage: () => {} });
 
 		const logs = {
 			info: `${pc.blue(pc.bold('INFO'))} some information`,
@@ -166,7 +166,7 @@ describe('LogStep', () => {
 	])('can stringify %s', async (name, obj, exp) => {
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream });
+		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream, onMessage: () => {} });
 
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -185,7 +185,7 @@ describe('LogStep', () => {
 	test('can omit prefixes', async () => {
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, writePrefixes: false });
+		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, writePrefixes: false, onMessage: () => {} });
 
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -215,7 +215,7 @@ describe('LogStep', () => {
 	test('sets hasError/etc when messages are added', async () => {
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
-		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream });
+		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, onMessage: () => {} });
 		step.activate();
 
 		expect(step.hasError).toBe(false);
@@ -234,6 +234,34 @@ describe('LogStep', () => {
 
 		step.log('foo');
 		expect(step.hasLog).toBe(true);
+
+		await step.end();
+		await step.flush();
+		stream.destroy();
+	});
+
+	test('calls onMessage as messages are added', async () => {
+		const onMessage = vi.fn();
+		const stream = new PassThrough();
+		const step = new LogStep('tacos', { onEnd: () => Promise.resolve(), verbosity: 4, stream, onMessage });
+		step.activate();
+
+		expect(onMessage).not.toHaveBeenCalled();
+
+		step.error('foo');
+		expect(onMessage).toHaveBeenCalledWith('error');
+
+		step.warn('foo');
+		expect(onMessage).toHaveBeenCalledWith('warn');
+
+		step.info('foo');
+		expect(onMessage).toHaveBeenCalledWith('info');
+
+		step.log('foo');
+		expect(onMessage).toHaveBeenCalledWith('log');
+
+		step.debug('foo');
+		expect(onMessage).toHaveBeenCalledWith('debug');
 
 		await step.end();
 		await step.flush();

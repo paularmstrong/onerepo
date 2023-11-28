@@ -41,7 +41,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		return memo;
 	}, [] as Array<RunSpec>);
 
-	const out = await graph.packageManager.batch(procs);
+	await graph.packageManager.batch(procs);
 	// TODO: this still isn't logging!
-	logger.error(JSON.stringify(out, null, 2));
+	logger.info('===============\nhello\n--------------');
 };

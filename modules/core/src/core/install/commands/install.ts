@@ -85,7 +85,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 				To force installation, re-run this command with \`--force\`:
 					${path.relative(process.cwd(), process.argv[1])} ${command} --name=${name} --location=${location} --force`);
 				await step.end();
-				return Promise.reject();
+				return;
 			}
 
 			step.warn(

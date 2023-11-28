@@ -89,7 +89,7 @@ describe('handler', () => {
 		vi.spyOn(file, 'read').mockResolvedValue('asdfasdf');
 		vi.spyOn(os, 'platform').mockReturnValue('darwin');
 
-		await expect(run('--name tacos --force')).resolves.toEqual('');
+		await expect(run('--name tacos --force')).resolves.toEqual(expect.any(String));
 		expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ cmd: 'which', args: ['tacos'] }));
 
 		expect(subprocess.sudo).toHaveBeenCalledWith(

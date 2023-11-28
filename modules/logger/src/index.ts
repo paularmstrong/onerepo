@@ -41,6 +41,13 @@ export function destroyLogger() {
 	destroyCurrent();
 }
 
+// /**
+//  * @internal
+//  */
+// export async function destroyAllLoggers() {
+// 	return await destroyAll();
+// }
+
 /**
  * For cases where multiple processes need to be completed, but should be joined under a single {@link LogStep | `LogStep`} to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
  *
