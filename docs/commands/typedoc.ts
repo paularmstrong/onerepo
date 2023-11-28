@@ -54,7 +54,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		const title = doc === 'index.md' ? 'oneRepo API' : doc.replace('.md', '').replace('namespaces/', 'API: ');
 		let out = contents
 			.replace(/index\.md(#[^)]+)?/g, '$1')
-			.replace(/\.md(#[^)]+)?/g, '/$1')
+			.replace(/\.md(#[^)]+)?/g, '$1')
 			.replace(/^#+ Source\n\n\[([^:]+):(\d+)\]/gm, `**Source:** [$1:$2]`)
 			.replace(/(?:<br(?: \/)?>)+\*\*(Default(?: Value)?)\*\*(?:<br(?: \/)?>)+/g, '<br /><br />**$1:** ')
 			.replace('[**onerepo**](/docs/core/api/)\n\n---\n\n', '');

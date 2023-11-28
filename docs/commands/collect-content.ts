@@ -159,7 +159,7 @@ ${readme}
 		const sourceFixed = contents
 			.replace(/^#+ Returns[^#]+/gm, '')
 			.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${shortName}/$1.ts]`)
-			// fix URLs to not poitn to /name.md
+			// fix URLs to not point to /name.md
 			.replace(new RegExp(`${shortName}.md#`, 'g'), '#');
 
 		const splits = sourceFixed.split(/^## ([^\n]+)$/gm);

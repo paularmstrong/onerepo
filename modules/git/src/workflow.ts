@@ -17,7 +17,17 @@ export class StagingWorkflow {
 	};
 	#deletedFiles: Array<string> = [];
 
-	constructor({ graph, logger }: { graph: Graph; logger: Logger }) {
+	constructor(options: {
+		/**
+		 * The repository graph
+		 */
+		graph: Graph;
+		/**
+		 * Logger instance to use for all actions
+		 */
+		logger: Logger;
+	}) {
+		const { graph, logger } = options;
 		this.#graph = graph;
 		this.#logger = logger;
 	}
@@ -61,6 +71,14 @@ export class StagingWorkflow {
 		]);
 	}
 
+	/**
+	 * Backup any unstaged changes, whether that's full files or parts of files. This will result in the git status only including what was already in the stage. All other changes will be backed up to:
+	 *
+	 * 1. A patch file in the `.git/` directory
+	 * 2. A git stash
+	 *
+	 * To restore the unstaged changes, call {@link StagingWorkflow.restoreUnstaged | `restoreUnstaged()`}.
+	 */
 	async saveUnstaged() {
 		const step = this.#logger.createStep('Save unstaged state');
 
@@ -150,6 +168,11 @@ export class StagingWorkflow {
 		await step.end();
 	}
 
+	/**
+	 * Restores the unstaged changes previously backed up by {@link StagingWorkflow.saveUnstaged | `saveUnstaged()`}.
+	 *
+	 * This command will go threw a series of attempts to ressurect upon failure, eventually throwing an error if unstaged changes cannot be reapplied.
+	 */
 	async restoreUnstaged() {
 		const step = this.#logger.createStep('Restoring unstaged changes');
 
