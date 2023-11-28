@@ -353,7 +353,7 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
-		logger.info(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
+		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
 		function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
 			return runner()
 				.then((output) => {
