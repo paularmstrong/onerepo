@@ -28,16 +28,3 @@ export function destroyCurrent() {
 	const loggers = getLoggers();
 	loggers.shift();
 }
-
-export async function destroyAll() {
-	const loggers = getLoggers();
-	while (loggers.length) {
-		try {
-			await loggers[0].end();
-		} catch (e) {
-			// no-op
-		}
-
-		loggers.shift();
-	}
-}

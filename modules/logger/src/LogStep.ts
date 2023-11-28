@@ -150,6 +150,9 @@ export class LogStep {
 		}
 	}
 
+	/**
+	 * @internal
+	 */
 	deactivate() {
 		if (!this.#active) {
 			return;

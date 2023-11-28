@@ -62,7 +62,6 @@ describe('Logger', () => {
 			logger.timing('foo', 'bar');
 
 			await logger.end();
-			// await waitStreamEnd(stream);
 
 			for (const [method, str] of Object.entries(logs)) {
 				// @ts-ignore
@@ -88,7 +87,6 @@ describe('Logger', () => {
 		await step.end();
 
 		await logger.end();
-		// await waitStreamEnd(stream);
 
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
 	});
@@ -130,7 +128,6 @@ describe('Logger', () => {
 		logger.log('Hello');
 
 		await logger.end();
-		// await waitStreamEnd(stream);
 
 		expect(out).not.toMatch('::group::');
 		expect(out).not.toMatch('::endgroup::');

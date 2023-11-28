@@ -189,9 +189,9 @@ export async function setup(
 
 			// allow the last performance mark to propagate to observers. Super hacky.
 			await new Promise<void>((resolve) => {
-				setTimeout(() => {
+				setImmediate(() => {
 					resolve();
-				}, 50);
+				});
 			});
 
 			// Register a new logger on the  top of the stack to silence output

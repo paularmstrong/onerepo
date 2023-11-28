@@ -329,11 +329,6 @@ export class Logger {
 	}
 
 	#onEnd = async (step: LogStep) => {
-		// this.#hasError = this.#hasError || step.hasError;
-		// this.#hasWarning = this.#hasWarning || step.hasWarning;
-		// this.#hasInfo = this.#hasInfo || step.hasInfo;
-		// this.#hasLog = this.#hasLog || step.hasLog;
-
 		if (step === this.#defaultLogger) {
 			return;
 		}
