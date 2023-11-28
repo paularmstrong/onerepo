@@ -2912,7 +2912,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.5.1, @onerepo/file@workspace:^, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.5.1, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
@@ -2930,6 +2930,9 @@ __metadata:
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
     "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
+    "@onerepo/file": 0.5.1
+    "@onerepo/graph": "workspace:^"
     "@onerepo/logger": 0.4.1
     "@onerepo/subprocess": 0.5.1
   languageName: unknown
@@ -2961,7 +2964,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.4.1, @onerepo/logger@workspace:^, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.4.1, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -3064,9 +3067,9 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/core": "workspace:^"
-    "@onerepo/file": "workspace:^"
-    "@onerepo/logger": "workspace:^"
+    "@onerepo/core": 0.13.0
+    "@onerepo/file": 0.5.1
+    "@onerepo/logger": 0.4.1
   languageName: unknown
   linkType: soft
 

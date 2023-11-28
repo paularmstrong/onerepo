@@ -16,6 +16,8 @@ import { stepWrapper } from '@onerepo/logger';
 import { run } from '@onerepo/subprocess';
 import type { LogStep } from '@onerepo/logger';
 
+export { StagingWorkflow } from './workflow';
+
 /**
  * Generic options passed to all Git operations.
  */

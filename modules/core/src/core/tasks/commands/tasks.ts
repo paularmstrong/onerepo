@@ -9,6 +9,7 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import { bufferSubLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
+import { StagingWorkflow } from '@onerepo/git';
 import { setup } from '../../../setup';
 import type { Config, CorePlugins } from '../../../types';
 import { docgen } from '../../docgen';
@@ -32,6 +33,8 @@ type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
+	'staged-only-lifecycles': Array<string>;
+	'ignore-unstaged'?: boolean;
 } & builders.WithWorkspaces &
 	builders.WithAffected;
 
@@ -71,13 +74,43 @@ export const builder: Builder<Argv> = (yargs) =>
 			string: true,
 			default: [],
 			hidden: true,
+		})
+		.option('ignore-unstaged', {
+			description:
+				'Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.',
+			type: 'boolean',
+		})
+		.option('staged-only-lifecycles', {
+			description: 'Ignore unstaged changes for these lifecycles.',
+			type: 'array',
+			string: true,
+			default: ['pre-commit'],
+			hidden: true,
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
-	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
+	const {
+		affected,
+		ignore,
+		'ignore-unstaged': ignoreUnstaged,
+		lifecycle,
+		list,
+		'from-ref': fromRef,
+		staged,
+		'staged-only-lifecycles': stagedOnly,
+		'through-ref': throughRef,
+	} = argv;
+
+	const unstagedOnly = stagedOnly.includes(lifecycle) || ignoreUnstaged;
+
+	const stagingWorkflow = new StagingWorkflow({ graph, logger });
+	if (unstagedOnly) {
+		await stagingWorkflow.saveUnstaged();
+	}
 
 	const setupStep = logger.createStep('Determining tasks');
 	const requested = await getWorkspaces({ ignore, step: setupStep });
+
 	const workspaces = affected ? graph.affected(requested) : requested;
 	const workspaceNames = workspaces.map(({ name }) => name);
 
@@ -173,6 +206,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		} catch (e) {
 			// continue so all tasks run
 		}
+	}
+
+	if (unstagedOnly) {
+		await stagingWorkflow.restoreUnstaged();
 	}
 
 	// Command will fail if any subprocesses failed

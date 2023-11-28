@@ -21,11 +21,14 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@onerepo/file": "0.5.1",
 		"@onerepo/logger": "0.4.1",
 		"@onerepo/subprocess": "0.5.1"
 	},
 	"devDependencies": {
-		"@internal/tsconfig": "workspace:^"
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^",
+		"@onerepo/graph": "workspace:^"
 	},
 	"engines": {
 		"node": "^18 || ^20"

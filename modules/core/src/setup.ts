@@ -174,6 +174,7 @@ export async function setup(
 			});
 		}
 	}
+
 	return {
 		yargs,
 		run: async () => {
@@ -192,9 +193,8 @@ export async function setup(
 				});
 			});
 
-			// Silence the logger so that shutdown handlers do not write logs
 			const logger = getLogger({ verbosity: 0 });
-
+			// Silence the logger so that shutdown handlers do not write logs
 			const results = await shutdown(argv);
 
 			await logger.end();
