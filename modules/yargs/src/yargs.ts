@@ -40,7 +40,7 @@ export function setupYargs(yargs: Yargv): Yargs {
 		.middleware(setEnvironmentMiddleware, true)
 		.middleware(sudoCheckMiddleware(yargs), true)
 		.wrap(Math.min(160, process.stdout.columns))
-		.showHidden('show-advanced', 'Show advanced options')
+		.showHidden('show-advanced', 'Pair with `--help` to show advanced options.')
 		.group('show-advanced', 'Global:')
 		.global('show-advanced')
 		.group('help', 'Global:')
@@ -90,7 +90,7 @@ export const commandDirOptions = ({
 	exclude,
 	recurse: false,
 	visit: function visitor(commandModule) {
-		const { command, description, handler, ...rest } = commandModule;
+		const { command, description, handler, builder } = commandModule;
 
 		// Very arbitrary, but require at least 4 words in the description to help end users
 		if (description !== false && description.split(' ').length < 3) {
@@ -100,7 +100,12 @@ export const commandDirOptions = ({
 		return {
 			command,
 			description,
-			...rest,
+			// Need to re-attach `.showHidden()` to due a bug in Yargs in which commadDir doesn't respond to it, even though it does get listed in the `--help` output
+			builder: (yargs: Yargs) =>
+				builder(yargs)
+					.showHidden('show-advanced', 'Pair with `--help` to show advanced options.')
+					.group('show-advanced', 'Global:')
+					.global('show-advanced'),
 			handler: async (argv: Arguments<DefaultArgv>) => {
 				performance.mark('onerepo_start_Startup hooks');
 				await startup(argv);
