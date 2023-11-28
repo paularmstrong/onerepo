@@ -190,6 +190,19 @@ export class StagingWorkflow {
 			.findIndex((msg) => msg.includes(`${stashPrefix}${this.#stashHash}`))
 			.toString();
 
+		async function applyStash() {
+			if (stashIndex !== '-1') {
+				await run({
+					name: 'Apply stash',
+					cmd: 'git',
+					args: ['stash', 'apply', '--quiet', '--index', stashIndex],
+					runDry: true,
+					step,
+					skipFailures: true,
+				});
+			}
+		}
+
 		if (await exists(this.#patchFilePath, { step })) {
 			try {
 				await run({
@@ -219,24 +232,15 @@ export class StagingWorkflow {
 						step,
 					});
 
-					if (stashIndex !== '-1') {
-						await run({
-							name: 'Apply stash',
-							cmd: 'git',
-							args: ['stash', 'apply', '--quiet', '--index', stashIndex],
-							runDry: true,
-							step,
-							skipFailures: true,
-						});
-					}
-
+					await applyStash();
 					await this.#restoreBackupStatus({ step });
-
 					await Promise.all(this.#deletedFiles.map((filepath) => remove(filepath, { step })));
 				}
 			}
 
 			await remove(this.#patchFilePath), { step };
+		} else {
+			await applyStash();
 		}
 
 		if (stashIndex !== '-1') {
