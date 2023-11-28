@@ -135,5 +135,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	await removeStep.end();
 
 	await batch([...buildProcs, ...typesProcs]);
+	logger.info('done1');
 	await Promise.all(postCopy.map((fn) => fn()));
+	logger.info('done2');
 };

@@ -141,8 +141,22 @@ export class LogStep {
 		}
 
 		this.#active = true;
+
 		if (enableWrite) {
 			this.#enableWrite();
+		}
+	}
+
+	deactivate() {
+		if (!this.#active) {
+			return;
+		}
+
+		this.#active = false;
+		if (this.#writing) {
+			this.#buffer.off('data', noop);
+			this.#buffer.off('data', this.#write);
+			this.#writing = false;
 		}
 	}
 
@@ -160,9 +174,11 @@ export class LogStep {
 
 		this.#buffer.off('data', noop);
 		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
-		this.#buffer.on('data', (chunk: unknown) => this.#stream.write(chunk));
+		this.#buffer.on('data', this.#write);
 		this.#writing = true;
 	}
+
+	#write = (chunk: unknown) => this.#stream.write(chunk);
 
 	/**
 	 * Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.

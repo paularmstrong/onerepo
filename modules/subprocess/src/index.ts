@@ -329,19 +329,23 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  * @see {@link PackageManager.batch | `PackageManager.batch`} to safely batch executables exposed from third party modules.
  */
 export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Array<[string, string] | Error>> {
-	const results: Array<[string, string] | Error> = [];
+	const results: Array<[string, string] | Error> = new Array(processes.length).map(() => ['', '']);
+	let completed = 0;
 
 	if (processes.length === 0) {
 		return [];
 	}
 
-	const tasks = processes.map((proc) => () => {
-		if (typeof proc === 'function') {
-			return proc();
-		}
+	const tasks: Array<[PromiseFn, number]> = processes.map((proc, i) => [
+		() => {
+			if (typeof proc === 'function') {
+				return proc();
+			}
 
-		return run(proc);
-	});
+			return run(proc);
+		},
+		i,
+	]);
 
 	let failing = false;
 	const cpus = os.cpus().length;
@@ -349,30 +353,32 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
-		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
-		function runTask(runner: () => Promise<[string, string]>): Promise<void> {
+		logger.info(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
+		function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
 			return runner()
-				.then(([stdout, stderr]) => {
-					results.push([stdout, stderr]);
+				.then((output) => {
+					results[index] = output;
 				})
 				.catch((e) => {
 					failing = true;
-					results.push(e);
+					results[index] = e;
 				})
 				.finally(() => {
+					completed += 1;
 					runNextTask();
 				});
 		}
 
 		function runNextTask() {
 			if (tasks.length) {
-				const runnable = tasks.shift();
-				if (runnable) {
-					runTask(runnable);
+				const next = tasks.shift();
+				if (next) {
+					const [task, index] = next;
+					runTask(task, index);
 				}
 			}
 
-			if (!tasks.length && results.length === processes.length) {
+			if (!tasks.length && completed === processes.length) {
 				if (failing) {
 					const error = new BatchError(results.filter((r) => r instanceof SubprocessError) as Array<SubprocessError>);
 					return reject(error);
@@ -381,8 +387,8 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 			}
 		}
 
-		tasks.splice(0, maxParallel).forEach((task) => {
-			runTask(task);
+		tasks.splice(0, maxParallel).forEach(([task, i]) => {
+			runTask(task, i);
 		});
 	});
 }

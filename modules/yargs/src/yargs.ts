@@ -146,7 +146,7 @@ ${JSON.stringify(argv, null, 2)}`);
 						logger.error(err);
 					} else if (err && !(err instanceof SubprocessError)) {
 						logger.error(err);
-						throw err;
+						// throw err;
 					}
 
 					process.exitCode = 1;

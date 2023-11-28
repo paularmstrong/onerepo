@@ -26,7 +26,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		})
 		.epilogue('Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.');
 
-export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { pretty, tsconfig } = argv;
 	const workspaces = await getWorkspaces();
 
@@ -41,5 +41,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph }) => 
 		return memo;
 	}, [] as Array<RunSpec>);
 
-	await graph.packageManager.batch(procs);
+	const out = await graph.packageManager.batch(procs);
+	// TODO: this still isn't logging!
+	logger.error(JSON.stringify(out, null, 2));
 };

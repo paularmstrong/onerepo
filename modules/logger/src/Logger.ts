@@ -164,10 +164,12 @@ export class Logger {
 	 * logger.unpause();
 	 * ```
 	 */
-	pause() {
+	pause(write: boolean = true) {
 		this.#paused = true;
 		clearTimeout(this.#updaterTimeout);
-		this.#writeSteps();
+		if (write) {
+			this.#writeSteps();
+		}
 	}
 
 	/**
@@ -292,24 +294,28 @@ export class Logger {
 	 * @internal
 	 */
 	async end() {
-		this.#paused = true;
+		this.pause(false);
+		clearTimeout(this.#updaterTimeout);
+
 		for (const step of this.#steps) {
 			this.#activate(step);
 			await step.end();
 		}
 
-		clearTimeout(this.#updaterTimeout);
 		await this.#logger.end();
 		await this.#logger.flush();
 		destroyCurrent();
 	}
 
-	#activate = (step: LogStep) => {
+	#activate = async (step: LogStep) => {
 		if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
 			const activeStep = this.#steps.find((step) => step.active);
 			if (activeStep) {
 				return;
 			}
+		}
+		if (step !== this.#logger) {
+			this.#logger.deactivate();
 		}
 
 		step.activate();
@@ -320,6 +326,11 @@ export class Logger {
 			return;
 		}
 
+		const index = this.#steps.findIndex((s) => s === step);
+		if (index < 0) {
+			return;
+		}
+
 		this.#hasError = this.#hasError || step.hasError;
 		this.#hasWarning = this.#hasWarning || step.hasWarning;
 		this.#hasInfo = this.#hasInfo || step.hasInfo;
@@ -327,16 +338,12 @@ export class Logger {
 
 		this.#updater.clear();
 		await step.flush();
+
 		if (step.hasError && process.env.GITHUB_RUN_ID) {
 			this.error('The previous step has errors.');
 		}
 
-		const index = this.#steps.findIndex((s) => s === step);
-		if (index >= 0) {
-			this.#steps.splice(index, 1);
-		}
-		if (this.#steps.length) {
-			this.#activate(this.#steps[0]);
-		}
+		this.#steps.splice(index, 1);
+		await this.#activate(this.#steps[0] ?? this.#logger);
 	};
 }

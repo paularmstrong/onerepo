@@ -193,14 +193,19 @@ export async function setup(
 				});
 			});
 
-			const logger = getLogger({ verbosity: 0 });
+			const logger = getLogger();
+			const verbosity = logger.verbosity;
+			logger.verbosity = 0;
 			// Silence the logger so that shutdown handlers do not write logs
 			const results = await shutdown(argv);
 
+			logger.verbosity = verbosity;
+			await new Promise<void>((resolve) => {
+				setTimeout(async () => {
+					resolve();
+				}, 5);
+			});
 			await logger.end();
-
-			// Destroy _after_ shutdown.
-			destroyLogger();
 
 			const merged = results.reduce(
 				(memo, res) => ({ ...memo, ...(typeof res === 'object' ? res : {}) }),
