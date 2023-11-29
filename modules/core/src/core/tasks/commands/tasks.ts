@@ -168,18 +168,14 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			serial: serialTasks,
 		};
 		process.stdout.write(
-			JSON.stringify(
-				all,
-				(key, value) => {
-					// Filter out the alternative `fn` so we don't try to JSONify it
-					if (value && !Array.isArray(value) && typeof value === 'object' && 'fn' in value) {
-						const { fn, ...task } = value;
-						return task;
-					}
-					return value;
-				},
-				2,
-			),
+			JSON.stringify(all, (key, value) => {
+				// Filter out the alternative `fn` so we don't try to JSONify it
+				if (value && !Array.isArray(value) && typeof value === 'object' && 'fn' in value) {
+					const { fn, ...task } = value;
+					return task;
+				}
+				return value;
+			}),
 		);
 		await step.end();
 		return;
