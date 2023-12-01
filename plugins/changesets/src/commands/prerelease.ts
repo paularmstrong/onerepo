@@ -158,7 +158,7 @@ Commit or stash your changes to continue.`);
 		runDry: true,
 		step: versionStep,
 	});
-	const newVersion = `0.0.0-pre.${sha}`;
+	const newVersion = `0.0.0-pre-${sha}`;
 
 	versionStep.info(`The following version will be used for all published workspaces: ${newVersion}`);
 	await versionStep.end();
