@@ -17,6 +17,7 @@ module.exports = {
 	indexFormat: 'table',
 	sort: ['kind', 'enum-value-ascending', 'alphabetical'],
 	memberPageTitle: '{name}',
+	publicPath: '/docs/core/api/',
 	kindSortOrder: [
 		'Project',
 		'Module',
