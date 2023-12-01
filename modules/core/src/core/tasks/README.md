@@ -17,7 +17,11 @@ Next, create a `onerepo.config.js` file in your root workspace.
 /** @type import('onerepo').TaskConfig */
 export default {
 	'pre-commit': {
-		serial: [{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --add' }, '$0 format --add', '$0 tsc'],
+		serial: [
+			{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --staged --add' },
+			'$0 format --staged --add',
+			'$0 tsc --staged',
+		],
 		parallel: [
 			{ match: '**/commands/**/*.ts', cmd: '$0 docgen --add' },
 			{ match: '**/package.json', cmd: '$0 graph verify' },

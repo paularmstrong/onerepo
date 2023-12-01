@@ -191,7 +191,8 @@ export async function getModifiedFiles(
 		const isMain = base === currentSha;
 		const isCleanState = await isClean({ step });
 
-		const uncleanArgs = ['diff', '--name-only', '-z', ...(staged ? ['--cached'] : []), '--diff-filter', 'ACMR', base];
+		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', 'ACMR'];
+		uncleanArgs.push(!staged ? base : '--cached');
 		const cleanMainArgs = [
 			'diff-tree',
 			'-r',

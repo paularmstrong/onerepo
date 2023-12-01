@@ -133,12 +133,13 @@ export async function getWorkspaces(
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
 				step.log(`\`affected\` requested`);
-				workspaces = await getAffected(graph, {
-					...opts,
-					from: argv['from-ref'] ?? from,
-					through: argv['through-ref'] ?? through,
-					step,
-				});
+				let affectedOptions: Parameters<typeof getAffected>[1];
+				if (argv.staged ?? staged) {
+					affectedOptions = { ...opts, staged: true, step };
+				} else {
+					affectedOptions = { ...opts, from: argv['from-ref'] ?? from, through: argv['through-ref'] ?? through, step };
+				}
+				workspaces = await getAffected(graph, affectedOptions);
 			} else {
 				const names = workspaces.map((ws) => ws.name);
 				step.log(`\`affected\` requested from • ${names.join('\n • ')}`);

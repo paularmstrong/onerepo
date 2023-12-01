@@ -3,4 +3,4 @@
 'onerepo': minor
 ---
 
-`tasks` will now stash any unstaged changes when running the `pre-commit` lifecycle and reapply them after completion. This option is configurable using the `stagedOnly` option on `core.tasks` in `setup()`.
+`tasks` will now stash any unstaged changes when running the `pre-commit` lifecycle and reapply them after completion. This option is configurable using the `stagedOnly` option on `core.tasks` in `setup()`. Alternatively, you can manually pass `--staged` to the command.
