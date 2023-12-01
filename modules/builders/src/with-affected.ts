@@ -32,7 +32,8 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 		})
 		.option('staged', {
 			type: 'boolean',
-			description: 'Use files on the git stage to calculate affected files or workspaces.',
+			description:
+				'Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point.',
 			conflicts: ['all', 'from-ref', 'through-ref'],
 		})
 		.option('through-ref', {
