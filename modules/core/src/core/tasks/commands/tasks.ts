@@ -89,21 +89,10 @@ export const builder: Builder<Argv> = (yargs) =>
 		});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
-	const {
-		affected,
-		ignore,
-		'ignore-unstaged': ignoreUnstaged,
-		lifecycle,
-		list,
-		'from-ref': fromRef,
-		'staged-only-lifecycles': stagedOnly,
-		'through-ref': throughRef,
-	} = argv;
-
-	const isStagedOnlyLifecycle = stagedOnly.includes(lifecycle) || ignoreUnstaged;
+	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
 
 	const stagingWorkflow = new StagingWorkflow({ graph, logger });
-	if (isStagedOnlyLifecycle) {
+	if (staged) {
 		await stagingWorkflow.saveUnstaged();
 	}
 
@@ -113,7 +102,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	const workspaces = affected ? graph.affected(requested) : requested;
 	const workspaceNames = workspaces.map(({ name }) => name);
 
-	const modifiedOpts = isStagedOnlyLifecycle
+	const modifiedOpts = staged
 		? { staged: true, step: setupStep }
 		: { from: fromRef, through: throughRef, step: setupStep };
 	const allFiles = await git.getModifiedFiles(modifiedOpts);
@@ -203,7 +192,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		}
 	}
 
-	if (isStagedOnlyLifecycle) {
+	if (staged) {
 		await stagingWorkflow.restoreUnstaged();
 	}
 

@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-./bin/one.cjs tasks -c pre-commit
+./bin/one.cjs tasks -c pre-commit --staged
