@@ -29,11 +29,10 @@ export const command = 'tasks';
 export const description =
 	'Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.';
 
-type Argv = {
+export type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
-	'staged-only-lifecycles': Array<string>;
 	'ignore-unstaged'?: boolean;
 } & builders.WithWorkspaces &
 	builders.WithAffected;
@@ -80,13 +79,10 @@ export const builder: Builder<Argv> = (yargs) =>
 				'Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.',
 			type: 'boolean',
 		})
-		.option('staged-only-lifecycles', {
-			description: 'Ignore unstaged changes for these lifecycles.',
-			type: 'array',
-			string: true,
-			default: ['pre-commit'],
-			hidden: true,
-		});
+		.describe(
+			'staged',
+			'Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit.',
+		);
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
 	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
