@@ -1,7 +1,7 @@
 /** @type import('onerepo').graph.TaskConfig */
 export default {
 	'pre-commit': {
-		serial: [['$0 lint --add', '$0 format --add'], '$0 tsc'],
+		serial: [['$0 lint --staged --add', '$0 format --staged --add'], '$0 tsc --staged'],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 	'pre-merge': {
