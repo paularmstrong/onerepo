@@ -49,6 +49,7 @@ export class LogStep {
 	#lastThree: Array<string> = [];
 	#writing: boolean = false;
 	#writePrefixes: boolean = true;
+	#startMark: string;
 
 	/**
 	 * Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step.
@@ -71,7 +72,8 @@ export class LogStep {
 	 * @internal
 	 */
 	constructor(name: string, { onEnd, onMessage, verbosity, stream, description, writePrefixes }: StepOptions) {
-		performance.mark(`onerepo_start_${name || 'logger'}`, {
+		this.#startMark = name || `${performance.now()}`;
+		performance.mark(`onerepo_start_${this.#startMark}`, {
 			detail: description,
 		});
 		this.#verbosity = verbosity;
@@ -81,6 +83,7 @@ export class LogStep {
 		this.#buffer = new LogBuffer({});
 		this.#stream = stream ?? process.stderr;
 		this.#writePrefixes = writePrefixes ?? true;
+
 		if (this.name) {
 			if (process.env.GITHUB_RUN_ID) {
 				this.#writeStream(`::group::${this.name}\n`);
@@ -194,8 +197,8 @@ export class LogStep {
 	 * ```
 	 */
 	async end() {
-		const endMark = performance.mark(`onerepo_end_${this.name || 'logger'}`);
-		const [startMark] = performance.getEntriesByName(`onerepo_start_${this.name || 'logger'}`);
+		const endMark = performance.mark(`onerepo_end_${this.#startMark}`);
+		const [startMark] = performance.getEntriesByName(`onerepo_start_${this.#startMark}`);
 
 		// TODO: jest.useFakeTimers does not seem to be applying to performance correctly
 		const duration =
