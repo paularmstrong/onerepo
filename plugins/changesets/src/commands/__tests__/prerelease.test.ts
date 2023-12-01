@@ -95,11 +95,11 @@ describe('handler', () => {
 			{
 				changesets: [],
 				releases: [
-					expect.objectContaining({ name: 'burritos', newVersion: '0.0.0-pre.123456' }),
-					expect.objectContaining({ name: 'churros', newVersion: '0.0.0-pre.123456' }),
-					expect.objectContaining({ name: 'tacos', newVersion: '0.0.0-pre.123456' }),
-					expect.objectContaining({ name: 'tortas', newVersion: '0.0.0-pre.123456' }),
-					expect.objectContaining({ name: 'tortillas', newVersion: '0.0.0-pre.123456' }),
+					expect.objectContaining({ name: 'burritos', newVersion: '0.0.0-pre-123456' }),
+					expect.objectContaining({ name: 'churros', newVersion: '0.0.0-pre-123456' }),
+					expect.objectContaining({ name: 'tacos', newVersion: '0.0.0-pre-123456' }),
+					expect.objectContaining({ name: 'tortas', newVersion: '0.0.0-pre-123456' }),
+					expect.objectContaining({ name: 'tortillas', newVersion: '0.0.0-pre-123456' }),
 				],
 				preState: undefined,
 			},
@@ -136,8 +136,8 @@ describe('handler', () => {
 			{
 				changesets: [],
 				releases: [
-					expect.objectContaining({ name: 'burritos', newVersion: '0.0.0-pre.123456' }),
-					expect.objectContaining({ name: 'tortillas', newVersion: '0.0.0-pre.123456' }),
+					expect.objectContaining({ name: 'burritos', newVersion: '0.0.0-pre-123456' }),
+					expect.objectContaining({ name: 'tortillas', newVersion: '0.0.0-pre-123456' }),
 				],
 				preState: undefined,
 			},
