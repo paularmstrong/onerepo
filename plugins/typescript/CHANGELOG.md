@@ -1,5 +1,12 @@
 # @onerepo/plugin-typescript
 
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @onerepo/builders@0.5.2
+
 ## 0.3.2
 
 ### Patch Changes
