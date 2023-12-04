@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/test-cli",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,10 +21,10 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.5.2",
+		"@onerepo/builders": "0.5.3",
 		"@onerepo/graph": "0.9.2",
 		"@onerepo/logger": "0.5.0",
-		"@onerepo/yargs": "0.5.3",
+		"@onerepo/yargs": "0.5.4",
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {

@@ -1,5 +1,13 @@
 # @onerepo/plugin-eslint
 
+## 0.6.4
+
+### Patch Changes
+
+- Updated dependencies [[`5a6faab`](https://github.com/paularmstrong/onerepo/commit/5a6faabc9ef4281d206315a5bc60b50b51a476c2)]:
+  - @onerepo/git@0.4.2
+  - @onerepo/builders@0.5.3
+
 ## 0.6.3
 
 ### Patch Changes

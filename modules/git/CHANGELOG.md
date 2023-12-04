@@ -1,5 +1,11 @@
 # @onerepo/git
 
+## 0.4.2
+
+### Patch Changes
+
+- When running git staging workflow (eg, during `tasks -c pre-commit`), forcibly skip all git hooks, not just using HUSKY environment variables. [#499](https://github.com/paularmstrong/onerepo/pull/499) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.1
 
 ### Patch Changes

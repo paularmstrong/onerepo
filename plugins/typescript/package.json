@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-typescript",
 	"description": "Official TypeScript plugin for the oneRepo toolchain.",
 	"title": "TypeScript",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,7 +23,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.5.2",
+		"@onerepo/builders": "0.5.3",
 		"@onerepo/subprocess": "0.6.0"
 	},
 	"devDependencies": {

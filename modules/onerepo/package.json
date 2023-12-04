@@ -1,6 +1,6 @@
 {
 	"name": "onerepo",
-	"version": "0.15.1",
+	"version": "0.15.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,15 +21,15 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.5.2",
-		"@onerepo/core": "0.14.1",
+		"@onerepo/builders": "0.5.3",
+		"@onerepo/core": "0.14.2",
 		"@onerepo/file": "0.5.2",
-		"@onerepo/git": "0.4.1",
+		"@onerepo/git": "0.4.2",
 		"@onerepo/graph": "0.9.2",
 		"@onerepo/logger": "0.5.0",
 		"@onerepo/package-manager": "0.4.2",
 		"@onerepo/subprocess": "0.6.0",
-		"@onerepo/yargs": "0.5.3"
+		"@onerepo/yargs": "0.5.4"
 	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
