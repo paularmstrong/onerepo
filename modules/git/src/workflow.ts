@@ -4,6 +4,7 @@ import type { Graph } from '@onerepo/graph';
 import type { Logger, LogStep } from '@onerepo/logger';
 
 const stashPrefix = 'oneRepo_';
+const skipHooks = ['-c', 'core.hooksPath=/dev/null'];
 
 export class StagingWorkflow {
 	#graph: Graph;
@@ -159,11 +160,8 @@ export class StagingWorkflow {
 			await run({
 				name: 'Hide unstaged changes',
 				cmd: 'git',
-				args: ['checkout', '--force', '.'],
+				args: [...skipHooks, 'checkout', '--force', '.'],
 				runDry: true,
-				opts: {
-					env: { HUSKY: '0' },
-				},
 				step,
 			});
 		}
@@ -198,11 +196,8 @@ export class StagingWorkflow {
 				await run({
 					name: 'Apply stash',
 					cmd: 'git',
-					args: ['stash', 'apply', '--quiet', '--index', stashIndex],
+					args: [...skipHooks, 'stash', 'apply', '--quiet', '--index', stashIndex],
 					runDry: true,
-					opts: {
-						env: { HUSKY: '0' },
-					},
 					step,
 					skipFailures: true,
 				});
@@ -214,12 +209,9 @@ export class StagingWorkflow {
 				await run({
 					name: 'Restore unstaged changes',
 					cmd: 'git',
-					args: ['apply', ...args],
+					args: [...skipHooks, 'apply', ...args],
 					skipFailures: true,
 					runDry: true,
-					opts: {
-						env: { HUSKY: '0' },
-					},
 					step,
 				});
 			} catch (e) {
@@ -227,11 +219,8 @@ export class StagingWorkflow {
 					await run({
 						name: 'Retry restoring unstaged changes with 3way merge',
 						cmd: 'git',
-						args: ['apply', '--3way', ...args],
+						args: [...skipHooks, 'apply', '--3way', ...args],
 						runDry: true,
-						opts: {
-							env: { HUSKY: '0' },
-						},
 						step,
 					});
 				} catch (e) {
@@ -239,11 +228,8 @@ export class StagingWorkflow {
 					await run({
 						name: 'Reset to HEAD',
 						cmd: 'git',
-						args: ['reset', '--hard', 'HEAD'],
+						args: [...skipHooks, 'reset', '--hard', 'HEAD'],
 						runDry: true,
-						opts: {
-							env: { HUSKY: '0' },
-						},
 						step,
 					});
 
