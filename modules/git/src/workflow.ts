@@ -161,6 +161,9 @@ export class StagingWorkflow {
 				cmd: 'git',
 				args: ['checkout', '--force', '.'],
 				runDry: true,
+				opts: {
+					env: { HUSKY: '0' },
+				},
 				step,
 			});
 		}
@@ -197,6 +200,9 @@ export class StagingWorkflow {
 					cmd: 'git',
 					args: ['stash', 'apply', '--quiet', '--index', stashIndex],
 					runDry: true,
+					opts: {
+						env: { HUSKY: '0' },
+					},
 					step,
 					skipFailures: true,
 				});
@@ -211,6 +217,9 @@ export class StagingWorkflow {
 					args: ['apply', ...args],
 					skipFailures: true,
 					runDry: true,
+					opts: {
+						env: { HUSKY: '0' },
+					},
 					step,
 				});
 			} catch (e) {
@@ -220,6 +229,9 @@ export class StagingWorkflow {
 						cmd: 'git',
 						args: ['apply', '--3way', ...args],
 						runDry: true,
+						opts: {
+							env: { HUSKY: '0' },
+						},
 						step,
 					});
 				} catch (e) {
@@ -229,6 +241,9 @@ export class StagingWorkflow {
 						cmd: 'git',
 						args: ['reset', '--hard', 'HEAD'],
 						runDry: true,
+						opts: {
+							env: { HUSKY: '0' },
+						},
 						step,
 					});
 
