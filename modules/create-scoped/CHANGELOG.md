@@ -1,5 +1,12 @@
 # @onerepo/create
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - create-onerepo@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

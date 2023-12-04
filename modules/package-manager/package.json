@@ -3,7 +3,7 @@
 	"alias": [
 		"pkg-mgr"
 	],
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -24,7 +24,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/subprocess": "0.5.1"
+		"@onerepo/subprocess": "0.6.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

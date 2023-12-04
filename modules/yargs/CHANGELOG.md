@@ -1,5 +1,16 @@
 # @onerepo/yargs
 
+## 0.5.2
+
+### Patch Changes
+
+- Worked around a bug in Yargs that prevented `--show-advanced` from showing hidden/advanced help documentation when used on sub-commands. [#447](https://github.com/paularmstrong/onerepo/pull/447) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149)]:
+  - @onerepo/logger@0.5.0
+  - @onerepo/subprocess@0.6.0
+  - @onerepo/builders@0.5.1
+
 ## 0.5.1
 
 ### Patch Changes

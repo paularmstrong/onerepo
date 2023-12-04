@@ -1,5 +1,38 @@
 # onerepo
 
+## 0.15.0
+
+### Minor Changes
+
+- `batch()` now also accepts async/promise-based functions, as long as they will return a response of `[string, string]` (`[output, errorOutput]`). [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+- `batch()` calls will preserve order of output to match the order of input specs, similar to `Promise.all()`. [#488](https://github.com/paularmstrong/onerepo/pull/488) ([@paularmstrong](https://github.com/paularmstrong))
+
+- New `Logger` instances can be buffered to parent instance steps using `bufferSubLogger(step: LogStep)`. [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+- It is possible to create more instances of `Logger`. The most recently created instance will be used for functions that require a logger from the global scope. [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+- `tasks` will now stash any unstaged changes when running the `pre-commit` lifecycle and reapply them after completion. This option is configurable using the `stagedOnly` option on `core.tasks` in `setup()`. Alternatively, you can manually pass `--staged` to the command. [#476](https://github.com/paularmstrong/onerepo/pull/476) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Calls to logging methods on the default `logger` will no longer be dropped when intermixed between sub-steps. Output may come _after_ a step, depending on event loop timing. [#488](https://github.com/paularmstrong/onerepo/pull/488) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Worked around a bug in Yargs that prevented `--show-advanced` from showing hidden/advanced help documentation when used on sub-commands. [#447](https://github.com/paularmstrong/onerepo/pull/447) ([@paularmstrong](https://github.com/paularmstrong))
+
+- When tasks run `one` commands, they are now run directly in the same process instead of spawned to a new process. This reduces run time for fast tasks significantly by removing file glob, yargs startup, and file parsing (& potentially compilation through esbuild). [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`3051ff2`](https://github.com/paularmstrong/onerepo/commit/3051ff25acc04a14343b48ae23f14a1ef3cf3326), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`218b130`](https://github.com/paularmstrong/onerepo/commit/218b130ba5b2c7223eb471e23bcdcfbabc6861b4), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`3051ff2`](https://github.com/paularmstrong/onerepo/commit/3051ff25acc04a14343b48ae23f14a1ef3cf3326)]:
+  - @onerepo/git@0.4.0
+  - @onerepo/logger@0.5.0
+  - @onerepo/subprocess@0.6.0
+  - @onerepo/core@0.14.0
+  - @onerepo/yargs@0.5.2
+  - @onerepo/builders@0.5.1
+  - @onerepo/file@0.5.2
+  - @onerepo/package-manager@0.4.2
+  - @onerepo/graph@0.9.2
+
 ## 0.14.0
 
 ### Minor Changes

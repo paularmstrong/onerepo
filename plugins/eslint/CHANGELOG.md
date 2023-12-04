@@ -1,5 +1,16 @@
 # @onerepo/plugin-eslint
 
+## 0.6.2
+
+### Patch Changes
+
+- Updated dependencies [[`3051ff2`](https://github.com/paularmstrong/onerepo/commit/3051ff25acc04a14343b48ae23f14a1ef3cf3326), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149)]:
+  - @onerepo/git@0.4.0
+  - @onerepo/logger@0.5.0
+  - @onerepo/subprocess@0.6.0
+  - @onerepo/builders@0.5.1
+  - @onerepo/file@0.5.2
+
 ## 0.6.1
 
 ### Patch Changes

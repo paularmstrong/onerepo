@@ -1,5 +1,15 @@
 # @onerepo/test-cli
 
+## 0.5.1
+
+### Patch Changes
+
+- Updated dependencies [[`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`218b130`](https://github.com/paularmstrong/onerepo/commit/218b130ba5b2c7223eb471e23bcdcfbabc6861b4), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149)]:
+  - @onerepo/logger@0.5.0
+  - @onerepo/yargs@0.5.2
+  - @onerepo/builders@0.5.1
+  - @onerepo/graph@0.9.2
+
 ## 0.5.0
 
 ### Minor Changes
