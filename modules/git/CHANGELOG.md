@@ -1,5 +1,18 @@
 # @onerepo/git
 
+## 0.4.0
+
+### Minor Changes
+
+- Added `StagingWorkflow` to save/stash & restore unstaged files and changes. [#476](https://github.com/paularmstrong/onerepo/pull/476) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149)]:
+  - @onerepo/logger@0.5.0
+  - @onerepo/subprocess@0.6.0
+  - @onerepo/file@0.5.2
+
 ## 0.3.1
 
 ### Patch Changes

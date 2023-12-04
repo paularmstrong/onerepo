@@ -1,5 +1,17 @@
 # @onerepo/logger
 
+## 0.5.0
+
+### Minor Changes
+
+- New `Logger` instances can be buffered to parent instance steps using `bufferSubLogger(step: LogStep)`. [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+- It is possible to create more instances of `Logger`. The most recently created instance will be used for functions that require a logger from the global scope. [#456](https://github.com/paularmstrong/onerepo/pull/456) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Calls to logging methods on the default `logger` will no longer be dropped when intermixed between sub-steps. Output may come _after_ a step, depending on event loop timing. [#488](https://github.com/paularmstrong/onerepo/pull/488) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @onerepo/plugin-typescript
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d)]:
+  - @onerepo/subprocess@0.6.0
+  - @onerepo/builders@0.5.1
+
 ## 0.3.1
 
 ### Patch Changes
