@@ -1,5 +1,13 @@
 # @onerepo/test-cli
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @onerepo/builders@0.5.2
+  - @onerepo/yargs@0.5.3
+
 ## 0.5.1
 
 ### Patch Changes

@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`0f3535a`](https://github.com/paularmstrong/onerepo/commit/0f3535a3d5302ebf7ac21f96325a6018add6acbd)]:
+  - onerepo@0.15.1
+
+## null
+
+### Patch Changes
+
 - Updated dependencies [[`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`14f6d4d`](https://github.com/paularmstrong/onerepo/commit/14f6d4d13a4e88fb52cf4ed168fda4eae3c5311d), [`218b130`](https://github.com/paularmstrong/onerepo/commit/218b130ba5b2c7223eb471e23bcdcfbabc6861b4), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`c06f55c`](https://github.com/paularmstrong/onerepo/commit/c06f55c0e1c09c257c0c607f0190221765695149), [`3051ff2`](https://github.com/paularmstrong/onerepo/commit/3051ff25acc04a14343b48ae23f14a1ef3cf3326)]:
   - onerepo@0.15.0
 

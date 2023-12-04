@@ -1,5 +1,11 @@
 # @onerepo/git
 
+## 0.4.1
+
+### Patch Changes
+
+- Ensure Husky hooks are skipped during git checkout [#497](https://github.com/paularmstrong/onerepo/pull/497) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.0
 
 ### Minor Changes
