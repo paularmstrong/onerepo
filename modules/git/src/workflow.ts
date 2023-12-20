@@ -196,7 +196,15 @@ export class StagingWorkflow {
 				await run({
 					name: 'Apply stash',
 					cmd: 'git',
-					args: [...skipHooks, 'stash', 'apply', '--quiet', '--index', stashIndex],
+					args: [
+						...skipHooks,
+						'merge',
+						'--squash',
+						'--strategy-option',
+						'ours',
+						'--autostash',
+						`stash@{${stashIndex}}`,
+					],
 					runDry: true,
 					step,
 					skipFailures: true,
