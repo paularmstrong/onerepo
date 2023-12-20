@@ -110,6 +110,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			process.stdout.write(JSON.stringify({ parallel: [], serial: [] }));
 		}
 		await setupStep.end();
+		if (staged) {
+			await stagingWorkflow.restoreUnstaged();
+		}
 		return;
 	}
 
@@ -167,6 +170,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	if (!hasTasks) {
 		logger.warn(`No tasks to run`);
+		if (staged) {
+			await stagingWorkflow.restoreUnstaged();
+		}
 		return;
 	}
 

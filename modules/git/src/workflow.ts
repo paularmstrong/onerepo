@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 import { run } from '@onerepo/subprocess';
 import { exists, read, remove, write } from '@onerepo/file';
 import type { Graph } from '@onerepo/graph';
@@ -5,6 +6,18 @@ import type { Logger, LogStep } from '@onerepo/logger';
 
 const stashPrefix = 'oneRepo_';
 const skipHooks = ['-c', 'core.hooksPath=/dev/null'];
+
+const processRenames = (files: Array<string>, includeRenameFrom: boolean = true) =>
+	files.reduce((flattened, file) => {
+		if (/\x00/.test(file)) {
+			const [to, from] = file.split(/\x00/);
+			if (includeRenameFrom) flattened.push(from);
+			flattened.push(to);
+		} else {
+			flattened.push(file);
+		}
+		return flattened;
+	}, [] as Array<string>);
 
 export class StagingWorkflow {
 	#graph: Graph;
@@ -95,17 +108,18 @@ export class StagingWorkflow {
 			runDry: true,
 			step,
 		});
-		const hasPartiallyStaged = status
-			// eslint-disable-next-line no-control-regex
+		const partiallyStaged = status
 			.split(/\x00(?=[ AMDRCU?!]{2} |$)/)
 			.filter((line) => {
 				const [index, workingTree] = line;
 				return index !== ' ' && workingTree !== ' ' && index !== '?' && workingTree !== '?';
 			})
 			.map((line) => line.slice(3))
-			.filter(Boolean).length;
+			.filter(Boolean);
 
-		if (hasPartiallyStaged) {
+		const files = processRenames(partiallyStaged);
+
+		if (partiallyStaged.length) {
 			await run({
 				name: 'Save unstaged changes',
 				cmd: 'git',
@@ -118,6 +132,8 @@ export class StagingWorkflow {
 					'--patch',
 					'--output',
 					this.#patchFilePath,
+					'--',
+					...files,
 				],
 				runDry: true,
 				step,
@@ -160,7 +176,7 @@ export class StagingWorkflow {
 			await run({
 				name: 'Hide unstaged changes',
 				cmd: 'git',
-				args: [...skipHooks, 'checkout', '--force', '.'],
+				args: [...skipHooks, 'checkout', '--force', '--', ...files],
 				runDry: true,
 				step,
 			});
@@ -210,7 +226,6 @@ export class StagingWorkflow {
 					name: 'Restore unstaged changes',
 					cmd: 'git',
 					args: [...skipHooks, 'apply', ...args],
-					skipFailures: true,
 					runDry: true,
 					step,
 				});
