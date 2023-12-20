@@ -210,7 +210,6 @@ export class StagingWorkflow {
 					name: 'Restore unstaged changes',
 					cmd: 'git',
 					args: [...skipHooks, 'apply', ...args],
-					skipFailures: true,
 					runDry: true,
 					step,
 				});
