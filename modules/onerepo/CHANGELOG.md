@@ -1,5 +1,19 @@
 # onerepo
 
+## 0.15.3
+
+### Patch Changes
+
+- Fix reapplying unstaged changes when no tasks were run. [#501](https://github.com/paularmstrong/onerepo/pull/501) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Apply unstaged changes using a better merge strategy from the stash to ensure that even in the event of conflicts, the stash is applied before being dropped. [#501](https://github.com/paularmstrong/onerepo/pull/501) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61), [`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61)]:
+  - @onerepo/core@0.14.3
+  - @onerepo/git@0.4.3
+  - @onerepo/builders@0.5.4
+  - @onerepo/yargs@0.5.5
+
 ## 0.15.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @onerepo/yargs
 
+## 0.5.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @onerepo/builders@0.5.4
+
 ## 0.5.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @onerepo/git
 
+## 0.4.3
+
+### Patch Changes
+
+- Apply unstaged changes using a better merge strategy from the stash to ensure that even in the event of conflicts, the stash is applied before being dropped. [#501](https://github.com/paularmstrong/onerepo/pull/501) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.2
 
 ### Patch Changes
