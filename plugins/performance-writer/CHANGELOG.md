@@ -1,5 +1,12 @@
 # @onerepo/plugin-performance-writer
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61), [`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61)]:
+  - @onerepo/core@0.14.3
+
 ## 0.1.4
 
 ### Patch Changes

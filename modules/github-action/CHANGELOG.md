@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61), [`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61)]:
+  - onerepo@0.15.3
+
+## null
+
+### Patch Changes
+
 - Updated dependencies [[`5a6faab`](https://github.com/paularmstrong/onerepo/commit/5a6faabc9ef4281d206315a5bc60b50b51a476c2)]:
   - onerepo@0.15.2
 

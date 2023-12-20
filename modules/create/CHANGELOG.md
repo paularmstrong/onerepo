@@ -1,5 +1,12 @@
 # create-onerepo
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @onerepo/yargs@0.5.5
+
 ## 0.1.4
 
 ### Patch Changes

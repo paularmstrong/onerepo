@@ -1,5 +1,12 @@
 # @onerepo/builders
 
+## 0.5.4
+
+### Patch Changes
+
+- Updated dependencies [[`6b30e32`](https://github.com/paularmstrong/onerepo/commit/6b30e32f3b52a7546ab210d3c3aec8bb2b166b61)]:
+  - @onerepo/git@0.4.3
+
 ## 0.5.3
 
 ### Patch Changes
