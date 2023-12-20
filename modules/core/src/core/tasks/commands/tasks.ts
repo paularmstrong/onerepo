@@ -110,6 +110,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			process.stdout.write(JSON.stringify({ parallel: [], serial: [] }));
 		}
 		await setupStep.end();
+		if (staged) {
+			await stagingWorkflow.restoreUnstaged();
+		}
 		return;
 	}
 
