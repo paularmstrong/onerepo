@@ -8,7 +8,7 @@
 		"downlevelIteration": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
+		"isolatedModules": false,
 		"lib": ["esnext"],
 		"module": "esnext",
 		"moduleResolution": "node",

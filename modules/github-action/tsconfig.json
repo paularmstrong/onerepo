@@ -1,8 +1,48 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
-		"composite": true
+		"outDir": "./dist/"
 	},
-	"include": ["./**/*"]
+	"include": ["./**/*"],
+	"references": [
+		{
+			"path": "../onerepo"
+		},
+		{
+			"path": "../core"
+		},
+		{
+			"path": "../test-cli"
+		},
+		{
+			"path": "../yargs"
+		},
+		{
+			"path": "../builders"
+		},
+		{
+			"path": "../git"
+		},
+		{
+			"path": "../graph"
+		},
+		{
+			"path": "../package-manager"
+		},
+		{
+			"path": "../subprocess"
+		},
+		{
+			"path": "../file"
+		},
+		{
+			"path": "../logger"
+		},
+		{
+			"path": "../../internal/vitest-config"
+		},
+		{
+			"path": "../../internal/jest-config"
+		}
+	]
 }

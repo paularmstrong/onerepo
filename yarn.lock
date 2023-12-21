@@ -3126,6 +3126,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.4
     "@onerepo/core": "workspace:^"
+    "@onerepo/file": 0.5.2
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
     esbuild-register: ^3.5.0

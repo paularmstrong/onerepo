@@ -1,8 +1,18 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
-		"composite": true
+		"outDir": "./dist/"
 	},
-	"include": ["./**/*"]
+	"include": ["./**/*"],
+	"references": [
+		{
+			"path": "../logger"
+		},
+		{
+			"path": "../../internal/vitest-config"
+		},
+		{
+			"path": "../../internal/jest-config"
+		}
+	]
 }

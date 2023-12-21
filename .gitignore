@@ -19,6 +19,6 @@ pnpm-debug.log*
 # output
 **/dist/*
 coverage/*
-*.tsbuildinfo
+**/*.tsbuildinfo
 *.eslintcache
 .netlify

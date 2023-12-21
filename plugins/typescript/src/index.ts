@@ -20,6 +20,10 @@ export type Options = {
 	 */
 	name?: string;
 	/**
+	 * Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig
+	 */
+	useProjectReferences?: boolean;
+	/**
 	 * Use a different filename thant he default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.
 	 */
 	tsconfig?: string;
@@ -52,6 +56,9 @@ export function typescript(opts: Options = {}): Plugin {
 					const y = builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`);
 					if (opts.tsconfig) {
 						y.default('tsconfig', opts.tsconfig);
+					}
+					if ('useProjectReferences' in opts) {
+						y.default('use-project-references', opts.useProjectReferences);
 					}
 					return y;
 				},
