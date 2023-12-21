@@ -11,7 +11,9 @@ const processRenames = (files: Array<string>, includeRenameFrom: boolean = true)
 	files.reduce((flattened, file) => {
 		if (/\x00/.test(file)) {
 			const [to, from] = file.split(/\x00/);
-			if (includeRenameFrom) flattened.push(from);
+			if (includeRenameFrom) {
+				flattened.push(from);
+			}
 			flattened.push(to);
 		} else {
 			flattened.push(file);
@@ -173,13 +175,16 @@ export class StagingWorkflow {
 				step,
 			});
 
-			await run({
-				name: 'Hide unstaged changes',
-				cmd: 'git',
-				args: [...skipHooks, 'checkout', '--force', '--', ...files],
-				runDry: true,
-				step,
-			});
+			const files = processRenames(partiallyStaged, false);
+			if (files.length) {
+				await run({
+					name: 'Hide unstaged changes',
+					cmd: 'git',
+					args: [...skipHooks, 'checkout', '--force', '--', ...files],
+					runDry: true,
+					step,
+				});
+			}
 		}
 
 		await step.end();
