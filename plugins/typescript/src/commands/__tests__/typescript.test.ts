@@ -78,4 +78,35 @@ describe('handler', () => {
 			}),
 		);
 	});
+
+	test('does not include verbose flag in non-build mode', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
+		await run('-a -vvvvv');
+
+		expect(graph.packageManager.batch).toHaveBeenCalledWith(
+			expect.arrayContaining([
+				expect.objectContaining({
+					cmd: 'tsc',
+					args: expect.not.arrayContaining(['--verbose']),
+				}),
+			]),
+		);
+	});
+
+	test('includes verbose flag in in build mode (project references)', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
+		vi.spyOn(file, 'read').mockResolvedValue('{}');
+		vi.spyOn(file, 'write').mockResolvedValue();
+
+		await run('-a --use-project-references -vvvv');
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'tsc',
+				args: expect.arrayContaining(['--verbose']),
+			}),
+		);
+	});
 });
