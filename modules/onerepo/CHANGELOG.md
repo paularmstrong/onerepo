@@ -1,5 +1,18 @@
 # onerepo
 
+## 0.15.4
+
+### Patch Changes
+
+- Do not force checkout files if there are no partially staged files during task runs that use the git staging workflow. [#503](https://github.com/paularmstrong/onerepo/pull/503) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`fe49360`](https://github.com/paularmstrong/onerepo/commit/fe493603a99ee53c72c2785c6d7f316e9a0ba5e9), [`9b28949`](https://github.com/paularmstrong/onerepo/commit/9b28949f191e322171052ecd01074e646373bbf1)]:
+  - @onerepo/core@0.14.4
+  - @onerepo/git@0.4.4
+  - @onerepo/graph@0.9.3
+  - @onerepo/builders@0.5.5
+  - @onerepo/yargs@0.5.6
+
 ## 0.15.3
 
 ### Patch Changes

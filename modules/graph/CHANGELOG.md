@@ -1,5 +1,11 @@
 # @onerepo/graph
 
+## 0.9.3
+
+### Patch Changes
+
+- Changed from using a TS-specific enum for DependencyType to a plain object. Should prevent oddities with TS integrations and building. [#504](https://github.com/paularmstrong/onerepo/pull/504) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.9.2
 
 ### Patch Changes
