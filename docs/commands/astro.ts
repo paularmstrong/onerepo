@@ -18,6 +18,15 @@ export const handler: Handler = async (argv, { graph }) => {
 
 	if (rest.includes('build')) {
 		await run({
+			name: 'Build TS defs',
+			cmd: process.argv[1],
+			args: ['tsc', '-a', `-${'v'.repeat(verbosity)}`],
+			opts: {
+				stdio: 'inherit',
+			},
+		});
+
+		await run({
 			name: 'Build API docs from source',
 			cmd: process.argv[1],
 			args: ['ws', ws.name, 'typedoc', `-${'v'.repeat(verbosity)}`],

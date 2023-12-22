@@ -4,8 +4,49 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"types": ["astro/client"],
-		"composite": false
+		"outDir": "./dist"
 	},
 	"include": ["./**/*"],
-	"exclude": ["netlify/edge-functions", "dist/**/*"]
+	"exclude": ["netlify/edge-functions", "dist/**/*"],
+	"references": [
+		{
+			"path": "../modules/onerepo"
+		},
+		{
+			"path": "../modules/core"
+		},
+		{
+			"path": "../modules/test-cli"
+		},
+		{
+			"path": "../modules/yargs"
+		},
+		{
+			"path": "../modules/builders"
+		},
+		{
+			"path": "../modules/git"
+		},
+		{
+			"path": "../modules/graph"
+		},
+		{
+			"path": "../modules/package-manager"
+		},
+		{
+			"path": "../modules/subprocess"
+		},
+		{
+			"path": "../modules/file"
+		},
+		{
+			"path": "../modules/logger"
+		},
+		{
+			"path": "../internal/vitest-config"
+		},
+		{
+			"path": "../internal/jest-config"
+		}
+	]
 }

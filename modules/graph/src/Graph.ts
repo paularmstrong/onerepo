@@ -8,20 +8,22 @@ import type { PackageManager } from '@onerepo/package-manager';
 import { Workspace } from './Workspace';
 import type { PackageJson, PrivatePackageJson } from './Workspace';
 
-export const enum DependencyType {
+export const DependencyType = {
 	/**
 	 * Production dependency (defined in `dependencies` of `package.json`)
 	 */
-	PROD = 3,
+	PROD: 3,
 	/**
 	 * Development-only dependency (defined in `devDependencies` keys of `package.json`)
 	 */
-	DEV = 2,
+	DEV: 2,
 	/**
 	 * Peer dependency (defined in `peerDependencies` key of `package.json`)
 	 */
-	PEER = 1,
-}
+	PEER: 1,
+} as const;
+
+type DepType = (typeof DependencyType)[keyof typeof DependencyType];
 
 export type { Serialized };
 
@@ -123,7 +125,7 @@ export class Graph {
 	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
 	 * @param type Filter the dependents to a dependency type.
 	 */
-	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DependencyType) {
+	dependents<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DepType) {
 		const graph =
 			type === DependencyType.PROD
 				? this.#invertedProdGraph
@@ -152,7 +154,7 @@ export class Graph {
 	 * @param includeSelf Whether to include the `Workspaces` for the input `sources` in the return array.
 	 * @param type Filter the dependencies to a dependency type.
 	 */
-	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DependencyType) {
+	dependencies<T extends string | Workspace>(sources?: T | Array<T>, includeSelf = false, type?: DepType) {
 		const graph =
 			type === DependencyType.PROD ? this.#prodGraph : type === DependencyType.DEV ? this.#devGraph : this.#graph;
 
@@ -179,7 +181,7 @@ export class Graph {
 	 * @param sources One or more workspaces by name or `Workspace` instance
 	 * @param type Filter the dependents to a dependency type.
 	 */
-	affected<T extends string | Workspace>(source: T | Array<T>, type?: DependencyType): Array<Workspace> {
+	affected<T extends string | Workspace>(source: T | Array<T>, type?: DepType): Array<Workspace> {
 		return this.dependents(source, true, type);
 	}
 
@@ -278,7 +280,7 @@ export class Graph {
 	 * @param type Filter the graph to a dependency type.
 	 * @return This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 	 */
-	isolatedGraph(sources: Array<Workspace>, type?: DependencyType): ReturnType<typeof graph> {
+	isolatedGraph(sources: Array<Workspace>, type?: DepType): ReturnType<typeof graph> {
 		const returnGraph = graph();
 
 		const inverted =
@@ -345,7 +347,7 @@ export class Graph {
 		this.#invertedDevGraph.addNode(workspace.name);
 	}
 
-	#addEdges(dependent: string, dependencies: Record<string, string>, weight: DependencyType) {
+	#addEdges(dependent: string, dependencies: Record<string, string>, weight: DepType) {
 		for (const [dependency, version] of Object.entries(dependencies)) {
 			if (this.#byName.has(dependency)) {
 				if (!version.startsWith('workspace:') && version !== this.#byName.get(dependency)!.version) {

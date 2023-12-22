@@ -1,8 +1,94 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
-		"composite": true
+		"outDir": "./dist/"
 	},
-	"exclude": ["./docs", "./internal", "./modules", "./plugins", "./coverage", "./commands/__tests__/__fixtures__"]
+	"include": ["./bin/*", "./commands/**/*", "./*"],
+	"exclude": ["./commands/__tests__/__fixtures__"],
+	"references": [
+		{
+			"path": "docs"
+		},
+		{
+			"path": "internal/changeset-changelog"
+		},
+		{
+			"path": "internal/eslint-plugin"
+		},
+		{
+			"path": "internal/jest-config"
+		},
+		{
+			"path": "internal/prettier-config"
+		},
+		{
+			"path": "internal/vitest-config"
+		},
+		{
+			"path": "modules/builders"
+		},
+		{
+			"path": "modules/core"
+		},
+		{
+			"path": "modules/create-scoped"
+		},
+		{
+			"path": "modules/create"
+		},
+		{
+			"path": "modules/eslint-formatter"
+		},
+		{
+			"path": "modules/file"
+		},
+		{
+			"path": "modules/git"
+		},
+		{
+			"path": "modules/github-action"
+		},
+		{
+			"path": "modules/graph"
+		},
+		{
+			"path": "modules/logger"
+		},
+		{
+			"path": "modules/onerepo"
+		},
+		{
+			"path": "modules/package-manager"
+		},
+		{
+			"path": "modules/subprocess"
+		},
+		{
+			"path": "modules/test-cli"
+		},
+		{
+			"path": "modules/yargs"
+		},
+		{
+			"path": "plugins/changesets"
+		},
+		{
+			"path": "plugins/eslint"
+		},
+		{
+			"path": "plugins/jest"
+		},
+		{
+			"path": "plugins/performance-writer"
+		},
+		{
+			"path": "plugins/prettier"
+		},
+		{
+			"path": "plugins/typescript"
+		},
+		{
+			"path": "plugins/vitest"
+		}
+	]
 }

@@ -1,4 +1,7 @@
+import { constants } from 'node:fs';
 import { getCommand } from '@onerepo/test-cli';
+import * as file from '@onerepo/file';
+import { LogStep } from 'onerepo';
 import * as command from '../typescript';
 
 const { graph, run } = getCommand(command);
@@ -31,6 +34,48 @@ describe('handler', () => {
 					args: ['-p', expect.stringMatching('tsconfig.json'), '--noEmit', '--no-pretty'],
 				}),
 			]),
+		);
+	});
+
+	test('can opt-in to using project references', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
+		vi.spyOn(file, 'read').mockResolvedValue('{}');
+		vi.spyOn(file, 'write').mockResolvedValue();
+
+		await run('-a --use-project-references');
+
+		expect(file.read).toHaveBeenCalledWith(graph.root.resolve('tsconfig.json'), constants.O_RDWR, {
+			step: expect.any(LogStep),
+		});
+
+		expect(file.write).toHaveBeenCalledWith(
+			graph.root.resolve('tsconfig.json'),
+			JSON.stringify(
+				{
+					references: [
+						{ path: graph.root.relative(graph.getByName('burritos').location) },
+						{ path: graph.root.relative(graph.getByName('tacos').location) },
+					],
+				},
+				null,
+				2,
+			),
+			{ step: expect.any(LogStep) },
+		);
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'tsc',
+				args: [
+					'--build',
+					graph.getByName('tacos').resolve('tsconfig.json'),
+					graph.getByName('burritos').resolve('tsconfig.json'),
+					graph.root.resolve('tsconfig.json'),
+					'--pretty',
+					'--emitDeclarationOnly',
+				],
+			}),
 		);
 	});
 });

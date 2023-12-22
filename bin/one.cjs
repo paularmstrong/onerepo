@@ -38,7 +38,7 @@ setup(
 			jest(),
 			eslint({ name: 'lint', extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
 			prettier({ name: 'format' }),
-			typescript({ tsconfig: 'tsconfig.json' }),
+			typescript({ tsconfig: 'tsconfig.json', useProjectReferences: true }),
 			performanceWriter(),
 		],
 	},
