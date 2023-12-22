@@ -92,13 +92,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			memo.push({
 				name: `Typecheck ${workspace.name}`,
 				cmd: 'tsc',
-				args: [
-					'-p',
-					workspace.resolve(tsconfig),
-					'--noEmit',
-					pretty ? '--pretty' : '--no-pretty',
-					...(verbosity > 3 ? ['--verbose'] : []),
-				],
+				args: ['-p', workspace.resolve(tsconfig), '--noEmit', pretty ? '--pretty' : '--no-pretty'],
 			});
 		}
 		return memo;
