@@ -29,7 +29,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.option('use-project-references', {
 			alias: ['project-references', 'project-refs'],
 			type: 'boolean',
-			default: true,
+			default: false,
 			hidden: true,
 			description: 'Automatically sync and use typescript project references',
 		})
@@ -42,6 +42,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	if (useProjectRefs) {
 		const configs: Array<string> = [];
 
+		const sync = logger.createStep('Sync projects');
 		const withTsConfig: Array<Workspace> = [];
 		for (const ws of graph.workspaces) {
 			if (existsSync(ws.resolve(tsconfig))) {
@@ -49,10 +50,9 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			}
 		}
 
-		const sync = logger.createStep('Sync projects');
 		for (const ws of graph.dependents()) {
 			const wsTsconfigPath = ws.resolve(tsconfig);
-			if (existsSync(wsTsconfigPath)) {
+			if (withTsConfig.includes(ws)) {
 				const deps = (ws.isRoot ? graph.workspaces : graph.dependencies(ws)).filter(
 					(workspace) => ws !== workspace && withTsConfig.includes(workspace),
 				);
@@ -80,7 +80,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				...configs,
 				pretty ? '--pretty' : '--no-pretty',
 				'--emitDeclarationOnly',
-				verbosity > 3 ? '--verbose' : '',
+				...(verbosity > 3 ? ['--verbose'] : []),
 			],
 		});
 
@@ -93,10 +93,11 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				name: `Typecheck ${workspace.name}`,
 				cmd: 'tsc',
 				args: [
-					'--build',
+					'-p',
 					workspace.resolve(tsconfig),
+					'--noEmit',
 					pretty ? '--pretty' : '--no-pretty',
-					verbosity > 3 ? '--verbose' : '',
+					...(verbosity > 3 ? ['--verbose'] : []),
 				],
 			});
 		}
