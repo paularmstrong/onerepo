@@ -1,5 +1,14 @@
 # @onerepo/plugin-changesets
 
+## 0.9.6
+
+### Patch Changes
+
+- Updated dependencies [[`fe49360`](https://github.com/paularmstrong/onerepo/commit/fe493603a99ee53c72c2785c6d7f316e9a0ba5e9), [`9b28949`](https://github.com/paularmstrong/onerepo/commit/9b28949f191e322171052ecd01074e646373bbf1)]:
+  - @onerepo/git@0.4.4
+  - @onerepo/graph@0.9.3
+  - @onerepo/builders@0.5.5
+
 ## 0.9.5
 
 ### Patch Changes

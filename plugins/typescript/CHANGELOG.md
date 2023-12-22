@@ -1,5 +1,16 @@
 # @onerepo/plugin-typescript
 
+## 0.4.0
+
+### Minor Changes
+
+- Adds support for TypeScript project references. Set `useProjectReferences: true` in the plugin configuration to get started. [#504](https://github.com/paularmstrong/onerepo/pull/504) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @onerepo/builders@0.5.5
+
 ## 0.3.5
 
 ### Patch Changes

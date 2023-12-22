@@ -1,5 +1,11 @@
 # @onerepo/git
 
+## 0.4.4
+
+### Patch Changes
+
+- Do not force checkout files if there are no partially staged files during task runs that use the git staging workflow. [#503](https://github.com/paularmstrong/onerepo/pull/503) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.3
 
 ### Patch Changes
