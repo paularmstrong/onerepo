@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-typescript",
 	"description": "Official TypeScript plugin for the oneRepo toolchain.",
 	"title": "TypeScript",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

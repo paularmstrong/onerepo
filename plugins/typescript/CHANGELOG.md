@@ -1,5 +1,11 @@
 # @onerepo/plugin-typescript
 
+## 0.4.1
+
+### Patch Changes
+
+- Removes incorrect `--verbose` flag on `tsc` when not using project references. [#507](https://github.com/paularmstrong/onerepo/pull/507) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.4.0
 
 ### Minor Changes
