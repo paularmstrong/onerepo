@@ -54,9 +54,13 @@ function getPackageJson<T extends PackageJson = PackageJson>(root: string): { fi
 		return { filePath, json: PackageCache.get(filePath) as T };
 	}
 
-	const raw = readFileSync(filePath, 'utf-8');
-	const json = JSON.parse(raw);
-	PackageCache.set(filePath, json);
+	try {
+		const raw = readFileSync(filePath, 'utf-8');
+		const json = JSON.parse(raw);
+		PackageCache.set(filePath, json);
 
-	return { filePath, json };
+		return { filePath, json };
+	} catch (e) {
+		return { filePath, json: { name: 'onerepo-temp' } as T };
+	}
 }

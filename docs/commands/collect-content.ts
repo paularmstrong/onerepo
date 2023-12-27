@@ -199,6 +199,9 @@ ${readme}
 
 	const coreDocsTwo = logger.createStep('Getting core type docs');
 	for (const cmd of commands) {
+		if (cmd === 'create') {
+			continue;
+		}
 		const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
 		await file.writeSafe(
 			docs.resolve(`src/content/core/${cmd}.md`),

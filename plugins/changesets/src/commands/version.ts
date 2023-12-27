@@ -5,10 +5,10 @@ import { isClean, updateIndex } from '@onerepo/git';
 import type { Package, Packages } from '@manypkg/get-packages';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { LogStep } from '@onerepo/logger';
+import { DependencyType } from '@onerepo/graph';
 import assembleReleasePlan from '@changesets/assemble-release-plan';
 import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
-import { DependencyType } from '@onerepo/graph';
 import type { NewChangeset } from '@changesets/types';
 
 export const command = 'version';

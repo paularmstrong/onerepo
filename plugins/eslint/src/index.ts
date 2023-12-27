@@ -4,14 +4,14 @@ import * as cmd from './commands/eslint';
 /**
  * @example
  *
- * ```js
- * setup({
+ * ```js title="onerepo.config.js"
+ * export default {
  * 	plugins: [
  * 		eslint({
  * 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs']
  * 		}),
  * 	],
- * });
+ * };
  * ```
  */
 export type Options = {
@@ -38,14 +38,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { eslint } from '@onerepo/plugin-eslint';
  *
- * setup({
+ * export default {
  * 	plugins: [eslint()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function eslint(opts: Options = {}): Plugin {

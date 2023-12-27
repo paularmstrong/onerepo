@@ -179,6 +179,7 @@ export class Logger {
 	unpause() {
 		this.#updater.clear();
 		this.#paused = false;
+		this.#runUpdater();
 	}
 
 	#runUpdater() {

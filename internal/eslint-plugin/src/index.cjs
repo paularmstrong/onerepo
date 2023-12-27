@@ -33,10 +33,7 @@ module.exports = {
 				'import/first': 'error',
 				'import/no-cycle': ['error', { maxDepth: 2 }],
 				'import/no-relative-packages': 'error',
-				'import/no-extraneous-dependencies': [
-					'error',
-					{ devDependencies: ['**/*.test.ts', '**/*.config.js', '**/bin/docgen.cjs'] },
-				],
+				'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts', '**/*.config.js'] }],
 				'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 				'import/newline-after-import': 'error',
 				'import/no-duplicates': ['error', { 'prefer-inline': false }],

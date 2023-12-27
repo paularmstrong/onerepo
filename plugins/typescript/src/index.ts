@@ -4,14 +4,14 @@ import * as cmd from './commands/typescript';
 /**
  * @example
  *
- * ```js
- * setup({
+ * ```js title="onerepo.config.js"
+ * export default {
  * 	plugins: [
  * 		typescript({
  * 			tsconfig: 'tsconfig.base.json'
  * 		}),
  * 	],
- * });
+ * };
  * ```
  */
 export type Options = {
@@ -34,14 +34,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { typescript } from '@onerepo/plugin-typescript';
  *
- * setup({
+ * export default {
  * 	plugins: [typescript()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function typescript(opts: Options = {}): Plugin {

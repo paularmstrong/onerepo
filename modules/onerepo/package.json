@@ -10,10 +10,18 @@
 	"homepage": "https://onerepo.tools",
 	"type": "module",
 	"main": "./src/index.ts",
+	"bin": {
+		"one": "./src/bin/one.ts",
+		"onerepo": "./src/bin/one.ts"
+	},
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",
-		"typings": "./dist/src/index.d.ts"
+		"typings": "./dist/src/index.d.ts",
+		"bin": {
+			"onerepo": "./dist/bin/one.js",
+			"one": "./dist/bin/one.js"
+		}
 	},
 	"files": [
 		"./dist/**/*",
@@ -45,7 +53,6 @@
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
-		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "0.5.5",

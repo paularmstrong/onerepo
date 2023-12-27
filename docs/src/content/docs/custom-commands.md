@@ -1,8 +1,11 @@
 ---
 title: Custom commands
+sort: 1
 ---
 
 # Custom commands
+
+At its core, **oneRepo** is a suite of commands built on top your repository's _workspace graph_.
 
 Every team, repo, and workspace has unique needs. oneRepo shines when it comes to doing what you need at the right time.
 
@@ -10,12 +13,12 @@ oneRepo commands are an extended version of the [Yargs command module](https://g
 
 Commands are required to implement the following `exports`:
 
-| Export        | Type                                    | Description                                                                                                                                                                                                                       |
-| ------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | `string \| Array<string>`               | The command’s name. If provided as an array, all values will be considered aliases for the same command.<br><br>Any value can also be `'$0'`, which is a special token that lows this command to be the default for the parent.   |
-| `description` | `string \| false`                       | A help description. If set to `false`, the command will be hidden from help output unless `--show-advanced` is included with `--help`. <br><br>**Note:** unlike in Yargs, this export _must_ be `description` and not `describe`. |
-| `builder`     | [`Builder<T>`](/docs/core/api/#builder) | A function that helps parse the command-line arguments                                                                                                                                                                            |
-| `handler`     | [`Handler<T>`](/docs/core/api/#handler) | Asynchronous function that is invoked for the command                                                                                                                                                                             |
+| Export        | Type                                               | Description                                                                                                                                                                                                                       |
+| ------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | `string \| Array<string>`                          | The command’s name. If provided as an array, all values will be considered aliases for the same command.<br><br>Any value can also be `'$0'`, which is a special token that lows this command to be the default for the parent.   |
+| `description` | `string \| false`                                  | A help description. If set to `false`, the command will be hidden from help output unless `--show-advanced` is included with `--help`. <br><br>**Note:** unlike in Yargs, this export _must_ be `description` and not `describe`. |
+| `builder`     | [`Builder<T>`](/docs/core/api/#buildercommandargv) | A function that helps parse the command-line arguments                                                                                                                                                                            |
+| `handler`     | [`Handler<T>`](/docs/core/api/#handlercommandargv) | Asynchronous function that is invoked for the command                                                                                                                                                                             |
 
 ## Basic example
 

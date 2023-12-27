@@ -28,12 +28,6 @@
 			"path": "modules/builders"
 		},
 		{
-			"path": "modules/create-scoped"
-		},
-		{
-			"path": "modules/create"
-		},
-		{
 			"path": "modules/eslint-formatter"
 		},
 		{

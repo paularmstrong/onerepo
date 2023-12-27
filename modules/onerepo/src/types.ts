@@ -1,14 +1,14 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
+import type { TaskConfig } from '@onerepo/graph';
 import type { Options as GenerateOptions, generate as GeneratePlugin } from './core/generate';
 import type { Options as GraphOptions, graph as GraphPlugin } from './core/graph';
-import type { Options as InstallOptions, install as InstallPlugin } from './core/install';
 import type { Options as TasksOptions, tasks as TasksPlugin } from './core/tasks';
 
 /**
  * @group Core
  */
-export type { GenerateOptions, GraphOptions, InstallOptions, TasksOptions };
+export type { GenerateOptions, GraphOptions, TasksOptions };
 
 /**
  * @group Core
@@ -17,35 +17,36 @@ export type CoreConfig = {
 	/**
 	 * Configuration options fopr the [Generate](/docs/core/generate/) core module.
 	 */
-	generate?: GenerateOptions | false;
+	generate?: GenerateOptions;
 	/**
 	 * Configuration options fopr the [Graph](/docs/core/graph/) core module.
 	 */
-	graph?: GraphOptions | false;
-	/**
-	 * Configuration options fopr the [Install](/docs/core/install/) core module.
-	 */
-	install?: InstallOptions | false;
+	graph?: GraphOptions;
 	/**
 	 * Configuration options fopr the [Tasks](/docs/core/tasks/) core module.
 	 */
-	tasks?: TasksOptions | false;
+	tasks?: TasksOptions;
+};
+
+export type WorkspaceConfig = {
+	root?: never;
+	/**
+	 * Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks.
+	 * @default `{}`
+	 */
+	tasks?: TaskConfig;
 };
 
 /**
  * Setup configuration for the oneRepo command-line interface.
  * @group Core
  */
-export type Config = {
+export type RootConfig = {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
 	 * @default `{}`
 	 */
 	core?: CoreConfig;
-	/**
-	 * When you ask for `--help` at the root of the CLI, this description will be shown. It might even show up in documentation, so don't make it too funny…
-	 */
-	description?: string;
 	/**
 	 * What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 * @default `'main'`
@@ -57,27 +58,27 @@ export type Config = {
 	 */
 	ignoreCommands?: RegExp;
 	/**
-	 * Give your CLI a unique name that's short and easy to remember.
-	 * If not provided, will default to `one`. That's great, but will cause conflicts if you try to use multiple monorepos that are both using oneRepo. But then again, what's the point of having multiple monorepos. Isn't that a bit besides the point?
-	 * @default `'one'`
-	 */
-	name?: string;
-	/**
 	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
 	 * @default `[]`
 	 */
 	plugins?: Array<Plugin>;
 	/**
-	 * Absolute path location to the root of the repository.
-	 * @default `process.cwd()`
+	 * Must be set to `true` in order to denote that this is the root of the repository.
 	 */
-	root?: string;
+	root: true;
 	/**
 	 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 	 * @default `'commands'`
 	 */
 	subcommandDir?: string | false;
+	/**
+	 * Globally defined tasks per lifecycle
+	 * @default `{}`
+	 */
+	tasks?: TaskConfig;
 };
+
+export type Config = RootConfig | WorkspaceConfig;
 
 /**
  * @group Core
@@ -112,7 +113,7 @@ export type PluginObject = {
 /**
  * @group Core
  */
-export type Plugin = PluginObject | ((config: Config) => PluginObject);
+export type Plugin = PluginObject | ((config: Required<RootConfig>) => PluginObject);
 
 /**
  * @internal
@@ -120,6 +121,5 @@ export type Plugin = PluginObject | ((config: Config) => PluginObject);
 export type CorePlugins = {
 	generate?: typeof GeneratePlugin;
 	graph?: typeof GraphPlugin;
-	install?: typeof InstallPlugin;
 	tasks?: typeof TasksPlugin;
 };

@@ -5,6 +5,23 @@ import { getLogger } from '@onerepo/logger';
 import type { PluginObject } from 'onerepo';
 import { makeTempDir, write } from '@onerepo/file';
 
+/**
+ * Include the `performanceWriter` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js title="onerepo.config.ts" {1,6}
+ * import { performanceWriter } from '@onerepo/plugin-performance-writer';
+ *
+ * export default {
+ * 	 plugins: [
+ *     performanceWriter({
+ *       output: '/tmp/onerepo-perf-out'
+ * 		 })
+ *   ],
+ * };
+ * ```
+ */
 export type Options = {
 	/**
 	 * Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.
@@ -21,18 +38,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6,9-11}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { performanceWriter } from '@onerepo/plugin-performance-writer';
  *
- * setup({
+ * export default {
  * 	plugins: [performanceWriter()],
- * })
- * 	.then(({ run }) => run())
- * 	.then(({ performanceWriter }) => {
- * 		console.log('results written to file', performanceWriter);
- * 	});
+ * };
  * ```
  */
 export function performanceWriter(opts: Options = {}): PluginObject {

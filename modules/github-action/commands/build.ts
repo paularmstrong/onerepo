@@ -1,5 +1,5 @@
 import { glob } from 'glob';
-import { git, batch, run, builders } from 'onerepo';
+import { git, builders } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
 export const command = 'build';
@@ -16,7 +16,6 @@ export const builder: Builder<Args> = (yargs) =>
 		builders.withWorkspaces(
 			yargs
 				.usage('$0 build [options]')
-				.version(false)
 				.example('$0 build', 'Build all workspaces.')
 				.example('$0 build -w graph', 'Build the `graph` workspace only.')
 				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.'),
@@ -24,19 +23,12 @@ export const builder: Builder<Args> = (yargs) =>
 	);
 
 export const handler: Handler<Args> = async function handler(argv, { graph }) {
-	const workspace = graph.getByLocation(__dirname);
-
-	const [esbuildBin] = await run({
-		name: 'Get esbuild bin',
-		cmd: 'yarn',
-		args: ['bin', 'esbuild'],
-		opts: { cwd: graph.root.location },
-	});
+	const workspace = graph.getByName('github-action');
 
 	const files = await glob('*.ts', { cwd: workspace.resolve('src') });
 	const procs = files.map((file) => ({
 		name: `Build ${file}`,
-		cmd: esbuildBin,
+		cmd: 'esbuild',
 		args: [
 			workspace.resolve('src', file),
 			'--bundle',
@@ -47,7 +39,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph }) {
 		],
 	}));
 
-	await batch(procs);
+	await graph.packageManager.batch(procs);
 
 	await git.updateIndex(workspace.resolve('dist'));
 };

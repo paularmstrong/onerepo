@@ -6,14 +6,7 @@ describe('setup', () => {
 	test('sets env variables', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
-		await setup(
-			undefined,
-			{
-				root,
-			},
-			createYargs(['one', '--help']),
-			{},
-		);
+		await setup({ root, config: { root: true }, yargs: createYargs(['one', '--help']), corePlugins: {} });
 
 		expect(process.env.ONE_REPO_ROOT).toMatch(/\/__tests__\/__fixtures__\/repo$/);
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('main');
@@ -23,15 +16,12 @@ describe('setup', () => {
 	test('sets head branch from config', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
-		await setup(
-			undefined,
-			{
-				root,
-				head: 'tacos',
-			},
-			createYargs(['one', '--help']),
-			{},
-		);
+		await setup({
+			root,
+			config: { root: true, head: 'tacos' },
+			yargs: createYargs(['one', '--help']),
+			corePlugins: {},
+		});
 
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
 	});
@@ -43,10 +33,10 @@ describe('setup', () => {
 		const argv = { tacos: true, $0: 'foo', _: [] };
 		vi.spyOn(yargs, 'parse').mockResolvedValue(argv);
 
-		const { run } = await setup(
-			undefined,
-			{
-				root,
+		const { run } = await setup({
+			root,
+			config: {
+				root: true,
 				head: 'tacos',
 				plugins: [
 					{
@@ -64,28 +54,9 @@ describe('setup', () => {
 				],
 			},
 			yargs,
-			{},
-		);
+			corePlugins: {},
+		});
 
 		await expect(run()).resolves.toEqual({ tacos: 'yep', burritos: 'yes' });
-	});
-
-	// yargs says it's not building a singleton, but it's help documentation actually is
-	test.skip.each([['generate']])('does not include %s when set to false', async (key) => {
-		const root = path.join(__dirname, '__fixtures__', 'repo');
-		vi.spyOn(process, 'cwd').mockReturnValue(root);
-		const core = { [key]: false };
-		const { yargs } = await setup(
-			undefined,
-			{
-				root,
-				core,
-			},
-			createYargs(['one', '--help']),
-			{},
-		);
-
-		const comp = await yargs.getHelp();
-		expect(comp).not.toMatch(key);
 	});
 });

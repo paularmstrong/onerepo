@@ -1,4 +1,6 @@
-/** @type import('onerepo').graph.TaskConfig */
+/** @type import('onerepo').Config */
 module.exports = {
-	'post-commit': { serial: ['echo "post-commit" "tacos"'] },
+	tasks: {
+		'post-commit': { serial: ['echo "post-commit" "tacos"'] },
+	},
 };

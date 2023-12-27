@@ -3,16 +3,44 @@ name: Pull request
 on: pull_request
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      tasks: ${{ steps.tasks.outputs.tasks }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - run: yarn
+
+      - uses: paularmstrong/onerepo/actions/get-tasks@external-bin
+        id: tasks
+        with:
+          packageManager: yarn
+          lifecycle: pre-merge
+          overrideBin: './bin/one.mjs'
+          verbosity: 5
+
   tasks:
     runs-on: ubuntu-latest
+    needs: setup
+    if: ${{ fromJSON(needs.setup.outputs.tasks).parallel != '[]' && fromJSON(needs.setup.outputs.tasks).parallel != '[]' }}
     strategy:
       fail-fast: false
       matrix:
-        index: [1, 2, 3]
         node:
           - 18
           - 20
-    name: v${{ matrix.node }} ${{ matrix.index }}/3
+        task:
+          - ${{ fromJSON(needs.setup.outputs.tasks).parallel }}
+          - ${{ fromJSON(needs.setup.outputs.tasks).serial }}
+    name: v${{ matrix.node }} ${{ join(matrix.task.*.name, ', ') }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,4 +53,28 @@ jobs:
 
       - run: yarn
 
-      - run: ./bin/one.mjs tasks -c pre-merge --shard=${{ matrix.index }}/3 -vvvv
+      - uses: paularmstrong/onerepo/actions/run-task@external-bin
+        with:
+          task: |
+            ${{ toJSON(matrix.task) }}
+
+  tasks-sharding:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    name: oneRepo shard ${{ matrix.shard }}/3
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - run: yarn
+
+      - run: ./bin/one.mjs tasks -c pre-merge --shard=${{ matrix.shard }}/3 -vvvv
