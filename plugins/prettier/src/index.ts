@@ -21,8 +21,14 @@ export type Options = {
 	name?: string | Array<string>;
 	/**
 	 * When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
+	 * @default true
 	 */
 	githubAnnotate?: boolean;
+	/**
+	 * Whether to use Prettier's built-in cache determinism.
+	 * @default true
+	 */
+	useCache?: boolean;
 };
 
 /**
@@ -51,7 +57,8 @@ export function prettier(opts: Options = {}): Plugin {
 				(yargs) =>
 					builder(yargs)
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
-						.default('github-annotate', opts.githubAnnotate ?? true),
+						.default('github-annotate', opts.githubAnnotate ?? true)
+						.default('cache', opts.useCache ?? true),
 				handler,
 			);
 		},

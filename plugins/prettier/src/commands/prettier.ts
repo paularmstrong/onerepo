@@ -12,6 +12,7 @@ export const description = 'Format files with prettier';
 
 type Args = {
 	add?: boolean;
+	cache: boolean;
 	check?: boolean;
 	'github-annotate': boolean;
 } & builders.WithAllInputs;
@@ -29,7 +30,13 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 		})
 		.option('github-annotate', {
-			description: 'Annotate files in GitHub with errors when failing format checks in GitHub Actions',
+			description: 'Annotate files in GitHub with errors when failing format checks in GitHub Actions.',
+			type: 'boolean',
+			default: true,
+			hidden: true,
+		})
+		.option('cache', {
+			description: 'Use Prettier’s built-in cache to determin whether files need formatting or not.',
 			type: 'boolean',
 			default: true,
 			hidden: true,
@@ -41,7 +48,7 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { getFilepaths, graph, logger }) {
-	const { add, all, check, 'dry-run': isDry, 'github-annotate': github, $0: cmd, _: positionals } = argv;
+	const { add, all, cache, check, 'dry-run': isDry, 'github-annotate': github, $0: cmd, _: positionals } = argv;
 
 	const filteredPaths = [];
 	if (!all) {
@@ -81,7 +88,12 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		await graph.packageManager.run({
 			name: `Format files ${all ? '' : filteredPaths.join(', ').substring(0, 60)}…`,
 			cmd: 'prettier',
-			args: ['--ignore-unknown', isDry || check ? '--list-different' : '--write', ...(all ? ['.'] : filteredPaths)],
+			args: [
+				'--ignore-unknown',
+				isDry || check ? '--list-different' : '--write',
+				...(cache ? ['--cache', '--cache-strategy', 'content'] : []),
+				...(all ? ['.'] : filteredPaths),
+			],
 			step: runStep,
 		});
 	} catch (e) {

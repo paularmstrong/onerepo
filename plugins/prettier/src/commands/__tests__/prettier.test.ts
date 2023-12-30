@@ -48,7 +48,7 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'prettier',
-				args: ['--ignore-unknown', '--write', '.'],
+				args: ['--ignore-unknown', '--write', '--cache', '--cache-strategy', 'content', '.'],
 			}),
 		);
 	});
@@ -66,7 +66,15 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'prettier',
-				args: ['--ignore-unknown', '--write', 'modules/burritos', 'modules/tacos'],
+				args: [
+					'--ignore-unknown',
+					'--write',
+					'--cache',
+					'--cache-strategy',
+					'content',
+					'modules/burritos',
+					'modules/tacos',
+				],
 			}),
 		);
 	});
@@ -79,7 +87,7 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'prettier',
-				args: ['--ignore-unknown', '--list-different', '.'],
+				args: ['--ignore-unknown', '--list-different', '--cache', '--cache-strategy', 'content', '.'],
 			}),
 		);
 	});
@@ -102,7 +110,7 @@ bar/**/*
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'prettier',
-				args: ['--ignore-unknown', '--write', 'foo.js'],
+				args: ['--ignore-unknown', '--write', '--cache', '--cache-strategy', 'content', 'foo.js'],
 			}),
 		);
 	});
@@ -126,7 +134,7 @@ bar/**/*
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'prettier',
-				args: ['--ignore-unknown', '--write', 'bar.js'],
+				args: ['--ignore-unknown', '--write', '--cache', '--cache-strategy', 'content', 'bar.js'],
 			}),
 		);
 		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
@@ -146,5 +154,18 @@ bar/**/*
 		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'foo.js' });
 		expect(core.error).toHaveBeenCalledWith(expect.stringContaining('This file needs formatting'), { file: 'bop.js' });
 		expect(core.error).not.toHaveBeenCalledWith(expect.any(String), { file: 'bar.js' });
+	});
+
+	test('can disable cache', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+
+		await run('--all --no-cache');
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'prettier',
+				args: ['--ignore-unknown', '--write', '.'],
+			}),
+		);
 	});
 });
