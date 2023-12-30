@@ -2868,7 +2868,6 @@ __metadata:
     "@types/js-yaml": ^4.0.6
     "@types/npmlog": ^4.1.4
     "@types/semver": ^7.5.3
-    "@types/unist": ^2.0.8
     "@types/yargs": ^17.0.26
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
@@ -2881,15 +2880,10 @@ __metadata:
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
     js-yaml: ^4.1.0
-    mdast-builder: ^1.1.1
     minimatch: ^9.0.0
     picocolors: ^1.0.0
-    remark-gfm: ^3.0.1
-    remark-parse: ^10.0.1
-    remark-stringify: ^10.0.2
     semver: ^7.5.4
     typescript: ^5.0.4
-    unified: ^10.1.2
     yargs: ^17.6.2
   languageName: unknown
   linkType: soft
@@ -3039,7 +3033,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-docgen@workspace:plugins/docgen":
+"@onerepo/plugin-docgen@workspace:^, @onerepo/plugin-docgen@workspace:plugins/docgen":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-docgen@workspace:plugins/docgen"
   dependencies:
@@ -3183,6 +3177,7 @@ __metadata:
     "@internal/prettier-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/plugin-changesets": "workspace:^"
+    "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-jest": "workspace:^"
     "@onerepo/plugin-performance-writer": "workspace:^"
@@ -4247,7 +4242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3, @types/unist@npm:^2.0.8":
+"@types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3":
   version: 2.0.10
   resolution: "@types/unist@npm:2.0.10"
   checksum: e2924e18dedf45f68a5c6ccd6015cd62f1643b1b43baac1854efa21ae9e70505db94290434a23da1137d9e31eb58e54ca175982005698ac37300a1c889f6c4aa

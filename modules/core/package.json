@@ -39,14 +39,9 @@
 		"graph-data-structure": "^3.2.0",
 		"inquirer": "^9.1.4",
 		"js-yaml": "^4.1.0",
-		"mdast-builder": "^1.1.1",
 		"minimatch": "^9.0.0",
 		"picocolors": "^1.0.0",
-		"remark-gfm": "^3.0.1",
-		"remark-parse": "^10.0.1",
-		"remark-stringify": "^10.0.2",
 		"semver": "^7.5.4",
-		"unified": "^10.1.2",
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
@@ -59,7 +54,6 @@
 		"@types/js-yaml": "^4.0.6",
 		"@types/npmlog": "^4.1.4",
 		"@types/semver": "^7.5.3",
-		"@types/unist": "^2.0.8",
 		"@types/yargs": "^17.0.26",
 		"typescript": "^5.0.4"
 	},

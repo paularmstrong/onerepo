@@ -18,6 +18,7 @@
 		"@internal/prettier-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/plugin-changesets": "workspace:^",
+		"@onerepo/plugin-docgen": "workspace:^",
 		"@onerepo/plugin-eslint": "workspace:^",
 		"@onerepo/plugin-jest": "workspace:^",
 		"@onerepo/plugin-performance-writer": "workspace:^",
