@@ -17,6 +17,17 @@ export function getPackageManagerName(cwd: string, fromPkgJson?: string): 'npm' 
 		}
 	}
 
+	const ua = process.env.npm_config_user_agent;
+	if (ua?.includes('yarn/')) {
+		return 'yarn';
+	}
+	if (ua?.includes('pnpm/')) {
+		return 'pnpm';
+	}
+	if (ua?.includes('npm/')) {
+		return 'npm';
+	}
+
 	return guessPackageManager(cwd) ?? 'npm';
 }
 
