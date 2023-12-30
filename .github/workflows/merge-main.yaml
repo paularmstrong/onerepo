@@ -80,4 +80,4 @@ jobs:
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          ./bin/one.cjs changesets publish --skip-auth -vvvvv
+          ./bin/one.mjs changesets publish --skip-auth -vvvvv
