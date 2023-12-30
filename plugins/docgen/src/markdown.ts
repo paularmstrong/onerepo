@@ -139,7 +139,7 @@ function options(cmd: Docs): Array<Node> {
 					html('</details>'),
 					// prettier is mixing tabs & spaces :(
 					// eslint-disable-next-line
-				]
+			  ]
 			: []),
 	];
 }
@@ -207,7 +207,7 @@ function typeAndDefault(opt: Option | Positional): Array<Node> {
 				}
 				memo.push(inlineCode(`"${c}"`));
 				return memo;
-			}, [] as Array<Node>)
+		  }, [] as Array<Node>)
 		: [inlineCode(opt.type)];
 	if (opt.default) {
 		nodes.push(text(', default: '), inlineCode(JSON.stringify(opt.default)));
