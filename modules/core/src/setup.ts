@@ -4,7 +4,6 @@ import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
-import { register } from 'esbuild-register/dist/node';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import { getGraph } from '@onerepo/graph';
@@ -58,6 +57,7 @@ export type App = {
  * @group Core
  */
 export async function setup(
+	require: NodeRequire | undefined,
 	/**
 	 * CLI configuration
 	 */
@@ -76,8 +76,7 @@ export async function setup(
 	 */
 	logger?: Logger,
 ): Promise<App> {
-	register({});
-	performance.mark('onerepo_start_Program');
+	const req = require ?? createRequire(process.cwd());
 
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { core, description, head, ignoreCommands, name, plugins, subcommandDir, root } = resolvedConfig;
@@ -109,7 +108,7 @@ export async function setup(
 		logger: logger ?? getLogger(),
 	});
 
-	yargs.commandDir = patchCommandDir(options, yargs.commandDir);
+	yargs.commandDir = patchCommandDir(req, options, yargs.commandDir);
 	// TODO: find a better way
 	// more hacks - the patch function doesn't work with plugin-docgen
 	if ('_commandDirOpts' in yargs) {
@@ -221,10 +220,10 @@ export async function setup(
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
 function patchCommandDir(
+	require: NodeRequire,
 	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
 	commandDir: Yargs['commandDir'],
 ) {
-	const require = createRequire('/');
 	return function (this: Yargs, pathname: string) {
 		const files = globSync(
 			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
@@ -232,7 +231,7 @@ function patchCommandDir(
 				nodir: true,
 			},
 		);
-		this.commandDir = patchCommandDir(options, commandDir);
+		this.commandDir = patchCommandDir(require, options, commandDir);
 
 		for (const file of files) {
 			if (typeof options.exclude === 'function') {

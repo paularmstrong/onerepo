@@ -4,7 +4,7 @@ import { getLogger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
 import { StagingWorkflow } from '../workflow';
 
-const graph = getGraph(__dirname);
+const graph = getGraph();
 
 describe('StagingWorkflow', () => {
 	beforeEach(() => {

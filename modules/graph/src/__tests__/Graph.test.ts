@@ -1,6 +1,9 @@
 import path from 'path';
+import initJiti from 'jiti';
 import { getRootPackageJson } from '..';
 import { DependencyType, Graph } from '../Graph';
+
+const require = initJiti(process.cwd(), { interopDefault: true });
 
 describe('Graph', () => {
 	test('bucket', async () => {

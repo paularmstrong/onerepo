@@ -19,8 +19,11 @@ import { tmpdir } from 'node:os';
 import { existsSync } from 'node:fs';
 import { chmod as fsChmod, cp, lstat as fsLstat, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
+import initJiti from 'jiti';
 import { stepWrapper } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
+
+const jiti = initJiti(process.cwd(), { interopDefault: true });
 
 /**
  * Common file manipulation functions.
@@ -238,7 +241,7 @@ async function format(filename: string, contents: string, { step }: Options = {}
 	return stepWrapper({ step, name: `Format ${filename}` }, async (step) => {
 		let prettier;
 		try {
-			prettier = await import('prettier');
+			prettier = jiti('prettier');
 			if ('default' in prettier) {
 				prettier = prettier.default;
 			}

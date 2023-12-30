@@ -2875,10 +2875,10 @@ __metadata:
     cliui: ^8.0.1
     ejs: ^3.1.8
     esbuild: ^0.19.3
-    esbuild-register: ^3.5.0
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
     inquirer: ^9.1.4
+    jiti: ^1.21.0
     js-yaml: ^4.1.0
     minimatch: ^9.0.0
     picocolors: ^1.0.0
@@ -2898,7 +2898,6 @@ __metadata:
     "@types/inquirer": ^9.0.3
     "@types/js-yaml": ^4.0.6
     create-onerepo: 0.1.6
-    esbuild-register: ^3.5.0
   bin:
     create: ./src/bin.js
   languageName: unknown
@@ -2935,6 +2934,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/logger": 0.5.0
+    jiti: ^1.21.0
     prettier: ^3.0.0
   peerDependencies:
     prettier: ^2 || ^3
@@ -2975,12 +2975,13 @@ __metadata:
     "@onerepo/package-manager": 0.4.2
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
+    jiti: ^1.21.0
     js-yaml: ^4.1.0
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.5.0, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.5.0, @onerepo/logger@workspace:^, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -3025,7 +3026,6 @@ __metadata:
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
     "@types/inquirer": ^9.0.3
-    esbuild-register: ^3.5.0
     inquirer: ^9.1.4
     onerepo: "workspace:^"
     picocolors: ^1.0.0
@@ -3068,7 +3068,6 @@ __metadata:
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
     "@types/eslint": ^8.44.3
-    esbuild-register: ^3.5.0
     eslint: ^8.38.0
     eslint-formatter-onerepo: 0.1.1
     minimatch: ^9.0.0
@@ -3090,7 +3089,6 @@ __metadata:
     "@onerepo/git": 0.4.4
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
-    esbuild-register: ^3.5.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
   peerDependencies:
@@ -3124,7 +3122,6 @@ __metadata:
     "@onerepo/logger": 0.5.0
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
-    esbuild-register: ^3.5.0
     minimatch: ^9.0.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
@@ -3144,7 +3141,6 @@ __metadata:
     "@onerepo/file": 0.5.2
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
-    esbuild-register: ^3.5.0
     onerepo: "workspace:^"
   languageName: unknown
   linkType: soft
@@ -3160,7 +3156,6 @@ __metadata:
     "@onerepo/git": 0.4.4
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
-    esbuild-register: ^3.5.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
   peerDependencies:
@@ -3187,17 +3182,17 @@ __metadata:
     "@types/eslint": ^8.44.3
     esbuild: ^0.19.3
     esbuild-jest: ^0.5.0
-    esbuild-register: ^3.5.0
     eslint: ^8.38.0
     glob: ^10.1.0
     husky: ^8.0.3
     jest: ^29.5.0
+    jiti: ^1.21.0
     onerepo: "workspace:^"
     prettier: ^3.0.0
     typescript: ^5.0.4
     vitest: ^0.34.5
   bin:
-    one: ./bin/one.js
+    one: ./bin/one.mjs
   languageName: unknown
   linkType: soft
 
@@ -6766,14 +6761,15 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/file": 0.5.2
+    "@onerepo/logger": "workspace:^"
     "@onerepo/package-manager": 0.4.2
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": 0.5.5
     "@onerepo/yargs": 0.5.6
     "@types/inquirer": ^9.0.3
     "@types/js-yaml": ^4.0.6
-    esbuild-register: ^3.5.0
     inquirer: ^9.1.4
+    jiti: ^1.21.0
     js-yaml: ^4.1.0
     picocolors: ^1.0.0
     yargs: ^17.6.2
@@ -7694,17 +7690,6 @@ __metadata:
   peerDependencies:
     esbuild: ">=0.8.50"
   checksum: 210d1a1111815675f247ba32174b821aedf3d8ab34eb0fa0bd6b60c97db9df5bcc5b034d19ba988a2d8733d46d4cd59e3cfa1cfdfddce3b4584f9d40ad24beb0
-  languageName: node
-  linkType: hard
-
-"esbuild-register@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "esbuild-register@npm:3.5.0"
-  dependencies:
-    debug: ^4.3.4
-  peerDependencies:
-    esbuild: ">=0.12 <1"
-  checksum: f4307753c9672a2c901d04a1165031594a854f0a4c6f4c1db08aa393b68a193d38f2df483dc8ca0513e89f7b8998415e7e26fb9830989fb8cdccc5fb5f181c6b
   languageName: node
   linkType: hard
 

@@ -24,10 +24,12 @@
 	],
 	"dependencies": {
 		"@onerepo/file": "0.5.2",
+		"@onerepo/logger": "workspace:^",
 		"@onerepo/package-manager": "0.4.2",
 		"@onerepo/subprocess": "0.6.0",
 		"@onerepo/yargs": "0.5.6",
 		"inquirer": "^9.1.4",
+		"jiti": "^1.21.0",
 		"js-yaml": "^4.1.0",
 		"picocolors": "^1.0.0",
 		"yargs": "^17.6.2"
@@ -37,8 +39,7 @@
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "0.5.5",
 		"@types/inquirer": "^9.0.3",
-		"@types/js-yaml": "^4.0.6",
-		"esbuild-register": "^3.5.0"
+		"@types/js-yaml": "^4.0.6"
 	},
 	"engines": {
 		"node": "^18 || ^20"

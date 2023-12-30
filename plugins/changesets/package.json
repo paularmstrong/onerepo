@@ -44,7 +44,6 @@
 		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/inquirer": "^9.0.3",
-		"esbuild-register": "^3.5.0",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.4"
 	},
