@@ -73,6 +73,9 @@
 			"path": "plugins/changesets"
 		},
 		{
+			"path": "plugins/docgen"
+		},
+		{
 			"path": "plugins/eslint"
 		},
 		{

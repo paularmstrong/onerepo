@@ -1,5 +1,5 @@
-import { createRequire } from 'node:module';
 import path from 'path';
+import initJiti from 'jiti';
 import { globSync } from 'glob';
 import type {
 	BuilderCallback,
@@ -81,7 +81,7 @@ export interface Docs {
 	usage: Array<string>;
 }
 
-const require = createRequire('/');
+const require = initJiti(process.cwd(), { interopDefault: true });
 
 export class Yargs {
 	_logger: LogStep;
@@ -104,7 +104,7 @@ export class Yargs {
 
 	/**
 	 * HACK!
-	 * @onerepo/core patches yargs.commandDir to ensure the commandDir options are always passed through from the root.
+	 * onerepo core patches yargs.commandDir to ensure the commandDir options are always passed through from the root.
 	 * This patching _may not_ be correct for consumers outside of onerepo, therefore use at your own risk.
 	 */
 	_commandDirOpts: RequireDirectoryOptions = {};

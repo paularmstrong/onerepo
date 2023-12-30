@@ -1,0 +1,45 @@
+{
+	"name": "@onerepo/plugin-docgen",
+	"version": "0.0.0",
+	"license": "MIT",
+	"title": "Docgen",
+	"repository": {
+		"directory": "plugins/docgen",
+		"type": "git",
+		"url": "git://github.com/paularmstrong/onerepo.git"
+	},
+	"homepage": "https://onerepo.tools/docs/plugins/docgen/",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/src/index.d.ts"
+	},
+	"files": [
+		"./dist/**/*",
+		"./README.md",
+		"./CHANGELOG.md"
+	],
+	"dependencies": {
+		"@onerepo/core": "workspace:^",
+		"@onerepo/file": "workspace:^",
+		"@onerepo/git": "workspace:^",
+		"@onerepo/yargs": "workspace:^",
+		"glob": "^10.1.0",
+		"jiti": "^1.21.0",
+		"mdast-builder": "^1.1.1",
+		"onerepo": "workspace:^",
+		"remark-gfm": "^3.0.1",
+		"remark-parse": "^10.0.1",
+		"remark-stringify": "^10.0.2",
+		"unified": "^10.1.2"
+	},
+	"devDependencies": {
+		"@internal/tsconfig": "workspace:^",
+		"@internal/vitest-config": "workspace:^"
+	},
+	"engines": {
+		"node": "^18 || ^20"
+	}
+}

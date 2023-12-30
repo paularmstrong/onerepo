@@ -117,9 +117,6 @@ export async function setup(
 	}
 
 	// Install the core plugins
-	if (core.docgen !== false && corePlugins.docgen) {
-		plugins.push(corePlugins.docgen(core.docgen, setup, config, corePlugins));
-	}
 	if (core.generate !== false && corePlugins.generate) {
 		plugins.push(corePlugins.generate(core.generate));
 	}
