@@ -39,7 +39,6 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 
 	const readmeStep = logger.createStep('Building plugin docs');
 	for (const ws of graph.workspaces) {
-		const bin = ws.resolve('bin', 'docgen.cjs');
 		if (!ws.name.startsWith('@onerepo/plugin-')) {
 			continue;
 		}
@@ -69,27 +68,26 @@ ${readme}
 
 		const outFile = docs.resolve('src', 'content', 'plugins', `${shortName}.md`);
 
-		if (await file.exists(bin, { step: readmeStep })) {
-			generators.push({
-				name: `Generate for ${ws.name}`,
-				cmd: bin,
-				args: [
-					'docgen',
-					'--format',
-					'markdown',
-					'--heading-level',
-					'3',
-					'--out-file',
-					outFile,
-					'--out-workspace',
-					'docs',
-					`-${'v'.repeat(verbosity)}`,
-					'--safe-write',
-					'--command',
-					shortName,
-				],
-			});
-		}
+		generators.push({
+			name: `Generate for ${ws.name}`,
+			cmd: process.argv[1],
+			args: [
+				'docgen',
+				'--format',
+				'markdown',
+				'--heading-level',
+				'3',
+				'--out-file',
+				outFile,
+				'--out-workspace',
+				'docs',
+				`-${'v'.repeat(verbosity)}`,
+				'--safe-write',
+				'--command',
+				shortName,
+			],
+		});
+
 		generators.push({
 			name: `Gen typedoc for ${ws.name}`,
 			cmd: typedoc,

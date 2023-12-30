@@ -12,13 +12,11 @@ import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
 import { setup } from '../../../setup';
 import type { Config, CorePlugins } from '../../../types';
-import { docgen } from '../../docgen';
 import { generate } from '../../generate';
 import { graph } from '../../graph';
 import { install } from '../../install';
 
 const plugins: CorePlugins = {
-	docgen,
 	generate,
 	graph,
 	install,

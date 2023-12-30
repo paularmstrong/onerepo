@@ -2934,7 +2934,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.5.2, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.5.2, @onerepo/file@workspace:^, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
@@ -2947,7 +2947,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/git@0.4.4, @onerepo/git@workspace:modules/git":
+"@onerepo/git@0.4.4, @onerepo/git@workspace:^, @onerepo/git@workspace:modules/git":
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
@@ -3036,6 +3036,27 @@ __metadata:
     onerepo: "workspace:^"
     picocolors: ^1.0.0
     typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@onerepo/plugin-docgen@workspace:plugins/docgen":
+  version: 0.0.0-use.local
+  resolution: "@onerepo/plugin-docgen@workspace:plugins/docgen"
+  dependencies:
+    "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
+    "@onerepo/core": "workspace:^"
+    "@onerepo/file": "workspace:^"
+    "@onerepo/git": "workspace:^"
+    "@onerepo/yargs": "workspace:^"
+    glob: ^10.1.0
+    jiti: ^1.21.0
+    mdast-builder: ^1.1.1
+    onerepo: "workspace:^"
+    remark-gfm: ^3.0.1
+    remark-parse: ^10.0.1
+    remark-stringify: ^10.0.2
+    unified: ^10.1.2
   languageName: unknown
   linkType: soft
 
@@ -3209,7 +3230,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/yargs@0.5.6, @onerepo/yargs@workspace:modules/yargs":
+"@onerepo/yargs@0.5.6, @onerepo/yargs@workspace:^, @onerepo/yargs@workspace:modules/yargs":
   version: 0.0.0-use.local
   resolution: "@onerepo/yargs@workspace:modules/yargs"
   dependencies:
@@ -11845,7 +11866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^1.19.1":
+"jiti@npm:^1.19.1, jiti@npm:^1.21.0":
   version: 1.21.0
   resolution: "jiti@npm:1.21.0"
   bin:

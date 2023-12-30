@@ -1,17 +1,30 @@
 import path from 'node:path';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
-import type { Argv as Yargv } from 'yargs';
 import type { Handler } from '@onerepo/yargs';
-import type { Plugin, App } from '@onerepo/core';
-import type { Config, CorePlugins } from '../../types';
+import { corePlugins, internalSetup } from '@onerepo/core';
+import type { Plugin } from '@onerepo/core';
 import { toMarkdown } from './markdown';
 import { Yargs } from './yargs';
 import type { Docs } from './yargs';
 
 /**
  * Full configuration options for the Docgen core command.
- * @group Core
+ * @example
+ *
+ * ```js title="onerepo.config.ts"
+ * import { docgen } from '@onerepo/plugin-docgen';
+ *
+ * export default {
+ * 	plugins: [
+ *    docgen({
+ *      format: 'markdown',
+ * 			outFile: './docs/cli.md',
+ *      safeWrite: true,
+ *    }),
+ *  ],
+ * };
+ * ```
  */
 export type Options = {
 	/**
@@ -48,17 +61,24 @@ interface Args {
 	command?: string;
 }
 
-export const docgen = (
-	opts: Options = {},
-	fn: (c: Config, y: Yargv, p: CorePlugins) => Promise<App>,
-	config: Config,
-	corePlugins: CorePlugins,
-): Plugin => {
+/**
+ * Include the `eslint` plugin in your oneRepo plugin setup:
+ *
+ * @example
+ *
+ * ```js title="onerepo.config.ts" {1,4}
+ * import { docgen } from '@onerepo/plugin-docgen';
+ *
+ * export default {
+ * 	plugins: [docgen()],
+ * };
+ * ```
+ */ export const docgen = (opts: Options = {}): Plugin => {
 	if (typeof opts.outFile === 'string' && (!opts.outFile || path.isAbsolute(opts.outFile))) {
 		throw new Error('Invalid path specified for `core.docgen.outFile`. Path must be relative, eg, "./docs/usage.md"');
 	}
 
-	return {
+	return (rootConfig) => ({
 		yargs: (yargs, visitor) => {
 			const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 				const {
@@ -82,14 +102,14 @@ export const docgen = (
 
 				const parseStep = logger.createStep('Parse commands');
 				const docsYargs = new Yargs(parseStep);
-				await fn(
-					config,
-					// @ts-ignore
+				await internalSetup(
+					rootConfig,
+					// @ts-ignore We're overloading Yargs here with out faux instance to build the docs
 					docsYargs,
 					corePlugins,
 				);
-				docsYargs._rootPath = config.root as string;
-				docsYargs._commandDirectory = (config.subcommandDir as string) ?? 'commands';
+				docsYargs._rootPath = graph.root.location;
+				docsYargs._commandDirectory = rootConfig.subcommandDir ? rootConfig.subcommandDir : 'commands';
 				const docs = docsYargs._serialize();
 				await parseStep.end();
 
@@ -103,7 +123,7 @@ export const docgen = (
 				}
 
 				if (!outputDocs) {
-					logger.error(`Could not find command "${command}" in CLI`);
+					logger.warn(`Could not find command "${command}" in CLI`);
 					return;
 				}
 
@@ -128,7 +148,7 @@ export const docgen = (
 			};
 
 			const command = opts.name ?? 'docgen';
-			const description = `Generate documentation for the \`${config.name}\` cli.`;
+			const description = `Generate documentation for the oneRepo cli.`;
 			const { handler: wrappedHandler } = visitor({ command, description, handler });
 
 			return yargs.command(
@@ -183,5 +203,5 @@ export const docgen = (
 				wrappedHandler,
 			);
 		},
-	};
+	});
 };
