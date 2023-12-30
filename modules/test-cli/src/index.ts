@@ -10,6 +10,9 @@ import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
 
+process.env.npm_config_user_agent = undefined;
+delete process.env.npm_config_user_agent;
+
 // @ts-ignore
 const testRunner: typeof vitest | typeof jest =
 	// @ts-ignore

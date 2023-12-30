@@ -25,7 +25,7 @@ jobs:
       - uses: paularmstrong/onerepo/actions/get-tasks@main
         id: tasks
         with:
-          cli: ./bin/one.cjs
+          cli: ./bin/one.mjs
           lifecycle: pre-merge
           verbosity: 5
 

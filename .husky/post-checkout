@@ -3,5 +3,5 @@
 
 # If the third argument is "1", then we have switched branches
 if [ $3 = '1' ]; then
-  ./bin/one.cjs tasks -c post-checkout
+  ./bin/one.mjs tasks -c post-checkout
 fi

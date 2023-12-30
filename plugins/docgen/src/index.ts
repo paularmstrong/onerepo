@@ -103,6 +103,7 @@ interface Args {
 				const parseStep = logger.createStep('Parse commands');
 				const docsYargs = new Yargs(parseStep);
 				await internalSetup(
+					undefined,
 					rootConfig,
 					// @ts-ignore We're overloading Yargs here with out faux instance to build the docs
 					docsYargs,

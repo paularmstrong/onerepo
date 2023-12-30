@@ -1,4 +1,5 @@
 import createYargs from 'yargs/yargs';
+import initJiti from 'jiti';
 import { setup as internalSetup } from './setup';
 import type { Config } from './types';
 import { generate } from './core/generate';
@@ -10,9 +11,20 @@ export type { GraphSchemaValidators } from './core/graph';
 export type { App } from './setup';
 export * from './types';
 
+/**
+ * @internal
+ */
 export async function setup(config: Config) {
-	return await internalSetup(config, createYargs(process.argv.slice(2)), corePlugins);
+	performance.mark('onerepo_start_Program');
+	const jiti = initJiti(process.cwd(), { interopDefault: true });
+
+	return await internalSetup(jiti, config, createYargs(process.argv.slice(2), process.cwd(), jiti), corePlugins);
 }
+
+/**
+ * @internal
+ */
+export { internalSetup };
 
 export const corePlugins = {
 	generate,
@@ -20,8 +32,3 @@ export const corePlugins = {
 	install,
 	tasks,
 };
-
-/**
- * @internal
- */
-export { internalSetup };

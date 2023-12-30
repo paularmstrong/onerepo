@@ -21,7 +21,8 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "0.5.0"
+		"@onerepo/logger": "0.5.0",
+		"jiti": "^1.21.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

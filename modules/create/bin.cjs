@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-require('esbuild-register/dist/node').register({});
+// @ts-expect-error jiti types are wrong for CJS usage
+const jiti = require('jiti')(__filename);
 
-// @ts-ignore
-require('./src/index.ts');
+jiti('./src/index.ts');

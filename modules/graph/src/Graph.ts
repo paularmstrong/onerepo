@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
@@ -72,7 +73,8 @@ export class Graph {
 			const locations = globSync(path.join(pathGlob, 'package.json'), { cwd: this.#rootLocation });
 			for (const pkgLocation of locations.sort()) {
 				const location = path.dirname(pkgLocation);
-				const packageJson = moduleRequire(path.join(this.#rootLocation, pkgLocation));
+				const raw = readFileSync(path.join(this.#rootLocation, pkgLocation), 'utf-8');
+				const packageJson = JSON.parse(raw);
 				this.#addWorkspace(path.join(this.#rootLocation, location), packageJson);
 			}
 		}

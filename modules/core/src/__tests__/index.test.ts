@@ -7,6 +7,7 @@ describe('setup', () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		await setup(
+			undefined,
 			{
 				root,
 			},
@@ -23,6 +24,7 @@ describe('setup', () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		await setup(
+			undefined,
 			{
 				root,
 				head: 'tacos',
@@ -42,6 +44,7 @@ describe('setup', () => {
 		vi.spyOn(yargs, 'parse').mockResolvedValue(argv);
 
 		const { run } = await setup(
+			undefined,
 			{
 				root,
 				head: 'tacos',
@@ -73,6 +76,7 @@ describe('setup', () => {
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
 		const core = { [key]: false };
 		const { yargs } = await setup(
+			undefined,
 			{
 				root,
 				core,
