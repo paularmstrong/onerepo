@@ -1,3 +1,4 @@
+import initJiti from 'jiti';
 import pc from 'picocolors';
 import inquirer from 'inquirer';
 import { read as readConfig } from '@changesets/config';
@@ -6,10 +7,9 @@ import { isClean } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { ReleasePlan } from '@changesets/types';
 import type { Package, Packages } from '@manypkg/get-packages';
-import type Apply from '@changesets/apply-release-plan';
-import type Read from '@changesets/read';
+import applyReleasePlan from '@changesets/apply-release-plan';
+import readChangesets from '@changesets/read';
 import { applyPublishConfig, resetPackageJson } from '../publish-config';
-import { importChangesets } from '../fix-changesets-esm';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 
@@ -48,6 +48,9 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async (argv, { graph, logger }) => {
+	// !important! changesets _still_ does not build and/or export ESM correctly, so jiti is necessary to fix the issue
+	initJiti(__filename).register();
+
 	const {
 		'allow-dirty': allowDirty,
 		build,
@@ -56,9 +59,6 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		'skip-auth': skipAuth,
 		verbosity,
 	} = argv;
-
-	const applyReleasePlan = await importChangesets<typeof Apply>('@changesets/apply-release-plan');
-	const readChangesets = await importChangesets<typeof Read>('@changesets/read');
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
@@ -195,7 +195,9 @@ Commit or stash your changes to continue.`);
 	}
 
 	if (!isDry) {
+		const plan = logger.createStep('Apply release plan');
 		await applyReleasePlan({ changesets: [], releases, preState: undefined } as ReleasePlan, packages, config);
+		await plan.end();
 	}
 
 	let otp: string | undefined;

@@ -3,8 +3,7 @@ import inquirer from 'inquirer';
 import { updateIndex } from '@onerepo/git';
 import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type Write from '@changesets/write';
-import { importChangesets } from '../fix-changesets-esm';
+import writeChangeset from '@changesets/write';
 
 export const command = ['$0', 'add'];
 
@@ -34,7 +33,6 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { add, type } = argv;
 	logger.pause();
-	const writeChangeset = await importChangesets<typeof Write>('@changesets/write');
 
 	const workspaces = await getWorkspaces();
 	const choices = workspaces.reduce((memo, ws) => {

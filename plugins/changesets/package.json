@@ -23,11 +23,11 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@changesets/apply-release-plan": "^6.1.4",
-		"@changesets/assemble-release-plan": "^5.2.4",
-		"@changesets/config": "^2.3.1",
-		"@changesets/read": "^0.5.9",
-		"@changesets/write": "^0.2.3",
+		"@changesets/apply-release-plan": "^7.0.0",
+		"@changesets/assemble-release-plan": "^6.0.0",
+		"@changesets/config": "^3.0.0",
+		"@changesets/read": "^0.6.0",
+		"@changesets/write": "^0.3.0",
 		"@onerepo/builders": "0.5.5",
 		"@onerepo/file": "0.5.2",
 		"@onerepo/git": "0.4.4",
@@ -35,10 +35,11 @@
 		"@onerepo/logger": "0.5.0",
 		"@onerepo/subprocess": "0.6.0",
 		"inquirer": "^9.1.4",
+		"jiti": "^1.21.0",
 		"picocolors": "^1.0.0"
 	},
 	"devDependencies": {
-		"@changesets/types": "^5.2.1",
+		"@changesets/types": "^6.0.0",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/core": "workspace:^",
