@@ -1,11 +1,11 @@
-'use strict';
+import type { Config } from 'tailwindcss';
+import typography from '@tailwindcss/typography';
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
 	content: ['src/**/*.{astro,md,mdx,tsx}', '../**/*.{mdx,md}', 'astro.config.mjs'],
 	darkMode: 'class',
 	plugins: [
-		require('@tailwindcss/typography'),
+		typography,
 		{
 			handler: function ({ matchUtilities, theme }) {
 				matchUtilities(
@@ -234,4 +234,4 @@ module.exports = {
 			}),
 		},
 	},
-};
+} satisfies Config;

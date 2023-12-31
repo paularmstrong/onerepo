@@ -15,7 +15,7 @@ module.exports = {
 
 	settings: {
 		tailwindcss: {
-			config: path.join(__dirname, '/tailwind.config.cjs'),
+			config: path.join(__dirname, '/tailwind.config.ts'),
 		},
 	},
 
