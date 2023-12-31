@@ -6,7 +6,7 @@
 	"include": ["./**/*"],
 	"references": [
 		{
-			"path": "../../modules/core"
+			"path": "../../modules/onerepo"
 		},
 		{
 			"path": "../../modules/test-cli"

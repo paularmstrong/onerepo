@@ -34,7 +34,6 @@
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/eslint": "^8.44.3",
 		"eslint": "^8.38.0",

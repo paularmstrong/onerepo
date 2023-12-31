@@ -10,8 +10,8 @@ import { getGraph } from '@onerepo/graph';
 import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
+import type { Config, CorePlugins, PluginObject } from '../types';
 import { workspaceBuilder } from './workspaces';
-import type { Config, CorePlugins, PluginObject } from './types';
 
 const defaultConfig: Required<Config> = {
 	core: {},

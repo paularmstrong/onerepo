@@ -1,16 +1,16 @@
-import type { GraphSchemaValidators } from '@onerepo/core';
+import type { GraphSchemaValidators } from 'onerepo';
 
 export default {
 	'**': {
-		'settings.{yaml,yml}': {
+		'tsconfig.json': {
 			type: 'object',
 			properties: {
-				foo: {
+				extends: {
 					type: 'string',
-					const: 'baz',
+					const: 'foo',
 				},
 			},
-			required: ['foo'],
+			required: ['extends'],
 		},
 	},
 } satisfies GraphSchemaValidators;

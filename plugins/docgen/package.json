@@ -22,7 +22,6 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/core": "workspace:^",
 		"@onerepo/file": "workspace:^",
 		"@onerepo/git": "workspace:^",
 		"@onerepo/yargs": "workspace:^",

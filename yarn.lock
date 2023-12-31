@@ -2848,46 +2848,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/core@0.14.4, @onerepo/core@workspace:^, @onerepo/core@workspace:modules/core":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/core@workspace:modules/core"
-  dependencies:
-    "@internal/tsconfig": "workspace:^"
-    "@internal/vitest-config": "workspace:^"
-    "@onerepo/builders": 0.5.5
-    "@onerepo/file": 0.5.2
-    "@onerepo/git": 0.4.4
-    "@onerepo/graph": 0.9.3
-    "@onerepo/logger": 0.5.0
-    "@onerepo/subprocess": 0.6.0
-    "@onerepo/test-cli": 0.5.5
-    "@onerepo/yargs": 0.5.6
-    "@types/cjson": ^0.5.1
-    "@types/ejs": ^3.1.3
-    "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.6
-    "@types/npmlog": ^4.1.4
-    "@types/semver": ^7.5.3
-    "@types/yargs": ^17.0.26
-    ajv: ^8.12.0
-    ajv-errors: ^3.0.0
-    cjson: ^0.5.0
-    cliui: ^8.0.1
-    ejs: ^3.1.8
-    esbuild: ^0.19.3
-    glob: ^10.1.0
-    graph-data-structure: ^3.2.0
-    inquirer: ^9.1.4
-    jiti: ^1.21.0
-    js-yaml: ^4.1.0
-    minimatch: ^9.0.0
-    picocolors: ^1.0.0
-    semver: ^7.5.4
-    typescript: ^5.0.4
-    yargs: ^17.6.2
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/create@workspace:modules/create-scoped":
   version: 0.0.0-use.local
   resolution: "@onerepo/create@workspace:modules/create-scoped"
@@ -3018,7 +2978,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.5.2
     "@onerepo/git": 0.4.4
     "@onerepo/graph": 0.9.3
@@ -3040,7 +2999,6 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/core": "workspace:^"
     "@onerepo/file": "workspace:^"
     "@onerepo/git": "workspace:^"
     "@onerepo/yargs": "workspace:^"
@@ -3062,7 +3020,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.5.2
     "@onerepo/git": 0.4.4
     "@onerepo/logger": 0.5.0
@@ -3086,7 +3043,6 @@ __metadata:
     "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/git": 0.4.4
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
@@ -3103,9 +3059,9 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/core": 0.14.4
     "@onerepo/file": 0.5.2
     "@onerepo/logger": 0.5.0
+    onerepo: "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -3117,7 +3073,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.5.2
     "@onerepo/git": 0.4.4
     "@onerepo/logger": 0.5.0
@@ -3138,7 +3093,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/file": 0.5.2
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
@@ -3153,7 +3107,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": "workspace:^"
     "@onerepo/git": 0.4.4
     "@onerepo/subprocess": 0.6.0
     "@onerepo/test-cli": "workspace:^"
@@ -4238,7 +4191,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3":
+"@types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3, @types/unist@npm:^2.0.8":
   version: 2.0.10
   resolution: "@types/unist@npm:2.0.10"
   checksum: e2924e18dedf45f68a5c6ccd6015cd62f1643b1b43baac1854efa21ae9e70505db94290434a23da1137d9e31eb58e54ca175982005698ac37300a1c889f6c4aa
@@ -14653,16 +14606,39 @@ __metadata:
   dependencies:
     "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
-    "@onerepo/core": 0.14.4
     "@onerepo/file": 0.5.2
     "@onerepo/git": 0.4.4
     "@onerepo/graph": 0.9.3
     "@onerepo/logger": 0.5.0
     "@onerepo/package-manager": 0.4.2
     "@onerepo/subprocess": 0.6.0
+    "@onerepo/test-cli": 0.5.5
     "@onerepo/yargs": 0.5.6
+    "@types/cjson": ^0.5.1
+    "@types/ejs": ^3.1.3
+    "@types/inquirer": ^9.0.3
+    "@types/js-yaml": ^4.0.6
+    "@types/npmlog": ^4.1.4
+    "@types/semver": ^7.5.3
+    "@types/unist": ^2.0.8
+    "@types/yargs": ^17.0.26
+    ajv: ^8.12.0
+    ajv-errors: ^3.0.0
+    cjson: ^0.5.0
+    cliui: ^8.0.1
+    ejs: ^3.1.8
+    glob: ^10.1.0
+    graph-data-structure: ^3.2.0
+    inquirer: ^9.1.4
+    jiti: ^1.21.0
+    js-yaml: ^4.1.0
+    minimatch: ^9.0.0
+    picocolors: ^1.0.0
+    semver: ^7.5.4
     typescript: ^5.0.4
+    yargs: ^17.6.2
   languageName: unknown
   linkType: soft
 

@@ -30,7 +30,6 @@
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.4"

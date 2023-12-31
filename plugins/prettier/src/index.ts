@@ -1,4 +1,4 @@
-import type { Plugin } from '@onerepo/core';
+import type { Plugin } from 'onerepo';
 import * as cmd from './commands/prettier';
 
 /**

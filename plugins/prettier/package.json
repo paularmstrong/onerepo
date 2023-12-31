@@ -34,7 +34,6 @@
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^",
 		"typescript": "^5.0.4"
