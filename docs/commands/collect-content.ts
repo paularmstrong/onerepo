@@ -109,7 +109,7 @@ ${readme}
 	}
 	await readmeStep.end();
 
-	const core = graph.getByName('core');
+	const core = graph.getByName('onerepo');
 	const commands = await glob('*', { cwd: core.resolve('src/core') });
 
 	const coreDocs = logger.createStep('Getting core docs');
