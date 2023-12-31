@@ -4,12 +4,12 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"devDependencies": {
-		"@changesets/parse": "^0.3.16",
-		"@changesets/types": "^5.2.1",
+		"@changesets/parse": "^0.4.0",
+		"@changesets/types": "^6.0.0",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^"
 	},
 	"dependencies": {
-		"@changesets/get-github-info": "^0.5.2"
+		"@changesets/get-github-info": "^0.6.0"
 	}
 }
