@@ -249,7 +249,7 @@ export async function getCurrentSha({ step }: Options = {}) {
  * ```
  */
 export async function updateIndex(paths: Array<string> | string, { step }: Options = {}) {
-	return stepWrapper({ step, name: 'Add files to git stage' }, async () => {
+	return stepWrapper({ step, name: 'Add files to git stage' }, async (step) => {
 		const [out] = await run({
 			name: 'Add files to git stage',
 			cmd: 'git',
