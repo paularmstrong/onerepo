@@ -1,5 +1,5 @@
 ---
-'@onerepo/core': minor
+'onerepo': minor
 '@onerepo/plugin-changesets': minor
 ---
 
