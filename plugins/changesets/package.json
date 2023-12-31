@@ -42,7 +42,6 @@
 		"@changesets/types": "^6.0.0",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/inquirer": "^9.0.3",
 		"onerepo": "workspace:^",

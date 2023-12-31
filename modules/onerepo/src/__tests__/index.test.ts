@@ -1,6 +1,6 @@
 import path from 'node:path';
 import createYargs from 'yargs/yargs';
-import { setup } from '../setup';
+import { setup } from '../setup/setup';
 
 describe('setup', () => {
 	test('sets env variables', async () => {

@@ -7,9 +7,6 @@
 	"exclude": ["dist"],
 	"references": [
 		{
-			"path": "../core"
-		},
-		{
 			"path": "../test-cli"
 		},
 		{

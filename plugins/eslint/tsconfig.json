@@ -9,9 +9,6 @@
 			"path": "../../modules/onerepo"
 		},
 		{
-			"path": "../../modules/core"
-		},
-		{
 			"path": "../../modules/test-cli"
 		},
 		{

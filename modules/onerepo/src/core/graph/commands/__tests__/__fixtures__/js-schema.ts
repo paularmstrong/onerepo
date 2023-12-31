@@ -1,4 +1,4 @@
-import type { GraphSchemaValidators } from '@onerepo/core';
+import type { GraphSchemaValidators } from 'onerepo';
 
 export default {
 	'**': {

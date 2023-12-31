@@ -2,7 +2,7 @@ import path from 'node:path';
 import type { PerformanceMeasure } from 'node:perf_hooks';
 import { performance, PerformanceObserver } from 'node:perf_hooks';
 import { getLogger } from '@onerepo/logger';
-import type { PluginObject } from '@onerepo/core';
+import type { PluginObject } from 'onerepo';
 import { makeTempDir, write } from '@onerepo/file';
 
 export type Options = {

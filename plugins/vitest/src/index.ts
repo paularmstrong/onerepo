@@ -1,4 +1,4 @@
-import type { PluginObject } from '@onerepo/core';
+import type { PluginObject } from 'onerepo';
 import * as cmd from './commands/vitest';
 
 /**

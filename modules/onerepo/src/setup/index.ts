@@ -1,15 +1,15 @@
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
+import type { Config } from '../types';
+import { generate } from '../core/generate';
+import { graph } from '../core/graph';
+import { install } from '../core/install';
+import { tasks } from '../core/tasks';
 import { setup as internalSetup } from './setup';
-import type { Config } from './types';
-import { generate } from './core/generate';
-import { graph } from './core/graph';
-import { install } from './core/install';
-import { tasks } from './core/tasks';
 
-export type { GraphSchemaValidators } from './core/graph';
+export type { GraphSchemaValidators } from '../core/graph';
 export type { App } from './setup';
-export * from './types';
+export * from '../types';
 
 /**
  * @internal

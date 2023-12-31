@@ -1,14 +1,14 @@
 ---
 import Docs from '../../../layouts/Docs.astro';
-import TableOfContents from '../../../components/TableOfContents.astro';
-
-const files = await Astro.glob('@onerepo/core/README.md');
-
-const [{ Content, getHeadings }] = files;
 ---
 
 <Docs title="Core documentation">
-	<Content />
+	<h1>oneRepo core</h1>
 
-	<TableOfContents slot="toc" headings={getHeadings} />
+	<p>
+		At the center of oneRepo is a toolchain for managing monorepo workspace graphs using a unified command-line
+		interface.
+	</p>
+
+	<p>Be sure to complete the <a href="/docs/getting-started"><i>Getting Started</i> guide</a> before continuing on.</p>
 </Docs>

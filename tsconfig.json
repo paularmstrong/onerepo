@@ -28,9 +28,6 @@
 			"path": "modules/builders"
 		},
 		{
-			"path": "modules/core"
-		},
-		{
 			"path": "modules/create-scoped"
 		},
 		{

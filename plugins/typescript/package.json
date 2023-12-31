@@ -30,7 +30,6 @@
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"@onerepo/core": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^"
 	},
