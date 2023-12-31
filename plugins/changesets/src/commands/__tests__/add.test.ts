@@ -19,7 +19,7 @@ describe('handler', () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos']);
 	});
 
-	test.only('writes a changeset', async () => {
+	test('writes a changeset', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
 			chosen: ['burritos', 'churros'],
 			patch: false,
