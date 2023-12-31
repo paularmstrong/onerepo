@@ -132,8 +132,8 @@ export class Graph {
 			type === DependencyType.PROD
 				? this.#invertedProdGraph
 				: type === DependencyType.DEV
-				  ? this.#invertedDevGraph
-				  : this.#inverted;
+					? this.#invertedDevGraph
+					: this.#inverted;
 
 		if (sources) {
 			const names = (Array.isArray(sources) ? sources : [sources]).map((source) =>
@@ -289,8 +289,8 @@ export class Graph {
 			type === DependencyType.DEV
 				? this.#invertedDevGraph
 				: type === DependencyType.PROD
-				  ? this.#invertedProdGraph
-				  : this.#inverted;
+					? this.#invertedProdGraph
+					: this.#inverted;
 
 		const addAdjacent = (ws: Workspace) => {
 			const adjacent = inverted.adjacent(ws.name);

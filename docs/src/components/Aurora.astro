@@ -43,8 +43,8 @@ const { bands, class: className } = Astro.props;
 				i < bands / 2
 					? Math.ceil(i / 2)
 					: bands - i < opacity.length
-					  ? bands - i
-					  : Math.floor((Math.random() * opacity.length) / 2 + opacity.length / 2);
+						? bands - i
+						: Math.floor((Math.random() * opacity.length) / 2 + opacity.length / 2);
 			return (
 				<div
 					class={clsx(
