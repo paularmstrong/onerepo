@@ -36,6 +36,6 @@
 		"onerepo": "workspace:^",
 		"prettier": "^3.0.0",
 		"typescript": "^5.0.4",
-		"vitest": "^0.34.5"
+		"vitest": "^1.1.1"
 	}
 }
