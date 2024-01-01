@@ -74,9 +74,10 @@ export async function setup(
 	/**
 	 * @internal
 	 */
-	logger?: Logger,
+	inputLogger?: Logger,
 ): Promise<App> {
 	const req = require ?? createRequire(process.cwd());
+	const logger = inputLogger ?? getLogger();
 
 	const resolvedConfig = { ...defaultConfig, ...config };
 	const { core, description, head, ignoreCommands, name, plugins, subcommandDir, root } = resolvedConfig;
@@ -85,10 +86,9 @@ export async function setup(
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 	process.env.ONE_REPO_DRY_RUN = 'false';
 
-	const yargs = setupYargs(yargsInstance.scriptName(name)).epilogue(description);
-	yargs.completion(`${name}-completion`, false);
-
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
+	const yargs = setupYargs(yargsInstance.scriptName('one').epilogue(description), { graph, logger });
+	yargs.completion(`${name}-completion`, false);
 
 	const startupFns: Array<NonNullable<PluginObject['startup']>> = [];
 	async function startup(argv: Argv<DefaultArgv>) {
@@ -105,7 +105,7 @@ export async function setup(
 		exclude: ignoreCommands,
 		startup,
 		config,
-		logger: logger ?? getLogger(),
+		logger,
 	});
 
 	yargs.commandDir = patchCommandDir(req, options, yargs.commandDir);
