@@ -11,6 +11,7 @@ import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { Config, CorePlugins, PluginObject } from '../types';
+import pkg from '../../package.json';
 import { workspaceBuilder } from './workspaces';
 
 const defaultConfig: Required<Config> = {
@@ -88,7 +89,10 @@ export async function setup(
 
 	const graph = await getGraph(process.env.ONE_REPO_ROOT);
 	const yargs = setupYargs(yargsInstance.scriptName('one').epilogue(description), { graph, logger });
-	yargs.completion(`${name}-completion`, false);
+	yargs
+		.version(pkg.version)
+		.describe('version', 'Show the oneRepo CLI version.')
+		.completion(`${name}-completion`, false);
 
 	const startupFns: Array<NonNullable<PluginObject['startup']>> = [];
 	async function startup(argv: Argv<DefaultArgv>) {
