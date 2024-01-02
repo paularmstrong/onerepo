@@ -4,13 +4,13 @@ import * as builders from '@onerepo/builders';
 import type { Logger } from '@onerepo/logger';
 import type { Graph, Workspace } from '@onerepo/graph';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
-import { setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
+import { checkEnginesMiddleware, setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 
 /**
  * @internal
  */
-export function setupYargs(yargs: Yargv): Yargs {
-	return yargs
+export function setupYargs(yargs: Yargv, { graph, logger }: { graph?: Graph; logger: Logger }): Yargs {
+	const retYargs = yargs
 		.usage('$0 <command> [options]')
 		.help('help', 'Show this help screen')
 		.alias('help', 'h')
@@ -24,7 +24,8 @@ export function setupYargs(yargs: Yargv): Yargs {
 		.option('verbosity', {
 			alias: 'v',
 			default: 2,
-			description: 'Set the verbosity of the script output. Use -v, -vv, or -vvv for more verbose',
+			description:
+				'Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--silent`',
 			global: true,
 			group: 'Global:',
 			type: 'count',
@@ -37,8 +38,22 @@ export function setupYargs(yargs: Yargv): Yargs {
 			default: false,
 			description: 'Silence all output from the logger. Effectively sets verbosity to 0.',
 		})
+		.option('skip-engine-check', {
+			type: 'boolean',
+			group: 'Global:',
+			global: true,
+			hidden: true,
+			default: false,
+			description: 'Skip the engines check, which ensures the current Node.js version is within the expected range.',
+		})
 		.middleware(setEnvironmentMiddleware, true)
-		.middleware(sudoCheckMiddleware(yargs), true)
+		.middleware(sudoCheckMiddleware(yargs, logger), true);
+
+	if (graph && logger) {
+		retYargs.middleware(checkEnginesMiddleware(yargs, graph, logger), true);
+	}
+
+	return retYargs
 		.wrap(Math.min(160, process.stdout.columns))
 		.showHidden('show-advanced', 'Pair with `--help` to show advanced options.')
 		.group('show-advanced', 'Global:')
@@ -171,16 +186,24 @@ export type DefaultArgv = {
 	 * Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.
 	 *
 	 * Also internally sets `process.env.ONE_REPO_DRY_RUN = 'true'`.
+	 * @default false
 	 */
 	'dry-run': boolean;
 	/**
 	 * Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.
+	 * @default false
 	 */
 	silent: boolean;
 	/**
 	 * Verbosity level for the Logger. See Logger.verbosity for more information.
+	 * @default 3
 	 */
 	verbosity: number;
+	/**
+	 * Skip the engines check. When `false`, oneRepo will the current process's node version with the range for `engines.node` as defined in `package.json`. If not defined in the root `package.json`, this will be skipped.
+	 * @default false
+	 */
+	'skip-engine-check': boolean;
 };
 
 /**

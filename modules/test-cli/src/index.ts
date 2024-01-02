@@ -4,7 +4,7 @@ import url from 'node:url';
 import Yargs from 'yargs';
 import * as builders from '@onerepo/builders';
 import { parserConfiguration, setupYargs } from '@onerepo/yargs';
-import { Logger } from '@onerepo/logger';
+import { getLogger, Logger } from '@onerepo/logger';
 import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
@@ -25,6 +25,7 @@ mocker('yargs');
 async function runBuilder<R = Record<string, unknown>>(
 	builder: Builder<R>,
 	cmd = '',
+	graph: Graph,
 	builderExtras?: BuilderExtras,
 ): Promise<Argv<R>> {
 	process.env = {
@@ -60,7 +61,7 @@ async function runBuilder<R = Record<string, unknown>>(
 		throw new Error('Builder must be a function');
 	}
 
-	const out = builder(setupYargs(yargs).demandCommand(0));
+	const out = builder(setupYargs(yargs, { graph, logger: getLogger() }).demandCommand(0));
 
 	const resolvedOut = await (out instanceof Promise ? out : Promise.resolve(out));
 
@@ -98,7 +99,7 @@ async function runHandler<R = Record<string, unknown>>(
 	const logger = new Logger({ verbosity: 5, stream });
 
 	const { builderExtras, graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
-	const argv = await runBuilder(builder, cmd, builderExtras);
+	const argv = await runBuilder(builder, cmd, graph, builderExtras);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof builders.getAffected>[1]) => builders.getAffected(graph, opts);
 	const wrappedGetWorkspaces = (opts?: Parameters<typeof builders.getWorkspaces>[2]) =>
@@ -136,7 +137,7 @@ export function getCommand<R = Record<string, unknown>>(
 	graph: Graph = getGraph(path.join(dirname, 'fixtures', 'repo')),
 ) {
 	return {
-		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, extras),
+		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, graph, extras),
 		graph,
 		run: async (cmd = '', extras: Partial<Extras> = {}) =>
 			runHandler<R>({ builder, handler, extras: { graph, ...extras } }, cmd),

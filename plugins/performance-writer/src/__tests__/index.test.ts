@@ -10,7 +10,15 @@ async function tick() {
 	});
 }
 
-const argv = { $0: 'test-runner', _: [], '--': [], 'dry-run': false, silent: false, verbosity: 2 };
+const argv = {
+	$0: 'test-runner',
+	_: [],
+	'--': [],
+	'dry-run': false,
+	silent: false,
+	verbosity: 2,
+	'skip-engine-check': false,
+};
 
 describe('measure', () => {
 	beforeEach(() => {
