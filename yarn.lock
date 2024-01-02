@@ -1601,7 +1601,7 @@ __metadata:
     eslint-import-resolver-typescript: ^3.5.5
     eslint-plugin-import: ^2.27.5
     eslint-plugin-jest: ^27.2.1
-    eslint-plugin-tailwindcss: ^3.11.0
+    eslint-plugin-tailwindcss: ^3.13.1
   peerDependencies:
     eslint: ^8
   languageName: unknown
@@ -3106,7 +3106,7 @@ __metadata:
     onerepo: 0.15.4
     postcss: ^8.4.22
     rehype-pretty-code: ^0.10.1
-    tailwindcss: ^3.3.3
+    tailwindcss: ^3.4.0
     typedoc: ^0.25.1
     typedoc-plugin-markdown: ^4.0.0-next.31
     typescript: ^5.0.4
@@ -8366,15 +8366,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-tailwindcss@npm:^3.11.0":
-  version: 3.13.0
-  resolution: "eslint-plugin-tailwindcss@npm:3.13.0"
+"eslint-plugin-tailwindcss@npm:^3.13.1":
+  version: 3.13.1
+  resolution: "eslint-plugin-tailwindcss@npm:3.13.1"
   dependencies:
     fast-glob: ^3.2.5
     postcss: ^8.4.4
   peerDependencies:
     tailwindcss: ^3.3.2
-  checksum: 0ed226300b613987e59d1374c611c374add3205b73647e8ec910ad2409a2a07f9605cb7e6e7a34bda7702946681aef4a289c6b6bcf9f1357fa6bc4e0ee8f508b
+  checksum: 6be67bffca319174695b1374d8970c58a36bf1f12e5f3a5c2b613996a96e3f0d849745762af7d860adfc6bd01f9fa5789d433b8e443a870f82fd43c42046c206
   languageName: node
   linkType: hard
 
@@ -18688,9 +18688,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.3":
-  version: 3.3.5
-  resolution: "tailwindcss@npm:3.3.5"
+"tailwindcss@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "tailwindcss@npm:3.4.0"
   dependencies:
     "@alloc/quick-lru": ^5.2.0
     arg: ^5.0.2
@@ -18717,7 +18717,7 @@ __metadata:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: e04bb3bb7f9f17e9b6db0c7ace755ef0d6d05bff36ebeb9e5006e13c018ed5566f09db30a1a34380e38fa93ebbb4ae0e28fe726879d5e9ddd8c5b52bffd26f14
+  checksum: d7f05beb1cf98d169b9b65ef674a82dd16c97757194f9bacee4c536cf74f3852e0008a74f7af8578f4a1e9639fac262fd8ef89efe3e6e06667243640422f9462
   languageName: node
   linkType: hard
 

@@ -145,7 +145,7 @@ export default {
 							rgba(219, 200, 219, 0.15) 20%,
 							rgba(219, 39, 119, 0.4) 40%,
 							rgba(219, 39, 119, 0) 100%
-						)`.replace(/\s+/g, ''),
+						)`,
 					},
 					'.aurora-slice': {
 						willChange: 'transform',
@@ -159,7 +159,7 @@ export default {
 							rgba(219, 200, 219, 0.65) 22%,
 							rgba(219, 39, 119, 0.55) 40%,
 							rgba(219, 39, 119, 0) 100%
-						)`.replace(/\s+/g, ''),
+						)`,
 					},
 				});
 			},
