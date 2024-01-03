@@ -59,8 +59,6 @@ export function setupYargs(yargs: Yargv, { graph, logger }: { graph?: Graph; log
 		.group('show-advanced', 'Global:')
 		.global('show-advanced')
 		.group('help', 'Global:')
-		.version(false)
-		.hide('version')
 		.strict()
 		.demandCommand(1, 'Please enter a command')
 		.parserConfiguration(parserConfiguration);
@@ -118,6 +116,7 @@ export const commandDirOptions = ({
 			// Need to re-attach `.showHidden()` to due a bug in Yargs in which commadDir doesn't respond to it, even though it does get listed in the `--help` output
 			builder: (yargs: Yargs) =>
 				builder(yargs)
+					.version(false)
 					.showHidden('show-advanced', 'Pair with `--help` to show advanced options.')
 					.group('show-advanced', 'Global:')
 					.global('show-advanced'),
