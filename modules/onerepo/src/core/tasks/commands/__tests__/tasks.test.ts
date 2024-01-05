@@ -271,4 +271,52 @@ describe('handler', () => {
 			serial: [],
 		});
 	});
+
+	test('can shard the tasks', async () => {
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+
+		await run('--lifecycle deploy --list --shard=1/2', { graph });
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[
+					{
+						args: ['"deployroot"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-root', slug: 'fixture-root' },
+						name: 'echo "deployroot" (fixture-root)',
+						opts: { cwd: '.' },
+					},
+				],
+				[
+					{
+						args: ['"deployburritos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-burritos', slug: 'fixture-burritos' },
+						name: 'echo "deployburritos" (fixture-burritos)',
+						opts: { cwd: 'modules/burritos' },
+					},
+				],
+			],
+			serial: [],
+		});
+
+		out = '';
+
+		await run('--lifecycle deploy --list --shard=2/2', { graph });
+		expect(JSON.parse(out)).toEqual({
+			parallel: [
+				[
+					{
+						args: ['"deploytacos"'],
+						cmd: 'echo',
+						meta: { name: 'fixture-tacos', slug: 'fixture-tacos' },
+						name: 'echo "deploytacos" (fixture-tacos)',
+						opts: { cwd: 'modules/tacos' },
+					},
+				],
+			],
+			serial: [],
+		});
+	});
 });

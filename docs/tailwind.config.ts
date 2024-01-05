@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
 
 export default {
-	content: ['src/**/*.{astro,md,mdx,tsx}', '../**/*.{mdx,md}', 'astro.config.mjs'],
+	content: ['src/**/*.{astro,md,mdx,tsx}', '../**/*.{mdx,md}', 'astro.config.ts'],
 	darkMode: 'class',
 	plugins: [
 		typography,
@@ -39,7 +39,7 @@ export default {
 					},
 					'[data-line-numbers]': {
 						counterReset: 'line',
-						'& .line::before': {
+						'& [data-line]::before': {
 							counterIncrement: 'line',
 							content: 'counter(line)',
 							display: 'inline-block',
@@ -74,10 +74,6 @@ export default {
 							border: '0',
 							paddingLeft: '0',
 							paddingRight: '0',
-						},
-						'> pre > code > span': {
-							paddingBottom: theme('spacing.1'),
-							paddingTop: theme('spacing.1'),
 						},
 					},
 					'[data-rehype-pretty-code-title]': {

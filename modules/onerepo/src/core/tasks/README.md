@@ -158,9 +158,71 @@ Some tokens in tasks can be used as special replacement values that the `tasks` 
 
 ### GitHub Actions
 
-While the `tasks` command does its best to split out parallel and serial tasks to run as fast as possible on a single machine, using GitHub Actions can save even more time by spreading out each individual task to single instances using a matrix strategy.
+While the `tasks` command does its best to split out parallel and serial tasks to run as fast as possible on a single machine, using GitHub Actions can save even more time by spreading out to separate runners using a matrix strategy. oneRepo offers a few options for this:
 
-To do this, we make use of the `task --list` argument to write a JSON-formatted list of tasks to standard output, then read that in with a matrix strategy as a second job.
+#### 1. Single runner
+
+The following strategy will run all tasks on a single runner, the same way as if they were run on a developer's machine.
+
+```yaml title=".github/workflows/pull-request.yaml" showLineNumbers {20}
+name: Pull request
+on: pull_request
+
+jobs:
+  tasks:
+    runs-on: ubuntu-latest
+    name: oneRepo pre-merge tasks
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - run: yarn
+
+      - run: yarn one tasks -c pre-merge
+```
+
+#### 2. Sharding
+
+This strategy creates a known number of action runners and distributes tasks across them. If you have a limited number of action runners, sharding may be the best option.
+
+```yaml title=".github/workflows/pull-request.yaml" showLineNumbers {9-10,24}
+name: Pull request
+on: pull_request
+
+jobs:
+  tasks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [1, 2, 3]
+    name: oneRepo ${{ matrix.index }}/3
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - run: yarn
+
+      - run: yarn one tasks -c pre-merge --shard=${{ matrix.index }}/3 -vvvv
+```
+
+#### 3. Task per runner
+
+This strategy is the most distributed and best if you have a lot of capacity and available action runners. It also gives the clearest and fastest feedback.
+
+To do this, we make use of the `task --list` argument to write a JSON-formatted list of tasks to standard output using a `setup` job, then read that in with a matrix strategy as a second job.
 
 ```yaml title=".github/workflows/pull-request.yaml" showLineNumbers {8-11, 15-18, 26, 36-38, 60-63}
 name: Pull request
@@ -226,19 +288,6 @@ jobs:
         with:
           task: |
             ${{ toJSON(matrix.task) }}
-```
-
-## Disabling
-
-So you have decided that `tasks` are not for you? That’s okay. You can deactivate the core plugin by passing `false` to the configuration:
-
-```js
-setup({
-	core: {
-		// Prevents all usage of `tasks` from your CLI
-		tasks: false,
-	},
-}).then(({ run }) => run());
 ```
 
 ## Usage

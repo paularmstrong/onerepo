@@ -76,8 +76,16 @@ export const builder: Builder<Argv> = (yargs) =>
 		})
 		.option('shard', {
 			type: 'string',
-			description: 'Shard the lifecycle across multiple instances.',
+			description: 'Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`',
 		})
+		.example(
+			'$0 --lifecycle=pre-merge --shard=1/5',
+			'Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the first shard.',
+		)
+		.example(
+			'$0 --lifecycle=pre-merge --shard=3/5',
+			'Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the third shard.',
+		)
 		.option('ignore-unstaged', {
 			description:
 				'Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.',
