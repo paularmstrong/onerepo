@@ -7,7 +7,7 @@ import * as builders from '@onerepo/builders';
 import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
 import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
-import { bufferSubLogger } from '@onerepo/logger';
+import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
@@ -32,6 +32,7 @@ export type Argv = {
 	ignore: Array<string>;
 	lifecycle: Lifecycle;
 	list?: boolean;
+	shard?: string;
 	'ignore-unstaged'?: boolean;
 } & builders.WithWorkspaces &
 	builders.WithAffected;
@@ -73,10 +74,33 @@ export const builder: Builder<Argv> = (yargs) =>
 			default: [],
 			hidden: true,
 		})
+		.option('shard', {
+			type: 'string',
+			description: 'Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`',
+		})
+		.example(
+			'$0 --lifecycle=pre-merge --shard=1/5',
+			'Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the first shard.',
+		)
+		.example(
+			'$0 --lifecycle=pre-merge --shard=3/5',
+			'Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the third shard.',
+		)
 		.option('ignore-unstaged', {
 			description:
 				'Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.',
 			type: 'boolean',
+		})
+		.middleware(async (argv) => {
+			const logger = getLogger();
+			if ('shard' in argv && typeof argv.shard === 'string') {
+				if (!/\d+\/\d+/.test(argv.shard)) {
+					const msg = '--shard must be in the format <shard-num>/<total-shards>. Example: --shard=1/2';
+					logger.error(msg);
+					await logger.end();
+					yargs.exit(1, new Error(msg));
+				}
+			}
 		})
 		.describe(
 			'staged',
@@ -84,7 +108,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		);
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {
-	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, staged, 'through-ref': throughRef } = argv;
+	const { affected, ignore, lifecycle, list, 'from-ref': fromRef, shard, staged, 'through-ref': throughRef } = argv;
 
 	const stagingWorkflow = new StagingWorkflow({ graph, logger });
 	if (staged) {
@@ -115,8 +139,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		return;
 	}
 
-	const serialTasks: TaskList = [];
-	const parallelTasks: TaskList = [];
+	let serialTasks: TaskList = [];
+	let parallelTasks: TaskList = [];
 	let hasTasks = false;
 
 	for (const workspace of graph.workspaces) {
@@ -143,6 +167,14 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				parallelTasks.push(specs);
 			}
 		});
+	}
+
+	if (shard) {
+		const [shardNum, total] = shard.split('/').map((n) => parseInt(n, 10));
+		serialTasks = shardTasks(serialTasks, shardNum, total);
+		setupStep.debug(serialTasks);
+		parallelTasks = shardTasks(parallelTasks, shardNum, total);
+		setupStep.debug(parallelTasks);
 	}
 
 	await setupStep.end();
@@ -297,3 +329,19 @@ function slugify(str: string) {
 
 type ExtendedRunSpec = RunSpec & { meta: { name: string; slug: string }; fn?: PromiseFn };
 type TaskList = Array<Array<ExtendedRunSpec>>;
+
+function shardTasks(tasks: TaskList, shard: number, totalShards: number) {
+	if (!tasks.length) {
+		return tasks;
+	}
+	const shardSize = Math.ceil(tasks.length / totalShards);
+	let index = 0;
+	let resIndex = 0;
+
+	const result = new Array(Math.ceil(tasks.length / shardSize));
+
+	while (index < tasks.length) {
+		result[resIndex++] = tasks.slice(index, (index += shardSize));
+	}
+	return result[shard - 1];
+}
