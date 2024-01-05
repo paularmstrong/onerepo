@@ -3,43 +3,16 @@ name: Pull request
 on: pull_request
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      tasks: ${{ steps.tasks.outputs.tasks }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
-
-      - run: yarn
-
-      - uses: paularmstrong/onerepo/actions/get-tasks@main
-        id: tasks
-        with:
-          cli: ./bin/one.mjs
-          lifecycle: pre-merge
-          verbosity: 5
-
   tasks:
     runs-on: ubuntu-latest
-    needs: setup
-    if: ${{ fromJSON(needs.setup.outputs.tasks).parallel != '[]' && fromJSON(needs.setup.outputs.tasks).parallel != '[]' }}
     strategy:
       fail-fast: false
       matrix:
-        task:
-          - ${{ fromJSON(needs.setup.outputs.tasks).parallel }}
-          - ${{ fromJSON(needs.setup.outputs.tasks).serial }}
+        index: [1, 2, 3]
         node:
           - 18
           - 20
-    name: v${{ matrix.node }} ${{ join(matrix.task.*.name, ', ') }}
+    name: v${{ matrix.node }} shard ${{ join(matrix.index, ', ') }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -52,7 +25,4 @@ jobs:
 
       - run: yarn
 
-      - uses: paularmstrong/onerepo/actions/run-task@main
-        with:
-          task: |
-            ${{ toJSON(matrix.task) }}
+      - run: ./bin/one.mjs tasks -c pre-merge --shard=${{ matrix.index }}/3 -vvvv
