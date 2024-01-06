@@ -1,5 +1,5 @@
 import type { Plugin } from '../../types';
-import * as cmd from './commands/install';
+import * as cmd from './install';
 
 export function install(): Plugin {
 	return {

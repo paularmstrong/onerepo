@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { Plugin } from '../../types';
-import * as Show from './commands/show';
-import * as Verify from './commands/verify';
+import * as Show from './show';
+import * as Verify from './verify';
 
 /**
  * Full configuration options for the Graph core command.

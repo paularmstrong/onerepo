@@ -1,5 +1,5 @@
 import type { Plugin } from '../../types';
-import * as cmd from './commands/create';
+import * as cmd from './create';
 
 export function create(): Plugin {
 	return {

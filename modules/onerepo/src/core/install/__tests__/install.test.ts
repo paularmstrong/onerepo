@@ -5,7 +5,7 @@ import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { LogStep } from '@onerepo/logger';
 import * as Install from '../install';
-import pkg from '../../../../../package.json';
+import pkg from '../../../../package.json';
 
 vi.mock('@onerepo/subprocess');
 vi.mock('@onerepo/file');

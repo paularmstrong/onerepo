@@ -7,7 +7,7 @@ import { run } from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { getLogger } from '@onerepo/logger';
 import type { Builder, Handler } from '@onerepo/yargs';
-import pkg from '../../../../package.json';
+import pkg from '../../../package.json';
 
 export const command = 'install';
 
