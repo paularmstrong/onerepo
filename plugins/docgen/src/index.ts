@@ -132,9 +132,12 @@ interface Args {
 
 				if (outPath) {
 					if (safeWrite) {
-						await writeSafe(outPath, output, { sentinel: `auto-generated-from-cli${command ? `-${command}` : ''}` });
+						await writeSafe(outPath, output, {
+							sentinel: `auto-generated-from-cli${command ? `-${command}` : ''}`,
+							sign: true,
+						});
 					} else {
-						await write(outPath, output);
+						await write(outPath, output, { sign: true });
 					}
 					if (add) {
 						await updateIndex(outPath);
