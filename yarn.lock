@@ -4306,12 +4306,12 @@ __metadata:
   linkType: hard
 
 "@types/jest@npm:^29.5.5":
-  version: 29.5.10
-  resolution: "@types/jest@npm:29.5.10"
+  version: 29.5.11
+  resolution: "@types/jest@npm:29.5.11"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: ef385905787db528de9b6beb2688865c0bb276e64256ed60b9a1a6ffc0b75737456cb5e27e952a3241c5845b6a1da487470010dd30f3ca59c8581624c564a823
+  checksum: f892a06ec9f0afa9a61cd7fa316ec614e21d4df1ad301b5a837787e046fcb40dfdf7f264a55e813ac6b9b633cb9d366bd5b8d1cea725e84102477b366df23fdd
   languageName: node
   linkType: hard
 
@@ -8294,8 +8294,8 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-import@npm:^2.27.5":
-  version: 2.29.0
-  resolution: "eslint-plugin-import@npm:2.29.0"
+  version: 2.29.1
+  resolution: "eslint-plugin-import@npm:2.29.1"
   dependencies:
     array-includes: ^3.1.7
     array.prototype.findlastindex: ^1.2.3
@@ -8313,10 +8313,10 @@ __metadata:
     object.groupby: ^1.0.1
     object.values: ^1.1.7
     semver: ^6.3.1
-    tsconfig-paths: ^3.14.2
+    tsconfig-paths: ^3.15.0
   peerDependencies:
     eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
-  checksum: 19ee541fb95eb7a796f3daebe42387b8d8262bbbcc4fd8a6e92f63a12035f3d2c6cb8bc0b6a70864fa14b1b50ed6b8e6eed5833e625e16cb6bb98b665beff269
+  checksum: e65159aef808136d26d029b71c8c6e4cb5c628e65e5de77f1eb4c13a379315ae55c9c3afa847f43f4ff9df7e54515c77ffc6489c6a6f81f7dd7359267577468c
   languageName: node
   linkType: hard
 
@@ -9944,9 +9944,9 @@ __metadata:
   linkType: hard
 
 "graph-data-structure@npm:^3.2.0":
-  version: 3.3.0
-  resolution: "graph-data-structure@npm:3.3.0"
-  checksum: b6721b7a53a673c1d839427b2336ab6ef85db582cf8ed2099e2a7ab3650a6d64530d502f06fa3fd0cbd2e19412ba6043650411e89d0e817b64490e224c2c5e15
+  version: 3.5.0
+  resolution: "graph-data-structure@npm:3.5.0"
+  checksum: 80ce8fe5e8bb2191120839e76c40f03a2f83ebafa631d9f8f1d119651067775e5d2f0688b15b9e53a745a4e15d83565fd176c5f9bea258805a5ead6eb7c2cf02
   languageName: node
   linkType: hard
 
@@ -16237,13 +16237,13 @@ __metadata:
   linkType: hard
 
 "prettier-plugin-astro@npm:^0.12.0":
-  version: 0.12.2
-  resolution: "prettier-plugin-astro@npm:0.12.2"
+  version: 0.12.3
+  resolution: "prettier-plugin-astro@npm:0.12.3"
   dependencies:
     "@astrojs/compiler": ^1.5.5
     prettier: ^3.0.0
     sass-formatter: ^0.7.6
-  checksum: ecd9b79ed931a6b5d475f5a5906b9ee922ec72db8d11e0f7005be17790af8e609f47552a38a9a19c2db9e261875e3add42156f2f885a388fab6d524683bf0a36
+  checksum: b713d787950b6d0221a7932e13174f2156ec17e7ca92e08f5522cf7b5fe0e6248760e624b1c4d8a590dae6d385a9e4f0bb2d3af0b99f4fa9cc0e0dd7dbff1320
   languageName: node
   linkType: hard
 
@@ -19152,15 +19152,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^3.14.2":
-  version: 3.14.2
-  resolution: "tsconfig-paths@npm:3.14.2"
+"tsconfig-paths@npm:^3.15.0":
+  version: 3.15.0
+  resolution: "tsconfig-paths@npm:3.15.0"
   dependencies:
     "@types/json5": ^0.0.29
     json5: ^1.0.2
     minimist: ^1.2.6
     strip-bom: ^3.0.0
-  checksum: a6162eaa1aed680537f93621b82399c7856afd10ec299867b13a0675e981acac4e0ec00896860480efc59fc10fd0b16fdc928c0b885865b52be62cadac692447
+  checksum: 59f35407a390d9482b320451f52a411a256a130ff0e7543d18c6f20afab29ac19fbe55c360a93d6476213cc335a4d76ce90f67df54c4e9037f7d240920832201
   languageName: node
   linkType: hard
 
