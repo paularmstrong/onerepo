@@ -135,7 +135,11 @@ export default {
 							const: 'git://github.com/paularmstrong/onerepo.git',
 							errorMessage: '"repository.url" must be "git://github.com/paularmstrong/onerepo.git".',
 						},
-						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+						directory: {
+							type: 'string',
+							const: graph.root.relative(workspace.location),
+							errorMessage: `repository.directory equal "${graph.root.relative(workspace.location)}"`,
+						},
 					},
 					required: ['type', 'url', 'directory'],
 					errorMessage: {
