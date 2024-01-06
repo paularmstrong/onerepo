@@ -11,8 +11,8 @@ import type { AnySchema } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph, Workspace } from '@onerepo/graph';
-import { defaultValidators } from '../schema';
-import type { GraphSchemaValidators } from '../schema';
+import { defaultValidators } from './schema';
+import type { GraphSchemaValidators } from './schema';
 
 export const command = 'verify';
 

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { Plugin } from '../../types';
-import * as cmd from './commands/generate';
+import * as cmd from './generate';
 
 /**
  * Full configuration options for the Generate core command.
