@@ -67,9 +67,6 @@ describe('handler', () => {
 					version: pkg.version,
 					type: 'module',
 					workspaces: [],
-					dependencies: {
-						onerepo: pkg.version,
-					},
 				},
 				null,
 				2,
@@ -87,18 +84,10 @@ export default {
 			{ step: expect.any(LogStep) },
 		);
 
-		expect(subprocess.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'npm',
-				args: ['install'],
-				opts: { cwd: location },
-			}),
-		);
-
 		expect(file.remove).toHaveBeenCalledWith(path.join(location, 'bin'), { step: expect.any(LogStep) });
 		expect(file.copy).toHaveBeenCalledWith(
-			path.join(location, 'node_modules/onerepo/dist/bin'),
-			path.join(location, 'bin'),
+			expect.any(String), // import.meta.url…
+			path.join(location, 'bin/one.js'),
 			{ step: expect.any(LogStep) },
 		);
 

@@ -19,7 +19,7 @@ jobs:
 
       - run: yarn
 
-      - uses: paularmstrong/onerepo/actions/get-tasks@external-bin
+      - uses: paularmstrong/onerepo/actions/get-tasks@main
         id: tasks
         with:
           packageManager: yarn
@@ -53,7 +53,7 @@ jobs:
 
       - run: yarn
 
-      - uses: paularmstrong/onerepo/actions/run-task@external-bin
+      - uses: paularmstrong/onerepo/actions/run-task@main
         with:
           task: |
             ${{ toJSON(matrix.task) }}
