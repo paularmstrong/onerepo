@@ -1,5 +1,6 @@
+import path from 'node:path';
 import { batch, file, run, builders } from 'onerepo';
-import type { Builder, Handler, RunSpec } from 'onerepo';
+import type { Builder, Handler, PromiseFn, RunSpec } from 'onerepo';
 
 export const command = 'build';
 
@@ -15,7 +16,6 @@ export const builder: Builder<Args> = (yargs) =>
 		builders.withWorkspaces(
 			yargs
 				.usage('$0 build [options]')
-				.version(false)
 				.example('$0 build', 'Build all workspaces.')
 				.example('$0 build -w graph', 'Build the `graph` workspace only.')
 				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.'),
@@ -24,7 +24,7 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, logger }) {
 	const removals: Array<string> = [];
-	const buildProcs: Array<RunSpec> = [];
+	const buildProcs: Array<RunSpec | PromiseFn> = [];
 	const typesProcs: Array<RunSpec> = [];
 	const postCopy: Array<() => Promise<void>> = [];
 
@@ -51,20 +51,21 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 		const esmFiles = new Set<string>();
 		const cjsFiles = new Set<string>();
+		const bins = new Map<string, [string, string]>();
 
 		// eslint-disable-next-line no-inner-declarations
-		function addFile(...filepaths: Array<string>) {
-			filepaths.forEach((filepath) => {
-				if (filepath.endsWith('.cjs')) {
-					cjsFiles.add(filepath);
-				} else {
-					esmFiles.add(filepath);
-				}
-			});
+		function addFile(filepath: string) {
+			if (filepath.endsWith('.cjs')) {
+				cjsFiles.add(filepath);
+			} else {
+				esmFiles.add(filepath);
+			}
 		}
 
-		const main = workspace.resolve(workspace.packageJson.main!);
-		addFile(main);
+		if (workspace.packageJson.main) {
+			const main = workspace.resolve(workspace.packageJson.main);
+			addFile(main);
+		}
 
 		if (await file.exists(workspace.resolve('src/fixtures'), { step: buildableStep })) {
 			postCopy.push(() => file.copy(workspace.resolve('src/fixtures'), workspace.resolve('dist/fixtures')));
@@ -73,9 +74,17 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const { bin } = workspace.packageJson;
 		if (bin) {
 			if (typeof bin === 'string') {
-				addFile(workspace.resolve(bin));
+				bins.set(workspace.name, [
+					path.dirname(path.relative(workspace.resolve('src'), workspace.resolve(bin))),
+					workspace.resolve(bin),
+				]);
 			} else {
-				Object.values(bin).forEach((b) => addFile(workspace.resolve(b)));
+				Object.entries(bin).forEach(([name, bin]) =>
+					bins.set(name, [
+						path.dirname(path.relative(workspace.resolve('src'), workspace.resolve(bin))),
+						workspace.resolve(bin),
+					]),
+				);
 			}
 		}
 
@@ -107,6 +116,21 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 					'--out-extension:.js=.cjs',
 				],
 			});
+
+		bins.forEach(([dir, src], name) => {
+			buildProcs.push({
+				name: `Build bin: ${name}`,
+				cmd: esbuildBin,
+				args: [
+					src,
+					'--bundle',
+					`--outdir=${workspace.resolve('dist', dir)}`,
+					'--platform=node',
+					'--format=esm',
+					"--banner:js=const require = (await import('node:module')).createRequire(import.meta.url);const __filename = (await import('node:url')).fileURLToPath(import.meta.url);const __dirname = (await import('node:path')).dirname(__filename);",
+				],
+			});
+		});
 
 		const isTsBase = await file.exists(workspace.resolve('tsconfig.json'), { step: buildableStep });
 		const isTsBuild = await file.exists(workspace.resolve('tsconfig.build.json'), { step: buildableStep });

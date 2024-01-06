@@ -5,19 +5,13 @@ import type { Yargs } from '@onerepo/yargs';
 export function workspaceBuilder(graph: Graph, dirname: string) {
 	return (yargs: Yargs) => {
 		yargs
-			.usage('$0 workspace <name> <command> [options]')
-			.example('$0 ws myapp start [options]', 'Using alias `ws` instead of the full command `workspace`')
-			.example(
-				'$0 myapp start',
-				'The `workspace` command can be completely ommitted and the workspace name can be used as a top-level command instead. This make things quick and easy to remember.',
-			)
-			.positional('name', {
+			.usage('$0 workspace <workspace-name> <command> [options]')
+			.positional('workspace-name', {
 				description: 'Workspace name – may be the fully qualified package name or an available alias.',
-				demandCommand: true,
 				type: 'string',
 			})
 			.positional('command', {
-				description: 'Workspace-specific command.',
+				description: 'Command to run.',
 				demandCommand: true,
 				type: 'string',
 			})

@@ -1,4 +1,6 @@
-/** @type import('onerepo').graph.TaskConfig<'pull-request'> */
+/** @type import('onerepo').Config */
 module.exports = {
-	'pre-commit': { parallel: ['$0 lint', '$0 tsc'] },
+	tasks: {
+		'pre-commit': { parallel: ['$0 lint', '$0 tsc'] },
+	},
 };

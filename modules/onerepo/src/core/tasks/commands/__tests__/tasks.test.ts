@@ -9,7 +9,7 @@ const { build, run } = getCommand(Tasks);
 
 describe('builder', () => {
 	test('requires --lifecycle', async () => {
-		await expect(build('')).rejects.toThrow();
+		await expect(build('')).rejects.toBeUndefined();
 	});
 
 	test('succeeds with --lifecycle', async () => {

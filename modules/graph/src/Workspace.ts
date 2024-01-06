@@ -129,7 +129,7 @@ export class Workspace {
 		}
 		try {
 			const mod = this.#require(this.resolve('onerepo.config'));
-			this.#tasks = mod.default ?? mod ?? {};
+			this.#tasks = mod.default?.tasks ?? mod.tasks ?? {};
 			return this.#tasks!;
 		} catch (e) {
 			return {} as TaskConfig;

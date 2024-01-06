@@ -2210,8 +2210,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 // modules/github-action/src/get-tasks.ts
 var import_node_child_process = require("node:child_process");
 var core = __toESM(require_core(), 1);
-var cli = core.getInput("cli", { required: true });
+var pkgManager = core.getInput("packageManager", { required: true });
+var overrideBin = core.getInput("overrideBin", { required: false });
 var lifecycle = core.getInput("lifecycle", { required: true });
 var verbosity = parseInt(core.getInput("verbosity") ?? 2, 10);
-var tasks = (0, import_node_child_process.execSync)(`${cli} tasks --lifecycle=${lifecycle} --list -${"v".repeat(verbosity)}`).toString().trim();
+var tasks = (0, import_node_child_process.execSync)(
+  `${overrideBin ?? `${pkgManager} one`} tasks --lifecycle=${lifecycle} --list -${"v".repeat(verbosity)}`
+).toString().trim();
 core.setOutput("tasks", tasks);

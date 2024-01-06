@@ -1,6 +1,8 @@
-/** @type import('onerepo').graph.TaskConfig */
+/** @type import('onerepo').Config */
 module.exports = {
-	'post-commit': { serial: ['echo "post-commit" "tacos"'] },
-	publish: { parallel: [{ cmd: 'publish tacos', match: '../burritos/**/*' }] },
-	deploy: { parallel: ['echo "deploytacos"'] },
+	tasks: {
+		'post-commit': { serial: ['echo "post-commit" "tacos"'] },
+		publish: { parallel: [{ cmd: 'publish tacos', match: '../burritos/**/*' }] },
+		deploy: { parallel: ['echo "deploytacos"'] },
+	},
 };

@@ -10,6 +10,7 @@ export const collections = {
 	docs: defineCollection({
 		schema: z.object({
 			title: z.string(),
+			sort: z.number().optional(),
 		}),
 	}),
 	plugins: defineCollection({

@@ -25,7 +25,7 @@
 	"dependencies": {
 		"@onerepo/file": "0.5.2",
 		"@onerepo/logger": "0.5.0",
-		"onerepo": "workspace:^"
+		"onerepo": "0.15.4"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

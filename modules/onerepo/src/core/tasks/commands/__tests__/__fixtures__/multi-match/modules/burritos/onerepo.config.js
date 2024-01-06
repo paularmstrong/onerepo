@@ -1,4 +1,6 @@
-/** @type import('onerepo').graph.TaskConfig */
+/** @type import('onerepo').Config */
 module.exports = {
-	'pre-merge': { serial: [{ cmd: 'echo "pre-merge" "burritos"', match: ['asdf', '../tacos/foo'] }] },
+	tasks: {
+		'pre-merge': { serial: [{ cmd: 'echo "pre-merge" "burritos"', match: ['asdf', '../tacos/foo'] }] },
+	},
 };

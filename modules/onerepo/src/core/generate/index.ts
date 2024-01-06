@@ -8,11 +8,6 @@ import * as cmd from './commands/generate';
  */
 export type Options = {
 	/**
-	 * Override the name of the command.
-	 * @default `['generate', 'gen]`
-	 */
-	name?: string | Array<string>;
-	/**
 	 * Folder path to find templates.
 	 */
 	templatesDir: string;
@@ -30,13 +25,12 @@ export function generate(opts: Options = { templatesDir: './config/templates' })
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
 
-			const name = opts.name ?? command;
 			return yargs.command(
-				opts.name ?? command,
+				command,
 				description,
 				(yargs) => {
 					const y = builder(yargs)
-						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
+						.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
 						.default('templates-dir', resolvedDir)
 						.epilogue(
 							`To create new templates add a new folder to ${path.relative(

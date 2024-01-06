@@ -27,14 +27,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { vitest } from '@onerepo/plugin-vitest';
  *
- * setup({
+ * export default {
  * 	plugins: [vitest()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function vitest(opts: Options = {}): PluginObject {

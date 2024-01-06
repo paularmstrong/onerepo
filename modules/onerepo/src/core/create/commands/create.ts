@@ -4,19 +4,18 @@ import { homedir } from 'node:os';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
 import yaml from 'js-yaml';
-import { chmod, exists, mkdirp, read, write, writeSafe } from '@onerepo/file';
+import { exists, mkdirp, read, write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { PrivatePackageJson } from '@onerepo/graph';
 
-export const command = '$0';
+export const command = ['create', 'init'];
 
 export const description = 'Sets up oneRepo in a new or existing repository';
 
 type Argv = {
 	location?: string;
-	name?: string;
 	workspaces?: Array<string>;
 };
 
@@ -26,11 +25,6 @@ export const builder: Builder<Argv> = (yargs) =>
 			type: 'string',
 			description: 'Path relative to the process working directory to initialize oneRepo',
 		})
-		.option('name', {
-			type: 'string',
-			description: 'The name of your CLI',
-			default: 'one',
-		})
 		.option('workspaces', {
 			alias: 'w',
 			type: 'array',
@@ -39,7 +33,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		});
 
 export const handler: Handler<Argv> = async (argv, { logger }) => {
-	const { location, name: inputName, workspaces: inputWorkspaces } = argv;
+	const { location, workspaces: inputWorkspaces } = argv;
 
 	console.clear();
 
@@ -78,7 +72,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	console.clear();
 
 	const existStep = logger.createStep('Check for existing repo');
-	// existStep.verbosity = 0;
 	const outdir = dir ?? path.join(process.cwd(), location || '.');
 	const isExistingRepo = await exists(path.join(outdir, 'package.json'), { step: existStep });
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
@@ -102,7 +95,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	await existStep.end();
 
 	logger.pause();
-	await waitATick();
 	console.clear();
 
 	const prompts = await inquirer.prompt([
@@ -112,12 +104,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			message: 'Which package manager would you like to use?',
 			choices: ['npm', 'pnpm', 'yarn'],
 			when: () => !isExistingRepo,
-		},
-		{
-			name: 'name',
-			type: 'input',
-			message: 'What would you like to name the repository’s CLI?',
-			default: inputName,
 		},
 		{
 			name: 'workspaces',
@@ -144,7 +130,6 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	pkgManager = prompts.pkgmanager ?? pkgManager;
 	const manager = getPackageManager(pkgManager);
-	const name = prompts.name ?? inputName;
 	workspaces = prompts.workspaces ? prompts.workspaces.split(',') : workspaces;
 	const plugins: Array<{ name: string; version: string }> = prompts.plugins ?? [];
 
@@ -156,11 +141,10 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		runDry: true,
 	});
 
-	logger.debug({ outdir, name, workspaces, plugins });
+	logger.debug({ outdir, workspaces, plugins });
 
 	const outPackageJson: PrivatePackageJson = {
-		name,
-		// @ts-ignore what is happening here?
+		name: path.basename(outdir),
 		license: 'UNLICENSED',
 		private: true,
 		packageManager: `${pkgManager}@${pkgManagerVersion}`,
@@ -204,23 +188,18 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	await write(path.join(outdir, 'package.json'), JSON.stringify(outPackageJson, null, 2));
 
+	const isTS = Boolean(plugins.find(({ name }) => name === '@onerepo/plugin-typescript'));
 	await write(
-		path.join(outdir, 'bin', `${name}.mjs`),
-		`#!/usr/bin/env node
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { setup } from 'onerepo';
+		path.join(outdir, `onerepo.config.${isTS ? 'ts' : 'js'}`),
+		`${isTS ? "import type { Config } from 'onerepo';" : ''}
+${plugins.map(({ name }) => `import { ${pluginFn(name)} } from '${name}';`).join('\n')}
 
-setup(
-	/** @type import('onerepo').Config */
-	{
-		name: '${name}',
-		root: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
-	}
-).then(({ run }) => run());`,
+export default {
+	root: true,
+	plugins: [${plugins.map(({ name }) => `${pluginFn(name)}()`).join(', ')}],
+}${isTS ? ' satisfies Config' : ''};
+`,
 	);
-
-	await chmod(path.join(outdir, 'bin', `${name}.mjs`), 0o755);
 
 	await run({
 		name: 'Initialize Git',
@@ -234,20 +213,10 @@ setup(
 	await manager.install(outdir);
 
 	logger.pause();
-	await waitATick();
 
 	console.clear();
 
-	process.stderr.write(
-		logo(
-			'Setup complete!',
-			'',
-			'To get started, switch to your set up repo and install:',
-			'',
-			`  cd ${outdir}`,
-			`  ./bin/${name}.mjs install`,
-		),
-	);
+	process.stderr.write(logo('Setup complete!', '', process.cwd() !== outdir ? `  cd ${outdir}` : '', `  one --help`));
 };
 
 type SearchResponse = {
@@ -275,10 +244,14 @@ ${pc.cyan('              -====-   ')}
 
 `;
 
-async function waitATick() {
-	return new Promise<void>((resolve) => {
-		setImmediate(() => {
-			resolve();
-		});
-	});
+function toCamelCase(str: string) {
+	return str
+		.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+			return index === 0 ? word.toLowerCase() : word.toUpperCase();
+		})
+		.replace(/\s+/g, '');
+}
+
+function pluginFn(str: string) {
+	return toCamelCase(str.replace(/^@onerepo\/plugin-/, ''));
 }

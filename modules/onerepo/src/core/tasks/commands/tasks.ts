@@ -15,12 +15,10 @@ import { setup } from '../../../setup/setup';
 import type { Config, CorePlugins } from '../../../types';
 import { generate } from '../../generate';
 import { graph } from '../../graph';
-import { install } from '../../install';
 
-const plugins: CorePlugins = {
+const corePlugins: CorePlugins = {
 	generate,
 	graph,
-	install,
 };
 
 export const command = 'tasks';
@@ -277,20 +275,21 @@ function singleTaskToSpec(
 		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;
 
-	const name = `${command.replace(/^\$0/, cliName)} (${workspace.name})`;
+	const name = `${command.replace(/^\$0 /, `${cliName} `)} (${workspace.name})`;
 
 	let fn: PromiseFn | undefined;
 	if (cmd === '$0') {
 		fn = async () => {
 			const step = logger.createStep(name, { writePrefixes: false });
 			const subLogger = bufferSubLogger(step);
-			const { yargs } = await setup(
-				jiti,
+			const { yargs } = await setup({
+				require: jiti,
+				root: graph.root.location,
 				config,
-				createYargs([...args, ...passthrough], undefined, jiti),
-				plugins,
-				subLogger.logger,
-			);
+				yargs: createYargs([...args, ...passthrough], undefined, jiti),
+				corePlugins,
+				logger: subLogger.logger,
+			});
 			await yargs.parse();
 			await subLogger.end();
 

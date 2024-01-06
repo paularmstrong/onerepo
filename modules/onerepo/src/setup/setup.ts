@@ -6,23 +6,23 @@ import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
+import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
-import type { Config, CorePlugins, PluginObject } from '../types';
+import type { Config, RootConfig, CorePlugins, PluginObject } from '../types';
 import pkg from '../../package.json';
 import { workspaceBuilder } from './workspaces';
 
-const defaultConfig: Required<Config> = {
+const defaultConfig: Required<RootConfig> = {
 	core: {},
-	description: 'oneRepo’s very own `one` CLI.',
 	head: 'main',
+	root: true,
 	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
-	name: 'one',
 	plugins: [],
-	root: process.cwd(),
 	subcommandDir: 'commands',
+	tasks: {},
 };
 
 /**
@@ -32,7 +32,7 @@ const defaultConfig: Required<Config> = {
  * ```js
  * setup().then(({ run }) => run());
  * ```
- * @group Core
+ * @internal
  */
 export type App = {
 	/**
@@ -55,44 +55,42 @@ export type App = {
  * }).then(({ run }) => run());
  * ```
  *
- * @group Core
+ * @internal
  */
-export async function setup(
-	require: NodeRequire | undefined,
-	/**
-	 * CLI configuration
-	 */
-	config: Config = {},
-	/**
-	 * @internal
-	 * Override the initial yargs instance. Really only useful for dependency-injection during unit test
-	 */
-	yargsInstance: Yargv,
-	/**
-	 * @internal
-	 */
-	corePlugins: CorePlugins,
-	/**
-	 * @internal
-	 */
-	inputLogger?: Logger,
-): Promise<App> {
+export async function setup({
+	graph: inputGraph,
+	require,
+	root,
+	config = {},
+	yargs: yargsInstance,
+	corePlugins,
+	logger: inputLogger,
+}: {
+	graph?: Graph;
+	require?: NodeRequire;
+	root: string;
+	config: Config;
+	yargs: Yargv;
+	corePlugins: CorePlugins;
+	logger?: Logger;
+}): Promise<App> {
 	const req = require ?? createRequire(process.cwd());
 	const logger = inputLogger ?? getLogger();
 
-	const resolvedConfig = { ...defaultConfig, ...config };
-	const { core, description, head, ignoreCommands, name, plugins, subcommandDir, root } = resolvedConfig;
+	const resolvedConfig = { ...defaultConfig, ...config } satisfies Required<RootConfig>;
+	const { core, head, ignoreCommands, plugins, subcommandDir } = resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
 	process.env.ONE_REPO_DRY_RUN = 'false';
 
-	const graph = await getGraph(process.env.ONE_REPO_ROOT);
-	const yargs = setupYargs(yargsInstance.scriptName('one').epilogue(description), { graph, logger });
+	const graph = await (inputGraph || getGraph(process.env.ONE_REPO_ROOT));
+
+	const yargs = setupYargs(yargsInstance.scriptName('one'), { graph, logger });
 	yargs
 		.version(pkg.version)
 		.describe('version', 'Show the oneRepo CLI version.')
-		.completion(`${name}-completion`, false);
+		.completion(`onerepo-completion`, false);
 
 	const startupFns: Array<NonNullable<PluginObject['startup']>> = [];
 	async function startup(argv: Argv<DefaultArgv>) {
@@ -120,16 +118,13 @@ export async function setup(
 	}
 
 	// Install the core plugins
-	if (core.generate !== false && corePlugins.generate) {
+	if (corePlugins.generate) {
 		plugins.push(corePlugins.generate(core.generate));
 	}
-	if (core.graph !== false && corePlugins.graph) {
+	if (corePlugins.graph) {
 		plugins.push(corePlugins.graph(core.graph));
 	}
-	if (core.install !== false && corePlugins.install) {
-		plugins.push(corePlugins.install(core.install));
-	}
-	if (core.tasks !== false && corePlugins.tasks) {
+	if (corePlugins.tasks) {
 		plugins.push(corePlugins.tasks(core.tasks));
 	}
 
@@ -162,7 +157,7 @@ export async function setup(
 		}
 
 		// Workspace commands using subcommandDir
-		if (core.graph !== false) {
+		if (corePlugins.graph) {
 			yargs.command({
 				describe: 'Run workspace-specific commands',
 				command: '$0',
@@ -257,7 +252,7 @@ function patchCommandDir(
 
 function getActualRoot(root: string) {
 	const rel = path.relative(root, process.cwd());
-	if (rel.includes('..')) {
+	if (rel.includes('..') && !root.includes('.onerepo')) {
 		try {
 			const out = execSync('git rev-parse --git-dir', { cwd: process.cwd() });
 			const gitDir = out.toString().trim();

@@ -40,8 +40,8 @@ async function runBuilder<R = Record<string, unknown>>(
 
 	const yargs = Yargs(cmd).parserConfiguration(parserConfiguration);
 
-	testRunner.spyOn(yargs, 'exit').mockImplementation(() => {
-		throw new Error('Process unexpectedly exited early');
+	testRunner.spyOn(yargs, 'exit').mockImplementation((code: number, err: Error) => {
+		throw err;
 	});
 
 	const middlewares: Array<MiddlewareFunction> = [];
@@ -67,9 +67,9 @@ async function runBuilder<R = Record<string, unknown>>(
 
 	const { ...argv } = resolvedOut.argv;
 
-	middlewares.forEach((middleware) => {
-		middleware(argv);
-	});
+	for (const middleware of middlewares) {
+		await middleware(argv);
+	}
 
 	spy.mockClear();
 

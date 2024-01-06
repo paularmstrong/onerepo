@@ -9,11 +9,6 @@ import * as Verify from './commands/verify';
  */
 export type Options = {
 	/**
-	 * Override the name of the command.
-	 * @default `'graph'`
-	 */
-	name?: string | Array<string>;
-	/**
 	 * File path to a custom schema for the `verify` command.
 	 */
 	customSchema?: string;
@@ -25,7 +20,6 @@ export type Options = {
 };
 
 export function graph(opts: Options = {}): Plugin {
-	const name = opts.name ?? 'graph';
 	let resolvedSchema: string | undefined = opts.customSchema;
 	if (resolvedSchema) {
 		if (path.isAbsolute(resolvedSchema)) {
@@ -41,11 +35,11 @@ export function graph(opts: Options = {}): Plugin {
 			const show = visitor(Show);
 			const verify = visitor(Verify);
 			return yargs.command(
-				name,
+				'graph',
 				'Run core graph commands',
 				(yargs) => {
 					const y = yargs
-						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command>`)
+						.usage(`$0 graph <command>`)
 						.command(show.command, show.description, show.builder, show.handler)
 						.command(
 							verify.command,

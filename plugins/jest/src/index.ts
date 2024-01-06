@@ -4,8 +4,8 @@ import * as cmd from './commands/jest';
 /**
  * @example
  *
- * ```js
- * setup({
+ * ```js title="onerepo.config.js"
+ * export default {
  * 	plugins: [
  * 		jest({
  * 			name: ['test', 'jest']
@@ -36,14 +36,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { jest } from '@onerepo/plugin-jest';
  *
- * setup({
+ * export default {
  * 	plugins: [jest()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function jest(opts: Options = {}): Plugin {

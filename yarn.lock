@@ -1638,6 +1638,7 @@ __metadata:
   resolution: "@internal/tsconfig@workspace:internal/tsconfig"
   dependencies:
     "@types/jest": ^29.5.5
+    "@types/node": ^20
   languageName: unknown
   linkType: soft
 
@@ -3074,21 +3075,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/create@workspace:modules/create-scoped":
-  version: 0.0.0-use.local
-  resolution: "@onerepo/create@workspace:modules/create-scoped"
-  dependencies:
-    "@internal/jest-config": "workspace:^"
-    "@internal/tsconfig": "workspace:^"
-    "@onerepo/test-cli": 0.5.5
-    "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.6
-    create-onerepo: 0.1.6
-  bin:
-    create: ./src/bin.js
-  languageName: unknown
-  linkType: soft
-
 "@onerepo/docs@workspace:docs":
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
@@ -3113,7 +3099,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/file@0.5.2, @onerepo/file@workspace:^, @onerepo/file@workspace:modules/file":
+"@onerepo/file@0.5.2, @onerepo/file@workspace:modules/file":
   version: 0.0.0-use.local
   resolution: "@onerepo/file@workspace:modules/file"
   dependencies:
@@ -3127,7 +3113,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/git@0.4.4, @onerepo/git@workspace:^, @onerepo/git@workspace:modules/git":
+"@onerepo/git@0.4.4, @onerepo/git@workspace:modules/git":
   version: 0.0.0-use.local
   resolution: "@onerepo/git@workspace:modules/git"
   dependencies:
@@ -3167,7 +3153,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/logger@0.5.0, @onerepo/logger@workspace:^, @onerepo/logger@workspace:modules/logger":
+"@onerepo/logger@0.5.0, @onerepo/logger@workspace:modules/logger":
   version: 0.0.0-use.local
   resolution: "@onerepo/logger@workspace:modules/logger"
   dependencies:
@@ -3225,13 +3211,13 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/file": "workspace:^"
-    "@onerepo/git": "workspace:^"
-    "@onerepo/yargs": "workspace:^"
+    "@onerepo/file": 0.5.2
+    "@onerepo/git": 0.4.4
+    "@onerepo/yargs": 0.5.6
     glob: ^10.1.0
     jiti: ^1.21.0
     mdast-builder: ^1.1.1
-    onerepo: "workspace:^"
+    onerepo: 0.15.4
     remark-gfm: ^3.0.1
     remark-parse: ^10.0.1
     remark-stringify: ^10.0.2
@@ -3254,6 +3240,7 @@ __metadata:
     "@types/eslint": ^8.44.3
     eslint: ^8.38.0
     eslint-formatter-onerepo: 0.1.1
+    jiti: ^1.21.0
     minimatch: ^9.0.0
     onerepo: "workspace:^"
     typescript: ^5.0.4
@@ -3287,7 +3274,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/file": 0.5.2
     "@onerepo/logger": 0.5.0
-    onerepo: "workspace:^"
+    onerepo: 0.15.4
   languageName: unknown
   linkType: soft
 
@@ -3400,7 +3387,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/yargs@0.5.6, @onerepo/yargs@workspace:^, @onerepo/yargs@workspace:modules/yargs":
+"@onerepo/yargs@0.5.6, @onerepo/yargs@workspace:modules/yargs":
   version: 0.0.0-use.local
   resolution: "@onerepo/yargs@workspace:modules/yargs"
   dependencies:
@@ -4401,6 +4388,15 @@ __metadata:
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
   checksum: e4f86785f4092706e0d3b0edff8dca5a13b45627e4b36700acd8dfe6ad53db71928c8dee914d4276c7fd3b6ccd829aa919811c9eb708a2c8e4c6eb3701178c37
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20":
+  version: 20.10.6
+  resolution: "@types/node@npm:20.10.6"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: ada40e4ccbda3697dca88f8d13f4c996c493be6fbc15f5f5d3b91096d56bd700786a2c148a92a2b4c5d1f133379e63f754a786b3aebfc6a7d09fc7ea16dc017b
   languageName: node
   linkType: hard
 
@@ -7074,30 +7070,6 @@ __metadata:
   checksum: 8e5dd04f22f3fbecc623492395107fbed2114f225bd606e39e8ed338f2fc1c454ac02a05741243620ab526473cb867fa86411a44a7ffcd88457cc1c2af82d0bc
   languageName: node
   linkType: hard
-
-"create-onerepo@0.1.6, create-onerepo@workspace:modules/create":
-  version: 0.0.0-use.local
-  resolution: "create-onerepo@workspace:modules/create"
-  dependencies:
-    "@internal/tsconfig": "workspace:^"
-    "@internal/vitest-config": "workspace:^"
-    "@onerepo/file": 0.5.2
-    "@onerepo/logger": "workspace:^"
-    "@onerepo/package-manager": 0.4.2
-    "@onerepo/subprocess": 0.6.0
-    "@onerepo/test-cli": 0.5.5
-    "@onerepo/yargs": 0.5.6
-    "@types/inquirer": ^9.0.3
-    "@types/js-yaml": ^4.0.6
-    inquirer: ^9.1.4
-    jiti: ^1.21.0
-    js-yaml: ^4.1.0
-    picocolors: ^1.0.0
-    yargs: ^17.6.2
-  bin:
-    create-onerepo: ./src/bin.js
-  languageName: unknown
-  linkType: soft
 
 "create-require@npm:^1.1.0":
   version: 1.1.1
@@ -15329,7 +15301,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
-    "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5
@@ -15364,6 +15335,9 @@ __metadata:
     semver: ^7.5.4
     typescript: ^5.0.4
     yargs: ^17.6.2
+  bin:
+    one: ./src/bin/one.ts
+    onerepo: ./src/bin/one.ts
   languageName: unknown
   linkType: soft
 
@@ -19444,6 +19418,13 @@ __metadata:
     buffer: ^5.2.1
     through: ^2.3.8
   checksum: 0e67c4a91f4fa0fc7b4045f8b914d3498c2fc2e8c39c359977708ec85ac6d6029840e97f508675fdbdf21fcb8d276ca502043406f3682b70f075e69aae626d1d
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
   languageName: node
   linkType: hard
 

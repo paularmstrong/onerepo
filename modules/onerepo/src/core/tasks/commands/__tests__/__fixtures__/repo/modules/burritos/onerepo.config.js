@@ -1,5 +1,7 @@
-/** @type import('onerepo').graph.TaskConfig */
+/** @type import('onerepo').Config */
 module.exports = {
-	'pre-merge': { serial: [{ cmd: 'echo "pre-merge" "burritos"', meta: { good: 'yes' } }] },
-	deploy: { parallel: ['echo "deployburritos"'] },
+	tasks: {
+		'pre-merge': { serial: [{ cmd: 'echo "pre-merge" "burritos"', meta: { good: 'yes' } }] },
+		deploy: { parallel: ['echo "deployburritos"'] },
+	},
 };

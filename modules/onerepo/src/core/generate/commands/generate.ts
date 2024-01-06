@@ -1,5 +1,5 @@
-import { createRequire } from 'node:module';
 import path from 'node:path';
+import initJiti from 'jiti';
 import pc from 'picocolors';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
@@ -35,12 +35,12 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const { 'templates-dir': templatesDir, type } = argv;
-	const step = logger.createStep('Get template');
 	const templateConfigs = await glob('*/.onegen.{js,cjs,mjs}', { cwd: templatesDir });
 	const templates = [];
+
 	for (const name of templateConfigs) {
 		const dir = path.join(templatesDir, name);
-		const config = await loadConfig(dir);
+		const config = loadConfig(dir);
 		const resolvedName = config.name ?? name.split('/')[0];
 		templates.push({
 			name: `${resolvedName} ${pc.dim(config.description ?? '')}`,
@@ -72,7 +72,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	}
 
 	if (!template) {
-		step.error(
+		logger.error(
 			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templatesDir}/${type}/.onegen.js"`,
 		);
 		return;
@@ -88,8 +88,6 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	const vars = await (prompts ? inquirer.prompt(prompts) : {});
 
 	logger.unpause();
-
-	await step.end();
 
 	const files = await glob('**/!(.onegen.*)', { cwd: dir, dot: true, nodir: true });
 	let possiblyCreatesWorkspace = false;
@@ -121,18 +119,13 @@ export interface Config<T extends Answers = Record<string, unknown>> {
 	prompts?: QuestionCollection<T>;
 }
 
-async function loadConfig(configPath: string) {
-	let config: Config | null;
-	if (configPath.endsWith('.cjs')) {
-		const require = createRequire('/');
-		config = require(configPath);
-	} else {
-		const { default: importConfig } = await import(configPath);
-		config = importConfig;
-	}
+const jiti = initJiti(process.cwd(), { interopDefault: true });
 
-	if (!config) {
+function loadConfig(configPath: string) {
+	try {
+		const config: Config = jiti(configPath);
+		return config;
+	} catch (e) {
 		throw new Error(`Invalid configuration found at ${configPath}`);
 	}
-	return config;
 }

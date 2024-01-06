@@ -4,14 +4,16 @@ import * as commands from './commands';
 /**
  * @example
  *
- * ```js
- * setup({
+ * ```ts title="onerepo.config.ts"
+ * import { changesets } from '@onerepo/plugin-changesets';
+ *
+ * export default {
  * 	plugins: [
- * 		dependencies({
- * 			name: ['changelog']
- * 		}),
+ * 		changesets({
+ * 			name: ['change']
+ * 		})
  * 	],
- * });
+ * };
  * ```
  */
 export type Options = {
@@ -23,19 +25,17 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```ts title="onerepo.config.ts" {1,4}
  * import { changesets } from '@onerepo/plugin-changesets';
  *
- * setup({
+ * export default {
  * 	plugins: [changesets()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function changesets(opts: Options = {}): Plugin {
 	const name = opts.name ?? ['change', 'changeset', 'changesets'];
-	return () => ({
+	return {
 		yargs: (yargs, visitor) => {
 			const resolved = Object.values(commands).map((cmd) => visitor(cmd));
 			return yargs.command(
@@ -52,5 +52,5 @@ export function changesets(opts: Options = {}): Plugin {
 				() => {},
 			);
 		},
-	});
+	};
 }

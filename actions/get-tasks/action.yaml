@@ -1,12 +1,14 @@
 name: oneRepo
 description: Run oneRepo tasks on GitHub
 inputs:
-  cli:
-    description: Path to your oneRepo cli (eg, ./bin/one.mjs)
+  packageManager:
+    description: Package manager to use (`npm`, `yarn`, `pnpm`)
     required: true
   lifecycle:
     description: The lifecycle that will be run
     required: true
+  overrideBin:
+    description: Override the path to the `one` executable
   verbosity:
     description: How verbose to be
 

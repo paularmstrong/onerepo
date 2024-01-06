@@ -1,5 +1,6 @@
-/* eslint-env node */
-/** @type import('onerepo').graph.TaskConfig */
+/** @type import('onerepo').Config */
 module.exports = {
-	build: { serial: ['echo "build" "tacos"'] },
+	tasks: {
+		build: { serial: ['echo "build" "tacos"'] },
+	},
 };

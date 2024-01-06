@@ -4,14 +4,14 @@ import * as cmd from './commands/prettier';
 /**
  * @example
  *
- * ```js
- * setup({
+ * ```js title="onerepo.config.js"
+ * export default {
  * 	plugins: [
  * 		prettier({
  * 			name: ['format', 'prettier']
  * 		}),
  * 	],
- * });
+ * };
  * ```
  */
 export type Options = {
@@ -36,14 +36,12 @@ export type Options = {
  *
  * @example
  *
- * ```js {3,6}
- * #!/usr/bin/env node
- * import { setup } from 'onerepo';
+ * ```js title="onerepo.config.ts" {1,4}
  * import { prettier } from '@onerepo/plugin-prettier';
  *
- * setup({
+ * export default {
  * 	plugins: [prettier()],
- * }).then(({ run }) => run());
+ * };
  * ```
  */
 export function prettier(opts: Options = {}): Plugin {
