@@ -1,5 +1,6 @@
 import { performance } from 'node:perf_hooks';
 import type { Writable } from 'node:stream';
+import * as actionsCore from '@actions/core';
 import pc from 'picocolors';
 import { LogBuffer } from './LogBuffer';
 
@@ -86,7 +87,7 @@ export class LogStep {
 
 		if (this.name) {
 			if (process.env.GITHUB_RUN_ID) {
-				this.#writeStream(`::group::${this.name}\n`);
+				actionsCore.startGroup(this.name);
 			}
 			this.#writeStream(this.#prefixStart(this.name));
 		}
@@ -208,7 +209,7 @@ export class LogStep {
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
 		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? prefix.FAIL : prefix.SUCCESS} ${text}`)));
 		if (this.name && process.env.GITHUB_RUN_ID) {
-			this.#writeStream('::endgroup::\n');
+			actionsCore.endGroup();
 		}
 
 		return this.#onEnd(this);
@@ -261,7 +262,11 @@ export class LogStep {
 		this.#onMessage('error');
 		this.hasError = true;
 		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
+			const msg = stringify(contents);
+			if (process.env.GITHUB_RUN_ID) {
+				actionsCore.error(msg);
+			}
+			this.#writeStream(this.#prefix(prefix.ERR, msg));
 		}
 	}
 
@@ -275,7 +280,11 @@ export class LogStep {
 		this.#onMessage('warn');
 		this.hasWarning = true;
 		if (this.verbosity >= 2) {
-			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
+			const msg = stringify(contents);
+			if (process.env.GITHUB_RUN_ID) {
+				actionsCore.warning(msg);
+			}
+			this.#writeStream(this.#prefix(prefix.WARN, msg));
 		}
 	}
 

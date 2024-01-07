@@ -21,6 +21,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
+		"@actions/core": "^1.10.0",
 		"log-update": "^5.0.1",
 		"picocolors": "^1.0.0"
 	},

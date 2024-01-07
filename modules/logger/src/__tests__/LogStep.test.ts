@@ -1,5 +1,6 @@
 import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
+import * as actionsCore from '@actions/core';
 import { LogStep } from '../LogStep';
 
 async function waitStreamEnd(stream: PassThrough) {
@@ -43,14 +44,13 @@ describe('LogStep', () => {
 
 	test('writes group & endgroup when GITHUB_RUN_ID is set', async () => {
 		process.env.GITHUB_RUN_ID = 'yes';
+		vi.spyOn(actionsCore, 'startGroup');
+		vi.spyOn(actionsCore, 'endGroup');
 		const onEnd = vi.fn(() => Promise.resolve());
 		const stream = new PassThrough();
 		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, onMessage: () => {} });
 
-		let out = '';
-		stream.on('data', (chunk) => {
-			out += chunk.toString();
-		});
+		stream.on('data', () => {});
 		step.activate();
 
 		step.log('hello');
@@ -58,8 +58,8 @@ describe('LogStep', () => {
 		await step.flush();
 		await waitStreamEnd(stream);
 
-		expect(out).toMatch(/^::group::tacos\n/);
-		expect(out).toMatch(/::endgroup::\n$/);
+		expect(actionsCore.startGroup).toHaveBeenCalledWith('tacos');
+		expect(actionsCore.endGroup).toHaveBeenCalled();
 	});
 
 	test('when activated, flushes its logs to the stream', async () => {
