@@ -25,8 +25,9 @@ jobs:
       - uses: paularmstrong/onerepo/actions/get-tasks@main
         id: tasks
         with:
-          cli: ./bin/one.mjs
+          packageManager: yarn
           lifecycle: pre-merge
+          overrideBin: './bin/one.mjs'
           verbosity: 5
 
   tasks:
