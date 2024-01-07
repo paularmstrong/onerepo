@@ -122,7 +122,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	const modifiedOpts = staged
 		? { staged: true, step: setupStep }
 		: { from: fromRef, through: throughRef, step: setupStep };
-	const allFiles = await git.getModifiedFiles(modifiedOpts);
+	const allFiles = await git.getModifiedFiles(modifiedOpts, { step: setupStep });
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
 	if (!files.length && !workspaceNames.length) {
@@ -175,9 +175,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		setupStep.debug(parallelTasks);
 	}
 
-	await setupStep.end();
-
 	if (list) {
+		await setupStep.end();
 		const step = logger.createStep('Listing tasks');
 		const all = {
 			parallel: parallelTasks,
@@ -198,12 +197,14 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	}
 
 	if (!hasTasks) {
-		logger.warn(`No tasks to run`);
+		setupStep.info(`No tasks to run`);
+		await setupStep.end();
 		if (staged) {
 			await stagingWorkflow.restoreUnstaged();
 		}
 		return;
 	}
+	await setupStep.end();
 
 	try {
 		await batch(parallelTasks.flat(1).map((task) => task.fn ?? task));
