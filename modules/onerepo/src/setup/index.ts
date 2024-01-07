@@ -1,6 +1,7 @@
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
 import type { Config } from '../types';
+import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
 import { generate } from '../core/generate';
 import { graph } from '../core/graph';
@@ -36,6 +37,7 @@ export { internalSetup };
  * @internal
  */
 export const corePlugins = {
+	codeowners,
 	generate,
 	graph,
 	tasks,

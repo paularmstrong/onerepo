@@ -1,19 +1,24 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
-import type { TaskConfig } from '@onerepo/graph';
+import type { TaskConfig, WorkspaceConfig } from '@onerepo/graph';
 import type { Options as GenerateOptions, generate as GeneratePlugin } from './core/generate';
 import type { Options as GraphOptions, graph as GraphPlugin } from './core/graph';
 import type { Options as TasksOptions, tasks as TasksPlugin } from './core/tasks';
+import type { Options as CodeownersOptions, codeowners as CodeownersPlugin } from './core/codeowners';
 
 /**
  * @group Core
  */
-export type { GenerateOptions, GraphOptions, TasksOptions };
+export type { CodeownersOptions, GenerateOptions, GraphOptions, TasksOptions };
 
 /**
  * @group Core
  */
 export type CoreConfig = {
+	/**
+	 * Configuration options fopr the [Codeowners](/docs/core/codeowners/) core module.
+	 */
+	codeowners?: CodeownersOptions;
 	/**
 	 * Configuration options fopr the [Generate](/docs/core/generate/) core module.
 	 */
@@ -28,20 +33,11 @@ export type CoreConfig = {
 	tasks?: TasksOptions;
 };
 
-export type WorkspaceConfig = {
-	root?: never;
-	/**
-	 * Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks.
-	 * @default `{}`
-	 */
-	tasks?: TaskConfig;
-};
-
 /**
  * Setup configuration for the oneRepo command-line interface.
  * @group Core
  */
-export type RootConfig = {
+export type RootConfig = Omit<WorkspaceConfig, 'root'> & {
 	/**
 	 * Core plugin configuration. These plugins will be added automatically unless the value specified is `false`
 	 * @default `{}`
@@ -119,6 +115,7 @@ export type Plugin = PluginObject | ((config: Required<RootConfig>) => PluginObj
  * @internal
  */
 export type CorePlugins = {
+	codeowners?: typeof CodeownersPlugin;
 	generate?: typeof GeneratePlugin;
 	graph?: typeof GraphPlugin;
 	tasks?: typeof TasksPlugin;

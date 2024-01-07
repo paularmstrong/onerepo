@@ -13,14 +13,14 @@ Generate common files, folders, and workspaces from your own standard templates.
 
 First, set the location for oneRepo to look for your templates.
 
-```js {3-5}
-setup({
+```js {3-5} title="./onerepo.config.js"
+export default {
 	core: {
 		generate: {
-			templatesDir: '../path/to/templates',
+			templatesDir: './path/to/templates',
 		},
 	},
-}).then(({ run }) => run());
+};
 ```
 
 In your `templatesDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`. Ensure each template directory includes a `.onegen.js` or `.onegen.cjs` file:

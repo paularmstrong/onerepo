@@ -62,6 +62,31 @@ export async function exists(filename: string, options: Options = {}) {
 	});
 }
 
+/**
+ * Sign the contents for a given file without writing out. This function is typically useful for manually comparing signed file contents.
+ *
+ * @example
+ * ```ts
+ * const filename = graph.root.resolve('README.md');
+ * const currentContents = await file.read(filename);
+ * const newContents = generateReadme();
+ * if (currentContents !== await signContents(filename, contents)) {
+ *   logger.error('Contents mismatch');
+ * }
+ * ```
+ */
+export async function signContents(filename: string, contents: string, options: Options = {}) {
+	const { step } = options;
+	const relativeFilename = normalizefilepath(filename);
+	return stepWrapper({ step, name: `Get signed contents of ${relativeFilename}` }, async (step) => {
+		const ext = path.extname(filename);
+		const [startComment, endComment] = ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
+		const finalContents = signFile(`${startComment}${signingToken}${endComment}\n\n${contents}`);
+
+		return await format(filename, finalContents, { step });
+	});
+}
+
 export type WriteOptions = {
 	/**
 	 * Avoid creating a new step in output for each function.
@@ -99,15 +124,13 @@ export async function write(filename: string, contents: string, options: WriteOp
 
 		let finalContents = contents;
 		if (sign) {
-			const ext = path.extname(filename);
-			const [startComment, endComment] = ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
-			finalContents = signFile(`${startComment}${signingToken}${endComment}\n\n${contents}`);
+			finalContents = await signContents(filename, contents, { step });
+		} else {
+			finalContents = await format(filename, finalContents, { step });
 		}
 
-		const formatted = await format(filename, finalContents, { step });
-
 		try {
-			return await writeFile(filename, formatted);
+			return await writeFile(filename, finalContents);
 		} catch (e) {
 			step.error(e);
 			throw e;
