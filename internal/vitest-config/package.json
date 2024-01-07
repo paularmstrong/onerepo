@@ -9,5 +9,8 @@
 	},
 	"peerDependencies": {
 		"vitest": "^1"
+	},
+	"dependencies": {
+		"@vitest/coverage-v8": "^1.1.3"
 	}
 }
