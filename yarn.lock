@@ -3171,6 +3171,7 @@ __metadata:
     graph-data-structure: ^3.2.0
     jiti: ^1.21.0
     js-yaml: ^4.1.0
+    minimatch: ^9.0.1
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
@@ -15385,6 +15386,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onerepo@workspace:modules/onerepo"
   dependencies:
+    "@actions/core": ^1.10.0
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/builders": 0.5.5

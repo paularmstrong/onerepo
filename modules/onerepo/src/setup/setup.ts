@@ -17,6 +17,7 @@ import { workspaceBuilder } from './workspaces';
 
 const defaultConfig: Required<RootConfig> = {
 	core: {},
+	codeowners: {},
 	head: 'main',
 	root: true,
 	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
@@ -118,6 +119,9 @@ export async function setup({
 	}
 
 	// Install the core plugins
+	if (corePlugins.codeowners) {
+		plugins.push(corePlugins.codeowners(core.codeowners));
+	}
 	if (corePlugins.generate) {
 		plugins.push(corePlugins.generate(core.generate));
 	}

@@ -37,7 +37,10 @@ export default {
 	tasks: {
 		'pre-commit': {
 			serial: [['$0 lint --staged --add', '$0 format --staged --add'], '$0 tsc --staged'],
-			parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
+			parallel: [
+				{ match: '**/package.json', cmd: '$0 graph verify' },
+				{ match: '**/onerepo.config.*', cmd: ['$0 codeowners sync --add'] },
+			],
 		},
 		'pre-merge': {
 			serial: [
@@ -47,7 +50,10 @@ export default {
 				'$0 tsc',
 				'$0 build',
 			],
-			parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
+			parallel: [
+				{ match: '**/package.json', cmd: '$0 graph verify' },
+				{ match: '**/onerepo.config.*', cmd: ['$0 codeowners verify'] },
+			],
 		},
 		'post-checkout': {
 			serial: ['yarn'],
@@ -55,5 +61,9 @@ export default {
 		build: {
 			serial: ['$0 build -w ${workspaces}'],
 		},
+	},
+
+	codeowners: {
+		'*': ['@paularmstrong'],
 	},
 } satisfies Config;

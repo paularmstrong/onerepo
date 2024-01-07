@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { minimatch } from 'minimatch';
 
 export class Workspace {
 	#packageJson: PackageJson;
@@ -6,6 +7,7 @@ export class Workspace {
 	#rootLocation: string;
 	#tasks: TaskConfig | null = null;
 	#require: typeof require;
+	#config?: WorkspaceConfig;
 
 	/**
 	 * @internal
@@ -119,6 +121,24 @@ export class Workspace {
 	}
 
 	/**
+	 * Get the workspace's configuration
+	 */
+	get config(): WorkspaceConfig {
+		if (!this.#config) {
+			try {
+				const config = this.#require(this.resolve('onerepo.config'));
+				this.#config = (config.default ?? config) as WorkspaceConfig;
+			} catch (e) {
+				if (e && (e as NodeJS.ErrnoException).code === 'MODULE_NOT_FOUND') {
+					return {};
+				}
+				throw e;
+			}
+		}
+		return this.#config;
+	}
+
+	/**
 	 * Get the task configuration as defined in the `onerepo.config.js` file at the root of the workspace.
 	 *
 	 * @return If a config does not exist, an empty object will be given.
@@ -127,13 +147,21 @@ export class Workspace {
 		if (this.#tasks) {
 			return this.#tasks;
 		}
-		try {
-			const mod = this.#require(this.resolve('onerepo.config'));
-			this.#tasks = mod.default?.tasks ?? mod.tasks ?? {};
-			return this.#tasks!;
-		} catch (e) {
-			return {} as TaskConfig;
-		}
+
+		this.#tasks = this.config.tasks ?? {};
+		return this.#tasks;
+	}
+
+	get codeowners(): Codeowners {
+		return this.config.codeowners ?? {};
+	}
+
+	getCodeowners(filepath: string): Array<string> {
+		const relativePath = path.isAbsolute(filepath) ? this.relative(filepath) : filepath;
+		const found = Object.keys(this.codeowners)
+			.reverse()
+			.find((ownerPath) => minimatch(relativePath, ownerPath));
+		return found ? this.codeowners[found] : [];
 	}
 
 	/**
@@ -288,3 +316,20 @@ export type Lifecycle =
  * @group Tasks
  */
 export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | L, Tasks>>;
+
+export type WorkspaceConfig = {
+	root?: never;
+	/**
+	 * Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks.
+	 * @default `{}`
+	 */
+	tasks?: TaskConfig;
+
+	/**
+	 * Map of paths to array of owners
+	 * @default `{}`
+	 */
+	codeowners?: Codeowners;
+};
+
+type Codeowners = Record<string, Array<string>>;
