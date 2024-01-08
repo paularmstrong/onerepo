@@ -50,6 +50,8 @@ sidebar:
   label: ${ws.aliases[0] ?? ws.name}
 	attrs:
 	  target: _blank
+tableOfContents:
+  maxHeadingLevel: 2
 ---
 `,
 				{ step: writeStep },
