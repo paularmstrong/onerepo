@@ -1,0 +1,30 @@
+---
+import convert from 'npm-to-yarn';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+// eslint-disable-next-line
+import { getMarkdownRenderer } from './modules/render-markdown';
+
+const renderMarkdown = await getMarkdownRenderer();
+
+async function render(contents: string) {
+	return await renderMarkdown(`\`\`\`sh
+${contents}
+\`\`\``);
+}
+
+const npm = await render(Astro.props.script);
+const yarn = await render(convert(Astro.props.script, 'yarn'));
+const pnpm = await render(convert(Astro.props.script, 'pnpm'));
+---
+
+<Tabs>
+	<TabItem label="npm">
+		<Fragment set:html={npm.code} />
+	</TabItem>
+	<TabItem label="Yarn">
+		<Fragment set:html={yarn.code} />
+	</TabItem>
+	<TabItem label="pnpm">
+		<Fragment set:html={pnpm.code} />
+	</TabItem>
+</Tabs>

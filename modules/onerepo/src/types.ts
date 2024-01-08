@@ -12,6 +12,7 @@ import type { Options as CodeownersOptions, codeowners as CodeownersPlugin } fro
 export type { CodeownersOptions, GenerateOptions, GraphOptions, TasksOptions };
 
 /**
+ * @experimental
  * @group Core
  */
 export type CoreConfig = {

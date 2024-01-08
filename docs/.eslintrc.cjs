@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
@@ -11,12 +9,6 @@ module.exports = {
 	rules: {
 		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-	},
-
-	settings: {
-		tailwindcss: {
-			config: path.join(__dirname, '/tailwind.config.ts'),
-		},
 	},
 
 	overrides: [

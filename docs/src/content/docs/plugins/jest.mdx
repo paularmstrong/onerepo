@@ -1,0 +1,150 @@
+---
+title: '@onerepo/plugin-jest'
+sidebar:
+  label: Jest
+description: Official Jest plugin for the oneRepo toolchain.
+meta:
+  version: 0.2.6
+  stability: stable
+---
+
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+Jest is the recomended framework for headless testing with oneRepo. As opposed to Vitest and others, Jest allows a single runner that can use multiple project configurations. Think of each project as a separate workspace in your repo.
+
+The added benefit of Jest is that as you are working, you can run this single command and it will automatically test appropriate files related to your changes across all workspaces. There's no need to determine which workspaces to run – and can all be done with `--watch` mode at the same time.
+
+## Installation
+
+<NpmToYarn script="npm install --save-dev @onerepo/plugin-jest" />
+
+Create a root level jest config with the appropriate references to your workspace Jest configs:
+
+```js title="jest.config.js"
+/** @type {import('jest').Config} */
+export default {
+	projects: ['<rootDir>/apps/*/jest.config.js', '<rootDir>/modules/*/jest.config.js'],
+};
+```
+
+{/* start-install-typedoc */}
+
+### jest()
+
+```ts
+jest(opts): Plugin
+```
+
+Include the `jest` plugin in your oneRepo plugin setup:
+
+#### Parameters
+
+• **opts**: [`Options`](#options)= `{}`
+
+#### Example
+
+```js title="onerepo.config.ts" {1,4}
+import { jest } from '@onerepo/plugin-jest';
+
+export default {
+	plugins: [jest()],
+};
+```
+
+**Source:** [jest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/jest/src/index.ts#L47)
+
+### Options
+
+```ts
+type Options: Object;
+```
+
+#### Example
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		jest({
+			name: ['test', 'jest']
+		}),
+	],
+});
+```
+
+#### Type declaration
+
+| Member   | Type                   | Description                                                                                                                                                                                                     |
+| :------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `config` | `string`               | Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.<br /><br />**Example**<br />`js jest({ 	config: 'configs/jest/config.js' }); ` |
+| `name`   | `string` \| `string`[] | Rename the default command name.                                                                                                                                                                                |
+
+**Source:** [jest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/jest/src/index.ts#L17)
+
+{/* end-install-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-jest */}
+{/* @generated SignedSource<<2c220209c9b9fcaa72ccff25bca67a13>> */}
+
+### `one jest`
+
+Run tests using Jest
+
+```sh
+one jest [options] -- [passthrough]
+one jest [options]
+```
+
+This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.
+
+Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes `--`)
+
+| Option               | Type                       | Description                                                                                                                                                                 | Required |
+| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
+| `--inspect`          | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |          |
+| `--pretty`           | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |          |
+| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--watch`            | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |          |
+| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                    | Description                                               | Required |
+| --------------- | --------------------------------------- | --------------------------------------------------------- | -------- |
+| `--config`      | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.  |          |
+| `--from-ref`    | `string`                                | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string`                                | Git ref to start looking for affected files or workspaces |          |
+
+</details>
+
+Run only tests related to modified files.
+
+```sh
+one jest
+```
+
+Runs jest in --watch mode against the currently affected files.
+
+```sh
+one jest --watch
+```
+
+Run Jest in watch mode against a particular file.
+
+```sh
+one jest --watch -- path/to/test.ts
+```
+
+Pass any other Jest CLI options after the argument separator.
+
+```sh
+one jest -- --runInBand --detectOpenHandles
+```
+
+{/* end-auto-generated-from-cli-jest */}

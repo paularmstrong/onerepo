@@ -1,0 +1,79 @@
+---
+title: '@onerepo/plugin-performance-writer'
+sidebar:
+  label: Performance Writer
+description: Write performance measurements from oneRepo invocations to files.
+meta:
+  version: 0.1.6
+  stability: experimental
+---
+
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+This is a usable example plugin to demonstrate how to build your own telemetry and performance tracing plugin using the oneRepo plugin API and internal performance entries.
+
+Using a [PerformanceObserver](https://nodejs.org/docs/latest-v18.x/api/perf_hooks.html#class-perf_hooksperformanceobserver), it listens for performance marks and converts them into measurements from `onerepo_start_` to `onerepo_end_` prefixed entries. On CLI shutdown, the measurements will be written to a file for later operation.
+
+No metrics or information are shared anywhere outside of your local environment.
+
+## Installation
+
+<NpmToYarn script="npm install --save-dev @onerepo/plugin-performance-writer" />
+
+{/* start-install-typedoc */}
+
+### performanceWriter()
+
+```ts
+performanceWriter(opts): PluginObject
+```
+
+Include the `performanceWriter` plugin in your oneRepo plugin setup:
+
+#### Parameters
+
+• **opts**: [`Options`](#options)= `{}`
+
+#### Example
+
+```js title="onerepo.config.ts" {1,4}
+import { performanceWriter } from '@onerepo/plugin-performance-writer';
+
+export default {
+	plugins: [performanceWriter()],
+};
+```
+
+**Source:** [performance-writer/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/performance-writer/src/index.ts#L49)
+
+### Options
+
+```ts
+type Options: Object;
+```
+
+Include the `performanceWriter` plugin in your oneRepo plugin setup:
+
+#### Example
+
+```js title="onerepo.config.ts" {1,6}
+import { performanceWriter } from '@onerepo/plugin-performance-writer';
+
+export default {
+	plugins: [
+		performanceWriter({
+			output: '/tmp/onerepo-perf-out',
+		}),
+	],
+};
+```
+
+#### Type declaration
+
+| Member   | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                        |
+| :------- | :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `output` | `"temp"` \| `string` | Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.<br /><br />- `temp`: Writes a JSON dump of the measurement entries to a temporary file. The filepath will be returned from the `run()` call of your application.<br />- `string`: Will do the same as `'temp'`, but use this string as the filepath.<br /><br />**Default**<br />`true` |
+
+**Source:** [performance-writer/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/performance-writer/src/index.ts#L25)
+
+{/* end-install-typedoc */}

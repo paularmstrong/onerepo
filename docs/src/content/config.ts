@@ -1,31 +1,17 @@
 import { z, defineCollection } from 'astro:content';
+import { docsSchema } from '@astrojs/starlight/schema';
 
-export const collections = {
-	core: defineCollection({
-		schema: z.object({
-			title: z.string(),
-			usage: z.string().optional(),
-		}),
-	}),
+export const collections: Record<string, ReturnType<typeof defineCollection>> = {
 	docs: defineCollection({
-		schema: z.object({
-			title: z.string(),
-			sort: z.number().optional(),
-		}),
-	}),
-	plugins: defineCollection({
-		schema: z.object({
-			title: z.string(),
-			tool: z.string(),
-			description: z.string(),
-			shortname: z.string(),
-			version: z.string(),
-		}),
-	}),
-	changelogs: defineCollection({
-		schema: z.object({
-			title: z.string(),
-			description: z.string(),
+		schema: docsSchema({
+			extend: z.object({
+				meta: z
+					.object({
+						stability: z.enum(['stable', 'unstable', 'experimental']).optional(),
+						version: z.string().optional(),
+					})
+					.optional(),
+			}),
 		}),
 	}),
 };

@@ -1,0 +1,112 @@
+---
+title: '@onerepo/plugin-typescript'
+sidebar:
+  label: TypeScript
+description: Official TypeScript plugin for the oneRepo toolchain.
+meta:
+  version: 0.4.1
+  stability: stable
+---
+
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+## Installation
+
+<NpmToYarn script="npm install --save-dev @onerepo/plugin-typescript" />
+
+{/* start-install-typedoc */}
+
+### typescript()
+
+```ts
+typescript(opts): Plugin
+```
+
+Include the `typescript` plugin in your oneRepo plugin setup:
+
+#### Parameters
+
+• **opts**: [`Options`](#options)= `{}`
+
+#### Example
+
+```js title="onerepo.config.ts" {1,4}
+import { typescript } from '@onerepo/plugin-typescript';
+
+export default {
+	plugins: [typescript()],
+};
+```
+
+**Source:** [typescript/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/typescript/src/index.ts#L45)
+
+### Options
+
+```ts
+type Options: Object;
+```
+
+#### Example
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		typescript({
+			tsconfig: 'tsconfig.base.json',
+		}),
+	],
+};
+```
+
+#### Type declaration
+
+| Member                 | Type      | Description                                                                                                                                                                                         |
+| :--------------------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                 | `string`  | The name of the typescript command.                                                                                                                                                                 |
+| `tsconfig`             | `string`  | Use a different filename thant he default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.             |
+| `useProjectReferences` | `boolean` | Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig |
+
+**Source:** [typescript/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/typescript/src/index.ts#L17)
+
+{/* end-install-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-typescript */}
+{/* @generated SignedSource<<820a8a9ced7a6962f049c3dfdfa4d56c>> */}
+
+### `one tsc`
+
+Aliases: `typescript`, `typecheck`
+
+Sync TS project references
+
+```sh
+one tsc [options]
+```
+
+Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.
+
+| Option               | Type                       | Description                                                                                                                                                                 | Required |
+| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
+| `--pretty`           | `boolean`, default: `true` | Control TypeScript’s `--pretty` flag.                                                                                                                                       |          |
+| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option                                                               | Type                                 | Description                                               | Required |
+| -------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------- | -------- |
+| `--from-ref`                                                         | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref`                                                      | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--tsconfig`                                                         | `string`, default: `"tsconfig.json"` | The filename of the tsconfig to find in each workspace.   |          |
+| `--use-project-references`, `--project-references`, `--project-refs` | `boolean`, default: `true`           | Automatically sync and use typescript project references  |          |
+
+</details>
+
+{/* end-auto-generated-from-cli-typescript */}

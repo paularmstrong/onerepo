@@ -1,0 +1,30 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
+const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
+	stable: 'success',
+	unstable: 'danger',
+	experimental: 'caution',
+};
+---
+
+<h1 data-tacos id="_top">{Astro.props.entry.data.title}</h1>
+
+{
+	meta ? (
+		<ul class="tags">
+			{meta.version ? <li class="tag info">v{meta.version}</li> : null}
+			{meta.stability ? (
+				<li class={`tag ${stabilityColor[meta.stability as keyof typeof stabilityColor]}`}>{meta.stability}</li>
+			) : null}
+			{Astro.props.entry.data.title.startsWith('@onerepo/') ? (
+				<li>
+					<a href={`/changelogs/${Astro.props.entry.data.title.replace('@', '')}/`} class="tag note">
+						<Icon name="document" size="1rem" /> Changelog
+					</a>
+				</li>
+			) : null}
+		</ul>
+	) : null
+}

@@ -1,12 +1,10 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
 		"types": ["astro/client"],
 		"outDir": "./dist"
 	},
-	"include": ["./**/*"],
+	"include": ["./src/*", "./commands/**/*", "./.astro/*"],
 	"exclude": ["netlify/edge-functions", "dist/**/*"],
 	"references": [
 		{

@@ -1,7 +1,5 @@
 /*
-  accept-ch: sec-ch-prefers-color-scheme
   link: <https://onerepo.tools/>; rel=preconnect
-  permissions-policy: ch-prefers-color-scheme=("https://onerepo.tools")
   x-frame-options: SAMEORIGIN
   x-content-type-options: nosniff
   x-xss-protection: 1; mode=block

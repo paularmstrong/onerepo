@@ -13,7 +13,7 @@ module.exports = {
 			},
 
 			plugins: ['import'],
-			extends: ['eslint:recommended', 'plugin:tailwindcss/recommended', 'plugin:import/errors'],
+			extends: ['eslint:recommended', 'plugin:import/errors'],
 
 			rules: {
 				'no-console': 'error',
@@ -21,14 +21,6 @@ module.exports = {
 				indent: 'off', // Prettier is used for this
 				'global-require': 'error',
 				'no-mixed-spaces-and-tabs': 'off', // Prettier
-
-				'tailwindcss/classnames-order': 'error',
-				'tailwindcss/enforces-negative-arbitrary-values': 'error',
-				'tailwindcss/enforces-shorthand': 'error',
-				'tailwindcss/migration-from-tailwind-2': 'off',
-				'tailwindcss/no-arbitrary-value': 'error',
-				'tailwindcss/no-custom-classname': 'error',
-				'tailwindcss/no-contradicting-classname': 'error',
 
 				'import/first': 'error',
 				'import/no-cycle': ['error', { maxDepth: 2 }],
@@ -47,9 +39,6 @@ module.exports = {
 			},
 
 			settings: {
-				tailwindcss: {
-					callees: ['clsx', 'classnames'],
-				},
 				'import/resolver': {
 					node: true,
 				},

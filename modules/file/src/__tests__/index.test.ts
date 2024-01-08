@@ -176,6 +176,22 @@ add some contents
 			expect(portion).toEqual('add some contents');
 			expect(contents).toEqual(original);
 		});
+
+		test('properly escapes in order to match mdx comments', async () => {
+			const original = `original contents
+
+{/* start-onerepo-sentinel */}
+add some contents
+{/* end-onerepo-sentinel */}
+`;
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue(original);
+
+			const [portion, contents] = await file.readSafe('tacos.mdx');
+
+			expect(portion).toEqual('add some contents');
+			expect(contents).toEqual(original);
+		});
 	});
 
 	describe('isSigned', () => {

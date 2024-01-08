@@ -1,0 +1,121 @@
+---
+title: '@onerepo/plugin-docgen'
+sidebar:
+  label: Documentation generation
+description: Official oneRepo plugin for docgen.
+meta:
+  version: 0.0.0
+  stability: stable
+---
+
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+## Installation
+
+<NpmToYarn script="npm install --save-dev @onerepo/plugin-docgen" />
+
+:::tip[Example]
+Check out our very own source level [example](example/) generated directly from the oneRepo source code using this plugin.
+:::
+
+{/* start-install-typedoc */}
+
+### docgen()
+
+```ts
+docgen(opts): Plugin
+```
+
+Include the `eslint` plugin in your oneRepo plugin setup:
+
+#### Parameters
+
+• **opts**: [`Options`](#options)= `{}`
+
+#### Example
+
+```js title="onerepo.config.ts" {1,4}
+import { docgen } from '@onerepo/plugin-docgen';
+
+export default {
+	plugins: [docgen()],
+};
+```
+
+**Source:** [docgen/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/docgen/src/index.ts#L76)
+
+### Options
+
+```ts
+type Options: Object;
+```
+
+Full configuration options for the Docgen core command.
+
+#### Example
+
+```js title="onerepo.config.ts"
+import { docgen } from '@onerepo/plugin-docgen';
+
+export default {
+	plugins: [
+		docgen({
+			format: 'markdown',
+			outFile: './docs/cli.md',
+			safeWrite: true,
+		}),
+	],
+};
+```
+
+#### Type declaration
+
+| Member         | Type                     | Description                                                                                         |
+| :------------- | :----------------------- | :-------------------------------------------------------------------------------------------------- |
+| `format`       | `"markdown"` \| `"json"` | Default output format for the documentation<br /><br />**Default**<br />`'markdown'`                |
+| `name`         | `string` \| `string`[]   | Override the name of the command.<br /><br />**Default**<br />`'docgen'`                            |
+| `outFile`      | `string`                 | If set, a file will be written by default to the given location (in the given `outWorkspace`)       |
+| `outWorkspace` | `string`                 | If `outFile` is also set, the generated documentation will be written out.                          |
+| `safeWrite`    | `boolean`                | Set to true to amend content to the given file using the file.writeSafe \| `file.writeSafe` method. |
+
+**Source:** [docgen/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/docgen/src/index.ts#L29)
+
+{/* end-install-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-docgen */}
+{/* @generated SignedSource<<89cebedc4a33eb9586e88ad0cf13443c>> */}
+
+### `one docgen`
+
+Generate documentation for the oneRepo cli.
+
+```sh
+one docgen [options]
+```
+
+Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!
+
+Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.
+
+| Option            | Type                                                                      | Description                                                                | Required |
+| ----------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`                                                                 | Add the output file to the git stage                                       |          |
+| `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                             | Output format for documentation                                            |          |
+| `--heading-level` | `number`                                                                  | Heading level to start at for Markdown output                              |          |
+| `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |          |
+| `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |          |
+| `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option      | Type     | Description                                              | Required |
+| ----------- | -------- | -------------------------------------------------------- | -------- |
+| `--command` | `string` | Start at the given command, skip the root and any others |          |
+
+</details>
+
+{/* end-auto-generated-from-cli-docgen */}

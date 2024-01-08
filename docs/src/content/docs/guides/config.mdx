@@ -1,0 +1,97 @@
+---
+title: Configuration
+sidebar:
+  badge:
+    text: New
+    variant: note
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+oneRepo configuration files can be any flavor of JavaScript or TypeScript, as long as they are parseable and have a valid `default` export.
+
+## Root
+
+The only requirement for your repository's root config is the `root` must be set to `true`:
+
+<Tabs>
+  <TabItem label="ES Module">
+```ts title="onerepo.config.js" ins={2}
+export default {
+  root: true,
+};
+```
+  </TabItem>
+
+  <TabItem label="TypeScript">
+```ts title="onerepo.config.ts" ins={4}
+import type { Config } from 'onerepo';
+
+export default {
+  root: true,
+} satisfies Config;
+```
+
+  </TabItem>
+
+  <TabItem label="Common JS">
+```ts title="onerepo.config.cjs" ins={2}
+module.exports = {
+  root: true,
+};
+```
+  </TabItem>
+</Tabs>
+
+The following table describes the most common options you may need. Please note the stability of each item as some things are subject to change when oneRepo hits <span class="tag info">v1.0.0</span>.
+
+| Member    | Type                                               | Description                                                                                                                                                                                            | Stability                                |
+| :-------- | :------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `root`    | `true`                                             | Must be set to `true` in order to denote that this is the root of the repository.                                                                                                                      | <span class="tag success">stable</span>  |
+| `head`    | `string`                                           | What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.<br />**Default** `'main'` | <span class="tag success">stable</span>  |
+| `core`    | [`CoreConfig`](/api/#coreconfig)                   | Core command configuration options.                                                                                                                                                                    | <span class="tag danger">unstable</span> |
+| `plugins` | [`Array<Plugin>`](/api/#plugin)                    | Add shared commands and extra handlers. See the [official plugin list](/plugins/) for more information.                                                                                                | <span class="tag success">stable</span>  |
+| `tasks`   | [`TaskConfig`](/api/namespaces/graph/#taskconfigl) | Globally defined tasks per lifecycle                                                                                                                                                                   | <span class="tag success">stable</span>  |
+
+:::tip[Full API documentation]
+See the API reference section for the [`RootConfig`](/api/#rootconfig) for the full set of options.
+:::
+
+## Workspaces
+
+Workspace configuration files are not required unless a workspace has explicit `tasks`, `codeowners`, or other workspace-only configurations required.
+
+<Tabs>
+  <TabItem label="ES Module">
+```ts title="onerepo.config.js"
+export default {
+  codeowners: {},
+  tasks: {},
+};
+```
+  </TabItem>
+
+  <TabItem label="TypeScript">
+```ts title="onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+  codeowners: {},
+  tasks: {},
+} satisfies Config;
+```
+  </TabItem>
+
+  <TabItem label="Common JS">
+```ts title="onerepo.config.cjs"
+module.exports = {
+  codeowners: {},
+  tasks: {},
+};
+```
+  </TabItem>
+</Tabs>
+
+:::tip[Full API documentation]
+See the API reference section for the [`WorkspaceConfig`](/api/namespaces/graph/#workspaceconfig) for the full set of options.
+:::

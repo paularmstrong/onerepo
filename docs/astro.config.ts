@@ -1,54 +1,53 @@
-// @ts-nocheck
 import { defineConfig } from 'astro/config';
-// eslint-disable-next-line import/no-unresolved
-import mdx from '@astrojs/mdx';
-// eslint-disable-next-line import/no-unresolved
-import tailwind from '@astrojs/tailwind';
-import rehypePrettyCode from 'rehype-pretty-code';
-
-const rehypePlugins = [
-	[
-		rehypePrettyCode,
-		{
-			theme: { dark: 'github-dark', light: 'github-light' },
-			onVisitLine(node) {
-				// Prevent lines from collapsing in `display: grid` mode, and
-				// allow empty lines to be copy/pasted
-				if (node.children.length === 0) {
-					node.children = [{ type: 'text', value: ' ' }];
-				}
-				if (!node.properties.className) {
-					node.properties.className = [];
-				}
-				node.properties.className.push('inline-block', 'w-full', 'px-4', 'border-transparent');
-			},
-			onVisitHighlightedLine(node) {
-				if (!node.properties.className) {
-					node.properties.className = [];
-				}
-				node.properties.className.push('bg-pink-600/20');
-			},
-			onVisitHighlightedWord(node) {
-				if (!node.properties.className) {
-					node.properties.className = [];
-				}
-				node.properties.className = ['bg-pink-700/40', 'rounded', 'p-1', '-m-1'];
-			},
-		},
-	],
-];
+import starlight from '@astrojs/starlight';
 
 export default defineConfig({
 	trailingSlash: 'always',
 	integrations: [
-		tailwind(),
-		mdx({
-			rehypePlugins,
+		starlight({
+			title: 'oneRepo',
+			logo: {
+				dark: './src/assets/logo-full-dark.svg',
+				light: './src/assets/logo-full.svg',
+				replacesTitle: true,
+			},
+			customCss: ['./src/custom.css'],
+			social: {
+				github: 'https://github.com/paularmstrong/onerepo',
+			},
+			sidebar: [
+				{
+					label: 'Guides',
+					autogenerate: { directory: 'guides' },
+				},
+				{
+					label: 'Commands',
+					autogenerate: { directory: 'core' },
+				},
+				{
+					label: 'Plugins',
+					autogenerate: { directory: 'plugins' },
+				},
+				{
+					label: 'API Reference',
+					collapsed: true,
+					autogenerate: { directory: 'api', collapsed: false },
+				},
+				{
+					label: 'Changelogs',
+					collapsed: true,
+					autogenerate: { directory: 'changelogs', collapsed: true },
+				},
+			],
+			components: {
+				Footer: './src/components/Footer.astro',
+				PageTitle: './src/components/PageTitle.astro',
+			},
+			lastUpdated: true,
+			favicon: '/favicon.svg',
+			editLink: {
+				baseUrl: 'https://github.com/paularmstrong/onerepo/edit/main/',
+			},
 		}),
 	],
-	markdown: {
-		rehypePlugins,
-		syntaxHighlight: false,
-		extendDefaultPlugins: true,
-	},
 });
