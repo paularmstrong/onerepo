@@ -1,17 +1,25 @@
 import path from 'node:path';
 import { glob } from 'glob';
-import { batch, file, builders, run } from 'onerepo';
-import type { Builder, Handler, RunSpec, LogStep } from 'onerepo';
-import type { Workspace } from '@onerepo/graph';
+import { batch, file, builders, run, git } from 'onerepo';
+import type { Builder, Handler, RunSpec } from 'onerepo';
 
 export const command = 'collect-content';
 
 export const description = 'Generate docs for the oneRepo monorepo';
 
-export const builder: Builder = (yargs) => builders.withAllInputs(yargs);
+type Argv = {
+	add: boolean;
+};
 
-export const handler: Handler = async (argv, { graph, logger }) => {
-	const { verbosity } = argv;
+export const builder: Builder<Argv> = (yargs) =>
+	builders.withAllInputs(yargs).option('add', {
+		type: 'boolean',
+		description: 'Add files to the git index',
+		default: false,
+	});
+
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
+	const { add, verbosity } = argv;
 	const docs = graph.getByName('docs');
 
 	const [typedoc] = await run({
@@ -33,40 +41,24 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		},
 	];
 
-	const changelogStep = logger.createStep('Getting root changelog');
-	await writeChangelog(graph.getByName('onerepo'), docs, changelogStep);
-	await changelogStep.end();
+	const workspaces = await getWorkspaces();
 
-	const readmeStep = logger.createStep('Building plugin docs');
-	for (const ws of graph.workspaces) {
+	const pluginStep = logger.createStep('Building plugin docs');
+	for (const ws of workspaces) {
 		if (!ws.name.startsWith('@onerepo/plugin-')) {
 			continue;
 		}
 
 		const shortName = ws.name.replace('@onerepo/plugin-', '');
-		const readme = await file.read(ws.resolve('README.md'), 'r', { step: readmeStep });
+		const outFile = docs.resolve('src/content/docs/plugins', `${shortName}.mdx`);
+
+		const contents = await file.read(outFile, 'r', { step: pluginStep });
 
 		await file.write(
-			docs.resolve('src', 'content', 'plugins', `${shortName}.md`),
-			`---
-title: '${ws.name}'
-shortname: '${shortName}'
-tool: ${'title' in ws.packageJson ? ws.packageJson.title : shortName}
-description: ${ws.description ?? `Official oneRepo plugin for ${shortName}.`}
-version: '${ws.version}'
----
-
-${readme}
-
-## Usage
-
-`,
-			{ step: readmeStep },
+			outFile,
+			contents.replace(/version: (?:[^\n]+)/, () => `version: ${ws.version}`),
+			{ step: pluginStep },
 		);
-
-		await writeChangelog(ws, docs, readmeStep);
-
-		const outFile = docs.resolve('src', 'content', 'plugins', `${shortName}.md`);
 
 		generators.push({
 			name: `Generate for ${ws.name}`,
@@ -107,46 +99,10 @@ ${readme}
 			},
 		});
 	}
-	await readmeStep.end();
-
-	const core = graph.getByName('onerepo');
-	const commands = await glob('*', { cwd: core.resolve('src/core') });
-
-	const coreDocs = logger.createStep('Getting core docs');
-	for (const cmd of commands) {
-		const outFile = docs.resolve(`src/content/core/${cmd}.md`);
-		await file.copy(core.resolve('src/core', cmd, 'README.md'), outFile, { step: coreDocs });
-
-		generators.push({
-			name: `Generate for ${cmd}`,
-			cmd: process.argv[1],
-			args: [
-				'docgen',
-				'--format',
-				'markdown',
-				'--heading-level',
-				'3',
-				'--out-file',
-				outFile,
-				'--out-workspace',
-				'docs',
-				`-${'v'.repeat(verbosity)}`,
-				'--safe-write',
-				'--command',
-				cmd,
-			],
-			opts: {
-				cwd: graph.root.location,
-			},
-			runDry: true,
-		});
-	}
-	await coreDocs.end();
-
-	await batch(generators);
+	await pluginStep.end();
 
 	const pluginTypedoc = logger.createStep('Writing plugin configs');
-	for (const ws of graph.workspaces) {
+	for (const ws of workspaces) {
 		if (!ws.name.startsWith('@onerepo/plugin-')) {
 			continue;
 		}
@@ -166,71 +122,92 @@ ${readme}
 		const functions = functionIndex > 0 ? splits[functionIndex] : '';
 		const types = typeIndex > 0 ? splits[typeIndex] : '';
 
-		await file.writeSafe(docs.resolve(`src/content/plugins/${shortName}.md`), `${functions}\n\n${types}`, {
+		await file.writeSafe(docs.resolve(`src/content/docs/plugins/${shortName}.mdx`), `${functions}\n\n${types}`, {
 			step: pluginTypedoc,
 			sentinel: 'install-typedoc',
 		});
 	}
 	await pluginTypedoc.end();
 
-	const typedocs: Array<RunSpec> = [];
-	for (const cmd of commands) {
-		typedocs.push({
-			name: `Gen typedoc for ${cmd}`,
-			cmd: typedoc,
-			args: [
-				'--plugin',
-				'typedoc-plugin-markdown',
-				'--entryFileName',
-				`${cmd}.md`,
-				'--options',
-				docs.resolve('typedoc.cjs'),
-				'--out',
-				path.join(typedocTempDir, cmd),
-				core.resolve('src/core', cmd, 'index.ts'),
-			],
-			opts: {
-				cwd: graph.root.location,
-			},
-		});
-	}
+	if (workspaces.includes(graph.getByName('onerepo'))) {
+		const core = graph.getByName('onerepo');
+		const commands = await glob('*', { cwd: core.resolve('src/core') });
 
-	await batch(typedocs);
+		const coreDocs = logger.createStep('Getting core docs');
+		for (const cmd of commands) {
+			const outFile = docs.resolve(`src/content/docs/core/${cmd}.mdx`);
 
-	const coreDocsTwo = logger.createStep('Getting core type docs');
-	for (const cmd of commands) {
-		if (cmd === 'create') {
-			continue;
+			generators.push({
+				name: `Generate for ${cmd}`,
+				cmd: process.argv[1],
+				args: [
+					'docgen',
+					'--format',
+					'markdown',
+					'--heading-level',
+					'3',
+					'--out-file',
+					outFile,
+					'--out-workspace',
+					'docs',
+					`-${'v'.repeat(verbosity)}`,
+					'--safe-write',
+					'--command',
+					cmd,
+				],
+				opts: {
+					cwd: graph.root.location,
+				},
+				runDry: true,
+			});
 		}
-		const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
-		await file.writeSafe(
-			docs.resolve(`src/content/core/${cmd}.md`),
-			contents
-				.replace(/[^]+#+ Options/gm, '')
-				.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
-			{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
-		);
+		await coreDocs.end();
+
+		await batch(generators);
+
+		const typedocs: Array<RunSpec> = [];
+		for (const cmd of commands) {
+			typedocs.push({
+				name: `Gen typedoc for ${cmd}`,
+				cmd: typedoc,
+				args: [
+					'--plugin',
+					'typedoc-plugin-markdown',
+					'--entryFileName',
+					`${cmd}.md`,
+					'--options',
+					docs.resolve('typedoc.cjs'),
+					'--out',
+					path.join(typedocTempDir, cmd),
+					core.resolve('src/core', cmd, 'index.ts'),
+				],
+				opts: {
+					cwd: graph.root.location,
+				},
+			});
+		}
+
+		await graph.packageManager.batch(typedocs);
+
+		const coreDocsTwo = logger.createStep('Getting core type docs');
+		for (const cmd of commands) {
+			if (cmd === 'create') {
+				continue;
+			}
+			const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
+			await file.writeSafe(
+				docs.resolve(`src/content/docs/core/${cmd}.mdx`),
+				contents
+					.replace(/[^]+#+ Options/gm, '')
+					.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
+				{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
+			);
+		}
+		await coreDocsTwo.end();
+
+		if (add) {
+			await git.updateIndex(docs.resolve('src/content/docs/core'));
+			await git.updateIndex(docs.resolve('src/content/docs/plugins'));
+		}
 	}
-	await coreDocsTwo.end();
 };
-
-async function writeChangelog(workspace: Workspace, docs: Workspace, step: LogStep) {
-	let changelog = '';
-	if (await file.exists(workspace.resolve('CHANGELOG.md'), { step })) {
-		changelog = await file.read(workspace.resolve('CHANGELOG.md'), 'r', { step });
-	}
-
-	const shortName = workspace.name.replace('@onerepo/', '').replace('plugin-', '');
-
-	await file.write(
-		docs.resolve('src', 'content', 'changelogs', `${shortName}.md`),
-		`---
-title: "${workspace.name} Changelog"
-description: ''
----
-
-${changelog.replace(new RegExp(`^# ${workspace.name}`, 'm'), '')}
-`,
-		{ step },
-	);
-}

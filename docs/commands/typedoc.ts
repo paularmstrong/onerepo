@@ -1,14 +1,25 @@
+import path from 'node:path';
 import { glob } from 'glob';
-import { file, run } from 'onerepo';
+import { file, git, run } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
 export const command = 'typedoc';
 
 export const description = 'Generate typedoc markdown files for the toolchain.';
 
-export const builder: Builder = (yargs) => yargs.usage('$0 typedoc');
+type Argv = {
+	add: boolean;
+};
 
-export const handler: Handler = async (argv, { graph, logger }) => {
+export const builder: Builder<Argv> = (yargs) =>
+	yargs.usage('$0 typedoc').option('add', {
+		type: 'boolean',
+		description: 'Add files to the git index',
+		default: false,
+	});
+
+export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
+	const { add, $0 } = argv;
 	const docs = graph.getByLocation(__dirname);
 
 	const [bin] = await run({
@@ -21,8 +32,16 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		runDry: true,
 	});
 
+	await run({
+		name: 'Update TSC prebuild',
+		cmd: $0,
+		args: ['tsc'],
+	});
+
 	const ws = graph.getByName('onerepo');
-	const outPath = 'src/content/core/api';
+	const tmp = await file.makeTempDir('onerepo-api');
+
+	const outPath = 'src/content/docs/api';
 
 	await run({
 		name: 'Generate docs',
@@ -38,7 +57,7 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 			'--basePath',
 			graph.root.location,
 			'--out',
-			docs.resolve(outPath),
+			tmp,
 			ws.resolve(ws.packageJson.main!),
 		],
 		opts: {
@@ -46,34 +65,28 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 		},
 	});
 
-	const outFiles = await glob('**/*.md', { cwd: docs.resolve(outPath) });
+	const outFiles = await glob('**/*.md', { cwd: tmp });
 
 	const fixFiles = logger.createStep('Fix doc URLs');
 	for (const doc of outFiles) {
-		const contents = await file.read(docs.resolve(outPath, doc), 'r', { step: fixFiles });
-		const title = doc === 'index.md' ? 'oneRepo API' : doc.replace('.md', '').replace('namespaces/', 'API: ');
-		let out = contents
+		const contents = await file.read(path.join(tmp, doc), 'r', { step: fixFiles });
+		const out = contents
+			.replace(
+				/modules\/([^/]+)\/dist\/src\/(.*)\.d\.ts:?(\d+)?/g,
+				'[modules/$1/src/$2.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/$1/src/$2.ts#L$3)',
+			)
+			.replace(/\.\.\//g, '../../')
 			.replace(/index\.md(#[^)]+)?/g, '$1')
-			.replace(/\.md(#[^)]+)?/g, '$1')
-			.replace(/^#+ Source\n\n\[([^:]+):(\d+)\]/gm, `**Source:** [$1:$2]`)
-			.replace(/(?:<br(?: \/)?>)+\*\*(Default(?: Value)?)\*\*(?:<br(?: \/)?>)+/g, '<br /><br />**$1:** ')
-			.replace('[**onerepo**](/docs/core/api/)\n\n---\n\n', '');
-		out = `---
-title: "API: ${title}"
----
+			.replace(/\(([\w-]+)\.md(#[^)]+)?/g, '($2')
+			.replace(/\/([\w-]+)\.md(#[^)]+)?/g, '/$1/$2')
+			.replace('[**onerepo**](/docs/api/)\n\n---\n\n', '');
 
-# ${title}
-
-<!--
-Do not modify!
-Changes to this file will automatically be overwritten from source.
-
-To make changes, modify typedoc comments in the source files.
--->
-
-${out}`;
-		await file.write(docs.resolve(outPath, doc), out, { step: fixFiles });
+		await file.writeSafe(docs.resolve(outPath, doc), out, { step: fixFiles, sign: true });
 	}
 
 	await fixFiles.end();
+
+	if (add) {
+		await git.updateIndex(docs.resolve('src/content/docs/api'));
+	}
 };

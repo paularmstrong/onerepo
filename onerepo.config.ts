@@ -22,7 +22,7 @@ export default {
 		changesets(),
 		docgen({
 			outWorkspace: 'root',
-			outFile: './docs/usage/cli.md',
+			outFile: './docs/src/content/docs/plugins/docgen/example.mdx',
 			format: 'markdown',
 			safeWrite: true,
 		}),
@@ -54,9 +54,6 @@ export default {
 				{ match: '**/package.json', cmd: '$0 graph verify' },
 				{ match: '**/onerepo.config.*', cmd: ['$0 codeowners verify'] },
 			],
-		},
-		'post-checkout': {
-			serial: ['yarn'],
 		},
 		build: {
 			serial: ['$0 build -w ${workspaces}'],

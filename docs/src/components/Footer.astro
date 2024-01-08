@@ -1,32 +1,41 @@
 ---
-import GithubIcon from './icons/GitHub.astro';
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const isHomepage = Astro.props.slug === '';
 ---
 
-<footer class="border-t border-zinc-200 bg-zinc-100 shadow-inner dark:border-zinc-800 dark:bg-zinc-900/30">
-	<div class="container mx-auto flex items-center justify-between p-4 md:px-8">
-		<div>
-			<a
-				href="https://github.com/paularmstrong/onerepo"
-				class="inline-block h-6 w-6 text-zinc-700 transition-colors duration-200 hover:text-cyan-500 dark:text-zinc-300"
-				target="_blank"
-				rel="noopener"
-				title="oneRepo on GitHub"
-			>
-				<GithubIcon />
-			</a>
-			<a class="text-cyan-500 transition-colors duration-200 hover:text-cyan-500" href="/">oneRepo</a>
-			 Copyright ©
-			<a class="transition-colors duration-200 hover:text-cyan-500" href="https://paularmstrong.dev">Paul Armstrong</a>
-		</div>
-		<div>
-			<a href="https://www.netlify.com" rel="noopener" target="_blank">
-				<img
-					src="https://www.netlify.com/v3/img/components/netlify-color-bg.svg"
-					alt="Deploys by Netlify"
-					width={114}
-					height={50}
-				/>
-			</a>
-		</div>
-	</div>
-</footer>
+{
+	isHomepage ? (
+		<footer class="home-footer">
+			<div>
+				<a href="/">oneRepo</a>
+				Copyright ©<a href="https://paularmstrong.dev">Paul Armstrong</a>
+			</div>
+			<div>
+				<a href="https://www.netlify.com" rel="noopener" target="_blank">
+					<img
+						src="https://www.netlify.com/v3/img/components/netlify-color-bg.svg"
+						alt="Deploys by Netlify"
+						width={114}
+						height={50}
+					/>
+				</a>
+			</div>
+		</footer>
+	) : (
+		<Default {...Astro.props}>
+			<slot />
+		</Default>
+	)
+}
+
+<style>
+	.home-footer {
+		border-top: 1px solid var(--sl-color-gray-4);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem 0;
+		margin: 0 auto;
+	}
+</style>

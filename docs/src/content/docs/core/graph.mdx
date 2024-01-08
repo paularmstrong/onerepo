@@ -1,0 +1,256 @@
+---
+title: Graph
+description: |
+  Get information about your repository’s workspace graph.
+usage: graph
+meta:
+  stability: stable
+---
+
+## Configuration
+
+The `one graph verify` command comes with some basic schema for validating `package.json` files and no configuration is _required_.
+
+However, you can enhance this by providing custom schema to match to workspaces and their files:
+
+```js {3-5}
+setup({
+	core: {
+		graph: {
+			customSchema: './path/to/graph-schema.js',
+		},
+	},
+}).then(({ run }) => run());
+```
+
+### Options
+
+{/* start-usage-typedoc */}
+
+```ts
+type Options: Object;
+```
+
+Full configuration options for the Graph core command.
+
+#### Type declaration
+
+| Member         | Type                 | Description                                                               |
+| :------------- | :------------------- | :------------------------------------------------------------------------ |
+| `customSchema` | `string`             | File path to a custom schema for the `verify` command.                    |
+| `dependencies` | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'` |
+
+#### Source
+
+index.d.ts:6
+
+{/* end-usage-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-graph */}
+{/* @generated SignedSource<<17be31f52454bc49cd3a64f20d9e2203>> */}
+
+### `one graph`
+
+Run core graph commands
+
+```sh
+one graph <command>
+```
+
+---
+
+#### `one graph show`
+
+Show the dependency graph.
+
+```sh
+one graph show [options]
+```
+
+This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.
+
+| Option               | Type                                                 | Description                                                                                                                                                                 | Required |
+| -------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                                            | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                                            | Run across all workspaces                                                                                                                                                   |          |
+| `--format`, `-f`     | `"mermaid"`, `"plain"`, `"json"`, default: `"plain"` | Output format for inspecting the dependency graph                                                                                                                           |          |
+| `--show-advanced`    | `boolean`                                            | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                                            | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                                              | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
+
+Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.
+
+```sh
+one graph show --format=mermaid -w <workspace> > ./out.mermaid
+```
+
+---
+
+#### `one graph verify`
+
+Verify the integrity of the repo’s dependency graph and files in each workspace.
+
+```sh
+one graph verify
+```
+
+Dependencies across workspaces can be validated using one of the various methods:
+
+- `off`: No validation will occur. Everything goes.
+- `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+
+| Option            | Type                                   | Description                                  | Required |
+| ----------------- | -------------------------------------- | -------------------------------------------- | -------- |
+| `--dependencies`  | `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |          |
+| `--show-advanced` | `boolean`                              | Pair with `--help` to show advanced options. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option            | Type                                          | Description                             | Required |
+| ----------------- | --------------------------------------------- | --------------------------------------- | -------- |
+| `--custom-schema` | `string`, default: `"config/graph-schema.ts"` | Path to a custom JSON schema definition |          |
+
+</details>
+
+{/* end-auto-generated-from-cli-graph */}
+
+## Validating configurations
+
+The Graph module in oneRepo has support for validating most configuration files in workspaces, including JSON, CJSON, YAML, and static JavaScript/TypeScript configurations.
+
+Schema validation uses [AJV](https://ajv.js.org) with support for JSON schemas draft-2019-09 and draft-07. It also supports [ajv-errors](https://ajv.js.org/packages/ajv-errors.html) for better and more actionable error messaging.
+
+### Example JSON validation
+
+```js title="graph-schema.js"
+module.exports = {
+	'modules/*': {
+		'package.json': {
+			type: 'object',
+			properties: {
+				// Ensure package names start with your organizations scope:
+				name: {
+					type: 'string',
+					pattern: '^@scope\\/',
+					// ajv-errors addition
+					errorMessage: {
+						pattern: 'Modules must be scoped for the organization, "@scope/<name>"',
+					},
+				},
+			},
+			required: ['name'],
+		},
+	},
+	'apps/*': {
+		'tsconfig.json': {
+			type: 'object',
+			properties: {
+				// Ensure your tsconfig.json extends your standard config
+				extends: { type: 'string', enum: ['@scope/tsconfig/base.json'] },
+			},
+		},
+	},
+};
+```
+
+### Example JS/TS validation
+
+Note that if the configuration is the default export, like in the case of `jest.config.js` files, you will need to validate the `default` export as a property, just like any other export.
+
+```js title="graph-schema.ts"
+import type { GraphSchemaValidators } from 'onerepo';
+
+export default {
+	'**/*': {
+		'jest.config.js': {
+			type: 'object',
+			properties: {
+				default: {
+					type: 'object',
+					properties: {
+						displayName: { type: 'string' },
+						clearMocks: { type: 'boolean', const: true },
+						resetMocks: { type: 'boolean', const: true },
+					},
+					required: ['displayname', 'clearMocks', 'resetMocks'],
+				}
+			},
+			required: ['default']
+		},
+	},
+} satisfies GraphSchemaValidators;
+```
+
+### Functional schema
+
+There are cases where more information about a workspace is needed for the schema to be complete. For this, the schema may also be a function that accepts two arguments, `workspace` and `graph`:
+
+```ts
+import type { graph, GraphSchemaValidators } from 'onerepo';
+
+export default {
+	'**': {
+		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+			type: 'object',
+			properties: {
+				repository: {
+					type: 'object',
+					properties: {
+						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+					},
+					required: ['directory'],
+				},
+			},
+			required: ['repository'],
+		}),
+	},
+} satisfies GraphSchemaValidators;
+```
+
+### Base schema
+
+oneRepo provides a base schema with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:
+
+```js title="graph-schema.js" {2}
+module.export = {
+	'**': {
+		'package.json': {
+			/* ... */
+		},
+	},
+};
+```
+
+## Extensions
+
+### Required files
+
+To mark a file as required, the JSON schema validation has been extended to include a key `$required` at the top level of each file schema. Setting this key to `true` will result in errors if a matched workspace does not include this file:
+
+```ts {7} /$required/
+import type { graph, GraphSchemaValidators } from 'onerepo';
+
+export default {
+	'**': {
+		'package.json': {
+			type: 'object',
+			$required: true,
+		},
+	},
+} satisfies GraphSchemaValidators;
+```

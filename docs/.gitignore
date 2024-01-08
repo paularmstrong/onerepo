@@ -1,5 +1,4 @@
 # generated types
-.astro/
 .netlify/
 
 src/api/*

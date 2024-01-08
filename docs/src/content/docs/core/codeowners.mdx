@@ -1,0 +1,154 @@
+---
+title: Code owners
+description: |
+  Manage CODEOWNERS for your repository
+usage: codeowners
+meta:
+  stability: experimental
+---
+
+Use code owners to define individuals or teams that are responsible for code in your monorepo and integrate with your git hosting provider's CODEOWNERS implementation.
+
+## Getting started
+
+Set your codeowners provider in your root configuration file:
+
+```ts title="./onerepo.config.ts"
+export default {
+	core: {
+		codeowners: {
+			provider: 'github',
+		},
+	},
+};
+```
+
+Add `codeowners` to any workspace or root configuration:
+
+```ts title="./modules/workspace/onerepo.config.ts
+export default {
+	codeowners: {
+		'*': ['@my-team', '@person'],
+		scripts: ['@infra-team'],
+	},
+};
+```
+
+Run the sync command to update any time you make changes to code owners:
+
+```sh
+one codeowners sync
+```
+
+## Hosting providers
+
+The following providers are currently enabled:
+
+- [GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) (default)
+- [Gitlab](https://docs.gitlab.com/ee/user/project/codeowners/#codeowners-file)
+- [Gitea](https://docs.gitea.com/usage/code-owners)
+- [BitBucket](https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud)[^bitbucket]
+
+[^bitbucket]: Requires add-on "[Code Owners for BitBucket](https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud)".
+
+## Options
+
+{/* start-usage-typedoc */}
+
+```ts
+type Options: Object;
+```
+
+Full configuration options for the Codeowners core command.
+
+#### Example
+
+Configuration
+
+```ts title="./onerepo.config.ts"
+export default {
+	core: {
+		codeowners: {
+			provider: 'github',
+		},
+	},
+};
+```
+
+#### Type declaration
+
+| Member     | Type        | Description                                                                                                                     |
+| :--------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `provider` | `Providers` | Repository host/provider. This determines where and how codeowners files will be written<br /><br />**Default**<br />`'github'` |
+
+#### Source
+
+index.d.ts:18
+
+{/* end-usage-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-codeowners */}
+{/* @generated SignedSource<<cc0bbf73d94ec7ae40e97bbc51bba69c>> */}
+
+### `one codeowners`
+
+Aliases: `owners`
+
+Manage codeowners
+
+```sh
+one codeowners <command>
+```
+
+---
+
+#### `one codeowners sync`
+
+Sync code owners from workspace configurations to the repository’s CODEOWNERS file.
+
+```sh
+one codeowners sync
+```
+
+| Option            | Type      | Description                                       | Required |
+| ----------------- | --------- | ------------------------------------------------- | -------- |
+| `--add`           | `boolean` | Add the updated CODEOWNERS file to the git stage. |          |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options.      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option       | Type                                             | Description                                                                 | Required |
+| ------------ | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `--provider` | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+
+</details>
+
+---
+
+#### `one codeowners verify`
+
+Verify the CODEOWNERS file is up to date and unmodified.
+
+```sh
+one codeowners verify
+```
+
+| Option            | Type      | Description                                  | Required |
+| ----------------- | --------- | -------------------------------------------- | -------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option       | Type                                             | Description                                                                 | Required |
+| ------------ | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `--provider` | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+
+</details>
+
+{/* end-auto-generated-from-cli-codeowners */}

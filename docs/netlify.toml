@@ -6,18 +6,6 @@
 [build]
   ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../modules/ ../plugins/ ../yarn.lock"
 
-[[edge_functions]]
-  path = "/*"
-  function = "theme"
-
-[[edge_functions]]
-  path = "/docs/*"
-  function = "theme"
-
-[[edge_functions]]
-  path = "/api/theme/*"
-  function = "set-theme"
-
 [[plugins]]
   package = "netlify-plugin-csp-generator"
 
@@ -31,12 +19,12 @@
     defaultSrc = "'self'"
     fontSrc = "'none'"
     frameSrc = "'none'"
-    imgSrc = "'self' https://www.netlify.com"
+    imgSrc = "'self' https://www.netlify.com data:"
     manifestSrc = "'self'"
     mediaSrc = "'none'"
     objectSrc = "'none'"
-    scriptSrc = "'self'"
-    scriptSrcElem = "'self'"
+    scriptSrc = "'self' 'unsafe-eval'"
+    scriptSrcElem = "'self' 'unsafe-inline' 'unsafe-eval'"
     scriptSrcAttr = "'none'"
     styleSrc = "'self'"
     styleSrcElem = "'self' 'unsafe-inline'"

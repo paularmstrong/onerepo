@@ -1,0 +1,59 @@
+---
+title: Getting started with oneRepo
+sidebar:
+  label: Getting started
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+First, install oneRepo's `one` command into your path:
+
+<Tabs>
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npx --package=onerepo one install
+    ```
+
+  </TabItem>
+  <TabItem label="Yarn">
+
+    ```sh title="Install via Yarn"
+    yarn dlx --package=onerepo one install
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm --package=onerepo dlx one install
+    ```
+
+  </TabItem>
+</Tabs>
+
+Next, use the `create` command to initialize into an existing or a new repository.
+
+```sh title="Initialize oneRepo in a new or existing repository"
+one create
+```
+
+## Manually integrating oneRepo
+
+Install dependencies using your package manager of choice.
+
+<NpmToYarn script="npm install --save-dev onerepo" />
+
+Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
+
+<NpmToYarn script="npm exec one install" />
+
+Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
+
+```js title="./onerepo.config.js"
+export default {
+	root: true,
+};
+```

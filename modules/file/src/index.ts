@@ -259,6 +259,7 @@ export async function remove(pathname: string, options: Options = {}) {
 const commentStyle: Record<string, [string, string]> = {
 	'.js': ['// ', ''],
 	'.md': ['<!-- ', ' -->'],
+	'.mdx': ['{/* ', ' */}'],
 	'.html': ['<!-- ', ' -->'],
 };
 const fallbackCommentStyle = ['# ', ''];
@@ -362,12 +363,16 @@ export async function readSafe(filename: string, options: ReadSafeOptions = {}):
 
 			const [start, end] = getSentinels(filename, sentinel);
 
-			const matches = fileContents.match(new RegExp(`${start}\n(.*)\n${end}`, 'ms'));
+			const matches = fileContents.match(new RegExp(`${escapeRegExp(start)}\n(.*)\n${escapeRegExp(end)}`, 'ms'));
 			step.debug(matches);
 
 			return [matches && matches.length ? matches[1] : null, fileContents];
 		},
 	);
+}
+
+function escapeRegExp(str: string) {
+	return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
 /**

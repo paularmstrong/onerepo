@@ -1,0 +1,116 @@
+---
+title: '@onerepo/plugin-eslint'
+sidebar:
+  label: ESLint
+description: Official ESLint plugin for the oneRepo toolchain.
+meta:
+  version: 0.6.6
+  stability: stable
+---
+
+import NpmToYarn from '../../../components/NpmToYarn.astro';
+
+## Installation
+
+<NpmToYarn script="npm install --save-dev @onerepo/plugin-eslint" />
+
+{/* start-install-typedoc */}
+
+### eslint()
+
+```ts
+eslint(opts): Plugin
+```
+
+Include the `eslint` plugin in your oneRepo plugin setup:
+
+#### Parameters
+
+• **opts**: [`Options`](#options)= `{}`
+
+#### Example
+
+```js title="onerepo.config.ts" {1,4}
+import { eslint } from '@onerepo/plugin-eslint';
+
+export default {
+	plugins: [eslint()],
+};
+```
+
+**Source:** [eslint/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/eslint/src/index.ts#L49)
+
+### Options
+
+```ts
+type Options: Object;
+```
+
+#### Example
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		eslint({
+			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs'],
+		}),
+	],
+};
+```
+
+#### Type declaration
+
+| Member           | Type                   | Description                                                                                                                                   |
+| :--------------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extensions`     | `string`[]             | List of file extensions (without the `.`) that ESLint should operate across.                                                                  |
+| `githubAnnotate` | `boolean`              | When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface. |
+| `name`           | `string` \| `string`[] | The name of the eslint command. You might change this to `'lint'` or `['lint', 'eslint']` to keep things more familiar for most developers.   |
+| `quiet`          | `boolean`              | Control the ESLint setting default to suppress warnings and only report errors.                                                               |
+
+**Source:** [eslint/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/eslint/src/index.ts#L17)
+
+{/* end-install-typedoc */}
+
+## Commands
+
+{/* start-auto-generated-from-cli-eslint */}
+{/* @generated SignedSource<<266df022df0180385ef3e996884dd064>> */}
+
+### `one lint`
+
+Aliases: `eslint`
+
+Run eslint across files and workspaces
+
+```sh
+one lint [options]
+```
+
+| Option               | Type                                                            | Description                                                                                                                                                                 | Required |
+| -------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean`                                                       | Add modified files after write to the git stage.                                                                                                                            |          |
+| `--affected`         | `boolean`                                                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                                                       | Run across all workspaces                                                                                                                                                   |          |
+| `--cache`            | `boolean`, default: `true`                                      | Use cache if available                                                                                                                                                      |          |
+| `--extensions`       | `array`, default: `["ts","tsx","js","jsx","cjs","mjs","astro"]` |                                                                                                                                                                             |          |
+| `--files`, `-f`      | `array`                                                         | Determine workspaces from specific files                                                                                                                                    |          |
+| `--fix`              | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                                                                                                |          |
+| `--pretty`           | `boolean`, default: `true`                                      | Control ESLint’s `--color` flag.                                                                                                                                            |          |
+| `--quiet`            | `boolean`                                                       | Report errors only                                                                                                                                                          |          |
+| `--show-advanced`    | `boolean`                                                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                                                       | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                                                         | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option              | Type                       | Description                                                                     | Required |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------- | -------- |
+| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
+| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing lint checks in GitHub Actions |          |
+| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
+
+</details>
+
+{/* end-auto-generated-from-cli-eslint */}
