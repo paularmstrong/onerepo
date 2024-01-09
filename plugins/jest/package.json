@@ -32,7 +32,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^",
-		"typescript": "^5.0.4"
+		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
 		"jest": ">=29"

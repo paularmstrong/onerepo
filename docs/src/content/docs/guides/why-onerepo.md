@@ -6,8 +6,6 @@ sidebar:
 
 **oneRepo** is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence for all changes.
 
-## Why oneRepo
-
 Other monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
 
 - **Increased productivity**
@@ -21,6 +19,6 @@ Furthermore, it is difficult to remember how to run scripts in individual worksp
 
 ## Tenets
 
-- **Documented** All commands and options must be documented and respond to `--help` requests.
-- **Discoverable** Code for commands must be easy to find and trace.
-- **Clear output** All log output must be grouped, labelled with purpose, and clearly defined by its state.
+- **Documented:** All commands and options must be documented and respond to `--help` requests.
+- **Discoverable:** Code for commands must be easy to find and trace.
+- **Clear output:** All log output must be grouped, labelled with purpose, and clearly defined by its state.

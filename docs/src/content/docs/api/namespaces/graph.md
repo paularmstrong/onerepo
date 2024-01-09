@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6ec7ce3ad65b8ba1ff81ab96e41b10cb>> -->
+<!-- @generated SignedSource<<6a8f62bc97742296f9bd5398b98b7945>> -->
 
 ## Classes
 
@@ -116,15 +116,16 @@ assert.isEqual(dependents, affecteed);
 
 ###### Type parameters
 
-• **T** extends `string` \| [`Workspace`](#workspace)
+| Type parameter                                    |
+| :------------------------------------------------ |
+| `T` extends `string` \| [`Workspace`](#workspace) |
 
 ###### Parameters
 
-• **source**: `T` \| `T`[]
-
-• **type?**: `DepType`
-
-Filter the dependents to a dependency type.
+| Parameter | Type         | Description                                 |
+| :-------- | :----------- | :------------------------------------------ |
+| `source`  | `T` \| `T`[] | -                                           |
+| `type`?   | `DepType`    | Filter the dependents to a dependency type. |
 
 ###### Returns
 
@@ -151,21 +152,17 @@ const tacoDependencies = graph.dependencies('tacos');
 
 ###### Type parameters
 
-• **T** extends `string` \| [`Workspace`](#workspace)
+| Type parameter                                    |
+| :------------------------------------------------ |
+| `T` extends `string` \| [`Workspace`](#workspace) |
 
 ###### Parameters
 
-• **sources?**: `T` \| `T`[]
-
-One or more workspaces by name or `Workspace` instance
-
-• **includeSelf?**: `boolean`
-
-Whether to include the `Workspaces` for the input `sources` in the return array.
-
-• **type?**: `DepType`
-
-Filter the dependencies to a dependency type.
+| Parameter      | Type         | Description                                                                      |
+| :------------- | :----------- | :------------------------------------------------------------------------------- |
+| `sources`?     | `T` \| `T`[] | One or more workspaces by name or `Workspace` instance                           |
+| `includeSelf`? | `boolean`    | Whether to include the `Workspaces` for the input `sources` in the return array. |
+| `type`?        | `DepType`    | Filter the dependencies to a dependency type.                                    |
 
 ###### Returns
 
@@ -192,21 +189,17 @@ const tacoDependents = graph.dependents('tacos');
 
 ###### Type parameters
 
-• **T** extends `string` \| [`Workspace`](#workspace)
+| Type parameter                                    |
+| :------------------------------------------------ |
+| `T` extends `string` \| [`Workspace`](#workspace) |
 
 ###### Parameters
 
-• **sources?**: `T` \| `T`[]
-
-One or more workspaces by name or `Workspace` instance
-
-• **includeSelf?**: `boolean`
-
-Whether to include the `Workspaces` for the input `sources` in the return array.
-
-• **type?**: `DepType`
-
-Filter the dependents to a dependency type.
+| Parameter      | Type         | Description                                                                      |
+| :------------- | :----------- | :------------------------------------------------------------------------------- |
+| `sources`?     | `T` \| `T`[] | One or more workspaces by name or `Workspace` instance                           |
+| `includeSelf`? | `boolean`    | Whether to include the `Workspaces` for the input `sources` in the return array. |
+| `type`?        | `DepType`    | Filter the dependents to a dependency type.                                      |
 
 ###### Returns
 
@@ -230,9 +223,9 @@ const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
 
 ###### Parameters
 
-• **locations**: `string`[]
-
-A list of filepath strings. May be file URLs or string paths.
+| Parameter   | Type       | Description                                                   |
+| :---------- | :--------- | :------------------------------------------------------------ |
+| `locations` | `string`[] | A list of filepath strings. May be file URLs or string paths. |
 
 ###### Returns
 
@@ -256,9 +249,9 @@ const workspaces = graph.getAllByName(['tacos', 'burritos']);
 
 ###### Parameters
 
-• **names**: `string`[]
-
-A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases).
+| Parameter | Type       | Description                                                                                  |
+| :-------- | :--------- | :------------------------------------------------------------------------------------------- |
+| `names`   | `string`[] | A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases). |
 
 ###### Returns
 
@@ -286,9 +279,9 @@ graph.getByLocation(import.meta.url);
 
 ###### Parameters
 
-• **location**: `string`
-
-A filepath string. May be a file URL or string path.
+| Parameter  | Type     | Description                                          |
+| :--------- | :------- | :--------------------------------------------------- |
+| `location` | `string` | A filepath string. May be a file URL or string path. |
 
 ###### Returns
 
@@ -312,9 +305,9 @@ const workspace = graph.getByName('my-cool-package');
 
 ###### Parameters
 
-• **name**: `string`
-
-A Workspace’s [Workspace#name](#name) or any available [Workspace#aliases](#aliases).
+| Parameter | Type     | Description                                                                           |
+| :-------- | :------- | :------------------------------------------------------------------------------------ |
+| `name`    | `string` | A Workspace’s [Workspace#name](#name) or any available [Workspace#aliases](#aliases). |
 
 ###### Returns
 
@@ -327,20 +320,38 @@ A Workspace’s [Workspace#name](#name) or any available [Workspace#aliases](#al
 ##### isolatedGraph()
 
 ```ts
-isolatedGraph(sources, type?): Object
+isolatedGraph(sources, type?): {
+  addEdge: (u, v, weight?) => any;
+  addNode: (node) => any;
+  adjacent: (node) => string[];
+  depthFirstSearch: (sourceNodes?, includeSourceNodes?, errorOnCycle?) => string[];
+  deserialize: (serialized) => any;
+  getEdgeWeight: (u, v) => number;
+  hasCycle: () => boolean;
+  hasEdge: (u, v) => boolean;
+  indegree: (node) => number;
+  lowestCommonAncestors: (node1, node2) => string[];
+  nodes: () => string[];
+  outdegree: (node) => number;
+  removeEdge: (u, v) => any;
+  removeNode: (node) => any;
+  serialize: () => Serialized;
+  setEdgeWeight: (u, v, weight) => any;
+  shortestPath: (source, destination) => string[] & {
+     weight: number;
+  };
+  topologicalSort: (sourceNodes?, includeSourceNodes?) => string[];
+}
 ```
 
 Get an isolated graph of dependents from the list of sources
 
 ###### Parameters
 
-• **sources**: [`Workspace`](#workspace)[]
-
-A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases).
-
-• **type?**: `DepType`
-
-Filter the graph to a dependency type.
+| Parameter | Type                        | Description                                                                                  |
+| :-------- | :-------------------------- | :------------------------------------------------------------------------------------------- |
+| `sources` | [`Workspace`](#workspace)[] | A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases). |
+| `type`?   | `DepType`                   | Filter the graph to a dependency type.                                                       |
 
 ###### Returns
 
@@ -366,7 +377,7 @@ This does not return a oneRepo `Graph`, but instead a graph-data-structure insta
 > | `removeNode`            | (`node`) => `any`                                                      | -           |
 > | `serialize`             | () => [`Serialized`](#serialized-1)                                    | -           |
 > | `setEdgeWeight`         | (`u`, `v`, `weight`) => `any`                                          | -           |
-> | `shortestPath`          | (`source`, `destination`) => `string`[] & `Object`                     | -           |
+> | `shortestPath`          | (`source`, `destination`) => `string`[] & \{ `weight`: `number`; }     | -           |
 > | `topologicalSort`       | (`sourceNodes`?, `includeSourceNodes`?) => `string`[]                  | -           |
 
 ###### Source
@@ -662,7 +673,9 @@ getCodeowners(filepath): string[]
 
 ###### Parameters
 
-• **filepath**: `string`
+| Parameter  | Type     |
+| :--------- | :------- |
+| `filepath` | `string` |
 
 ###### Returns
 
@@ -682,7 +695,9 @@ Get a list of Workspace tasks for the given lifecycle
 
 ###### Parameters
 
-• **lifecycle**: `string`
+| Parameter   | Type     |
+| :---------- | :------- |
+| `lifecycle` | `string` |
 
 ###### Returns
 
@@ -706,9 +721,9 @@ const relativePath = workspace.relative('/some/absolute/path');
 
 ###### Parameters
 
-• **to**: `string`
-
-Absolute filepath
+| Parameter | Type     | Description       |
+| :-------- | :------- | :---------------- |
+| `to`      | `string` | Absolute filepath |
 
 ###### Returns
 
@@ -734,9 +749,9 @@ const main = workspace.resolve(workspace.main);
 
 ###### Parameters
 
-• ...**pathSegments**: `string`[]
-
-A sequence of paths or path segments
+| Parameter         | Type       | Description                          |
+| :---------------- | :--------- | :----------------------------------- |
+| ...`pathSegments` | `string`[] | A sequence of paths or path segments |
 
 ###### Returns
 
@@ -754,49 +769,79 @@ Absolute path based on the input path segments
 
 #### Properties
 
-| Property | Type       | Description | Source                                              |
-| :------- | :--------- | :---------- | :-------------------------------------------------- |
-| `links`  | `Object`[] | -           | node_modules/graph-data-structure/dist/index.d.ts:8 |
-| `nodes`  | `Object`[] | -           | node_modules/graph-data-structure/dist/index.d.ts:5 |
+| Property | Type                                                               |
+| :------- | :----------------------------------------------------------------- |
+| `links`  | \{ `source`: `string`; `target`: `string`; `weight`: `number`; }[] |
+| `nodes`  | \{ `id`: `string`; }[]                                             |
 
 ## Type Aliases
 
 ### PackageJson
 
 ```ts
-type PackageJson: Object;
+type PackageJson: {
+  alias: string[];
+  author: string | Person;
+  bin: string | Record<string, string>;
+  bugs: {
+     email: string;
+     url: string;
+  };
+  bundleDependencies: string[];
+  contributors: (Person | string)[];
+  dependencies: Record<string, string>;
+  description: string;
+  devDependencies: Record<string, string>;
+  engines: Record<string, string>;
+  files: string[];
+  homepage: string;
+  keywords: string[];
+  license: string;
+  main: string;
+  name: string;
+  optionalDependencies: string[];
+  os: string[];
+  overrides: Record<string, string>;
+  packageManager: string;
+  peerDependencies: Record<string, string>;
+  peerDependenciesMeta: Record<string, {
+     optional: boolean;
+  }>;
+  scripts: Record<string, string>;
+  version: string;
+};
 ```
 
 #### Type declaration
 
-| Member                 | Type                                       | Description |
-| :--------------------- | :----------------------------------------- | :---------- |
-| `alias`                | `string`[]                                 | -           |
-| `author`               | `string` \| [`Person`](#person)            | -           |
-| `bin`                  | `string` \| `Record`\<`string`, `string`\> | -           |
-| `bugs`                 | `Object`                                   | -           |
-| `bugs.email`           | `string`                                   | -           |
-| `bugs.url`             | `string`                                   | -           |
-| `bundleDependencies`   | `string`[]                                 | -           |
-| `contributors`         | ([`Person`](#person) \| `string`)[]        | -           |
-| `dependencies`         | `Record`\<`string`, `string`\>             | -           |
-| `description`          | `string`                                   | -           |
-| `devDependencies`      | `Record`\<`string`, `string`\>             | -           |
-| `engines`              | `Record`\<`string`, `string`\>             | -           |
-| `files`                | `string`[]                                 | -           |
-| `homepage`             | `string`                                   | -           |
-| `keywords`             | `string`[]                                 | -           |
-| `license`              | `string`                                   | -           |
-| `main`                 | `string`                                   | -           |
-| `name`                 | `string`                                   | -           |
-| `optionalDependencies` | `string`[]                                 | -           |
-| `os`                   | `string`[]                                 | -           |
-| `overrides`            | `Record`\<`string`, `string`\>             | -           |
-| `packageManager`       | `string`                                   | -           |
-| `peerDependencies`     | `Record`\<`string`, `string`\>             | -           |
-| `peerDependenciesMeta` | `Record`\<`string`, `Object`\>             | -           |
-| `scripts`              | `Record`\<`string`, `string`\>             | -           |
-| `version`              | `string`                                   | -           |
+| Member                 | Type                                              | Description |
+| :--------------------- | :------------------------------------------------ | :---------- |
+| `alias`                | `string`[]                                        | -           |
+| `author`               | `string` \| [`Person`](#person)                   | -           |
+| `bin`                  | `string` \| `Record`\<`string`, `string`\>        | -           |
+| `bugs`                 | \{ `email`: `string`; `url`: `string`; }          | -           |
+| `bugs.email`           | `string`                                          | -           |
+| `bugs.url`             | `string`                                          | -           |
+| `bundleDependencies`   | `string`[]                                        | -           |
+| `contributors`         | ([`Person`](#person) \| `string`)[]               | -           |
+| `dependencies`         | `Record`\<`string`, `string`\>                    | -           |
+| `description`          | `string`                                          | -           |
+| `devDependencies`      | `Record`\<`string`, `string`\>                    | -           |
+| `engines`              | `Record`\<`string`, `string`\>                    | -           |
+| `files`                | `string`[]                                        | -           |
+| `homepage`             | `string`                                          | -           |
+| `keywords`             | `string`[]                                        | -           |
+| `license`              | `string`                                          | -           |
+| `main`                 | `string`                                          | -           |
+| `name`                 | `string`                                          | -           |
+| `optionalDependencies` | `string`[]                                        | -           |
+| `os`                   | `string`[]                                        | -           |
+| `overrides`            | `Record`\<`string`, `string`\>                    | -           |
+| `packageManager`       | `string`                                          | -           |
+| `peerDependencies`     | `Record`\<`string`, `string`\>                    | -           |
+| `peerDependenciesMeta` | `Record`\<`string`, \{ `optional`: `boolean`; }\> | -           |
+| `scripts`              | `Record`\<`string`, `string`\>                    | -           |
+| `version`              | `string`                                          | -           |
 
 #### Source
 
@@ -807,7 +852,9 @@ type PackageJson: Object;
 ### PackageJsonWithLocation
 
 ```ts
-type PackageJsonWithLocation: PackageJson & Object;
+type PackageJsonWithLocation: PackageJson & {
+  location: string;
+};
 ```
 
 #### Type declaration
@@ -825,7 +872,11 @@ type PackageJsonWithLocation: PackageJson & Object;
 ### Person
 
 ```ts
-type Person: Object;
+type Person: {
+  email: string;
+  name: string;
+  url: string;
+};
 ```
 
 #### Type declaration
@@ -845,7 +896,11 @@ type Person: Object;
 ### PrivatePackageJson
 
 ```ts
-type PrivatePackageJson: PackageJson & Object;
+type PrivatePackageJson: PackageJson & {
+  license: "UNLICENSED";
+  private: true;
+  workspaces: string[];
+};
 ```
 
 #### Type declaration
@@ -865,7 +920,10 @@ type PrivatePackageJson: PackageJson & Object;
 ### PublicPackageJson
 
 ```ts
-type PublicPackageJson: PackageJson & Object;
+type PublicPackageJson: PackageJson & {
+  private: false;
+  publishConfig: PublishConfig;
+};
 ```
 
 #### Type declaration
@@ -884,7 +942,10 @@ type PublicPackageJson: PackageJson & Object;
 ### PublishConfig
 
 ```ts
-type PublishConfig: Object;
+type PublishConfig: {
+[key: string]: unknown;   access: "public" | "restricted";
+  registry: string;
+};
 ```
 
 #### Index signature
@@ -907,7 +968,11 @@ type PublishConfig: Object;
 ### WorkspaceConfig
 
 ```ts
-type WorkspaceConfig: Object;
+type WorkspaceConfig: {
+  codeowners: Codeowners;
+  root: never;
+  tasks: TaskConfig;
+};
 ```
 
 #### Type declaration
@@ -927,7 +992,11 @@ type WorkspaceConfig: Object;
 ### DependencyType
 
 ```ts
-const DependencyType: Object;
+const DependencyType: {
+	DEV: 2;
+	PEER: 1;
+	PROD: 3;
+};
 ```
 
 #### Type declaration
@@ -988,7 +1057,9 @@ type TaskConfig<L>: Partial<Record<Lifecycle | L, Tasks>>;
 
 #### Type parameters
 
-• **L** extends `string` = `never`
+| Type parameter       | Value   |
+| :------------------- | :------ |
+| `L` extends `string` | `never` |
 
 #### Source
 
@@ -999,7 +1070,11 @@ type TaskConfig<L>: Partial<Record<Lifecycle | L, Tasks>>;
 ### TaskDef
 
 ```ts
-type TaskDef: Object;
+type TaskDef: {
+  cmd: string | string[];
+  match: string | string[];
+  meta: Record<string, unknown>;
+};
 ```
 
 #### Type declaration
@@ -1019,7 +1094,10 @@ type TaskDef: Object;
 ### Tasks
 
 ```ts
-type Tasks: Object;
+type Tasks: {
+  parallel: Task[];
+  serial: Task[];
+};
 ```
 
 #### Type declaration

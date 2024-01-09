@@ -28,7 +28,9 @@ Include the `changesets` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -40,12 +42,12 @@ export default {
 };
 ```
 
-**Source:** [changesets/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/changesets/src/index.ts#L36)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  name: string | string[];
+};
 ```
 
 #### Example
@@ -67,8 +69,6 @@ export default {
 | Member | Type                   | Description |
 | :----- | :--------------------- | :---------- |
 | `name` | `string` \| `string`[] | -           |
-
-**Source:** [changesets/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/changesets/src/index.ts#L19)
 
 {/* end-install-typedoc */}
 

@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<822527cd208caca0b7d6c0ddbbe08dea>> -->
+<!-- @generated SignedSource<<852f13e392a0deea3a4f9ade9290b310>> -->
 
 Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
 
@@ -44,7 +44,9 @@ $ one mycommand --workspaces ws-1 ws-2
 ### FileGetterOptions
 
 ```ts
-type FileGetterOptions: GetterOptions & Object;
+type FileGetterOptions: GetterOptions & {
+  affectedThreshold: number;
+};
 ```
 
 #### Type declaration
@@ -62,7 +64,11 @@ type FileGetterOptions: GetterOptions & Object;
 ### Staged
 
 ```ts
-type Staged: Object;
+type Staged: {
+  from: never;
+  staged: true;
+  through: never;
+};
 ```
 
 #### Type declaration
@@ -82,7 +88,11 @@ type Staged: Object;
 ### Through
 
 ```ts
-type Through: Object;
+type Through: {
+  from: string;
+  staged: false;
+  through: string;
+};
 ```
 
 #### Type declaration
@@ -117,11 +127,15 @@ See [`WithAffected`](#withaffected-1) for type safety.
 
 #### Type parameters
 
-• **T**
+| Type parameter |
+| :------------- |
+| `T`            |
 
 #### Parameters
 
-• **yargs**: `Yargs`\<`T`\>
+| Parameter | Type           |
+| :-------- | :------------- |
+| `yargs`   | `Yargs`\<`T`\> |
 
 #### Returns
 
@@ -153,7 +167,9 @@ export const builder = (yargs) => builders.withAllInputs(yargs);
 
 #### Parameters
 
-• **yargs**: `Yargs`\<[`DefaultArgv`](../../#defaultargv)\>
+| Parameter | Type                                           |
+| :-------- | :--------------------------------------------- |
+| `yargs`   | `Yargs`\<[`DefaultArgv`](../../#defaultargv)\> |
 
 #### Returns
 
@@ -183,11 +199,15 @@ export const builder = (yargs) => builders.withFiles(yargs);
 
 #### Type parameters
 
-• **T**
+| Type parameter |
+| :------------- |
+| `T`            |
 
 #### Parameters
 
-• **yargs**: `Yargs`\<`T`\>
+| Parameter | Type           |
+| :-------- | :------------- |
+| `yargs`   | `Yargs`\<`T`\> |
 
 #### Returns
 
@@ -218,11 +238,15 @@ export const builder = (yargs) => builders.withWorkspaces(yargs);
 
 #### Type parameters
 
-• **T**
+| Type parameter |
+| :------------- |
+| `T`            |
 
 #### Parameters
 
-• **yargs**: `Yargs`\<`T`\>
+| Parameter | Type           |
+| :-------- | :------------- |
+| `yargs`   | `Yargs`\<`T`\> |
 
 #### Returns
 
@@ -237,7 +261,12 @@ export const builder = (yargs) => builders.withWorkspaces(yargs);
 ### WithAffected
 
 ```ts
-type WithAffected: Object;
+type WithAffected: {
+  affected: boolean;
+  from-ref: string;
+  staged: boolean;
+  through-ref: string;
+};
 ```
 
 To be paired with the [`builders.withAffected`](#withaffected). Adds types for arguments parsed.
@@ -292,7 +321,9 @@ export const builder: Builder<Argv> = (yargs) => builders.withAllInputs(yargs);
 ### WithFiles
 
 ```ts
-type WithFiles: Object;
+type WithFiles: {
+  files: string[];
+};
 ```
 
 To be paired with the [`builders.withFiles`](#withfiles). Adds types for arguments parsed.
@@ -320,7 +351,10 @@ export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
 ### WithWorkspaces
 
 ```ts
-type WithWorkspaces: Object;
+type WithWorkspaces: {
+  all: boolean;
+  workspaces: string[];
+};
 ```
 
 To be paired with the [`builders.withWorkspaces`](#withworkspaces). Adds types for arguments parsed.
@@ -369,9 +403,10 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 
 #### Parameters
 
-• **graph**: [`Graph`](#graph)
-
-• **\_\_namedParameters?**: [`GetterOptions`](#getteroptions)
+| Parameter            | Type                              |
+| :------------------- | :-------------------------------- |
+| `graph`              | [`Graph`](#graph)                 |
+| `__namedParameters`? | [`GetterOptions`](#getteroptions) |
 
 #### Returns
 
@@ -402,11 +437,11 @@ When using this function to get affected filenames, a soft threshold is provided
 
 #### Parameters
 
-• **graph**: [`Graph`](#graph)
-
-• **argv**: [`WithAllInputs`](#withallinputs-1)
-
-• **\_\_namedParameters?**: [`FileGetterOptions`](#filegetteroptions)
+| Parameter            | Type                                      |
+| :------------------- | :---------------------------------------- |
+| `graph`              | [`Graph`](#graph)                         |
+| `argv`               | [`WithAllInputs`](#withallinputs-1)       |
+| `__namedParameters`? | [`FileGetterOptions`](#filegetteroptions) |
 
 #### Returns
 
@@ -459,11 +494,11 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 
 #### Parameters
 
-• **graph**: [`Graph`](#graph)
-
-• **argv**: [`WithAllInputs`](#withallinputs-1)
-
-• **\_\_namedParameters?**: [`GetterOptions`](#getteroptions)
+| Parameter            | Type                                |
+| :------------------- | :---------------------------------- |
+| `graph`              | [`Graph`](#graph)                   |
+| `argv`               | [`WithAllInputs`](#withallinputs-1) |
+| `__namedParameters`? | [`GetterOptions`](#getteroptions)   |
 
 #### Returns
 
@@ -490,7 +525,10 @@ type Argv: WithAllInputs;
 ### GetterOptions
 
 ```ts
-type GetterOptions: Through | Staged & Object;
+type GetterOptions: Through | Staged & {
+  ignore: string[];
+  step: LogStep;
+};
 ```
 
 #### Type declaration

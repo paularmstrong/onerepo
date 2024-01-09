@@ -26,7 +26,9 @@ Include the `vitest` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -38,12 +40,13 @@ export default {
 };
 ```
 
-**Source:** [vitest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/vitest/src/index.ts#L38)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  config: string;
+  name: string | string[];
+};
 ```
 
 #### Example
@@ -64,8 +67,6 @@ setup({
 | :------- | :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
 | `config` | `string`               | -                                                                                                                                           |
 | `name`   | `string` \| `string`[] | The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers. |
-
-**Source:** [vitest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/vitest/src/index.ts#L17)
 
 {/* end-install-typedoc */}
 

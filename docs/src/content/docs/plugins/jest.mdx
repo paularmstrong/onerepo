@@ -39,7 +39,9 @@ Include the `jest` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -51,12 +53,13 @@ export default {
 };
 ```
 
-**Source:** [jest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/jest/src/index.ts#L47)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  config: string;
+  name: string | string[];
+};
 ```
 
 #### Example
@@ -77,8 +80,6 @@ export default {
 | :------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `config` | `string`               | Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.<br /><br />**Example**<br />`js jest({ 	config: 'configs/jest/config.js' }); ` |
 | `name`   | `string` \| `string`[] | Rename the default command name.                                                                                                                                                                                |
-
-**Source:** [jest/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/jest/src/index.ts#L17)
 
 {/* end-install-typedoc */}
 

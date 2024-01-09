@@ -26,7 +26,9 @@ Include the `typescript` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -38,12 +40,14 @@ export default {
 };
 ```
 
-**Source:** [typescript/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/typescript/src/index.ts#L45)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  name: string;
+  tsconfig: string;
+  useProjectReferences: boolean;
+};
 ```
 
 #### Example
@@ -65,8 +69,6 @@ export default {
 | `name`                 | `string`  | The name of the typescript command.                                                                                                                                                                 |
 | `tsconfig`             | `string`  | Use a different filename thant he default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.             |
 | `useProjectReferences` | `boolean` | Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig |
-
-**Source:** [typescript/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/typescript/src/index.ts#L17)
 
 {/* end-install-typedoc */}
 

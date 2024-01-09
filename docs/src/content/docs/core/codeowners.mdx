@@ -56,14 +56,14 @@ The following providers are currently enabled:
 {/* start-usage-typedoc */}
 
 ```ts
-type Options: Object;
+type Options: {
+  provider: Providers;
+};
 ```
 
 Full configuration options for the Codeowners core command.
 
 #### Example
-
-Configuration
 
 ```ts title="./onerepo.config.ts"
 export default {
@@ -80,10 +80,6 @@ export default {
 | Member     | Type        | Description                                                                                                                     |
 | :--------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | `provider` | `Providers` | Repository host/provider. This determines where and how codeowners files will be written<br /><br />**Default**<br />`'github'` |
-
-#### Source
-
-index.d.ts:18
 
 {/* end-usage-typedoc */}
 

@@ -26,7 +26,9 @@ Include the `eslint` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -38,12 +40,15 @@ export default {
 };
 ```
 
-**Source:** [eslint/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/eslint/src/index.ts#L49)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  extensions: string[];
+  githubAnnotate: boolean;
+  name: string | string[];
+  quiet: boolean;
+};
 ```
 
 #### Example
@@ -66,8 +71,6 @@ export default {
 | `githubAnnotate` | `boolean`              | When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface. |
 | `name`           | `string` \| `string`[] | The name of the eslint command. You might change this to `'lint'` or `['lint', 'eslint']` to keep things more familiar for most developers.   |
 | `quiet`          | `boolean`              | Control the ESLint setting default to suppress warnings and only report errors.                                                               |
-
-**Source:** [eslint/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/eslint/src/index.ts#L17)
 
 {/* end-install-typedoc */}
 
