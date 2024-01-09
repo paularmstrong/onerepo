@@ -43,7 +43,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/inquirer": "^9.0.3",
+		"@types/inquirer": "^9.0.7",
 		"onerepo": "workspace:^",
 		"typescript": "^5.3.3"
 	},

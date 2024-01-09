@@ -20,19 +20,20 @@ import type { Node } from 'unist';
 import type { Docs, Option, Positional } from './yargs';
 
 const parser = unified().use(remarkParser);
-const { parse } = parser;
+const parse = parser.parse.bind(parser);
 
 export function toMarkdown(docs: Docs, headingLevel: number = 2) {
 	const ast = command(docs, headingLevel);
-
 	const processor = unified().use(gfm).use(stringify, {
 		bullet: '-',
 		fence: '`',
 		fences: true,
 		incrementListMarker: false,
 	});
-
-	return processor.stringify(root(ast));
+	return processor.stringify(
+		// @ts-expect-error unist v11 broke things
+		root(ast),
+	);
 }
 
 function command(cmd: Docs, depth: number, includeBreak: boolean = false): Array<Node> {
@@ -83,7 +84,6 @@ function description(cmd: Docs): Array<Node> {
 		return [];
 	}
 
-	// @ts-expect-error the unified types lie
 	return parse(cmd.description)?.children ?? [];
 }
 
@@ -92,13 +92,7 @@ function epilogue(cmd: Docs): Array<Node> {
 		return [];
 	}
 
-	return cmd.epilogue
-		.map(
-			(ep) =>
-				// @ts-expect-error the unified types lie
-				parse(ep)?.children ?? [],
-		)
-		.flat();
+	return cmd.epilogue.map((ep) => parse(ep)?.children ?? []).flat();
 }
 
 function usage(cmd: Docs): Array<Node> {
@@ -186,10 +180,13 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 								]),
 							].flat(),
 						),
-						tableCell(typeAndDefault(opt)),
 						tableCell(
-							// @ts-expect-error the unified types lie
-							parse(opt.description || '')?.children || [],
+							// @ts-expect-error unist v11 broke things
+							typeAndDefault(opt),
+						),
+						tableCell(
+							// @ts-expect-error unist v11 broke things
+							parse(opt.description ?? '')?.children || [],
 						),
 						tableCell(opt.required ? text('✅') : text('')),
 					]),
@@ -217,6 +214,12 @@ function typeAndDefault(opt: Option | Positional): Array<Node> {
 
 function examples(cmd: Docs): Array<Node> {
 	return Object.entries(cmd.examples)
-		.map(([ex, description]) => [paragraph(parse(description)), code('sh', ex)])
+		.map(([ex, description]) => [
+			paragraph(
+				// @ts-expect-error unist v11 broke things
+				parse(description),
+			),
+			code('sh', ex),
+		])
 		.flat() as Array<Node>;
 }

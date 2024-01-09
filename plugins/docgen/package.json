@@ -29,10 +29,10 @@
 		"jiti": "^1.21.0",
 		"mdast-builder": "^1.1.1",
 		"onerepo": "0.15.4",
-		"remark-gfm": "^3.0.1",
-		"remark-parse": "^10.0.1",
-		"remark-stringify": "^10.0.2",
-		"unified": "^10.1.2"
+		"remark-gfm": "^4.0.0",
+		"remark-parse": "^11.0.0",
+		"remark-stringify": "^11.0.0",
+		"unified": "^11.0.4"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
