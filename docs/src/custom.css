@@ -123,9 +123,13 @@ code {
 	display: inline-flex;
 	border-width: 1px;
 	border-style: solid;
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	gap: 0.125rem;
+}
+
+.tags .tag {
+	display: flex;
 }
 
 .tag.info {
