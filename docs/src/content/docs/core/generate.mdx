@@ -106,7 +106,9 @@ Please see the [inquirer documentation](https://github.com/SBoudrias/Inquirer.js
 {/* start-usage-typedoc */}
 
 ```ts
-type Options: Object;
+type Options: {
+  templatesDir: string;
+};
 ```
 
 Full configuration options for the Generate core command.
@@ -116,10 +118,6 @@ Full configuration options for the Generate core command.
 | Member         | Type     | Description                    |
 | :------------- | :------- | :----------------------------- |
 | `templatesDir` | `string` | Folder path to find templates. |
-
-#### Source
-
-index.d.ts:6
 
 {/* end-usage-typedoc */}
 

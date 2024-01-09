@@ -16,6 +16,7 @@
 		"noImplicitThis": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
+		"sourceMap": true,
 		"strict": true,
 		"target": "es2022",
 		"types": ["node", "vitest/globals"]

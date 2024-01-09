@@ -90,7 +90,8 @@ code {
 }
 
 .sl-markdown-content .expressive-code pre,
-.sl-markdown-content code {
+.sl-markdown-content code,
+.sl-markdown-content .starlight-aside {
 	border-radius: 0.25rem;
 }
 

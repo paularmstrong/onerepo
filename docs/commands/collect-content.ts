@@ -112,7 +112,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		});
 		const sourceFixed = contents
 			.replace(/^#+ Returns[^#]+/gm, '')
-			.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${shortName}/$1.ts]`)
+			.replace(/^#+ Source\n\n[^\n]+/gm, '')
 			// fix URLs to not point to /name.md
 			.replace(new RegExp(`${shortName}.md#`, 'g'), '#');
 
@@ -197,9 +197,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
 			await file.writeSafe(
 				docs.resolve(`src/content/docs/core/${cmd}.mdx`),
-				contents
-					.replace(/[^]+#+ Options/gm, '')
-					.replace(/^#+ Source\n\n\[([a-zA-z]+)\.ts:\d+\]/gm, `**Source:** [${cmd}/$1.ts]`),
+				contents.replace(/[^]+#+ Options/gm, '').replace(/^#+ Source\n\n[^\n]+/gm, ''),
 				{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
 			);
 		}

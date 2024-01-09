@@ -35,7 +35,7 @@
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",
 		"prettier": "^3.0.0",
-		"typescript": "^5.0.4",
+		"typescript": "^5.3.3",
 		"vitest": "^1.1.1"
 	},
 	"engines": {

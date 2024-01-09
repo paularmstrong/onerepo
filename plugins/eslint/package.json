@@ -39,7 +39,7 @@
 		"eslint": "^8.38.0",
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",
-		"typescript": "^5.0.4"
+		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
 		"eslint": "^8"

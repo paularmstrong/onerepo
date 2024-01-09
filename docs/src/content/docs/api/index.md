@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<782daf606be9d5ef24b225857954b63c>> -->
+<!-- @generated SignedSource<<a0f95cbbd7680f3b94ffc6564f93d54d>> -->
 
 ## Namespaces
 
@@ -52,9 +52,9 @@ Helper for combining local parsed arguments along with the default arguments pro
 
 #### Type parameters
 
-• **CommandArgv** = `object`
-
-Arguments that will be parsed for this command, always a union with [`DefaultArgv`](#defaultargv) and [`PositionalArgv`](#positionalargv).
+| Type parameter | Value    | Description                                                                                                                                |
+| :------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `CommandArgv`  | `object` | Arguments that will be parsed for this command, always a union with [`DefaultArgv`](#defaultargv) and [`PositionalArgv`](#positionalargv). |
 
 #### Source
 
@@ -68,25 +68,9 @@ Arguments that will be parsed for this command, always a union with [`DefaultArg
 type Builder<CommandArgv>: (yargs) => Yargv<CommandArgv>;
 ```
 
-#### Type parameters
-
-• **CommandArgv** = `object`
-
-Arguments that will be parsed for this command
-
 Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.
 
 For common arguments that work in conjunction with [`HandlerExtra`](#handlerextra) methods like `getAffected()`, you can use helpers from the [! | `builders` namespace](namespaces/builders/), like [!withAffected | `builders.withAffected()`](namespaces/builders/).
-
-#### Parameters
-
-• **yargs**: `Yargs`
-
-The Yargs instance. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule)
-
-#### Returns
-
-`Yargv`\<`CommandArgv`\>
 
 #### Example
 
@@ -107,6 +91,22 @@ export const builder: Builder<Argv> = (yargs) =>
 - [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
 - Common extensions via the [`builders`](namespaces/builders/) namespace.
 
+#### Type parameters
+
+| Type parameter | Value    | Description                                    |
+| :------------- | :------- | :--------------------------------------------- |
+| `CommandArgv`  | `object` | Arguments that will be parsed for this command |
+
+#### Parameters
+
+| Parameter | Type    | Description                                                                                               |
+| :-------- | :------ | :-------------------------------------------------------------------------------------------------------- |
+| `yargs`   | `Yargs` | The Yargs instance. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) |
+
+#### Returns
+
+`Yargv`\<`CommandArgv`\>
+
 #### Source
 
 [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts#L194)
@@ -116,7 +116,12 @@ export const builder: Builder<Argv> = (yargs) =>
 ### DefaultArgv
 
 ```ts
-type DefaultArgv: Object;
+type DefaultArgv: {
+  dry-run: boolean;
+  silent: boolean;
+  skip-engine-check: boolean;
+  verbosity: number;
+};
 ```
 
 Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#buildercommandargv) and [`Handler`](#handlercommandargv).
@@ -142,23 +147,7 @@ Default arguments provided globally for all commands. These arguments are includ
 type Handler<CommandArgv>: (argv, extra) => Promise<void>;
 ```
 
-#### Type parameters
-
-• **CommandArgv** = `object`
-
-Arguments that will be parsed for this command. DefaultArguments will be automatically merged into this object for use within the handler.
-
 Command handler that includes oneRepo tools like `graph`, `logger`, and more. This function is type-safe if `Argv` is correctly passed through to the type definition.
-
-#### Parameters
-
-• **argv**: [`Argv`](#argvcommandargv)\<`CommandArgv`\>
-
-• **extra**: [`HandlerExtra`](#handlerextra)
-
-#### Returns
-
-`Promise`\<`void`\>
 
 #### Example
 
@@ -178,6 +167,23 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 - [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
 - [`HandlerExtra`](#handlerextra) for extended extra arguments provided above and beyond the scope of Yargs.
 
+#### Type parameters
+
+| Type parameter | Value    | Description                                                                                                                                |
+| :------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `CommandArgv`  | `object` | Arguments that will be parsed for this command. DefaultArguments will be automatically merged into this object for use within the handler. |
+
+#### Parameters
+
+| Parameter | Type                                        |
+| :-------- | :------------------------------------------ |
+| `argv`    | [`Argv`](#argvcommandargv)\<`CommandArgv`\> |
+| `extra`   | [`HandlerExtra`](#handlerextra)             |
+
+#### Returns
+
+`Promise`\<`void`\>
+
 #### Source
 
 [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts#L217)
@@ -187,14 +193,18 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 ### HandlerExtra
 
 ```ts
-type HandlerExtra: Object;
+type HandlerExtra: {
+  getAffected: (opts?) => Promise<Workspace[]>;
+  getFilepaths: (opts?) => Promise<string[]>;
+  getWorkspaces: (opts?) => Promise<Workspace[]>;
+  graph: Graph;
+  logger: Logger;
+};
 ```
 
 Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
 
 #### Example
-
-All extras are available as the second argument on your [`Handler`](#handlercommandargv)
 
 ```ts
 export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace, logger }) => {
@@ -204,8 +214,6 @@ export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace
 
 #### Example
 
-Overriding the affected threshold in `getFilepaths`
-
 ```ts
 export const handler: Handler = (argv, { getFilepaths }) => {
 	const filepaths = await getFilepaths({ affectedThreshold: 0 });
@@ -214,13 +222,13 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 
 #### Type declaration
 
-| Member          | Type                                                                   | Description                                                                                                                                                             |
-| :-------------- | :--------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `getAffected`   | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | -                                                                                                                                                                       |
-| `getFilepaths`  | (`opts`?) => `Promise`\<`string`[]\>                                   | -                                                                                                                                                                       |
-| `getWorkspaces` | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | -                                                                                                                                                                       |
-| `graph`         | [`Graph`](namespaces/graph/#graph)                                     | The full monorepo [`graph.Graph`](namespaces/graph/#graph).                                                                                                             |
-| `logger`        | [`Logger`](#logger)                                                    | Standard [`Logger`](#logger). This should _always_ be used in place of `console.log` methods unless you have<br />a specific need to write to standard out differently. |
+| Member          | Type                                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :-------------- | :--------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getAffected`   | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | Get the affected workspaces based on the current state of the repository.<br /><br />This is a wrapped implementation of [`builders.getAffected`](namespaces/builders/#getaffected) that does not require passing the `graph` argument.                                                                                                                                                                                                                                                                                                                                     |
+| `getFilepaths`  | (`opts`?) => `Promise`\<`string`[]\>                                   | Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by [`builders.withFiles`](namespaces/builders/#withfiles) if provided.<br /><br />This is a wrapped implementation of [`builders.getFilepaths`](namespaces/builders/#getfilepaths) that does not require the `graph` and `argv` arguments.<br /><br />**Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit. |
+| `getWorkspaces` | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | Get the affected workspaces based on the current inputs and the state of the repository.<br />This function differs from `getAffected` in that it respects all input arguments provided by<br />[`builders.withWorkspaces`](namespaces/builders/#withworkspaces), [`builders.withFiles`](namespaces/builders/#withfiles) and [`builders.withAffected`](namespaces/builders/#withaffected).<br /><br />This is a wrapped implementation of [`builders.getWorkspaces`](namespaces/builders/#getworkspaces) that does not require the `graph` and `argv` arguments.            |
+| `graph`         | [`Graph`](namespaces/graph/#graph)                                     | The full monorepo [`graph.Graph`](namespaces/graph/#graph).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `logger`        | [`Logger`](#logger)                                                    | Standard [`Logger`](#logger). This should _always_ be used in place of `console.log` methods unless you have<br />a specific need to write to standard out differently.                                                                                                                                                                                                                                                                                                                                                                                                     |
 
 #### Source
 
@@ -231,7 +239,11 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 ### PositionalArgv
 
 ```ts
-type PositionalArgv: Object;
+type PositionalArgv: {
+  $0: string;
+  --: string[];
+  _: (string | number)[];
+};
 ```
 
 Always present in Builder and Handler arguments as parsed by Yargs.
@@ -253,14 +265,14 @@ Always present in Builder and Handler arguments as parsed by Yargs.
 ### CodeownersOptions
 
 ```ts
-type CodeownersOptions: Object;
+type CodeownersOptions: {
+  provider: Providers;
+};
 ```
 
 Full configuration options for the Codeowners core command.
 
 #### Example
-
-Configuration
 
 ```ts title="./onerepo.config.ts"
 export default {
@@ -287,7 +299,12 @@ export default {
 ### CoreConfig
 
 ```ts
-type CoreConfig: Object;
+type CoreConfig: {
+  codeowners: CodeownersOptions;
+  generate: GenerateOptions;
+  graph: GraphOptions;
+  tasks: TasksOptions;
+};
 ```
 
 #### Type declaration
@@ -308,7 +325,9 @@ type CoreConfig: Object;
 ### GenerateOptions
 
 ```ts
-type GenerateOptions: Object;
+type GenerateOptions: {
+  templatesDir: string;
+};
 ```
 
 Full configuration options for the Generate core command.
@@ -328,7 +347,10 @@ Full configuration options for the Generate core command.
 ### GraphOptions
 
 ```ts
-type GraphOptions: Object;
+type GraphOptions: {
+  customSchema: string;
+  dependencies: "loose" | "off";
+};
 ```
 
 Full configuration options for the Graph core command.
@@ -349,7 +371,11 @@ Full configuration options for the Graph core command.
 ### GraphSchemaValidators
 
 ```ts
-type GraphSchemaValidators: Record<string, Record<string, Schema & Object | (workspace, graph) => Schema & Object>>;
+type GraphSchemaValidators: Record<string, Record<string, Schema & {
+  $required: boolean;
+  } | (workspace, graph) => Schema & {
+  $required: boolean;
+}>>;
 ```
 
 Definition for `graph verify` JSON schema validators.
@@ -396,16 +422,20 @@ type Plugin: PluginObject | (config) => PluginObject;
 ### PluginObject
 
 ```ts
-type PluginObject: Object;
+type PluginObject: {
+  shutdown: (argv) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
+  startup: (argv) => Promise<void> | void;
+  yargs: (yargs, visitor) => Yargs;
+};
 ```
 
 #### Type declaration
 
-| Member     | Type                                                                                                            | Description |
-| :--------- | :-------------------------------------------------------------------------------------------------------------- | :---------- |
-| `shutdown` | (`argv`) => `Promise`\<`Record`\<`string`, `unknown`\> \| `void`\> \| `Record`\<`string`, `unknown`\> \| `void` | -           |
-| `startup`  | (`argv`) => `Promise`\<`void`\> \| `void`                                                                       | -           |
-| `yargs`    | (`yargs`, `visitor`) => `Yargs`                                                                                 | -           |
+| Member     | Type                                                                                                            | Description                                                                                                                                                                                                                                                                                  |
+| :--------- | :-------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shutdown` | (`argv`) => `Promise`\<`Record`\<`string`, `unknown`\> \| `void`\> \| `Record`\<`string`, `unknown`\> \| `void` | Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.<br /><br />**Example**<br />`setup({ /* ... */ }) 	.then(({ run }) => run()) 	.then((shutdownResponse) => { 		console.log(shutdownResponse); 	});`                |
+| `startup`  | (`argv`) => `Promise`\<`void`\> \| `void`                                                                       | Runs before any and all commands after argument parsing. This is similar to global Yargs middleware, but guaranteed to have the fully resolved and parsed arguments.<br /><br />Use this function for setting up global even listeners like `PerformanceObserver`, `process` events, etc.    |
+| `yargs`    | (`yargs`, `visitor`) => `Yargs`                                                                                 | A function that is called with the CLI's `yargs` object and a visitor.<br />It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more. |
 
 #### Source
 
@@ -416,7 +446,15 @@ type PluginObject: Object;
 ### RootConfig
 
 ```ts
-type RootConfig: Omit<WorkspaceConfig, "root"> & Object;
+type RootConfig: Omit<WorkspaceConfig, "root"> & {
+  core: CoreConfig;
+  head: string;
+  ignoreCommands: RegExp;
+  plugins: Plugin[];
+  root: true;
+  subcommandDir: string | false;
+  tasks: TaskConfig;
+};
 ```
 
 Setup configuration for the oneRepo command-line interface.
@@ -442,7 +480,11 @@ Setup configuration for the oneRepo command-line interface.
 ### TasksOptions
 
 ```ts
-type TasksOptions: Object;
+type TasksOptions: {
+  ignore: string[];
+  lifecycles: string[];
+  stagedOnly: string[];
+};
 ```
 
 Full configuration options for the Tasks core command.
@@ -473,12 +515,12 @@ await step.end();
 
 #### Properties
 
-| Property     | Type      | Description                                                                                                                                                                     | Source                                                                                                                |
-| :----------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------- |
-| `hasError`   | `boolean` | Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step. | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts#L27) |
-| `hasInfo`    | `boolean` | Whether or not an info message has been sent to this step.                                                                                                                      | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts#L35) |
-| `hasLog`     | `boolean` | Whether or not a log message has been sent to this step.                                                                                                                        | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts#L39) |
-| `hasWarning` | `boolean` | Whether or not a warning has been sent to this step.                                                                                                                            | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts#L31) |
+| Property     | Type      | Description                                                                                                                                                                     |
+| :----------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `hasError`   | `boolean` | Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step. |
+| `hasInfo`    | `boolean` | Whether or not an info message has been sent to this step.                                                                                                                      |
+| `hasLog`     | `boolean` | Whether or not a log message has been sent to this step.                                                                                                                        |
+| `hasWarning` | `boolean` | Whether or not a warning has been sent to this step.                                                                                                                            |
 
 #### Methods
 
@@ -514,9 +556,9 @@ Extra debug logging when verbosity greater than or equal to 4.
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -536,9 +578,9 @@ Log an error. This will cause the root logger to include an error and fail a com
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -558,9 +600,9 @@ Log an informative message. Should be used when trying to convey information wit
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -580,9 +622,9 @@ General logging information. Useful for light informative debugging. Recommended
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -602,13 +644,10 @@ Log timing information between two [Node.js performance mark names](https://node
 
 ###### Parameters
 
-• **start**: `string`
-
-A `PerformanceMark` entry name
-
-• **end**: `string`
-
-A `PerformanceMark` entry name
+| Parameter | Type     | Description                    |
+| :-------- | :------- | :----------------------------- |
+| `start`   | `string` | A `PerformanceMark` entry name |
+| `end`     | `string` | A `PerformanceMark` entry name |
 
 ###### Returns
 
@@ -628,9 +667,9 @@ Log a warning. Does not have any effect on the command run, but will be called o
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -736,7 +775,9 @@ Recursively applies the new verbosity to the logger and all of its active steps.
 
 ###### Parameters
 
-• **value**: [`Verbosity`](#verbosity-1)
+| Parameter | Type                        |
+| :-------- | :-------------------------- |
+| `value`   | [`Verbosity`](#verbosity-1) |
 
 ###### Returns
 
@@ -778,13 +819,11 @@ await step.end();
 
 ###### Parameters
 
-• **name**: `string`
-
-The name to be written and wrapped around any output logged to this new step.
-
-• **\_\_namedParameters?**: `Object`
-
-• **\_\_namedParameters\.writePrefixes?**: `boolean`
+| Parameter                          | Type                             | Description                                                                   |
+| :--------------------------------- | :------------------------------- | :---------------------------------------------------------------------------- |
+| `name`                             | `string`                         | The name to be written and wrapped around any output logged to this new step. |
+| `__namedParameters`?               | \{ `writePrefixes`: `boolean`; } | -                                                                             |
+| `__namedParameters.writePrefixes`? | `boolean`                        | -                                                                             |
 
 ###### Returns
 
@@ -812,7 +851,9 @@ logger.unpause();
 
 ###### Parameters
 
-• **write?**: `boolean`
+| Parameter | Type      |
+| :-------- | :-------- |
+| `write`?  | `boolean` |
 
 ###### Returns
 
@@ -850,9 +891,9 @@ Extra debug logging when verbosity greater than or equal to 4.
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -876,9 +917,9 @@ Log an error. This will cause the root logger to include an error and fail a com
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -902,9 +943,9 @@ Should be used to convey information or instructions through the log, will log w
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -928,9 +969,9 @@ General logging information. Useful for light informative debugging. Recommended
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -954,13 +995,10 @@ Log timing information between two [Node.js performance mark names](https://node
 
 ###### Parameters
 
-• **start**: `string`
-
-A `PerformanceMark` entry name
-
-• **end**: `string`
-
-A `PerformanceMark` entry name
+| Parameter | Type     | Description                    |
+| :-------- | :------- | :----------------------------- |
+| `start`   | `string` | A `PerformanceMark` entry name |
+| `end`     | `string` | A `PerformanceMark` entry name |
 
 ###### Returns
 
@@ -984,9 +1022,9 @@ Log a warning. Does not have any effect on the command run, but will be called o
 
 ###### Parameters
 
-• **contents**: `unknown`
-
-Any value that can be converted to a string for writing to `stderr`.
+| Parameter  | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
 ###### Returns
 
@@ -1005,14 +1043,19 @@ Any value that can be converted to a string for writing to `stderr`.
 ### bufferSubLogger()
 
 ```ts
-bufferSubLogger(step): Object
+bufferSubLogger(step): {
+  end: () => Promise<void>;
+  logger: Logger;
+}
 ```
 
 Create a new Logger instance that has its output buffered up to a LogStep.
 
 #### Parameters
 
-• **step**: [`LogStep`](#logstep)
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `step`    | [`LogStep`](#logstep) |
 
 #### Returns
 
@@ -1059,7 +1102,9 @@ export const handler: Handler = (argv, { logger }) => {
 
 #### Parameters
 
-• **opts?**: `Partial`\<[`LoggerOptions`](#loggeroptions)\>
+| Parameter | Type                                           |
+| :-------- | :--------------------------------------------- |
+| `opts`?   | `Partial`\<[`LoggerOptions`](#loggeroptions)\> |
 
 #### Returns
 
@@ -1081,17 +1126,18 @@ For cases where multiple processes need to be completed, but should be joined un
 
 #### Type parameters
 
-• **T**
+| Type parameter |
+| :------------- |
+| `T`            |
 
 #### Parameters
 
-• **options**: `Object`
-
-• **options\.name**: `string`
-
-• **options\.step?**: [`LogStep`](#logstep)
-
-• **fn**: (`step`) => `Promise`\<`T`\>
+| Parameter       | Type                                                  |
+| :-------------- | :---------------------------------------------------- |
+| `options`       | \{ `name`: `string`; `step`: [`LogStep`](#logstep); } |
+| `options.name`  | `string`                                              |
+| `options.step`? | [`LogStep`](#logstep)                                 |
+| `fn`            | (`step`) => `Promise`\<`T`\>                          |
 
 #### Returns
 
@@ -1116,7 +1162,10 @@ export async function exists(filename: string, { step }: Options = {}) {
 ### LoggerOptions
 
 ```ts
-type LoggerOptions: Object;
+type LoggerOptions: {
+  stream: Writable;
+  verbosity: Verbosity;
+};
 ```
 
 #### Type declaration
@@ -1171,7 +1220,9 @@ Get the absolute path for the package manager's lock file for this repository.
 
 #### Parameters
 
-• **cwd**: `string`
+| Parameter | Type     |
+| :-------- | :------- |
+| `cwd`     | `string` |
 
 #### Returns
 
@@ -1193,7 +1244,9 @@ Get the [`PackageManager`](#packagemanager) for the given package manager type (
 
 #### Parameters
 
-• **type**: `"yarn"` \| `"npm"` \| `"pnpm"`
+| Parameter | Type                            |
+| :-------- | :------------------------------ |
+| `type`    | `"yarn"` \| `"npm"` \| `"pnpm"` |
 
 #### Returns
 
@@ -1215,13 +1268,10 @@ Get the package manager for the current working directory with _some_ confidence
 
 #### Parameters
 
-• **cwd**: `string`
-
-Current working directory. Should be the root of the module/repository.
-
-• **fromPkgJson?**: `string`
-
-Value as defined in a package.json file, typically the `packageManager` value
+| Parameter      | Type     | Description                                                                   |
+| :------------- | :------- | :---------------------------------------------------------------------------- |
+| `cwd`          | `string` | Current working directory. Should be the root of the module/repository.       |
+| `fromPkgJson`? | `string` | Value as defined in a package.json file, typically the `packageManager` value |
 
 #### Returns
 
@@ -1249,23 +1299,11 @@ Add one or more packages from external registries
 
 ###### Parameters
 
-• **packages**: `string` \| `string`[]
-
-One or more packages, by name and/or `'name@version'`.
-
-• **opts?**: `Object`
-
-Various options to pass while installing the packages
-
-• **opts\.dev?**: `boolean`
-
-Set to true to install as a `devDependency`.
-
-**Default**
-
-```ts
-false;
-```
+| Parameter   | Type                   | Description                                                                      |
+| :---------- | :--------------------- | :------------------------------------------------------------------------------- |
+| `packages`  | `string` \| `string`[] | One or more packages, by name and/or `'name@version'`.                           |
+| `opts`?     | \{ `dev`: `boolean`; } | Various options to pass while installing the packages                            |
+| `opts.dev`? | `boolean`              | Set to true to install as a `devDependency`.<br /><br />**Default**<br />`false` |
 
 ###### Returns
 
@@ -1285,7 +1323,9 @@ Batch commands from npm packages as a batch of subprocesses using the package ma
 
 ###### Parameters
 
-• **processes**: [`RunSpec`](#runspec)[]
+| Parameter   | Type                    |
+| :---------- | :---------------------- |
+| `processes` | [`RunSpec`](#runspec)[] |
 
 ###### Returns
 
@@ -1309,7 +1349,9 @@ Install current dependencies as listed in the package manager's lock file
 
 ###### Parameters
 
-• **cwd?**: `string`
+| Parameter | Type     |
+| :-------- | :------- |
+| `cwd`?    | `string` |
 
 ###### Returns
 
@@ -1329,15 +1371,11 @@ Check if the current user is logged in to the external registry
 
 ###### Parameters
 
-• **opts?**: `Object`
-
-• **opts\.registry?**: `string`
-
-The base URL of your NPM registry. PNPM and NPM ignore scope and look up per-registry.
-
-• **opts\.scope?**: `string`
-
-When using Yarn, lookups are done by registry configured by scope. This value must be included if you have separate registries for separate scopes.
+| Parameter        | Type                                          | Description                                                                                                                                         |
+| :--------------- | :-------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `opts`?          | \{ `registry`: `string`; `scope`: `string`; } | -                                                                                                                                                   |
+| `opts.registry`? | `string`                                      | The base URL of your NPM registry. PNPM and NPM ignore scope and look up per-registry.                                                              |
+| `opts.scope`?    | `string`                                      | When using Yarn, lookups are done by registry configured by scope. This value must be included if you have separate registries for separate scopes. |
 
 ###### Returns
 
@@ -1357,40 +1395,20 @@ Publish workspaces to the external registry
 
 ###### Type parameters
 
-• **T** extends [`MinimalWorkspace`](#minimalworkspace)
+| Type parameter                                      |
+| :-------------------------------------------------- |
+| `T` extends [`MinimalWorkspace`](#minimalworkspace) |
 
 ###### Parameters
 
-• **opts?**: `Object`
-
-• **opts\.access?**: `"restricted"` \| `"public"`
-
-Set the registry access level for the package
-
-**Default**
-inferred from workspaces `publishConfig.access` or `'public'`
-
-• **opts\.cwd?**: `string`
-
-Command working directory. Defaults to the repository root.
-
-• **opts\.otp?**: `string`
-
-This is a one-time password from a two-factor authenticator.
-
-• **opts\.tag?**: `string`
-
-If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.
-
-**Default**
-
-```ts
-'latest';
-```
-
-• **opts\.workspaces?**: `T`[]
-
-Workspaces to publish. If not provided or empty array, only the given workspace at `cwd` will be published. This type is generally compatible with [`graph.Workspace`](namespaces/graph/#workspace).
+| Parameter          | Type                                                                                                                 | Description                                                                                                                                                                                          |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `opts`?            | \{ `access`: `"restricted"` \| `"public"`; `cwd`: `string`; `otp`: `string`; `tag`: `string`; `workspaces`: `T`[]; } | -                                                                                                                                                                                                    |
+| `opts.access`?     | `"restricted"` \| `"public"`                                                                                         | Set the registry access level for the package<br /><br />**Default**<br />inferred from workspaces `publishConfig.access` or `'public'`                                                              |
+| `opts.cwd`?        | `string`                                                                                                             | Command working directory. Defaults to the repository root.                                                                                                                                          |
+| `opts.otp`?        | `string`                                                                                                             | This is a one-time password from a two-factor authenticator.                                                                                                                                         |
+| `opts.tag`?        | `string`                                                                                                             | If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.<br /><br />**Default**<br />`'latest'`                                             |
+| `opts.workspaces`? | `T`[]                                                                                                                | Workspaces to publish. If not provided or empty array, only the given workspace at `cwd` will be published. This type is generally compatible with [`graph.Workspace`](namespaces/graph/#workspace). |
 
 ###### Returns
 
@@ -1410,13 +1428,15 @@ Filter workspaces to the set of those that are actually publishable. This will c
 
 ###### Type parameters
 
-• **T** extends [`MinimalWorkspace`](#minimalworkspace)
+| Type parameter                                      |
+| :-------------------------------------------------- |
+| `T` extends [`MinimalWorkspace`](#minimalworkspace) |
 
 ###### Parameters
 
-• **workspaces**: `T`[]
-
-List of compatible [`graph.Workspace`](namespaces/graph/#workspace) objects.
+| Parameter    | Type  | Description                                                                  |
+| :----------- | :---- | :--------------------------------------------------------------------------- |
+| `workspaces` | `T`[] | List of compatible [`graph.Workspace`](namespaces/graph/#workspace) objects. |
 
 ###### Returns
 
@@ -1436,9 +1456,9 @@ Remove one or more packages.
 
 ###### Parameters
 
-• **packages**: `string` \| `string`[]
-
-One or more packages, by name
+| Parameter  | Type                   | Description                   |
+| :--------- | :--------------------- | :---------------------------- |
+| `packages` | `string` \| `string`[] | One or more packages, by name |
 
 ###### Returns
 
@@ -1458,7 +1478,9 @@ Run a command from an npm package as a subprocess using the package manager. Alt
 
 ###### Parameters
 
-• **opts**: [`RunSpec`](#runspec)
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`RunSpec`](#runspec) |
 
 ###### Returns
 
@@ -1477,7 +1499,12 @@ Run a command from an npm package as a subprocess using the package manager. Alt
 ### MinimalWorkspace
 
 ```ts
-type MinimalWorkspace: Object;
+type MinimalWorkspace: {
+  location: string;
+  name: string;
+  private: boolean;
+  version: string;
+};
 ```
 
 #### Type declaration
@@ -1511,9 +1538,10 @@ new BatchError(errors, options?): BatchError
 
 ###### Parameters
 
-• **errors**: (`string` \| [`SubprocessError`](#subprocesserror))[]
-
-• **options?**: `ErrorOptions`
+| Parameter  | Type                                                  |
+| :--------- | :---------------------------------------------------- |
+| `errors`   | (`string` \| [`SubprocessError`](#subprocesserror))[] |
+| `options`? | `ErrorOptions`                                        |
 
 ###### Returns
 
@@ -1529,15 +1557,15 @@ new BatchError(errors, options?): BatchError
 
 #### Properties
 
-| Modifier | Property             | Type                                                  | Description | Inheritance               | Source                                                                                                                     |
-| :------- | :------------------- | :---------------------------------------------------- | :---------- | :------------------------ | :------------------------------------------------------------------------------------------------------------------------- |
-| `public` | `cause?`             | `unknown`                                             | -           | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:24                                                                       |
-| `public` | `errors`             | (`string` \| [`SubprocessError`](#subprocesserror))[] | -           | -                         | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts#L158) |
-| `public` | `message`            | `string`                                              | -           | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1076                                                                              |
-| `public` | `name`               | `string`                                              | -           | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1075                                                                              |
-| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any`                       | -           | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:28                                                                                   |
-| `public` | `stack?`             | `string`                                              | -           | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1077                                                                              |
-| `static` | `stackTraceLimit`    | `number`                                              | -           | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:30                                                                                   |
+| Modifier | Property             | Type                                                  | Description                                                                                                                        | Inherited from            |
+| :------- | :------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| `public` | `cause?`             | `unknown`                                             | -                                                                                                                                  | `Error.cause`             |
+| `public` | `errors`             | (`string` \| [`SubprocessError`](#subprocesserror))[] | -                                                                                                                                  | -                         |
+| `public` | `message`            | `string`                                              | -                                                                                                                                  | `Error.message`           |
+| `public` | `name`               | `string`                                              | -                                                                                                                                  | `Error.name`              |
+| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any`                       | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
+| `public` | `stack?`             | `string`                                              | -                                                                                                                                  | `Error.stack`             |
+| `static` | `stackTraceLimit`    | `number`                                              | -                                                                                                                                  | `Error.stackTraceLimit`   |
 
 #### Methods
 
@@ -1551,9 +1579,10 @@ Create .stack property on a target object
 
 ###### Parameters
 
-• **targetObject**: `object`
-
-• **constructorOpt?**: `Function`
+| Parameter         | Type       |
+| :---------------- | :--------- |
+| `targetObject`    | `object`   |
+| `constructorOpt`? | `Function` |
 
 ###### Returns
 
@@ -1585,9 +1614,10 @@ new SubprocessError(message, options?): SubprocessError
 
 ###### Parameters
 
-• **message**: `string`
-
-• **options?**: `ErrorOptions`
+| Parameter  | Type           |
+| :--------- | :------------- |
+| `message`  | `string`       |
+| `options`? | `ErrorOptions` |
 
 ###### Returns
 
@@ -1603,14 +1633,14 @@ new SubprocessError(message, options?): SubprocessError
 
 #### Properties
 
-| Modifier | Property             | Type                            | Description | Inheritance               | Source                                               |
-| :------- | :------------------- | :------------------------------ | :---------- | :------------------------ | :--------------------------------------------------- |
-| `public` | `cause?`             | `unknown`                       | -           | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:24 |
-| `public` | `message`            | `string`                        | -           | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1076        |
-| `public` | `name`               | `string`                        | -           | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1075        |
-| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any` | -           | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:28             |
-| `public` | `stack?`             | `string`                        | -           | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1077        |
-| `static` | `stackTraceLimit`    | `number`                        | -           | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:30             |
+| Modifier | Property             | Type                            | Description                                                                                                                        | Inherited from            |
+| :------- | :------------------- | :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| `public` | `cause?`             | `unknown`                       | -                                                                                                                                  | `Error.cause`             |
+| `public` | `message`            | `string`                        | -                                                                                                                                  | `Error.message`           |
+| `public` | `name`               | `string`                        | -                                                                                                                                  | `Error.name`              |
+| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
+| `public` | `stack?`             | `string`                        | -                                                                                                                                  | `Error.stack`             |
+| `static` | `stackTraceLimit`    | `number`                        | -                                                                                                                                  | `Error.stackTraceLimit`   |
 
 #### Methods
 
@@ -1624,9 +1654,10 @@ Create .stack property on a target object
 
 ###### Parameters
 
-• **targetObject**: `object`
-
-• **constructorOpt?**: `Function`
+| Parameter         | Type       |
+| :---------------- | :--------- |
+| `targetObject`    | `object`   |
+| `constructorOpt`? | `Function` |
 
 ###### Returns
 
@@ -1670,7 +1701,9 @@ expect(results).toEqual([
 
 #### Parameters
 
-• **processes**: ([`RunSpec`](#runspec) \| [`PromiseFn`](#promisefn))[]
+| Parameter   | Type                                                   |
+| :---------- | :----------------------------------------------------- |
+| `processes` | ([`RunSpec`](#runspec) \| [`PromiseFn`](#promisefn))[] |
 
 #### Returns
 
@@ -1710,7 +1743,9 @@ await run({
 
 #### Parameters
 
-• **options**: [`RunSpec`](#runspec)
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `options` | [`RunSpec`](#runspec) |
 
 #### Returns
 
@@ -1719,8 +1754,6 @@ await run({
 A promise with an array of `[stdout, stderr]`, as captured from the command run.
 
 #### Example
-
-**Skipping failures:**
 
 If a subprocess fails when called through `run()`, a [`SubprocessError`](#subprocesserror) will be thrown. Some third-party tooling will exit with error codes as an informational tool. While this is discouraged, there’s nothing we can do about how they’ve been chosen to work. To prevent throwing errors, but still act on the `stderr` response, include the `skipFailures` option:
 
@@ -1736,8 +1769,6 @@ logger.error(stderr);
 ```
 
 #### Example
-
-**Dry-run:**
 
 By default, `run()` will respect oneRepo’s `--dry-run` option (see [`DefaultArgv`](#defaultargv), `process.env.ONE_REPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
 
@@ -1774,7 +1805,9 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 
 #### Parameters
 
-• **options**: `Omit`\<[`RunSpec`](#runspec), `"name"` \| `"runDry"`\>
+| Parameter | Type                                                    |
+| :-------- | :------------------------------------------------------ |
+| `options` | `Omit`\<[`RunSpec`](#runspec), `"name"` \| `"runDry"`\> |
 
 #### Returns
 
@@ -1807,7 +1840,9 @@ await sudo({
 
 #### Parameters
 
-• **options**: `Omit`\<[`RunSpec`](#runspec), `"opts"`\> & `Object`
+| Parameter | Type                                                                 |
+| :-------- | :------------------------------------------------------------------- |
+| `options` | `Omit`\<[`RunSpec`](#runspec), `"opts"`\> & \{ `reason`: `string`; } |
 
 #### Returns
 
@@ -1838,7 +1873,15 @@ type PromiseFn: () => Promise<[string, string]>;
 ### RunSpec
 
 ```ts
-type RunSpec: Object;
+type RunSpec: {
+  args: string[];
+  cmd: string;
+  name: string;
+  opts: SpawnOptions;
+  runDry: boolean;
+  skipFailures: boolean;
+  step: LogStep;
+};
 ```
 
 The core configuration for [`run`](#run-1), [`start`](#start), [`sudo`](#sudo), and [`batch`](#batch-1) subprocessing.

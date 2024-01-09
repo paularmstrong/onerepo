@@ -32,7 +32,9 @@ Include the `performanceWriter` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -44,12 +46,12 @@ export default {
 };
 ```
 
-**Source:** [performance-writer/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/performance-writer/src/index.ts#L49)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  output: "temp" | string;
+};
 ```
 
 Include the `performanceWriter` plugin in your oneRepo plugin setup:
@@ -73,7 +75,5 @@ export default {
 | Member   | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                        |
 | :------- | :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `output` | `"temp"` \| `string` | Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.<br /><br />- `temp`: Writes a JSON dump of the measurement entries to a temporary file. The filepath will be returned from the `run()` call of your application.<br />- `string`: Will do the same as `'temp'`, but use this string as the filepath.<br /><br />**Default**<br />`true` |
-
-**Source:** [performance-writer/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/performance-writer/src/index.ts#L25)
 
 {/* end-install-typedoc */}

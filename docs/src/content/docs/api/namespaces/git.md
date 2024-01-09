@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<243e2ce6a4837f97bc281070e0c3eb24>> -->
+<!-- @generated SignedSource<<68d45f0e7bf643bc05222b22de1db44b>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -40,15 +40,11 @@ new StagingWorkflow(options): StagingWorkflow
 
 ###### Parameters
 
-• **options**: `Object`
-
-• **options\.graph**: [`Graph`](#graph)
-
-The repository graph
-
-• **options\.logger**: [`Logger`](../../#logger)
-
-Logger instance to use for all actions
+| Parameter        | Type                                                                  | Description                            |
+| :--------------- | :-------------------------------------------------------------------- | :------------------------------------- |
+| `options`        | \{ `graph`: [`Graph`](#graph); `logger`: [`Logger`](../../#logger); } | -                                      |
+| `options.graph`  | [`Graph`](#graph)                                                     | The repository graph                   |
+| `options.logger` | [`Logger`](../../#logger)                                             | Logger instance to use for all actions |
 
 ###### Returns
 
@@ -104,7 +100,11 @@ To restore the unstaged changes, call [`restoreUnstaged()`](#restoreunstaged).
 ### ModifiedFromThrough
 
 ```ts
-type ModifiedFromThrough: Object;
+type ModifiedFromThrough: {
+  from: string;
+  staged: false;
+  through: string;
+};
 ```
 
 #### Type declaration
@@ -124,7 +124,11 @@ type ModifiedFromThrough: Object;
 ### ModifiedStaged
 
 ```ts
-type ModifiedStaged: Object;
+type ModifiedStaged: {
+  from: never;
+  staged: true;
+  through: never;
+};
 ```
 
 #### Type declaration
@@ -144,7 +148,9 @@ type ModifiedStaged: Object;
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  step: LogStep;
+};
 ```
 
 Generic options passed to all Git operations.
@@ -175,7 +181,9 @@ const currentBranch = await git.getBranch();
 
 #### Parameters
 
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                  |
+| :------------------- | :-------------------- |
+| `__namedParameters`? | [`Options`](#options) |
 
 #### Returns
 
@@ -201,7 +209,9 @@ const sha = await git.getCurrentSha();
 
 #### Parameters
 
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                  |
+| :------------------- | :-------------------- |
+| `__namedParameters`? | [`Options`](#options) |
 
 #### Returns
 
@@ -227,7 +237,9 @@ const mergeBase = await getMergeBase();
 
 #### Parameters
 
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                  |
+| :------------------- | :-------------------- |
+| `__namedParameters`? | [`Options`](#options) |
 
 #### Returns
 
@@ -254,9 +266,10 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 
 #### Parameters
 
-• **\_\_namedParameters?**: [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough)
-
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                                                                                 |
+| :------------------- | :----------------------------------------------------------------------------------- |
+| `__namedParameters`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
+| `__namedParameters`? | [`Options`](#options)                                                                |
 
 #### Returns
 
@@ -285,7 +298,9 @@ if (!isClean) {
 
 #### Parameters
 
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                  |
+| :------------------- | :-------------------- |
+| `__namedParameters`? | [`Options`](#options) |
 
 #### Returns
 
@@ -311,9 +326,10 @@ await git.updateIndex(['tacos.ts']);
 
 #### Parameters
 
-• **paths**: `string` \| `string`[]
-
-• **\_\_namedParameters?**: [`Options`](#options)
+| Parameter            | Type                   |
+| :------------------- | :--------------------- |
+| `paths`              | `string` \| `string`[] |
+| `__namedParameters`? | [`Options`](#options)  |
 
 #### Returns
 

@@ -47,6 +47,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		name: 'Generate docs',
 		cmd: bin,
 		args: [
+			'--includeVersion',
 			'--plugin',
 			'typedoc-plugin-markdown',
 			'--entryFileName',

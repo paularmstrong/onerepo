@@ -30,7 +30,9 @@ Include the `eslint` plugin in your oneRepo plugin setup:
 
 #### Parameters
 
-• **opts**: [`Options`](#options)= `{}`
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 #### Example
 
@@ -42,12 +44,16 @@ export default {
 };
 ```
 
-**Source:** [docgen/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/docgen/src/index.ts#L76)
-
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  format: "markdown" | "json";
+  name: string | string[];
+  outFile: string;
+  outWorkspace: string;
+  safeWrite: boolean;
+};
 ```
 
 Full configuration options for the Docgen core command.
@@ -77,8 +83,6 @@ export default {
 | `outFile`      | `string`                 | If set, a file will be written by default to the given location (in the given `outWorkspace`)       |
 | `outWorkspace` | `string`                 | If `outFile` is also set, the generated documentation will be written out.                          |
 | `safeWrite`    | `boolean`                | Set to true to amend content to the given file using the file.writeSafe \| `file.writeSafe` method. |
-
-**Source:** [docgen/index.ts](https://github.com/paularmstrong/onerepo/blob/112f90d/plugins/docgen/src/index.ts#L29)
 
 {/* end-install-typedoc */}
 

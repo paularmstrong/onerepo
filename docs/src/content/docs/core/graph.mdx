@@ -28,7 +28,10 @@ setup({
 {/* start-usage-typedoc */}
 
 ```ts
-type Options: Object;
+type Options: {
+  customSchema: string;
+  dependencies: "loose" | "off";
+};
 ```
 
 Full configuration options for the Graph core command.
@@ -39,10 +42,6 @@ Full configuration options for the Graph core command.
 | :------------- | :------------------- | :------------------------------------------------------------------------ |
 | `customSchema` | `string`             | File path to a custom schema for the `verify` command.                    |
 | `dependencies` | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'` |
-
-#### Source
-
-index.d.ts:6
 
 {/* end-usage-typedoc */}
 

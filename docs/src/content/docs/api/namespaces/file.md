@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<ca5c5770cc031cfb92d8ef06a72fdf8b>> -->
+<!-- @generated SignedSource<<a0d1e598942fd0e5d8499cb6e43e0d60>> -->
 
 File manipulation functions.
 
@@ -35,7 +35,9 @@ export handler: Handler =  async () => {
 ### Options
 
 ```ts
-type Options: Object;
+type Options: {
+  step: LogStep;
+};
 ```
 
 Generic options for file functions
@@ -55,7 +57,10 @@ Generic options for file functions
 ### ReadSafeOptions
 
 ```ts
-type ReadSafeOptions: Object;
+type ReadSafeOptions: {
+  sentinel: string;
+  step: LogStep;
+};
 ```
 
 #### Type declaration
@@ -86,7 +91,10 @@ type SigningStatus: "valid" | "invalid" | "unsigned";
 ### WriteOptions
 
 ```ts
-type WriteOptions: Object;
+type WriteOptions: {
+  sign: boolean;
+  step: LogStep;
+};
 ```
 
 #### Type declaration
@@ -105,7 +113,11 @@ type WriteOptions: Object;
 ### WriteSafeOptions
 
 ```ts
-type WriteSafeOptions: Object;
+type WriteSafeOptions: {
+  sentinel: string;
+  sign: boolean;
+  step: LogStep;
+};
 ```
 
 #### Type declaration
@@ -135,19 +147,17 @@ Change file permissions
 
 #### Parameters
 
-• **filename**: `string`
-
-• **mode**: `string` \| `number`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `filename` | `string`              |
+| `mode`     | `string` \| `number`  |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`void`\>
 
 #### Example
-
-Make the file `/foo` executable.
 
 ```ts
 await file.chmod('/foo', 'a+x');
@@ -174,19 +184,17 @@ If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modif
 
 #### Parameters
 
-• **input**: `string`
-
-• **output**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `input`    | `string`              |
+| `output`   | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`void`\>
 
 #### Example
-
-Copy `/path/to/in/` to `/path/to/out/`.
 
 ```ts
 await file.copy('/path/to/in/', '/path/to/out/');
@@ -208,17 +216,16 @@ Step-wrapped `fs.existsSync` implementation.
 
 #### Parameters
 
-• **filename**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `filename` | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`boolean`\>
 
 #### Example
-
-Check whether the file `/path/to/file.ts` exists.
 
 ```ts
 await file.exists('/path/to/file.ts');
@@ -240,7 +247,9 @@ Checks whether a file is signed _without_ verifying the signature.
 
 #### Parameters
 
-• **contents**: `string`
+| Parameter  | Type     |
+| :--------- | :------- |
+| `contents` | `string` |
 
 #### Returns
 
@@ -262,9 +271,10 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 
 #### Parameters
 
-• **filename**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `filename` | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
@@ -273,8 +283,6 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 If the `filename` does not exist, `null` will be returned instead of a Stats object.
 
 #### Example
-
-Get the stats of `/path/to/file/`.
 
 ```ts
 const stat = await file.lstat('/path/to/file/');
@@ -299,17 +307,16 @@ Create a tmp directory in the os tmpdir.
 
 #### Parameters
 
-• **prefix**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `prefix`   | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`string`\>
 
 #### Example
-
-Make a temp directory with the prefix `tacos-`
 
 ```ts
 const dir = await file.makeTempDir('tacos-');
@@ -331,17 +338,16 @@ Recursively create a directory.
 
 #### Parameters
 
-• **pathname**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `pathname` | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`void`\>
 
 #### Example
-
-Make a directory (recursively) at `/path/to/something`.
 
 ```ts
 await file.mkdirp('/path/to/something');
@@ -366,19 +372,17 @@ Read the contents of a file.
 
 #### Parameters
 
-• **filename**: `string`
-
-• **flag?**: `OpenMode`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `filename` | `string`              |
+| `flag`?    | `OpenMode`            |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`string`\>
 
 #### Example
-
-Read the contents of the file `/path/to/file/`.
 
 ```ts
 const contents = await file.read('/path/to/file/');
@@ -400,9 +404,10 @@ Read a sentinel-wrapped portion of a file that was previously written with [writ
 
 #### Parameters
 
-• **filename**: `string`
-
-• **options?**: [`ReadSafeOptions`](#readsafeoptions)
+| Parameter  | Type                                  |
+| :--------- | :------------------------------------ |
+| `filename` | `string`                              |
+| `options`? | [`ReadSafeOptions`](#readsafeoptions) |
 
 #### Returns
 
@@ -430,17 +435,16 @@ Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
 
 #### Parameters
 
-• **pathname**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `pathname` | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
 `Promise`\<`void`\>
 
 #### Example
-
-Remove the path at `/path/to/something`.
 
 ```ts
 await file.remove('/path/to/something');
@@ -465,11 +469,11 @@ Sign the contents for a given file without writing out. This function is typical
 
 #### Parameters
 
-• **filename**: `string`
-
-• **contents**: `string`
-
-• **options?**: [`Options`](#options)
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `filename` | `string`              |
+| `contents` | `string`              |
+| `options`? | [`Options`](#options) |
 
 #### Returns
 
@@ -502,7 +506,9 @@ Verify the signature in a signed file.
 
 #### Parameters
 
-• **contents**: `string`
+| Parameter  | Type     |
+| :--------- | :------- |
+| `contents` | `string` |
 
 #### Returns
 
@@ -529,19 +535,17 @@ If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modif
 
 #### Parameters
 
-• **filename**: `string`
-
-• **contents**: `string`
-
-• **options?**: [`WriteOptions`](#writeoptions)
+| Parameter  | Type                            |
+| :--------- | :------------------------------ |
+| `filename` | `string`                        |
+| `contents` | `string`                        |
+| `options`? | [`WriteOptions`](#writeoptions) |
 
 #### Returns
 
 `Promise`\<`void`\>
 
 #### Example
-
-Write to `/path/to/out/`.
 
 ```ts
 await file.write('/path/to/out/', '# hello!');
@@ -566,11 +570,11 @@ Safely write contents to a file, wrapped in a start and end sentinel. This allow
 
 #### Parameters
 
-• **filename**: `string`
-
-• **contents**: `string`
-
-• **options?**: [`WriteSafeOptions`](#writesafeoptions)
+| Parameter  | Type                                    |
+| :--------- | :-------------------------------------- |
+| `filename` | `string`                                |
+| `contents` | `string`                                |
+| `options`? | [`WriteSafeOptions`](#writesafeoptions) |
 
 #### Returns
 
@@ -578,15 +582,11 @@ Safely write contents to a file, wrapped in a start and end sentinel. This allow
 
 #### Example
 
-Write to `/path/to/out/` between a section denoted by the sentinel `'some-unique-string'` while leaving the rest of the file intact.
-
 ```ts
 await file.writeSafe('/path/to/out/', '# hello', { sentinel: 'some-unique-string' });
 ```
 
 #### Example
-
-Write to a section of the file as signed content for verifying later.
 
 ```ts
 await file.writeSafe('/path/to/out/', '# hello', { signed: true });
