@@ -29,13 +29,13 @@
 		"@onerepo/logger": "0.5.0",
 		"@onerepo/subprocess": "0.6.0",
 		"eslint-formatter-onerepo": "0.1.1",
-		"minimatch": "^9.0.0"
+		"minimatch": "^9.0.3"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8.44.3",
+		"@types/eslint": "^8.56.1",
 		"eslint": "^8.38.0",
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",

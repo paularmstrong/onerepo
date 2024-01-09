@@ -9,6 +9,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"astro": "^4.0.8",
 		"clsx": "^2.0.0",
+		"eslint": "^8.38.0",
 		"eslint-plugin-astro": "^0.31.0",
 		"glob": "^10.1.0",
 		"netlify-cli": "^15.9.1",
@@ -16,7 +17,6 @@
 		"npm-to-yarn": "^2.1.0",
 		"onerepo": "0.15.4",
 		"postcss": "^8.4.22",
-		"rehype-pretty-code": "^0.10.1",
 		"typedoc": "^0.25.7",
 		"typedoc-plugin-markdown": "^4.0.0-next.39",
 		"typescript": "^5.3.3"
