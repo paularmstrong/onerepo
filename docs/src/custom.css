@@ -89,22 +89,27 @@ code {
 	}
 }
 
-.sl-markdown-content .expressive-code pre,
+/* /* .sl-markdown-content .expressive-code pre, */
 .sl-markdown-content code,
 .sl-markdown-content .starlight-aside {
 	border-radius: 0.25rem;
 }
 
-.sl-markdown-content .expressive-code .frame.has-title pre {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title {
+	border-top-color: var(--sl-color-gray-5);
+	border-right-width: 1px;
+	border-right-color: var(--sl-color-gray-5);
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sl-color-gray-5);
+	overflow: visible;
 }
 
-.sl-markdown-content .expressive-code .frame.has-title .header,
-.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title,
-.sl-markdown-content .expressive-code .frame.is-terminal .header {
-	border-top-left-radius: 0.25rem;
-	border-top-right-radius: 0.25rem;
+.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+	inset: 0 0 -1px 0;
+	border-top: none;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--sl-color-accent);
 }
 
 .tags {

@@ -7,17 +7,19 @@ meta:
   stability: stable
 ---
 
+import FileTree from '../../../components/FileTree.astro';
+
 Generate common files, folders, and workspaces from your own standard templates. Since every organization has its own needs and standards, providing a one-size-fits-all solution for scaffolding workspaces and other common files is out of scope for oneRepo. However, the `generate` core command provides a helpful way for creating your own template generators.
 
 ## Configuration
 
-First, set the location for oneRepo to look for your templates.
+First, set the location for oneRepo to look for your templates. This can be anywhere within your repository, but must be a relative path from the root configuration file.
 
 ```js {3-5} title="./onerepo.config.js"
 export default {
 	core: {
 		generate: {
-			templatesDir: './path/to/templates',
+			templatesDir: './templates',
 		},
 	},
 };
@@ -25,15 +27,10 @@ export default {
 
 In your `templatesDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`. Ensure each template directory includes a `.onegen.js` or `.onegen.cjs` file:
 
-```txt {3,7}
-templates/
-├── app/
-│   ├── .onegen.js
-│   └── package.json.ejs
-└── module/
-    ├── .onegen.js
-    └── package.json.ejs
-```
+<FileTree>
+	- repo - onerepo.config.js - package.json - templates - app - .onegen.js - package.json.ejs - module - .onegen.js -
+	package.json.ejs
+</FileTree>
 
 The `.onegen.cjs` file is a configuration file for each template directory that tells oneRepo how to handle and format the output of your workspace:
 

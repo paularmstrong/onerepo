@@ -5,7 +5,7 @@
 	"devDependencies": {
 		"@astrojs/markdown-remark": "^4.0.1",
 		"@astrojs/mdx": "^2.0.3",
-		"@astrojs/starlight": "^0.15.2",
+		"@astrojs/starlight": "^0.15.3",
 		"@internal/tsconfig": "workspace:^",
 		"astro": "^4.0.8",
 		"clsx": "^2.0.0",
@@ -20,5 +20,15 @@
 		"typedoc": "^0.25.7",
 		"typedoc-plugin-markdown": "^4.0.0-next.39",
 		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"@expressive-code/plugin-collapsible-sections": "^0.31.0",
+		"hast-util-from-html": "^2.0.1",
+		"hast-util-to-string": "^3.0.0",
+		"hastscript": "^8.0.0",
+		"mermaid": "^10.6.1",
+		"rehype": "^13.0.1",
+		"rehype-mermaid": "^2.0.1",
+		"unist-util-visit": "^5.0.0"
 	}
 }

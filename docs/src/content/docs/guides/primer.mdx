@@ -1,0 +1,71 @@
+---
+title: Monorepo Primer
+tagline: The oneRepo way.
+sidebar:
+  order: 0
+---
+
+Modern software dependency graphs are complex and brittle. The following graph shows a theoretical problem that we may currently face between our own internal and external dependencies.
+
+Given two applications: one for our logged-out, public facing marketing pages (`example.com`), and another for the logged in users (`app.example.com`). We have one shared dependency under our control for our component library (`@org/component-library`) and another for interfacing with our backend APIs (`@org/redux-api`):
+
+```mermaid
+flowchart RL
+  subgraph apps["Applications"]
+    pub("Public website<br>(example.com)")
+    auth("Logged-in website<br>(app.example.com)")
+  end
+  subgraph modules["Shared modules"]
+    direction TB
+    subgraph gui["@org/component-library"]
+      gui2("v1.5.3")
+      gui1("v1.4.2")
+    end
+    api3["@org/redux-api@3.2.1"]
+  end
+  subgraph npm["Third party modules"]
+    subgraph react
+      style react17 stroke:red;
+      style react18 stroke:red;
+      react17("v17.0.0")
+      react18("v18.0.0")
+    end
+  end
+
+  react17 --> gui2
+  react17 --> gui1
+  react18 --> api3
+  gui2 --> auth
+  gui1 --> pub
+  api3 --> auth
+```
+
+In this situation, we have two web applications, `pub` and `auth` that are maintained with several shared internal repositories. However, since ensuring that dependencies are up to date is a manual process, developers only update dependencies when they know that the update is needed (eg, for new features). This results in a dependency graph could have multiple versions of the same dependency.
+
+Notice that the _Logged-in website_ `app.example.com` now relies on two separate versions of React. Typically this shouldn't be a problem, as package managers and the Node.js require resolution algorithm will handle loading the correct version per shared module. However, many packages, React included, explicitly _do not work_ if there are multiple versions loaded within the same application.
+
+While we can and should take steps to ensure that we don’t have conflicting major versions of dependencies, it is entirely possible that we could ship code with differing versions that have major differences in the way that they work. For example, if we were to ship an application like above with two versions of React and it slipped through, the worst case scenario is that one of these apps deploys in this state and ends up with a completely broken page response – resulting in potential loss of new or returning customers.
+
+In an ideal scenario, we would have tools that automate enforcement of the same dependency version for all packages across all applications and packages. This would ensure maximum compatibility, fewer bugs, and smaller byte transfers to web visitors.
+
+```mermaid
+flowchart RL
+  subgraph apps["Applications"]
+    pub("Public website<br>(example.com)")
+    auth("Logged-in website<br>(app.example.com)")
+  end
+  subgraph modules["Shared modules"]
+    gui("@org/component-library")
+    api("@org/redux-api")
+  end
+  subgraph npm["Third party modules"]
+    style react18 stroke:green;
+    react18("react@18.0.0")
+  end
+
+  react18 --> gui
+  react18 --> api
+  gui --> pub
+  gui --> auth
+  api --> auth
+```

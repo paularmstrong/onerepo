@@ -402,6 +402,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
+"guides/primer.mdx": {
+	id: "guides/primer.mdx";
+  slug: "guides/primer";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
 "guides/why-onerepo.md": {
 	id: "guides/why-onerepo.md";
   slug: "guides/why-onerepo";
