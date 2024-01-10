@@ -409,13 +409,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"guides/why-onerepo.md": {
-	id: "guides/why-onerepo.md";
+"guides/why-onerepo.mdx": {
+	id: "guides/why-onerepo.mdx";
   slug: "guides/why-onerepo";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
-} & { render(): Render[".md"] };
+} & { render(): Render[".mdx"] };
 "index.mdx": {
 	id: "index.mdx";
   slug: "index";

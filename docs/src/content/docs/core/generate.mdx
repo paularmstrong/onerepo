@@ -28,8 +28,18 @@ export default {
 In your `templatesDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`. Ensure each template directory includes a `.onegen.js` or `.onegen.cjs` file:
 
 <FileTree>
-	- repo - onerepo.config.js - package.json - templates - app - .onegen.js - package.json.ejs - module - .onegen.js -
-	package.json.ejs
+
+- repo
+  - onerepo.config.js
+  - package.json
+  - templates
+    - app
+      - .onegen.js
+      - package.json.ejs
+    - module
+      - .onegen.js
+      - package.json.ejs
+
 </FileTree>
 
 The `.onegen.cjs` file is a configuration file for each template directory that tells oneRepo how to handle and format the output of your workspace:
