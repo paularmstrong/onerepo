@@ -34,84 +34,43 @@ code {
 	white-space: nowrap;
 }
 
-.aurora {
-	transform: perspective(300px) rotateX(-10deg) rotateY(-9deg);
-	pointer-events: none;
-	position: fixed;
-	inset: 5rem 0 0 0;
-	z-index: -10;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	height: 300px;
-	filter: blur(20px);
+/**
+ * Overrides
+ */
+.hero {
+	padding-block-end: 4rem;
 }
-
-.aurora-slice {
-	will-change: transform;
-	animation-name: aurora;
-	animation-timing-function: ease-in-out;
-	animation-iteration-count: 20;
-	flex-grow: 1;
-	background-image: linear-gradient(
-		0deg,
-		rgba(219, 39, 119, 0) 0%,
-		rgba(4, 182, 212, 0.8) 4%,
-		rgba(4, 182, 212, 0.6) 5%,
-		rgba(234, 242, 166, 0.75) 8%,
-		rgba(67, 183, 160, 0.4) 12%,
-		rgba(219, 200, 219, 0.65) 22%,
-		rgba(219, 39, 119, 0.55) 40%,
-		rgba(219, 39, 119, 0) 100%
-	);
-}
-
-[data-theme='light'] .aurora-slice {
-	background-image: linear-gradient(
-		0deg,
-		rgba(219, 39, 119, 0) 0%,
-		rgba(4, 182, 212, 0.5) 4%,
-		rgba(4, 182, 212, 0.35) 8%,
-		rgba(67, 183, 160, 0.3) 18%,
-		rgba(219, 200, 219, 0.15) 20%,
-		rgba(219, 39, 119, 0.4) 40%,
-		rgba(219, 39, 119, 0) 100%
-	);
-}
-
-@keyframes aurora {
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(10%);
-	}
-}
-
-.sl-markdown-content .expressive-code pre,
 .sl-markdown-content code,
 .sl-markdown-content .starlight-aside {
 	border-radius: 0.25rem;
 }
 
-.sl-markdown-content .expressive-code .frame.has-title pre {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title {
+	border-top-color: var(--sl-color-gray-5);
+	border-right-width: 1px;
+	border-right-color: var(--sl-color-gray-5);
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sl-color-gray-5);
+	overflow: visible;
 }
 
-.sl-markdown-content .expressive-code .frame.has-title .header,
-.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title,
-.sl-markdown-content .expressive-code .frame.is-terminal .header {
-	border-top-left-radius: 0.25rem;
-	border-top-right-radius: 0.25rem;
+.sl-markdown-content .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+	inset: 0 0 -1px 0;
+	border-top: none;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--sl-color-accent);
+}
+
+.sl-markdown-content .card {
+	border-radius: 0.5rem;
 }
 
 .tags {
 	display: flex;
 	flex-direction: row;
 	list-style-type: none;
-	gap: 0.5rem;
+	gap: 1rem;
 	padding: 0;
 	margin: 0;
 }
@@ -130,6 +89,7 @@ code {
 
 .tags .tag {
 	display: flex;
+	flex-shrink: 0;
 }
 
 .tag.info {
@@ -156,4 +116,96 @@ code {
 	background-color: var(--sl-color-green-low);
 	color: var(--sl-color-white);
 	border-color: var(--sl-color-green);
+}
+
+.flex-col {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.flex-col > *,
+.grid > * {
+	margin: 0 !important;
+}
+
+.grid {
+	display: grid;
+	gap: 2rem;
+}
+
+.grid-cols-1 {
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-4 {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-cols-5 {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-cols-6 {
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid-cols-7 {
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.grid-cols-8 {
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-cols-9 {
+	grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.grid-cols-10 {
+	grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.grid-cols-11 {
+	grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.grid-cols-12 {
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+@media (max-width: 50rem) {
+	.grid-cols-1 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-2 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-3 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-4 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-5 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-6 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-7 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-8 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-9 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-10 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-11 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+	.grid-cols-12 {
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
 }

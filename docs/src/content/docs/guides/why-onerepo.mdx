@@ -1,0 +1,145 @@
+---
+title: Why oneRepo
+sidebar:
+  order: 1
+---
+
+import { Card } from '@astrojs/starlight/components';
+import Supported from '../../../components/checks/Supported.astro';
+import Unsupported from '../../../components/checks/Unsupported.astro';
+
+**oneRepo** is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence for all changes.
+
+Other monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
+
+- **Safe and strict:** Other tools rely on manually configuring globs of files that contribute to workspace integrity and decision making for whether or not checks and tasks must run. oneRepo, on the other hand _does not_ use a cache and automatically determines which workspaces, tasks, and checks must run for any given change. We sacrifice a little bit of speed for strict correctness.
+- **Source level dependencies:** When working within the monorepo all import/require chains come from the _source_ files; never requires building shared packages to capture changes.
+
+## Tenets
+
+- **Documented:** All commands and options must be documented and respond to `--help` requests.
+- **Discoverable:** Code for commands must be easy to find and trace.
+- **Clear output:** All log output must be grouped, labelled with purpose, and clearly defined by its state.
+
+## Alternatives
+
+Many tools available for JavaScript repos rely on writing individual commands into each workspace’s [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This creates both a brittle setup, copy/paste boilerplate, reduced reusability, and limited documentation & discoverability.
+
+Take for example, the following real world _portion_ of an application. This `package.json` had 43 various scripts _just_ for running `cypress`. None of these were documented and many may be completely or nearly identical.
+
+```json collapse={6-42} title="package.json"
+{
+	"scripts": {
+		"cy:install": "cypress install",
+		"cy:cli": "cypress run",
+		"cy:ui": "cypress open",
+		"cy:local:cli": "cypress run",
+		"cy:local:cli:desktop": "cypress run --config viewportWidth=1440,viewportHeight=900",
+		"cy:local:cli:mobile": "cypress run",
+		"cy:local:cli:tablet": "cypress run --config viewportWidth=1024,viewportHeight=768",
+		"cy:local:ui": "cypress open",
+		"cy:local:ui:desktop": "cypress open --config viewportWidth=1440,viewportHeight=900",
+		"cy:local:ui:mobile": "cypress open",
+		"cy:local:ui:tablet": "cypress open --config viewportWidth=1024,viewportHeight=768",
+		"cy:test:cli": "cypress run --config baseUrl=https://test.example.com/",
+		"cy:test:cli:desktop": "cypress run --config baseUrl=https://test.example.com,viewportWidth=1440,viewportHeight=900",
+		"cy:test:cli:mobile": "cypress run --config baseUrl=https://test.example.com/",
+		"cy:test:cli:tablet": "cypress run --config baseUrl=https://test.example.com,viewportWidth=1024,viewportHeight=768",
+		"cy:test:ui": "cypress open --config baseUrl=https://test.example.com/",
+		"cy:tacos:ui": "cypress open --config baseUrl=https://tacos.test.example.com/",
+		"cy:test:ui:desktop": "cypress open --config baseUrl=https://test.example.com,viewportWidth=1440,viewportHeight=900",
+		"cy:test:ui:mobile": "cypress open --config baseUrl=https://test.example.com/",
+		"cy:test:ui:tablet": "cypress open --config baseUrl=https://test.example.com,viewportWidth=1024,viewportHeight=768",
+		"cy:cache:list": "npx cypress cache list",
+		"cy:ci": "CI=true npx start-server-and-test http-get://localhost:3000 cy:percy:record",
+		"cy:info": "npx cypress info",
+		"cy:open": "npx cypress open",
+		"cy:open:local": "npx cypress open --config baseUrl=http://localhost:3001/",
+		"cy:open:local:mobile": "npx cypress open --config baseUrl=http://localhost:3001/,viewportWidth=375,viewportHeight=667",
+		"cy:open:test": "npx cypress open --config baseUrl=https://test.example.com/",
+		"cy:open:test:mobile": "npx cypress open --config baseUrl=https://test.example.com/,viewportWidth=375,viewportHeight=667",
+		"cy:test:open:desktop": "cypress open --config baseUrl=https://test.example.com,viewportWidth=1440,viewportHeight=900",
+		"cy:test:open:tablet": "cypress open --config baseUrl=https://test.example.com,viewportWidth=1024,viewportHeight=768",
+		"cy:percy:local": "npx percy exec -- cypress open --config baseUrl=http://localhost:3000/",
+		"cy:percy:test": "npx percy exec -- cypress open --config baseUrl=https://test.example.com/",
+		"cy:percy:record": "npx percy exec -- cypress run --record --spec 'cypress/e2e/**.spec.js'",
+		"cy:record:local": "npx cypress run --record --config baseUrl=http://localhost:3000/ --spec 'cypress/e2e/**.spec.js'",
+		"cy:run": "npx cypress run --record false --spec 'cypress/e2e/**.spec.js'",
+		"cy:run:local": "npx cypress run --config baseUrl=http://localhost:3001/ --record false --spec 'cypress/e2e/**.spec.js'",
+		"cy:test:run:desktop": "cypress run --config baseUrl=https://test.example.com,viewportWidth=1440,viewportHeight=900",
+		"cy:test:run:tablet": "cypress run --config baseUrl=https://test.example.com,viewportWidth=1024,viewportHeight=768",
+		"cy:verify": "npx cypress verify",
+		"cy:version": "npx cypress version",
+		"cy:register": "npx cypress run --record --key 3a8de5fe-003c-431b-9685-385178dd5069 --group registration --spec cypress/e2e/registration.spec.js",
+		"cy:login": "npx cypress run --record --key 3a8de5fe-003c-431b-9685-385178dd5069 --group submit-app --spec cypress/e2e/login.spec.js",
+		"cy:workflow": "npx cypress run --record --key 3a8de5fe-003c-431b-9685-385178dd5069"
+	}
+}
+```
+
+This behavior we refer to as _script overload_.
+
+Furthermore, it is difficult to remember how to run scripts in individual workspaces due to lack of documentation on `package.json` scripts – and other tooling does not provide a way to enforce standards or help developers find what they’re looking for – relying instead on manual documentation, or worse, memory.
+
+Other pitfalls with npm scripts and similar DSL-like implementations like [Nx task pipelines](https://nx.dev/recipes/running-tasks/defining-task-pipeline) and [moonrepo tasks](https://moonrepo.dev/docs/create-task) require developers to succumb to _script overload_ through task chaining.
+
+Because you need to define multiple steps separately that need to be run in order to build a module that includes ESM, CJS, and TS definitions, you might end up with this (naïve and shortened version) of a configuration.
+
+```yaml title="moon.yml"
+tasks:
+  build-esm:
+    command: esbuild --format=esm
+    inputs:
+      - ./src/**/*
+    outputs:
+      - ./dist/esm
+    options:
+      runInCI: false
+
+  build-cjs:
+    command: esbuild --format=cjs
+    inputs:
+      - ./src/**/*
+    outputs:
+      - ./dist/cjs
+    options:
+      runInCI: false
+
+  build-tsdefs:
+    command: tsc -b tsconfig.json --emitDeclarationOnly
+    inputs:
+      - ./src/**/*
+    outputs:
+      - ./dist/src
+    options:
+      runInCI: false
+
+  build:
+    deps:
+      - build-esm
+      - build-cjs
+      - build-tsdefs
+```
+
+While this may seem okay to start, as repos grow and become complex, workspaces may have unique needs and need conditional checks for whether they should run certain portions of tasks or not. Using a DSL requires developers to learn _yet another thing_ or rely on dedicated teams to build infrastructure for them.
+
+### Feature comparison
+
+:::note[Work in progress]
+
+This is a work in progress. If you've found a mistake, please [open an issue](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=bug-report.yaml) or [create a pull request](https://github.com/paularmstrong/onerepo/edit/main/src/content/docs/guides/why-onerepo.mdx).
+
+:::
+
+|                                                                          | oneRepo         | [Turbo](https://turbo.build/repo) | [Nx](https://nx.dev) | [Moonrepo](https://moonrepo.dev) | [Bazel](https://bazel.build) |
+| ------------------------------------------------------------------------ | --------------- | --------------------------------- | -------------------- | -------------------------------- | ---------------------------- |
+| Custom global commands                                                   | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
+| Primary support for JavaScript, TypeScript, and Node                     | <Supported />   | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
+| Upsells to paid service                                                  | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
+| Cache-based determinism                                                  | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
+| Change-based determinism                                                 | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Supported />                |
+| Builds on [npm scripts](https://docs.npmjs.com/cli/v9/using-npm/scripts) | <Unsupported /> | <Supported />                     | <Supported />        | <Unsupported />                  | <Unsupported />              |
+
+## History
+
+oneRepo is inspired by closed source implementations at major companies like Twitter, Zillow Rentals, and Microsoft for Startups.
