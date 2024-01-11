@@ -3,6 +3,7 @@
 	"type": "module",
 	"private": true,
 	"devDependencies": {
+		"@astrojs/check": "^0.4.1",
 		"@astrojs/markdown-remark": "^4.0.1",
 		"@astrojs/mdx": "^2.0.3",
 		"@astrojs/starlight": "^0.15.3",

@@ -7,6 +7,10 @@ const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
 	unstable: 'danger',
 	experimental: 'caution',
 };
+
+const { title } = Astro.props.entry.data;
+
+const isPlugin = title.startsWith('@onerepo/plugin-');
 ---
 
 <h1 data-tacos id="_top">{Astro.props.entry.data.title}</h1>
@@ -18,22 +22,34 @@ const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
 			{meta.stability ? (
 				<li class={`tag ${stabilityColor[meta.stability as keyof typeof stabilityColor]}`}>{meta.stability}</li>
 			) : null}
-			{Astro.props.entry.data.title.startsWith('@onerepo/plugin-') ? (
-				<li>
-					<a class="icon-link" target="_blank" href={`https://www.npmjs.com/package/${Astro.props.entry.data.title}/`}>
-						<Icon name="external" size="1rem" /> npm
-					</a>
-				</li>
-				<li>
-					<a class="icon-link" target="_blank" href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${Astro.props.entry.data.title.replace('@onerepo/plugin-', '')}/`}>
-						<Icon name="github" size="1rem" /> Source
-					</a>
-				</li>
-				<li>
-					<a class="icon-link" target="_blank" href={`/changelogs/${Astro.props.entry.data.title.replace('@', '')}/`}>
-						<Icon name="document" size="1rem" /> Changelog
-					</a>
-				</li>
+			{isPlugin ? (
+				<Fragment>
+					<li>
+						<a class="icon-link" target="_blank" href={`https://www.npmjs.com/package/${title}/`}>
+							<Icon name="external" size="1rem" />
+							npm
+						</a>
+					</li>
+					<li>
+						<a
+							class="icon-link"
+							target="_blank"
+							href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${title.replace(
+								'@onerepo/plugin-',
+								'',
+							)}/`}
+						>
+							<Icon name="github" size="1rem" />
+							Source
+						</a>
+					</li>
+					<li>
+						<a class="icon-link" target="_blank" href={`/changelogs/${title.replace('@', '')}/`}>
+							<Icon name="document" size="1rem" />
+							Changelog
+						</a>
+					</li>
+				</Fragment>
 			) : null}
 		</ul>
 	) : null
