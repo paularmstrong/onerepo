@@ -18,9 +18,19 @@ const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
 			{meta.stability ? (
 				<li class={`tag ${stabilityColor[meta.stability as keyof typeof stabilityColor]}`}>{meta.stability}</li>
 			) : null}
-			{Astro.props.entry.data.title.startsWith('@onerepo/') ? (
+			{Astro.props.entry.data.title.startsWith('@onerepo/plugin-') ? (
 				<li>
-					<a href={`/changelogs/${Astro.props.entry.data.title.replace('@', '')}/`} class="tag note">
+					<a class="icon-link" target="_blank" href={`https://www.npmjs.com/package/${Astro.props.entry.data.title}/`}>
+						<Icon name="external" size="1rem" /> npm
+					</a>
+				</li>
+				<li>
+					<a class="icon-link" target="_blank" href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${Astro.props.entry.data.title.replace('@onerepo/plugin-', '')}/`}>
+						<Icon name="github" size="1rem" /> Source
+					</a>
+				</li>
+				<li>
+					<a class="icon-link" target="_blank" href={`/changelogs/${Astro.props.entry.data.title.replace('@', '')}/`}>
 						<Icon name="document" size="1rem" /> Changelog
 					</a>
 				</li>
@@ -28,3 +38,12 @@ const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
 		</ul>
 	) : null
 }
+
+<style>
+	.icon-link {
+		text-decoration: none;
+		display: flex;
+		align-items: baseline;
+		gap: 0.25rem;
+	}
+</style>
