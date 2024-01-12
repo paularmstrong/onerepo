@@ -1,17 +1,22 @@
+import { platform } from 'node:os';
+import { deflateSync } from 'node:zlib';
 import pc from 'picocolors';
-// @ts-ignore
 import cliui from 'cliui';
 import * as builders from '@onerepo/builders';
 import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
+import { run } from '@onerepo/subprocess';
 
 export const command = 'show';
 
-export const description = 'Show the dependency graph.';
+export const description =
+	'Show this repository’s Workspace Graph using an online visualizer or output graph representations to various formats.';
 
 type Args = {
-	format: 'mermaid' | 'plain' | 'json';
+	format?: 'mermaid' | 'plain' | 'json';
+	open?: boolean;
+	url: string;
 } & builders.WithAffected &
 	builders.WithWorkspaces;
 
@@ -22,20 +27,35 @@ export const builder: Builder<Args> = (yargs) =>
 		.option('format', {
 			alias: 'f',
 			type: 'string',
-			description: 'Output format for inspecting the dependency graph',
-			default: 'plain',
+			description: 'Output format for inspecting the Workspace Graph.',
 			choices: ['mermaid', 'plain', 'json'],
 		} as const)
+		.option('open', {
+			type: 'boolean',
+			description: 'Auto-open the browser for the online visualizer.',
+			conflicts: ['format'],
+		})
+		.option('url', {
+			type: 'string',
+			default: 'https://onerepo.tools/visualize/',
+			description:
+				'Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.',
+			hidden: true,
+		})
 		.epilogue(
-			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.`,
+			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
+
+Pass \`--open\` to auto-open your default browser with the URL or use one of the \`--format\` options to print out various other representations.`,
 		)
+		.example(`$0 ${command}`, 'Print a URL to the online visualizer for the current affected workspace graph.')
+		.example(`$0 ${command} --all --open`, 'Open the online visualizer for your full workspace graph.')
 		.example(
 			'$0 show --format=mermaid -w <workspace> > ./out.mermaid',
-			'Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.',
+			'Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getWorkspaces, logger }) {
-	const { all, format } = argv;
+	const { all, format, open, url: urlBase } = argv;
 
 	let serialized: Serialized = { nodes: [], links: [] };
 	if (all) {
@@ -57,8 +77,19 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 		case 'json':
 			process.stdout.write(JSON.stringify(serialized, null, 2));
 			break;
-		default:
-			throw new Error('Unknown format. This should not be allowed');
+		default: {
+			const g = Buffer.from(deflateSync(Buffer.from(JSON.stringify(serialized)))).toString('base64');
+			const url = new URL(urlBase);
+			url.search = new URLSearchParams({ g }).toString();
+			process.stdout.write(`\n${url.toString()}`);
+			if (open) {
+				await run({
+					name: 'Open browser',
+					cmd: platform() === 'darwin' ? 'open' : 'xdg-open',
+					args: [url.toString()],
+				});
+			}
+		}
 	}
 };
 

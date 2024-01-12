@@ -7,20 +7,28 @@ meta:
   stability: stable
 ---
 
+The Graph tool build’s on oneRepo’s powerful Workspace Graph by adding a Workspace & Workspace file [validator](#validating-configurations) and a Graph [visualizer](#one-graph-show).
+
+:::tip[Experimental Graph visualizer]
+
+The [oneRepo online Graph visualizer](/visualize/) is still experimental, but is being fleshed out with more features, better interaction, and more ways to understand your Workspace Graph. Check it out now for a preview of what is to come!
+
+:::
+
 ## Configuration
 
 The `one graph verify` command comes with some basic schema for validating `package.json` files and no configuration is _required_.
 
 However, you can enhance this by providing custom schema to match to workspaces and their files:
 
-```js {3-5}
-setup({
+```ts {3-5}
+export default {
 	core: {
 		graph: {
 			customSchema: './path/to/graph-schema.js',
 		},
 	},
-}).then(({ run }) => run());
+};
 ```
 
 ### Options
@@ -31,6 +39,7 @@ setup({
 type Options: {
   customSchema: string;
   dependencies: "loose" | "off";
+  visualizerUrl: string;
 };
 ```
 
@@ -38,17 +47,18 @@ Full configuration options for the Graph core command.
 
 #### Type declaration
 
-| Member         | Type                 | Description                                                               |
-| :------------- | :------------------- | :------------------------------------------------------------------------ |
-| `customSchema` | `string`             | File path to a custom schema for the `verify` command.                    |
-| `dependencies` | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'` |
+| Member          | Type                 | Description                                                                                                                                                           |
+| :-------------- | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `customSchema`  | `string`             | File path to a custom schema for the `verify` command.                                                                                                                |
+| `dependencies`  | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'`                                                                                             |
+| `visualizerUrl` | `string`             | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |
 
 {/* end-usage-typedoc */}
 
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<873c275bf06a2ad8bb65dab0f6233fe0>> */}
+{/* @generated SignedSource<<be700f6bb144883c7afc58bfced64701>> */}
 
 ### `one graph`
 
@@ -62,35 +72,51 @@ one graph <command>
 
 #### `one graph show`
 
-Show the dependency graph.
+Show this repository’s Workspace Graph using an online visualizer or output graph representations to various formats.
 
 ```sh
 one graph show [options]
 ```
 
-This command can generate representations of your workspace graph for use in debugging, verifying, and documentation.
+This command can generate representations of your workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
 
-| Option               | Type                                                 | Description                                                                                                                                                                 | Required |
-| -------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean`                                            | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean`                                            | Run across all workspaces                                                                                                                                                   |          |
-| `--format`, `-f`     | `"mermaid"`, `"plain"`, `"json"`, default: `"plain"` | Output format for inspecting the dependency graph                                                                                                                           |          |
-| `--show-advanced`    | `boolean`                                            | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                                            | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--workspaces`, `-w` | `array`                                              | List of workspace names to run against                                                                                                                                      |          |
+Pass `--open` to auto-open your default browser with the URL or use one of the `--format` options to print out various other representations.
+
+| Option               | Type                             | Description                                                                                                                                                                 | Required |
+| -------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                        | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                        | Run across all workspaces                                                                                                                                                   |          |
+| `--format`, `-f`     | `"mermaid"`, `"plain"`, `"json"` | Output format for inspecting the Workspace Graph.                                                                                                                           |          |
+| `--open`             | `boolean`                        | Auto-open the browser for the online visualizer.                                                                                                                            |          |
+| `--show-advanced`    | `boolean`                        | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                        | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                          | List of workspace names to run against                                                                                                                                      |          |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type     | Description                                               | Required |
-| --------------- | -------- | --------------------------------------------------------- | -------- |
-| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+| Option          | Type                                                    | Description                                                                                                                                                           | Required |
+| --------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |          |
+| `--through-ref` | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |          |
+| `--url`         | `string`, default: `"https://onerepo.tools/visualize/"` | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |          |
 
 </details>
 
-Generate a mermaid graph to a file, isolating just the given `<workspace>` and those that are dependent on it.
+Print a URL to the online visualizer for the current affected workspace graph.
+
+```sh
+one graph show
+```
+
+Open the online visualizer for your full workspace graph.
+
+```sh
+one graph show --all --open
+```
+
+Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.
 
 ```sh
 one graph show --format=mermaid -w <workspace> > ./out.mermaid
@@ -134,10 +160,12 @@ The Graph module in oneRepo has support for validating most configuration files 
 
 Schema validation uses [AJV](https://ajv.js.org) with support for JSON schemas draft-2019-09 and draft-07. It also supports [ajv-errors](https://ajv.js.org/packages/ajv-errors.html) for better and more actionable error messaging.
 
-### Example JSON validation
+### Examples
+
+#### JSON validation
 
 ```js title="graph-schema.js"
-module.exports = {
+export default {
 	'modules/*': {
 		'package.json': {
 			type: 'object',
@@ -167,11 +195,11 @@ module.exports = {
 };
 ```
 
-### Example JS/TS validation
+#### JS/TS config validation
 
-Note that if the configuration is the default export, like in the case of `jest.config.js` files, you will need to validate the `default` export as a property, just like any other export.
+Note that if the configuration is the default export, like in the case of `jest.config.js` files, you will need set the export name property or properties to validate. To validate the `default` export use the property name `default`.
 
-```js title="graph-schema.ts"
+```js title="graph-schema.ts" ins="default:"
 import type { GraphSchemaValidators } from 'onerepo';
 
 export default {
@@ -195,11 +223,11 @@ export default {
 } satisfies GraphSchemaValidators;
 ```
 
-### Functional schema
+#### Functional schema
 
 There are cases where more information about a workspace is needed for the schema to be complete. For this, the schema may also be a function that accepts two arguments, `workspace` and `graph`:
 
-```ts
+```ts title="graph-schema.ts" ins={5,11,17}
 import type { graph, GraphSchemaValidators } from 'onerepo';
 
 export default {
@@ -225,7 +253,7 @@ export default {
 
 oneRepo provides a base schema with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:
 
-```js title="graph-schema.js" {2}
+```js title="graph-schema.cjs" {2}
 module.export = {
 	'**': {
 		'package.json': {
@@ -235,13 +263,13 @@ module.export = {
 };
 ```
 
-## Extensions
+### Schema extensions
 
-### Required files
+#### Required files
 
 To mark a file as required, the JSON schema validation has been extended to include a key `$required` at the top level of each file schema. Setting this key to `true` will result in errors if a matched workspace does not include this file:
 
-```ts {7} /$required/
+```ts {7} "$required: true" title="graph-schema.ts"
 import type { graph, GraphSchemaValidators } from 'onerepo';
 
 export default {

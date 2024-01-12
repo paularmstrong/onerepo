@@ -17,6 +17,10 @@ export type Options = {
 	 * @default `'loose'`
 	 */
 	dependencies?: 'loose' | 'off';
+	/**
+	 * Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+	 */
+	visualizerUrl?: string;
 };
 
 export function graph(opts: Options = {}): Plugin {

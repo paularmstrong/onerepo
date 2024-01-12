@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<a0f95cbbd7680f3b94ffc6564f93d54d>> -->
+<!-- @generated SignedSource<<4d235c536ba5f663b1f76c9b0540162e>> -->
 
 ## Namespaces
 
@@ -350,6 +350,7 @@ Full configuration options for the Generate core command.
 type GraphOptions: {
   customSchema: string;
   dependencies: "loose" | "off";
+  visualizerUrl: string;
 };
 ```
 
@@ -357,10 +358,11 @@ Full configuration options for the Graph core command.
 
 #### Type declaration
 
-| Member         | Type                 | Description                                                               |
-| :------------- | :------------------- | :------------------------------------------------------------------------ |
-| `customSchema` | `string`             | File path to a custom schema for the `verify` command.                    |
-| `dependencies` | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'` |
+| Member          | Type                 | Description                                                                                                                                                           |
+| :-------------- | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `customSchema`  | `string`             | File path to a custom schema for the `verify` command.                                                                                                                |
+| `dependencies`  | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'`                                                                                             |
+| `visualizerUrl` | `string`             | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |
 
 #### Source
 

@@ -8,6 +8,7 @@
 		"@astrojs/mdx": "^2.0.3",
 		"@astrojs/starlight": "^0.15.3",
 		"@internal/tsconfig": "workspace:^",
+		"@types/pako": "^2",
 		"astro": "^4.0.8",
 		"clsx": "^2.0.0",
 		"eslint": "^8.38.0",
@@ -27,7 +28,9 @@
 		"hast-util-from-html": "^2.0.1",
 		"hast-util-to-string": "^3.0.0",
 		"hastscript": "^8.0.0",
-		"mermaid": "^10.6.1",
+		"js-base64": "^3.7.5",
+		"mermaid": "10.6.2-rc.3",
+		"pako": "^2.1.0",
 		"rehype": "^13.0.1",
 		"rehype-mermaid": "^2.0.1",
 		"unist-util-visit": "^5.0.0"

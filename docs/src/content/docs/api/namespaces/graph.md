@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6a8f62bc97742296f9bd5398b98b7945>> -->
+<!-- @generated SignedSource<<e773f98f7dc16ed691aa7cf4d8387d75>> -->
 
 ## Classes
 
@@ -340,6 +340,9 @@ isolatedGraph(sources, type?): {
   shortestPath: (source, destination) => string[] & {
      weight: number;
   };
+  shortestPaths: (source, destination) => string[] & {
+     weight: number;
+  }[];
   topologicalSort: (sourceNodes?, includeSourceNodes?) => string[];
 }
 ```
@@ -378,6 +381,7 @@ This does not return a oneRepo `Graph`, but instead a graph-data-structure insta
 > | `serialize`             | () => [`Serialized`](#serialized-1)                                    | -           |
 > | `setEdgeWeight`         | (`u`, `v`, `weight`) => `any`                                          | -           |
 > | `shortestPath`          | (`source`, `destination`) => `string`[] & \{ `weight`: `number`; }     | -           |
+> | `shortestPaths`         | (`source`, `destination`) => `string`[] & \{ `weight`: `number`; }[]   | -           |
 > | `topologicalSort`       | (`sourceNodes`?, `includeSourceNodes`?) => `string`[]                  | -           |
 
 ###### Source

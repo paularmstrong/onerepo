@@ -3315,6 +3315,7 @@ __metadata:
     "@astrojs/starlight": ^0.15.3
     "@expressive-code/plugin-collapsible-sections": ^0.31.0
     "@internal/tsconfig": "workspace:^"
+    "@types/pako": ^2
     astro: ^4.0.8
     clsx: ^2.0.0
     eslint: ^8.38.0
@@ -3323,11 +3324,13 @@ __metadata:
     hast-util-from-html: ^2.0.1
     hast-util-to-string: ^3.0.0
     hastscript: ^8.0.0
-    mermaid: ^10.6.1
+    js-base64: ^3.7.5
+    mermaid: 10.6.2-rc.3
     netlify-cli: ^15.9.1
     netlify-plugin-csp-generator: ^1.5.0
     npm-to-yarn: ^2.1.0
     onerepo: 0.15.4
+    pako: ^2.1.0
     postcss: ^8.4.22
     rehype: ^13.0.1
     rehype-mermaid: ^2.0.1
@@ -4710,6 +4713,13 @@ __metadata:
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
   checksum: e87bccbf11f95035c89a132b52b79ce69a1e3652fe55962363063c9c0dae0fe2477ebc585e03a9652adc6f381d24ba5589cc5e51849df4ced3d3e004a7d40ed5
+  languageName: node
+  linkType: hard
+
+"@types/pako@npm:^2":
+  version: 2.0.3
+  resolution: "@types/pako@npm:2.0.3"
+  checksum: 0746dd5d29eccf5b2e6cceb3ccb093851219e78bd2e2e20d25757e247987139e061e5d4ba37cb5295493f06e3c683c74f8876011cd8a3f3748a09244fbc841d9
   languageName: node
   linkType: hard
 
@@ -8686,6 +8696,13 @@ __metadata:
   version: 0.8.2
   resolution: "elkjs@npm:0.8.2"
   checksum: ed615c485fa4ac1e858af509df24fdc9f61f2c6576df5f79f6a31c733fda69f235f53cd36af037aa9d2b8a935cb4f823fbd89d784b67f6e51be5100306ea1b39
+  languageName: node
+  linkType: hard
+
+"elkjs@npm:^0.9.0":
+  version: 0.9.1
+  resolution: "elkjs@npm:0.9.1"
+  checksum: c8813d6d9574b7d7e68e83d3d2bf0ba6a2f71bf121808d00e7a641f985c093de5ef6f0746101bf4dd74ea2242504d048a87684d5fdfe3dc3be5b1ce79f204cfb
   languageName: node
   linkType: hard
 
@@ -13268,6 +13285,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-base64@npm:^3.7.5":
+  version: 3.7.5
+  resolution: "js-base64@npm:3.7.5"
+  checksum: 67a78c8b1c47b73f1c6fba1957e9fe6fd9dc78ac93ac46cc2e43472dcb9cf150d126fb0e593192e88e0497354fa634d17d255add7cc6ee3c7b4d29870faa8e18
+  languageName: node
+  linkType: hard
+
 "js-sha256@npm:^0.9.0":
   version: 0.9.0
   resolution: "js-sha256@npm:0.9.0"
@@ -14536,7 +14560,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid@npm:^10.0.0, mermaid@npm:^10.6.1":
+"mermaid@npm:10.6.2-rc.3":
+  version: 10.6.2-rc.3
+  resolution: "mermaid@npm:10.6.2-rc.3"
+  dependencies:
+    "@braintree/sanitize-url": ^6.0.1
+    "@types/d3-scale": ^4.0.3
+    "@types/d3-scale-chromatic": ^3.0.0
+    cytoscape: ^3.23.0
+    cytoscape-cose-bilkent: ^4.1.0
+    cytoscape-fcose: ^2.1.0
+    d3: ^7.4.0
+    d3-sankey: ^0.12.3
+    dagre-d3-es: 7.0.10
+    dayjs: ^1.11.7
+    dompurify: ^3.0.5
+    elkjs: ^0.9.0
+    khroma: ^2.0.0
+    lodash-es: ^4.17.21
+    mdast-util-from-markdown: ^1.3.0
+    non-layered-tidy-tree-layout: ^2.0.2
+    stylis: ^4.1.3
+    ts-dedent: ^2.2.0
+    uuid: ^9.0.0
+    web-worker: ^1.2.0
+  checksum: 44798c8c10a207cc406dca3641593d80ea805b55f5e96fbff13db7b7bbccdede8a6bf23ed47efd13bde9d661159c6c256eb92bfb050d09f39ea805fe4cbfa83f
+  languageName: node
+  linkType: hard
+
+"mermaid@npm:^10.0.0":
   version: 10.6.1
   resolution: "mermaid@npm:10.6.1"
   dependencies:
@@ -16375,6 +16427,7 @@ __metadata:
     "@types/ejs": ^3.1.5
     "@types/inquirer": ^9.0.7
     "@types/js-yaml": ^4.0.9
+    "@types/pako": ^2
     "@types/semver": ^7.5.6
     "@types/unist": ^3.0.2
     "@types/yargs": ^17.0.32
@@ -16804,6 +16857,13 @@ __metadata:
   bin:
     pagefind: lib/runner/bin.cjs
   checksum: f851e977424c596119364c4bf6e192711a403557712bd9ca11e0aa4b2c45ecfa5a4a7cf1499970124931471c26a27663f28b5b16f30783fd3a63bac3d8d1e7b2
+  languageName: node
+  linkType: hard
+
+"pako@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 71666548644c9a4d056bcaba849ca6fd7242c6cf1af0646d3346f3079a1c7f4a66ffec6f7369ee0dc88f61926c10d6ab05da3e1fca44b83551839e89edd75a3e
   languageName: node
   linkType: hard
 
