@@ -1,5 +1,6 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
+import VisualizerControls from './VisualizerControls.astro';
 
 const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
 const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
@@ -10,11 +11,12 @@ const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
 
 const { title } = Astro.props.entry.data;
 
+const isVisualizer = Astro.props.slug === 'visualize';
+
 const isPlugin = title.startsWith('@onerepo/plugin-');
 ---
 
 <h1 data-tacos id="_top">{Astro.props.entry.data.title}</h1>
-
 {
 	meta ? (
 		<ul class="tags">
@@ -54,6 +56,8 @@ const isPlugin = title.startsWith('@onerepo/plugin-');
 		</ul>
 	) : null
 }
+
+{isVisualizer ? <VisualizerControls /> : null}
 
 <style>
 	.icon-link {

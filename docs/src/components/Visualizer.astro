@@ -1,0 +1,58 @@
+---
+
+---
+
+<div class="not-content">
+	<div class="graph">
+		<div class="content">
+			<div id="mermaid" class="mermaid hidden"></div>
+			<div class="no-content">
+				<p>Graph not found. Run the following to</p>
+				<pre>one graph show --open</pre>
+				<button
+					id="example"
+					data-graph-data="eJy9ms9u2zAMxt/F5xgFtltPfY+hB8dRHK2ebUjKiqLou8+N/8SJSIqkgt2GWvxZIj9+kpV9Fl1/ML54/vVZ2EPxXLz0nXFm6J9c34fia7f82XbBuK5qn4xvx3+XQ3tubAcN+G18KOu+O9pm83jBTnHlRLk+nx/jAfWp6hrjTfD4mENfN6bDn3/PDH86GHfs3Z+qq0357uy4GmKsMyFYakT4GIyvnR2IN/4dX+LBJC/8OI/rkODRHI958FDImsM5m20PkqdpRa+eC3/JURiHlnjNpvjWAo/2Z9sejIOq2FgoV0fbGuDP/rwfXF8bD5HGhTVgcRpXDSeoIFX9VjWmHKtfwZEflWuQSZ/O+7Kqg+1H6b3uijFLb1ND+f7sahM11a4II8wEoq12xbuxzWkc8uP7lRLQtv3kGLhNxZxFGtkT2LR9Nmu2h2zOxUayKYDd5DMXW8ombewrmzXbXIam7+0wA7XaJspAW5JH+4nQbvtSNTOsOVcYatHo9JJIdiejhHhXeABr3Ub0K7vZdx6AuWxUD+BsdrYH0OatMIOEnAsyisiX/FV9CglQwUktUsHTWUDzWkpqZNzl3KKJJFVJBSaEQ4UyFEyF3x/GJAyhWEmE2JBvDitqB4UpehdN8MROmuBJ3DSFIlUvhInsOcFSWHSCKLRphJZp1SmquCHWEzfRDPRCYwLThQUgiWIJjEhgACezeBRRXLj5E0ftYffxevdCSWLfQkmS+qMQhSVELN03fJImrj74aapuYZqmax8mU+iqCWpmg3Lp8nJdv/rVDQsx9E1L0sSNS9IkzUuCZPqjSAorIHlSFUOsXO2STLFib26X1JqFKXrVJnhi3SZ4IsElWArJIcRMoaSoYqmsl4dqmcQEvUQIllgeBEtiagRGoQqAlqkIiii4jI2vgLPUdfmJTCOq+0DVYqAf4v4bk1lGdLxmmsTFtPL4KyPyhbGxhJweJzHML1eSwbwbIRncgwUIUeR2k770glQMjm+SBG5KQIjWKWkYP7/T8tWpxcJ5BxUsmptRLF6yid0ztAVBOfxazEnT5yMCaBeDg/iruSmCfk0IRnfvkYLxV7dOP3dKFEhYNQolcIS583MXFnPWUx7zxxrOlKRdipMEnxnR/DPP0QRPfZLmMPlLXo4fOecbnCFJFk7hOkpM0O2bm//DpbnqRAmJ6bx+/QOhoo6w"
+					>Show an example</button
+				>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="./visualizer.ts"></script>
+
+<style>
+	.controls {
+		border-bottom: 1px solid var(--sl-color-hairline);
+	}
+	.graph {
+		margin: 1em -100%;
+		margin: 1em calc(50% - 50vw);
+		height: 90vh;
+	}
+
+	.content {
+		height: 100%;
+		width: 100vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.content .mermaid {
+		flex-grow: 0;
+		flex-shrink: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.content .mermaid.hidden {
+		display: none;
+	}
+
+	.no-content {
+		position: absolute;
+	}
+</style>
+
+<style is:global></style>
