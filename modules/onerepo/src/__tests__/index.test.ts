@@ -6,7 +6,7 @@ describe('setup', () => {
 	test('sets env variables', async () => {
 		const root = path.join(__dirname, '__fixtures__', 'repo');
 		vi.spyOn(process, 'cwd').mockReturnValue(root);
-		await setup({ root, config: { root: true }, yargs: createYargs(['one', '--help']), corePlugins: {} });
+		await setup({ root, config: { root: true }, yargs: createYargs(['one', '--help']), corePlugins: [] });
 
 		expect(process.env.ONE_REPO_ROOT).toMatch(/\/__tests__\/__fixtures__\/repo$/);
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('main');
@@ -20,7 +20,7 @@ describe('setup', () => {
 			root,
 			config: { root: true, head: 'tacos' },
 			yargs: createYargs(['one', '--help']),
-			corePlugins: {},
+			corePlugins: [],
 		});
 
 		expect(process.env.ONE_REPO_HEAD_BRANCH).toEqual('tacos');
@@ -54,7 +54,7 @@ describe('setup', () => {
 				],
 			},
 			yargs,
-			corePlugins: {},
+			corePlugins: [],
 		});
 
 		await expect(run()).resolves.toEqual({ tacos: 'yep', burritos: 'yes' });

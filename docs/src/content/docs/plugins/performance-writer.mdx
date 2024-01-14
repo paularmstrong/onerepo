@@ -21,6 +21,7 @@ No metrics or information are shared anywhere outside of your local environment.
 <NpmToYarn script="npm install --save-dev @onerepo/plugin-performance-writer" />
 
 {/* start-install-typedoc */}
+{/* @generated SignedSource<<dca2e3f1a6292f1369ac6b0d9a716ca7>> */}
 
 ### performanceWriter()
 
@@ -72,8 +73,19 @@ export default {
 
 #### Type declaration
 
-| Member   | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                        |
-| :------- | :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `output` | `"temp"` \| `string` | Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.<br /><br />- `temp`: Writes a JSON dump of the measurement entries to a temporary file. The filepath will be returned from the `run()` call of your application.<br />- `string`: Will do the same as `'temp'`, but use this string as the filepath.<br /><br />**Default**<br />`true` |
+##### output?
+
+```ts
+output?: "temp" | string;
+```
+
+Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.
+
+- `temp`: Writes a JSON dump of the measurement entries to a temporary file. The filepath will be returned from the `run()` call of your application.
+- `string`: Will do the same as `'temp'`, but use this string as the filepath.
+
+###### Default
+
+`true`
 
 {/* end-install-typedoc */}

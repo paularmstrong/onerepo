@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { minimatch } from 'minimatch';
+import type { Tasks, TaskConfig, WorkspaceConfig } from 'onerepo';
 
 export class Workspace {
 	#packageJson: PackageJson;
@@ -152,16 +153,16 @@ export class Workspace {
 		return this.#tasks;
 	}
 
-	get codeowners(): Codeowners {
+	get codeowners(): NonNullable<Required<WorkspaceConfig['codeowners']>> {
 		return this.config.codeowners ?? {};
 	}
 
 	getCodeowners(filepath: string): Array<string> {
 		const relativePath = path.isAbsolute(filepath) ? this.relative(filepath) : filepath;
-		const found = Object.keys(this.codeowners)
+		const found = Object.keys(this.codeowners ?? {})
 			.reverse()
 			.find((ownerPath) => minimatch(relativePath, ownerPath));
-		return found ? this.codeowners[found] : [];
+		return this.codeowners && found ? this.codeowners[found] : [];
 	}
 
 	/**
@@ -259,77 +260,3 @@ export type PublicPackageJson = PackageJson & {
 export type PackageJsonWithLocation = PackageJson & {
 	location: string;
 };
-
-/**
- * @group Tasks
- */
-export type TaskDef = {
-	/**
-	 * Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
-	 */
-	match?: string | Array<string>;
-	/**
-	 * String command(s) to run. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
-	 *
-	 * The commands can use replaced tokens:
-	 * - `$0`: the oneRepo CLI for your repository
-	 * - `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
-	 */
-	cmd: string | Array<string>;
-	/**
-	 * Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.
-	 */
-	meta?: Record<string, unknown>;
-};
-
-/**
- * A Task can either be a string or TaskDef object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
- *
- * To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a {@link TaskDef | `TaskDef`}.
- *
- * @group Tasks
- */
-export type Task = string | TaskDef | Array<string>;
-
-/**
- * @group Tasks
- */
-export type Tasks = {
-	serial?: Array<Task>;
-	parallel?: Array<Task>;
-};
-
-/**
- * @group Tasks
- */
-export type Lifecycle =
-	| 'pre-commit'
-	| 'post-commit'
-	| 'post-checkout'
-	| 'pre-merge'
-	| 'post-merge'
-	| 'build'
-	| 'deploy'
-	| 'publish';
-
-/**
- * @group Tasks
- */
-export type TaskConfig<L extends string = never> = Partial<Record<Lifecycle | L, Tasks>>;
-
-export type WorkspaceConfig = {
-	root?: never;
-	/**
-	 * Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks.
-	 * @default `{}`
-	 */
-	tasks?: TaskConfig;
-
-	/**
-	 * Map of paths to array of owners
-	 * @default `{}`
-	 */
-	codeowners?: Codeowners;
-};
-
-type Codeowners = Record<string, Array<string>>;

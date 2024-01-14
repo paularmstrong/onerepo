@@ -11,13 +11,11 @@ import { performanceWriter } from '@onerepo/plugin-performance-writer';
 export default {
 	root: true,
 
-	core: {
-		generate: { templatesDir: './config/templates' },
-		graph: { customSchema: './config/graph-schema.ts' },
-		tasks: {
-			ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
-		},
+	templateDir: './config/templates',
+	validation: {
+		schema: './config/graph-schema.ts',
 	},
+	ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
 	plugins: [
 		changesets(),
 		docgen({

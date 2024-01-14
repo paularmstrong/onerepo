@@ -15,6 +15,7 @@ import NpmToYarn from '../../../components/NpmToYarn.astro';
 <NpmToYarn script="npm install --save-dev @onerepo/plugin-prettier" />
 
 {/* start-install-typedoc */}
+{/* @generated SignedSource<<404309aea72442f68b9618998b2b459d>> */}
 
 ### prettier()
 
@@ -64,11 +65,41 @@ export default {
 
 #### Type declaration
 
-| Member           | Type                   | Description                                                                                                                                                                      |
-| :--------------- | :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `githubAnnotate` | `boolean`              | When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.<br /><br />**Default**<br />`true` |
-| `name`           | `string` \| `string`[] | The name of the prettier command. You might change this to `'format'` or `['format', 'prettier']` to keep things more familiar for most developers.                              |
-| `useCache`       | `boolean`              | Whether to use Prettier's built-in cache determinism.<br /><br />**Default**<br />`true`                                                                                         |
+##### githubAnnotate?
+
+```ts
+githubAnnotate?: boolean;
+```
+
+When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
+
+###### Default
+
+```ts
+true;
+```
+
+##### name?
+
+```ts
+name?: string | string[];
+```
+
+The name of the prettier command. You might change this to `'format'` or `['format', 'prettier']` to keep things more familiar for most developers.
+
+##### useCache?
+
+```ts
+useCache?: boolean;
+```
+
+Whether to use Prettier's built-in cache determinism.
+
+###### Default
+
+```ts
+true;
+```
 
 {/* end-install-typedoc */}
 

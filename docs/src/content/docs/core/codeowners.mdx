@@ -51,38 +51,6 @@ The following providers are currently enabled:
 
 [^bitbucket]: Requires add-on "[Code Owners for BitBucket](https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud)".
 
-## Options
-
-{/* start-usage-typedoc */}
-
-```ts
-type Options: {
-  provider: Providers;
-};
-```
-
-Full configuration options for the Codeowners core command.
-
-#### Example
-
-```ts title="./onerepo.config.ts"
-export default {
-	core: {
-		codeowners: {
-			provider: 'github',
-		},
-	},
-};
-```
-
-#### Type declaration
-
-| Member     | Type        | Description                                                                                                                     |
-| :--------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `provider` | `Providers` | Repository host/provider. This determines where and how codeowners files will be written<br /><br />**Default**<br />`'github'` |
-
-{/* end-usage-typedoc */}
-
 ## Commands
 
 {/* start-auto-generated-from-cli-codeowners */}

@@ -19,6 +19,7 @@ Check out our very own source level [example](example/) generated directly from 
 :::
 
 {/* start-install-typedoc */}
+{/* @generated SignedSource<<ab70343e434e1dd84eb8185d4d4bae06>> */}
 
 ### docgen()
 
@@ -76,13 +77,55 @@ export default {
 
 #### Type declaration
 
-| Member         | Type                     | Description                                                                                         |
-| :------------- | :----------------------- | :-------------------------------------------------------------------------------------------------- |
-| `format`       | `"markdown"` \| `"json"` | Default output format for the documentation<br /><br />**Default**<br />`'markdown'`                |
-| `name`         | `string` \| `string`[]   | Override the name of the command.<br /><br />**Default**<br />`'docgen'`                            |
-| `outFile`      | `string`                 | If set, a file will be written by default to the given location (in the given `outWorkspace`)       |
-| `outWorkspace` | `string`                 | If `outFile` is also set, the generated documentation will be written out.                          |
-| `safeWrite`    | `boolean`                | Set to true to amend content to the given file using the file.writeSafe \| `file.writeSafe` method. |
+##### format?
+
+```ts
+format?: "markdown" | "json";
+```
+
+Default output format for the documentation
+
+###### Default
+
+```ts
+'markdown';
+```
+
+##### name?
+
+```ts
+name?: string | string[];
+```
+
+Override the name of the command.
+
+###### Default
+
+`'docgen'`
+
+##### outFile?
+
+```ts
+outFile?: string;
+```
+
+If set, a file will be written by default to the given location (in the given `outWorkspace`)
+
+##### outWorkspace?
+
+```ts
+outWorkspace?: string;
+```
+
+If `outFile` is also set, the generated documentation will be written out.
+
+##### safeWrite?
+
+```ts
+safeWrite?: boolean;
+```
+
+Set to true to amend content to the given file using the file.writeSafe | `file.writeSafe` method.
 
 {/* end-install-typedoc */}
 

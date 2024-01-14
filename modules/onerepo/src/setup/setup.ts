@@ -4,6 +4,7 @@ import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import defaults from 'defaults';
 import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
@@ -11,19 +12,33 @@ import { getGraph } from '@onerepo/graph';
 import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
-import type { Config, RootConfig, CorePlugins, PluginObject } from '../types';
+import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
 import pkg from '../../package.json';
 import { workspaceBuilder } from './workspaces';
 
 const defaultConfig: Required<RootConfig> = {
-	core: {},
+	root: true,
+	vcs: { provider: 'github' },
 	codeowners: {},
 	head: 'main',
-	root: true,
-	ignoreCommands: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
+	ignore: [],
+	commands: {
+		directory: 'commands',
+		ignore: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
+	},
 	plugins: [],
-	subcommandDir: 'commands',
+	dependencies: 'loose',
+	visualizationUrl: 'https://onerepo.tools/visualize/',
+	templateDir: './config/templates',
+	validation: {
+		schema: null,
+	},
+	taskConfig: {
+		lifecycles: [],
+		stashUnstaged: ['pre-commit'],
+	},
 	tasks: {},
+	meta: {},
 };
 
 /**
@@ -78,8 +93,9 @@ export async function setup({
 	const req = require ?? createRequire(process.cwd());
 	const logger = inputLogger ?? getLogger();
 
-	const resolvedConfig = { ...defaultConfig, ...config } satisfies Required<RootConfig>;
-	const { core, head, ignoreCommands, plugins, subcommandDir } = resolvedConfig;
+	const { plugins: userPlugins, ...userConfig } = { plugins: [], ...config };
+	const resolvedConfig = defaults(userConfig, defaultConfig) satisfies Required<RootConfig>;
+	const { head } = resolvedConfig;
 
 	process.env.ONE_REPO_ROOT = getActualRoot(root);
 	process.env.ONE_REPO_HEAD_BRANCH = head;
@@ -105,7 +121,7 @@ export async function setup({
 
 	const options = commandDirOptions({
 		graph,
-		exclude: ignoreCommands,
+		exclude: resolvedConfig.commands.ignore,
 		startup,
 		config,
 		logger,
@@ -118,18 +134,11 @@ export async function setup({
 		yargs._commandDirOpts = options;
 	}
 
+	const plugins: Array<Plugin> = [...userPlugins];
+
 	// Install the core plugins
-	if (corePlugins.codeowners) {
-		plugins.push(corePlugins.codeowners(core.codeowners));
-	}
-	if (corePlugins.generate) {
-		plugins.push(corePlugins.generate(core.generate));
-	}
-	if (corePlugins.graph) {
-		plugins.push(corePlugins.graph(core.graph));
-	}
-	if (corePlugins.tasks) {
-		plugins.push(corePlugins.tasks(core.tasks));
+	for (const plugin of Object.values(corePlugins)) {
+		plugins.unshift(plugin);
 	}
 
 	// Other plugins
@@ -151,8 +160,8 @@ export async function setup({
 	}
 
 	// Local commands
-	if (subcommandDir !== false) {
-		const rootCommandPath = path.join(process.env.ONE_REPO_ROOT, subcommandDir);
+	if (resolvedConfig.commands.directory !== false) {
+		const rootCommandPath = path.join(process.env.ONE_REPO_ROOT, resolvedConfig.commands.directory!);
 		if (existsSync(rootCommandPath)) {
 			const stat = await lstat(rootCommandPath);
 			if (stat.isDirectory()) {
@@ -160,17 +169,15 @@ export async function setup({
 			}
 		}
 
-		// Workspace commands using subcommandDir
-		if (corePlugins.graph) {
-			yargs.command({
-				describe: 'Run workspace-specific commands',
-				command: '$0',
-				aliases: ['workspace', 'ws'],
-				builder: workspaceBuilder(graph, subcommandDir || 'commands'),
-				// This handler is a no-op because the builder demands N+1 command(s) be input
-				handler: () => {},
-			});
-		}
+		// Workspace commands using resolvedConfig.commands.directory
+		yargs.command({
+			describe: 'Run workspace-specific commands',
+			command: '$0',
+			aliases: ['workspace', 'ws'],
+			builder: workspaceBuilder(graph, resolvedConfig.commands.directory || 'commands'),
+			// This handler is a no-op because the builder demands N+1 command(s) be input
+			handler: () => {},
+		});
 	}
 
 	return {

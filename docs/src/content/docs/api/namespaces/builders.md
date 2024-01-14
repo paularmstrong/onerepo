@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<852f13e392a0deea3a4f9ade9290b310>> -->
+<!-- @generated SignedSource<<a2df8ed0bc825b6aef364e572c1db2ef>> -->
 
 Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
 
@@ -51,9 +51,19 @@ type FileGetterOptions: GetterOptions & {
 
 #### Type declaration
 
-| Member              | Type     | Description                                                                                                                                                                                                                                                                                               |
-| :------------------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `affectedThreshold` | `number` | Threshold of number of files until we fall-back and swap to workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.<br /><br />**Default Value**<br />`100` |
+##### affectedThreshold?
+
+```ts
+affectedThreshold?: number;
+```
+
+Threshold of number of files until we fall-back and swap to workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
+
+###### Default Value
+
+```ts
+100;
+```
 
 #### Source
 
@@ -73,11 +83,25 @@ type Staged: {
 
 #### Type declaration
 
-| Member    | Type    | Description                                                                                     |
-| :-------- | :------ | :---------------------------------------------------------------------------------------------- |
-| `from`    | `never` | -                                                                                               |
-| `staged`  | `true`  | Limit to only changes that are currently staged. This cannot be used with `from` and `through`. |
-| `through` | `never` | -                                                                                               |
+##### from?
+
+```ts
+from?: never;
+```
+
+##### staged
+
+```ts
+staged: true;
+```
+
+Limit to only changes that are currently staged. This cannot be used with `from` and `through`.
+
+##### through?
+
+```ts
+through?: never;
+```
 
 #### Source
 
@@ -97,11 +121,27 @@ type Through: {
 
 #### Type declaration
 
-| Member    | Type     | Description                                           |
-| :-------- | :------- | :---------------------------------------------------- |
-| `from`    | `string` | Git ref to calculate changes _exclusively_ _since_.   |
-| `staged`  | `false`  | -                                                     |
-| `through` | `string` | Git ref to calculate changes _inclusively_ _through_. |
+##### from?
+
+```ts
+from?: string;
+```
+
+Git ref to calculate changes _exclusively_ _since_.
+
+##### staged?
+
+```ts
+staged?: false;
+```
+
+##### through?
+
+```ts
+through?: string;
+```
+
+Git ref to calculate changes _inclusively_ _through_.
 
 #### Source
 
@@ -283,12 +323,37 @@ export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
 
 #### Type declaration
 
-| Member        | Type      | Description                                                                                                         |
-| :------------ | :-------- | :------------------------------------------------------------------------------------------------------------------ |
-| `affected`    | `boolean` | When used with builder helpers, will include all of the affected workspaces based on changes within the repository. |
-| `from-ref`    | `string`  | Git ref to calculate changes _exclusively_ _since_.                                                                 |
-| `staged`      | `boolean` | Calculate changes based _inclusively_ on the files added to the git stage.                                          |
-| `through-ref` | `string`  | Git ref to calculate changes _inclusively_ _through_.                                                               |
+##### affected?
+
+```ts
+affected?: boolean;
+```
+
+When used with builder helpers, will include all of the affected workspaces based on changes within the repository.
+
+##### from-ref?
+
+```ts
+from-ref?: string;
+```
+
+Git ref to calculate changes _exclusively_ _since_.
+
+##### staged?
+
+```ts
+staged?: boolean;
+```
+
+Calculate changes based _inclusively_ on the files added to the git stage.
+
+##### through-ref?
+
+```ts
+through-ref?: string;
+```
+
+Git ref to calculate changes _inclusively_ _through_.
 
 #### Source
 
@@ -338,9 +403,13 @@ export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
 
 #### Type declaration
 
-| Member  | Type       | Description        |
-| :------ | :--------- | :----------------- |
-| `files` | `string`[] | List of filepaths. |
+##### files?
+
+```ts
+files?: string[];
+```
+
+List of filepaths.
 
 #### Source
 
@@ -369,10 +438,21 @@ export const builder: Builder<Argv> = (yargs) => builders.withWorkspaces(yargs);
 
 #### Type declaration
 
-| Member       | Type       | Description                                         |
-| :----------- | :--------- | :-------------------------------------------------- |
-| `all`        | `boolean`  | Include _all_ workspaces.                           |
-| `workspaces` | `string`[] | One or more workspaces by `name` or `alias` string. |
+##### all?
+
+```ts
+all?: boolean;
+```
+
+Include _all_ workspaces.
+
+##### workspaces?
+
+```ts
+workspaces?: string[];
+```
+
+One or more workspaces by `name` or `alias` string.
 
 #### Source
 
@@ -533,10 +613,21 @@ type GetterOptions: Through | Staged & {
 
 #### Type declaration
 
-| Member   | Type                        | Description                                                                                      |
-| :------- | :-------------------------- | :----------------------------------------------------------------------------------------------- |
-| `ignore` | `string`[]                  | List of files to not take into account when getting the list of files, workspaces, and affected. |
-| `step`   | [`LogStep`](../../#logstep) | Optional logger step to avoid creating a new                                                     |
+##### ignore?
+
+```ts
+ignore?: string[];
+```
+
+List of files to not take into account when getting the list of files, workspaces, and affected.
+
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Optional logger step to avoid creating a new
 
 #### Source
 

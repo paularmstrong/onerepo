@@ -28,6 +28,7 @@ export default {
 ```
 
 {/* start-install-typedoc */}
+{/* @generated SignedSource<<50c56e3794dc6a8d83ba3b0d7c3cd3bd>> */}
 
 ### jest()
 
@@ -76,10 +77,29 @@ export default {
 
 #### Type declaration
 
-| Member   | Type                   | Description                                                                                                                                                                                                     |
-| :------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `config` | `string`               | Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.<br /><br />**Example**<br />`js jest({ 	config: 'configs/jest/config.js' }); ` |
-| `name`   | `string` \| `string`[] | Rename the default command name.                                                                                                                                                                                |
+##### config?
+
+```ts
+config?: string;
+```
+
+Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.
+
+###### Example
+
+```js
+jest({
+	config: 'configs/jest/config.js',
+});
+```
+
+##### name?
+
+```ts
+name?: string | string[];
+```
+
+Rename the default command name.
 
 {/* end-install-typedoc */}
 

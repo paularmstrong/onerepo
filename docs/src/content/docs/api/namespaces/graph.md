@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e773f98f7dc16ed691aa7cf4d8387d75>> -->
+<!-- @generated SignedSource<<57caaced5f9c0f0d6f9b3ee5c1e679e8>> -->
 
 ## Classes
 
@@ -362,27 +362,308 @@ Get an isolated graph of dependents from the list of sources
 
 This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 
-> | Member                  | Type                                                                   | Description |
-> | :---------------------- | :--------------------------------------------------------------------- | :---------- |
-> | `addEdge`               | (`u`, `v`, `weight`?) => `any`                                         | -           |
-> | `addNode`               | (`node`) => `any`                                                      | -           |
-> | `adjacent`              | (`node`) => `string`[]                                                 | -           |
-> | `depthFirstSearch`      | (`sourceNodes`?, `includeSourceNodes`?, `errorOnCycle`?) => `string`[] | -           |
-> | `deserialize`           | (`serialized`) => `any`                                                | -           |
-> | `getEdgeWeight`         | (`u`, `v`) => `number`                                                 | -           |
-> | `hasCycle`              | () => `boolean`                                                        | -           |
-> | `hasEdge`               | (`u`, `v`) => `boolean`                                                | -           |
-> | `indegree`              | (`node`) => `number`                                                   | -           |
-> | `lowestCommonAncestors` | (`node1`, `node2`) => `string`[]                                       | -           |
-> | `nodes`                 | () => `string`[]                                                       | -           |
-> | `outdegree`             | (`node`) => `number`                                                   | -           |
-> | `removeEdge`            | (`u`, `v`) => `any`                                                    | -           |
-> | `removeNode`            | (`node`) => `any`                                                      | -           |
-> | `serialize`             | () => [`Serialized`](#serialized-1)                                    | -           |
-> | `setEdgeWeight`         | (`u`, `v`, `weight`) => `any`                                          | -           |
-> | `shortestPath`          | (`source`, `destination`) => `string`[] & \{ `weight`: `number`; }     | -           |
-> | `shortestPaths`         | (`source`, `destination`) => `string`[] & \{ `weight`: `number`; }[]   | -           |
-> | `topologicalSort`       | (`sourceNodes`?, `includeSourceNodes`?) => `string`[]                  | -           |
+> ###### addEdge
+>
+> ```ts
+> addEdge: (u, v, weight?) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `u`       | `string` |
+> | `v`       | `string` |
+> | `weight`? | `number` |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### addNode
+>
+> ```ts
+> addNode: (node) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node`    | `string` |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### adjacent
+>
+> ```ts
+> adjacent: (node) => string[];
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node`    | `string` |
+>
+> ###### Returns
+>
+> `string`[]
+>
+> ###### depthFirstSearch
+>
+> ```ts
+> depthFirstSearch: (sourceNodes?, includeSourceNodes?, errorOnCycle?) => string[];
+> ```
+>
+> ###### Parameters
+>
+> | Parameter             | Type       |
+> | :-------------------- | :--------- |
+> | `sourceNodes`?        | `string`[] |
+> | `includeSourceNodes`? | `boolean`  |
+> | `errorOnCycle`?       | `boolean`  |
+>
+> ###### Returns
+>
+> `string`[]
+>
+> ###### deserialize
+>
+> ```ts
+> deserialize: (serialized) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter    | Type                          |
+> | :----------- | :---------------------------- |
+> | `serialized` | [`Serialized`](#serialized-1) |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### getEdgeWeight
+>
+> ```ts
+> getEdgeWeight: (u, v) => number;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `u`       | `string` |
+> | `v`       | `string` |
+>
+> ###### Returns
+>
+> `number`
+>
+> ###### hasCycle
+>
+> ```ts
+> hasCycle: () => boolean;
+> ```
+>
+> ###### Returns
+>
+> `boolean`
+>
+> ###### hasEdge
+>
+> ```ts
+> hasEdge: (u, v) => boolean;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `u`       | `string` |
+> | `v`       | `string` |
+>
+> ###### Returns
+>
+> `boolean`
+>
+> ###### indegree
+>
+> ```ts
+> indegree: (node) => number;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node`    | `string` |
+>
+> ###### Returns
+>
+> `number`
+>
+> ###### lowestCommonAncestors
+>
+> ```ts
+> lowestCommonAncestors: (node1, node2) => string[];
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node1`   | `string` |
+> | `node2`   | `string` |
+>
+> ###### Returns
+>
+> `string`[]
+>
+> ###### nodes
+>
+> ```ts
+> nodes: () => string[];
+> ```
+>
+> ###### Returns
+>
+> `string`[]
+>
+> ###### outdegree
+>
+> ```ts
+> outdegree: (node) => number;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node`    | `string` |
+>
+> ###### Returns
+>
+> `number`
+>
+> ###### removeEdge
+>
+> ```ts
+> removeEdge: (u, v) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `u`       | `string` |
+> | `v`       | `string` |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### removeNode
+>
+> ```ts
+> removeNode: (node) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `node`    | `string` |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### serialize
+>
+> ```ts
+> serialize: () => Serialized;
+> ```
+>
+> ###### Returns
+>
+> [`Serialized`](#serialized-1)
+>
+> ###### setEdgeWeight
+>
+> ```ts
+> setEdgeWeight: (u, v, weight) => any;
+> ```
+>
+> ###### Parameters
+>
+> | Parameter | Type     |
+> | :-------- | :------- |
+> | `u`       | `string` |
+> | `v`       | `string` |
+> | `weight`  | `number` |
+>
+> ###### Returns
+>
+> `any`
+>
+> ###### shortestPath
+>
+> ```ts
+> shortestPath: (source, destination) => string[] & {
+> weight: number;
+> };
+> ```
+>
+> ###### Parameters
+>
+> | Parameter     | Type     |
+> | :------------ | :------- |
+> | `source`      | `string` |
+> | `destination` | `string` |
+>
+> ###### Returns
+>
+> `string`[] & \{ `weight`: `number`; }
+>
+> ###### shortestPaths
+>
+> ```ts
+> shortestPaths: (source, destination) => string[] & {
+> weight: number;
+> }[];
+> ```
+>
+> ###### Parameters
+>
+> | Parameter     | Type     |
+> | :------------ | :------- |
+> | `source`      | `string` |
+> | `destination` | `string` |
+>
+> ###### Returns
+>
+> `string`[] & \{ `weight`: `number`; }[]
+>
+> ###### topologicalSort
+>
+> ```ts
+> topologicalSort: (sourceNodes?, includeSourceNodes?) => string[];
+> ```
+>
+> ###### Parameters
+>
+> | Parameter             | Type       |
+> | :-------------------- | :--------- |
+> | `sourceNodes`?        | `string`[] |
+> | `includeSourceNodes`? | `boolean`  |
+>
+> ###### Returns
+>
+> `string`[]
 
 ###### Source
 
@@ -409,21 +690,21 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L39)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L40)
 
 ##### codeowners
 
 ```ts
-get codeowners(): Codeowners
+get codeowners(): Required<Record<string, string[]>>
 ```
 
 ###### Returns
 
-`Codeowners`
+`Required`\<`Record`\<`string`, `string`[]\>\>
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L72)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L73)
 
 ##### config
 
@@ -435,11 +716,11 @@ Get the workspace's configuration
 
 ###### Returns
 
-[`WorkspaceConfig`](#workspaceconfig)
+[`WorkspaceConfig`](../../#workspaceconfigcustomlifecycles)
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L65)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L66)
 
 ##### dependencies
 
@@ -457,7 +738,7 @@ Map of modules to their version.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L45)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L46)
 
 ##### description
 
@@ -473,7 +754,7 @@ Canonical to the `package.json` `"description"` field.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L15)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L16)
 
 ##### devDependencies
 
@@ -491,7 +772,7 @@ Map of modules to their version.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L51)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L52)
 
 ##### isRoot
 
@@ -507,7 +788,7 @@ Whether or not this workspace is the root of the repository / Graph.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L19)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L20)
 
 ##### location
 
@@ -523,7 +804,7 @@ Absolute path on the current filesystem to the workspace.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L23)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L24)
 
 ##### main
 
@@ -537,7 +818,7 @@ get main(): string
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L25)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L26)
 
 ##### name
 
@@ -553,7 +834,7 @@ The full `name` of the Workspace, as defined in its `package.json`
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L11)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L12)
 
 ##### packageJson
 
@@ -569,7 +850,7 @@ A full copy of the `package.json` file for the Workspace.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L29)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
 
 ##### peerDependencies
 
@@ -587,7 +868,7 @@ Map of modules to their version.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L57)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L58)
 
 ##### private
 
@@ -603,7 +884,7 @@ If a workspace `package.json` is set to `private: true`, it will not be availabl
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L61)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L62)
 
 ##### publishConfig
 
@@ -617,7 +898,7 @@ get publishConfig(): PublishConfig
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L31)
 
 ##### scope
 
@@ -633,7 +914,7 @@ Get module name scope if there is one, eg `@onerepo`
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L34)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L35)
 
 ##### tasks
 
@@ -645,13 +926,13 @@ Get the task configuration as defined in the `onerepo.config.js` file at the roo
 
 ###### Returns
 
-`Partial`\<`Record`\<[`Lifecycle`](#lifecycle), [`Tasks`](#tasks-1)\>\>
+`Partial`\<`Record`\<[`Lifecycle`](../../#lifecycle), [`Tasks`](../../#tasks)\>\>
 
 If a config does not exist, an empty object will be given.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L71)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L72)
 
 ##### version
 
@@ -665,7 +946,7 @@ get version(): undefined | string
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L24)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L25)
 
 #### Methods
 
@@ -687,7 +968,7 @@ getCodeowners(filepath): string[]
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L73)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L74)
 
 ##### getTasks()
 
@@ -705,11 +986,11 @@ Get a list of Workspace tasks for the given lifecycle
 
 ###### Returns
 
-`Required`\<[`Tasks`](#tasks-1)\>
+`Required`\<[`Tasks`](../../#tasks)\>
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L77)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L78)
 
 ##### relative()
 
@@ -737,7 +1018,7 @@ Relative path to the workspace’s root location.
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L99)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L100)
 
 ##### resolve()
 
@@ -765,7 +1046,7 @@ Absolute path based on the input path segments
 
 ###### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L88)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L89)
 
 ## Interfaces
 
@@ -818,38 +1099,170 @@ type PackageJson: {
 
 #### Type declaration
 
-| Member                 | Type                                              | Description |
-| :--------------------- | :------------------------------------------------ | :---------- |
-| `alias`                | `string`[]                                        | -           |
-| `author`               | `string` \| [`Person`](#person)                   | -           |
-| `bin`                  | `string` \| `Record`\<`string`, `string`\>        | -           |
-| `bugs`                 | \{ `email`: `string`; `url`: `string`; }          | -           |
-| `bugs.email`           | `string`                                          | -           |
-| `bugs.url`             | `string`                                          | -           |
-| `bundleDependencies`   | `string`[]                                        | -           |
-| `contributors`         | ([`Person`](#person) \| `string`)[]               | -           |
-| `dependencies`         | `Record`\<`string`, `string`\>                    | -           |
-| `description`          | `string`                                          | -           |
-| `devDependencies`      | `Record`\<`string`, `string`\>                    | -           |
-| `engines`              | `Record`\<`string`, `string`\>                    | -           |
-| `files`                | `string`[]                                        | -           |
-| `homepage`             | `string`                                          | -           |
-| `keywords`             | `string`[]                                        | -           |
-| `license`              | `string`                                          | -           |
-| `main`                 | `string`                                          | -           |
-| `name`                 | `string`                                          | -           |
-| `optionalDependencies` | `string`[]                                        | -           |
-| `os`                   | `string`[]                                        | -           |
-| `overrides`            | `Record`\<`string`, `string`\>                    | -           |
-| `packageManager`       | `string`                                          | -           |
-| `peerDependencies`     | `Record`\<`string`, `string`\>                    | -           |
-| `peerDependenciesMeta` | `Record`\<`string`, \{ `optional`: `boolean`; }\> | -           |
-| `scripts`              | `Record`\<`string`, `string`\>                    | -           |
-| `version`              | `string`                                          | -           |
+##### alias?
+
+```ts
+alias?: string[];
+```
+
+##### author?
+
+```ts
+author?: string | Person;
+```
+
+##### bin?
+
+```ts
+bin?: string | Record<string, string>;
+```
+
+##### bugs?
+
+```ts
+bugs?: {
+  email: string;
+  url: string;
+};
+```
+
+##### bugs.email?
+
+```ts
+bugs.email?: string;
+```
+
+##### bugs.url?
+
+```ts
+bugs.url?: string;
+```
+
+##### bundleDependencies?
+
+```ts
+bundleDependencies?: string[];
+```
+
+##### contributors?
+
+```ts
+contributors?: (Person | string)[];
+```
+
+##### dependencies?
+
+```ts
+dependencies?: Record<string, string>;
+```
+
+##### description?
+
+```ts
+description?: string;
+```
+
+##### devDependencies?
+
+```ts
+devDependencies?: Record<string, string>;
+```
+
+##### engines?
+
+```ts
+engines?: Record<string, string>;
+```
+
+##### files?
+
+```ts
+files?: string[];
+```
+
+##### homepage?
+
+```ts
+homepage?: string;
+```
+
+##### keywords?
+
+```ts
+keywords?: string[];
+```
+
+##### license?
+
+```ts
+license?: string;
+```
+
+##### main?
+
+```ts
+main?: string;
+```
+
+##### name
+
+```ts
+name: string;
+```
+
+##### optionalDependencies?
+
+```ts
+optionalDependencies?: string[];
+```
+
+##### os?
+
+```ts
+os?: string[];
+```
+
+##### overrides?
+
+```ts
+overrides?: Record<string, string>;
+```
+
+##### packageManager?
+
+```ts
+packageManager?: string;
+```
+
+##### peerDependencies?
+
+```ts
+peerDependencies?: Record<string, string>;
+```
+
+##### peerDependenciesMeta?
+
+```ts
+peerDependenciesMeta?: Record<string, {
+  optional: boolean;
+}>;
+```
+
+##### scripts?
+
+```ts
+scripts?: Record<string, string>;
+```
+
+##### version?
+
+```ts
+version?: string;
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L106)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L107)
 
 ---
 
@@ -863,13 +1276,15 @@ type PackageJsonWithLocation: PackageJson & {
 
 #### Type declaration
 
-| Member     | Type     | Description |
-| :--------- | :------- | :---------- |
-| `location` | `string` | -           |
+##### location
+
+```ts
+location: string;
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L151)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L152)
 
 ---
 
@@ -885,15 +1300,27 @@ type Person: {
 
 #### Type declaration
 
-| Member  | Type     | Description |
-| :------ | :------- | :---------- |
-| `email` | `string` | -           |
-| `name`  | `string` | -           |
-| `url`   | `string` | -           |
+##### email?
+
+```ts
+email?: string;
+```
+
+##### name?
+
+```ts
+name?: string;
+```
+
+##### url?
+
+```ts
+url?: string;
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L101)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L102)
 
 ---
 
@@ -909,15 +1336,27 @@ type PrivatePackageJson: PackageJson & {
 
 #### Type declaration
 
-| Member       | Type           | Description |
-| :----------- | :------------- | :---------- |
-| `license`    | `"UNLICENSED"` | -           |
-| `private`    | `true`         | -           |
-| `workspaces` | `string`[]     | -           |
+##### license?
+
+```ts
+license?: "UNLICENSED";
+```
+
+##### private
+
+```ts
+private: true;
+```
+
+##### workspaces?
+
+```ts
+workspaces?: string[];
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L137)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L138)
 
 ---
 
@@ -932,14 +1371,21 @@ type PublicPackageJson: PackageJson & {
 
 #### Type declaration
 
-| Member          | Type                                | Description |
-| :-------------- | :---------------------------------- | :---------- |
-| `private`       | `false`                             | -           |
-| `publishConfig` | [`PublishConfig`](#publishconfig-1) | -           |
+##### private?
+
+```ts
+private?: false;
+```
+
+##### publishConfig?
+
+```ts
+publishConfig?: PublishConfig;
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L147)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L148)
 
 ---
 
@@ -958,38 +1404,21 @@ type PublishConfig: {
 
 #### Type declaration
 
-| Member     | Type                         | Description |
-| :--------- | :--------------------------- | :---------- |
-| `access`   | `"public"` \| `"restricted"` | -           |
-| `registry` | `string`                     | -           |
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L142)
-
----
-
-### WorkspaceConfig
+##### access?
 
 ```ts
-type WorkspaceConfig: {
-  codeowners: Codeowners;
-  root: never;
-  tasks: TaskConfig;
-};
+access?: "public" | "restricted";
 ```
 
-#### Type declaration
+##### registry?
 
-| Member       | Type                         | Description                                                                                                                               |
-| :----------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
-| `codeowners` | `Codeowners`                 | Map of paths to array of owners<br /><br />**Default**<br />`{}`                                                                          |
-| `root`       | `never`                      | -                                                                                                                                         |
-| `tasks`      | [`TaskConfig`](#taskconfigl) | Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks.<br /><br />**Default**<br />`{}` |
+```ts
+registry?: string;
+```
 
 #### Source
 
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L198)
+[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L143)
 
 ## Variables
 
@@ -1005,114 +1434,32 @@ const DependencyType: {
 
 #### Type declaration
 
-| Member | Type | Description                                                                       |
-| :----- | :--- | :-------------------------------------------------------------------------------- |
-| `DEV`  | `2`  | Development-only dependency (defined in `devDependencies` keys of `package.json`) |
-| `PEER` | `1`  | Peer dependency (defined in `peerDependencies` key of `package.json`)             |
-| `PROD` | `3`  | Production dependency (defined in `dependencies` of `package.json`)               |
+##### DEV
+
+```ts
+readonly DEV: 2;
+```
+
+Development-only dependency (defined in `devDependencies` keys of `package.json`)
+
+##### PEER
+
+```ts
+readonly PEER: 1;
+```
+
+Peer dependency (defined in `peerDependencies` key of `package.json`)
+
+##### PROD
+
+```ts
+readonly PROD: 3;
+```
+
+Production dependency (defined in `dependencies` of `package.json`)
 
 #### Source
 
 [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L7)
-
-## Tasks
-
-### Lifecycle
-
-```ts
-type Lifecycle:
-  | "pre-commit"
-  | "post-commit"
-  | "post-checkout"
-  | "pre-merge"
-  | "post-merge"
-  | "build"
-  | "deploy"
-  | "publish";
-```
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L193)
-
----
-
-### Task
-
-```ts
-type Task: string | TaskDef | string[];
-```
-
-A Task can either be a string or TaskDef object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
-
-To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a [`TaskDef`](#taskdef).
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L182)
-
----
-
-### TaskConfig\<L\>
-
-```ts
-type TaskConfig<L>: Partial<Record<Lifecycle | L, Tasks>>;
-```
-
-#### Type parameters
-
-| Type parameter       | Value   |
-| :------------------- | :------ |
-| `L` extends `string` | `never` |
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L197)
-
----
-
-### TaskDef
-
-```ts
-type TaskDef: {
-  cmd: string | string[];
-  match: string | string[];
-  meta: Record<string, unknown>;
-};
-```
-
-#### Type declaration
-
-| Member  | Type                            | Description                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :------ | :------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cmd`   | `string` \| `string`[]          | String command(s) to run. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.<br /><br />The commands can use replaced tokens:<br />- `$0`: the oneRepo CLI for your repository<br />- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle |
-| `match` | `string` \| `string`[]          | Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.                                                                                                                                                                                                                                               |
-| `meta`  | `Record`\<`string`, `unknown`\> | Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.                                                                                                                                                                                                      |
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L157)
-
----
-
-### Tasks
-
-```ts
-type Tasks: {
-  parallel: Task[];
-  serial: Task[];
-};
-```
-
-#### Type declaration
-
-| Member     | Type              | Description |
-| :--------- | :---------------- | :---------- |
-| `parallel` | [`Task`](#task)[] | -           |
-| `serial`   | [`Task`](#task)[] | -           |
-
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L186)
 
 <!-- end-onerepo-sentinel -->

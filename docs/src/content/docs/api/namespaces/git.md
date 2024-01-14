@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<68d45f0e7bf643bc05222b22de1db44b>> -->
+<!-- @generated SignedSource<<e1afeb94e24bd681b396d8a6006a4138>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -109,11 +109,29 @@ type ModifiedFromThrough: {
 
 #### Type declaration
 
-| Member    | Type     | Description                                                 |
-| :-------- | :------- | :---------------------------------------------------------- |
-| `from`    | `string` | Git ref for start (exclusive) to get list of modified files |
-| `staged`  | `false`  | Cannot include `staged` files when using from/through refs. |
-| `through` | `string` | Git ref for end (inclusive) to get list of modified files   |
+##### from?
+
+```ts
+from?: string;
+```
+
+Git ref for start (exclusive) to get list of modified files
+
+##### staged?
+
+```ts
+staged?: false;
+```
+
+Cannot include `staged` files when using from/through refs.
+
+##### through?
+
+```ts
+through?: string;
+```
+
+Git ref for end (inclusive) to get list of modified files
 
 #### Source
 
@@ -133,11 +151,29 @@ type ModifiedStaged: {
 
 #### Type declaration
 
-| Member    | Type    | Description                    |
-| :-------- | :------ | :----------------------------- |
-| `from`    | `never` | Disallowed when `staged: true` |
-| `staged`  | `true`  | Get staged modified files only |
-| `through` | `never` | Disallowed when `staged: true` |
+##### from?
+
+```ts
+from?: never;
+```
+
+Disallowed when `staged: true`
+
+##### staged
+
+```ts
+staged: true;
+```
+
+Get staged modified files only
+
+##### through?
+
+```ts
+through?: never;
+```
+
+Disallowed when `staged: true`
 
 #### Source
 
@@ -157,9 +193,13 @@ Generic options passed to all Git operations.
 
 #### Type declaration
 
-| Member | Type                        | Description                                                                                                            |
-| :----- | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
-| `step` | [`LogStep`](../../#logstep) | Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead. |
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 
 #### Source
 

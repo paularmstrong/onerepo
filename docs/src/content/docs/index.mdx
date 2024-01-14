@@ -8,11 +8,11 @@ hero:
     file: ../../assets/logo.svg
   actions:
     - text: Why oneRepo?
-      link: /guides/why-onerepo/
+      link: /concepts/why-onerepo/
       icon: list-format
       variant: primary
     - text: Getting started
-      link: /guides/getting-started/
+      link: /docs/getting-started/
       icon: rocket
       variant: secondary
     - text: API Reference
@@ -21,7 +21,7 @@ hero:
 ---
 
 import Aurora from '../../components/Aurora.astro';
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 <Aurora bands={40} />
 
@@ -40,4 +40,18 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 	<Card title="Extendable" icon="puzzle">
 		Includes [first-party plugins](/plugins/) and a robust extendable architecture to customize to your team’s needs.
 	</Card>
+</CardGrid>
+
+<h2>Helpful links</h2>
+
+<LinkCard
+	title="Monorepo primer"
+	description="Refresh your knowledge on why a monorepo may be right for you"
+	href="/concepts/primer/"
+/>
+
+<CardGrid>
+	<LinkCard title="Configuration" href="/concepts/config/" />
+	<LinkCard title="Custom commands" href="/docs/commands/" />
+	<LinkCard title="Changelog" href="/changelogs/" />
 </CardGrid>
