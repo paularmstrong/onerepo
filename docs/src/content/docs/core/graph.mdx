@@ -31,30 +31,6 @@ export default {
 };
 ```
 
-### Options
-
-{/* start-usage-typedoc */}
-
-```ts
-type Options: {
-  customSchema: string;
-  dependencies: "loose" | "off";
-  visualizerUrl: string;
-};
-```
-
-Full configuration options for the Graph core command.
-
-#### Type declaration
-
-| Member          | Type                 | Description                                                                                                                                                           |
-| :-------------- | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `customSchema`  | `string`             | File path to a custom schema for the `verify` command.                                                                                                                |
-| `dependencies`  | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'`                                                                                             |
-| `visualizerUrl` | `string`             | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |
-
-{/* end-usage-typedoc */}
-
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}

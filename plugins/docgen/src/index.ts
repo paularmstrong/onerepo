@@ -73,7 +73,8 @@ interface Args {
  * 	plugins: [docgen()],
  * };
  * ```
- */ export const docgen = (opts: Options = {}): Plugin => {
+ */
+export const docgen = (opts: Options = {}): Plugin => {
 	if (typeof opts.outFile === 'string' && (!opts.outFile || path.isAbsolute(opts.outFile))) {
 		throw new Error('Invalid path specified for `core.docgen.outFile`. Path must be relative, eg, "./docs/usage.md"');
 	}
@@ -110,7 +111,7 @@ interface Args {
 					corePlugins,
 				});
 				docsYargs._rootPath = graph.root.location;
-				docsYargs._commandDirectory = rootConfig.subcommandDir ? rootConfig.subcommandDir : 'commands';
+				docsYargs._commandDirectory = rootConfig.commands.directory ? rootConfig.commands.directory : 'commands';
 				const docs = docsYargs._serialize();
 				await parseStep.end();
 

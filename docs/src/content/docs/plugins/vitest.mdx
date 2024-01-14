@@ -15,6 +15,7 @@ import NpmToYarn from '../../../components/NpmToYarn.astro';
 <NpmToYarn script="npm install --save-dev @onerepo/plugin-vitest" />
 
 {/* start-install-typedoc */}
+{/* @generated SignedSource<<a1e20249c105591710afcc6402a52260>> */}
 
 ### vitest()
 
@@ -52,21 +53,30 @@ type Options: {
 #### Example
 
 ```js
-setup({
+export default {
 	plugins: [
 		vitest({
 			name: ['test'],
 		}),
 	],
-});
+};
 ```
 
 #### Type declaration
 
-| Member   | Type                   | Description                                                                                                                                 |
-| :------- | :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| `config` | `string`               | -                                                                                                                                           |
-| `name`   | `string` \| `string`[] | The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers. |
+##### config?
+
+```ts
+config?: string;
+```
+
+##### name?
+
+```ts
+name?: string | string[];
+```
+
+The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers.
 
 {/* end-install-typedoc */}
 

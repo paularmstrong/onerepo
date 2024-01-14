@@ -65,7 +65,7 @@ try {
 			plugins: Object.values(plugins).map((plugin) => (plugin as () => void)()),
 		},
 		yargs: createYargs(process.argv.slice(2), process.cwd(), require),
-		corePlugins: {},
+		corePlugins: [],
 	});
 }
 

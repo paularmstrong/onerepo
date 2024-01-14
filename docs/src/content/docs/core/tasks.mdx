@@ -35,30 +35,6 @@ export default {
 };
 ```
 
-### Options
-
-{/* start-usage-typedoc */}
-
-```ts
-type Options: {
-  ignore: string[];
-  lifecycles: string[];
-  stagedOnly: string[];
-};
-```
-
-Full configuration options for the Tasks core command.
-
-#### Type declaration
-
-| Member       | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| :----------- | :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ignore`     | `string`[] | Array of fileglobs to ignore when calculating the changed workspaces.<br /><br />**Default**<br />`['.changesets/*']`                                                                                                                                                                                                                                                                                                           |
-| `lifecycles` | `string`[] | Additional lifecycles to make available.                                                                                                                                                                                                                                                                                                                                                                                        |
-| `stagedOnly` | `string`[] | Default to use `--staged` behavior for these lifecycles. When set, unstaged changes will be backed up and omitted before determining and running tasks. The unstaged changes will be re-applied after task run completion or SIGKILL event is received.<br /><br />Note that it is still important to include `--staged` in individual tasks to run in the `onerepo.config` files.<br /><br />**Default**<br />`['pre-commit']` |
-
-{/* end-usage-typedoc */}
-
 ### Tasks
 
 There are four main types of tasks:
@@ -145,20 +121,18 @@ type TaskDef = { cmd: string | Array<string>; match?: string; meta?: Record<stri
 
 First, configure the extra available `lifecycles` that the task runner should have access to run:
 
-```js {3-5}
-setup({
-	core: {
-		tasks: {
-			lifecycles: ['tacos', 'burritos'],
-		},
+```js {3} title="onerepo.config.js"
+export default {
+	taskConfig: {
+		lifecycles: ['tacos', 'burritos'],
 	},
-}).then(({ run }) => run());
+};
 ```
 
-Now, in any of your `onerepo.config.js` files, you will have the ability to run tasks for `tacos` and `burritos`.
+Now, in any of your `onerepo.config.js` files, you will have the ability to add tasks for `tacos` and `burritos` and run them using the lifecycle argument `--lifecycle` or its alias `-c`:
 
 ```sh
-one tasks -c pre-tacos
+one tasks -c tacos
 ```
 
 ### Special tokens

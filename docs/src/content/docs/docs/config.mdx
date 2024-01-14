@@ -1,0 +1,400 @@
+---
+title: Configuration
+tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 4 }
+order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Root configuration
+
+oneRepo configuration files can be any flavor of JavaScript or TypeScript, as long as they are parseable and have a valid `default` export. The only requirement for your repository's root config is that `root` must be set to `true`:
+
+<Tabs>
+  <TabItem label="ES Module">
+```ts title="./onerepo.config.js" ins={2}
+export default {
+  root: true,
+};
+```
+  </TabItem>
+
+  <TabItem label="TypeScript">
+```ts title="./onerepo.config.ts" ins={4}
+import type { Config } from 'onerepo';
+
+export default {
+  root: true,
+} satisfies Config;
+```
+
+  </TabItem>
+
+  <TabItem label="Common JS">
+```ts title="./onerepo.config.cjs" ins={2}
+module.exports = {
+  root: true,
+};
+```
+  </TabItem>
+</Tabs>
+
+{/* start-usage-typedoc-root */}
+{/* @generated SignedSource<<912d3d4e04bcb0b5e3461f613711fc07>> */}
+
+### RootConfig\<CustomLifecycles\>
+
+- **Type:** `Object`
+
+Setup configuration for the root of the repository.
+
+| Type parameter                                | Value  |
+| :-------------------------------------------- | :----- |
+| `CustomLifecycles` extends `string` \| `void` | `void` |
+
+#### root
+
+- **Type:** `true`
+
+Must be set to `true` in order to denote that this is the root of the repository.
+
+#### codeowners?
+
+- **Type:** `Record`\<`string`, `string`[]\>
+- **Default:** `{}`.
+
+Map of paths to array of owners.
+
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	codeowners: {
+		'*': ['@my-team', '@person'],
+		scripts: ['@infra-team'],
+	},
+};
+```
+
+#### commands?
+
+- **Type:** `Object`
+
+Configuration for custom commands.
+
+#### commands.directory?
+
+- **Type:** `string` \| `false`
+- **Default:** `'commands'`
+
+A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		directory: 'commands',
+	},
+};
+```
+
+Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each workspace:
+
+- `<root>/commands/*`
+- `<root>/<workspaces>/commands/*`
+
+#### commands.ignore?
+
+- **Type:** `RegExp`
+- **Default:** `/(/__\w+__/|\.test\.|\.spec\.|\.config\.)/`
+
+Prevent reading matched files in the `commands.directory` as commands.
+
+When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		ignore: /(/__\w+__/|\.test\.|\.spec\.|\.config\.)/,
+	},
+};
+```
+
+#### dependencies?
+
+- **Type:** `"loose"` \| `"off"`
+- **Default:** `'loose'`
+
+Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+
+#### head?
+
+- **Type:** `string`
+- **Default:** `'main'`
+
+The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	head: 'develop',
+};
+```
+
+#### ignore?
+
+- **Type:** `string`[]
+- **Default:** `[]`
+
+Array of fileglobs to ignore when calculating the changed workspaces.
+
+Periodically we may find that there are certain files or types of files that we _know_ for a fact do not affect the validity of the repository or any code. When this happens and the files are modified, unnecessary tasks and processes will be spun up that don't have any bearing on the outcome of the change.
+
+To avoid extra processing, we can add file globs to ignore when calculated the afected workspace graph.
+
+:::caution
+This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
+:::
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	ignore: ['.changeset/*', '.github/*'],
+};
+```
+
+#### meta?
+
+- **Type:** `Record`\<`string`, `unknown`\>
+- **Default:** `{}`
+
+A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	meta: {
+		tacos: 'are delicious',
+	},
+};
+```
+
+#### plugins?
+
+- **Type:** `Plugin`[]
+
+Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
+
+- **Default:** `[]`
+
+##### Example
+
+```ts title="onerepo.config.ts"
+import { eslint } from '@onerepo/plugins-eslint';
+export default {
+	plugins: [eslint()],
+};
+```
+
+#### tasks?
+
+- **Type:** `TaskConfig`\<`CustomLifecycles`\>
+- **Default:** `{}`
+
+Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+
+#### taskConfig?
+
+- **Type:** `Object`
+
+Optional extra configuration for `tasks`.
+
+#### taskConfig.lifecycles?
+
+- **Type:** `CustomLifecycles`[]
+- **Default:** `[]`
+
+Additional `task` lifecycles to make available.
+
+See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	tasks: {
+		lifecycles: ['deploy-staging'],
+	},
+};
+```
+
+#### taskConfig.stashUnstaged?
+
+- **Type:** `CustomLifecycles` extends `string` ? `Lifecycle` \| `CustomLifecycles` : `Lifecycle`[]
+- **Default:** `['pre-commit']`
+
+Stash unstaged changes before running these tasks and re-apply them after the task has completed.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	tasks: {
+		stashUnstaged: ['pre-commit', 'post-checkout'],
+	},
+};
+```
+
+#### templateDir?
+
+- **Type:** `string`
+- **Default:** `'./config/templates'`
+
+Folder path for `generate` templates.
+
+#### validation?
+
+- **Type:** `Object`
+
+#### validation.schema?
+
+- **Type:** `string` \| `null`
+- **Default:** `undefined`
+
+File path for custom graph and configuration file validation schema.
+
+#### vcs?
+
+- **Type:** `Object`
+
+Version control system settings.
+
+#### vcs.provider?
+
+- **Type:** `"github"` \| `"gitlab"` \| `"bitbucket"` \| `"gitea"`
+- **Default:** `'github'`
+
+The provider will be factored in to various commands, like `CODEOWNERS` generation.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	vcs: {
+		provider: 'github',
+	},
+};
+```
+
+#### visualizationUrl?
+
+- **Type:** `string`
+- **Default:** `'https://onerepo.tools/visualize/'`
+
+Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+
+{/* end-usage-typedoc-root */}
+
+## Workspace configurations
+
+Workspace configuration files are not required unless a workspace has explicit `tasks`, `codeowners`, or other needs. Workspace configuration files share the same name and format as the root configuration and are able to be any flavor of JavaScript or TypeScript:
+
+<Tabs>
+  <TabItem label="ES Module">
+```ts title="./<workspace>/onerepo.config.js"
+export default {
+  codeowners: {},
+  tasks: {},
+};
+```
+  </TabItem>
+
+  <TabItem label="TypeScript">
+```ts title="./<workspace>/onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+  codeowners: {},
+  tasks: {},
+} satisfies Config;
+```
+  </TabItem>
+
+  <TabItem label="Common JS">
+```ts title="./<workspace>/onerepo.config.cjs"
+module.exports = {
+  codeowners: {},
+  tasks: {},
+};
+```
+  </TabItem>
+</Tabs>
+
+{/* start-usage-typedoc-workspace */}
+{/* @generated SignedSource<<ecdb26d10c5014b8137d5e3ee53b056f>> */}
+
+### WorkspaceConfig\<CustomLifecycles\>
+
+- **Type:** `Object`
+
+| Type parameter                                | Value  |
+| :-------------------------------------------- | :----- |
+| `CustomLifecycles` extends `string` \| `void` | `void` |
+
+#### codeowners?
+
+- **Type:** `Record`\<`string`, `string`[]\>
+- **Default:** `{}`.
+
+Map of paths to array of owners.
+
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	codeowners: {
+		'*': ['@my-team', '@person'],
+		scripts: ['@infra-team'],
+	},
+};
+```
+
+#### meta?
+
+- **Type:** `Record`\<`string`, `unknown`\>
+- **Default:** `{}`
+
+A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	meta: {
+		tacos: 'are delicious',
+	},
+};
+```
+
+#### tasks?
+
+- **Type:** `TaskConfig`\<`CustomLifecycles`\>
+- **Default:** `{}`
+
+Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+
+:::tip[Merging tasks]
+Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
+:::
+
+{/* end-usage-typedoc-workspace */}

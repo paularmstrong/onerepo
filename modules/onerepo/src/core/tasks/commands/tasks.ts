@@ -5,21 +5,19 @@ import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import * as builders from '@onerepo/builders';
 import type { PromiseFn, RunSpec } from '@onerepo/subprocess';
-import type { Graph, Lifecycle, Task, TaskDef, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
 import { setup } from '../../../setup/setup';
-import type { Config, CorePlugins } from '../../../types';
+import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../../types';
 import { generate } from '../../generate';
 import { graph } from '../../graph';
+import { codeowners } from '../../codeowners';
 
-const corePlugins: CorePlugins = {
-	generate,
-	graph,
-};
+const corePlugins: CorePlugins = [generate, graph, codeowners];
 
 export const command = 'tasks';
 

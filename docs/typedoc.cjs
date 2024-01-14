@@ -17,8 +17,8 @@ module.exports = {
 	readme: 'none',
 	sort: ['kind', 'enum-value-ascending', 'alphabetical'],
 	sourceLinkTemplate: 'https://github.com/paularmstrong/onerepo/blob/{gitRevision}/{path}#L{line}',
-	typeDeclarationFormat: 'table',
-	useCodeBlocks: true,
+	typeDeclarationFormat: 'list',
+	// useCodeBlocks: true,
 	kindSortOrder: [
 		'Project',
 		'Module',

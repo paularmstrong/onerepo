@@ -193,7 +193,33 @@ Notice that each of the workspaces have dependencies on `lettuce` and `tortillas
 </FileTree>
 
 :::note
-
 Notice that not _all_ workspaces will have a `node_modules/` folder within them. When possible, your package manager will _hoist_ duplicate packages up to the root of the repository.
-
 :::
+
+## Glossary
+
+### Version control system
+
+Version control systems (VCS) are tools to aid with tracking and managing changes to software code. VCS are software tools that help software teams manage changes to source code over time.
+
+Currently, oneRepo is only compatible with [git](https://git-scm.com/).
+
+### Repository
+
+Repositories are collections of files and folders managed by a [vcs](#version-control-system) that track changes to software.
+
+### Monorepo
+
+A [repository](#repository) that includes more than one project, typically with inter-connected and shared dependencies between the projects.
+
+### Root
+
+The root folder of a [repository](#repository). This term may also be used to refer to the root [workspace](#workspace) of a [monorepo](#monorepo).
+
+### Workspace
+
+A workspace is a singular project within a [monorepo](#monorepo) that is either able to be published, deployed, or imported as a dependency of another workspace.
+
+### Graph
+
+The graph is a representation of the [workspaces](#workspace) interdependencies within a [monorepo](#monorepo).

@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-import { Card } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 import Supported from '../../../components/checks/Supported.astro';
 import Unsupported from '../../../components/checks/Unsupported.astro';
 
@@ -21,7 +21,25 @@ Other monorepo tooling either does too much or not enough in order to maintain a
 - **Discoverable:** Code for commands must be easy to find and trace.
 - **Clear output:** All log output must be grouped, labelled with purpose, and clearly defined by its state.
 
-## Alternatives
+## Features
+
+<LinkCard
+	title="Custom commands"
+	description="Embed custom workflows into the oneRepo CLI for your repository to speed up common workflows and avoid knowledge gaps."
+	href="/docs/commands/"
+/>
+
+<CardGrid>
+	<LinkCard title="Task runner" href="/core/tasks/" />
+	<LinkCard title="Generators" href="/core/generate/" />
+	<LinkCard title="Code owners" href="/core/codeowners/" />
+	<LinkCard title="Validation" href="/core/graph/#validating-configurations" />
+	<LinkCard title="Plugins" href="/plugins/" />
+</CardGrid>
+
+## Alternatives & pitfalls
+
+### Script overload
 
 Many tools available for JavaScript repos rely on writing individual commands into each workspace’s [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This creates both a brittle setup, copy/paste boilerplate, reduced reusability, and limited documentation & discoverability.
 
@@ -85,7 +103,7 @@ Other pitfalls with npm scripts and similar DSL-like implementations like [Nx ta
 
 Because you need to define multiple steps separately that need to be run in order to build a module that includes ESM, CJS, and TS definitions, you might end up with this (naïve and shortened version) of a configuration.
 
-```yaml title="moon.yml"
+```yaml title="moon.yml"  collapse={4-9,13-18,22-27}
 tasks:
   build-esm:
     command: esbuild --format=esm
@@ -123,7 +141,42 @@ tasks:
 
 While this may seem okay to start, as repos grow and become complex, workspaces may have unique needs and need conditional checks for whether they should run certain portions of tasks or not. Using a DSL requires developers to learn _yet another thing_ or rely on dedicated teams to build infrastructure for them.
 
-### Feature comparison
+### Cache inconsistency
+
+Avoiding extra work by utilizing cached responses based on a set of input files is a great time saver in theory. The problem is that the responsibility of knowing exactly what files and workspaces affect the cache for each individual task lies on you and your team.
+
+```json title="nx.json" collapse={2-11}
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"cacheableOperations": ["test"]
+			}
+		}
+	},
+	"targetDefaults": {
+		"test": {
+			"inputs": ["default", "^production", "{workspaceRoot}/jest.config.js"]
+		}
+	},
+	"namedInputs": {
+		"default": ["{projectRoot}/**/*", "sharedGlobals"],
+		"sharedGlobals": ["{workspaceRoot}/prisma/**", "{workspaceRoot}/babel.config.json"],
+		"production": [
+			"default",
+			"!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+			"!{projectRoot}/tsconfig.spec.json",
+			"!{projectRoot}/jest.config.[jt]s"
+		]
+	}
+}
+```
+
+The main problem with cache-based solutions is that you and your team need to keep knowledge of the inputs & outputs to each task or target when making major changes to ensure that you haven't added or modified to the determinism without also updating the configuration. It is impossible to expect everyone to know everything all the time and changes will inevitably slip through the cracks, leaving your team consued as to why
+
+## Feature comparison
 
 :::note[Work in progress]
 
@@ -131,14 +184,14 @@ This is a work in progress. If you've found a mistake, please [open an issue](ht
 
 :::
 
-|                                                                          | oneRepo         | [Turbo](https://turbo.build/repo) | [Nx](https://nx.dev) | [Moonrepo](https://moonrepo.dev) | [Bazel](https://bazel.build) |
-| ------------------------------------------------------------------------ | --------------- | --------------------------------- | -------------------- | -------------------------------- | ---------------------------- |
-| Custom global commands                                                   | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
-| Primary support for JavaScript, TypeScript, and Node                     | <Supported />   | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
-| Upsells to paid service                                                  | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
-| Cache-based determinism                                                  | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
-| Change-based determinism                                                 | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Supported />                |
-| Builds on [npm scripts](https://docs.npmjs.com/cli/v9/using-npm/scripts) | <Unsupported /> | <Supported />                     | <Supported />        | <Unsupported />                  | <Unsupported />              |
+|                                                      | oneRepo         | [Turbo](https://turbo.build/repo) | [Nx](https://nx.dev) | [Moonrepo](https://moonrepo.dev) | [Bazel](https://bazel.build) |
+| ---------------------------------------------------- | --------------- | --------------------------------- | -------------------- | -------------------------------- | ---------------------------- |
+| Custom global commands                               | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
+| Primary support for JavaScript, TypeScript, and Node | <Supported />   | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
+| Upsells to paid service                              | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
+| [Cache-based determinism](#cache-inconsistency)      | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
+| Change-based determinism                             | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Supported />                |
+| Builds on [npm scripts](#script-overload)            | <Unsupported /> | <Supported />                     | <Supported />        | <Unsupported />                  | <Unsupported />              |
 
 ## History
 

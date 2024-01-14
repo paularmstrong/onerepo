@@ -8,15 +8,3 @@ description:
 ```sh
 npm install --save-dev @onerepo/plugin-<%= name %>
 ```
-
-```js
-const { changesets } = require('@onerepo/plugin-<%= name %>');
-
-(async () => {
-	const { run } = await setup({
-		plugins: [<%= name %>()],
-	});
-
-	await run();
-})();
-```

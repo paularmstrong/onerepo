@@ -19,7 +19,7 @@ export const builder: Builder<Argv> = (yargs) =>
 	});
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
-	const { add, verbosity } = argv;
+	const { $0, add, verbosity } = argv;
 	const docs = graph.getByName('docs');
 
 	const [typedoc] = await run({
@@ -32,6 +32,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		runDry: true,
 	});
 	const typedocTempDir = await file.makeTempDir('typedoc');
+
+	await run({
+		name: 'Update TSC prebuild',
+		cmd: $0,
+		args: ['tsc'],
+	});
 
 	const generators: Array<RunSpec> = [
 		{
@@ -86,6 +92,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			args: [
 				'--plugin',
 				'typedoc-plugin-markdown',
+				'--useCodeBlocks',
+				'true',
 				'--entryFileName',
 				`${shortName}.md`,
 				'--options',
@@ -100,34 +108,6 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		});
 	}
 	await pluginStep.end();
-
-	const pluginTypedoc = logger.createStep('Writing plugin configs');
-	for (const ws of workspaces) {
-		if (!ws.name.startsWith('@onerepo/plugin-')) {
-			continue;
-		}
-		const shortName = ws.name.replace('@onerepo/plugin-', '');
-		const contents = await file.read(path.join(typedocTempDir, shortName, `${shortName}.md`), 'r', {
-			step: pluginTypedoc,
-		});
-		const sourceFixed = contents
-			.replace(/^#+ Returns[^#]+/gm, '')
-			.replace(/^#+ Source\n\n[^\n]+/gm, '')
-			// fix URLs to not point to /name.md
-			.replace(new RegExp(`${shortName}.md#`, 'g'), '#');
-
-		const splits = sourceFixed.split(/^## ([^\n]+)$/gm);
-		const functionIndex = splits.indexOf('Functions') + 1;
-		const typeIndex = splits.indexOf('Type Aliases') + 1;
-		const functions = functionIndex > 0 ? splits[functionIndex] : '';
-		const types = typeIndex > 0 ? splits[typeIndex] : '';
-
-		await file.writeSafe(docs.resolve(`src/content/docs/plugins/${shortName}.mdx`), `${functions}\n\n${types}`, {
-			step: pluginTypedoc,
-			sentinel: 'install-typedoc',
-		});
-	}
-	await pluginTypedoc.end();
 
 	if (workspaces.includes(graph.getByName('onerepo'))) {
 		const core = graph.getByName('onerepo');
@@ -163,23 +143,34 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		}
 		await coreDocs.end();
 
-		await batch(generators);
-
-		const typedocs: Array<RunSpec> = [];
-		for (const cmd of commands) {
-			typedocs.push({
-				name: `Gen typedoc for ${cmd}`,
+		const configTypes = [
+			['root', core.resolve('src/types/config-root.ts'), await file.makeTempDir('root')],
+			['workspace', core.resolve('src/types/config-workspace.ts'), await file.makeTempDir('workspace')],
+		];
+		for (const [name, loc, tmpDir] of configTypes) {
+			generators.push({
+				name: `Gen typedoc for ${name} config`,
 				cmd: typedoc,
 				args: [
 					'--plugin',
 					'typedoc-plugin-markdown',
+					'--useCodeBlocks',
+					'false',
+					'--sort',
+					'required-first',
+					'--sort',
+					'source-order',
+					'--typeDeclarationFormat',
+					'list',
+					'--expandObjects',
+					'false',
 					'--entryFileName',
-					`${cmd}.md`,
+					`${name}.md`,
 					'--options',
 					docs.resolve('typedoc.cjs'),
 					'--out',
-					path.join(typedocTempDir, cmd),
-					core.resolve('src/core', cmd, 'index.ts'),
+					tmpDir,
+					loc,
 				],
 				opts: {
 					cwd: graph.root.location,
@@ -187,18 +178,52 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			});
 		}
 
-		await graph.packageManager.batch(typedocs);
+		await batch(generators);
 
-		const coreDocsTwo = logger.createStep('Getting core type docs');
-		for (const cmd of commands) {
-			if (cmd === 'create') {
+		const pluginTypedoc = logger.createStep('Writing plugin configs');
+		for (const ws of workspaces) {
+			if (!ws.name.startsWith('@onerepo/plugin-')) {
 				continue;
 			}
-			const contents = await file.read(path.join(typedocTempDir, cmd, `${cmd}.md`), 'r', { step: coreDocsTwo });
+			const shortName = ws.name.replace('@onerepo/plugin-', '');
+			const contents = await file.read(path.join(typedocTempDir, shortName, `${shortName}.md`), 'r', {
+				step: pluginTypedoc,
+			});
+			const sourceFixed = contents
+				.replace(/^#+ Returns[^#]+/gm, '')
+				.replace(/^#+ Source\n\n[^\n]+/gm, '')
+				// fix URLs to not point to /name.md
+				.replace(new RegExp(`${shortName}.md#`, 'g'), '#');
+
+			const splits = sourceFixed.split(/^## ([^\n]+)$/gm);
+			const functionIndex = splits.indexOf('Functions') + 1;
+			const typeIndex = splits.indexOf('Type Aliases') + 1;
+			const functions = functionIndex > 0 ? splits[functionIndex] : '';
+			const types = typeIndex > 0 ? splits[typeIndex] : '';
+
+			await file.writeSafe(docs.resolve(`src/content/docs/plugins/${shortName}.mdx`), `${functions}\n\n${types}`, {
+				step: pluginTypedoc,
+				sentinel: 'install-typedoc',
+				sign: true,
+			});
+		}
+		await pluginTypedoc.end();
+
+		const coreDocsTwo = logger.createStep('Getting core type docs');
+		for (const [name, , tmpDir] of configTypes) {
+			const contents = await file.read(path.join(tmpDir, `${name}.md`), 'r', { step: coreDocsTwo });
 			await file.writeSafe(
-				docs.resolve(`src/content/docs/core/${cmd}.mdx`),
-				contents.replace(/[^]+#+ Options/gm, '').replace(/^#+ Source\n\n[^\n]+/gm, ''),
-				{ step: coreDocsTwo, sentinel: 'usage-typedoc' },
+				docs.resolve(`src/content/docs/docs/config.mdx`),
+				contents
+					.replace(/#+ Config[.\n]*/, '')
+					.replace(/#+ Type parameters[.\n]*/, '')
+					.replace(/#+ Type declaration[.\n]*/, '')
+					.replace(/^##/gm, '#')
+					.replace(/^## /gm, '### ')
+					.replace(/^#+ Source\n\n[^\n]+/gm, '')
+					.replace(/\n\n#+ Default\n\n([^\n]+)/gm, '\n- **Default:** $1\n')
+					.replace(/^> \*\*[^:]+: /gm, '- **Type:** '),
+				{ step: coreDocsTwo, sentinel: `usage-typedoc-${name}`, sign: true },
 			);
 		}
 		await coreDocsTwo.end();

@@ -339,6 +339,20 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
+"concepts/primer.mdx": {
+	id: "concepts/primer.mdx";
+  slug: "concepts/primer";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
+"concepts/why-onerepo.mdx": {
+	id: "concepts/why-onerepo.mdx";
+  slug: "concepts/why-onerepo";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
 "core/codeowners.mdx": {
 	id: "core/codeowners.mdx";
   slug: "core/codeowners";
@@ -381,37 +395,30 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"guides/config.mdx": {
-	id: "guides/config.mdx";
-  slug: "guides/config";
+"discord.mdx": {
+	id: "discord.mdx";
+  slug: "discord";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"guides/custom-commands.md": {
-	id: "guides/custom-commands.md";
-  slug: "guides/custom-commands";
+"docs/commands.md": {
+	id: "docs/commands.md";
+  slug: "docs/commands";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".md"] };
-"guides/getting-started.mdx": {
-	id: "guides/getting-started.mdx";
-  slug: "guides/getting-started";
+"docs/config.mdx": {
+	id: "docs/config.mdx";
+  slug: "docs/config";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"guides/primer.mdx": {
-	id: "guides/primer.mdx";
-  slug: "guides/primer";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
-"guides/why-onerepo.mdx": {
-	id: "guides/why-onerepo.mdx";
-  slug: "guides/why-onerepo";
+"docs/getting-started.mdx": {
+	id: "docs/getting-started.mdx";
+  slug: "docs/getting-started";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">

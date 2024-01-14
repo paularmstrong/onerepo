@@ -2,24 +2,13 @@ import path from 'node:path';
 import type { Plugin } from '../../types';
 import * as cmd from './generate';
 
-/**
- * Full configuration options for the Generate core command.
- * @group Core
- */
-export type Options = {
-	/**
-	 * Folder path to find templates.
-	 */
-	templatesDir: string;
-};
-
-export function generate(opts: Options = { templatesDir: './config/templates' }): Plugin {
-	if (path.isAbsolute(opts.templatesDir)) {
+export const generate: Plugin = function generate(opts) {
+	if (path.isAbsolute(opts.templateDir)) {
 		throw new Error(
 			'Invalid path specified for `core.generate.templatesDir`. Path must be relative to the repository root, like "./config/templates"',
 		);
 	}
-	const resolvedDir = path.resolve(process.env.ONE_REPO_ROOT!, opts.templatesDir ?? '');
+	const resolvedDir = path.resolve(process.env.ONE_REPO_ROOT!, opts.templateDir ?? '');
 
 	return {
 		yargs: (yargs, visitor) => {
@@ -45,4 +34,4 @@ export function generate(opts: Options = { templatesDir: './config/templates' })
 			);
 		},
 	};
-}
+};

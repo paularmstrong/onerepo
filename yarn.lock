@@ -3335,7 +3335,7 @@ __metadata:
     rehype: ^13.0.1
     rehype-mermaid: ^2.0.1
     typedoc: ^0.25.7
-    typedoc-plugin-markdown: ^4.0.0-next.39
+    typedoc-plugin-markdown: ^4.0.0-next.40
     typescript: ^5.3.3
     unist-util-visit: ^5.0.0
   languageName: unknown
@@ -8272,6 +8272,13 @@ __metadata:
   dependencies:
     clone: ^1.0.2
   checksum: 3a88b7a587fc076b84e60affad8b85245c01f60f38fc1d259e7ac1d89eb9ce6abb19e27215de46b98568dd5bc48471730b327637e6f20b0f1bc85cf00440c80a
+  languageName: node
+  linkType: hard
+
+"defaults@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "defaults@npm:3.0.0"
+  checksum: 656215c738993a43e436bfbbe8d5aaa3d029e1a3d19fc48c98aba416270eec8d69c194d28d6aaba728366afeadccc923bf2d168613be066fa83a3e232335e65a
   languageName: node
   linkType: hard
 
@@ -16435,6 +16442,7 @@ __metadata:
     ajv-errors: ^3.0.0
     cjson: ^0.5.0
     cliui: ^8.0.1
+    defaults: ^3.0.0
     ejs: ^3.1.8
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
@@ -20378,12 +20386,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^4.0.0-next.39":
-  version: 4.0.0-next.39
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.39"
+"typedoc-plugin-markdown@npm:^4.0.0-next.40":
+  version: 4.0.0-next.40
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.40"
   peerDependencies:
     typedoc: 0.25.x
-  checksum: c6ef22a52e953394d1fbf140647ac595c0084ee8ded563f364d7c8183fa6047b396d1e6eb3f88e40ef93a69cf7e571de608b475e441984e2c563433ef30ee1d7
+  checksum: ef6e2a6b26dc4d804ce868027d081cd3f923ee316efa2c8ad8e9663964052a9c2a6e163795c91da91b2b2a16267214f3abd8e5abb9d94362ce1bac2df4cbb450
   languageName: node
   linkType: hard
 

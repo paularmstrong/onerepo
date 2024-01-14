@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<a0d1e598942fd0e5d8499cb6e43e0d60>> -->
+<!-- @generated SignedSource<<aab6d38f21d414985b750e546406754d>> -->
 
 File manipulation functions.
 
@@ -44,9 +44,14 @@ Generic options for file functions
 
 #### Type declaration
 
-| Member | Type                        | Description                                                                                                                 |
-| :----- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `step` | [`LogStep`](../../#logstep) | Avoid creating a new step in output for each function.<br />Pass a Logger Step to pipe all logs and output to that instead. |
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Avoid creating a new step in output for each function.
+Pass a Logger Step to pipe all logs and output to that instead.
 
 #### Source
 
@@ -65,10 +70,22 @@ type ReadSafeOptions: {
 
 #### Type declaration
 
-| Member     | Type                        | Description                                                                                                                 |
-| :--------- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `sentinel` | `string`                    | Unique string to use as a start and end sentinel for the contents                                                           |
-| `step`     | [`LogStep`](../../#logstep) | Avoid creating a new step in output for each function.<br />Pass a Logger Step to pipe all logs and output to that instead. |
+##### sentinel?
+
+```ts
+sentinel?: string;
+```
+
+Unique string to use as a start and end sentinel for the contents
+
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Avoid creating a new step in output for each function.
+Pass a Logger Step to pipe all logs and output to that instead.
 
 #### Source
 
@@ -99,10 +116,22 @@ type WriteOptions: {
 
 #### Type declaration
 
-| Member | Type                        | Description                                                                                                                 |
-| :----- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `sign` | `boolean`                   | Optionally sign the contents for future verification.                                                                       |
-| `step` | [`LogStep`](../../#logstep) | Avoid creating a new step in output for each function.<br />Pass a Logger Step to pipe all logs and output to that instead. |
+##### sign?
+
+```ts
+sign?: boolean;
+```
+
+Optionally sign the contents for future verification.
+
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Avoid creating a new step in output for each function.
+Pass a Logger Step to pipe all logs and output to that instead.
 
 #### Source
 
@@ -122,11 +151,30 @@ type WriteSafeOptions: {
 
 #### Type declaration
 
-| Member     | Type                        | Description                                                                                                                 |
-| :--------- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `sentinel` | `string`                    | Unique string to use as a start and end sentinel for the contents                                                           |
-| `sign`     | `boolean`                   | Optionally sign the contents for future verification.                                                                       |
-| `step`     | [`LogStep`](../../#logstep) | Avoid creating a new step in output for each function.<br />Pass a Logger Step to pipe all logs and output to that instead. |
+##### sentinel?
+
+```ts
+sentinel?: string;
+```
+
+Unique string to use as a start and end sentinel for the contents
+
+##### sign?
+
+```ts
+sign?: boolean;
+```
+
+Optionally sign the contents for future verification.
+
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Avoid creating a new step in output for each function.
+Pass a Logger Step to pipe all logs and output to that instead.
 
 #### Source
 

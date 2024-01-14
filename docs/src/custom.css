@@ -210,15 +210,15 @@ code {
 	}
 }
 
-.node:hover rect.basic.label-container {
+.visualizer .node:hover rect.basic.label-container {
 	stroke: var(--sl-color-green-high) !important;
 	fill: var(--sl-color-green-low) !important;
 }
 
-.node rect.basic.label-container {
+.visualizer .node rect.basic.label-container {
 	stroke-width: 2px !important;
 }
 
-.nodeLabel {
+.visualizer .nodeLabel {
 	font-weight: 900 !important;
 }

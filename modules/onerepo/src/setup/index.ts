@@ -1,6 +1,6 @@
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
-import type { Config } from '../types';
+import type { Config, CorePlugins } from '../types';
 import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
 import { generate } from '../core/generate';
@@ -11,7 +11,6 @@ import { setup as internalSetup } from './setup';
 
 export type { GraphSchemaValidators } from '../core/graph';
 export type { App } from './setup';
-export * from '../types';
 
 /**
  * @internal
@@ -36,17 +35,9 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins = {
-	codeowners,
-	generate,
-	graph,
-	tasks,
-};
+export const corePlugins: CorePlugins = [codeowners, generate, graph, tasks];
 
 /**
  * @internal
  */
-export const plugins = {
-	create,
-	install,
-};
+export const plugins: CorePlugins = [create, install];

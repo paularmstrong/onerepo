@@ -1,7 +1,7 @@
 import type { Plugin } from '../../types';
 import * as cmd from './create';
 
-export function create(): Plugin {
+export const create: Plugin = function create() {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
@@ -13,4 +13,4 @@ export function create(): Plugin {
 			);
 		},
 	};
-}
+};

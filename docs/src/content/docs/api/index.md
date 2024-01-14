@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<4d235c536ba5f663b1f76c9b0540162e>> -->
+<!-- @generated SignedSource<<1e27688784b9027cf8f55e438a42dff5>> -->
 
 ## Namespaces
 
@@ -20,10 +20,6 @@ title: oneRepo API
 
 Re-exports [Graph](namespaces/graph/#graph)
 
-### Tasks
-
-Re-exports [Tasks](namespaces/graph/#tasks-1)
-
 ### Workspace
 
 Re-exports [Workspace](namespaces/graph/#workspace)
@@ -38,7 +34,7 @@ type Config: RootConfig | WorkspaceConfig;
 
 #### Source
 
-[modules/onerepo/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types.ts#L74)
+[modules/onerepo/src/types/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/index.ts#L3)
 
 ## Command type aliases
 
@@ -128,12 +124,63 @@ Default arguments provided globally for all commands. These arguments are includ
 
 #### Type declaration
 
-| Member              | Type      | Description                                                                                                                                                                                                                                                                              |
-| :------------------ | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dry-run`           | `boolean` | Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.<br /><br />Also internally sets `process.env.ONE_REPO_DRY_RUN = 'true'`.<br /><br />**Default**<br />`false` |
-| `silent`            | `boolean` | Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.<br /><br />**Default**<br />`false`                                                                                                                                                         |
-| `skip-engine-check` | `boolean` | Skip the engines check. When `false`, oneRepo will the current process's node version with the range for `engines.node` as defined in `package.json`. If not defined in the root `package.json`, this will be skipped.<br /><br />**Default**<br />`false`                               |
-| `verbosity`         | `number`  | Verbosity level for the Logger. See Logger.verbosity for more information.<br /><br />**Default**<br />`3`                                                                                                                                                                               |
+##### dry-run
+
+```ts
+dry-run: boolean;
+```
+
+Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.
+
+Also internally sets `process.env.ONE_REPO_DRY_RUN = 'true'`.
+
+###### Default
+
+```ts
+false;
+```
+
+##### silent
+
+```ts
+silent: boolean;
+```
+
+Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.
+
+###### Default
+
+```ts
+false;
+```
+
+##### skip-engine-check
+
+```ts
+skip-engine-check: boolean;
+```
+
+Skip the engines check. When `false`, oneRepo will the current process's node version with the range for `engines.node` as defined in `package.json`. If not defined in the root `package.json`, this will be skipped.
+
+###### Default
+
+```ts
+false;
+```
+
+##### verbosity
+
+```ts
+verbosity: number;
+```
+
+Verbosity level for the Logger. See Logger.verbosity for more information.
+
+###### Default
+
+```ts
+3;
+```
 
 #### Source
 
@@ -222,13 +269,86 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 
 #### Type declaration
 
-| Member          | Type                                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| :-------------- | :--------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `getAffected`   | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | Get the affected workspaces based on the current state of the repository.<br /><br />This is a wrapped implementation of [`builders.getAffected`](namespaces/builders/#getaffected) that does not require passing the `graph` argument.                                                                                                                                                                                                                                                                                                                                     |
-| `getFilepaths`  | (`opts`?) => `Promise`\<`string`[]\>                                   | Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by [`builders.withFiles`](namespaces/builders/#withfiles) if provided.<br /><br />This is a wrapped implementation of [`builders.getFilepaths`](namespaces/builders/#getfilepaths) that does not require the `graph` and `argv` arguments.<br /><br />**Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit. |
-| `getWorkspaces` | (`opts`?) => `Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\> | Get the affected workspaces based on the current inputs and the state of the repository.<br />This function differs from `getAffected` in that it respects all input arguments provided by<br />[`builders.withWorkspaces`](namespaces/builders/#withworkspaces), [`builders.withFiles`](namespaces/builders/#withfiles) and [`builders.withAffected`](namespaces/builders/#withaffected).<br /><br />This is a wrapped implementation of [`builders.getWorkspaces`](namespaces/builders/#getworkspaces) that does not require the `graph` and `argv` arguments.            |
-| `graph`         | [`Graph`](namespaces/graph/#graph)                                     | The full monorepo [`graph.Graph`](namespaces/graph/#graph).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `logger`        | [`Logger`](#logger)                                                    | Standard [`Logger`](#logger). This should _always_ be used in place of `console.log` methods unless you have<br />a specific need to write to standard out differently.                                                                                                                                                                                                                                                                                                                                                                                                     |
+##### getAffected
+
+```ts
+getAffected: (opts?) => Promise<Workspace[]>;
+```
+
+Get the affected workspaces based on the current state of the repository.
+
+This is a wrapped implementation of [`builders.getAffected`](namespaces/builders/#getaffected) that does not require passing the `graph` argument.
+
+###### Parameters
+
+| Parameter | Type                                                  |
+| :-------- | :---------------------------------------------------- |
+| `opts`?   | [`GetterOptions`](namespaces/builders/#getteroptions) |
+
+###### Returns
+
+`Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\>
+
+##### getFilepaths
+
+```ts
+getFilepaths: (opts?) => Promise<string[]>;
+```
+
+Get the affected filepaths based on the current inputs and state of the repository. Respects manual inputs provided by [`builders.withFiles`](namespaces/builders/#withfiles) if provided.
+
+This is a wrapped implementation of [`builders.getFilepaths`](namespaces/builders/#getfilepaths) that does not require the `graph` and `argv` arguments.
+
+**Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit.
+
+###### Parameters
+
+| Parameter | Type                                                          |
+| :-------- | :------------------------------------------------------------ |
+| `opts`?   | [`FileGetterOptions`](namespaces/builders/#filegetteroptions) |
+
+###### Returns
+
+`Promise`\<`string`[]\>
+
+##### getWorkspaces
+
+```ts
+getWorkspaces: (opts?) => Promise<Workspace[]>;
+```
+
+Get the affected workspaces based on the current inputs and the state of the repository.
+This function differs from `getAffected` in that it respects all input arguments provided by
+[`builders.withWorkspaces`](namespaces/builders/#withworkspaces), [`builders.withFiles`](namespaces/builders/#withfiles) and [`builders.withAffected`](namespaces/builders/#withaffected).
+
+This is a wrapped implementation of [`builders.getWorkspaces`](namespaces/builders/#getworkspaces) that does not require the `graph` and `argv` arguments.
+
+###### Parameters
+
+| Parameter | Type                                                  |
+| :-------- | :---------------------------------------------------- |
+| `opts`?   | [`GetterOptions`](namespaces/builders/#getteroptions) |
+
+###### Returns
+
+`Promise`\<[`Workspace`](namespaces/graph/#workspace)[]\>
+
+##### graph
+
+```ts
+graph: Graph;
+```
+
+The full monorepo [`graph.Graph`](namespaces/graph/#graph).
+
+##### logger
+
+```ts
+logger: Logger;
+```
+
+Standard [`Logger`](#logger). This should _always_ be used in place of `console.log` methods unless you have
+a specific need to write to standard out differently.
 
 #### Source
 
@@ -250,125 +370,625 @@ Always present in Builder and Handler arguments as parsed by Yargs.
 
 #### Type declaration
 
-| Member | Type                     | Description                                                                                                                                                                                           |
-| :----- | :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `$0`   | `string`                 | The script name or node command. Similar to `process.argv[1]`                                                                                                                                         |
-| `--`   | `string`[]               | Any content that comes after " -- " gets populated here. These are useful for spreading through to spawned `run` functions that may take extra options that you don't want to enumerate and validate. |
-| `_`    | (`string` \| `number`)[] | Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.                                                           |
+##### $0
+
+```ts
+$0: string;
+```
+
+The script name or node command. Similar to `process.argv[1]`
+
+##### --
+
+```ts
+--: string[];
+```
+
+Any content that comes after " -- " gets populated here. These are useful for spreading through to spawned `run` functions that may take extra options that you don't want to enumerate and validate.
+
+##### \_
+
+```ts
+_: (string | number)[];
+```
+
+Positionals / non-option arguments. These will only be filled if you include `.positional()` or `.strictCommands(false)` in your `Builder`.
 
 #### Source
 
 [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts#L71)
 
-## Core
+## Config
 
-### CodeownersOptions
+### Lifecycle
 
 ```ts
-type CodeownersOptions: {
-  provider: Providers;
+type Lifecycle:
+  | "pre-commit"
+  | "post-commit"
+  | "post-checkout"
+  | "pre-merge"
+  | "post-merge"
+  | "build"
+  | "deploy"
+  | "publish";
+```
+
+#### Source
+
+[modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts#L40)
+
+---
+
+### RootConfig\<CustomLifecycles\>
+
+```ts
+type RootConfig<CustomLifecycles>: {
+  codeowners: Record<string, string[]>;
+  commands: {
+     directory: string | false;
+     ignore: RegExp;
+  };
+  dependencies: "loose" | "off";
+  head: string;
+  ignore: string[];
+  meta: Record<string, unknown>;
+  plugins: Plugin[];
+  root: true;
+  taskConfig: {
+     lifecycles: CustomLifecycles[];
+     stashUnstaged: CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle[];
+  };
+  tasks: TaskConfig<CustomLifecycles>;
+  templateDir: string;
+  validation: {
+     schema: string | null;
+  };
+  vcs: {
+     provider: "github" | "gitlab" | "bitbucket" | "gitea";
+  };
+  visualizationUrl: string;
 };
 ```
 
-Full configuration options for the Codeowners core command.
+Setup configuration for the root of the repository.
 
-#### Example
+#### Type parameters
 
-```ts title="./onerepo.config.ts"
+| Type parameter                                | Value  |
+| :-------------------------------------------- | :----- |
+| `CustomLifecycles` extends `string` \| `void` | `void` |
+
+#### Type declaration
+
+##### codeowners?
+
+```ts
+codeowners?: Record<string, string[]>;
+```
+
+###### Default
+
+`{}`.
+Map of paths to array of owners.
+
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+
+###### Example
+
+```ts title="onerepo.config.ts"
 export default {
-	core: {
-		codeowners: {
-			provider: 'github',
-		},
+	codeowners: {
+		'*': ['@my-team', '@person'],
+		scripts: ['@infra-team'],
 	},
 };
 ```
 
-#### Type declaration
+##### commands?
 
-| Member     | Type        | Description                                                                                                                     |
-| :--------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `provider` | `Providers` | Repository host/provider. This determines where and how codeowners files will be written<br /><br />**Default**<br />`'github'` |
+```ts
+commands?: {
+  directory: string | false;
+  ignore: RegExp;
+};
+```
+
+Configuration for custom commands.
+
+##### commands.directory?
+
+```ts
+commands.directory?: string | false;
+```
+
+###### Default
+
+`'commands'`
+A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		directory: 'commands',
+	},
+};
+```
+
+Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each workspace:
+
+- `<root>/commands/*`
+- `<root>/<workspaces>/commands/*`
+
+##### commands.ignore?
+
+```ts
+commands.ignore?: RegExp;
+```
+
+###### Default
+
+`/(/__\w+__/|\.test\.|\.spec\.|\.config\.)/`
+Prevent reading matched files in the `commands.directory` as commands.
+
+When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		ignore: /(/__\w+__/|\.test\.|\.spec\.|\.config\.)/,
+	},
+};
+```
+
+##### dependencies?
+
+```ts
+dependencies?: "loose" | "off";
+```
+
+###### Default
+
+`'loose'`
+Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+
+##### head?
+
+```ts
+head?: string;
+```
+
+###### Default
+
+`'main'`
+The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	head: 'develop',
+};
+```
+
+##### ignore?
+
+```ts
+ignore?: string[];
+```
+
+###### Default
+
+`[]`
+Array of fileglobs to ignore when calculating the changed workspaces.
+
+Periodically we may find that there are certain files or types of files that we _know_ for a fact do not affect the validity of the repository or any code. When this happens and the files are modified, unnecessary tasks and processes will be spun up that don't have any bearing on the outcome of the change.
+
+To avoid extra processing, we can add file globs to ignore when calculated the afected workspace graph.
+
+:::caution
+This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
+:::
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	ignore: ['.changeset/*', '.github/*'],
+};
+```
+
+##### meta?
+
+```ts
+meta?: Record<string, unknown>;
+```
+
+###### Default
+
+`{}`
+A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	meta: {
+		tacos: 'are delicious',
+	},
+};
+```
+
+##### plugins?
+
+```ts
+plugins?: Plugin[];
+```
+
+Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
+
+###### Default
+
+`[]`
+
+###### Example
+
+```ts title="onerepo.config.ts"
+import { eslint } from '@onerepo/plugins-eslint';
+export default {
+	plugins: [eslint()],
+};
+```
+
+##### root
+
+```ts
+root: true;
+```
+
+Must be set to `true` in order to denote that this is the root of the repository.
+
+##### taskConfig?
+
+```ts
+taskConfig?: {
+  lifecycles: CustomLifecycles[];
+  stashUnstaged: CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle[];
+};
+```
+
+Optional extra configuration for `tasks`.
+
+##### taskConfig.lifecycles?
+
+```ts
+taskConfig.lifecycles?: CustomLifecycles[];
+```
+
+###### Default
+
+`[]`
+Additional `task` lifecycles to make available.
+
+See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	tasks: {
+		lifecycles: ['deploy-staging'],
+	},
+};
+```
+
+##### taskConfig.stashUnstaged?
+
+```ts
+taskConfig.stashUnstaged?: CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle[];
+```
+
+###### Default
+
+`['pre-commit']`
+Stash unstaged changes before running these tasks and re-apply them after the task has completed.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	tasks: {
+		stashUnstaged: ['pre-commit', 'post-checkout'],
+	},
+};
+```
+
+##### tasks?
+
+```ts
+tasks?: TaskConfig<CustomLifecycles>;
+```
+
+###### Default
+
+`{}`
+Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+
+##### templateDir?
+
+```ts
+templateDir?: string;
+```
+
+###### Default
+
+`'./config/templates'`
+Folder path for `generate` templates.
+
+##### validation?
+
+```ts
+validation?: {
+  schema: string | null;
+};
+```
+
+##### validation.schema?
+
+```ts
+validation.schema?: string | null;
+```
+
+###### Default
+
+`undefined`
+File path for custom graph and configuration file validation schema.
+
+##### vcs?
+
+```ts
+vcs?: {
+  provider: "github" | "gitlab" | "bitbucket" | "gitea";
+};
+```
+
+Version control system settings.
+
+##### vcs.provider?
+
+```ts
+vcs.provider?: "github" | "gitlab" | "bitbucket" | "gitea";
+```
+
+###### Default
+
+`'github'`
+The provider will be factored in to various commands, like `CODEOWNERS` generation.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	vcs: {
+		provider: 'github',
+	},
+};
+```
+
+##### visualizationUrl?
+
+```ts
+visualizationUrl?: string;
+```
+
+###### Default
+
+`'https://onerepo.tools/visualize/'`
+Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 
 #### Source
 
-[modules/onerepo/src/core/codeowners/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/codeowners/index.ts#L18)
+[modules/onerepo/src/types/config-root.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-root.ts#L7)
 
 ---
 
-### CoreConfig
+### Task
 
 ```ts
-type CoreConfig: {
-  codeowners: CodeownersOptions;
-  generate: GenerateOptions;
-  graph: GraphOptions;
-  tasks: TasksOptions;
+type Task: string | TaskDef | string[];
+```
+
+A Task can either be a string or TaskDef object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
+
+To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a [`TaskDef`](#taskdef).
+
+#### Source
+
+[modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts#L29)
+
+---
+
+### TaskConfig\<CustomLifecycles\>
+
+```ts
+type TaskConfig<CustomLifecycles>: Partial<Record<CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle, Tasks>>;
+```
+
+#### Type parameters
+
+| Type parameter                                | Value  |
+| :-------------------------------------------- | :----- |
+| `CustomLifecycles` extends `string` \| `void` | `void` |
+
+#### Source
+
+[modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts#L44)
+
+---
+
+### TaskDef
+
+```ts
+type TaskDef: {
+  cmd: string | string[];
+  match: string | string[];
+  meta: Record<string, unknown>;
 };
 ```
 
 #### Type declaration
 
-| Member       | Type                                      | Description                                                                      |
-| :----------- | :---------------------------------------- | :------------------------------------------------------------------------------- |
-| `codeowners` | [`CodeownersOptions`](#codeownersoptions) | Configuration options fopr the [Codeowners](/docs/core/codeowners/) core module. |
-| `generate`   | [`GenerateOptions`](#generateoptions)     | Configuration options fopr the [Generate](/docs/core/generate/) core module.     |
-| `graph`      | [`GraphOptions`](#graphoptions)           | Configuration options fopr the [Graph](/docs/core/graph/) core module.           |
-| `tasks`      | [`TasksOptions`](#tasksoptions)           | Configuration options fopr the [Tasks](/docs/core/tasks/) core module.           |
+##### cmd
+
+```ts
+cmd: string | string[];
+```
+
+String command(s) to run. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
+
+The commands can use replaced tokens:
+
+- `$0`: the oneRepo CLI for your repository
+- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
+
+##### match?
+
+```ts
+match?: string | string[];
+```
+
+Glob file match. This will force the `cmd` to run if any of the paths in the modified files list match the glob. Conversely, if no files are matched, the `cmd` _will not_ run.
+
+##### meta?
+
+```ts
+meta?: Record<string, unknown>;
+```
+
+Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.
 
 #### Source
 
-[modules/onerepo/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types.ts#L16)
+[modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts#L4)
 
 ---
 
-### GenerateOptions
+### Tasks
 
 ```ts
-type GenerateOptions: {
-  templatesDir: string;
+type Tasks: {
+  parallel: Task[];
+  serial: Task[];
 };
 ```
 
-Full configuration options for the Generate core command.
-
 #### Type declaration
 
-| Member         | Type     | Description                    |
-| :------------- | :------- | :----------------------------- |
-| `templatesDir` | `string` | Folder path to find templates. |
+##### parallel?
+
+```ts
+parallel?: Task[];
+```
+
+##### serial?
+
+```ts
+serial?: Task[];
+```
 
 #### Source
 
-[modules/onerepo/src/core/generate/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/index.ts#L6)
+[modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts#L33)
 
 ---
 
-### GraphOptions
+### WorkspaceConfig\<CustomLifecycles\>
 
 ```ts
-type GraphOptions: {
-  customSchema: string;
-  dependencies: "loose" | "off";
-  visualizerUrl: string;
+type WorkspaceConfig<CustomLifecycles>: {
+  codeowners: Record<string, string[]>;
+  meta: Record<string, unknown>;
+  tasks: TaskConfig<CustomLifecycles>;
 };
 ```
 
-Full configuration options for the Graph core command.
+#### Type parameters
+
+| Type parameter                                | Value  |
+| :-------------------------------------------- | :----- |
+| `CustomLifecycles` extends `string` \| `void` | `void` |
 
 #### Type declaration
 
-| Member          | Type                 | Description                                                                                                                                                           |
-| :-------------- | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `customSchema`  | `string`             | File path to a custom schema for the `verify` command.                                                                                                                |
-| `dependencies`  | `"loose"` \| `"off"` | Method for dependency verification.<br /><br />**Default**<br />`'loose'`                                                                                             |
-| `visualizerUrl` | `string`             | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |
+##### codeowners?
+
+```ts
+codeowners?: Record<string, string[]>;
+```
+
+###### Default
+
+`{}`.
+Map of paths to array of owners.
+
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	codeowners: {
+		'*': ['@my-team', '@person'],
+		scripts: ['@infra-team'],
+	},
+};
+```
+
+##### meta?
+
+```ts
+meta?: Record<string, unknown>;
+```
+
+###### Default
+
+`{}`
+A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export default {
+	meta: {
+		tacos: 'are delicious',
+	},
+};
+```
+
+##### tasks?
+
+```ts
+tasks?: TaskConfig<CustomLifecycles>;
+```
+
+###### Default
+
+`{}`
+Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+
+:::tip[Merging tasks]
+Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
+:::
 
 #### Source
 
-[modules/onerepo/src/core/graph/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/graph/index.ts#L6)
+[modules/onerepo/src/types/config-workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-workspace.ts#L5)
 
----
+## Core
 
 ### GraphSchemaValidators
 
@@ -417,7 +1037,7 @@ type Plugin: PluginObject | (config) => PluginObject;
 
 #### Source
 
-[modules/onerepo/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types.ts#L107)
+[modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts#L27)
 
 ---
 
@@ -433,75 +1053,67 @@ type PluginObject: {
 
 #### Type declaration
 
-| Member     | Type                                                                                                            | Description                                                                                                                                                                                                                                                                                  |
-| :--------- | :-------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `shutdown` | (`argv`) => `Promise`\<`Record`\<`string`, `unknown`\> \| `void`\> \| `Record`\<`string`, `unknown`\> \| `void` | Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.<br /><br />**Example**<br />`setup({ /* ... */ }) 	.then(({ run }) => run()) 	.then((shutdownResponse) => { 		console.log(shutdownResponse); 	});`                |
-| `startup`  | (`argv`) => `Promise`\<`void`\> \| `void`                                                                       | Runs before any and all commands after argument parsing. This is similar to global Yargs middleware, but guaranteed to have the fully resolved and parsed arguments.<br /><br />Use this function for setting up global even listeners like `PerformanceObserver`, `process` events, etc.    |
-| `yargs`    | (`yargs`, `visitor`) => `Yargs`                                                                                 | A function that is called with the CLI's `yargs` object and a visitor.<br />It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more. |
-
-#### Source
-
-[modules/onerepo/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types.ts#L78)
-
----
-
-### RootConfig
+##### shutdown?
 
 ```ts
-type RootConfig: Omit<WorkspaceConfig, "root"> & {
-  core: CoreConfig;
-  head: string;
-  ignoreCommands: RegExp;
-  plugins: Plugin[];
-  root: true;
-  subcommandDir: string | false;
-  tasks: TaskConfig;
-};
+shutdown?: (argv) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
 ```
 
-Setup configuration for the oneRepo command-line interface.
+Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.
 
-#### Type declaration
+###### Parameters
 
-| Member           | Type                                          | Description                                                                                                                                                                                                       |
-| :--------------- | :-------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `core`           | [`CoreConfig`](#coreconfig)                   | Core plugin configuration. These plugins will be added automatically unless the value specified is `false`<br /><br />**Default**<br />`{}`                                                                       |
-| `head`           | `string`                                      | What's the default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.<br /><br />**Default**<br />`'main'` |
-| `ignoreCommands` | `RegExp`                                      | When using subcommandDir, include a regular expression here to ignore files.<br /><br />**Default**<br />`/(/__\w+__/\|\.test\.\|\.spec\.\|\.config\.)/`                                                          |
-| `plugins`        | [`Plugin`](#plugin)[]                         | Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.<br /><br />**Default**<br />`[]`                                                |
-| `root`           | `true`                                        | Must be set to `true` in order to denote that this is the root of the repository.                                                                                                                                 |
-| `subcommandDir`  | `string` \| `false`                           | A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.<br /><br />**Default**<br />`'commands'`           |
-| `tasks`          | [`TaskConfig`](namespaces/graph/#taskconfigl) | Globally defined tasks per lifecycle<br /><br />**Default**<br />`{}`                                                                                                                                             |
+| Parameter | Type                                                        |
+| :-------- | :---------------------------------------------------------- |
+| `argv`    | [`Argv`](#argvcommandargv)\<[`DefaultArgv`](#defaultargv)\> |
 
-#### Source
+###### Returns
 
-[modules/onerepo/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types.ts#L38)
+`Promise`\<`Record`\<`string`, `unknown`\> \| `void`\> \| `Record`\<`string`, `unknown`\> \| `void`
 
----
-
-### TasksOptions
+##### startup?
 
 ```ts
-type TasksOptions: {
-  ignore: string[];
-  lifecycles: string[];
-  stagedOnly: string[];
-};
+startup?: (argv) => Promise<void> | void;
 ```
 
-Full configuration options for the Tasks core command.
+Runs before any and all commands after argument parsing. This is similar to global Yargs middleware, but guaranteed to have the fully resolved and parsed arguments.
 
-#### Type declaration
+Use this function for setting up global even listeners like `PerformanceObserver`, `process` events, etc.
 
-| Member       | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| :----------- | :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ignore`     | `string`[] | Array of fileglobs to ignore when calculating the changed workspaces.<br /><br />**Default**<br />`['.changesets/*']`                                                                                                                                                                                                                                                                                                           |
-| `lifecycles` | `string`[] | Additional lifecycles to make available.                                                                                                                                                                                                                                                                                                                                                                                        |
-| `stagedOnly` | `string`[] | Default to use `--staged` behavior for these lifecycles. When set, unstaged changes will be backed up and omitted before determining and running tasks. The unstaged changes will be re-applied after task run completion or SIGKILL event is received.<br /><br />Note that it is still important to include `--staged` in individual tasks to run in the `onerepo.config` files.<br /><br />**Default**<br />`['pre-commit']` |
+###### Parameters
+
+| Parameter | Type                                                        |
+| :-------- | :---------------------------------------------------------- |
+| `argv`    | [`Argv`](#argvcommandargv)\<[`DefaultArgv`](#defaultargv)\> |
+
+###### Returns
+
+`Promise`\<`void`\> \| `void`
+
+##### yargs?
+
+```ts
+yargs?: (yargs, visitor) => Yargs;
+```
+
+A function that is called with the CLI's `yargs` object and a visitor.
+It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
+
+###### Parameters
+
+| Parameter | Type                                                    |
+| :-------- | :------------------------------------------------------ |
+| `yargs`   | `Yargs`                                                 |
+| `visitor` | `NonNullable`\<`RequireDirectoryOptions`\[`"visit"`\]\> |
+
+###### Returns
+
+`Yargs`
 
 #### Source
 
-[modules/onerepo/src/core/tasks/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/tasks/index.ts#L6)
+[modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts#L7)
 
 ## Logger
 
@@ -1063,10 +1675,21 @@ Create a new Logger instance that has its output buffered up to a LogStep.
 
 `Object`
 
-> | Member   | Type                      | Description |
-> | :------- | :------------------------ | :---------- |
-> | `end`    | () => `Promise`\<`void`\> | -           |
-> | `logger` | [`Logger`](#logger)       | -           |
+> ##### end
+>
+> ```ts
+> end: () => Promise<void>;
+> ```
+>
+> ###### Returns
+>
+> `Promise`\<`void`\>
+>
+> ##### logger
+>
+> ```ts
+> logger: Logger;
+> ```
 
 #### Example
 
@@ -1172,10 +1795,21 @@ type LoggerOptions: {
 
 #### Type declaration
 
-| Member      | Type                        | Description                                                                                                                            |
-| :---------- | :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
-| `stream`    | `Writable`                  | Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`. |
-| `verbosity` | [`Verbosity`](#verbosity-1) | Control how much and what kind of output the Logger will provide.                                                                      |
+##### stream?
+
+```ts
+stream?: Writable;
+```
+
+Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
+
+##### verbosity
+
+```ts
+verbosity: Verbosity;
+```
+
+Control how much and what kind of output the Logger will provide.
 
 #### Source
 
@@ -1511,12 +2145,29 @@ type MinimalWorkspace: {
 
 #### Type declaration
 
-| Member     | Type      | Description |
-| :--------- | :-------- | :---------- |
-| `location` | `string`  | -           |
-| `name`     | `string`  | -           |
-| `private`  | `boolean` | -           |
-| `version`  | `string`  | -           |
+##### location?
+
+```ts
+location?: string;
+```
+
+##### name
+
+```ts
+name: string;
+```
+
+##### private?
+
+```ts
+private?: boolean;
+```
+
+##### version?
+
+```ts
+version?: string;
+```
 
 #### Source
 
@@ -1890,15 +2541,75 @@ The core configuration for [`run`](#run-1), [`start`](#start), [`sudo`](#sudo), 
 
 #### Type declaration
 
-| Member         | Type                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `args`         | `string`[]            | Arguments to pass to the executable. All arguments must be separate string entries.<br /><br />Beware that some commands have different ways of parsing arguments.<br /><br />Typically, it is safest to have separate entries in the `args` array for the flag and its value:<br />`args: ['--some-flag', 'some-flags-value']`<br />However, if an argument parser is implemented in a non-standard way, the flag and its value may need to be a single entry:<br />`args: ['--some-flag=some-flags-value']` |
-| `cmd`          | `string`              | The command to run. This should be an available executable or path to an executable.                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `name`         | `string`              | A friendly name for the Step in log output.                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `opts`         | `SpawnOptions`        | See the [Node.js `child_process.spawn()` documentation](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) for available options.                                                                                                                                                                                                                                                                                                                                              |
-| `runDry`       | `boolean`             | Skip the `--dry-run` check and run this command anyway.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `skipFailures` | `boolean`             | Prevents throwing a [`SubprocessError`](#subprocesserror) in the event of the process failing and exiting with an unclean state.                                                                                                                                                                                                                                                                                                                                                                              |
-| `step`         | [`LogStep`](#logstep) | Pass a custom [`LogStep`](#logstep) to bundle this process input & output into another step instead of creating a new one.                                                                                                                                                                                                                                                                                                                                                                                    |
+##### args?
+
+```ts
+args?: string[];
+```
+
+Arguments to pass to the executable. All arguments must be separate string entries.
+
+Beware that some commands have different ways of parsing arguments.
+
+Typically, it is safest to have separate entries in the `args` array for the flag and its value:
+
+```
+args: ['--some-flag', 'some-flags-value']
+```
+
+However, if an argument parser is implemented in a non-standard way, the flag and its value may need to be a single entry:
+
+```
+args: ['--some-flag=some-flags-value']
+```
+
+##### cmd
+
+```ts
+cmd: string;
+```
+
+The command to run. This should be an available executable or path to an executable.
+
+##### name
+
+```ts
+name: string;
+```
+
+A friendly name for the Step in log output.
+
+##### opts?
+
+```ts
+opts?: SpawnOptions;
+```
+
+See the [Node.js `child_process.spawn()` documentation](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) for available options.
+
+##### runDry?
+
+```ts
+runDry?: boolean;
+```
+
+Skip the `--dry-run` check and run this command anyway.
+
+##### skipFailures?
+
+```ts
+skipFailures?: boolean;
+```
+
+Prevents throwing a [`SubprocessError`](#subprocesserror) in the event of the process failing and exiting with an unclean state.
+
+##### step?
+
+```ts
+step?: LogStep;
+```
+
+Pass a custom [`LogStep`](#logstep) to bundle this process input & output into another step instead of creating a new one.
 
 #### Source
 

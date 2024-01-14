@@ -5,13 +5,13 @@ import * as cmd from './commands/vitest';
  * @example
  *
  * ```js
- * setup({
+ * export default {
  * 	plugins: [
  * 		vitest({
  * 			name: ['test']
  * 		}),
  * 	],
- * });
+ * };
  * ```
  */
 export type Options = {
