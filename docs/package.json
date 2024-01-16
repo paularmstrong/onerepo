@@ -24,6 +24,7 @@
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
+		"@astrojs/sitemap": "^3.0.4",
 		"@expressive-code/plugin-collapsible-sections": "^0.31.0",
 		"hast-util-from-html": "^2.0.1",
 		"hast-util-to-string": "^3.0.0",
@@ -33,6 +34,7 @@
 		"pako": "^2.1.0",
 		"rehype": "^13.0.1",
 		"rehype-mermaid": "^2.0.1",
+		"starlight-links-validator": "^0.5.2",
 		"unist-util-visit": "^5.0.0"
 	}
 }

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://onerepo.tools/sitemap-index.xml
