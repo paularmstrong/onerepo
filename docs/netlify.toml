@@ -4,7 +4,7 @@
   autoLaunch = false
 
 [build]
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../modules/ ../plugins/ ../yarn.lock"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../yarn.lock"
 
 [[plugins]]
   package = "netlify-plugin-csp-generator"
