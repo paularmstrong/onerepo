@@ -7,15 +7,15 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem
-      description: Describe the problem or issue that you’re looking to solve.
+      label: Describe the problem
+      description: What is problem or issue that you’re looking to solve? What other things have you tried that did not provide the results you wanted – and why?
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
-      label: Solution
-      description: Propose suggested solutions to handle the problem described.
+      label: Suggest a solution
+      description: Propose suggestions for ways that oneRepo coulid solve the problem you’ve described.
     validations:
       required: true
   - type: checkboxes

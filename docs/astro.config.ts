@@ -46,18 +46,19 @@ export default defineConfig({
 			customCss: ['./src/custom.css'],
 			social: {
 				github: 'https://github.com/paularmstrong/onerepo',
-				discord: 'https://onerepo.tools/discord/',
 			},
 			sidebar: [
 				{ label: 'Core concepts', autogenerate: { directory: 'concepts' } },
 				{ label: 'Documentation', autogenerate: { directory: 'docs' } },
 				{ label: 'Core utilities', autogenerate: { directory: 'core' } },
 				{ label: 'Plugins', autogenerate: { directory: 'plugins' } },
+				{ label: 'Project', autogenerate: { directory: 'project' } },
 				{
 					label: 'API Reference',
 					collapsed: true,
 					autogenerate: { directory: 'api', collapsed: false },
 				},
+
 				{
 					label: 'Changelogs',
 					collapsed: true,

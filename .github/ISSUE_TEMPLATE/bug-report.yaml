@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         First, to best help, it might be important to know some details about your system, as differing versions can be very impactful!
-  - type: textarea
+  - type: input
     id: version
     attributes:
       label: What version of oneRepo are you using?
@@ -36,7 +36,7 @@ body:
       value: |
         ---
         Okay, let’s figure out what's going on…
-  - type: textarea
+  - type: input
     id: command
     attributes:
       label: Command

@@ -6,10 +6,11 @@ import { Image } from 'astro:assets';
 interface Props extends Omit<HTMLAttributes<'a'>, 'title'> {
 	title: string;
 	description?: string;
+	icon?: any;
 	image?: any;
 }
 
-const { title, description, image, ...attributes } = Astro.props;
+const { title, description, icon, image, ...attributes } = Astro.props;
 ---
 
 <div>
@@ -22,11 +23,11 @@ const { title, description, image, ...attributes } = Astro.props;
 	}
 	<span class="sl-flex stack">
 		<a {...attributes}>
-			<span class="title" set:html={title} />
+			<span class="title">{icon ? <Icon name={icon} size="1.333em" class="icon" /> : null}{title}</span>
 		</a>
 		{description && <span class="description" set:html={description} />}
 	</span>
-	<Icon name="right-arrow" size="1.333em" class="icon rtl:flip" />
+	<Icon name="right-arrow" size="1.333rem" class="icon icon--arrow rtl:flip" />
 </div>
 
 <style>
@@ -62,6 +63,8 @@ const { title, description, image, ...attributes } = Astro.props;
 		font-weight: 600;
 		font-size: var(--sl-text-lg);
 		line-height: var(--sl-line-height-headings);
+		display: flex;
+		gap: 1rem;
 	}
 
 	.description {
@@ -72,8 +75,10 @@ const { title, description, image, ...attributes } = Astro.props;
 	.icon {
 		flex-shrink: 0;
 		flex-grow: 0;
-		color: var(--sl-color-gray-3);
 		justify-self: flex-end;
+	}
+	.icon--arrow {
+		color: var(--sl-color-gray-3);
 	}
 
 	.img {

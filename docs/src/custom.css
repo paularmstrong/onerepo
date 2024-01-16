@@ -216,6 +216,7 @@ code {
 	--sl-color-bg-sidebar: transparent;
 	--top-gradient-bg: hsla(319, 100%, 9%, 0.4);
 	--hero-gradient-bg: hsla(189, 96%, 42%, 0.1);
+	--sl-color-bg-nav: var(--sl-color-bg);
 }
 
 :root[data-theme='light'] {
@@ -233,9 +234,17 @@ code {
 
 header {
 	border-bottom: 1px solid transparent;
-	background-color: transparent !important;
-	-webkit-backdrop-filter: blur(2rem) !important;
-	backdrop-filter: blur(2rem) !important;
+}
+
+@media (min-width: 72rem) {
+	header {
+		background-color: transparent !important;
+		-webkit-backdrop-filter: blur(2rem) !important;
+		backdrop-filter: blur(2rem) !important;
+	}
+	.right-sidebar {
+		border-inline-start-color: transparent;
+	}
 }
 
 [data-has-hero] .hero > img {

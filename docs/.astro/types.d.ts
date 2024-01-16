@@ -395,13 +395,6 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"discord.mdx": {
-	id: "discord.mdx";
-  slug: "discord";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
 "docs/commands.mdx": {
 	id: "docs/commands.mdx";
   slug: "docs/commands";
@@ -496,6 +489,20 @@ declare module 'astro:content' {
 "plugins/vitest.mdx": {
 	id: "plugins/vitest.mdx";
   slug: "plugins/vitest";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
+"project/code-of-conduct.mdx": {
+	id: "project/code-of-conduct.mdx";
+  slug: "project/code-of-conduct";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
+"project/index.mdx": {
+	id: "project/index.mdx";
+  slug: "project";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
