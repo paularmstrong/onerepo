@@ -42,7 +42,6 @@ body:
       label: Command
       description: What was the exact command that was run?
       placeholder: one tasks -c pre-commit -w tacos
-      render: sh
     validations:
       required: true
   - type: textarea
