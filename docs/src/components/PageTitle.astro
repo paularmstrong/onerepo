@@ -63,7 +63,13 @@ const isPlugin = title.startsWith('@onerepo/plugin-');
 	.icon-link {
 		text-decoration: none;
 		display: flex;
-		align-items: baseline;
+		align-items: center;
 		gap: 0.25rem;
+		color: var(--sl-color-white);
+		text-decoration: underline;
+		font-size: var(--sl-text-sm);
+	}
+	.icon-link:hover {
+		color: var(--sl-color-accent-high);
 	}
 </style>

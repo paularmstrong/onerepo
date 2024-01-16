@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
+import sitemap from '@astrojs/sitemap';
+import starlightLinksValidator from 'starlight-links-validator';
 import { mermaid } from './src/plugins/mermaid';
 
 export default defineConfig({
@@ -8,7 +10,32 @@ export default defineConfig({
 	markdown: {
 		remarkPlugins: [mermaid],
 	},
+	site: 'https://onerepo.tools',
 	integrations: [
+		sitemap({
+			filter: (page) => page !== 'https://onerepo.tools/visualize/',
+			serialize(item) {
+				if (/\/concepts\//.test(item.url)) {
+					return { ...item, priority: 0.7 };
+				}
+				if (/\/docs\//.test(item.url)) {
+					return { ...item, priority: 0.9 };
+				}
+				if (/\/core\//.test(item.url)) {
+					return { ...item, priority: 0.8 };
+				}
+				if (/\/plugins\//.test(item.url)) {
+					return { ...item, priority: 0.5 };
+				}
+				if (/\/api\//.test(item.url)) {
+					return { ...item, priority: 0.1 };
+				}
+				if (/\/changelogs\//.test(item.url)) {
+					return { ...item, priority: 0.2 };
+				}
+				return item;
+			},
+		}),
 		starlight({
 			title: 'oneRepo',
 			logo: {
@@ -46,7 +73,7 @@ export default defineConfig({
 				styleOverrides: {
 					borderRadius: '0.25rem',
 				},
-				plugins: [pluginCollapsibleSections()],
+				plugins: [pluginCollapsibleSections(), starlightLinksValidator()],
 			},
 			lastUpdated: true,
 			favicon: '/favicon.svg',

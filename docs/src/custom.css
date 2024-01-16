@@ -210,15 +210,34 @@ code {
 	}
 }
 
-.visualizer .node:hover rect.basic.label-container {
-	stroke: var(--sl-color-green-high) !important;
-	fill: var(--sl-color-green-low) !important;
+:root {
+	--pink-hsl: 319, 100%, 9%;
+	--overlay-pink: hsla(var(--pink-hsl), 1);
+	--sl-color-bg-sidebar: transparent;
+	--top-gradient-bg: hsla(319, 100%, 9%, 0.4);
+	--hero-gradient-bg: hsla(189, 96%, 42%, 0.1);
 }
 
-.visualizer .node rect.basic.label-container {
-	stroke-width: 2px !important;
+:root[data-theme='light'] {
+	--top-gradient-bg: hsla(319, 100%, 50%, 0.1);
+	--hero-gradient-bg: hsla(189, 96%, 42%, 0.15);
+	--sl-color-bg-sidebar: transparent;
 }
 
-.visualizer .nodeLabel {
-	font-weight: 900 !important;
+.page {
+	background:
+		linear-gradient(185deg, var(--top-gradient-bg), transparent 50vh),
+		radial-gradient(var(--hero-gradient-bg), transparent 65%) no-repeat calc(100% + 80rem) calc(100% + 100rem) / 180rem
+			180rem;
+}
+
+header {
+	border-bottom: 1px solid transparent;
+	background-color: transparent !important;
+	-webkit-backdrop-filter: blur(2rem) !important;
+	backdrop-filter: blur(2rem) !important;
+}
+
+[data-has-hero] .hero > img {
+	filter: drop-shadow(0 0 3rem var(--overlay-blurple));
 }
