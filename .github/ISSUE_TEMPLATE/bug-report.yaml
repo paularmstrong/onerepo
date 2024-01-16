@@ -9,6 +9,11 @@ body:
       value: |
         First, to best help, it might be important to know some details about your system, as differing versions can be very impactful!
   - type: textarea
+    id: version
+    attributes:
+      label: What version of oneRepo are you using?
+      description: 'Run `one --version` and paste the output here.'
+  - type: textarea
     id: envinfo
     attributes:
       label: Environment info

@@ -8,15 +8,14 @@ body:
     id: problem
     attributes:
       label: Problem
-      description: Describe the problem or issue that you’re looking to solve
+      description: Describe the problem or issue that you’re looking to solve.
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
       label: Solution
-      description: Explain the way that oneRepo might be changed to handle the problem described
-      render: sh
+      description: Propose suggested solutions to handle the problem described.
     validations:
       required: true
   - type: checkboxes
