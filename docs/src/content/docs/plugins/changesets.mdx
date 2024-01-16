@@ -8,13 +8,36 @@ meta:
   stability: unstable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 [Changesets](https://github.com/changesets/changesets) are a way to manage versioning and changelogs in monorepos.
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-changesets" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-changesets
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-changesets
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-changesets
+    ```
+
+  </TabItem>
+</Tabs>
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<a06c9ef9e56b00c828d3dd17a23fc2b1>> */}

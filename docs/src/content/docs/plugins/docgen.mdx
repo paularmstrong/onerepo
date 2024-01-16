@@ -8,11 +8,34 @@ meta:
   stability: stable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-docgen" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-docgen
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-docgen
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-docgen
+    ```
+
+  </TabItem>
+</Tabs>
 
 :::tip[Example]
 Check out our very own source level [example](example/) generated directly from the oneRepo source code using this plugin.

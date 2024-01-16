@@ -8,7 +8,8 @@ meta:
   stability: stable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 Jest is the recomended framework for headless testing with oneRepo. As opposed to Vitest and others, Jest allows a single runner that can use multiple project configurations. Think of each project as a separate workspace in your repo.
 
@@ -16,7 +17,29 @@ The added benefit of Jest is that as you are working, you can run this single co
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-jest" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-jest
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-jest
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-jest
+    ```
+
+  </TabItem>
+</Tabs>
 
 Create a root level jest config with the appropriate references to your workspace Jest configs:
 

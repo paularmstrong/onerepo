@@ -5,12 +5,12 @@ sidebar:
   order: 0
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 First, install oneRepo's `one` command into your path:
 
-<Tabs>
+<Tabs group="pkgmanager">
   <TabItem label="npm">
 
     ```sh title="Install via npm"
@@ -18,7 +18,7 @@ First, install oneRepo's `one` command into your path:
     ```
 
   </TabItem>
-  <TabItem label="Yarn">
+  <TabItem label="yarn">
 
     ```sh title="Install via Yarn"
     yarn dlx --package=onerepo one install
@@ -44,11 +44,55 @@ one create
 
 Install dependencies using your package manager of choice.
 
-<NpmToYarn script="npm install --save-dev onerepo" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev onerepo
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev onerepo
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm add --save-dev onerepo
+    ```
+
+  </TabItem>
+</Tabs>
 
 Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
 
-<NpmToYarn script="npm exec one install" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm exec one install
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn one install
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm one install
+    ```
+
+  </TabItem>
+</Tabs>
 
 Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
 

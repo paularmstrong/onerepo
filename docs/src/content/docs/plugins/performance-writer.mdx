@@ -8,7 +8,8 @@ meta:
   stability: experimental
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 This is a usable example plugin to demonstrate how to build your own telemetry and performance tracing plugin using the oneRepo plugin API and internal performance entries.
 
@@ -18,7 +19,29 @@ No metrics or information are shared anywhere outside of your local environment.
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-performance-writer" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-performance-writer
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-performance-writer
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-performance-writer
+    ```
+
+  </TabItem>
+</Tabs>
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<dca2e3f1a6292f1369ac6b0d9a716ca7>> */}

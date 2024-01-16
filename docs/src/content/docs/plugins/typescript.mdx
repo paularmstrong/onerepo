@@ -8,11 +8,34 @@ meta:
   stability: stable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-typescript" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-typescript
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-typescript
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-typescript
+    ```
+
+  </TabItem>
+</Tabs>
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<98ca943278b8769885db63645d74c272>> */}

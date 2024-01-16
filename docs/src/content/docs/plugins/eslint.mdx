@@ -8,11 +8,34 @@ meta:
   stability: stable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-eslint" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-eslint
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-eslint
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-eslint
+    ```
+
+  </TabItem>
+</Tabs>
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<e1695a1d64de26f7cb67b9807e921d58>> */}

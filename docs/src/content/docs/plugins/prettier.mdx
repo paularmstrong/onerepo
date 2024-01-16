@@ -8,11 +8,34 @@ meta:
   stability: stable
 ---
 
-import NpmToYarn from '../../../components/NpmToYarn.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../../components/Tabs.astro';
 
 ## Installation
 
-<NpmToYarn script="npm install --save-dev @onerepo/plugin-prettier" />
+<Tabs group="pkgmanager">
+  <TabItem label="npm">
+
+    ```sh title="Install via npm"
+    npm install --save-dev @onerepo/plugin-prettier
+    ```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+    ```sh title="Install via Yarn"
+    yarn add --dev @onerepo/plugin-prettier
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+    ```sh title="Install via pnpm"
+    pnpm install --save-dev @onerepo/plugin-prettier
+    ```
+
+  </TabItem>
+</Tabs>
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<404309aea72442f68b9618998b2b459d>> */}
