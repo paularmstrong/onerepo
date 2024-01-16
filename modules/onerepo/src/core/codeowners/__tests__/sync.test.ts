@@ -4,7 +4,7 @@ import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import { getGraph } from '@onerepo/graph';
 import * as Sync from '../sync';
-import { location } from '../../get-codeowners';
+import { location } from '../get-codeowners';
 
 const { run, graph } = getCommand(Sync, getGraph(path.join(__dirname, '__fixtures__/repo')));
 

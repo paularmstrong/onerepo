@@ -1,6 +1,6 @@
 import type { Plugin } from '../../types';
-import * as Sync from './commands/sync';
-import * as Verify from './commands/verify';
+import * as Sync from './sync';
+import * as Verify from './verify';
 
 export const codeowners: Plugin = function codeowners(options) {
 	return {
