@@ -63,11 +63,18 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 */
 		ignore?: RegExp;
 	};
-	/**
-	 * @default `'loose'`
-	 * Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
-	 */
-	dependencies?: 'loose' | 'off';
+	dependencies?: {
+		/**
+		 * @default `'loose'`
+		 * Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+		 */
+		mode?: 'loose' | 'off';
+		/**
+		 * @default `true`
+		 * When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.
+		 */
+		dedupe?: boolean;
+	};
 	/**
 	 * @default `'main'`
 	 * The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.

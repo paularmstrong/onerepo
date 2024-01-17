@@ -43,7 +43,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<80778c4529e8ca69a4eee56286e43e53>> */}
+{/* @generated SignedSource<<7f3b221b0350d86ab64f3a569bcccf5f>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
@@ -130,10 +130,21 @@ export default {
 
 #### dependencies?
 
+- **Type:** `Object`
+
+#### dependencies.mode?
+
 - **Type:** `"loose"` \| `"off"`
 - **Default:** `'loose'`
 
 Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+
+#### dependencies.dedupe?
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.
 
 #### head?
 

@@ -1,6 +1,5 @@
 import type { Config } from 'onerepo';
 import { changesets } from '@onerepo/plugin-changesets';
-import { dependencies } from '@onerepo/plugin-dependencies';
 import { docgen } from '@onerepo/plugin-docgen';
 import { eslint } from '@onerepo/plugin-eslint';
 import { jest } from '@onerepo/plugin-jest';
@@ -12,6 +11,10 @@ import { performanceWriter } from '@onerepo/plugin-performance-writer';
 export default {
 	root: true,
 
+	dependencies: {
+		dedupe: false,
+	},
+
 	templateDir: './config/templates',
 	validation: {
 		schema: './config/graph-schema.ts',
@@ -19,7 +22,6 @@ export default {
 	ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
 	plugins: [
 		changesets(),
-		dependencies(),
 		docgen({
 			outWorkspace: 'root',
 			outFile: './docs/src/content/docs/plugins/docgen/example.mdx',

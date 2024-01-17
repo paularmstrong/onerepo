@@ -3,6 +3,7 @@ import initJiti from 'jiti';
 import type { Config, CorePlugins } from '../types';
 import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
+import { dependencies } from '../core/dependencies';
 import { generate } from '../core/generate';
 import { graph } from '../core/graph';
 import { hooks } from '../core/hooks';
@@ -36,7 +37,7 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, generate, graph, hooks, tasks];
+export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, tasks];
 
 /**
  * @internal

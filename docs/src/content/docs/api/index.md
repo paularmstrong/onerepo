@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<9cafe181c38f0a52dfd6d50aa349dd5b>> -->
+<!-- @generated SignedSource<<e8abc034514e797a121b152fcc81b78b>> -->
 
 ## Namespaces
 
@@ -35,6 +35,84 @@ type Config: RootConfig | WorkspaceConfig;
 #### Source
 
 [modules/onerepo/src/types/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/index.ts#L3)
+
+---
+
+### NpmInfo
+
+```ts
+type NpmInfo: {
+  dependencies: Record<string, string>;
+  dist-tags: {
+   [key: string]: string;   latest: string;
+  };
+  homepage: string;
+  license: string;
+  name: string;
+  version: string;
+  versions: string[];
+};
+```
+
+#### Type declaration
+
+##### dependencies
+
+```ts
+dependencies: Record<string, string>;
+```
+
+##### dist-tags
+
+```ts
+dist-tags: {
+[key: string]: string;   latest: string;
+};
+```
+
+###### Index signature
+
+\[`key`: `string`\]: `string`
+
+##### dist-tags.latest
+
+```ts
+dist-tags.latest: string;
+```
+
+##### homepage
+
+```ts
+homepage: string;
+```
+
+##### license
+
+```ts
+license: string;
+```
+
+##### name
+
+```ts
+name: string;
+```
+
+##### version
+
+```ts
+version: string;
+```
+
+##### versions
+
+```ts
+versions: string[];
+```
+
+#### Source
+
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L102)
 
 ## Command type aliases
 
@@ -429,7 +507,10 @@ type RootConfig<CustomLifecycles>: {
      directory: string | false;
      ignore: RegExp;
   };
-  dependencies: "loose" | "off";
+  dependencies: {
+     dedupe: boolean;
+     mode: "loose" | "off";
+  };
   head: string;
   ignore: string[];
   meta: Record<string, unknown>;
@@ -550,7 +631,27 @@ export default {
 ##### dependencies?
 
 ```ts
-dependencies?: "loose" | "off";
+dependencies?: {
+  dedupe: boolean;
+  mode: "loose" | "off";
+};
+```
+
+##### dependencies.dedupe?
+
+```ts
+dependencies.dedupe?: boolean;
+```
+
+###### Default
+
+`true`
+When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.
+
+##### dependencies.mode?
+
+```ts
+dependencies.mode?: "loose" | "off";
 ```
 
 ###### Default
@@ -2021,6 +2122,45 @@ Batch commands from npm packages as a batch of subprocesses using the package ma
 
 [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L24)
 
+##### dedupe()
+
+```ts
+dedupe(): Promise<void>
+```
+
+Reduce duplication in the package tree by checking overlapping ranges.
+
+###### Returns
+
+`Promise`\<`void`\>
+
+###### Source
+
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L33)
+
+##### info()
+
+```ts
+info(name, opts?): Promise<null | NpmInfo>
+```
+
+Get standard information about a package
+
+###### Parameters
+
+| Parameter | Type                               |
+| :-------- | :--------------------------------- |
+| `name`    | `string`                           |
+| `opts`?   | `Partial`\<[`RunSpec`](#runspec)\> |
+
+###### Returns
+
+`Promise`\<`null` \| [`NpmInfo`](#npminfo)\>
+
+###### Source
+
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L37)
+
 ##### install()
 
 ```ts
@@ -2041,7 +2181,7 @@ Install current dependencies as listed in the package manager's lock file
 
 ###### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L33)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L41)
 
 ##### loggedIn()
 
@@ -2065,7 +2205,7 @@ Check if the current user is logged in to the external registry
 
 ###### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L37)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L45)
 
 ##### publish()
 
@@ -2098,7 +2238,7 @@ Publish workspaces to the external registry
 
 ###### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L55)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L63)
 
 ##### publishable()
 
@@ -2126,7 +2266,7 @@ Filter workspaces to the set of those that are actually publishable. This will c
 
 ###### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L51)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L59)
 
 ##### remove()
 
@@ -2148,7 +2288,7 @@ Remove one or more packages.
 
 ###### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L83)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L91)
 
 ##### run()
 
@@ -2217,7 +2357,7 @@ version?: string;
 
 #### Source
 
-[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L88)
+[modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts#L96)
 
 ## Subprocess
 

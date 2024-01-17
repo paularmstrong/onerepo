@@ -1,0 +1,62 @@
+---
+title: Dependencies
+description: |
+  Manage third-party dependencies (node_modules) for your workspaces
+usage: dependencies
+meta:
+  stability: experimental
+tableOfContents:
+  maxHeadingLevel: 4
+---
+
+{/* start-auto-generated-from-cli-dependencies */}
+{/* @generated SignedSource<<a78856676fb78f2651c03fa921ddd115>> */}
+
+### `one dependencies`
+
+Aliases: `dependency`, `deps`, `dep`
+
+Safely manager workspace dependencies.
+
+```sh
+one dependencies <command> [options]
+```
+
+---
+
+#### `one dependencies add`
+
+Add dependencies to workspaces.
+
+```sh
+one dependencies add -w <workspace(s)> --dev [devDependencies...] --prod [prodDependencies...] [options...]
+```
+
+| Option               | Type      | Description                                                               | Required |
+| -------------------- | --------- | ------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                 |          |
+| `--dedupe`           | `boolean` | Deduplicate dependencies across the repository after install is complete. |          |
+| `--dev`, `-d`        | `array`   | Add dependencies for development purposes only.                           |          |
+| `--prod`, `-p`       | `array`   | Add dependencies for production purposes.                                 |          |
+| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                              |          |
+| `--workspaces`, `-w` | `array`   | One or more workspaces to add dependencies into                           |          |
+
+---
+
+#### `one dependencies remove`
+
+Remove dependencies from workspaces.
+
+```sh
+one dependencies remove -w <workspaces...> -d <dependencies...> [options...]
+```
+
+| Option                 | Type      | Description                                                               | Required |
+| ---------------------- | --------- | ------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`          | `boolean` | Run across all workspaces                                                 |          |
+| `--dedupe`             | `boolean` | Deduplicate dependencies across the repository after install is complete. |          |
+| `--dependencies`, `-d` | `array`   | Dependency names that should be removed.                                  | ✅       |
+| `--show-advanced`      | `boolean` | Pair with `--help` to show advanced options.                              |          |
+| `--workspaces`, `-w`   | `array`   | List of workspace names to run against                                    |          |
+
+{/* end-auto-generated-from-cli-dependencies */}
