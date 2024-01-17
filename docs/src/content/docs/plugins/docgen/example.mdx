@@ -10,7 +10,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<7c2bba536b0f39997a4693c59097f7cc>> */}
+{/* @generated SignedSource<<24935b37a573e406fd6e65a5c068a39a>> */}
 
 ## `one`
 
@@ -87,6 +87,153 @@ one build -w graph cli logger
 
 ---
 
+### `one change`
+
+Aliases: `changeset`, `changesets`
+
+Manage changesets, versioning, and publishing your public workspaces to packages.
+
+```sh
+one change <command> [options]
+```
+
+---
+
+#### `one change add`
+
+Aliases: `$0`
+
+Add a changeset
+
+```sh
+one change add [options]
+```
+
+| Option               | Type                            | Description                                                                                                                                                                 | Required |
+| -------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                                                                                      |          |
+| `--affected`         | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                                                                                   |          |
+| `--files`, `-f`      | `array`                         | Determine workspaces from specific files                                                                                                                                    |          |
+| `--show-advanced`    | `boolean`                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                       | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.                                                         |          |
+| `--workspaces`, `-w` | `array`                         | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type     | Description                                               | Required |
+| --------------- | -------- | --------------------------------------------------------- | -------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+
+</details>
+
+---
+
+#### `one change init`
+
+Initialize changesets for this repository.
+
+```sh
+one change init
+```
+
+You should only ever have to do this once.
+
+| Option            | Type      | Description                                  | Required |
+| ----------------- | --------- | -------------------------------------------- | -------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+
+---
+
+#### `one change prerelease`
+
+Aliases: `pre-release`, `pre`
+
+Pre-release available workspaces.
+
+```sh
+one change prerelease
+```
+
+| Option            | Type                       | Description                                                                                   | Required |
+| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
+| `--build`         | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
+| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
+| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
+
+---
+
+#### `one change publish`
+
+Aliases: `release`
+
+Publish all workspaces with versions not available in the registry.
+
+```sh
+one change publish [options]
+```
+
+This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
+
+| Option            | Type                       | Description                                                                                   | Required |
+| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
+| `--build`         | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
+| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
+| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
+
+---
+
+#### `one change version`
+
+Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
+
+```sh
+one change version
+```
+
+| Option            | Type                       | Description                                                                                          | Required |
+| ----------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`, default: `true` | Add the modified files like `package.json` and `CHANGELOG.md` files to the git stage for committing. |          |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                         |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                 | Required |
+| --------------- | --------- | ----------------------------------------------------------- | -------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+
+</details>
+
+---
+
 ### `one codeowners`
 
 Aliases: `owners`
@@ -143,6 +290,75 @@ one codeowners verify
 | Option       | Type                                             | Description                                                                 | Required |
 | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
 | `--provider` | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+
+</details>
+
+---
+
+### `one docgen`
+
+Generate documentation for the oneRepo cli.
+
+```sh
+one docgen [options]
+```
+
+Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!
+
+Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.
+
+| Option            | Type                                                                      | Description                                                                | Required |
+| ----------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`                                                                 | Add the output file to the git stage                                       |          |
+| `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                             | Output format for documentation                                            |          |
+| `--heading-level` | `number`                                                                  | Heading level to start at for Markdown output                              |          |
+| `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |          |
+| `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |          |
+| `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option      | Type     | Description                                              | Required |
+| ----------- | -------- | -------------------------------------------------------- | -------- |
+| `--command` | `string` | Start at the given command, skip the root and any others |          |
+
+</details>
+
+---
+
+### `one format`
+
+Aliases: `prettier`
+
+Format files with prettier
+
+```sh
+one format [options]
+```
+
+| Option               | Type      | Description                                                                                                                                                                 | Required |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean` | Add modified files after write                                                                                                                                              |          |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                                                                                   |          |
+| `--check`            | `boolean` | Check for changes.                                                                                                                                                          |          |
+| `--files`, `-f`      | `array`   | Determine workspaces from specific files                                                                                                                                    |          |
+| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean` | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option              | Type                       | Description                                                                        | Required |
+| ------------------- | -------------------------- | ---------------------------------------------------------------------------------- | -------- |
+| `--cache`           | `boolean`, default: `true` | Use Prettier’s built-in cache to determin whether files need formatting or not.    |          |
+| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                          |          |
+| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing format checks in GitHub Actions. |          |
+| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                          |          |
 
 </details>
 
@@ -334,6 +550,107 @@ one hooks init
 
 ---
 
+### `one jest`
+
+Run tests using Jest
+
+```sh
+one jest [options] -- [passthrough]
+one jest [options]
+```
+
+This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.
+
+Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes `--`)
+
+| Option               | Type                       | Description                                                                                                                                                                 | Required |
+| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
+| `--inspect`          | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |          |
+| `--pretty`           | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |          |
+| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--watch`            | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |          |
+| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                    | Description                                               | Required |
+| --------------- | --------------------------------------- | --------------------------------------------------------- | -------- |
+| `--config`      | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.  |          |
+| `--from-ref`    | `string`                                | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref` | `string`                                | Git ref to start looking for affected files or workspaces |          |
+
+</details>
+
+Run only tests related to modified files.
+
+```sh
+one jest
+```
+
+Runs jest in --watch mode against the currently affected files.
+
+```sh
+one jest --watch
+```
+
+Run Jest in watch mode against a particular file.
+
+```sh
+one jest --watch -- path/to/test.ts
+```
+
+Pass any other Jest CLI options after the argument separator.
+
+```sh
+one jest -- --runInBand --detectOpenHandles
+```
+
+---
+
+### `one lint`
+
+Aliases: `eslint`
+
+Run eslint across files and workspaces
+
+```sh
+one lint [options]
+```
+
+| Option               | Type                                                            | Description                                                                                                                                                                 | Required |
+| -------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--add`              | `boolean`                                                       | Add modified files after write to the git stage.                                                                                                                            |          |
+| `--affected`         | `boolean`                                                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                                                       | Run across all workspaces                                                                                                                                                   |          |
+| `--cache`            | `boolean`, default: `true`                                      | Use cache if available                                                                                                                                                      |          |
+| `--extensions`       | `array`, default: `["ts","tsx","js","jsx","cjs","mjs","astro"]` |                                                                                                                                                                             |          |
+| `--files`, `-f`      | `array`                                                         | Determine workspaces from specific files                                                                                                                                    |          |
+| `--fix`              | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                                                                                                |          |
+| `--pretty`           | `boolean`, default: `true`                                      | Control ESLint’s `--color` flag.                                                                                                                                            |          |
+| `--quiet`            | `boolean`                                                       | Report errors only                                                                                                                                                          |          |
+| `--show-advanced`    | `boolean`                                                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                                                       | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                                                         | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option              | Type                       | Description                                                                     | Required |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------- | -------- |
+| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
+| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing lint checks in GitHub Actions |          |
+| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
+
+</details>
+
+---
+
 ### `one tasks`
 
 Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.
@@ -379,6 +696,105 @@ Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the third s
 ```sh
 one tasks --lifecycle=pre-merge --shard=3/5
 ```
+
+---
+
+### `one test`
+
+Aliases: `vitest`
+
+Run unit tests using Vitest
+
+```sh
+one test [options] -- [passthrough]
+one test [options]
+```
+
+This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.
+
+Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be used as passthrough arguments as well after an argument separator (two dashes `--`).
+
+| Option               | Type      | Description                                                                                                                                                                 | Required |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean` | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                                                                                   |          |
+| `--inspect`          | `boolean` | Break for the the Node inspector to debug tests.                                                                                                                            |          |
+| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean` | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--watch`            | `boolean` | Shortcut for vitest `--watch` mode.                                                                                                                                         |          |
+| `--workspaces`, `-w` | `array`   | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                      | Description                                                | Required |
+| --------------- | ----------------------------------------- | ---------------------------------------------------------- | -------- |
+| `--config`      | `string`, default: `"./vitest.config.ts"` | Path to the vitest.config file, relative to the repo root. |          |
+| `--from-ref`    | `string`                                  | Git ref to start looking for affected files or workspaces  |          |
+| `--through-ref` | `string`                                  | Git ref to start looking for affected files or workspaces  |          |
+
+</details>
+
+Run only tests related to modified files.
+
+```sh
+one test
+```
+
+Run vitest in --watch mode.
+
+```sh
+one test --watch
+```
+
+Run vitest in watch mode with a particular file.
+
+```sh
+one test --watch -- path/to/test.ts
+```
+
+Run all tests in a given workspace.
+
+```sh
+one test -w <workspace>
+```
+
+---
+
+### `one tsc`
+
+Aliases: `typescript`, `typecheck`
+
+Sync TS project references
+
+```sh
+one tsc [options]
+```
+
+Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.
+
+| Option               | Type                       | Description                                                                                                                                                                 | Required |
+| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--affected`         | `boolean`                  | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
+| `--pretty`           | `boolean`, default: `true` | Control TypeScript’s `--pretty` flag.                                                                                                                                       |          |
+| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
+| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                    | List of workspace names to run against                                                                                                                                      |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option                                                               | Type                                 | Description                                               | Required |
+| -------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------- | -------- |
+| `--from-ref`                                                         | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--through-ref`                                                      | `string`                             | Git ref to start looking for affected files or workspaces |          |
+| `--tsconfig`                                                         | `string`, default: `"tsconfig.json"` | The filename of the tsconfig to find in each workspace.   |          |
+| `--use-project-references`, `--project-references`, `--project-refs` | `boolean`, default: `true`           | Automatically sync and use typescript project references  |          |
+
+</details>
 
 ---
 

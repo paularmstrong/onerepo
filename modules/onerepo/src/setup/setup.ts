@@ -151,7 +151,7 @@ export async function setup({
 			yargs: pluginYargs,
 			startup: startupHandler,
 			shutdown: shutdownHandler,
-		} = typeof plugin === 'function' ? plugin(resolvedConfig) : plugin;
+		} = typeof plugin === 'function' ? plugin({ ...resolvedConfig, plugins: userPlugins }) : plugin;
 		if (typeof pluginYargs === 'function') {
 			pluginYargs(yargs, options.visit);
 		}
