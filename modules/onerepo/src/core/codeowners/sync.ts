@@ -1,8 +1,8 @@
 import { write } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
-import type { Providers } from '../get-codeowners';
-import { codeownersFilepath, getCodeowners, providers } from '../get-codeowners';
+import type { Providers } from './get-codeowners';
+import { codeownersFilepath, getCodeowners, providers } from './get-codeowners';
 
 export const command = 'sync';
 

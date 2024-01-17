@@ -11,11 +11,11 @@ import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
-import { setup } from '../../../setup/setup';
-import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../../types';
-import { generate } from '../../generate';
-import { graph } from '../../graph';
-import { codeowners } from '../../codeowners';
+import { setup } from '../../setup/setup';
+import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../types';
+import { generate } from '../generate';
+import { graph } from '../graph';
+import { codeowners } from '../codeowners';
 
 const corePlugins: CorePlugins = [generate, graph, codeowners];
 

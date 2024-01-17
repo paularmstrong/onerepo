@@ -4,7 +4,7 @@ import * as file from '@onerepo/file';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
 import * as Verify from '../verify';
-import { location } from '../../get-codeowners';
+import { location } from '../get-codeowners';
 
 const { run, graph } = getCommand(Verify, getGraph(path.join(__dirname, '__fixtures__/repo')));
 

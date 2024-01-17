@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
 import { read, signContents, verifySignature } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type { Providers } from '../get-codeowners';
-import { codeownersFilepath, getCodeowners } from '../get-codeowners';
+import type { Providers } from './get-codeowners';
+import { codeownersFilepath, getCodeowners } from './get-codeowners';
 
 export const command = 'verify';
 
