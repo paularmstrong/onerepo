@@ -9,8 +9,45 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
+import LinkCard from '../../../components/LinkCardImage.astro';
+import NpmLogo from '../../../assets/pkgmgr/npm.svg';
+import PnpmLogo from '../../../assets/pkgmgr/pnpm.svg';
+import YarnLogo from '../../../assets/pkgmgr/yarn.svg';
+
+Dependency management in oneRepo is optional, but builds upon your package manager in order to better manage choosing versions, overlap deduplication, and multi-workspace conveniences.
+
+## Configuration
+
+```js title="onerepo.config.js"
+export default {
+	dependencies: {
+		dedupe: true,
+	},
+};
+```
+
+## Compatible package managers
+
+No configuration necessary! oneRepo automatically detects which package manager is used for your repository.
+
+<div class="grid grid-cols-3">
+	<LinkCard title="npm" href="https://npmjs.com" image={NpmLogo} description="The original node module registry" />
+	<LinkCard
+		title="yarn"
+		href="https://yarnpkg.com"
+		image={YarnLogo}
+		description="Safe, stable, reproducible projects"
+	/>
+	<LinkCard
+		title="pnpm"
+		href="https://pnpm.io"
+		image={PnpmLogo}
+		description="Fast, disk space efficient package manager"
+	/>
+</div>
+
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<a78856676fb78f2651c03fa921ddd115>> */}
+{/* @generated SignedSource<<a70643ada83dda92f09622ce387f2f77>> */}
 
 ### `one dependencies`
 
@@ -19,7 +56,7 @@ Aliases: `dependency`, `deps`, `dep`
 Safely manager workspace dependencies.
 
 ```sh
-one dependencies <command> [options]
+one dependencies <command> [options...]
 ```
 
 ---
@@ -29,17 +66,42 @@ one dependencies <command> [options]
 Add dependencies to workspaces.
 
 ```sh
-one dependencies add -w <workspace(s)> --dev [devDependencies...] --prod [prodDependencies...] [options...]
+one dependencies add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]
 ```
 
-| Option               | Type      | Description                                                               | Required |
-| -------------------- | --------- | ------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                 |          |
-| `--dedupe`           | `boolean` | Deduplicate dependencies across the repository after install is complete. |          |
-| `--dev`, `-d`        | `array`   | Add dependencies for development purposes only.                           |          |
-| `--prod`, `-p`       | `array`   | Add dependencies for production purposes.                                 |          |
-| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                              |          |
-| `--workspaces`, `-w` | `array`   | One or more workspaces to add dependencies into                           |          |
+If a version is not provided with the command-line input, this command will look for currently installed versions of the requested dependencies throughout all Workspaces within the Workspace Graph. If only one version is found, it will be used, regardless of the `--mode` provided.
+
+If multiple versions of the requested dependencies are found in the Workspace Graph, a prompt will be presented to choose the appropriate version.
+
+Otherwise, the latest version will be requested from the registry.
+
+| Option               | Type                                               | Description                                                                                                                            | Required |
+| -------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                              |          |
+| `--dedupe`           | `boolean`                                          | Deduplicate dependencies across the repository after install is complete.                                                              |          |
+| `--dev`, `-d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |          |
+| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |          |
+| `--prod`, `-p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |          |
+| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |          |
+| `--workspaces`, `-w` | `array`                                            | One or more workspaces to add dependencies into                                                                                        |          |
+
+Install the latest version of `normalizr` from the registry, using a strict version number.
+
+```sh
+one dependencies add -w my-workspace -d normalizr --mode strict
+```
+
+Install the latest version of `normalizr` from the registry, using a caret (`^`) version number range, enabling newer minor and patch releases to satisfy the dependency in the future.
+
+```sh
+one dependencies add -w my-workspace -d normalizr --mode loose
+```
+
+Install `react` as a production dependency and `babel-core` as a development dependency in both `workspace-a` and `workspace-b`.
+
+```sh
+one dependencies add -w workspace-a workspace-b -d babel-core -p react
+```
 
 ---
 
@@ -48,7 +110,7 @@ one dependencies add -w <workspace(s)> --dev [devDependencies...] --prod [prodDe
 Remove dependencies from workspaces.
 
 ```sh
-one dependencies remove -w <workspaces...> -d <dependencies...> [options...]
+one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 ```
 
 | Option                 | Type      | Description                                                               | Required |

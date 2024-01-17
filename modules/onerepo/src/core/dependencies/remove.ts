@@ -13,7 +13,7 @@ type Args = WithWorkspaces & { dedupe: boolean; dependencies: Array<string> };
 
 export const builder: Builder<Args> = (yargs) =>
 	withWorkspaces(yargs)
-		.usage('$0 remove -w <workspaces...> -d <dependencies...> [options...]')
+		.usage('$0 remove -w [workspaces...] -d [dependencies...] [options...]')
 		.option('dedupe', {
 			type: 'boolean',
 			default: true,

@@ -16,12 +16,13 @@ export const description = 'Add dependencies to workspaces.';
 type Args = {
 	dedupe: boolean;
 	dev?: Array<string>;
+	mode: 'strict' | 'loose' | 'off';
 	prod?: Array<string>;
 } & WithWorkspaces;
 
 export const builder: Builder<Args> = (yargs) =>
 	withWorkspaces(yargs)
-		.usage('$0 add -w <workspace(s)> --dev [devDependencies...] --prod [prodDependencies...] [options...]')
+		.usage('$0 add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]')
 		.describe('workspaces', 'One or more workspaces to add dependencies into')
 		.demandOption('workspaces')
 		.option('dedupe', {
@@ -41,6 +42,13 @@ export const builder: Builder<Args> = (yargs) =>
 			string: true,
 			description: 'Add dependencies for production purposes.',
 		})
+		.option('mode', {
+			type: 'string',
+			choices: ['strict', 'loose', 'off'] as const,
+			description:
+				'Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific.',
+			default: 'loose' as const,
+		})
 		.middleware(async (argv: Args) => {
 			const { dev, prod } = argv;
 			if (!dev?.length && !prod?.length) {
@@ -50,10 +58,29 @@ export const builder: Builder<Args> = (yargs) =>
 				await logger.end();
 				yargs.exit(1, msg);
 			}
-		});
+		})
+		.epilogue(
+			`If a version is not provided with the command-line input, this command will look for currently installed versions of the requested dependencies throughout all Workspaces within the Workspace Graph. If only one version is found, it will be used, regardless of the \`--mode\` provided.
+
+If multiple versions of the requested dependencies are found in the Workspace Graph, a prompt will be presented to choose the appropriate version.
+
+Otherwise, the latest version will be requested from the registry.`,
+		)
+		.example(
+			`$0 ${command} add -w my-workspace -d normalizr --mode strict`,
+			'Install the latest version of `normalizr` from the registry, using a strict version number.',
+		)
+		.example(
+			`$0 ${command} add -w my-workspace -d normalizr --mode loose`,
+			'Install the latest version of `normalizr` from the registry, using a caret (`^`) version number range, enabling newer minor and patch releases to satisfy the dependency in the future.',
+		)
+		.example(
+			`$0 ${command} add -w workspace-a workspace-b -d babel-core -p react`,
+			'Install `react` as a production dependency and `babel-core` as a development dependency in both `workspace-a` and `workspace-b`.',
+		);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, graph, logger }) {
-	const { dedupe, dev = [], prod = [] } = argv;
+	const { dedupe, dev = [], mode, prod = [] } = argv;
 
 	const workspaces = await getWorkspaces();
 
@@ -69,8 +96,8 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	const promptStep = logger.createStep('Confirm dependency versions');
 	logger.pause();
 
-	const devInstall = await prompt(devVersions, graph, promptStep);
-	const prodInstall = await prompt(prodVersions, graph, promptStep);
+	const devInstall = await prompt(devVersions, mode, graph, promptStep);
+	const prodInstall = await prompt(prodVersions, mode, graph, promptStep);
 
 	logger.unpause();
 	promptStep.debug(devInstall);
@@ -170,13 +197,20 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 	return requested;
 }
 
-async function prompt(requested: Requested, graph: Graph, step: LogStep) {
-	const choices = await inquirer.prompt(
-		Object.entries(requested).map(([name, data]) => ({
+async function prompt(requested: Requested, mode: Args['mode'], graph: Graph, step: LogStep) {
+	const choices: Record<string, string> = {};
+	const questions = Object.entries(requested).map(([name, data]) => {
+		const foundVersions = Object.keys(data.found);
+		if (foundVersions.length === 1) {
+			choices[name] = foundVersions[0];
+			return false;
+		}
+
+		return {
 			type: 'list',
 			name,
 			message: `Select the version of ${pc.bold(pc.cyan(name))} to install`,
-			when: () => Object.keys(data.found).length > 1 && data.requested,
+			when: () => foundVersions.length > 1 && data.requested,
 			choices: [
 				...(data.requested
 					? [{ name: pc.green(pc.bold(data.requested)), value: data.requested }, new inquirer.Separator()]
@@ -186,11 +220,18 @@ async function prompt(requested: Requested, graph: Graph, step: LogStep) {
 					value: foundVersion,
 				})),
 			],
-		})),
-	);
+		};
+	});
+	const responses: Record<string, string> = await inquirer.prompt(questions.filter(Boolean));
 
-	const memo: Record<string, string> = {};
+	for (const [name, version] of Object.entries(responses)) {
+		choices[name] = version;
+	}
+
 	for (const [name, { requested: version, isInternal }] of Object.entries(requested)) {
+		if (name in choices) {
+			continue;
+		}
 		let toInstall = version;
 		const info = await graph.packageManager.info(name, { runDry: true, step });
 		if (!info) {
@@ -209,16 +250,13 @@ async function prompt(requested: Requested, graph: Graph, step: LogStep) {
 		toInstall = isInternal
 			? version!
 			: /^\d/.test(toInstall!)
-				? `^${semver.coerce(toInstall)!.version}`
+				? `${mode === 'loose' ? '^' : ''}${semver.coerce(toInstall)!.version}`
 				: semver.coerce(toInstall)?.version ?? toInstall!;
 
-		memo[name] = toInstall;
+		choices[name] = toInstall;
 	}
 
-	return {
-		...memo,
-		...choices,
-	};
+	return choices;
 }
 
 function sortDeps(deps: Record<string, string>) {

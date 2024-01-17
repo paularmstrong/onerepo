@@ -13,7 +13,7 @@ export const dependencies: Plugin = function dependencies(opts) {
 				'Safely manager workspace dependencies.',
 				(yargs) => {
 					return yargs
-						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`)
+						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options...]`)
 						.command(
 							add.command,
 							add.description,

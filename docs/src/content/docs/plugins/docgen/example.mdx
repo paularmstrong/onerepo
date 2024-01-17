@@ -10,7 +10,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<6c40d1839d5230fa6706e1afa3a6d215>> */}
+{/* @generated SignedSource<<312c34ed23b6e580d29db2309f751c6e>> */}
 
 ## `one`
 
@@ -302,7 +302,7 @@ Aliases: `dependency`, `deps`, `dep`
 Safely manager workspace dependencies.
 
 ```sh
-one dependencies <command> [options]
+one dependencies <command> [options...]
 ```
 
 ---
@@ -312,17 +312,42 @@ one dependencies <command> [options]
 Add dependencies to workspaces.
 
 ```sh
-one dependencies add -w <workspace(s)> --dev [devDependencies...] --prod [prodDependencies...] [options...]
+one dependencies add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]
 ```
 
-| Option               | Type      | Description                                                               | Required |
-| -------------------- | --------- | ------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                 |          |
-| `--dedupe`           | `boolean` | Deduplicate dependencies across the repository after install is complete. |          |
-| `--dev`, `-d`        | `array`   | Add dependencies for development purposes only.                           |          |
-| `--prod`, `-p`       | `array`   | Add dependencies for production purposes.                                 |          |
-| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                              |          |
-| `--workspaces`, `-w` | `array`   | One or more workspaces to add dependencies into                           |          |
+If a version is not provided with the command-line input, this command will look for currently installed versions of the requested dependencies throughout all Workspaces within the Workspace Graph. If only one version is found, it will be used, regardless of the `--mode` provided.
+
+If multiple versions of the requested dependencies are found in the Workspace Graph, a prompt will be presented to choose the appropriate version.
+
+Otherwise, the latest version will be requested from the registry.
+
+| Option               | Type                                               | Description                                                                                                                            | Required |
+| -------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                              |          |
+| `--dedupe`           | `boolean`                                          | Deduplicate dependencies across the repository after install is complete.                                                              |          |
+| `--dev`, `-d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |          |
+| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |          |
+| `--prod`, `-p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |          |
+| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |          |
+| `--workspaces`, `-w` | `array`                                            | One or more workspaces to add dependencies into                                                                                        |          |
+
+Install the latest version of `normalizr` from the registry, using a strict version number.
+
+```sh
+one dependencies add -w my-workspace -d normalizr --mode strict
+```
+
+Install the latest version of `normalizr` from the registry, using a caret (`^`) version number range, enabling newer minor and patch releases to satisfy the dependency in the future.
+
+```sh
+one dependencies add -w my-workspace -d normalizr --mode loose
+```
+
+Install `react` as a production dependency and `babel-core` as a development dependency in both `workspace-a` and `workspace-b`.
+
+```sh
+one dependencies add -w workspace-a workspace-b -d babel-core -p react
+```
 
 ---
 
@@ -331,7 +356,7 @@ one dependencies add -w <workspace(s)> --dev [devDependencies...] --prod [prodDe
 Remove dependencies from workspaces.
 
 ```sh
-one dependencies remove -w <workspaces...> -d <dependencies...> [options...]
+one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 ```
 
 | Option                 | Type      | Description                                                               | Required |
