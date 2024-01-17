@@ -221,7 +221,7 @@ h1 {
 	--top-gradient-bg: hsla(319, 100%, 9%, 0.4);
 	--hero-gradient-bg: hsla(189, 96%, 42%, 0.1);
 	--sl-color-bg-nav: var(--sl-color-bg);
-	--icon-size: 1.4rem;
+	--icon-size: 1.2rem;
 	--icon-spacing: 0.5rem;
 }
 
@@ -258,7 +258,6 @@ header {
 }
 
 .sl-markdown-content .anchor-link {
-	margin-inline-end: calc(-1 * (var(--icon-size)));
 	color: var(--sl-color-gray-3);
 }
 .sl-markdown-content .anchor-link:hover,
@@ -280,18 +279,14 @@ header {
 	opacity: 1;
 }
 
-/* Float anchor links to the left of headings on larger screens. */
-@media (min-width: 60rem) {
-	.sl-markdown-content .heading-wrapper {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: baseline;
-		gap: var(--icon-spacing);
-		margin-inline-end: calc(-1 * (var(--icon-size) + var(--icon-spacing)));
-	}
-	.sl-markdown-content .heading-wrapper > :first-child,
-	.sl-markdown-content .anchor-link {
-		margin: 0;
-	}
+.sl-markdown-content .heading-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: baseline;
+	gap: var(--icon-spacing);
+}
+.sl-markdown-content .heading-wrapper > :first-child,
+.sl-markdown-content .anchor-link {
+	margin: 0;
 }
