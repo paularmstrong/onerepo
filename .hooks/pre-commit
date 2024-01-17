@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/hooks.sh"
+
+one tasks --lifecycle=pre-commit

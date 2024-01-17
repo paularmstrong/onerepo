@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<aab6d38f21d414985b750e546406754d>> -->
+<!-- @generated SignedSource<<30a814aa689def80397d3ed0a43e20ac>> -->
 
 File manipulation functions.
 
@@ -228,7 +228,7 @@ options?): Promise<void>
 
 Copy a file from one location to another.
 
-If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modified.
+If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
 
 #### Parameters
 
@@ -579,7 +579,7 @@ options?): Promise<void>
 
 Write to a file. This will attempt use Prettier to format the contents based on the `filename` given. If Prettier does not understand the file’s extension, no changes will be made.
 
-If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modified.
+If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
 
 #### Parameters
 

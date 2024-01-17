@@ -57,7 +57,7 @@ export const Npm = {
 				...(tag ? ['--tag', tag] : []),
 				...(otp ? ['--otp', otp] : []),
 				...(workspaces?.length ? ['--workspaces', ...workspaces.map((ws) => ws.name)] : []),
-				...(process.env.ONE_REPO_DRY_RUN === 'true' ? ['--dry-run'] : []),
+				...(process.env.ONEREPO_DRY_RUN === 'true' ? ['--dry-run'] : []),
 			],
 			opts: cwd ? { cwd: cwd } : {},
 			runDry: true,

@@ -33,7 +33,7 @@ export type { SigningStatus } from './signing';
  */
 
 function isDryRun() {
-	return process.env.ONE_REPO_DRY_RUN === 'true';
+	return process.env.ONEREPO_DRY_RUN === 'true';
 }
 
 /**
@@ -102,7 +102,7 @@ export type WriteOptions = {
 /**
  * Write to a file. This will attempt use Prettier to format the contents based on the `filename` given. If Prettier does not understand the file’s extension, no changes will be made.
  *
- * If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modified.
+ * If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
  *
  * @example Write to `/path/to/out.md`.
  * ```ts
@@ -141,7 +141,7 @@ export async function write(filename: string, contents: string, options: WriteOp
 /**
  * Copy a file from one location to another.
  *
- * If `--dry-run` or `process.env.ONE_REPO_DRY_RUN` is true, no files will be modified.
+ * If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
  *
  * @example Copy `/path/to/in.md` to `/path/to/out.md`.
  * ```ts
@@ -452,10 +452,8 @@ export async function chmod(filename: string, mode: string | number, options: Op
 }
 
 function normalizefilepath(filepath: string) {
-	if (typeof process.env.ONE_REPO_ROOT === 'string') {
-		return filepath.startsWith(process.env.ONE_REPO_ROOT)
-			? path.relative(process.env.ONE_REPO_ROOT, filepath)
-			: filepath;
+	if (typeof process.env.ONEREPO_ROOT === 'string') {
+		return filepath.startsWith(process.env.ONEREPO_ROOT) ? path.relative(process.env.ONEREPO_ROOT, filepath) : filepath;
 	}
 	return filepath;
 }

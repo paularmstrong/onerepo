@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<1e27688784b9027cf8f55e438a42dff5>> -->
+<!-- @generated SignedSource<<298232a1f121d340070afe486690af60>> -->
 
 ## Namespaces
 
@@ -132,7 +132,7 @@ dry-run: boolean;
 
 Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.
 
-Also internally sets `process.env.ONE_REPO_DRY_RUN = 'true'`.
+Also internally sets `process.env.ONEREPO_DRY_RUN = 'true'`.
 
 ###### Default
 
@@ -445,6 +445,8 @@ type RootConfig<CustomLifecycles>: {
      schema: string | null;
   };
   vcs: {
+     autoSyncHooks: boolean;
+     hooksPath: string;
      provider: "github" | "gitlab" | "bitbucket" | "gitea";
   };
   visualizationUrl: string;
@@ -752,11 +754,55 @@ File path for custom graph and configuration file validation schema.
 
 ```ts
 vcs?: {
+  autoSyncHooks: boolean;
+  hooksPath: string;
   provider: "github" | "gitlab" | "bitbucket" | "gitea";
 };
 ```
 
 Version control system settings.
+
+##### vcs.autoSyncHooks?
+
+```ts
+vcs.autoSyncHooks?: boolean;
+```
+
+###### Default
+
+`false`
+Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export defualt {
+	vcs: {
+		autoSyncHooks: false,
+	}
+};
+```
+
+##### vcs.hooksPath?
+
+```ts
+vcs.hooksPath?: string;
+```
+
+###### Default
+
+`'.hooks'`
+Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
+
+###### Example
+
+```ts title="onerepo.config.ts"
+export defualt {
+	vcs: {
+		hooksPath: '.githooks',
+	}
+};
+```
 
 ##### vcs.provider?
 
@@ -2423,7 +2469,7 @@ logger.error(stderr);
 
 #### Example
 
-By default, `run()` will respect oneRepo’s `--dry-run` option (see [`DefaultArgv`](#defaultargv), `process.env.ONE_REPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
+By default, `run()` will respect oneRepo’s `--dry-run` option (see [`DefaultArgv`](#defaultargv), `process.env.ONEREPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
 
 ```ts
 await run({

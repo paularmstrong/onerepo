@@ -30,7 +30,7 @@ async function runBuilder<R = Record<string, unknown>>(
 ): Promise<Argv<R>> {
 	process.env = {
 		...process.env,
-		ONE_REPO_HEAD_BRANCH: 'main',
+		ONEREPO_HEAD_BRANCH: 'main',
 		...(builderExtras?.env ?? {}),
 	};
 
@@ -65,7 +65,7 @@ async function runBuilder<R = Record<string, unknown>>(
 
 	const resolvedOut = await (out instanceof Promise ? out : Promise.resolve(out));
 
-	const { ...argv } = resolvedOut.argv;
+	const argv = resolvedOut.argv;
 
 	for (const middleware of middlewares) {
 		await middleware(argv);

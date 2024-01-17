@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
 import { Graph } from '@onerepo/graph';
-import { internalSetup, plugins } from '..';
+import { internalSetup, noRepoPlugins } from '..';
 import type { setup as Setup } from '../setup';
 
 // Suppress Node experimental warnings.
@@ -62,7 +62,7 @@ try {
 		graph: new Graph(root, { name: 'onerepo-bin', private: true }, [], jiti),
 		config: {
 			...config,
-			plugins: Object.values(plugins).map((plugin) => (plugin as () => void)()),
+			plugins: Object.values(noRepoPlugins).map((plugin) => (plugin as () => void)()),
 		},
 		yargs: createYargs(process.argv.slice(2), process.cwd(), require),
 		corePlugins: [],

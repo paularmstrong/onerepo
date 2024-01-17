@@ -18,7 +18,11 @@ import { workspaceBuilder } from './workspaces';
 
 const defaultConfig: Required<RootConfig> = {
 	root: true,
-	vcs: { provider: 'github' },
+	vcs: {
+		autoSyncHooks: false,
+		hooksPath: '.hooks',
+		provider: 'github',
+	},
 	codeowners: {},
 	head: 'main',
 	ignore: [],
@@ -58,7 +62,7 @@ export type App = {
 	/**
 	 * Run the command handler.
 	 */
-	run: () => Promise<Record<string, unknown>>;
+	run: () => Promise<void>;
 };
 
 /**
@@ -97,11 +101,11 @@ export async function setup({
 	const resolvedConfig = defaults(userConfig, defaultConfig) satisfies Required<RootConfig>;
 	const { head } = resolvedConfig;
 
-	process.env.ONE_REPO_ROOT = getActualRoot(root);
-	process.env.ONE_REPO_HEAD_BRANCH = head;
-	process.env.ONE_REPO_DRY_RUN = 'false';
+	process.env.ONEREPO_ROOT = getActualRoot(root);
+	process.env.ONEREPO_HEAD_BRANCH = head;
+	process.env.ONEREPO_DRY_RUN = 'false';
 
-	const graph = await (inputGraph || getGraph(process.env.ONE_REPO_ROOT));
+	const graph = await (inputGraph || getGraph(process.env.ONEREPO_ROOT));
 
 	const yargs = setupYargs(yargsInstance.scriptName('one'), { graph, logger });
 	yargs
@@ -154,14 +158,14 @@ export async function setup({
 		if (typeof startupHandler === 'function') {
 			startupFns.push(startupHandler);
 		}
-		if (typeof shutdownHandler === 'function') {
+		if (typeof shutdownHandler === 'function' && process.env.ONEREPO_SPAWN !== '1') {
 			shutdownFns.push(shutdownHandler);
 		}
 	}
 
 	// Local commands
 	if (resolvedConfig.commands.directory !== false) {
-		const rootCommandPath = path.join(process.env.ONE_REPO_ROOT, resolvedConfig.commands.directory!);
+		const rootCommandPath = path.join(process.env.ONEREPO_ROOT, resolvedConfig.commands.directory!);
 		if (existsSync(rootCommandPath)) {
 			const stat = await lstat(rootCommandPath);
 			if (stat.isDirectory()) {
@@ -200,20 +204,12 @@ export async function setup({
 				});
 			});
 
-			// Register a new logger on the  top of the stack to silence output
-			const silencedLogger = new Logger({ verbosity: 0 });
-			// Silence the logger so that shutdown handlers do not write logs
-			const results = await shutdown(argv);
-
-			await silencedLogger.end();
 			await logger.end();
 
-			const merged = results.reduce(
-				(memo, res) => ({ ...memo, ...(typeof res === 'object' ? res : {}) }),
-				{} as Record<string, unknown>,
-			);
-
-			return merged ?? {};
+			// Register a new logger on the  top of the stack to silence output so that shutdown handlers to not write any output
+			const silencedLogger = new Logger({ verbosity: 0 });
+			await shutdown(argv);
+			await silencedLogger.end();
 		},
 	};
 }

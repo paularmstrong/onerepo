@@ -115,10 +115,6 @@ export function performanceWriter(opts: Options = {}): PluginObject {
 
 			await write(outFile, JSON.stringify(measures), { step });
 			await step.end();
-
-			return {
-				performanceWriter: outFile,
-			};
 		},
 	};
 }

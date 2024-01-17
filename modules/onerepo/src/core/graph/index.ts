@@ -11,7 +11,7 @@ export const graph: Plugin = function graph(opts) {
 				'Invalid path specified for graph.customSchema. Path must be relative to the repository root, like "./config/graph-schema.ts"',
 			);
 		}
-		resolvedSchema = path.resolve(process.env.ONE_REPO_ROOT!, opts.validation.schema);
+		resolvedSchema = path.resolve(process.env.ONEREPO_ROOT!, opts.validation.schema);
 	}
 
 	return {

@@ -1,0 +1,152 @@
+---
+title: Git hooks
+description: |
+  Manage Git hooks for the repository
+usage: hooks
+meta:
+  stability: experimental
+tableOfContents:
+  maxHeadingLevel: 4
+---
+
+Use git hooks to automatically run oneRepo tasks and other commands before, during, and after git commands using [git hooks](https://git-scm.com/docs/githooks).
+
+Git hooks can be a divisive topic. Because of that, managing the hooks through oneRepo is an opt-in behavior with multiple options.
+
+## Enabling hooks
+
+### Automatically
+
+Set [`vcs.autoSyncHooks: true`](/docs/config/#vcsautosynchooks) in your root config. This will ensure git is configured to use your hooks after any successful command run.
+
+```ts title="onerepo.config.js"
+export default {
+	vcs: {
+		autoSyncHooks: true,
+	},
+};
+```
+
+### Manually
+
+If you and your team do not want to always require git hooks to be configured in dev environments, any individual developer can run the commands to initialize and create hooks at will:
+
+```sh title="Set up initial hooks configuration"
+one hooks init
+```
+
+Then you may create hooks either by using the oneRepo recommended hooks or add & edit them manually:
+
+```sh title="Create recommended hooks"
+one hooks create
+```
+
+```sh title="Create a custom hook"
+one hooks create --hook prepare-commit-msg
+```
+
+All hooks will be created within the `vcs.hooksPath` config (`./.hooks` by default) unless otherwise modified. Once created, make sure the to commit the hook files to git so they can be shared.
+
+## Disabling hooks
+
+### Bypassing hooks
+
+You can bypass pre-commit and commit-msg hooks using Git [`--no-verify`/`-n`](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--n) option:
+
+```sh
+git commit --no-verify
+```
+
+For Git commands that don't have a `--no-verify` option, you can set the `ONEREPO_USE_HOOKS` environment variable to `"0"` and hooks will exit before executing any configured tasks:
+
+```sh
+ONEREPO_USE_HOOKS="0" git pull
+```
+
+### Preventing hooks sync
+
+For one-off uses or as an individual setting not tracked in your [config](/docs/config/), set an environment variable `ONEREPO_SYNC_HOOKS` to `0`. This will prevent the background task that automatically updates git with knowledge of the hooks:
+
+```sh
+export ONEREPO_SYNC_HOOKS="0"
+```
+
+### Uninstalling
+
+To uninstall the git hooks, unset the local git config value. Ensure you also disable auto-sync by setting [`vcs.autoSyncHooks` to `false`](/docs/config/#vcsautosynchooks).
+
+```sh
+git config --unset core.hooksPath
+```
+
+## Commands
+
+{/* start-auto-generated-from-cli-hooks */}
+{/* @generated SignedSource<<4e161842f4ab1c433ec277a208bbebb9>> */}
+
+### `one hooks`
+
+Manage git repository hooks
+
+```sh
+one hooks <command>
+```
+
+---
+
+#### `one hooks create`
+
+Create git hooks
+
+```sh
+one hooks create
+```
+
+| Option            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                | Required |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |          |
+| `--hook`          | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |          |
+| `--overwrite`     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |          |
+| `--show-advanced` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Pair with `--help` to show advanced options.                               |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option         | Type     | Description                                                                              | Required |
+| -------------- | -------- | ---------------------------------------------------------------------------------------- | -------- |
+| `--hooks-path` | `string` | Tracked path to use for git hooks. This option is defaulted via the oneRepo root config. | ✅       |
+
+</details>
+
+---
+
+#### `one hooks init`
+
+Aliases: `sync`
+
+Initialize and sync git hook settings for this repository.
+
+```sh
+one hooks init
+```
+
+| Option            | Type      | Description                                  | Required |
+| ----------------- | --------- | -------------------------------------------- | -------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option         | Type     | Description                        | Required |
+| -------------- | -------- | ---------------------------------- | -------- |
+| `--hooks-path` | `string` | Tracked path to use for git hooks. | ✅       |
+
+</details>
+
+{/* end-auto-generated-from-cli-hooks */}
+
+## Acknowledgements
+
+Many of the ideas and code patterns for this module were inspired by [Husky](https://typicode.github.io/husky/), which has been a long time standard utility for JavaScript based repos.

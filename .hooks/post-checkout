@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+. "$(dirname -- "$0")/_/hooks.sh"
 
 # If the third argument is "1", then we have switched branches
 if [ $3 = '1' ]; then
-  ./bin/one.mjs tasks -c post-checkout
+  one tasks --lifecycle=post-checkout
 fi

@@ -59,7 +59,7 @@ export async function getBranch({ step }: Options = {}) {
 export async function getMergeBase({ step }: Options = {}) {
 	return stepWrapper({ step, name: 'Get merge base' }, async (step) => {
 		const current = await getBranch({ step });
-		const head = process.env.ONE_REPO_HEAD_BRANCH;
+		const head = process.env.ONEREPO_HEAD_BRANCH;
 
 		if (current === head) {
 			step.log(`Currently on HEAD branch, "${head}"`);

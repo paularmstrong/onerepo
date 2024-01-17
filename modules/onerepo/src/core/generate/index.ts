@@ -8,7 +8,7 @@ export const generate: Plugin = function generate(opts) {
 			'Invalid path specified for `core.generate.templatesDir`. Path must be relative to the repository root, like "./config/templates"',
 		);
 	}
-	const resolvedDir = path.resolve(process.env.ONE_REPO_ROOT!, opts.templateDir ?? '');
+	const resolvedDir = path.resolve(process.env.ONEREPO_ROOT!, opts.templateDir ?? '');
 
 	return {
 		yargs: (yargs, visitor) => {
@@ -23,7 +23,7 @@ export const generate: Plugin = function generate(opts) {
 						.default('templates-dir', resolvedDir)
 						.epilogue(
 							`To create new templates add a new folder to ${path.relative(
-								process.env.ONE_REPO_ROOT!,
+								process.env.ONEREPO_ROOT!,
 								resolvedDir,
 							)} and create a \`.onegen.cjs\` configuration file. Follow the instructions online for more: https://onerepo.tools/docs/plugins/generate/`,
 						);

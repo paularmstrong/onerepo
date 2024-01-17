@@ -11,7 +11,11 @@ async function run() {
 	let failures = false;
 	for (const task of tasks) {
 		await new Promise<number>((resolve) => {
-			const proc = spawn(task.cmd, task.args ?? [], { ...(task.opts ?? {}), stdio: 'inherit' });
+			const proc = spawn(task.cmd, task.args ?? [], {
+				...(task.opts ?? {}),
+				env: { ...(task.opts?.env ?? {}), ONEREPO_USE_HOOKS: '0', ...process.env },
+				stdio: 'inherit',
+			});
 
 			proc.on('exit', (code) => {
 				if (code && isFinite(code)) {

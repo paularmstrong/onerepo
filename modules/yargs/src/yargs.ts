@@ -184,7 +184,7 @@ export type DefaultArgv = {
 	/**
 	 * Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.
 	 *
-	 * Also internally sets `process.env.ONE_REPO_DRY_RUN = 'true'`.
+	 * Also internally sets `process.env.ONEREPO_DRY_RUN = 'true'`.
 	 * @default false
 	 */
 	'dry-run': boolean;

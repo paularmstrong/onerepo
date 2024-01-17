@@ -41,7 +41,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<912d3d4e04bcb0b5e3461f613711fc07>> */}
+{/* @generated SignedSource<<03f27a8564d987dc6e2cd8d1dbe14711>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
@@ -277,6 +277,40 @@ File path for custom graph and configuration file validation schema.
 - **Type:** `Object`
 
 Version control system settings.
+
+#### vcs.autoSyncHooks?
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export defualt {
+	vcs: {
+		autoSyncHooks: false,
+	}
+};
+```
+
+#### vcs.hooksPath?
+
+- **Type:** `string`
+- **Default:** `'.hooks'`
+
+Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
+
+##### Example
+
+```ts title="onerepo.config.ts"
+export defualt {
+	vcs: {
+		hooksPath: '.githooks',
+	}
+};
+```
 
 #### vcs.provider?
 
