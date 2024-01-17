@@ -3,12 +3,14 @@ import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import sitemap from '@astrojs/sitemap';
 import starlightLinksValidator from 'starlight-links-validator';
-import { mermaid } from './src/plugins/mermaid';
+import { rehypeAutolink } from './src/plugins/rehype-autolink';
+import { mermaid } from './src/plugins/remark-mermaid';
 
 export default defineConfig({
 	trailingSlash: 'always',
 	markdown: {
 		remarkPlugins: [mermaid],
+		rehypePlugins: [...rehypeAutolink()],
 	},
 	site: 'https://onerepo.tools',
 	integrations: [
