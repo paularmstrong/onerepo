@@ -87,7 +87,7 @@ export type RunSpec = {
  *
  * @example **Dry-run:**
  *
- * By default, `run()` will respect oneRepo’s `--dry-run` option (see {@link DefaultArgv | `DefaultArgv`}, `process.env.ONE_REPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
+ * By default, `run()` will respect oneRepo’s `--dry-run` option (see {@link DefaultArgv | `DefaultArgv`}, `process.env.ONEREPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
  *
  * ```ts
  * await run({
@@ -124,7 +124,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		let out = '';
 		let err = '';
 
-		if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
+		if (!runDry && process.env.ONEREPO_DRY_RUN === 'true') {
 			step.info(
 				`DRY-RUN command:
 		${JSON.stringify(withoutLogger, null, 2)}\n`,
@@ -145,7 +145,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 
 		step.debug(
 			`Running command:
-${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? process.cwd()}\n`,
+${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process.cwd()}\n`,
 		);
 
 		const subprocess = start(options);
@@ -218,11 +218,13 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONE_REPO_ROOT ?? proces
 export function start(options: Omit<RunSpec, 'runDry' | 'name'>): ChildProcess {
 	const { args = [], cmd, opts = {} } = options;
 
+	const ONEREPO_SPAWN = process.argv.includes(cmd) ? '1' : '0';
+
 	const subprocess = spawn(cmd, args, {
-		cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
-		stdio: ['inherit', 'pipe', 'pipe'],
+		cwd: process.env.ONEREPO_ROOT ?? process.cwd(),
+		stdio: opts.detached ? 'ignore' : ['inherit', 'pipe', 'pipe'],
 		...opts,
-		env: { ...process.env, ...opts.env },
+		env: { ...process.env, ONEREPO_SPAWN, ...opts.env },
 	});
 
 	if (!subprocess) {
@@ -258,7 +260,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	const step = logger.createStep(name);
 	const commandString = `${options.cmd} ${(options.args || []).join(' ')}`;
 
-	if (!runDry && process.env.ONE_REPO_DRY_RUN === 'true') {
+	if (!runDry && process.env.ONEREPO_DRY_RUN === 'true') {
 		step.info(
 			`DRY-RUN command:
     sudo ${commandString}\n`,
@@ -282,7 +284,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 		exec(
 			`sudo ${commandString}`,
 			{
-				cwd: process.env.ONE_REPO_ROOT ?? process.cwd(),
+				cwd: process.env.ONEREPO_ROOT ?? process.cwd(),
 			},
 			(error, stdout, stderr) => {
 				if (error) {

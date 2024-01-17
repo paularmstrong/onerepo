@@ -51,9 +51,9 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
 		const branch = await getBranch({ step: cleanStep });
-		if (branch !== process.env.ONE_REPO_HEAD_BRANCH) {
+		if (branch !== process.env.ONEREPO_HEAD_BRANCH) {
 			cleanStep.error(
-				`Publish is only available from the branch "${process.env.ONE_REPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`,
+				`Publish is only available from the branch "${process.env.ONEREPO_HEAD_BRANCH}", but you are currently on "${branch}". Please switch branches and re-run to continue.`,
 			);
 			await cleanStep.end();
 			return;

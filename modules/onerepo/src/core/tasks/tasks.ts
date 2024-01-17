@@ -269,7 +269,7 @@ function singleTaskToSpec(
 	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
 	const passthrough = [
-		process.env.ONE_REPO_DRY_RUN === 'true' ? '--dry-run' : false,
+		process.env.ONEREPO_DRY_RUN === 'true' ? '--dry-run' : false,
 		'',
 		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;

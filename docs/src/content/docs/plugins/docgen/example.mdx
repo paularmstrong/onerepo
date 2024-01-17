@@ -9,7 +9,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<49bc2efd9ce07b924bd98bb40bd04848>> */}
+{/* @generated SignedSource<<7c2bba536b0f39997a4693c59097f7cc>> */}
 
 ## `one`
 
@@ -265,6 +265,69 @@ Dependencies across workspaces can be validated using one of the various methods
 | Option            | Type                                          | Description                             | Required |
 | ----------------- | --------------------------------------------- | --------------------------------------- | -------- |
 | `--custom-schema` | `string`, default: `"config/graph-schema.ts"` | Path to a custom JSON schema definition |          |
+
+</details>
+
+---
+
+### `one hooks`
+
+Manage git repository hooks
+
+```sh
+one hooks <command>
+```
+
+---
+
+#### `one hooks create`
+
+Create git hooks
+
+```sh
+one hooks create
+```
+
+| Option            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                | Required |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `--add`           | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |          |
+| `--hook`          | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |          |
+| `--overwrite`     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |          |
+| `--show-advanced` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Pair with `--help` to show advanced options.                               |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option         | Type     | Description                                                                              | Required |
+| -------------- | -------- | ---------------------------------------------------------------------------------------- | -------- |
+| `--hooks-path` | `string` | Tracked path to use for git hooks. This option is defaulted via the oneRepo root config. | ✅       |
+
+</details>
+
+---
+
+#### `one hooks init`
+
+Aliases: `sync`
+
+Initialize and sync git hook settings for this repository.
+
+```sh
+one hooks init
+```
+
+| Option            | Type      | Description                                  | Required |
+| ----------------- | --------- | -------------------------------------------- | -------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option         | Type     | Description                        | Required |
+| -------------- | -------- | ---------------------------------- | -------- |
+| `--hooks-path` | `string` | Tracked path to use for git hooks. | ✅       |
 
 </details>
 

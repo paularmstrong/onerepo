@@ -75,13 +75,13 @@ describe('NPM', () => {
 	});
 
 	describe('publish', () => {
-		let dryRun = process.env.ONE_REPO_DRY_RUN;
+		let dryRun = process.env.ONEREPO_DRY_RUN;
 		beforeEach(() => {
-			dryRun = process.env.ONE_REPO_DRY_RUN;
+			dryRun = process.env.ONEREPO_DRY_RUN;
 		});
 
 		afterEach(() => {
-			process.env.ONE_REPO_DRY_RUN = dryRun;
+			process.env.ONEREPO_DRY_RUN = dryRun;
 		});
 
 		test('Publishes', async () => {
@@ -96,7 +96,7 @@ describe('NPM', () => {
 		});
 
 		test('includes --dry-run', async () => {
-			process.env.ONE_REPO_DRY_RUN = 'true';
+			process.env.ONEREPO_DRY_RUN = 'true';
 
 			await manager.publish();
 

@@ -5,6 +5,7 @@ import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
 import { generate } from '../core/generate';
 import { graph } from '../core/graph';
+import { hooks } from '../core/hooks';
 import { install } from '../core/install';
 import { tasks } from '../core/tasks';
 import { setup as internalSetup } from './setup';
@@ -35,9 +36,9 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, generate, graph, tasks];
+export const corePlugins: CorePlugins = [codeowners, generate, graph, hooks, tasks];
 
 /**
  * @internal
  */
-export const plugins: CorePlugins = [create, install];
+export const noRepoPlugins: CorePlugins = [create, install];

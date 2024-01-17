@@ -34,6 +34,10 @@ code {
 	white-space: nowrap;
 }
 
+h1 {
+	font-size: var(--sl-text-5xl);
+}
+
 /**
  * Overrides
  */

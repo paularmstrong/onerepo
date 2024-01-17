@@ -61,4 +61,8 @@ export default {
 	codeowners: {
 		'*': ['@paularmstrong'],
 	},
+
+	vcs: {
+		autoSyncHooks: true,
+	},
 } satisfies Config;

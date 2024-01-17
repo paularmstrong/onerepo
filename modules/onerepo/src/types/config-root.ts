@@ -189,6 +189,34 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 */
 	vcs?: {
 		/**
+		 * @default `false`
+		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
+		 *
+		 * @example
+		 * ```ts title="onerepo.config.ts"
+		 * export defualt {
+		 * 	vcs: {
+		 * 		autoSyncHooks: false,
+		 * 	}
+		 * };
+		 * ```
+		 */
+		autoSyncHooks?: boolean;
+		/**
+		 * @default `'.hooks'`
+		 * Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
+		 *
+		 * @example
+		 * ```ts title="onerepo.config.ts"
+		 * export defualt {
+		 * 	vcs: {
+		 * 		hooksPath: '.githooks',
+		 * 	}
+		 * };
+		 * ```
+		 */
+		hooksPath?: string;
+		/**
 		 * @default `'github'`
 		 * The provider will be factored in to various commands, like `CODEOWNERS` generation.
 		 *
