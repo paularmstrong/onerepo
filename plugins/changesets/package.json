@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/changesets"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/changesets/",
+	"homepage": "https://onerepo.tools/plugins/changesets/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {

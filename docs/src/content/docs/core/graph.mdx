@@ -1,7 +1,6 @@
 ---
 title: Graph
-description: |
-  Get information about your repository’s workspace graph.
+description: Get information about your repository’s Workspace Graph using oneRepo.
 usage: graph
 meta:
   stability: stable
@@ -23,7 +22,7 @@ The `one graph verify` command comes with some basic schema for validating `pack
 
 However, you can enhance this by providing custom schema to match to workspaces and their files:
 
-```ts {3-5}
+```js title="onerepo.config.js" {3-5}
 export default {
 	core: {
 		graph: {
@@ -205,7 +204,7 @@ export default {
 
 There are cases where more information about a workspace is needed for the schema to be complete. For this, the schema may also be a function that accepts two arguments, `workspace` and `graph`:
 
-```ts title="graph-schema.ts" ins={5,11,17}
+```ts title="graph-schema.ts" ins="(workspace: graph.Workspace, graph: graph.Graph) => ({" ins="graph.root.relative(workspace.location)"
 import type { graph, GraphSchemaValidators } from 'onerepo';
 
 export default {

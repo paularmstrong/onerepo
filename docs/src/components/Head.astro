@@ -1,0 +1,12 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default {...Astro.props} />
+<meta
+	property="og:image"
+	name="twitter:image"
+	content={`${Astro.url.origin}/open-graph${
+		Astro.url.pathname === '/' ? '/index.png' : Astro.url.pathname.replace(/\/$/, '.png')
+	}`}
+/>

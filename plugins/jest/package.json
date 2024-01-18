@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/jest"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/vitest/",
+	"homepage": "https://onerepo.tools/plugins/vitest/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {

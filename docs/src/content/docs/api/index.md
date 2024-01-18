@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<298232a1f121d340070afe486690af60>> -->
+<!-- @generated SignedSource<<9cafe181c38f0a52dfd6d50aa349dd5b>> -->
 
 ## Namespaces
 
@@ -631,7 +631,7 @@ export default {
 plugins?: Plugin[];
 ```
 
-Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
+Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
 
 ###### Default
 

@@ -7,7 +7,7 @@ export const collections: Record<string, ReturnType<typeof defineCollection>> = 
 			extend: z.object({
 				meta: z
 					.object({
-						stability: z.enum(['stable', 'unstable', 'experimental']).optional(),
+						stability: z.enum(['stable', 'unstable', 'preview', 'experimental']).optional(),
 						version: z.string().optional(),
 					})
 					.optional(),

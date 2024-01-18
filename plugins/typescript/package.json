@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/typescript"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/typescript",
+	"homepage": "https://onerepo.tools/plugins/typescript",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {

@@ -10,6 +10,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@types/pako": "^2",
 		"astro": "^4.0.8",
+		"astro-og-canvas": "^0.4.2",
 		"clsx": "^2.0.0",
 		"eslint": "^8.38.0",
 		"eslint-plugin-astro": "^0.31.0",

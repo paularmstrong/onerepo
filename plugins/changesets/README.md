@@ -77,4 +77,4 @@ This plugin will trigger the [core `tasks`](https://onerepo.tools/docs/core/task
 
 - When publishing, `devDependencies` are explicitly stripped from the `package.json`. This is a safety mechanism to ensure that dependencies are not mis-identified.
 
-  To help prevent errors before publishing, it is recommended to include the [ESLint plugin](/docs/plugins/eslint/) with [eslint-plugin-import](https://github.com/import-js/eslint-plugin-import/blob/main/README.md) and the rule [`import/no-extraneous-dependencies`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md)
+  To help prevent errors before publishing, it is recommended to include the [ESLint plugin](/plugins/eslint/) with [eslint-plugin-import](https://github.com/import-js/eslint-plugin-import/blob/main/README.md) and the rule [`import/no-extraneous-dependencies`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md)

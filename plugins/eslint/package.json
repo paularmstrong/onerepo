@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/eslint"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/eslint/",
+	"homepage": "https://onerepo.tools/plugins/eslint/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {
