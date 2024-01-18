@@ -3318,6 +3318,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@types/pako": ^2
     astro: ^4.0.8
+    astro-og-canvas: ^0.4.2
     clsx: ^2.0.0
     eslint: ^8.38.0
     eslint-plugin-astro: ^0.31.0
@@ -6025,6 +6026,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"astro-og-canvas@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "astro-og-canvas@npm:0.4.2"
+  dependencies:
+    canvaskit-wasm: ^0.37.0
+    deterministic-object-hash: ^2.0.2
+    entities: ^4.4.0
+  peerDependencies:
+    astro: ^3.0.0 || ^4.0.0
+  checksum: e23e1f25184e2ebaff91831504a252c96d417231d5611d0638fd53df0afcb13cf403a5472841e48b21af461c996b1f78a16e8644ca1d3774caca4e685bdee2ff
+  languageName: node
+  linkType: hard
+
 "astro@npm:^4.0.8":
   version: 4.0.8
   resolution: "astro@npm:4.0.8"
@@ -6795,6 +6809,13 @@ __metadata:
   version: 1.0.30001572
   resolution: "caniuse-lite@npm:1.0.30001572"
   checksum: 7d017a99a38e29ccee4ed3fc0ef1eb90cf082fcd3a7909c5c536c4ba1d55c5b26ecc1e4ad82c1caa6bfadce526764b354608710c9b61a75bdc7ce8ca15c5fcf2
+  languageName: node
+  linkType: hard
+
+"canvaskit-wasm@npm:^0.37.0":
+  version: 0.37.2
+  resolution: "canvaskit-wasm@npm:0.37.2"
+  checksum: cc734df297fc72afbff90266ba70c94d9c4f65901836d0b766ff003b7d8b725205129e4f0af29b4d59cbed0dd236762785682fa19e7fe5acaeebb60db1be523c
   languageName: node
   linkType: hard
 
@@ -8510,7 +8531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deterministic-object-hash@npm:^2.0.1":
+"deterministic-object-hash@npm:^2.0.1, deterministic-object-hash@npm:^2.0.2":
   version: 2.0.2
   resolution: "deterministic-object-hash@npm:2.0.2"
   dependencies:
