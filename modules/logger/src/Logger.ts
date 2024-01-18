@@ -302,6 +302,9 @@ export class Logger {
 
 		for (const step of this.#steps) {
 			this.#activate(step);
+			step.warn(
+				'Step did not finish before command shutdown. Fix this issue by updating this command to `await step.end();` at the appropriate time.',
+			);
 			await step.end();
 		}
 
