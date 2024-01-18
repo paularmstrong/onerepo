@@ -1,0 +1,9 @@
+{
+	"name": "fixture-tacos",
+	"version": "1.2.3",
+	"main": "./src/index.ts",
+	"dependencies": {
+		"lettuce": "^1.5.6",
+		"tortillas": "^1.4.5"
+	}
+}

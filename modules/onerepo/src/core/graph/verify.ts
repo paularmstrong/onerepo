@@ -3,7 +3,6 @@ import cjson from 'cjson';
 import { glob } from 'glob';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
-import semver from 'semver';
 import { read } from '@onerepo/file';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
@@ -11,6 +10,8 @@ import type { AnySchema } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph, Workspace } from '@onerepo/graph';
+import { verifyDependencies } from '../dependencies/utils/verify-dependencies';
+import { epilogue } from '../dependencies/verify';
 import { defaultValidators } from './schema';
 import type { GraphSchemaValidators } from './schema';
 
@@ -20,75 +21,34 @@ export const description = 'Verify the integrity of the repo’s dependency grap
 
 type Argv = {
 	'custom-schema'?: string;
-	dependencies: 'loose' | 'off';
+	mode: 'strict' | 'loose' | 'off';
 };
 
 export const builder: Builder<Argv> = (yargs) =>
 	yargs
 		.usage(`$0 verify`)
 		.epilogue(
-			`Dependencies across workspaces can be validated using one of the various methods:
-
-- \`off\`: No validation will occur. Everything goes.
-- \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
-`,
+			'This command will first validate dependencies across Workspace Graph trees using the given `--mode` as well as Workspace configuration file integrity using the repo’s defined JSON schema validators.',
 		)
+		.epilogue(epilogue)
 		.option('custom-schema', {
 			type: 'string',
 			normalize: true,
 			description: 'Path to a custom JSON schema definition',
 			hidden: true,
 		})
-		.option('dependencies', {
+		.option('mode', {
 			type: 'string',
 			description: 'Dependency overlap validation method.',
-			choices: ['loose', 'off'],
-			default: 'loose',
-		} as const);
+			choices: ['strict', 'loose', 'off'] as const,
+			default: 'loose' as const,
+		});
 
 export const handler: Handler<Argv> = async function handler(argv, { graph, logger }) {
-	const { 'custom-schema': customSchema, dependencies: validationType } = argv;
+	const { 'custom-schema': customSchema, mode } = argv;
 
-	if (validationType !== 'off') {
-		const dependencyStep = logger.createStep('Validating dependency trees');
-		for (const workspace of graph.workspaces) {
-			const deps = { ...workspace.dependencies, ...workspace.devDependencies, ...workspace.peerDependencies };
-
-			const dependencies = graph.dependencies(workspace.name);
-			const errs: Array<string> = [];
-
-			for (const dependency of dependencies) {
-				dependencyStep.log(`Checking ${dependency.name}`);
-				for (const [dep, version] of Object.entries({
-					...dependency.dependencies,
-					...dependency.devDependencies,
-					...dependency.peerDependencies,
-				})) {
-					if (dep in deps) {
-						dependencyStep.log(`Checking ${dep}@${deps[dep]} intersects ${version}`);
-						if (version.startsWith('workspace:') || deps[dep].startsWith('workspace:')) {
-							continue;
-						}
-						if (semver.valid(semver.coerce(version)) && !semver.intersects(version, deps[dep])) {
-							errs.push(
-								`depends on "${dep}@${deps[dep]}", but other dependency "${dependency.name}" requires non-intersecting version "${version}"`,
-							);
-						}
-					}
-				}
-			}
-			if (errs.length) {
-				const mismatch = `Version mismatches found in "${workspace.name}"`;
-				dependencyStep.error(mismatch);
-				const pkgjson = graph.root.relative(workspace.resolve('package.json'));
-				writeGithubError(mismatch, pkgjson);
-				for (const err of errs) {
-					dependencyStep.error(` ↳ ${err}`);
-					writeGithubError(err, pkgjson);
-				}
-			}
-		}
-		await dependencyStep.end();
+	if (mode !== 'off') {
+		await verifyDependencies(mode, graph, graph.workspaces, logger);
 	}
 
 	// esbuild cannot import json files correctly unless bundling externals

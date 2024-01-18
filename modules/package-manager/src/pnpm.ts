@@ -1,12 +1,14 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { PackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
+
+const cmd = 'pnpm';
 
 export const Pnpm = {
 	add: async (packages, opts = {}) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Add packages',
-			cmd: 'pnpm',
+			cmd,
 			args: ['add', ...pkgs, ...(opts?.dev ? ['--save-dev'] : [])],
 		});
 	},
@@ -21,10 +23,33 @@ export const Pnpm = {
 		);
 	},
 
+	dedupe: async () => {
+		await run({
+			name: 'Dedupe dependencies',
+			cmd: 'yapnpmrn',
+			args: ['dedupe'],
+		});
+	},
+
+	info: async (name, spec) => {
+		try {
+			const [data] = await run({
+				name: `Get ${name} info`,
+				...spec,
+				cmd,
+				args: ['info', name, '--json'],
+			});
+
+			return JSON.parse(data) as NpmInfo;
+		} catch (e) {
+			return null;
+		}
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
-			cmd: 'pnpm',
+			cmd,
 			args: ['install'],
 			opts: { cwd },
 		});
@@ -36,7 +61,7 @@ export const Pnpm = {
 		try {
 			await run({
 				name: 'Who am I?',
-				cmd: 'pnpm',
+				cmd,
 				args: ['whoami', ...(opts.registry ? ['--registry', opts.registry] : [])],
 				runDry: true,
 			});
@@ -50,7 +75,7 @@ export const Pnpm = {
 		const { access, cwd, otp, tag, workspaces } = opts;
 		await run({
 			name: `Publish${workspaces?.length ? ` ${workspaces.join(', ')}` : ''}`,
-			cmd: 'pnpm',
+			cmd,
 			args: [
 				'publish',
 				'--no-git-checks',
@@ -72,7 +97,7 @@ export const Pnpm = {
 		const responses = await batch(
 			filtered.map(({ name }) => ({
 				name: `Get ${name} versions`,
-				cmd: 'pnpm',
+				cmd,
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
 				skipFailures: true,
@@ -101,7 +126,7 @@ export const Pnpm = {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Remove packages',
-			cmd: 'pnpm',
+			cmd,
 			args: ['remove', ...pkgs],
 		});
 	},

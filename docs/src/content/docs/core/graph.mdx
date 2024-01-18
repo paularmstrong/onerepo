@@ -35,7 +35,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<be700f6bb144883c7afc58bfced64701>> */}
+{/* @generated SignedSource<<940cc4c44a67a49dba1813dfdc70d4b1>> */}
 
 ### `one graph`
 
@@ -109,15 +109,18 @@ Verify the integrity of the repo’s dependency graph and files in each workspac
 one graph verify
 ```
 
-Dependencies across workspaces can be validated using one of the various methods:
+This command will first validate dependencies across Workspace Graph trees using the given `--mode` as well as Workspace configuration file integrity using the repo’s defined JSON schema validators.
+
+Dependencies across workspaces can be validated using one of the various modes:
 
 - `off`: No validation will occur. Everything goes.
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+- `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-| Option            | Type                                   | Description                                  | Required |
-| ----------------- | -------------------------------------- | -------------------------------------------- | -------- |
-| `--dependencies`  | `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |          |
-| `--show-advanced` | `boolean`                              | Pair with `--help` to show advanced options. |          |
+| Option            | Type                                               | Description                                  | Required |
+| ----------------- | -------------------------------------------------- | -------------------------------------------- | -------- |
+| `--mode`          | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |          |
+| `--show-advanced` | `boolean`                                          | Pair with `--help` to show advanced options. |          |
 
 <details>
 
@@ -131,7 +134,7 @@ Dependencies across workspaces can be validated using one of the various methods
 
 {/* end-auto-generated-from-cli-graph */}
 
-## Validating configurations
+## Verifying configurations
 
 The Graph module in oneRepo has support for validating most configuration files in workspaces, including JSON, CJSON, YAML, and static JavaScript/TypeScript configurations.
 

@@ -1,0 +1,13 @@
+{
+	"name": "menu",
+	"private": true,
+	"main": "./src/index.ts",
+	"dependencies": {
+		"fixture-burritos": "workspace:^",
+		"fixture-tacos": "workspace:^",
+		"tortillas": "^1.6.7"
+	},
+	"repository": {
+		"directory": "apps/menu"
+	}
+}

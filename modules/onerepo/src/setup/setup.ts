@@ -31,7 +31,10 @@ const defaultConfig: Required<RootConfig> = {
 		ignore: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
 	},
 	plugins: [],
-	dependencies: 'loose',
+	dependencies: {
+		dedupe: true,
+		mode: 'loose',
+	},
 	visualizationUrl: 'https://onerepo.tools/visualize/',
 	templateDir: './config/templates',
 	validation: {

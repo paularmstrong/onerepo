@@ -1,12 +1,14 @@
 import { batch, run } from '@onerepo/subprocess';
-import type { PackageManager, MinimalWorkspace } from './methods';
+import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
+
+const cmd = 'npm';
 
 export const Npm = {
 	add: async (packages, opts = {}) => {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Add packages',
-			cmd: 'npm',
+			cmd,
 			args: ['install', ...pkgs, ...(opts?.dev ? ['--save-dev'] : [])],
 		});
 	},
@@ -21,10 +23,33 @@ export const Npm = {
 		);
 	},
 
+	dedupe: async () => {
+		await run({
+			name: 'Dedupe dependencies',
+			cmd,
+			args: ['dedupe'],
+		});
+	},
+
+	info: async (name, spec) => {
+		try {
+			const [data] = await run({
+				name: `Get ${name} info`,
+				...spec,
+				cmd,
+				args: ['info', name, '--json'],
+			});
+
+			return JSON.parse(data) as NpmInfo;
+		} catch (e) {
+			return null;
+		}
+	},
+
 	install: async (cwd?: string) => {
 		await run({
 			name: 'Install dependencies',
-			cmd: 'npm',
+			cmd,
 			args: ['install'],
 			opts: { cwd },
 		});
@@ -36,7 +61,7 @@ export const Npm = {
 		try {
 			await run({
 				name: 'Who am I?',
-				cmd: 'npm',
+				cmd,
 				args: ['whoami', ...(opts.registry ? ['--registry', opts.registry] : [])],
 				runDry: true,
 			});
@@ -50,7 +75,7 @@ export const Npm = {
 		const { access, cwd, otp, tag, workspaces } = opts;
 		await run({
 			name: `Publish${workspaces?.length ? ` ${workspaces.join(', ')}` : ''}`,
-			cmd: 'npm',
+			cmd,
 			args: [
 				'publish',
 				...(access ? ['--access', access] : []),
@@ -71,7 +96,7 @@ export const Npm = {
 		const responses = await batch(
 			filtered.map(({ name }) => ({
 				name: `Get ${name} versions`,
-				cmd: 'npm',
+				cmd,
 				args: ['info', name, 'name', 'versions', '--json'],
 				runDry: true,
 				skipFailures: true,
@@ -100,7 +125,7 @@ export const Npm = {
 		const pkgs = Array.isArray(packages) ? packages : [packages];
 		await run({
 			name: 'Remove packages',
-			cmd: 'npm',
+			cmd,
 			args: ['uninstall', ...pkgs],
 		});
 	},

@@ -21,32 +21,27 @@ describe('verify', () => {
 	test('can turn off graph dependency verification', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 
-		await expect(run('--dependencies off', { graph })).resolves.toBeTruthy();
+		await expect(run('--mode off', { graph })).resolves.toBeTruthy();
 	});
 
 	test('can verify the graph dependencies', async () => {
 		const graphProd = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 
-		await expect(run('--dependencies loose', { graph: graphProd })).rejects.toMatch(
-			'Version mismatches found in "menu"',
-		);
+		await expect(run('--mode loose', { graph: graphProd })).rejects.toMatch('Version mismatches found in "menu"');
 
 		const graphDev = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo-dev'));
 
-		await expect(run('--dependencies loose', { graph: graphDev })).rejects.toMatch(
-			'Version mismatches found in "menu"',
-		);
+		await expect(run('--mode loose', { graph: graphDev })).rejects.toMatch('Version mismatches found in "menu"');
 	});
 
-	// vitest is failing to be able to use `require` from `createRequire`
-	test.skip('can verify cjson (eg tsconfigs)', async () => {
+	test('can verify cjson (eg tsconfigs)', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/tsconfig-schema.ts');
 
 		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toMatch('must be equal to constant');
 	});
 
-	test.skip('can verify js (eg jest.config, etc)', async () => {
+	test('can verify js (eg jest.config, etc)', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/js-schema.ts');
 
@@ -55,14 +50,14 @@ describe('verify', () => {
 		);
 	});
 
-	test.skip('can verify yaml files', async () => {
+	test('can verify yaml files', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/yaml-schema.ts');
 
 		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toMatch('must be equal to constant');
 	});
 
-	test.skip('can validate with functions', async () => {
+	test('can validate with functions', async () => {
 		const schema = require.resolve('./__fixtures__/functional-schema.ts');
 		const goodGraph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 

@@ -11,6 +11,10 @@ import { performanceWriter } from '@onerepo/plugin-performance-writer';
 export default {
 	root: true,
 
+	dependencies: {
+		dedupe: true,
+	},
+
 	templateDir: './config/templates',
 	validation: {
 		schema: './config/graph-schema.ts',
