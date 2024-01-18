@@ -33,7 +33,7 @@ export const graph: Plugin = function graph(opts) {
 								if (resolvedSchema) {
 									y.default('custom-schema', resolvedSchema);
 								}
-								y.default('dependencies', opts.dependencies.mode);
+								y.default('mode', opts.dependencies.mode);
 								return y;
 							},
 							verify.handler,

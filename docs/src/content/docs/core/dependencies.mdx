@@ -4,7 +4,7 @@ description: |
   Manage third-party dependencies (node_modules) for your workspaces
 usage: dependencies
 meta:
-  stability: experimental
+  stability: preview
 tableOfContents:
   maxHeadingLevel: 4
 ---
@@ -31,23 +31,13 @@ export default {
 No configuration necessary! oneRepo automatically detects which package manager is used for your repository.
 
 <div class="grid grid-cols-3">
-	<LinkCard title="npm" href="https://npmjs.com" image={NpmLogo} description="The original node module registry" />
-	<LinkCard
-		title="yarn"
-		href="https://yarnpkg.com"
-		image={YarnLogo}
-		description="Safe, stable, reproducible projects"
-	/>
-	<LinkCard
-		title="pnpm"
-		href="https://pnpm.io"
-		image={PnpmLogo}
-		description="Fast, disk space efficient package manager"
-	/>
+	<LinkCard title="npm" href="https://npmjs.com" image={NpmLogo} size="small" />
+	<LinkCard title="yarn" href="https://yarnpkg.com" image={YarnLogo} size="small" />
+	<LinkCard title="pnpm" href="https://pnpm.io" image={PnpmLogo} size="small" />
 </div>
 
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<a70643ada83dda92f09622ce387f2f77>> */}
+{/* @generated SignedSource<<af6a64c0b8107d856340fe8068702473>> */}
 
 ### `one dependencies`
 
@@ -120,5 +110,28 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 | `--dependencies`, `-d` | `array`   | Dependency names that should be removed.                                  | ✅       |
 | `--show-advanced`      | `boolean` | Pair with `--help` to show advanced options.                              |          |
 | `--workspaces`, `-w`   | `array`   | List of workspace names to run against                                    |          |
+
+---
+
+#### `one dependencies verify`
+
+Verify dependencies across workspaces.
+
+```sh
+one dependencies verify -w [workspaces...]
+```
+
+Dependencies across workspaces can be validated using one of the various modes:
+
+- `off`: No validation will occur. Everything goes.
+- `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+- `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
+
+| Option               | Type                                               | Description                                                                                                                                                   | Required |
+| -------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |          |
+| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |          |
+| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |          |
+| `--workspaces`, `-w` | `array`                                            | List of workspace names to run against                                                                                                                        |          |
 
 {/* end-auto-generated-from-cli-dependencies */}

@@ -66,9 +66,13 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	dependencies?: {
 		/**
 		 * @default `'loose'`
-		 * Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+		 * The dependency mode will be used for node module dependency management and verification.
+		 * - \`off\`: No validation will occur. Everything goes.
+		 * - \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+		 * - \`strict\`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
+
 		 */
-		mode?: 'loose' | 'off';
+		mode?: 'strict' | 'loose' | 'off';
 		/**
 		 * @default `true`
 		 * When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.

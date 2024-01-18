@@ -1,6 +1,7 @@
 import type { Plugin } from 'onerepo';
 import * as Add from './add';
 import * as Remove from './remove';
+import * as Verify from './verify';
 
 export const dependencies: Plugin = function dependencies(opts) {
 	const name = ['dependencies', 'dependency', 'deps', 'dep'];
@@ -8,6 +9,7 @@ export const dependencies: Plugin = function dependencies(opts) {
 		yargs: (yargs, visitor) => {
 			const add = visitor(Add);
 			const remove = visitor(Remove);
+			const verify = visitor(Verify);
 			return yargs.command(
 				name,
 				'Safely manager workspace dependencies.',
@@ -25,6 +27,12 @@ export const dependencies: Plugin = function dependencies(opts) {
 							remove.description,
 							(yargs) => remove.builder(yargs).default('dedupe', opts.dependencies.dedupe),
 							remove.handler,
+						)
+						.command(
+							verify.command,
+							verify.description,
+							(yargs) => verify.builder(yargs).default('dedupe', opts.dependencies.dedupe),
+							verify.handler,
 						)
 						.demandCommand(1);
 				},

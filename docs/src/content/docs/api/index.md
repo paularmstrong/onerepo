@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e8abc034514e797a121b152fcc81b78b>> -->
+<!-- @generated SignedSource<<e7b3981dd890e621cb6fb1507cba405e>> -->
 
 ## Namespaces
 
@@ -509,7 +509,7 @@ type RootConfig<CustomLifecycles>: {
   };
   dependencies: {
      dedupe: boolean;
-     mode: "loose" | "off";
+     mode: "strict" | "loose" | "off";
   };
   head: string;
   ignore: string[];
@@ -633,7 +633,7 @@ export default {
 ```ts
 dependencies?: {
   dedupe: boolean;
-  mode: "loose" | "off";
+  mode: "strict" | "loose" | "off";
 };
 ```
 
@@ -651,13 +651,17 @@ When modifying dependencies using the `one dependencies` command, a `dedupe` wil
 ##### dependencies.mode?
 
 ```ts
-dependencies.mode?: "loose" | "off";
+dependencies.mode?: "strict" | "loose" | "off";
 ```
 
 ###### Default
 
 `'loose'`
-Method for dependency verification. If set to `'off'`, shared dependency versions will not be compared for correct overlapping behavior.
+The dependency mode will be used for node module dependency management and verification.
+
+- `off`: No validation will occur. Everything goes.
+- `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+- `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
 ##### head?
 

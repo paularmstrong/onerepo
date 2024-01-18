@@ -10,7 +10,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<312c34ed23b6e580d29db2309f751c6e>> */}
+{/* @generated SignedSource<<e35c9f4490ebb3133d82be710409aa4d>> */}
 
 ## `one`
 
@@ -369,6 +369,29 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 
 ---
 
+#### `one dependencies verify`
+
+Verify dependencies across workspaces.
+
+```sh
+one dependencies verify -w [workspaces...]
+```
+
+Dependencies across workspaces can be validated using one of the various modes:
+
+- `off`: No validation will occur. Everything goes.
+- `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+- `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
+
+| Option               | Type                                               | Description                                                                                                                                                   | Required |
+| -------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |          |
+| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |          |
+| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |          |
+| `--workspaces`, `-w` | `array`                                            | List of workspace names to run against                                                                                                                        |          |
+
+---
+
 ### `one docgen`
 
 Generate documentation for the oneRepo cli.
@@ -539,15 +562,18 @@ Verify the integrity of the repo’s dependency graph and files in each workspac
 one graph verify
 ```
 
-Dependencies across workspaces can be validated using one of the various methods:
+This command will first validate dependencies across Workspace Graph trees using the given `--mode` as well as Workspace configuration file integrity using the repo’s defined JSON schema validators.
+
+Dependencies across workspaces can be validated using one of the various modes:
 
 - `off`: No validation will occur. Everything goes.
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
+- `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-| Option            | Type                                   | Description                                  | Required |
-| ----------------- | -------------------------------------- | -------------------------------------------- | -------- |
-| `--dependencies`  | `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |          |
-| `--show-advanced` | `boolean`                              | Pair with `--help` to show advanced options. |          |
+| Option            | Type                                               | Description                                  | Required |
+| ----------------- | -------------------------------------------------- | -------------------------------------------- | -------- |
+| `--mode`          | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |          |
+| `--show-advanced` | `boolean`                                          | Pair with `--help` to show advanced options. |          |
 
 <details>
 

@@ -135,7 +135,7 @@ h1 {
 
 .grid {
 	display: grid;
-	gap: 2rem;
+	gap: 1.5rem;
 }
 
 .grid-cols-1 {
