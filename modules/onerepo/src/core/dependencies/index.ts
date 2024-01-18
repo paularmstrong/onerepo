@@ -12,7 +12,7 @@ export const dependencies: Plugin = function dependencies(opts) {
 			const verify = visitor(Verify);
 			return yargs.command(
 				name,
-				'Safely manager workspace dependencies.',
+				'Safely manage Workspace dependencies across your repository.',
 				(yargs) => {
 					return yargs
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options...]`)

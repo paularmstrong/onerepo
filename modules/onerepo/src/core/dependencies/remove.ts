@@ -16,7 +16,7 @@ export const builder: Builder<Args> = (yargs) =>
 		.usage('$0 remove -w [workspaces...] -d [dependencies...] [options...]')
 		.option('dedupe', {
 			type: 'boolean',
-			default: true,
+			default: false,
 			description: 'Deduplicate dependencies across the repository after install is complete.',
 		})
 		.option('dependencies', {

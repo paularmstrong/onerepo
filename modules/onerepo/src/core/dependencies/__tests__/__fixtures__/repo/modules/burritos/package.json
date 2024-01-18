@@ -4,5 +4,8 @@
 	"main": "./src/index.ts",
 	"repository": {
 		"directory": "modules/burritos"
+	},
+	"dependencies": {
+		"lettuce": "^1.4.3"
 	}
 }
