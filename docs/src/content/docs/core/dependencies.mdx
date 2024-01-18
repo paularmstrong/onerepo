@@ -37,7 +37,7 @@ No configuration necessary! oneRepo automatically detects which package manager 
 </div>
 
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<af6a64c0b8107d856340fe8068702473>> */}
+{/* @generated SignedSource<<d6f434e319466870f339c6625d5de58d>> */}
 
 ### `one dependencies`
 
@@ -68,7 +68,7 @@ Otherwise, the latest version will be requested from the registry.
 | Option               | Type                                               | Description                                                                                                                            | Required |
 | -------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                              |          |
-| `--dedupe`           | `boolean`                                          | Deduplicate dependencies across the repository after install is complete.                                                              |          |
+| `--dedupe`           | `boolean`, default: `true`                         | Deduplicate dependencies across the repository after install is complete.                                                              |          |
 | `--dev`, `-d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |          |
 | `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |          |
 | `--prod`, `-p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |          |
@@ -103,13 +103,13 @@ Remove dependencies from workspaces.
 one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 ```
 
-| Option                 | Type      | Description                                                               | Required |
-| ---------------------- | --------- | ------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`          | `boolean` | Run across all workspaces                                                 |          |
-| `--dedupe`             | `boolean` | Deduplicate dependencies across the repository after install is complete. |          |
-| `--dependencies`, `-d` | `array`   | Dependency names that should be removed.                                  | ✅       |
-| `--show-advanced`      | `boolean` | Pair with `--help` to show advanced options.                              |          |
-| `--workspaces`, `-w`   | `array`   | List of workspace names to run against                                    |          |
+| Option                 | Type                       | Description                                                               | Required |
+| ---------------------- | -------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--all`, `-a`          | `boolean`                  | Run across all workspaces                                                 |          |
+| `--dedupe`             | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
+| `--dependencies`, `-d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
+| `--show-advanced`      | `boolean`                  | Pair with `--help` to show advanced options.                              |          |
+| `--workspaces`, `-w`   | `array`                    | List of workspace names to run against                                    |          |
 
 ---
 

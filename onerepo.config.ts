@@ -12,7 +12,7 @@ export default {
 	root: true,
 
 	dependencies: {
-		dedupe: false,
+		dedupe: true,
 	},
 
 	templateDir: './config/templates',
