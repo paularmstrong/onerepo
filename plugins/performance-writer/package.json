@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/performance-writer"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/performance-writer/",
+	"homepage": "https://onerepo.tools/plugins/performance-writer/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {

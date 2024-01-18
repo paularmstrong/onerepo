@@ -3,9 +3,10 @@ import { Icon } from '@astrojs/starlight/components';
 import VisualizerControls from './VisualizerControls.astro';
 
 const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
-const stabilityColor: Record<'stable' | 'unstable' | 'experimental', string> = {
+const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental', string> = {
 	stable: 'success',
 	unstable: 'danger',
+	preview: 'info',
 	experimental: 'caution',
 };
 

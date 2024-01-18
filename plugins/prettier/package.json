@@ -9,7 +9,7 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/prettier"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/prettier/",
+	"homepage": "https://onerepo.tools/plugins/prettier/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {

@@ -115,7 +115,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 */
 	meta?: Record<string, unknown>;
 	/**
-	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/docs/plugins/) for more information.
+	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
 	 * @default `[]`
 	 *
 	 * @example

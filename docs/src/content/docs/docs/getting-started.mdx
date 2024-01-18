@@ -7,6 +7,10 @@ sidebar:
 
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
+import LinkCard from '../../../components/LinkCardImage.astro';
+import NpmLogo from '../../../assets/pkgmgr/npm.svg';
+import PnpmLogo from '../../../assets/pkgmgr/pnpm.svg';
+import YarnLogo from '../../../assets/pkgmgr/yarn.svg';
 
 First, install oneRepo's `one` command into your path:
 
@@ -39,6 +43,16 @@ Next, use the `create` command to initialize into an existing or a new repositor
 ```sh title="Initialize oneRepo in a new or existing repository"
 one create
 ```
+
+### Bring your own Package Manager
+
+oneRepo is compatible with all major package managers for Node.js.
+
+<div class="grid grid-cols-3">
+	<LinkCard title="npm" href="https://npmjs.com" image={NpmLogo} size="small" />
+	<LinkCard title="yarn" href="https://yarnpkg.com" image={YarnLogo} size="small" />
+	<LinkCard title="pnpm" href="https://pnpm.io" image={PnpmLogo} size="small" />
+</div>
 
 ## Manually integrating oneRepo
 

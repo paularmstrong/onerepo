@@ -8,7 +8,7 @@
 		"type": "git",
 		"url": "git://github.com/paularmstrong/onerepo.git"
 	},
-	"homepage": "https://onerepo.tools/docs/plugins/docgen/",
+	"homepage": "https://onerepo.tools/plugins/docgen/",
 	"type": "module",
 	"main": "./src/index.ts",
 	"publishConfig": {
