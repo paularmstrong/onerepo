@@ -5,14 +5,22 @@ const isHomepage = Astro.props.slug === '';
 ---
 
 {
-	isHomepage ? (
-		<footer class="home-footer">
+	!isHomepage ? (
+		<Default {...Astro.props}>
+			<slot />
+		</Default>
+	) : null
+}
+
+<footer class="home-footer">
+	<div>
+		Copyright ©{new Date().getFullYear()}{' '}<a href="https://paularmstrong.dev">Paul Armstrong</a>
+	</div>
+	{
+		isHomepage ? (
 			<div>
-				<a href="/">oneRepo</a>
-				Copyright ©<a href="https://paularmstrong.dev">Paul Armstrong</a>
-			</div>
-			<div>
-				<a href="https://www.netlify.com" rel="noopener" target="_blank">
+				<a href="https://www.netlify.com" rel="noopener nofollow" target="_blank">
+					<span class="sr-only">Deploys by Netlify</span>
 					<img
 						src="https://www.netlify.com/v3/img/components/netlify-color-bg.svg"
 						alt="Deploys by Netlify"
@@ -21,13 +29,9 @@ const isHomepage = Astro.props.slug === '';
 					/>
 				</a>
 			</div>
-		</footer>
-	) : (
-		<Default {...Astro.props}>
-			<slot />
-		</Default>
-	)
-}
+		) : null
+	}
+</footer>
 
 <style>
 	.home-footer {
@@ -36,7 +40,17 @@ const isHomepage = Astro.props.slug === '';
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem 0;
-		margin: 2rem auto;
+		margin: 6rem auto 2rem;
+	}
+
+	.home-footer a {
+		color: var(--sl-color-white);
+	}
+	.home-footer a:hover {
+		color: var(--sl-color-accent-high);
+	}
+	.home-footer a:active {
+		color: var(--sl-color-accent);
 	}
 </style>
 
@@ -50,16 +64,18 @@ const isHomepage = Astro.props.slug === '';
 			startOnLoad: false,
 			fontFamily: 'var(--sans-font)',
 			// @ts-ignore This works, but TS expects a enum for some reason
-			theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+			theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default',
 		});
 
 		for (const graph of graphs) {
 			const content = graph.getAttribute('data-content');
-			if (!content) continue;
-			let svg = document.createElement('svg');
-			const id = (svg.id = 'mermaid-' + Math.round(Math.random() * 100000));
+			if (!content) {
+				continue;
+			}
+			const svg = document.createElement('svg');
+			svg.id = 'mermaid-' + Math.round(Math.random() * 100000);
 			graph.appendChild(svg);
-			mermaid.render(id, content).then((result) => {
+			mermaid.render(svg.id, content).then((result) => {
 				graph.innerHTML = result.svg;
 			});
 		}
