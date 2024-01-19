@@ -76,6 +76,7 @@ export default defineConfig({
 				tabWidth: 2,
 				styleOverrides: {
 					borderRadius: '0.25rem',
+					codeLineHeight: '1.25',
 				},
 				plugins: [pluginCollapsibleSections(), starlightLinksValidator()],
 			},

@@ -43,8 +43,6 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  *
  * All output will be redirected from `stdout` to `stderr` to ensure order of output and prevent confusion of what output can be piped and written to files.
  *
- * You should not need to construct instances of the `Logger` directly, but instead import a singleton instead:
- *
  * If the current terminal is a TTY, output will be buffered and asynchronous steps will animated with a progress logger.
  *
  * See {@link !HandlerExtra | `HandlerExtra`} for access the the global Logger instance.

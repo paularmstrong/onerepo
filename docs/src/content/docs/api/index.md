@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6e86829da8d75b5473360406c4fd93e2>> -->
+<!-- @generated SignedSource<<00edc35964e9d5244ac53a789788ec34>> -->
 
 ## Namespaces
 
@@ -1253,8 +1253,6 @@ The oneRepo logger helps build commands and capture output from spawned subproce
 
 All output will be redirected from `stdout` to `stderr` to ensure order of output and prevent confusion of what output can be piped and written to files.
 
-You should not need to construct instances of the `Logger` directly, but instead import a singleton instead:
-
 If the current terminal is a TTY, output will be buffered and asynchronous steps will animated with a progress logger.
 
 See [`HandlerExtra`](#handlerextra) for access the the global Logger instance.
@@ -1271,7 +1269,7 @@ Whether or not an error has been sent to the logger or any of its steps. This is
 
 **Returns:** `boolean`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L63)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L61)
 
 ##### hasInfo
 
@@ -1283,7 +1281,7 @@ Whether or not an info message has been sent to the logger or any of its steps.
 
 **Returns:** `boolean`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L71)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L69)
 
 ##### hasLog
 
@@ -1295,7 +1293,7 @@ Whether or not a log message has been sent to the logger or any of its steps.
 
 **Returns:** `boolean`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L75)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L73)
 
 ##### hasWarning
 
@@ -1307,7 +1305,7 @@ Whether or not a warning has been sent to the logger or any of its steps.
 
 **Returns:** `boolean`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L67)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L65)
 
 ##### verbosity
 
@@ -1331,7 +1329,7 @@ Recursively applies the new verbosity to the logger and all of its active steps.
 
 **Returns:** [`Verbosity`](#verbosity-1)
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L54)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L52)
 
 ##### writable
 
@@ -1341,7 +1339,7 @@ get writable(): boolean
 
 **Returns:** `boolean`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L59)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L57)
 
 #### Methods
 
@@ -1369,7 +1367,7 @@ await step.end();
 
 **Returns:** [`LogStep`](#logstep)
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L107)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L105)
 
 ##### pause()
 
@@ -1395,7 +1393,7 @@ logger.unpause();
 
 **Returns:** `void`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L91)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L89)
 
 ##### unpause()
 
@@ -1407,7 +1405,7 @@ Unpause the logger and resume writing buffered logs to `stderr`. See [`logger.pa
 
 **Returns:** `void`
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L95)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L93)
 
 #### Logging
 
@@ -1431,7 +1429,7 @@ Extra debug logging when verbosity greater than or equal to 4.
 
 [`debug()`](#debug) This is a pass-through for the main step’s [`debug()`](#debug) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L149)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L147)
 
 ##### error()
 
@@ -1453,7 +1451,7 @@ Log an error. This will cause the root logger to include an error and fail a com
 
 [`error()`](#error) This is a pass-through for the main step’s [`error()`](#error) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L133)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L131)
 
 ##### info()
 
@@ -1475,7 +1473,7 @@ Should be used to convey information or instructions through the log, will log w
 
 [`info()`](#info) This is a pass-through for the main step’s [`info()`](#info) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L125)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L123)
 
 ##### log()
 
@@ -1497,7 +1495,7 @@ General logging information. Useful for light informative debugging. Recommended
 
 [`log()`](#log) This is a pass-through for the main step’s [`log()`](#log) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L117)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L115)
 
 ##### timing()
 
@@ -1520,7 +1518,7 @@ Log timing information between two [Node.js performance mark names](https://node
 
 [`timing()`](#timing) This is a pass-through for the main step’s [`timing()`](#timing) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L158)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L156)
 
 ##### warn()
 
@@ -1542,7 +1540,7 @@ Log a warning. Does not have any effect on the command run, but will be called o
 
 [`warn()`](#warn) This is a pass-through for the main step’s [`warn()`](#warn) method.
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L141)
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts#L139)
 
 ---
 

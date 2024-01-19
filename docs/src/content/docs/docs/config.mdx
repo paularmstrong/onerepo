@@ -13,7 +13,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 oneRepo configuration files can be any flavor of JavaScript or TypeScript, as long as they are parseable and have a valid `default` export. The only requirement for your repository's root config is that `root` must be set to `true`:
 
-<Tabs>
+<Tabs group="jsflavor">
   <TabItem label="ES Module">
 ```ts title="./onerepo.config.js" ins={2}
 export default {

@@ -8,111 +8,256 @@ sidebar:
 
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
-import LinkCard from '../../../components/LinkCardImage.astro';
-import NpmLogo from '../../../assets/pkgmgr/npm.svg';
-import PnpmLogo from '../../../assets/pkgmgr/pnpm.svg';
-import YarnLogo from '../../../assets/pkgmgr/yarn.svg';
+import Instructions from '../../../components/Instructions.astro';
+import InstructionStep from '../../../components/InstructionStep.astro';
 
-First, install oneRepo's `one` command into your path:
+## Quick start
 
-<Tabs group="pkgmanager">
-  <TabItem label="npm">
+<Instructions>
+<InstructionStep title="Install the CLI">
+  <span slot="content">First, install oneRepo's `one` command into your path:</span>
+  <span slot="terminal">
+    <Tabs group="pkgmanager">
+      <TabItem label="npm">
+        ```sh title="Install via npm"
+        npx --package=onerepo one install
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```sh title="Install via Yarn"
+        yarn dlx --package=onerepo one install
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```sh title="Install via pnpm"
+        pnpm --package=onerepo dlx one install
+        ```
+      </TabItem>
+    </Tabs>
+  </span>
+</InstructionStep>
 
-    ```sh title="Install via npm"
-    npx --package=onerepo one install
+<InstructionStep title="Create your oneRepo">
+  <span slot="content">
+    Next, use the `one create` command to initialize into an existing or a new repository.
+  </span>
+
+  <span slot="terminal">
+    ```sh title="Initialize oneRepo in a new or existing repository"
+    one create
+    ```
+  </span>
+</InstructionStep>
+
+<InstructionStep title="Bring your own Package Manager">
+	<span slot="content">oneRepo is compatible with all major package managers for Node.js.</span>
+	<span slot="terminal">
+		<Tabs group="pkgmanager">
+			<TabItem label="npm">
+				```ansi title="Choose your own package manager" [32m?[0m Which package manager would you like to use? [34m❯
+				npm[0m pnpm yarn ```
+			</TabItem>
+			<TabItem label="yarn">
+				```ansi title="Choose your own package manager" [32m?[0m Which package manager would you like to use? npm pnpm
+				[34m❯ yarn[0m ```
+			</TabItem>
+			<TabItem label="pnpm">
+				```ansi title="Choose your own package manager" [32m?[0m Which package manager would you like to use? npm [34m❯
+				pnpm[0m yarn ```
+			</TabItem>
+		</Tabs>
+	</span>
+</InstructionStep>
+
+<InstructionStep title="Configure your repo">
+  <span slot="content">
+    Modify the root configuration file, `./onerepo.config.ts`, for your repo’s specific needs.
+
+    Refer to the full [configuration documentation](/docs/config/) for more information.
+
+  </span>
+  <span slot="terminal">
+    <Tabs group="jsflavor">
+      <TabItem label="ES Module">
+        ```ts title="./onerepo.config.js" {3-5}
+        export default {
+          root: true,
+          codeowners: {},
+          tasks: {},
+          // And much more!
+        };
+        ```
+      </TabItem>
+
+      <TabItem label="TypeScript">
+        ```ts title="./onerepo.config.ts" {5-7}
+        import type { Config } from 'onerepo';
+
+        export default {
+          root: true,
+          codeowners: {},
+          tasks: {},
+          // And much more!
+        } satisfies Config;
+        ```
+      </TabItem>
+
+      <TabItem label="Common JS">
+        ```ts title="./onerepo.config.cjs" {3-5}
+        module.exports = {
+          root: true,
+          codeowners: {},
+          tasks: {},
+          // And much more!
+        };
+        ```
+      </TabItem>
+    </Tabs>
+
+  </span>
+</InstructionStep>
+
+<InstructionStep title="Ready to go!">
+  <span slot="content">
+    That’s it! Change into your monorepo’s root directory and use the `one` CLI.
+  </span>
+  <span slot="terminal">
+    ```sh
+    cd my-monorepo
+    one --help
     ```
 
-  </TabItem>
-  <TabItem label="yarn">
+    ```
+    one <command> [options]
+    one workspace <workspace-name> <command> [options]
 
-    ```sh title="Install via Yarn"
-    yarn dlx --package=onerepo one install
+    Commands:
+      one tasks     Run tasks against repo-defined lifecycles. This
+                    command will limit the tasks across the affected
+                    workspace set based on the current state of the
+                    repository.
+      one hooks     Manage git repository hooks
+      one graph     Run core graph commands
+      one generate  Generate files, folders, and workspaces from
+                    templates.    [aliases: gen]
+    # …
     ```
 
-  </TabItem>
-  <TabItem label="pnpm">
-
-    ```sh title="Install via pnpm"
-    pnpm --package=onerepo dlx one install
-    ```
-
-  </TabItem>
-</Tabs>
-
-Next, use the `create` command to initialize into an existing or a new repository.
-
-```sh title="Initialize oneRepo in a new or existing repository"
-one create
-```
-
-### Bring your own Package Manager
-
-oneRepo is compatible with all major package managers for Node.js.
-
-<div class="grid grid-cols-3">
-	<LinkCard title="npm" href="https://npmjs.com" image={NpmLogo} size="small" />
-	<LinkCard title="yarn" href="https://yarnpkg.com" image={YarnLogo} size="small" />
-	<LinkCard title="pnpm" href="https://pnpm.io" image={PnpmLogo} size="small" />
-</div>
+  </span>
+</InstructionStep>
+</Instructions>
 
 ## Manually integrating oneRepo
 
-Install dependencies using your package manager of choice.
+<Instructions>
+<InstructionStep title="Install dependencies">
+  <span slot="content">
+    Install dependencies using your package manager of choice.
+  </span>
+  <span slot="terminal">
+    <Tabs group="pkgmanager">
+      <TabItem label="npm">
+        ```sh title="Install via npm"
+        npm install --save-dev onerepo
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```sh title="Install via Yarn"
+        yarn add --dev onerepo
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```sh title="Install via pnpm"
+        pnpm add --save-dev onerepo
+        ```
+      </TabItem>
+    </Tabs>
+  </span>
+</InstructionStep>
 
-<Tabs group="pkgmanager">
-  <TabItem label="npm">
+<InstructionStep title="Install the CLI">
+	<span slot="content">
+		Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It
+		will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
+	</span>
+	<span slot="terminal">
+		<Tabs group="pkgmanager">
+			<TabItem label="npm">```sh title="Install via npm" npm exec one install ```</TabItem>
+			<TabItem label="yarn">```sh title="Install via Yarn" yarn one install ```</TabItem>
+			<TabItem label="pnpm">```sh title="Install via pnpm" pnpm one install ```</TabItem>
+		</Tabs>
+	</span>
+</InstructionStep>
 
-    ```sh title="Install via npm"
-    npm install --save-dev onerepo
-    ```
+<InstructionStep title="Configure workspaces">
+  <span slot="content">
+    Configure your package manager to work with workspaces
+  </span>
+  <span slot="terminal">
+    <Tabs group="pkgmanager">
+      <TabItem label="npm">
+        ```json title="package.json" {4}
+        {
+          "name": "my-monorepo",
+          "private": true,
+          "workspaces": ["apps/*", "modules/*"]
+        }
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```json title="package.json" {4}
+        {
+          "name": "my-monorepo",
+          "private": true,
+          "workspaces": ["apps/*", "modules/*"]
+        }
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```yaml title="pnpm-workspace.yaml"
+        packages:
+          - 'apps/*'
+          - 'modules/*'
+        ```
+      </TabItem>
+    </Tabs>
+  </span>
+</InstructionStep>
 
-  </TabItem>
-  <TabItem label="yarn">
+<InstructionStep title="Configure">
+  <span slot="content">
+    Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
 
-    ```sh title="Install via Yarn"
-    yarn add --dev onerepo
-    ```
+    Refer to the full [configuration documentation](/docs/config/) for more information.
 
-  </TabItem>
-  <TabItem label="pnpm">
+  </span>
+  <span slot="terminal">
+    <Tabs group="jsflavor">
+      <TabItem label="ES Module">
+        ```ts title="./onerepo.config.js"
+        export default {
+          root: true,
+        };
+        ```
+      </TabItem>
+      <TabItem label="TypeScript">
+        ```ts title="./onerepo.config.ts"
+        import type { Config } from 'onerepo';
 
-    ```sh title="Install via pnpm"
-    pnpm add --save-dev onerepo
-    ```
+        export default {
+          root: true,
+        } satisfies Config;
+        ```
+      </TabItem>
+      <TabItem label="Common JS">
+        ```ts title="./onerepo.config.cjs"
+        module.exports = {
+          root: true,
+        };
+        ```
+      </TabItem>
+    </Tabs>
 
-  </TabItem>
-</Tabs>
-
-Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
-
-<Tabs group="pkgmanager">
-  <TabItem label="npm">
-
-    ```sh title="Install via npm"
-    npm exec one install
-    ```
-
-  </TabItem>
-  <TabItem label="yarn">
-
-    ```sh title="Install via Yarn"
-    yarn one install
-    ```
-
-  </TabItem>
-  <TabItem label="pnpm">
-
-    ```sh title="Install via pnpm"
-    pnpm one install
-    ```
-
-  </TabItem>
-</Tabs>
-
-Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
-
-```js title="./onerepo.config.js"
-export default {
-	root: true,
-};
-```
+  </span>
+</InstructionStep>
+</Instructions>

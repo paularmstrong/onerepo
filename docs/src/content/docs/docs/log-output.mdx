@@ -1,0 +1,70 @@
+---
+title: Reading log output
+---
+
+One of oneRepo’s main [tenants](/concepts/why-onerepo/#tenants) is to have clear and understandable log output. Other task runners and tooling tend to either give you too much or too little output with cryptic and confusing patterns. You may often be presented with interleaved output from parallel tasks, making it difficult to trace what has happened and in what order.
+
+### Key details
+
+- All logs are written to `stderr`. Only output information specifically meant as the return output from a command will be written to `stdout`. This ensures that capturing and redirecting appropriate output is easy and consistent across all commands.
+- If the current environment implements TTY:
+  - Output will be buffered
+  - An animated spinner will indicate progress
+  - Parallel asynchronous steps will be visible
+  - Log type prefixes will be colorized
+
+### Prefixes
+
+```ansi title="Type prefixes"
+ [34m[1mINFO[0m General information that should always be shared
+ [31m[1mERR[0m  Error output. The command will exit with a non-zero exit code.
+ [33m[1mWRN[0m  Worth calling out, but things will continue without a problem
+ [36m[1mLOG[0m  Slightly more verbose information when it's helpful
+ [35m[1mDBG[0m  Included when you really want to know what's goin on
+```
+
+Most commands will group and categorize work within [LogStep](/api/#logstep)s. These groupings aid in finding information quickly and determining where work is happening.
+
+When steps succeed, they will end with a check mark and the amount of time that the entire step took to run:
+
+```ansi title="Log types within a step"
+ ┌ Example success step
+ │ [34m[1mINFO[0m General information that should always be shared
+ │ [33m[1mWRN[0m  Worth calling out, but things will continue without a problem
+ │ [36m[1mLOG[0m  Slightly more verbose information when it's helpful
+ └ [32m✔[39m [2m0ms[0m
+ ┌ Example step with an error
+ │ [34m[1mINFO[0m General information that should always be shared
+ │ [31m[1mERR[0m  Some error output information
+ │ [31m[1mERR[0m  that may be on multiple lines
+ │ [36m[1mLOG[0m  Slightly more verbose information when it's helpful
+ └ [31m✘[39m [2m0ms[0m
+```
+
+### Command completion
+
+When a command completes, a message will be shown, including whether or not it had errors and how long the entire command took to run:
+
+<div class="grid grid-cols-2">
+	<div>
+		```ansi title="Completed successfully" [1;2m■ [0;32m✔ [0mCompleted [2m5ms[0m ``` This command finished cleanly with
+		exit code `0`.
+	</div>
+	<div>
+		```ansi title="Completed, but failed" [1;2m■ [0;31m✘ [0mCompleted with errors [2m5ms[0m ``` This command did _not_
+		exit cleanly and provide a non-zero exit code.
+	</div>
+</div>
+
+## Controlling verbosity
+
+All commands through the `one` CLI accept the `verbosity` flag to control how much or how little information will be printed to `stderr`. Control this output using either `--silent`, or by increasing the number of `v` characters with `-v`:
+
+| Value          | What         | Description                                                 |
+| -------------- | ------------ | ----------------------------------------------------------- |
+| `--silent`     | Silent       | No output will written.                                     |
+| `-v` (default) | Error & Info | Error and general info output will be provided.             |
+| `-vv`          | Warnings     | Warnings and all preceding verbosity levels.                |
+| `-vvv`         | Log          | Logs and all preceding verbosity levels.                    |
+| `-vvvv`        | Debug        | All preceding verbosity as well as extra debug information. |
+| `-vvvvv`       | Timing       | All verbosity levels as well as performance timing entries. |
