@@ -185,22 +185,22 @@ export type DefaultArgv = {
 	 * Whether the command should run non-destructive dry-mode. This prevents all subprocesses, files, and git operations from running unless explicitly specified as safe to run.
 	 *
 	 * Also internally sets `process.env.ONEREPO_DRY_RUN = 'true'`.
-	 * @default false
+	 * @default `false`
 	 */
 	'dry-run': boolean;
 	/**
 	 * Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.
-	 * @default false
+	 * @default `false`
 	 */
 	silent: boolean;
 	/**
 	 * Verbosity level for the Logger. See Logger.verbosity for more information.
-	 * @default 3
+	 * @default `3`
 	 */
 	verbosity: number;
 	/**
 	 * Skip the engines check. When `false`, oneRepo will the current process's node version with the range for `engines.node` as defined in `package.json`. If not defined in the root `package.json`, this will be skipped.
-	 * @default false
+	 * @default `false`
 	 */
 	'skip-engine-check': boolean;
 };

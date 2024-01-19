@@ -16,7 +16,7 @@ export interface PackageManager {
 		opts?: {
 			/**
 			 * Set to true to install as a `devDependency`.
-			 * @default false
+			 * @default `false`
 			 */
 			dev?: boolean;
 		},
@@ -92,7 +92,7 @@ export interface PackageManager {
 		otp?: string;
 		/**
 		 * If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.
-		 * @default 'latest'
+		 * @default `'latest'`
 		 */
 		tag?: string;
 	}): Promise<void>;
@@ -114,6 +114,9 @@ export type MinimalWorkspace = {
 	location?: string;
 };
 
+/**
+ * @group Package management
+ */
 export type NpmInfo = {
 	license: string;
 	'dist-tags': { latest: string; [key: string]: string };

@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e1afeb94e24bd681b396d8a6006a4138>> -->
+<!-- @generated SignedSource<<eac4c152d828276b2a950b5e9a71696b>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -46,13 +46,9 @@ new StagingWorkflow(options): StagingWorkflow
 | `options.graph`  | [`Graph`](#graph)                                                     | The repository graph                   |
 | `options.logger` | [`Logger`](../../#logger)                                             | Logger instance to use for all actions |
 
-###### Returns
+**Returns:** [`StagingWorkflow`](#stagingworkflow)
 
-[`StagingWorkflow`](#stagingworkflow)
-
-###### Source
-
-[modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L5)
+**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L5)
 
 #### Methods
 
@@ -66,13 +62,9 @@ Restores the unstaged changes previously backed up by [`saveUnstaged()`](#saveun
 
 This command will go threw a series of attempts to ressurect upon failure, eventually throwing an error if unstaged changes cannot be reapplied.
 
-###### Returns
+**Returns:** `Promise`\<`void`\>
 
-`Promise`\<`void`\>
-
-###### Source
-
-[modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L29)
+**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L29)
 
 ##### saveUnstaged()
 
@@ -87,13 +79,9 @@ Backup any unstaged changes, whether that's full files or parts of files. This w
 
 To restore the unstaged changes, call [`restoreUnstaged()`](#restoreunstaged).
 
-###### Returns
+**Returns:** `Promise`\<`void`\>
 
-`Promise`\<`void`\>
-
-###### Source
-
-[modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L23)
+**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts#L23)
 
 ## Type Aliases
 
@@ -133,9 +121,7 @@ through?: string;
 
 Git ref for end (inclusive) to get list of modified files
 
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L52)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L52)
 
 ---
 
@@ -175,9 +161,7 @@ through?: never;
 
 Disallowed when `staged: true`
 
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L66)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L66)
 
 ---
 
@@ -201,9 +185,7 @@ step?: LogStep;
 
 Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L19)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L19)
 
 ## Functions
 
@@ -225,13 +207,9 @@ const currentBranch = await git.getBranch();
 | :------------------- | :-------------------- |
 | `__namedParameters`? | [`Options`](#options) |
 
-#### Returns
+**Returns:** `Promise`\<`string`\>
 
-`Promise`\<`string`\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L32)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L32)
 
 ---
 
@@ -253,13 +231,9 @@ const sha = await git.getCurrentSha();
 | :------------------- | :-------------------- |
 | `__namedParameters`? | [`Options`](#options) |
 
-#### Returns
+**Returns:** `Promise`\<`string`\>
 
-`Promise`\<`string`\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L96)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L96)
 
 ---
 
@@ -281,13 +255,9 @@ const mergeBase = await getMergeBase();
 | :------------------- | :-------------------- |
 | `__namedParameters`? | [`Options`](#options) |
 
-#### Returns
+**Returns:** `Promise`\<`string`\>
 
-`Promise`\<`string`\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L40)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L40)
 
 ---
 
@@ -311,13 +281,9 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 | `__namedParameters`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
 | `__namedParameters`? | [`Options`](#options)                                                                |
 
-#### Returns
+**Returns:** `Promise`\<`string`[]\>
 
-`Promise`\<`string`[]\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L88)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L88)
 
 ---
 
@@ -342,13 +308,9 @@ if (!isClean) {
 | :------------------- | :-------------------- |
 | `__namedParameters`? | [`Options`](#options) |
 
-#### Returns
+**Returns:** `Promise`\<`boolean`\>
 
-`Promise`\<`boolean`\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L51)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L51)
 
 ---
 
@@ -371,12 +333,8 @@ await git.updateIndex(['tacos.ts']);
 | `paths`              | `string` \| `string`[] |
 | `__namedParameters`? | [`Options`](#options)  |
 
-#### Returns
+**Returns:** `Promise`\<`string`\>
 
-`Promise`\<`string`\>
-
-#### Source
-
-[modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L104)
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts#L104)
 
 <!-- end-onerepo-sentinel -->

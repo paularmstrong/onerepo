@@ -21,12 +21,12 @@ export type Options = {
 	name?: string | Array<string>;
 	/**
 	 * When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
-	 * @default true
+	 * @default `true`
 	 */
 	githubAnnotate?: boolean;
 	/**
 	 * Whether to use Prettier's built-in cache determinism.
-	 * @default true
+	 * @default `true`
 	 */
 	useCache?: boolean;
 };

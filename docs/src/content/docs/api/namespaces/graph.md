@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<57caaced5f9c0f0d6f9b3ee5c1e679e8>> -->
+<!-- @generated SignedSource<<d366ae0672de058e1b0a7f8841dfaeee>> -->
 
 ## Classes
 
@@ -41,13 +41,9 @@ get packageManager(): PackageManager
 
 Get the package manager that this Graph depends on.
 
-###### Returns
+**Returns:** [`PackageManager`](../../#packagemanager)
 
-[`PackageManager`](../../#packagemanager)
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L56)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L56)
 
 ##### root
 
@@ -57,13 +53,9 @@ get root(): Workspace
 
 Get the workspace that is at the root of the repository.
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)
 
-[`Workspace`](#workspace)
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L52)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L52)
 
 ##### serialized
 
@@ -73,13 +65,9 @@ get serialized(): Serialized
 
 Get a serialized representation of the graph
 
-###### Returns
+**Returns:** [`Serialized`](#serialized-1)
 
-[`Serialized`](#serialized-1)
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L44)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L44)
 
 ##### workspaces
 
@@ -89,13 +77,9 @@ get workspaces(): Workspace[]
 
 All workspaces that are part of the repository graph.
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L48)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L48)
 
 #### Methods
 
@@ -127,13 +111,9 @@ assert.isEqual(dependents, affecteed);
 | `source`  | `T` \| `T`[] | -                                           |
 | `type`?   | `DepType`    | Filter the dependents to a dependency type. |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L94)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L94)
 
 ##### dependencies()
 
@@ -164,13 +144,9 @@ const tacoDependencies = graph.dependencies('tacos');
 | `includeSelf`? | `boolean`    | Whether to include the `Workspaces` for the input `sources` in the return array. |
 | `type`?        | `DepType`    | Filter the dependencies to a dependency type.                                    |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L80)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L80)
 
 ##### dependents()
 
@@ -201,13 +177,9 @@ const tacoDependents = graph.dependents('tacos');
 | `includeSelf`? | `boolean`    | Whether to include the `Workspaces` for the input `sources` in the return array. |
 | `type`?        | `DepType`    | Filter the dependents to a dependency type.                                      |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L68)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L68)
 
 ##### getAllByLocation()
 
@@ -227,13 +199,9 @@ const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
 | :---------- | :--------- | :------------------------------------------------------------ |
 | `locations` | `string`[] | A list of filepath strings. May be file URLs or string paths. |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L139)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L139)
 
 ##### getAllByName()
 
@@ -253,13 +221,9 @@ const workspaces = graph.getAllByName(['tacos', 'burritos']);
 | :-------- | :--------- | :------------------------------------------------------------------------------------------- |
 | `names`   | `string`[] | A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases). |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)[]
 
-[`Workspace`](#workspace)[]
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L114)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L114)
 
 ##### getByLocation()
 
@@ -283,13 +247,9 @@ graph.getByLocation(import.meta.url);
 | :--------- | :------- | :--------------------------------------------------- |
 | `location` | `string` | A filepath string. May be a file URL or string path. |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)
 
-[`Workspace`](#workspace)
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L129)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L129)
 
 ##### getByName()
 
@@ -309,13 +269,9 @@ const workspace = graph.getByName('my-cool-package');
 | :-------- | :------- | :------------------------------------------------------------------------------------ |
 | `name`    | `string` | A Workspace’s [Workspace#name](#name) or any available [Workspace#aliases](#aliases). |
 
-###### Returns
+**Returns:** [`Workspace`](#workspace)
 
-[`Workspace`](#workspace)
-
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L104)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L104)
 
 ##### isolatedGraph()
 
@@ -356,9 +312,7 @@ Get an isolated graph of dependents from the list of sources
 | `sources` | [`Workspace`](#workspace)[] | A list of workspace [Workspace#name](#name)s or any available [Workspace#aliases](#aliases). |
 | `type`?   | `DepType`                   | Filter the graph to a dependency type.                                                       |
 
-###### Returns
-
-`Object`
+**Returns:** `Object`
 
 This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 
@@ -665,9 +619,7 @@ This does not return a oneRepo `Graph`, but instead a graph-data-structure insta
 >
 > `string`[]
 
-###### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L147)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L147)
 
 ---
 
@@ -684,13 +636,9 @@ get aliases(): string[]
 Allow custom array of aliases.
 If the fully qualified package name is scoped, this will include the un-scoped name
 
-###### Returns
+**Returns:** `string`[]
 
-`string`[]
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L40)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L40)
 
 ##### codeowners
 
@@ -698,13 +646,9 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 get codeowners(): Required<Record<string, string[]>>
 ```
 
-###### Returns
+**Returns:** `Required`\<`Record`\<`string`, `string`[]\>\>
 
-`Required`\<`Record`\<`string`, `string`[]\>\>
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L73)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L73)
 
 ##### config
 
@@ -714,13 +658,9 @@ get config(): WorkspaceConfig
 
 Get the workspace's configuration
 
-###### Returns
+**Returns:** [`WorkspaceConfig`](../../#workspaceconfigcustomlifecycles)
 
-[`WorkspaceConfig`](../../#workspaceconfigcustomlifecycles)
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L66)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L66)
 
 ##### dependencies
 
@@ -730,15 +670,11 @@ get dependencies(): Record<string, string>
 
 Get the `package.json` defined production dependencies for the workspace.
 
-###### Returns
-
-`Record`\<`string`, `string`\>
+**Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L46)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L46)
 
 ##### description
 
@@ -748,13 +684,9 @@ get description(): undefined | string
 
 Canonical to the `package.json` `"description"` field.
 
-###### Returns
+**Returns:** `undefined` \| `string`
 
-`undefined` \| `string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L16)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L16)
 
 ##### devDependencies
 
@@ -764,15 +696,11 @@ get devDependencies(): Record<string, string>
 
 Get the `package.json` defined development dependencies for the workspace.
 
-###### Returns
-
-`Record`\<`string`, `string`\>
+**Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L52)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L52)
 
 ##### isRoot
 
@@ -782,13 +710,9 @@ get isRoot(): boolean
 
 Whether or not this workspace is the root of the repository / Graph.
 
-###### Returns
+**Returns:** `boolean`
 
-`boolean`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L20)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L20)
 
 ##### location
 
@@ -798,13 +722,9 @@ get location(): string
 
 Absolute path on the current filesystem to the workspace.
 
-###### Returns
+**Returns:** `string`
 
-`string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L24)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L24)
 
 ##### main
 
@@ -812,13 +732,9 @@ Absolute path on the current filesystem to the workspace.
 get main(): string
 ```
 
-###### Returns
+**Returns:** `string`
 
-`string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L26)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L26)
 
 ##### name
 
@@ -828,13 +744,9 @@ get name(): string
 
 The full `name` of the Workspace, as defined in its `package.json`
 
-###### Returns
+**Returns:** `string`
 
-`string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L12)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L12)
 
 ##### packageJson
 
@@ -844,13 +756,9 @@ get packageJson(): PackageJson
 
 A full copy of the `package.json` file for the Workspace.
 
-###### Returns
+**Returns:** [`PackageJson`](#packagejson-1)
 
-[`PackageJson`](#packagejson-1)
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L30)
 
 ##### peerDependencies
 
@@ -860,15 +768,11 @@ get peerDependencies(): Record<string, string>
 
 Get the `package.json` defined peer dependencies for the workspace.
 
-###### Returns
-
-`Record`\<`string`, `string`\>
+**Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L58)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L58)
 
 ##### private
 
@@ -878,13 +782,9 @@ get private(): boolean
 
 If a workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
 
-###### Returns
+**Returns:** `boolean`
 
-`boolean`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L62)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L62)
 
 ##### publishConfig
 
@@ -892,13 +792,9 @@ If a workspace `package.json` is set to `private: true`, it will not be availabl
 get publishConfig(): PublishConfig
 ```
 
-###### Returns
+**Returns:** [`PublishConfig`](#publishconfig-1)
 
-[`PublishConfig`](#publishconfig-1)
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L31)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L31)
 
 ##### scope
 
@@ -908,13 +804,9 @@ get scope(): string
 
 Get module name scope if there is one, eg `@onerepo`
 
-###### Returns
+**Returns:** `string`
 
-`string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L35)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L35)
 
 ##### tasks
 
@@ -924,15 +816,11 @@ get tasks(): Partial<Record<Lifecycle, Tasks>>
 
 Get the task configuration as defined in the `onerepo.config.js` file at the root of the workspace.
 
-###### Returns
-
-`Partial`\<`Record`\<[`Lifecycle`](../../#lifecycle), [`Tasks`](../../#tasks)\>\>
+**Returns:** `Partial`\<`Record`\<[`Lifecycle`](../../#lifecycle), [`Tasks`](../../#tasks)\>\>
 
 If a config does not exist, an empty object will be given.
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L72)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L72)
 
 ##### version
 
@@ -940,13 +828,9 @@ If a config does not exist, an empty object will be given.
 get version(): undefined | string
 ```
 
-###### Returns
+**Returns:** `undefined` \| `string`
 
-`undefined` \| `string`
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L25)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L25)
 
 #### Methods
 
@@ -962,13 +846,9 @@ getCodeowners(filepath): string[]
 | :--------- | :------- |
 | `filepath` | `string` |
 
-###### Returns
+**Returns:** `string`[]
 
-`string`[]
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L74)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L74)
 
 ##### getTasks()
 
@@ -984,13 +864,9 @@ Get a list of Workspace tasks for the given lifecycle
 | :---------- | :------- |
 | `lifecycle` | `string` |
 
-###### Returns
+**Returns:** `Required`\<[`Tasks`](../../#tasks)\>
 
-`Required`\<[`Tasks`](../../#tasks)\>
-
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L78)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L78)
 
 ##### relative()
 
@@ -1010,15 +886,11 @@ const relativePath = workspace.relative('/some/absolute/path');
 | :-------- | :------- | :---------------- |
 | `to`      | `string` | Absolute filepath |
 
-###### Returns
-
-`string`
+**Returns:** `string`
 
 Relative path to the workspace’s root location.
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L100)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L100)
 
 ##### resolve()
 
@@ -1038,15 +910,11 @@ const main = workspace.resolve(workspace.main);
 | :---------------- | :--------- | :----------------------------------- |
 | ...`pathSegments` | `string`[] | A sequence of paths or path segments |
 
-###### Returns
-
-`string`
+**Returns:** `string`
 
 Absolute path based on the input path segments
 
-###### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L89)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L89)
 
 ## Interfaces
 
@@ -1260,9 +1128,7 @@ scripts?: Record<string, string>;
 version?: string;
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L107)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L107)
 
 ---
 
@@ -1282,9 +1148,7 @@ type PackageJsonWithLocation: PackageJson & {
 location: string;
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L152)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L152)
 
 ---
 
@@ -1318,9 +1182,7 @@ name?: string;
 url?: string;
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L102)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L102)
 
 ---
 
@@ -1354,9 +1216,7 @@ private: true;
 workspaces?: string[];
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L138)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L138)
 
 ---
 
@@ -1383,9 +1243,7 @@ private?: false;
 publishConfig?: PublishConfig;
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L148)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L148)
 
 ---
 
@@ -1416,9 +1274,7 @@ access?: "public" | "restricted";
 registry?: string;
 ```
 
-#### Source
-
-[modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L143)
+**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts#L143)
 
 ## Variables
 
@@ -1458,8 +1314,6 @@ readonly PROD: 3;
 
 Production dependency (defined in `dependencies` of `package.json`)
 
-#### Source
-
-[modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L7)
+**Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts#L7)
 
 <!-- end-onerepo-sentinel -->

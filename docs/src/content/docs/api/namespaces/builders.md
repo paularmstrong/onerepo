@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<a2df8ed0bc825b6aef364e572c1db2ef>> -->
+<!-- @generated SignedSource<<8d41d38f9203041871fb20eae1439fb4>> -->
 
 Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
 
@@ -65,9 +65,7 @@ Threshold of number of files until we fall-back and swap to workspace locations.
 100;
 ```
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L78)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L78)
 
 ---
 
@@ -103,9 +101,7 @@ Limit to only changes that are currently staged. This cannot be used with `from`
 through?: never;
 ```
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L15)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L15)
 
 ---
 
@@ -143,9 +139,7 @@ through?: string;
 
 Git ref to calculate changes _inclusively_ _through_.
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L4)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L4)
 
 ## Builder
 
@@ -177,9 +171,7 @@ See [`WithAffected`](#withaffected-1) for type safety.
 | :-------- | :------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
-#### Returns
-
-`Yargs`\<`T` & [`WithAffected`](#withaffected-1)\>
+**Returns:** `Yargs`\<`T` & [`WithAffected`](#withaffected-1)\>
 
 #### Example
 
@@ -187,9 +179,7 @@ See [`WithAffected`](#withaffected-1) for type safety.
 export const builder = (yargs) => builders.withAffected(yargs);
 ```
 
-#### Source
-
-[modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L19)
+**Source:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L19)
 
 ---
 
@@ -211,13 +201,9 @@ export const builder = (yargs) => builders.withAllInputs(yargs);
 | :-------- | :--------------------------------------------- |
 | `yargs`   | `Yargs`\<[`DefaultArgv`](../../#defaultargv)\> |
 
-#### Returns
+**Returns:** `Yargs`\<[`WithAllInputs`](#withallinputs-1)\>
 
-`Yargs`\<[`WithAllInputs`](#withallinputs-1)\>
-
-#### Source
-
-[modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L14)
+**Source:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L14)
 
 ---
 
@@ -249,13 +235,9 @@ export const builder = (yargs) => builders.withFiles(yargs);
 | :-------- | :------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
-#### Returns
+**Returns:** `Yargs`\<`T` & [`WithFiles`](#withfiles-1)\>
 
-`Yargs`\<`T` & [`WithFiles`](#withfiles-1)\>
-
-#### Source
-
-[modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L14)
+**Source:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L14)
 
 ---
 
@@ -288,13 +270,9 @@ export const builder = (yargs) => builders.withWorkspaces(yargs);
 | :-------- | :------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
-#### Returns
+**Returns:** `Yargs`\<`T` & [`WithWorkspaces`](#withworkspaces-1)\>
 
-`Yargs`\<`T` & [`WithWorkspaces`](#withworkspaces-1)\>
-
-#### Source
-
-[modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L15)
+**Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L15)
 
 ---
 
@@ -355,9 +333,7 @@ through-ref?: string;
 
 Git ref to calculate changes _inclusively_ _through_.
 
-#### Source
-
-[modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L34)
+**Source:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts#L34)
 
 ---
 
@@ -377,9 +353,7 @@ type Argv = builders.WithAllInputs & {
 export const builder: Builder<Argv> = (yargs) => builders.withAllInputs(yargs);
 ```
 
-#### Source
-
-[modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L28)
+**Source:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts#L28)
 
 ---
 
@@ -411,9 +385,7 @@ files?: string[];
 
 List of filepaths.
 
-#### Source
-
-[modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L28)
+**Source:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts#L28)
 
 ---
 
@@ -454,9 +426,7 @@ workspaces?: string[];
 
 One or more workspaces by `name` or `alias` string.
 
-#### Source
-
-[modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L29)
+**Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts#L29)
 
 ## Getter
 
@@ -488,13 +458,9 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 | `graph`              | [`Graph`](#graph)                 |
 | `__namedParameters`? | [`GetterOptions`](#getteroptions) |
 
-#### Returns
+**Returns:** `Promise`\<[`Workspace`](#workspace)[]\>
 
-`Promise`\<[`Workspace`](#workspace)[]\>
-
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L58)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L58)
 
 ---
 
@@ -523,9 +489,7 @@ When using this function to get affected filenames, a soft threshold is provided
 | `argv`               | [`WithAllInputs`](#withallinputs-1)       |
 | `__namedParameters`? | [`FileGetterOptions`](#filegetteroptions) |
 
-#### Returns
-
-`Promise`\<`string`[]\>
+**Returns:** `Promise`\<`string`[]\>
 
 #### Example
 
@@ -542,9 +506,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 
 !HandlerExtra
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L108)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L108)
 
 ---
 
@@ -580,13 +542,9 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 | `argv`               | [`WithAllInputs`](#withallinputs-1) |
 | `__namedParameters`? | [`GetterOptions`](#getteroptions)   |
 
-#### Returns
+**Returns:** `Promise`\<[`Workspace`](#workspace)[]\>
 
-`Promise`\<[`Workspace`](#workspace)[]\>
-
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L77)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L77)
 
 ---
 
@@ -596,9 +554,7 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 type Argv: WithAllInputs;
 ```
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L39)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L39)
 
 ---
 
@@ -629,8 +585,6 @@ step?: LogStep;
 
 Optional logger step to avoid creating a new
 
-#### Source
-
-[modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L26)
+**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts#L26)
 
 <!-- end-onerepo-sentinel -->

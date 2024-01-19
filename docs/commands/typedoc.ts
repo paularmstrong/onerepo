@@ -82,6 +82,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\(([\w-]+)\.md(#[^)]+)?/g, '($2')
 			.replace(/\/([\w-]+)\.md(#[^)]+)?/g, '/$1/$2')
+			.replace(/^#+ (Returns|Source|Default)\n\n/gm, '**$1:** ')
 			.replace('[**onerepo**](/docs/api/)\n\n---\n\n', '');
 
 		await file.writeSafe(docs.resolve(outPath, doc), out, { step: fixFiles, sign: true });

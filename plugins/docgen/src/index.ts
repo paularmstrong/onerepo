@@ -29,7 +29,7 @@ import type { Docs } from './yargs';
 export type Options = {
 	/**
 	 * Default output format for the documentation
-	 * @default 'markdown'
+	 * @default `'markdown'`
 	 */
 	format?: 'markdown' | 'json';
 	/**

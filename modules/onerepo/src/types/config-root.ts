@@ -7,7 +7,8 @@ import type { Plugin } from './plugin';
  */
 export type RootConfig<CustomLifecycles extends string | void = void> = {
 	/**
-	 * @default `{}`.
+	 * @default `{}`
+	 *
 	 * Map of paths to array of owners.
 	 *
 	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
@@ -29,6 +30,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	commands?: {
 		/**
 		 * @default `'commands'`
+		 *
 		 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 		 *
 		 * @example
@@ -48,6 +50,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		directory?: string | false;
 		/**
 		 * @default `/(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/`
+		 *
 		 * Prevent reading matched files in the `commands.directory` as commands.
 		 *
 		 * When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
@@ -66,6 +69,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	dependencies?: {
 		/**
 		 * @default `'loose'`
+		 *
 		 * The dependency mode will be used for node module dependency management and verification.
 		 * - \`off\`: No validation will occur. Everything goes.
 		 * - \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
@@ -75,12 +79,14 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		mode?: 'strict' | 'loose' | 'off';
 		/**
 		 * @default `true`
+		 *
 		 * When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.
 		 */
 		dedupe?: boolean;
 	};
 	/**
 	 * @default `'main'`
+	 *
 	 * The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 *
 	 * @example
@@ -93,6 +99,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	head?: string;
 	/**
 	 * @default `[]`
+	 *
 	 * Array of fileglobs to ignore when calculating the changed workspaces.
 	 *
 	 * Periodically we may find that there are certain files or types of files that we _know_ for a fact do not affect the validity of the repository or any code. When this happens and the files are modified, unnecessary tasks and processes will be spun up that don't have any bearing on the outcome of the change.
@@ -113,6 +120,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	ignore?: Array<string>;
 	/**
 	 * @default `{}`
+	 *
 	 * A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
 	 *
 	 * @example
@@ -126,8 +134,9 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 */
 	meta?: Record<string, unknown>;
 	/**
-	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
 	 * @default `[]`
+	 *
+	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
 	 *
 	 * @example
 	 * ```ts title="onerepo.config.ts"
@@ -146,6 +155,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	root: true;
 	/**
 	 * @default `{}`
+	 *
 	 * Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
 	 */
 	tasks?: TaskConfig<CustomLifecycles>;
@@ -155,6 +165,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	taskConfig?: {
 		/**
 		 * @default `[]`
+		 *
 		 * Additional `task` lifecycles to make available.
 		 *
 		 * See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
@@ -191,6 +202,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	validation?: {
 		/**
 		 * @default `undefined`
+		 *
 		 * File path for custom graph and configuration file validation schema.
 		 */
 		schema?: string | null;
@@ -201,6 +213,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	vcs?: {
 		/**
 		 * @default `false`
+		 *
 		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
 		 *
 		 * @example
@@ -215,6 +228,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		autoSyncHooks?: boolean;
 		/**
 		 * @default `'.hooks'`
+		 *
 		 * Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 		 *
 		 * @example
@@ -229,6 +243,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		hooksPath?: string;
 		/**
 		 * @default `'github'`
+		 *
 		 * The provider will be factored in to various commands, like `CODEOWNERS` generation.
 		 *
 		 * @example
@@ -244,6 +259,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	};
 	/**
 	 * @default `'https://onerepo.tools/visualize/'`
+	 *
 	 * Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 	 */
 	visualizationUrl?: string;

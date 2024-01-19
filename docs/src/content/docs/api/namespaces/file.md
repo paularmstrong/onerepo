@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<30a814aa689def80397d3ed0a43e20ac>> -->
+<!-- @generated SignedSource<<f679fa22b28f638ddd4ab0e6f5a7984d>> -->
 
 File manipulation functions.
 
@@ -53,9 +53,7 @@ step?: LogStep;
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L25)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L25)
 
 ---
 
@@ -87,9 +85,7 @@ step?: LogStep;
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L156)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L156)
 
 ---
 
@@ -99,9 +95,7 @@ Pass a Logger Step to pipe all logs and output to that instead.
 type SigningStatus: "valid" | "invalid" | "unsigned";
 ```
 
-#### Source
-
-[modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L1)
+**Source:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L1)
 
 ---
 
@@ -133,9 +127,7 @@ step?: LogStep;
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L55)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L55)
 
 ---
 
@@ -176,9 +168,7 @@ step?: LogStep;
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L127)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L127)
 
 ## Functions
 
@@ -201,9 +191,7 @@ Change file permissions
 | `mode`     | `string` \| `number`  |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -211,9 +199,7 @@ Change file permissions
 await file.chmod('/foo', 'a+x');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L193)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L193)
 
 ---
 
@@ -238,9 +224,7 @@ If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modifi
 | `output`   | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -248,9 +232,7 @@ If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modifi
 await file.copy('/path/to/in/', '/path/to/out/');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L87)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L87)
 
 ---
 
@@ -269,9 +251,7 @@ Step-wrapped `fs.existsSync` implementation.
 | `filename` | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`boolean`\>
+**Returns:** `Promise`\<`boolean`\>
 
 #### Example
 
@@ -279,9 +259,7 @@ Step-wrapped `fs.existsSync` implementation.
 await file.exists('/path/to/file.ts');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L40)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L40)
 
 ---
 
@@ -299,13 +277,9 @@ Checks whether a file is signed _without_ verifying the signature.
 | :--------- | :------- |
 | `contents` | `string` |
 
-#### Returns
+**Returns:** `boolean`
 
-`boolean`
-
-#### Source
-
-[modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L10)
+**Source:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L10)
 
 ---
 
@@ -324,9 +298,7 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 | `filename` | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`Stats` \| `null`\>
+**Returns:** `Promise`\<`Stats` \| `null`\>
 
 If the `filename` does not exist, `null` will be returned instead of a Stats object.
 
@@ -339,9 +311,7 @@ if (stat.isDirectory()) {
 }
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L99)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L99)
 
 ---
 
@@ -360,9 +330,7 @@ Create a tmp directory in the os tmpdir.
 | `prefix`   | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`string`\>
+**Returns:** `Promise`\<`string`\>
 
 #### Example
 
@@ -370,9 +338,7 @@ Create a tmp directory in the os tmpdir.
 const dir = await file.makeTempDir('tacos-');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L184)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L184)
 
 ---
 
@@ -391,9 +357,7 @@ Recursively create a directory.
 | `pathname` | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -401,9 +365,7 @@ Recursively create a directory.
 await file.mkdirp('/path/to/something');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L117)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L117)
 
 ---
 
@@ -426,9 +388,7 @@ Read the contents of a file.
 | `flag`?    | `OpenMode`            |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`string`\>
+**Returns:** `Promise`\<`string`\>
 
 #### Example
 
@@ -436,9 +396,7 @@ Read the contents of a file.
 const contents = await file.read('/path/to/file/');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L108)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L108)
 
 ---
 
@@ -457,9 +415,7 @@ Read a sentinel-wrapped portion of a file that was previously written with [writ
 | `filename` | `string`                              |
 | `options`? | [`ReadSafeOptions`](#readsafeoptions) |
 
-#### Returns
-
-`Promise`\<[`string` \| `null`, `string`]\>
+**Returns:** `Promise`\<[`string` \| `null`, `string`]\>
 
 #### Example
 
@@ -467,9 +423,7 @@ Read a sentinel-wrapped portion of a file that was previously written with [writ
 const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel: 'tacos' });
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L175)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L175)
 
 ---
 
@@ -488,9 +442,7 @@ Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
 | `pathname` | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -498,9 +450,7 @@ Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
 await file.remove('/path/to/something');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L126)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L126)
 
 ---
 
@@ -523,9 +473,7 @@ Sign the contents for a given file without writing out. This function is typical
 | `contents` | `string`              |
 | `options`? | [`Options`](#options) |
 
-#### Returns
-
-`Promise`\<`any`\>
+**Returns:** `Promise`\<`any`\>
 
 #### Example
 
@@ -538,9 +486,7 @@ if (currentContents !== (await signContents(filename, contents))) {
 }
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L54)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L54)
 
 ---
 
@@ -558,13 +504,9 @@ Verify the signature in a signed file.
 | :--------- | :------- |
 | `contents` | `string` |
 
-#### Returns
+**Returns:** [`SigningStatus`](#signingstatus)
 
-[`SigningStatus`](#signingstatus)
-
-#### Source
-
-[modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L14)
+**Source:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts#L14)
 
 ---
 
@@ -589,9 +531,7 @@ If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modifi
 | `contents` | `string`                        |
 | `options`? | [`WriteOptions`](#writeoptions) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -599,9 +539,7 @@ If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modifi
 await file.write('/path/to/out/', '# hello!');
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L76)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L76)
 
 ---
 
@@ -624,9 +562,7 @@ Safely write contents to a file, wrapped in a start and end sentinel. This allow
 | `contents` | `string`                                |
 | `options`? | [`WriteSafeOptions`](#writesafeoptions) |
 
-#### Returns
-
-`Promise`\<`void`\>
+**Returns:** `Promise`\<`void`\>
 
 #### Example
 
@@ -640,8 +576,6 @@ await file.writeSafe('/path/to/out/', '# hello', { sentinel: 'some-unique-string
 await file.writeSafe('/path/to/out/', '# hello', { signed: true });
 ```
 
-#### Source
-
-[modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L155)
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts#L155)
 
 <!-- end-onerepo-sentinel -->
