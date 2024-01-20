@@ -47,6 +47,17 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		},
 	];
 
+	const copyStep = logger.createStep('Copy project files');
+	const projectFiles = { 'CODE_OF_CONDUCT.md': 'code-of-conduct.mdx', 'CONTRIBUTING.md': 'contributing.mdx' };
+	for (const [original, doc] of Object.entries(projectFiles)) {
+		const contents = await file.read(graph.root.resolve(original), 'r', { step: copyStep });
+		await file.writeSafe(docs.resolve('src/content/docs/project', doc), contents.replace(/# [^\n]+\n\n/m, ''), {
+			step: copyStep,
+			sign: true,
+		});
+	}
+	await copyStep.end();
+
 	const workspaces = await getWorkspaces();
 
 	const pluginStep = logger.createStep('Building plugin docs');
