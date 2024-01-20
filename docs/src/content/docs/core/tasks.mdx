@@ -40,7 +40,7 @@ There are four main types of tasks:
 
 #### Serial tasks
 
-When running full task sets on a single machine, some tasks may need to use a lot of resources at a single time. For example, running the [TypeScript plugin command](/docs/plugins/typescript/) will batch many processes across as many CPU cores as possible. For that reason, it should not be run in _parallel_ to any other tasks.
+When running full task sets on a single machine, some tasks may need to use a lot of resources at a single time. For example, running the [TypeScript plugin command](/plugins/typescript/) will batch many processes across as many CPU cores as possible. For that reason, it should not be run in _parallel_ to any other tasks.
 
 ```js title="onerepo.config.js"
 /** @type import('onerepo').TaskConfig */

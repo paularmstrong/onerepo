@@ -3,7 +3,7 @@ title: oneRepo API
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<00edc35964e9d5244ac53a789788ec34>> -->
+<!-- @generated SignedSource<<2ae26558a6e127001583f2d6b05bf439>> -->
 
 ## Namespaces
 
@@ -738,7 +738,7 @@ vcs.autoSyncHooks?: boolean;
 
 **Default:** `false`
 
-Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
+Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 
 ###### Example
 
@@ -994,7 +994,7 @@ type GraphSchemaValidators: Record<string, Record<string, Schema & {
 
 Definition for `graph verify` JSON schema validators.
 
-See [“Validating configurations”](/docs/core/graph/#validating-configurations) for more examples and use cases.
+See [“Validating configurations”](/core/graph/#validating-configurations) for more examples and use cases.
 
 #### Example
 

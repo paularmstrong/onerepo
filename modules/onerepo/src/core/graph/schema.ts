@@ -4,7 +4,7 @@ import type { Graph, Workspace } from '@onerepo/graph';
 /**
  * Definition for `graph verify` JSON schema validators.
  *
- * See [“Validating configurations”](/docs/core/graph/#validating-configurations) for more examples and use cases.
+ * See [“Validating configurations”](/core/graph/#validating-configurations) for more examples and use cases.
  *
  * @example
  * ```ts

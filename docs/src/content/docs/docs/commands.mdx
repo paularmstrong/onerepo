@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-
 Every team, repo, and workspace has unique needs. oneRepo shines when it comes to doing what you need at the right time.
 
 oneRepo commands are an extended version of the [Yargs command module](https://github.com/yargs/yargs/blob/main/docs/advanced.md#providing-a-command-module), written as ESM and TypeScript compatible modules. By default, command files can be placed in a `commands/` folder at the repository root and within any workspace and they will automatically be registered. This directory can be changed by setting the [`commands.directory` setting](/docs/config/#commandsdirectory) in the [root configuration](/docs/config/#root-configuration).
@@ -42,7 +40,7 @@ oneRepo provides a robust API and suite of tools to flesh out your commands. Ple
 
 ## Common use-cases
 
-oneRepo exports helpers in the form of [`builders`](/api/namespaces/namespace.builders/) for common input arguments and [`getters`](/api/namespaces/namespace.getters/) for file and workspace querying based on the `builders`’ input arguments.
+oneRepo exports helpers in the form of [`builders`](/api/namespaces/builders/) for common input arguments and [`getters`](/api/namespaces/getters/) for file and workspace querying based on the `builders`’ input arguments.
 
 ```ts
 export const builder: Builder<WithWorkspaces> = (yargs) => builders.withWorkspaces(yargs);
@@ -67,7 +65,7 @@ For a full list of available helpers on handlers, see [`HandlerExtra`](/api/#han
 
 The more explanation and context that you can provide, the better it will be for your peers using commands. Consider adding [epilogues](http://yargs.js.org/docs/#api-reference-epiloguestr) and [examples](http://yargs.js.g/docs/#api-reference-examplecmd-desc) along with the required `description`.
 
-You can also generate Markdown documentation of the full CLI using the [docgen plugin](/docs/plugins/docgen/)!
+You can also generate Markdown documentation of the full CLI using the [docgen plugin](/plugins/docgen/)!
 
 ### Logging
 

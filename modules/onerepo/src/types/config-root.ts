@@ -214,7 +214,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `false`
 		 *
-		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/git-hooks/) to learn more.
+		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 		 *
 		 * @example
 		 * ```ts title="onerepo.config.ts"
