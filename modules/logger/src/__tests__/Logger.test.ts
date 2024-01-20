@@ -91,6 +91,24 @@ describe('Logger', () => {
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
 	});
 
+	test('logs "completed with errors" message', async () => {
+		const stream = new PassThrough();
+		let out = '';
+		stream.on('data', (chunk) => {
+			out += chunk.toString();
+		});
+
+		const logger = new Logger({ verbosity: 2, stream });
+
+		const step = logger.createStep('tacos');
+		step.error('foo');
+		await step.end();
+
+		await logger.end();
+
+		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.red('✘')} Completed with errors`);
+	});
+
 	test('writes logs if verbosity increased after construction', async () => {
 		const stream = new PassThrough();
 		let out = '';
