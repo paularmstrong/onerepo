@@ -7,7 +7,7 @@ const lifecycle = core.getInput('lifecycle', { required: true });
 const verbosity = parseInt(core.getInput('verbosity') ?? 2, 10);
 
 const tasks = execSync(
-	`${overrideBin ?? `${pkgManager} one`} tasks --lifecycle=${lifecycle} --list -${'v'.repeat(verbosity)}`,
+	`${overrideBin ? overrideBin : `${pkgManager} one`} tasks --lifecycle=${lifecycle} --list -${'v'.repeat(verbosity)}`,
 	{ env: { ONEREPO_USE_HOOKS: '0', ...process.env } },
 )
 	.toString()
