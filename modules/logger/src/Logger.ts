@@ -366,6 +366,7 @@ export class Logger {
 		switch (type) {
 			case 'error':
 				this.#hasError = true;
+				this.#defaultLogger.hasError = true;
 				break;
 			case 'warn':
 				this.#hasWarning = true;
