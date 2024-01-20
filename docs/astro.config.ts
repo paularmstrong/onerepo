@@ -83,7 +83,7 @@ export default defineConfig({
 			lastUpdated: true,
 			favicon: '/favicon.svg',
 			editLink: {
-				baseUrl: 'https://github.com/paularmstrong/onerepo/edit/main/',
+				baseUrl: 'https://github.com/paularmstrong/onerepo/edit/main/docs',
 			},
 		}),
 	],
