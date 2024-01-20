@@ -47,13 +47,22 @@ When a command completes, a message will be shown, including whether or not it h
 
 <div class="grid grid-cols-2">
 	<div>
-		```ansi title="Completed successfully" [1;2m■ [0;32m✔ [0mCompleted [2m5ms[0m ``` This command finished cleanly with
-		exit code `0`.
-	</div>
-	<div>
-		```ansi title="Completed, but failed" [1;2m■ [0;31m✘ [0mCompleted with errors [2m5ms[0m ``` This command did _not_
-		exit cleanly and provide a non-zero exit code.
-	</div>
+
+```ansi title="Completed successfully"
+ [1;2m■ [0;32m✔ [0mCompleted [2m5ms[0m
+```
+
+    This command finished cleanly with exit code `0`.
+    </div>
+    <div>
+
+```ansi title="Completed, but failed"
+ [1;2m■ [0;31m✘ [0mCompleted with errors [2m5ms[0m
+```
+
+    This command did _not_ exit cleanly and provide a non-zero exit code.
+    </div>
+
 </div>
 
 ## Controlling verbosity
