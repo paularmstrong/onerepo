@@ -146,36 +146,63 @@ While this may seem okay to start, as repos grow and become complex, workspaces 
 
 Avoiding extra work by utilizing cached responses based on a set of input files is a great time saver in theory. The problem is that the responsibility of knowing exactly what files and workspaces affect the cache for each individual task lies on you and your team.
 
-```json title="nx.json" collapse={2-11}
+```json title="modules/my-project/nx.json" collapse={2-11}
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "nx/tasks-runners/default",
 			"options": {
-				"cacheableOperations": ["test"]
+				"cacheableOperations": ["build"]
 			}
 		}
 	},
 	"targetDefaults": {
-		"test": {
-			"inputs": ["default", "^production", "{workspaceRoot}/jest.config.js"]
+		"build": {
+			"inputs": ["default", "^production"]
 		}
 	},
 	"namedInputs": {
 		"default": ["{projectRoot}/**/*", "sharedGlobals"],
 		"sharedGlobals": ["{workspaceRoot}/prisma/**", "{workspaceRoot}/babel.config.json"],
-		"production": [
-			"default",
-			"!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-			"!{projectRoot}/tsconfig.spec.json",
-			"!{projectRoot}/jest.config.[jt]s"
-		]
+		"production": ["default", "{projectRoot}/tsconfig.json"]
 	}
 }
 ```
 
-The main problem with cache-based solutions is that you and your team need to keep knowledge of the inputs & outputs to each task or target when making major changes to ensure that you haven't added or modified to the determinism without also updating the configuration. It is impossible to expect everyone to know everything all the time and changes will inevitably slip through the cracks, leaving your team consued as to why
+The main problem with cache-based solutions is that you and your team need to keep knowledge of the inputs & outputs to each task or target when making major changes to ensure that you haven't added or modified to the determinism without also updating the configuration. It is impossible to expect everyone to know everything all the time and changes will inevitably slip through the cracks, leaving your team confused as to why.
+
+Can you spot where the problem with the previous build task may have issues with cache consistency? It's okay if you aren't sure, because there isn't enough information to provided (issue #1!).
+
+What if we also provide the `./tsconfig.json`?
+
+```json title="modules/my-project/tsconfig.json"
+{
+	"extends": "@internal/tsconfig/base.json",
+	"compilerOptions": {
+		"outDir": "./dist"
+	},
+	"include": ["./src/**/*"],
+	"exclude": ["./dist"]
+}
+```
+
+Hint: let's highlight the important part at line 2 from the `tsconfig.json` and compare to the `namedInputs` in the `nx.json`:
+
+```json title="modules/my-project/tsconfig.json" ins="../../shared/tsconfig/base.json"
+{
+	"extends": "../../shared/tsconfig/base.json",
+	"compilerOptions": {
+		"outDir": "./dist"
+	},
+	"include": ["./src/**/*"],
+	"exclude": ["./dist"]
+}
+```
+
+Because it's expected that this may not be abundantly clear: `../../shared/tsconfig/base.json` is outside of the local workspace and _not_ declared as an input to consider for cache consistency.
+
+If we were to make any modifications to the `compilerOptions` within the `../../shared/tsconfig/base.json` file, we would expect to need to run a full build of `my-project` _without_ any cache. However, because of the way the cache configuration is done in Nx (and other monorepo tools), it's easily missed or mis-configured.
 
 ## Feature comparison
 
@@ -189,7 +216,7 @@ This is a work in progress. If you've found a mistake, please [open an issue](ht
 | ---------------------------------------------------- | --------------- | --------------------------------- | -------------------- | -------------------------------- | ---------------------------- |
 | Custom global commands                               | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
 | Primary support for JavaScript, TypeScript, and Node | <Supported />   | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
-| Upsells to paid service                              | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
+| Upsells to paid service                              | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
 | [Cache-based determinism](#cache-inconsistency)      | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
 | Change-based determinism                             | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Supported />                |
 | Builds on [npm scripts](#script-overload)            | <Unsupported /> | <Supported />                     | <Supported />        | <Unsupported />                  | <Unsupported />              |

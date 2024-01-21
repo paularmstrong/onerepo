@@ -46,11 +46,11 @@ const { title } = Astro.props;
 	.instruction::after {
 		content: '';
 		display: block;
-		border-left: 1px solid var(--sl-color-gray-6);
+		border-left: 1px solid var(--sl-color-gray-5);
 		position: absolute;
 		top: 2rem;
 		left: 0.7rem;
-		bottom: -2.4rem;
+		bottom: -3.25rem;
 	}
 	.instruction:last-of-type::after {
 		display: none;
@@ -64,6 +64,7 @@ const { title } = Astro.props;
 	.instruction--terminal {
 		grid-column-start: 3;
 		grid-column-end: 6;
+		margin-top: 0 !important;
 	}
 
 	.instruction--title {
