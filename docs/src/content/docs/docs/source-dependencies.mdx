@@ -1,0 +1,70 @@
+---
+title: Source dependencies
+sidebar:
+  order: 1
+---
+
+One core benefit of a monorepo that is often missed or not enabled via tooling is the ability to use shared workspaces as _source level dependencies_. When working in a monorepo, we should never have to rebuild shared workspaces in order to pick up changes in their consuming, dependent workspaces.
+
+`package.json` fields referencing files should always point to the _source_ files. These are the unbuilt, unminified versions of your files (typically in the `src` directory).
+
+```json title="./modules/my-module/package.json"
+{
+	"name": "my-module",
+	"type": "module",
+	"main": "./src/index.ts"
+}
+```
+
+Publishable workspaces may use the `publishConfig` space of the `package.json` to define the overrides for when the package will be published. This is typically a `dist` or `src` directory:
+
+```json title="./modules/my-module/package.json" ins={5-7}
+{
+	"name": "my-module",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"main": "./dist/index.js"
+	}
+}
+```
+
+## Ensuring conformance
+
+Use the built-in [`one graph verify` command](/core/graph/#one-graph-verify) with a custom [JSON schema](/core/graph/#json-validation) to ensure all shared workspaces conform to using fields correctly.
+
+```ts title="graph-schema.ts"
+import type { GraphSchemaValidators } from 'onerepo';
+
+export default {
+  'modules/*': {
+    'package.json': 'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+			type: 'object',
+			properties: {
+        main: {
+          type: 'string',
+          const: './src/index.ts',
+          errorMessage: '`main` field must be set to `./src/index.ts`',
+        },
+				publishConfig: {
+					type: 'object',
+					properties: {
+						main: {
+							type: 'string',
+							const: './dist/index.js',
+							errorMessage: '`publishConfig.main` must be set to `./dist/index.js`',
+						},
+						typings: {
+							type: 'string',
+							const: './dist/src/index.d.ts',
+							errorMessage: '`publishConfig.typings` must be set to `./dist/src/index.d.ts`',
+						},
+					},
+					required: ['main', 'typings'],
+				},
+			},
+			required: ['publishConfig'],
+		})
+  }
+} satisfies GraphSchemaValidators;
+```
