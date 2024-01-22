@@ -1,17 +1,24 @@
 ---
 type Props = {
 	title?: string;
+	noTerminal?: boolean;
 };
 
-const { title } = Astro.props;
+const { title, noTerminal } = Astro.props;
 ---
 
 <div role="listitem" class="instruction">
-	<div class="instruction--content">
+	<div class={`instruction--content ${noTerminal ? 'instruction--content-noterm' : ''}`}>
 		<div class="not-content"><h3 class="instruction--title">{title}</h3></div>
 		<slot name="content" />
 	</div>
-	<div class="instruction--terminal"><slot name="terminal" /></div>
+	{
+		noTerminal ? null : (
+			<div class="instruction--terminal">
+				<slot name="terminal" />
+			</div>
+		)
+	}
 </div>
 
 <style>
@@ -59,6 +66,9 @@ const { title } = Astro.props;
 	.instruction--content {
 		grid-column-start: 1;
 		grid-column-end: 3;
+	}
+	.instruction--content.instruction--content-noterm {
+		grid-column-end: 6;
 	}
 
 	.instruction--terminal {

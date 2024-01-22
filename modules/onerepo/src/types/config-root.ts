@@ -6,6 +6,22 @@ import type { Plugin } from './plugin';
  * @group Config
  */
 export type RootConfig<CustomLifecycles extends string | void = void> = {
+	changes?: {
+		/**
+		 * @default `'hash'`
+		 *
+		 * To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+		 */
+		filenames?: 'hash' | 'human';
+		/**
+		 * @default `'guided'`
+		 *
+		 * Change the prompt question & answer style when adding change entries.
+		 * - `'guided'`: Gives more detailed explanations when release types.
+		 * - `'semver'`: A simple choice list of semver release types.
+		 */
+		prompts?: 'guided' | 'semver';
+	};
 	/**
 	 * @default `{}`
 	 *

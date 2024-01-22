@@ -3,10 +3,6 @@ import type { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
 import { LogBuffer } from './LogBuffer';
 
-/**
- * @module Logger
- */
-
 export * from './Logger';
 export * from './LogStep';
 
@@ -89,6 +85,7 @@ export async function stepWrapper<T>(
  * await step.en();
  * ```
  *
+ * @alpha
  * @group Logger
  */
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {

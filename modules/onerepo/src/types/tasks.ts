@@ -27,7 +27,7 @@ export type TaskDef = {
 	 *
 	 * The commands can use replaced tokens:
 	 * - `$0`: the oneRepo CLI for your repository
-	 * - `${workspaces}`: replaced with a space-separated list of Workspace names necessary for the given lifecycle
+	 * - `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
 	 */
 	cmd: string | Array<string>;
 	/**
@@ -64,8 +64,9 @@ export type Lifecycle =
 	| 'pre-merge'
 	| 'post-merge'
 	| 'build'
-	| 'deploy'
-	| 'publish';
+	| 'pre-deploy'
+	| 'pre-publish'
+	| 'post-publish';
 
 /**
  * @group Config

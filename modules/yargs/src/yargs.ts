@@ -295,7 +295,7 @@ export type HandlerExtra = {
 	 */
 	getWorkspaces: (opts?: builders.GetterOptions) => Promise<Array<Workspace>>;
 	/**
-	 * The full monorepo {@link graph.Graph | `graph.Graph`}.
+	 * The full monorepo {@link Graph | `Graph`}.
 	 */
 	graph: Graph;
 	/**

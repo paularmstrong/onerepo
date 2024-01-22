@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import semver from 'semver';
+import { coerce, intersects, valid } from 'semver';
 import { getLogger } from '@onerepo/logger';
 import type { WithWorkspaces } from '@onerepo/builders';
 import { withWorkspaces } from '@onerepo/builders';
@@ -188,8 +188,8 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 	function add(name: string, version: string, ws: Workspace, type: 'prod' | 'dev' | 'peer') {
 		if (
 			requested[name].requested &&
-			semver.valid(semver.coerce(requested[name].requested)) &&
-			!semver.intersects(requested[name].requested!, version)
+			valid(coerce(requested[name].requested)) &&
+			!intersects(requested[name].requested!, version)
 		) {
 			step.warn(
 				`Requested ${name}@${requested[name].requested} is not available because it does not intersect found version ${version}`,
@@ -262,7 +262,7 @@ async function prompt(requested: Requested, mode: Args['mode'], graph: Graph, st
 		}
 
 		const latest = info['dist-tags'].latest;
-		if (!version || !semver.valid(version)) {
+		if (!version || !valid(version)) {
 			toInstall = latest;
 		}
 		if (toInstall && !info.versions.includes(toInstall)) {
@@ -273,8 +273,8 @@ async function prompt(requested: Requested, mode: Args['mode'], graph: Graph, st
 		toInstall = isInternal
 			? version!
 			: /^\d/.test(toInstall!)
-				? `${mode === 'loose' ? '^' : ''}${semver.coerce(toInstall)!.version}`
-				: semver.coerce(toInstall)?.version ?? toInstall!;
+				? `${mode === 'loose' ? '^' : ''}${coerce(toInstall)!.version}`
+				: coerce(toInstall)?.version ?? toInstall!;
 
 		choices[name] = toInstall;
 	}

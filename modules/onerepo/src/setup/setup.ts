@@ -17,6 +17,10 @@ import pkg from '../../package.json';
 
 const defaultConfig: Required<RootConfig> = {
 	root: true,
+	changes: {
+		filenames: 'hash',
+		prompts: 'guided',
+	},
 	vcs: {
 		autoSyncHooks: false,
 		hooksPath: '.hooks',

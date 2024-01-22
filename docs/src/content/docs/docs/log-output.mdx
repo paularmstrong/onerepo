@@ -16,11 +16,11 @@ One of oneRepo’s main [tenants](/concepts/why-onerepo/#tenants) is to have cle
 ### Prefixes
 
 ```ansi title="Type prefixes"
- [34m[1mINFO[0m General information that should always be shared
- [31m[1mERR[0m  Error output. The command will exit with a non-zero exit code.
- [33m[1mWRN[0m  Worth calling out, but things will continue without a problem
- [36m[1mLOG[0m  Slightly more verbose information when it's helpful
- [35m[1mDBG[0m  Included when you really want to know what's goin on
+ [34;1mINFO[0m General information that should always be shared
+ [31;1mERR[0m  Error output. The command will exit with a non-zero exit code.
+ [33;1mWRN[0m  Worth calling out, but things will continue without a problem
+ [36;1mLOG[0m  Slightly more verbose information when it's helpful
+ [35;1mDBG[0m  Included when you really want to know what's goin on
 ```
 
 Most commands will group and categorize work within [LogStep](/api/#logstep)s. These groupings aid in finding information quickly and determining where work is happening.
@@ -29,15 +29,15 @@ When steps succeed, they will end with a check mark and the amount of time that 
 
 ```ansi title="Log types within a step"
  ┌ Example success step
- │ [34m[1mINFO[0m General information that should always be shared
- │ [33m[1mWRN[0m  Worth calling out, but things will continue without a problem
- │ [36m[1mLOG[0m  Slightly more verbose information when it's helpful
+ │ [34;1mINFO[0m General information that should always be shared
+ │ [33;1mWRN[0m  Worth calling out, but things will continue without a problem
+ │ [36;1mLOG[0m  Slightly more verbose information when it's helpful
  └ [32m✔[39m [2m0ms[0m
  ┌ Example step with an error
- │ [34m[1mINFO[0m General information that should always be shared
- │ [31m[1mERR[0m  Some error output information
- │ [31m[1mERR[0m  that may be on multiple lines
- │ [36m[1mLOG[0m  Slightly more verbose information when it's helpful
+ │ [34;1mINFO[0m General information that should always be shared
+ │ [31;1mERR[0m  Some error output information
+ │ [31;1mERR[0m  that may be on multiple lines
+ │ [36;1mLOG[0m  Slightly more verbose information when it's helpful
  └ [31m✘[39m [2m0ms[0m
 ```
 

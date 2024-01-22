@@ -1,5 +1,5 @@
 import type { Config } from 'onerepo';
-import { changesets } from '@onerepo/plugin-changesets';
+// import { changesets } from '@onerepo/plugin-changesets';
 import { docgen } from '@onerepo/plugin-docgen';
 import { eslint } from '@onerepo/plugin-eslint';
 import { jest } from '@onerepo/plugin-jest';
@@ -11,6 +11,11 @@ import { performanceWriter } from '@onerepo/plugin-performance-writer';
 export default {
 	root: true,
 
+	changes: {
+		filenames: 'human',
+		prompts: 'guided',
+	},
+
 	dependencies: {
 		dedupe: true,
 	},
@@ -21,7 +26,7 @@ export default {
 	},
 	ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
 	plugins: [
-		changesets(),
+		// changesets(),
 		docgen({
 			outWorkspace: 'root',
 			outFile: './docs/src/content/docs/plugins/docgen/example.mdx',
@@ -58,6 +63,9 @@ export default {
 			],
 		},
 		build: {
+			serial: ['$0 build -w ${workspaces}'],
+		},
+		'pre-publish': {
 			serial: ['$0 build -w ${workspaces}'],
 		},
 	},

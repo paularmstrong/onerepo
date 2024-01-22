@@ -1,6 +1,7 @@
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
 import type { Config, CorePlugins } from '../types';
+import { changes } from '../core/changes';
 import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
 import { dependencies } from '../core/dependencies';
@@ -38,7 +39,17 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, install, tasks, workspace];
+export const corePlugins: CorePlugins = [
+	changes,
+	codeowners,
+	dependencies,
+	generate,
+	graph,
+	hooks,
+	install,
+	tasks,
+	workspace,
+];
 
 /**
  * @internal

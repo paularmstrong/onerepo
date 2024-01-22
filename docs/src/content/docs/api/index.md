@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e353e4a4428689374cf71e12c37b4a17>> -->
+<!-- @generated SignedSource<<2d75a66e0e2fd4dd20b67961dfd8d069>> -->
 
 ## Namespaces
 
@@ -279,7 +279,7 @@ This is a wrapped implementation of [`builders.getWorkspaces`](namespaces/builde
 graph: Graph;
 ```
 
-The full monorepo graph.Graph | `graph.Graph`.
+The full monorepo [`Graph`](#graph).
 
 ##### logger
 
@@ -388,8 +388,9 @@ type Lifecycle:
   | "pre-merge"
   | "post-merge"
   | "build"
-  | "deploy"
-  | "publish";
+  | "pre-deploy"
+  | "pre-publish"
+  | "post-publish";
 ```
 
 oneRepo comes with a pre-configured list of common lifecycles for grouping [tasks](/core/tasks/).
@@ -402,6 +403,10 @@ oneRepo comes with a pre-configured list of common lifecycles for grouping [task
 
 ```ts
 type RootConfig<CustomLifecycles>: {
+  changes: {
+     filenames: "hash" | "human";
+     prompts: "guided" | "semver";
+  };
   codeowners: Record<string, string[]>;
   commands: {
      directory: string | false;
@@ -443,6 +448,38 @@ Setup configuration for the root of the repository.
 | `CustomLifecycles` extends `string` \| `void` | `void` |
 
 #### Type declaration
+
+##### changes?
+
+```ts
+changes?: {
+  filenames: "hash" | "human";
+  prompts: "guided" | "semver";
+};
+```
+
+##### changes.filenames?
+
+```ts
+changes.filenames?: "hash" | "human";
+```
+
+**Default:** `'hash'`
+
+To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+
+##### changes.prompts?
+
+```ts
+changes.prompts?: "guided" | "semver";
+```
+
+**Default:** `'guided'`
+
+Change the prompt question & answer style when adding change entries.
+
+- `'guided'`: Gives more detailed explanations when release types.
+- `'semver'`: A simple choice list of semver release types.
 
 ##### codeowners?
 
@@ -870,7 +907,7 @@ String command(s) to run. If provided as an array of strings, each command will 
 The commands can use replaced tokens:
 
 - `$0`: the oneRepo CLI for your repository
-- `${workspaces}`: replaced with a space-separated list of Workspace names necessary for the given lifecycle
+- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
 
 ##### match?
 
@@ -1719,6 +1756,8 @@ export default {
 
 ### bufferSubLogger()
 
+<span class="tag danger">Alpha</span>
+
 ```ts
 function bufferSubLogger(step): {
 	end: () => Promise<void>;
@@ -2466,7 +2505,7 @@ Get the package manager for the current working directory with _some_ confidence
 
 ### PackageManager
 
-Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency graph.Graph | `graph.Graph` & graph.Workspace | `graph.Workspace`s.
+Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [`Graph`](#graph) & graph.Workspace | `graph.Workspace`s.
 
 #### Methods
 
@@ -2967,6 +3006,34 @@ A promise with an array of `[stdout, stderr]`, as captured from the command run.
 [`PackageManager.run`](#run) to safely run executables exposed from third party modules.
 
 **Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+
+---
+
+### runTasks()
+
+<span class="tag danger">Alpha</span>
+
+```ts
+function runTasks(lifecycle, args, graph, logger?): Promise<void>;
+```
+
+Run Lifecycle tasks in commands other than the `one tasks` command. Use this function when you have a command triggering a Lifecycle in non-standard ways.
+
+```ts
+await runTasks('pre-publish', ['-w', 'my-workspace'], graph);
+```
+
+**Parameters:**
+
+| Parameter   | Type                      | Description                                                                                        |
+| :---------- | :------------------------ | :------------------------------------------------------------------------------------------------- |
+| `lifecycle` | [`Lifecycle`](#lifecycle) | The individual Lifecycle to trigger.                                                               |
+| `args`      | `string`[]                | Array of string arguments as if passed in from the command-line.                                   |
+| `graph`     | [`Graph`](#graph)         | The current repository [Graph](#graph).                                                            |
+| `logger`?   | [`Logger`](#logger)       | Optional [Logger](#logger) instance. Defaults to the current `Logger` (usually there is only one). |
+
+**Returns:** `Promise`\<`void`\>  
+**Source:** [modules/onerepo/src/core/tasks/run-tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/tasks/run-tasks.ts)
 
 ---
 

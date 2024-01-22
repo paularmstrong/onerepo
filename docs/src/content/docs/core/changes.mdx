@@ -1,0 +1,461 @@
+---
+title: Change management
+meta:
+  stability: preview
+tableOfContents:
+  maxHeadingLevel: 4
+---
+
+import Instructions from '../../../components/Instructions.astro';
+import InstructionStep from '../../../components/InstructionStep.astro';
+import Tabs from '../../../components/Tabs.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import FileTree from '../../../components/FileTree.astro';
+
+In a typical monorepo, we want to build up changes for publishable workspaces over time while we work on features and major changes. Because we are using a monorepo with _source dependencies_, we should not need to publish often, because our local Workspace's are benefitting from code changes immediately.
+
+We still may have certain modules that we publish to a public or private registry. Developer workflows will have a few additional steps.
+
+One of the few opinionated pieces of oneRepo is in how publishable modules log & track changes, update versions, and publish to their registry. All of this is handled by the `change` command set.
+
+## Getting started
+
+Unlike other change entry systems, oneRepo compiles change entry files into a `.changes` folder within each workspace. These files use incremental IDs to help developers review potential order of changes as well as a unique string to prevent collisions across branches. By default, the change entries will be named with a hash of their contents:
+
+<FileTree>
+
+- modules
+  - burritos
+    - .changes
+      - 1-978af1g.md
+      - 2-3ah36g1.md
+    - package.json
+  - tacos
+    - .changes
+      - 1-978af1g.md
+    - package.json
+
+</FileTree>
+
+### Funny filenames
+
+If you prefer something a little more fun, add the [human-id](https://www.npmjs.com/package/human-id) package to your Root Workspace and set `changes.filenames` to `'human'` in your Root configuration file.
+
+<Instructions>
+<InstructionStep title="Add the dependency">
+  <span slot="content">
+  Use the [`dependencies`](/core/dependencies/) command to make things easy.
+  </span>
+  <span slot="terminal">
+
+```sh
+one dependencies add -w <root> --dev human-id
+```
+
+  </span>
+</InstructionStep>
+<InstructionStep title="Update the config">
+  <span slot="content">
+  Use the [`dependencies`](/core/dependencies/) command to make things easy.
+  </span>
+  <span slot="terminal">
+
+```ts title="onerepo.config.js" ins={4-6}
+import type { Config } from 'onerepo';
+
+export default {
+	changes: {
+		filenames: 'human',
+	},
+} satisfies Config;
+```
+
+  </span>
+</InstructionStep>
+<InstructionStep>
+  <span slot="content">
+  Enjoy your funny filenames.
+  </span>
+  <span slot="terminal">
+<FileTree>
+
+- modules
+  - burritos
+    - .changes
+      - 1-late-lions-accept.md
+      - 2-pretty-jars-dig.md
+    - package.json
+  - tacos
+    - .changes
+      - 1-swift-seals-walk.md
+    - package.json
+
+</FileTree>
+</span>
+</InstructionStep>
+</Instructions>
+
+## Workflow
+
+### Code changes
+
+<Instructions>
+<InstructionStep title="Modify code and add change files">
+  <span slot="content">
+  For each Workspaces that publishes a module, whenever we commit notable changes that should appear in a changelog, we add change entry files using `one change add` command. This command will help us create individual changelog entries in the form of Markdown formatted files with YAML frontmatter. The files are stored away in each related Workspace until needed later.
+  </span>
+  <span slot="terminal">
+
+```ansi
+[34m❯[0m one change add
+
+📦 What workspace(s) would you like to
+add a change entry to?
+
+[2m↗ Modified Workspaces
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+[34m❯◯ @onerepo/graph[0m
+ ◯ onerepo
+ ◯ @onerepo/plugin-changesets
+
+[2m→ Affected Workspaces
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+ ◯ @onerepo/builders
+ ◯ @onerepo/file
+```
+
+</span>
+</InstructionStep>
+<InstructionStep title="Commit files">
+<span slot="content">
+Add change entries will create Markdown files with the change entry content in each appropriate workspace. You will see these files in `<workspace>/.changes/*.md`. It is important to track and commit these files to the repository, as we will use them later on down the line when we're ready to publish a new version.
+</span>
+<span slot="terminal">
+
+```ansi
+[34m❯[0m git status
+
+ On branch [1madd-change-entries[0m
+ Changes to be committed:
+    new file:   [32mmodules/graph/.changes/3-d1eb2419.md[0m
+
+[34m❯[0m git commit -m "add change entries"
+```
+
+  </span>
+</InstructionStep>
+<InstructionStep title="Pull request & merge" noTerminal>
+  <span slot="content">
+  Create a pull request with your commits to review. Since change entry files are tracked, you can always edit them later if there's a mistake or you would like to add more information for the change.
+
+Once ready, merge your pull request to your main branch and move on.
+
+  </span>
+</InstructionStep>
+</Instructions>
+
+### Version & publish
+
+Eventually, we will need to publish one or more Workspaces to our registry for use in another repository. To do this, we follow another short workflow:
+
+<Instructions>
+<InstructionStep title="Update versions">
+  <span slot="content">
+  First, we _increment the version_ automatically using the command `one change version`. This command will prompt for the Workspace or Workspaces that we would like to publish and automatically ensure that any dependencies with changes are also incremented appropriately.
+
+This extra increment is necessary to ensure that each Workspace is published with the latest changes. Without this step, it would be possible that critical features would end up missing and causing errors in your published modules.
+
+  </span>
+  <span slot="terminal">
+
+```ansi
+[34m❯[0m one change version
+
+📦 What workspace(s) should be
+versioned for publishing?
+
+[2m↗ Workspaces with change entries
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+[34m❯◯ @onerepo/graph[0m [2m(1.0.0)[0m
+ ◯ onerepo [2m(1.0.0)[0m
+ ◯ @onerepo/plugin-changesets [2m(1.0.0)[0m
+
+[2m→ Workspaces modified & missing change entries
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+ ◯ @onerepo/builders [2m(1.0.0)[0m
+ ◯ @onerepo/file [2m(1.0.0)[0m
+```
+
+  </span>
+</InstructionStep>
+<InstructionStep title="Verify new versions">
+  <span slot="content">
+
+Next, you will be asked to verify new versions. This step will list new versions for dependencies of the Workspace(s) that you requested to version that also have changes in them.
+
+You _cannot_ version and publish the requested Workspaces without including these Workspaces as well.
+
+  </span>
+  <span slot="terminal">
+
+```ansi
+[34m❯[0m one change version
+
+[2m(…continued)[0m
+
+┌ Verify workspaces
+│ [2mWorkspace                 Current  Type     New[0m
+│ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+│ @onerepo/graph            0.10.0   [33mminor[0m   0.11.0
+│
+│ [2mThe following dependencies also require versioning[0m
+│ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+│ @onerepo/logger           0.6.0    [32mpatch[0m   0.6.1
+│ @onerepo/package-manager  0.5.0    [32mpatch[0m   0.5.1
+│ @onerepo/subprocess       0.7.0    [32mpatch[0m   0.7.1
+└ ✔ 2ms
+
+[32;1m?[0m Is it okay to proceed? [2m(Y/n)[0m
+```
+
+  </span>
+</InstructionStep>
+<InstructionStep title="Pull request & merge" noTerminal>
+  <span slot="content">
+  The change entries related to the versioned Workspaces will be removed and their contents recreated into each Workspace's `CHANGELOG.md` file.
+
+Add and commit all changes, then create a pull request with your commits to review.
+
+Once ready, merge your pull request to your main branch.
+
+  </span>
+</InstructionStep>
+<InstructionStep title="Publish">
+  <span slot="content">
+  Your updated versions are now ready to publish. Either automate this step in your CI pipline after pull requests are merged or run the command manually.
+  </span>
+  <span slot="terminal">
+```ansi
+[34m❯[0m one change publish
+```
+  </span>
+</InstructionStep>
+</Instructions>
+
+## Commands
+
+{/* start-auto-generated-from-cli-changes */}
+{/* @generated SignedSource<<eaca5e1e4bd2838a3b132dda4e62a75e>> */}
+
+### `one change`
+
+Aliases: `one changes`, `one changesets`
+
+Manage changes and changesets for publishable workspaces.
+
+```sh
+one change <command>
+```
+
+---
+
+#### `one change add`
+
+Aliases: `one change`
+
+Add changesets for modified Workspaces.
+
+```sh
+one change add [options...]
+```
+
+This command will prompt for appropriate Workspace(s), prompt for the release type, and request a descriptive change entry. Once all information has been entered, a change entry file will be created in the appropriate Workspace(s). Be sure to commit these files – they will be used later when you are ready to version and publish Workspaces to the registry for use outside of the Monorepo.
+
+| Option             | Type                            | Description                                                                                                         |
+| ------------------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                              |
+| `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                         |
+| `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                           |
+| `--show-advanced`  | `boolean`                       | Pair with `--help` to show advanced options.                                                                        |
+| `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |
+| `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                              |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                        | Description                                                                                                                                                                 |
+| --------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--filenames`   | `"hash"`, `"human"`, default: `"hash"`      | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed.                                                              |
+| `--from-ref`    | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--prompts`     | `"guided"`, `"semver"`, default: `"guided"` | Change the prompt question & answer style when adding change entries.                                                                                                       |
+| `--staged`      | `boolean`                                   | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--through-ref` | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
+
+</details>
+
+---
+
+#### `one change migrate`
+
+Migrate from Changesets to oneRepo changes.
+
+```sh
+one change migrate
+```
+
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option        | Type                                   | Description                                                                                                    |
+| ------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `--filenames` | `"hash"`, `"human"`, default: `"hash"` | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed. |
+
+</details>
+
+---
+
+#### `one change publish`
+
+Aliases: `one change release`
+
+Publish all Workspaces with versions not available in the registry.
+
+```sh
+one change publish [options]
+```
+
+This command is safe to run any time. By default, only Workspaces that have previously gone through the `one change version` process will end up being published. Use `--all` for all Workspaces or `--workspaces <workspace-name>` to specify individual Workspaces to try publishing.
+
+For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.
+
+| Option             | Type      | Description                                                                                |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------ |
+| `--all, -a`        | `boolean` | Run across all workspaces                                                                  |
+| `--otp`            | `boolean` | Set to true if your publishes require an OTP for NPM.                                      |
+| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                               |
+| `--skip-auth`      | `boolean` | Skip auth checks. This may be necessary for some internal registries using PATs or tokens. |
+| `--workspaces, -w` | `array`   | List of Workspace names to run against                                                     |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type      | Description                                                                                                                                                                 |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`    | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no there are no un-committed changes.                                                                                                               |
+| `--from-ref`    | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--staged`      | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--through-ref` | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
+
+</details>
+
+Publish the `api` Workspace and its dependencies, if necessary.
+
+```sh
+one change publish -w api
+```
+
+Attempt to publish _all_ non-private Workspaces.
+
+```sh
+one change publish --all
+```
+
+---
+
+#### `one change snapshot`
+
+Aliases: `one change snap`
+
+Publish a snapshot pre-release.
+
+```sh
+one change snapshot
+```
+
+Periodically you may want to publish a _snapshot_ release – something that needs testing from the registry, but should not update the current version nor be made widely available. For these cases, use `--snapshot` and versions will be published in the format `0.0.0-{tag}-{hash}`, where `{hash}` is a short version of the current git sha. By appending a prerelease to version `0.0.0`, discoverability is greatly reduced.
+
+| Option             | Type                              | Description                                                               |
+| ------------------ | --------------------------------- | ------------------------------------------------------------------------- |
+| `--all, -a`        | `boolean`                         | Run across all workspaces                                                 |
+| `--allow-dirty`    | `boolean`                         | Bypass checks to ensure no there are no un-committed changes.             |
+| `--otp`            | `boolean`                         | Prompt for one-time password before publishing to the registry            |
+| `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
+| `--show-advanced`  | `boolean`                         | Pair with `--help` to show advanced options.                              |
+| `--tag`            | `string`, default: `"prerelease"` | Distribution tag to apply when publishing the pre-release.                |
+| `--workspaces, -w` | `array`                           | List of Workspace names to run against                                    |
+
+---
+
+#### `one change version`
+
+Update version numbers for publishable workspaces
+
+```sh
+one change version
+```
+
+| Option                               | Type      | Description                                                   |
+| ------------------------------------ | --------- | ------------------------------------------------------------- |
+| `--all, -a`                          | `boolean` | Run across all workspaces                                     |
+| `--allow-dirty`                      | `boolean` | Bypass checks to ensure no there are no un-committed changes. |
+| `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.          |
+| `--show-advanced`                    | `boolean` | Pair with `--help` to show advanced options.                  |
+| `--workspaces, -w`                   | `array`   | List of Workspace names to run against                        |
+
+Create a prerelease for the next version the form of `1.2.3-alpha.0`.
+
+```sh
+one change version --prerelease=alpha
+```
+
+{/* end-auto-generated-from-cli-changes */}
+
+## FAQs
+
+<details>
+<summary>**Can I edit change files?**</summary>
+Yes. This is one of the main benefits of the approach we use. All change files are tracked in your git repository until they're ready to be consumed by a the [`change version`](#one-change-version) command. Until then, it's safe to add, edit, or delete change files as needed.
+
+Got a typo? Want to add more context? No problem! Just modify the appropriate change files, commit them, and move on.
+
+</details>
+<details>
+<summary>**Versioning deleted my change files. Is that okay?**</summary>
+This is expected! Change files are temporary placeholders that inform the [`change version`](#one-change-version) command how to pick the appropriate next version. Once they are consumed, they get compiled back to each Workspace's `CHANGELOG.md` file.
+</details>
+<details>
+<summary>**Can I edit my changelog after it's written?**</summary>
+Because change entries are written in isolation, it can be really helpful to edit your `CHANGELOG.md` file after versioning and before publishing to add context and make instructions flow better. You can safely modify your `CHANGELOG.md` files any time.
+</details>
+<details>
+<summary>**Why is the `human-id` package not used by default?**</summary>
+oneRepo does its best to limit the number of dependencies it requires, especially those of significant weight. We really like [human-id](https://www.npmjs.com/package/human-id), but it is a large dataset and English-only, so it has been made optional.
+</details>
+
+## Alternatives
+
+### Changesets
+
+oneRepo changes are inspired by [🦋 Changesets](https://github.com/changesets/changesets). While they provide a lot of the same functionality, there are various issues conflicting with oneRepo:
+
+- Changelogs are written to private packages (Issue [#313](https://github.com/paularmstrong/onerepo/issues/313))
+- Building and applying release plans is cumbersome with changesets when not using the `@changesets/cli` package directly. The oneRepo [Graph](/api/#graph-1) does a fantastic job of handling Workspace linking and versioning.
+- Source Dependencies are one of the main reasons oneRepo was created, as other monorepo tooling doesn't enforce or help with setting up and managing correct linking. Keeping changesets as a plugin makes this too optional and confusing to explain and implement.
+- It's easy to forget to write changesets, which can prevent versioning & publishing. Changesets do not also take into account git changes in Workspaces and dependent Workspaces.
+- Changesets is haphazardly documented and difficult to onboard large teams. Many potentially helpful docs were stubbed in and forgotten for many years (example: [Problems publishing in monorepos](https://github.com/changesets/changesets/blob/93ee679537fb43111c29359fe6c82164b359e4d1/docs/problems-publishing-in-monorepos.md))
+
+### Conventional commits
+
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) is a standard specification for writing effective change entries via git commit messages. The commits are then parsed in order to determine version release type, breaking changes, and compiling changelogs.
+
+While Conventional Commits is a wonderfully sound approach for single module repositories, it quickly degrades in Monorepos when developers work across a number of Workspaces or have changes that are less deserving of mention in changelogs.
+
+There is also little room for error with Conventional Commits, because changelog entries are set in stone once commits are written – unless you allow _rewriting history_, which you likely do not.

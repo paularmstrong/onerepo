@@ -1,4 +1,4 @@
-import type { GraphSchemaValidators, graph } from 'onerepo';
+import type { GraphSchemaValidators, Graph, Workspace } from 'onerepo';
 
 export default {
 	'internal/*': {
@@ -79,7 +79,7 @@ export default {
 			required: ['extends', 'include', 'compilerOptions'],
 			$required: true,
 		},
-		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+		'package.json': (workspace: Workspace, graph: Graph) => ({
 			type: 'object',
 			properties: {
 				files: {

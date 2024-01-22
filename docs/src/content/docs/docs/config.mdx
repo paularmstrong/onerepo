@@ -44,7 +44,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<34028a478fea4cb08a4c4e7e3d6b5850>> */}
+{/* @generated SignedSource<<99769f5884a3435c2668cbdf61634021>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
@@ -61,6 +61,27 @@ Setup configuration for the root of the repository.
 - **Type:** `true`
 
 Must be set to `true` in order to denote that this is the root of the repository.
+
+#### changes?
+
+- **Type:** `Object`
+
+#### changes.filenames?
+
+- **Type:** `"hash"` \| `"human"`
+- **Default:** `'hash'`
+
+To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+
+#### changes.prompts?
+
+- **Type:** `"guided"` \| `"semver"`
+- **Default:** `'guided'`
+
+Change the prompt question & answer style when adding change entries.
+
+- `'guided'`: Gives more detailed explanations when release types.
+- `'semver'`: A simple choice list of semver release types.
 
 #### codeowners?
 

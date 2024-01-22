@@ -3362,6 +3362,7 @@ __metadata:
     esbuild: ^0.19.3
     eslint: ^8.38.0
     glob: ^10.1.0
+    human-id: ^4.1.0
     jest: ^29.5.0
     jiti: ^1.21.0
     onerepo: "workspace:^"
@@ -4439,11 +4440,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^20.10.7":
-  version: 20.11.15
-  resolution: "@types/node@npm:20.11.15"
+  version: 20.11.5
+  resolution: "@types/node@npm:20.11.5"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 80fe17561636e6e72a0264c26232ea4c46b5ee700888a703f06ae6c9115a2dadb16ccd09b79aa2c66a07cb547a201b2609ab939b9bde42bdad56eeefd161bc12
+  checksum: a542727de1334ae20a3ca034b0ecf4b464a57ca01efc4f9cf43bd9ab93896125ab3c2de060ecd8f6ae23b86c6bf3463f681b643e69c032c6a662d376c98a6092
   languageName: node
   linkType: hard
 
@@ -6887,9 +6888,9 @@ __metadata:
   linkType: hard
 
 "cli-spinners@npm:^2.5.0, cli-spinners@npm:^2.6.1, cli-spinners@npm:^2.9.0":
-  version: 2.9.1
-  resolution: "cli-spinners@npm:2.9.1"
-  checksum: 1780618be58309c469205bc315db697934bac68bce78cd5dfd46248e507a533172d623c7348ecfd904734f597ce0a4e5538684843d2cfb7af485d4466699940c
+  version: 2.9.2
+  resolution: "cli-spinners@npm:2.9.2"
+  checksum: 1bd588289b28432e4676cb5d40505cfe3e53f2e4e10fbe05c8a710a154d6fe0ce7836844b00d6858f740f2ffe67cdc36e0fce9c7b6a8430e80e6388d5aa4956c
   languageName: node
   linkType: hard
 
@@ -11520,6 +11521,15 @@ __metadata:
   version: 1.0.2
   resolution: "human-id@npm:1.0.2"
   checksum: 95ee57ffae849f008e2ef3fe6e437be8c999861b4256f18c3b194c8928670a8a149e0576917105d5fd77e5edbb621c5a4736fade20bb7bf130113c1ebc95cb74
+  languageName: node
+  linkType: hard
+
+"human-id@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "human-id@npm:4.1.0"
+  bin:
+    human-id: dist/cli.js
+  checksum: de70c22dcfcfe47f6e671b8c97c729897d84af36466891473a6a3d2cb1b6249f5ddbab4e1a9c7f96b80ed383ef79ac4cac7a975899afaf4fbef267afd7d0049e
   languageName: node
   linkType: hard
 
@@ -16247,6 +16257,7 @@ __metadata:
     ejs: ^3.1.8
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
+    human-id: ^4.1.0
     inquirer: ^9.1.4
     jiti: ^1.21.0
     js-yaml: ^4.1.0
