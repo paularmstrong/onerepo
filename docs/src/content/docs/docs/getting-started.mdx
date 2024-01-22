@@ -272,27 +272,33 @@ pnpm one install
   <span slot="terminal">
     <Tabs group="jsflavor">
       <TabItem label="ES Module">
-        ```ts title="./onerepo.config.js"
-        export default {
-          root: true,
-        };
-        ```
+
+```ts title="./onerepo.config.js"
+export default {
+	root: true,
+};
+```
+
       </TabItem>
       <TabItem label="TypeScript">
-        ```ts title="./onerepo.config.ts"
-        import type { Config } from 'onerepo';
 
-        export default {
-          root: true,
-        } satisfies Config;
-        ```
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	root: true,
+} satisfies Config;
+```
+
       </TabItem>
       <TabItem label="Common JS">
-        ```ts title="./onerepo.config.cjs"
-        module.exports = {
-          root: true,
-        };
-        ```
+
+```ts title="./onerepo.config.cjs"
+module.exports = {
+	root: true,
+};
+```
+
       </TabItem>
     </Tabs>
 
