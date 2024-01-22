@@ -2215,7 +2215,7 @@ var overrideBin = core.getInput("overrideBin", { required: false });
 var lifecycle = core.getInput("lifecycle", { required: true });
 var verbosity = parseInt(core.getInput("verbosity") ?? 2, 10);
 var tasks = (0, import_node_child_process.execSync)(
-  `${overrideBin ?? `${pkgManager} one`} tasks --lifecycle=${lifecycle} --list -${"v".repeat(verbosity)}`,
+  `${overrideBin ? overrideBin : `${pkgManager} one`} tasks --lifecycle=${lifecycle} --list -${"v".repeat(verbosity)}`,
   { env: { ONEREPO_USE_HOOKS: "0", ...process.env } }
 ).toString().trim();
 core.setOutput("tasks", tasks);
