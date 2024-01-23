@@ -1,3 +1,4 @@
+import initJiti from 'jiti';
 import pc from 'picocolors';
 import inquirer from 'inquirer';
 import { updateIndex } from '@onerepo/git';
@@ -32,6 +33,9 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { add, type } = argv;
+	// !important! changesets _still_ does not build and/or export ESM correctly, so jiti is necessary to fix the issue
+	initJiti(__filename).register();
+
 	logger.pause();
 
 	const workspaces = await getWorkspaces();
