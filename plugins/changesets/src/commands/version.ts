@@ -1,3 +1,4 @@
+import initJiti from 'jiti';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
 import { read as readConfig } from '@changesets/config';
@@ -39,6 +40,8 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { add, 'allow-dirty': allowDirty, 'dry-run': isDryRun } = argv;
+	// !important! changesets _still_ does not build and/or export ESM correctly, so jiti is necessary to fix the issue
+	initJiti(__filename).register();
 
 	if (!allowDirty) {
 		const cleanStep = logger.createStep('Ensure clean working directory');
