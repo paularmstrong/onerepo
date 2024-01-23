@@ -7,6 +7,7 @@ import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
 import { run } from '@onerepo/subprocess';
+import pkg from '../../../package.json';
 
 export const command = 'show';
 
@@ -78,7 +79,23 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 			process.stdout.write(JSON.stringify(serialized, null, 2));
 			break;
 		default: {
-			const g = Buffer.from(deflateSync(Buffer.from(JSON.stringify(serialized)))).toString('base64');
+			const edges = serialized.links.reduce(
+				(memo, { source, target, weight }) => {
+					if (!memo[source]) {
+						memo[source] = [];
+					}
+					memo[source].push([target, weight]);
+
+					return memo;
+				},
+				{} as Record<string, Array<[string, number]>>,
+			);
+			for (const node of serialized.nodes) {
+				if (!edges[node.id]) {
+					edges[node.id] = [];
+				}
+			}
+			const g = Buffer.from(deflateSync(Buffer.from(JSON.stringify({ v: pkg.version, edges })))).toString('base64');
 			const url = new URL(urlBase);
 			url.search = new URLSearchParams({ g }).toString();
 			process.stdout.write(`\n${url.toString()}`);

@@ -34,7 +34,7 @@ describe('graph show', () => {
 			await run('--all', { graph });
 
 			const expected =
-				'https://onerepo.tools/visualize/?g=eJxljEsOQEAQBe%2Fy1mNl5ypi4dPoYDrp6QmJzN0RxMLyVb3UDi8dBRTlDu5QoOfNolKmIobkHrqQj996P1a3Ev64iapsl6kcZvbTnQ8StaU35mC1DmS%2FnMNKPIynyFOVDkpqNzw%3D';
+				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
 
 			expect(spy.out.trim()).toEqual(expected);
 		});
@@ -48,7 +48,7 @@ describe('graph show', () => {
 			await run('--all --open', { graph });
 
 			const expected =
-				'https://onerepo.tools/visualize/?g=eJxljEsOQEAQBe%2Fy1mNl5ypi4dPoYDrp6QmJzN0RxMLyVb3UDi8dBRTlDu5QoOfNolKmIobkHrqQj996P1a3Ev64iapsl6kcZvbTnQ8StaU35mC1DmS%2FnMNKPIynyFOVDkpqNzw%3D';
+				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
 
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
@@ -64,7 +64,7 @@ describe('graph show', () => {
 			await run('--all --url=https://example.com', { graph });
 
 			const expected =
-				'https://example.com/?g=eJxljEsOQEAQBe%2Fy1mNl5ypi4dPoYDrp6QmJzN0RxMLyVb3UDi8dBRTlDu5QoOfNolKmIobkHrqQj996P1a3Ev64iapsl6kcZvbTnQ8StaU35mC1DmS%2FnMNKPIynyFOVDkpqNzw%3D';
+				'https://example.com/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
 
 			expect(spy.out.trim()).toEqual(expected);
 		});

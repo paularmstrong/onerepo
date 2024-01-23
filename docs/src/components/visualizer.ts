@@ -23,7 +23,24 @@ const renderer = render();
 
 function getGraph(datastring: string) {
 	const inflated = pako.inflate(toUint8Array(datastring), { to: 'string' });
-	return JSON.parse(inflated);
+	const { version, edges } = JSON.parse(inflated) as {
+		version: string;
+		edges: Record<string, Array<[string, DepKey]>>;
+	};
+	// eslint-disable-next-line no-console
+	console.log('Using version', version);
+	return {
+		nodes: Object.keys(edges),
+		links: Object.entries(edges).reduce(
+			(memo, [key, edges]) => {
+				for (const edge of edges) {
+					memo.push({ source: key, target: edge[0], weight: edge[1] as DepKey });
+				}
+				return memo;
+			},
+			[] as Array<{ source: string; target: string; weight: DepKey }>,
+		),
+	};
 }
 
 function addEdge(source: string, target: string, weight: DepKey) {
@@ -48,9 +65,9 @@ function addNode(name: string) {
 	graph.setNode(name, { label: name, shape: 'rect' });
 }
 
-function addNodes(nodes: Array<{ id: string }>) {
+function addNodes(nodes: Array<string>) {
 	for (const node of nodes) {
-		addNode(node.id);
+		addNode(node);
 	}
 }
 
@@ -125,6 +142,7 @@ function renderGraph(data) {
 }
 
 const dialog = document.querySelector('dialog[data-dialog=help]')! as HTMLDialogElement;
+const errorDialog = document.querySelector('dialog[data-dialog=error]')! as HTMLDialogElement;
 const noContent = document.querySelector('.no-content')! as HTMLDivElement;
 document.getElementById('help')?.addEventListener('click', () => {
 	dialog.showModal();
@@ -138,6 +156,37 @@ document.getElementById('example')?.addEventListener('click', (event: MouseEvent
 
 if (input) {
 	noContent.classList.add('sr-only');
-	const graph = getGraph(input);
-	renderGraph(graph);
+	try {
+		const graph = getGraph(input);
+		renderGraph(graph);
+	} catch (e) {
+		const url = new URL('https://github.com/paularmstrong/onerepo/issues/new');
+		const params = new URLSearchParams({
+			labels: 'bug,triage',
+			template: 'bug-report.yaml',
+			title: 'Graph visualizer error',
+			command: 'n/a',
+			envinfo: 'n/a',
+			version: 'n/a',
+			expectation: `Graph visualizer should appear using payload:
+\`\`\`
+${input}
+\`\`\``,
+			actual: `Received error:
+\`\`\`
+${e.toString()}
+# Stack trace
+${e.stack ?? 'none'}
+\`\`\``,
+		});
+		url.search = params.toString();
+		showError(
+			`There was an error rendering the input graph. Try re-running <code>one graph show --open</code>. If this problem persists, please <a href="${url.toString()}">file and issue</a>.`,
+		);
+	}
+}
+
+function showError(text: string) {
+	errorDialog.querySelector('#error-description')!.innerHTML = text;
+	errorDialog.showModal();
 }

@@ -1,9 +1,44 @@
 ---
-import VisualizerControls from './VisualizerControls.astro';
+
 ---
 
 <div class="vis-container not-content">
-	<VisualizerControls />
+	<div class="container">
+		<div class="controls">
+			<button id="help">Help</button>
+
+			<button id="reset-zoom">Reset zoom</button>
+
+			<fieldset>
+				<legend>Dependencies</legend>
+				<label>
+					<input type="checkbox" class="switch" value="3" name="dependencies" checked switch />
+					Production
+				</label>
+
+				<label>
+					<input type="checkbox" class="switch" value="2" name="dependencies" checked switch />
+					Development
+				</label>
+
+				<label>
+					<input type="checkbox" class="switch" value="1" name="dependencies" switch />
+					Peer
+				</label>
+			</fieldset>
+		</div>
+	</div>
+
+	<dialog data-dialog="help">
+		<div class="dialog-frame">
+			<h2>How to read this chart</h2>
+			<p>// TODO</p>
+			<form method="dialog">
+				<button>OK</button>
+			</form>
+		</div>
+	</dialog>
+
 	<div class="visualizer">
 		<div class="content">
 			<div id="mermaid" class="mermaid">
@@ -19,13 +54,23 @@ import VisualizerControls from './VisualizerControls.astro';
 				<pre>one graph show --open</pre>
 				<button
 					id="example"
-					data-graph-data="eJy9ms9u2zAMxt/F5xgFtltPfY+hB8dRHK2ebUjKiqLou8+N/8SJSIqkgt2GWvxZIj9+kpV9Fl1/ML54/vVZ2EPxXLz0nXFm6J9c34fia7f82XbBuK5qn4xvx3+XQ3tubAcN+G18KOu+O9pm83jBTnHlRLk+nx/jAfWp6hrjTfD4mENfN6bDn3/PDH86GHfs3Z+qq0357uy4GmKsMyFYakT4GIyvnR2IN/4dX+LBJC/8OI/rkODRHI958FDImsM5m20PkqdpRa+eC3/JURiHlnjNpvjWAo/2Z9sejIOq2FgoV0fbGuDP/rwfXF8bD5HGhTVgcRpXDSeoIFX9VjWmHKtfwZEflWuQSZ/O+7Kqg+1H6b3uijFLb1ND+f7sahM11a4II8wEoq12xbuxzWkc8uP7lRLQtv3kGLhNxZxFGtkT2LR9Nmu2h2zOxUayKYDd5DMXW8ombewrmzXbXIam7+0wA7XaJspAW5JH+4nQbvtSNTOsOVcYatHo9JJIdiejhHhXeABr3Ub0K7vZdx6AuWxUD+BsdrYH0OatMIOEnAsyisiX/FV9CglQwUktUsHTWUDzWkpqZNzl3KKJJFVJBSaEQ4UyFEyF3x/GJAyhWEmE2JBvDitqB4UpehdN8MROmuBJ3DSFIlUvhInsOcFSWHSCKLRphJZp1SmquCHWEzfRDPRCYwLThQUgiWIJjEhgACezeBRRXLj5E0ftYffxevdCSWLfQkmS+qMQhSVELN03fJImrj74aapuYZqmax8mU+iqCWpmg3Lp8nJdv/rVDQsx9E1L0sSNS9IkzUuCZPqjSAorIHlSFUOsXO2STLFib26X1JqFKXrVJnhi3SZ4IsElWArJIcRMoaSoYqmsl4dqmcQEvUQIllgeBEtiagRGoQqAlqkIiii4jI2vgLPUdfmJTCOq+0DVYqAf4v4bk1lGdLxmmsTFtPL4KyPyhbGxhJweJzHML1eSwbwbIRncgwUIUeR2k770glQMjm+SBG5KQIjWKWkYP7/T8tWpxcJ5BxUsmptRLF6yid0ztAVBOfxazEnT5yMCaBeDg/iruSmCfk0IRnfvkYLxV7dOP3dKFEhYNQolcIS583MXFnPWUx7zxxrOlKRdipMEnxnR/DPP0QRPfZLmMPlLXo4fOecbnCFJFk7hOkpM0O2bm//DpbnqRAmJ6bx+/QOhoo6w"
+					data-graph-data="eJzFVtuOwiAQ%2FRee27ixb33yP4wPWEdktwsE0I0x%2Fvv2iqUWirWNbw3TmTnnzAVu6ILSrwjBgYBC6Q1tOAMJgq8k5xql2y3aUKZBMpyvQOXFdyzyM6EMRetd1LV%2Bg9JxxtmRktbWxqo94tq%2FMTY2x6%2FZCbMCEWjl%2BOHAMwLMYSyhOEwC5JHLX8wyiP8kLbC7fpSgNXWa9VWAyiQVrkSXIvYDhVGpDdtTyti1ehh2kVN8uzAPp8R26tbE5VLnGS5V6dMkrlTThXdsKpd46qirzDntn%2B%2FPND%2BAVI23OSdU94%2BONIf%2BmTrvheQZqKcAOSekrFZi61mXIVDtlksl1RhiF8MrliSEHpFYnEI428zGlRA4%2B8EE4qLJ8duSeAazVGm56gfLs2xLOPaOxT2ZVP8ul3mwVWtv2ao8i%2B3b%2F6HAB5ayR%2BDxGZlHTnMDLCvp53u6c5fNSDWM1zwMmsv2Y73%2FGnjnYyDsii5W0ODyHc9nlnezxotm8uT0M7QC21YvDedzwvaask1MjYPu7%2BE9PXTrOGbOBcMktGA0kddjXTbrgJfxx1G88%2Bh4E2CV2kI4K%2F8O3pAkU5quCRXevRMrWRVuNMvCb8BeVEvT2XujHtCgWX75vvQMzOm8j3GmKR985Y0vWWNIt7v7%2FR8I6Vj6"
 					>Show an example</button
 				>
 			</div>
 		</div>
 	</div>
 </div>
+
+<dialog data-dialog="error">
+	<div class="dialog-frame">
+		<h2>Error</h2>
+		<p id="error-description"></p>
+		<form method="dialog">
+			<button>OK</button>
+		</form>
+	</div>
+</dialog>
 
 <script src="./visualizer.ts"></script>
 
@@ -82,6 +127,93 @@ import VisualizerControls from './VisualizerControls.astro';
 
 	.no-content {
 		position: absolute;
+	}
+
+	.controls {
+		margin: 1em -100%;
+		margin: 1em calc(50% - 50vw);
+		padding: 0 2rem;
+		display: flex;
+		gap: 2rem;
+		align-items: start;
+	}
+
+	dialog {
+		margin: 0;
+		background-color: var(--sl-color-gray-6);
+		border: 1px solid var(--sl-color-gray-5);
+		width: 100%;
+		max-width: 100%;
+		height: 100%;
+		max-height: 100%;
+		box-shadow: var(--sl-shadow-lg);
+	}
+	dialog[open] {
+		display: grid;
+	}
+
+	dialog::backdrop {
+		background-color: var(--sl-color-backdrop-overlay);
+		-webkit-backdrop-filter: blur(0.1rem);
+		backdrop-filter: blur(0.1rem);
+	}
+
+	.dialog-frame {
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	@media (min-width: 50rem) {
+		dialog {
+			margin: 4rem auto auto;
+			border-radius: 0.5rem;
+			width: 90%;
+			max-width: 40rem;
+			height: min-content;
+			min-height: 15rem;
+			max-height: calc(100% - 8rem);
+		}
+
+		.dialog-frame {
+			padding: 1.5rem;
+		}
+	}
+
+	label {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	.switch {
+		appearance: none;
+		-webkit-appearance: none;
+		border: none;
+		width: 2.5rem;
+		height: 1.25rem;
+		border-radius: 1rem;
+		transition: color 0.1s ease-in-out;
+		background-color: var(--sl-color-gray-3);
+	}
+
+	.switch:checked {
+		background-color: var(--sl-color-accent);
+	}
+
+	.switch::after {
+		content: '';
+		display: block;
+		background-color: white;
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		transform: translate(0.125rem, 0.125rem);
+		transition: transform 0.1s ease-in-out;
+	}
+	.switch:checked::after {
+		transform: translate(1.375rem, 0.125rem);
 	}
 </style>
 
