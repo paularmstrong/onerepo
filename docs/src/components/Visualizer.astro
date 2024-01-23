@@ -1,15 +1,16 @@
 ---
-
+import { Icon } from '@astrojs/starlight/components';
 ---
 
-<div class="vis-container not-content">
+<div class="vis-container">
 	<div class="container">
-		<div class="controls">
+		<div class="controls not-content">
 			<button id="help">Help</button>
 
 			<button id="reset-zoom">Reset zoom</button>
 
-			<fieldset>
+			{
+				/*<fieldset>
 				<legend>Dependencies</legend>
 				<label>
 					<input type="checkbox" class="switch" value="3" name="dependencies" checked switch />
@@ -25,22 +26,43 @@
 					<input type="checkbox" class="switch" value="1" name="dependencies" switch />
 					Peer
 				</label>
-			</fieldset>
+			</fieldset> */
+			}
 		</div>
 	</div>
 
 	<dialog data-dialog="help">
-		<div class="dialog-frame">
+		<div class="dialog-frame sl-markdown-content">
 			<h2>How to read this chart</h2>
-			<p>// TODO</p>
+			<p>
+				<Icon name="warning" color="goldenrod" size="2rem" /> Warning: This visualizer is a work in progress and proof of
+				concept. New features are in the works. If you have ideas for what you would like implemented, please open a pull
+				request of submit a <a
+					href="https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=feature,triage&projects=&template=feature-request.yaml"
+					>feature request</a
+				>.
+			</p>
+
+			<p>Open this page for your monorepo using the following command:</p>
+
+			<pre>one graph show --open</pre>
+
+			<p>Explore the preview by clicking “Show an example” on the main screen.</p>
+
+			<h3>Controls</h3>
+			<ul>
+				<li>Use your mouse wheel to zoom in and out of the chart.</li>
+				<li>Click and drag the chart with your mouse to pan.</li>
+				<li>Hover over a workspace node to highlight dependencies and dependents.</li>
+			</ul>
 			<form method="dialog">
 				<button>OK</button>
 			</form>
 		</div>
 	</dialog>
 
-	<div class="visualizer">
-		<div class="content">
+	<div class="visualizer not-content">
+		<div class="vis-content">
 			<div id="mermaid" class="mermaid">
 				<svg width="100%" height="100%">
 					<g class="group">
@@ -49,7 +71,7 @@
 					</g>
 				</svg>
 			</div>
-			<div class="no-content">
+			<div class="vis--no-content">
 				<p>Graph not found. Run the following to</p>
 				<pre>one graph show --open</pre>
 				<button
@@ -106,7 +128,7 @@
 		font-weight: 900 !important;
 	}
 
-	.content {
+	.vis-content {
 		height: 100%;
 		width: 100vw;
 		display: flex;
@@ -114,18 +136,18 @@
 		justify-content: center;
 	}
 
-	.content .mermaid {
+	.vis-content .mermaid {
 		flex-grow: 0;
 		flex-shrink: 0;
 		width: 100%;
 		height: 100%;
 	}
 
-	.content .mermaid.hidden {
+	.vis-content .mermaid.hidden {
 		display: none;
 	}
 
-	.no-content {
+	.vis--no-content {
 		position: absolute;
 	}
 
@@ -136,6 +158,11 @@
 		display: flex;
 		gap: 2rem;
 		align-items: start;
+	}
+
+	.controls fieldset {
+		display: flex;
+		gap: 1rem;
 	}
 
 	dialog {

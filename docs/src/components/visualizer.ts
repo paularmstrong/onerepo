@@ -2,6 +2,7 @@ import { curveBasis, select, zoom, zoomIdentity } from 'd3';
 import { graphlib, render } from 'dagre-d3-es';
 import pako from 'pako';
 import { toUint8Array } from 'js-base64';
+import { Graph } from 'graph-data-structure';
 
 const params = new URLSearchParams(window.location.search);
 const input = params.get('g');
@@ -21,60 +22,24 @@ const viz = select('svg g.viz');
 
 const renderer = render();
 
-function getGraph(datastring: string) {
+function decodeToDag(datastring: string) {
 	const inflated = pako.inflate(toUint8Array(datastring), { to: 'string' });
-	const { version, edges } = JSON.parse(inflated) as {
+	const { /* version, */ edges } = JSON.parse(inflated) as {
 		version: string;
 		edges: Record<string, Array<[string, DepKey]>>;
 	};
-	// eslint-disable-next-line no-console
-	console.log('Using version', version);
-	return {
-		nodes: Object.keys(edges),
-		links: Object.entries(edges).reduce(
-			(memo, [key, edges]) => {
-				for (const edge of edges) {
-					memo.push({ source: key, target: edge[0], weight: edge[1] as DepKey });
-				}
-				return memo;
-			},
-			[] as Array<{ source: string; target: string; weight: DepKey }>,
-		),
-	};
-}
 
-function addEdge(source: string, target: string, weight: DepKey) {
-	graph.setEdge(
-		{ v: target, w: source },
-		{
-			labeloffset: -10,
-			label: weight === 2 ? 'devDependency' : 'dependency',
-			curve: curveBasis,
-			style: weight === 3 ? undefined : `stroke-dasharray: ${weight === 2 ? '5,5' : '1,2'}`,
-		},
-	);
-}
-
-function addEdges(edges: Array<{ source: string; target: string; weight: DepKey }>) {
-	for (const edge of edges) {
-		addEdge(edge.source, edge.target, edge.weight);
+	const dag = Graph();
+	for (const [node, nodeEdges] of Object.entries(edges)) {
+		dag.addNode(node);
+		for (const [edge, weight] of nodeEdges) {
+			dag.addEdge(node, edge, weight);
+		}
 	}
+	return dag;
 }
 
-function addNode(name: string) {
-	graph.setNode(name, { label: name, shape: 'rect' });
-}
-
-function addNodes(nodes: Array<string>) {
-	for (const node of nodes) {
-		addNode(node);
-	}
-}
-
-function renderGraph(data) {
-	addNodes(data.nodes);
-	addEdges(data.links);
-
+function renderGraph(graph) {
 	renderer(viz, graph);
 
 	const bbox = viz.node().getBBox();
@@ -136,6 +101,9 @@ function renderGraph(data) {
 			viz.selectAll('.edgePath').classed('edge--input edge--output edge--unrelated', false);
 			viz.selectAll('.node').classed('node--unrelated', false);
 			viz.selectAll('.edgeLabel').classed('edgeLabel--related', false);
+		})
+		.on('click', (e, d) => {
+			graph.removeNode(d);
 		});
 
 	group.select('rect.underlay').attr('width', bbox.width).attr('height', bbox.height).attr('fill', 'transparent');
@@ -143,22 +111,22 @@ function renderGraph(data) {
 
 const dialog = document.querySelector('dialog[data-dialog=help]')! as HTMLDialogElement;
 const errorDialog = document.querySelector('dialog[data-dialog=error]')! as HTMLDialogElement;
-const noContent = document.querySelector('.no-content')! as HTMLDivElement;
+const noContent = document.querySelector('.vis--no-content')! as HTMLDivElement;
 document.getElementById('help')?.addEventListener('click', () => {
 	dialog.showModal();
 });
 
 document.getElementById('example')?.addEventListener('click', (event: MouseEvent) => {
 	noContent.classList.add('sr-only');
-	const graph = getGraph(decodeURIComponent((event.target! as HTMLButtonElement).dataset.graphData!));
-	renderGraph(graph);
+	const dag = decodeToDag(decodeURIComponent((event.target! as HTMLButtonElement).dataset.graphData!));
+	renderGraph(getGraph(dag));
 });
 
 if (input) {
 	noContent.classList.add('sr-only');
 	try {
-		const graph = getGraph(input);
-		renderGraph(graph);
+		const dag = decodeToDag(input);
+		renderGraph(getGraph(dag));
 	} catch (e) {
 		const url = new URL('https://github.com/paularmstrong/onerepo/issues/new');
 		const params = new URLSearchParams({
@@ -189,4 +157,35 @@ ${e.stack ?? 'none'}
 function showError(text: string) {
 	errorDialog.querySelector('#error-description')!.innerHTML = text;
 	errorDialog.showModal();
+}
+
+function getGraph(dag: ReturnType<typeof Graph>) {
+	const graph = new graphlib.Graph({ directed: true, multigraph: true });
+
+	graph.setGraph({});
+	graph.graph().rankdir = 'RL';
+	graph.graph().ranksep = 1;
+	graph.graph().edgeSep = 5;
+	graph.graph().nodesep = 1;
+	graph.setDefaultEdgeLabel(() => ({}));
+
+	for (const node of dag.nodes()) {
+		const name = node;
+		graph.setNode(name, { label: name, shape: 'rect' });
+		for (const target of dag.adjacent(node)) {
+			const source = node;
+			const weight = dag.getEdgeWeight(source, target);
+			graph.setEdge(
+				{ v: target, w: source },
+				{
+					labeloffset: -10,
+					label: weight === 2 ? 'devDependency' : 'dependency',
+					curve: curveBasis,
+					style: weight === 3 ? undefined : `stroke-dasharray: ${weight === 2 ? '5,5' : '1,2'}`,
+				},
+			);
+		}
+	}
+
+	return graph;
 }
