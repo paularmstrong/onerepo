@@ -150,7 +150,7 @@ document.getElementById('help')?.addEventListener('click', () => {
 
 document.getElementById('example')?.addEventListener('click', (event: MouseEvent) => {
 	noContent.classList.add('sr-only');
-	const graph = getGraph((event.target! as HTMLButtonElement).dataset.graphData!);
+	const graph = getGraph(decodeURIComponent((event.target! as HTMLButtonElement).dataset.graphData!));
 	renderGraph(graph);
 });
 
