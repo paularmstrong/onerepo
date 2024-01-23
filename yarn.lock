@@ -3264,6 +3264,8 @@ __metadata:
     astro: ^4.0.8
     astro-og-canvas: ^0.4.2
     clsx: ^2.0.0
+    d3: ^7.8.5
+    dagre-d3-es: ^7.0.10
     eslint: ^8.38.0
     eslint-plugin-astro: ^0.31.0
     glob: ^10.1.0
@@ -3271,7 +3273,7 @@ __metadata:
     hast-util-to-string: ^3.0.0
     hastscript: ^8.0.0
     js-base64: ^3.7.5
-    mermaid: 10.6.2-rc.3
+    mermaid: 10.7.0
     netlify-cli: ^15.9.1
     netlify-plugin-csp-generator: ^1.5.0
     npm-to-yarn: ^2.1.0
@@ -8009,7 +8011,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3@npm:^7.4.0, d3@npm:^7.8.2":
+"d3@npm:^7.4.0, d3@npm:^7.8.2, d3@npm:^7.8.5":
   version: 7.8.5
   resolution: "d3@npm:7.8.5"
   dependencies:
@@ -8047,7 +8049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dagre-d3-es@npm:7.0.10":
+"dagre-d3-es@npm:7.0.10, dagre-d3-es@npm:^7.0.10":
   version: 7.0.10
   resolution: "dagre-d3-es@npm:7.0.10"
   dependencies:
@@ -14491,9 +14493,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid@npm:10.6.2-rc.3":
-  version: 10.6.2-rc.3
-  resolution: "mermaid@npm:10.6.2-rc.3"
+"mermaid@npm:10.7.0":
+  version: 10.7.0
+  resolution: "mermaid@npm:10.7.0"
   dependencies:
     "@braintree/sanitize-url": ^6.0.1
     "@types/d3-scale": ^4.0.3
@@ -14515,7 +14517,7 @@ __metadata:
     ts-dedent: ^2.2.0
     uuid: ^9.0.0
     web-worker: ^1.2.0
-  checksum: 44798c8c10a207cc406dca3641593d80ea805b55f5e96fbff13db7b7bbccdede8a6bf23ed47efd13bde9d661159c6c256eb92bfb050d09f39ea805fe4cbfa83f
+  checksum: 5cc4be164c3a4272240cd093369382d7880e7fe13cea0bc2966ae5a8160a7b42ff117c256ab942b7dcbd0f341d2e19780251b334e0b23e906404a108547eed82
   languageName: node
   linkType: hard
 

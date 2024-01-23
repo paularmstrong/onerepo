@@ -1,6 +1,5 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
-import VisualizerControls from './VisualizerControls.astro';
 
 const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
 const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental', string> = {
@@ -17,48 +16,52 @@ const isVisualizer = Astro.props.slug === 'visualize';
 const isPlugin = title.startsWith('@onerepo/plugin-');
 ---
 
-<h1 data-tacos id="_top">{Astro.props.entry.data.title}</h1>
 {
-	meta ? (
-		<ul class="tags">
-			{meta.version ? <li class="tag info">v{meta.version}</li> : null}
-			{meta.stability ? (
-				<li class={`tag ${stabilityColor[meta.stability as keyof typeof stabilityColor]}`}>{meta.stability}</li>
+	isVisualizer ? null : (
+		<Fragment>
+			<h1 data-tacos id="_top">
+				{Astro.props.entry.data.title}
+			</h1>
+			{meta ? (
+				<ul class="tags">
+					{meta.version ? <li class="tag info">v{meta.version}</li> : null}
+					{meta.stability ? (
+						<li class={`tag ${stabilityColor[meta.stability as keyof typeof stabilityColor]}`}>{meta.stability}</li>
+					) : null}
+					{isPlugin ? (
+						<Fragment>
+							<li>
+								<a class="icon-link" target="_blank" href={`https://www.npmjs.com/package/${title}/`}>
+									<Icon name="external" size="1rem" />
+									npm
+								</a>
+							</li>
+							<li>
+								<a
+									class="icon-link"
+									target="_blank"
+									href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${title.replace(
+										'@onerepo/plugin-',
+										'',
+									)}/`}
+								>
+									<Icon name="github" size="1rem" />
+									Source
+								</a>
+							</li>
+							<li>
+								<a class="icon-link" target="_blank" href={`/changelogs/${title.replace('@', '')}/`}>
+									<Icon name="document" size="1rem" />
+									Changelog
+								</a>
+							</li>
+						</Fragment>
+					) : null}
+				</ul>
 			) : null}
-			{isPlugin ? (
-				<Fragment>
-					<li>
-						<a class="icon-link" target="_blank" href={`https://www.npmjs.com/package/${title}/`}>
-							<Icon name="external" size="1rem" />
-							npm
-						</a>
-					</li>
-					<li>
-						<a
-							class="icon-link"
-							target="_blank"
-							href={`https://github.com/paularmstrong/onerepo/tree/main/plugins/${title.replace(
-								'@onerepo/plugin-',
-								'',
-							)}/`}
-						>
-							<Icon name="github" size="1rem" />
-							Source
-						</a>
-					</li>
-					<li>
-						<a class="icon-link" target="_blank" href={`/changelogs/${title.replace('@', '')}/`}>
-							<Icon name="document" size="1rem" />
-							Changelog
-						</a>
-					</li>
-				</Fragment>
-			) : null}
-		</ul>
-	) : null
+		</Fragment>
+	)
 }
-
-{isVisualizer ? <VisualizerControls /> : null}
 
 <style>
 	.icon-link {

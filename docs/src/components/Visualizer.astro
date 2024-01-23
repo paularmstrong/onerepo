@@ -1,11 +1,19 @@
 ---
-
+import VisualizerControls from './VisualizerControls.astro';
 ---
 
-<div class="not-content">
+<div class="vis-container not-content">
+	<VisualizerControls />
 	<div class="visualizer">
 		<div class="content">
-			<div id="mermaid" class="mermaid hidden"></div>
+			<div id="mermaid" class="mermaid">
+				<svg width="100%" height="100%">
+					<g class="group">
+						<rect class="underlay" fill="transparent"></rect>
+						<g class="viz"></g>
+					</g>
+				</svg>
+			</div>
 			<div class="no-content">
 				<p>Graph not found. Run the following to</p>
 				<pre>one graph show --open</pre>
@@ -22,13 +30,22 @@
 <script src="./visualizer.ts"></script>
 
 <style>
+	.vis-container {
+		height: calc(100vh - var(--sl-nav-height));
+		margin: -1.5rem calc(50% - 50vw) 0;
+		width: 100vw;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+	}
 	.controls {
 		border-bottom: 1px solid var(--sl-color-hairline);
+		flex-grow: 0;
+		flex-shrink: 0;
 	}
 	.visualizer {
-		margin: 1em -100%;
-		margin: 1em calc(50% - 50vw);
-		height: 90vh;
+		flex-grow: 1;
+		flex-shrink: 0;
 	}
 
 	.visualizer .node:hover rect.basic.label-container {
@@ -68,4 +85,66 @@
 	}
 </style>
 
-<style is:global></style>
+<style is:global>
+	.vis-container {
+		--speed: 0.2s;
+		--ease: ease-in-out;
+		--sl-color-aurora-blue: oklch(62.06% 0.207 246.71);
+	}
+	.vis-container .label-container {
+		fill: var(--sl-color-gray-5);
+		stroke-width: 2px;
+		stroke: var(--sl-color-gray-4);
+	}
+	.vis-container .node text {
+		font-size: var(--sl-text-lg);
+		fill: var(--sl-color-white);
+	}
+
+	.vis-container .node.node--unrelated {
+		opacity: 0.25;
+	}
+
+	.vis-container .edgePath path {
+		fill: none;
+		stroke: var(--sl-color-gray-2);
+	}
+	.vis-container .edgePath marker path {
+		fill: var(--sl-color-gray-2);
+	}
+
+	.vis-container .edgePath.edge--input path {
+		stroke: var(--sl-color-aurora-blue);
+		stroke-width: 4px;
+	}
+	.vis-container .edgePath.edge--input marker path {
+		fill: var(--sl-color-aurora-blue);
+	}
+	.vis-container .edgePath.edge--output path {
+		stroke: var(--sl-color-accent);
+		stroke-width: 4px;
+	}
+	.vis-container .edgePath.edge--output marker path {
+		fill: var(--sl-color-accent);
+	}
+
+	.vis-container .edgeLabel {
+		opacity: 0;
+		fill: var(--sl-color-text);
+	}
+	.edgeLabel text {
+		font-size: var(--sl-text-xl);
+	}
+
+	.vis-container .edgeLabel.edgeLabel--related {
+		opacity: 1;
+	}
+
+	.vis-container .edgePath.edge--unrelated path {
+		opacity: 0.25;
+	}
+
+	.vis-container .edgeLabel .edge-box {
+		fill: var(--sl-color-bg);
+	}
+</style>

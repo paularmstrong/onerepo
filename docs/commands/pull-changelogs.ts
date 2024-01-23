@@ -48,8 +48,8 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 title: '${ws.name} changelog'
 sidebar:
   label: ${ws.aliases[0] ?? ws.name}
-	attrs:
-	  target: _blank
+  attrs:
+    target: _blank
 tableOfContents:
   maxHeadingLevel: 2
 ---
