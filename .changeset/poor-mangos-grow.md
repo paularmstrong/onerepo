@@ -1,7 +1,5 @@
 ---
 'onerepo': minor
-'@onerepo/create': minor
-'create-onerepo': minor
 '@onerepo/file': minor
 '@onerepo/graph': minor
 ---
