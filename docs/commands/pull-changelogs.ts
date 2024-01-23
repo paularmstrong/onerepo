@@ -26,7 +26,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	for (const ws of workspaces) {
 		if (
 			ws.private ||
-			!(ws.name.startsWith('onerepo') && ws.name.startsWith('@onerepo')) ||
+			!(ws.name.startsWith('onerepo') || ws.name.startsWith('@onerepo')) ||
 			!(await file.exists(ws.resolve('CHANGELOG.md'), { step: collectStep }))
 		) {
 			continue;

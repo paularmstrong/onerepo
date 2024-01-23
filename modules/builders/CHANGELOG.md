@@ -1,5 +1,13 @@
 # @onerepo/builders
 
+## 0.5.6
+
+### Patch Changes
+
+- Updated dependencies [[`1bbef18`](https://github.com/paularmstrong/onerepo/commit/1bbef18a5f5c768921916db2d641b9cf60815e31), [`6233a36`](https://github.com/paularmstrong/onerepo/commit/6233a3671d22ab312a8e04b935f13980ac30d947), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`9dea7b0`](https://github.com/paularmstrong/onerepo/commit/9dea7b02ba2c8257714ae1b9d4235a0f7e5a0b75)]:
+  - @onerepo/logger@0.6.0
+  - @onerepo/git@0.5.0
+
 ## 0.5.5
 
 ### Patch Changes

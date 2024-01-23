@@ -11,9 +11,73 @@ tableOfContents:
 ---
 
 {/* start-onerepo-sentinel */}
-{/* @generated SignedSource<<704c29a96d0b60aa97690898613801c0>> */}
+{/* @generated SignedSource<<c9ca3faa619e3d4433de17bb6a9e6e8d>> */}
 
 # onerepo
+
+## 0.16.0
+
+### Minor Changes
+
+- Setup and configuration has had a major change. [#509](https://github.com/paularmstrong/onerepo/pull/509) ([@paularmstrong](https://github.com/paularmstrong))
+
+  - Run the following to install the `one` executable:
+
+    ```sh
+    npx --project=onerepo one install
+    ```
+
+  - Delete `/usr/local/bin/<your-executable-name>`. Executable name will always be `one` or `onerepo` (alias) from now on. You can create your own alias if desired, but it is not recommended.
+  - Move configuration of `setup()` from `./bin/<your-executable>.mjs` to `onerepo.config.js`. See documentation for more information on setting up configurations.
+
+- Added support for experimental graph visualizer to `one graph show`. [#548](https://github.com/paularmstrong/onerepo/pull/548) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Merged `create-onerepo` & `@onerepo/create` into `onerepo`. Usable now via `npx --project=onerepo one create`. [#509](https://github.com/paularmstrong/onerepo/pull/509) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added code owners management. Define codeowners via the `codeowners` key in workspace configuration files. Works with GitHub, Gitlab, Gitea, and BitBucket. [#539](https://github.com/paularmstrong/onerepo/pull/539) ([@paularmstrong](https://github.com/paularmstrong))
+
+  - `one codeowners sync` to sync for your hosting provider.
+  - `one codeowners verify` to ensure the hosting provider file is up to date.
+
+- Added git hook management, `one hooks init` and `one hooks create`. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added `--shard` argument to `one tasks` to shard tasks across multiple runners. [#534](https://github.com/paularmstrong/onerepo/pull/534) ([@paularmstrong](https://github.com/paularmstrong))
+
+- `docgen` is now a separate plugin outside of the oneRepo core. [#512](https://github.com/paularmstrong/onerepo/pull/512) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added a `--version` flag to output the current onerepo CLI version. [#531](https://github.com/paularmstrong/onerepo/pull/531) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Switched runtime from `esbuild-register` to `jiti` to avoid heavy dependencies and platform-specific requirements. [#513](https://github.com/paularmstrong/onerepo/pull/513) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Core commands no longer allow overriding the command name (`graph`, `tasks`, `generate`, and `install`). [#509](https://github.com/paularmstrong/onerepo/pull/509) ([@paularmstrong](https://github.com/paularmstrong))
+
+- When a LogStep has not properly ended while its parent Logger is ended, a warning will be thrown in the step. [#562](https://github.com/paularmstrong/onerepo/pull/562) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Root configuration change to move `core` configuration options to clearer and more reusable locations. Please refer to the [full documentation](https://onerepo.tools/guides/config/) for help. [#550](https://github.com/paularmstrong/onerepo/pull/550) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Environment variable prefixes have been changed from `ONE_REPO_` to `ONEREPO_` for consistency. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Potentially speed up package manager determination by using the `npm_config_user_agent` environment variable. [#510](https://github.com/paularmstrong/onerepo/pull/510) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Deprecated and merged `@onerepo/core` directly into the `onerepo` package. [#515](https://github.com/paularmstrong/onerepo/pull/515) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Added engines check to verify current node.js version with the range defined in the repo's root package.json. [`4c67f8b`](https://github.com/paularmstrong/onerepo/commit/4c67f8ba789f8bc79ea6962b1cd08c8c8f7305f4) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Streamlined step and info output for `tasks` [`9fbcb66`](https://github.com/paularmstrong/onerepo/commit/9fbcb666152051a84d46bee074cf489a0a11cc4d) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Unpausing the logger will now correctly resume the animated step output. [#509](https://github.com/paularmstrong/onerepo/pull/509) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`19049eb`](https://github.com/paularmstrong/onerepo/commit/19049ebd60f965c4ab8bdc16045ce2112ae35fc1), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`0de22b4`](https://github.com/paularmstrong/onerepo/commit/0de22b4cd25911794975cedb709e5c378c3982ae), [`1bbef18`](https://github.com/paularmstrong/onerepo/commit/1bbef18a5f5c768921916db2d641b9cf60815e31), [`6233a36`](https://github.com/paularmstrong/onerepo/commit/6233a3671d22ab312a8e04b935f13980ac30d947), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`154a2d1`](https://github.com/paularmstrong/onerepo/commit/154a2d151012f0c0c31831ab3ecab32ef6dc45ef), [`9dea7b0`](https://github.com/paularmstrong/onerepo/commit/9dea7b02ba2c8257714ae1b9d4235a0f7e5a0b75), [`4c67f8b`](https://github.com/paularmstrong/onerepo/commit/4c67f8ba789f8bc79ea6962b1cd08c8c8f7305f4)]:
+  - @onerepo/file@0.6.0
+  - @onerepo/subprocess@0.7.0
+  - @onerepo/graph@0.10.0
+  - @onerepo/logger@0.6.0
+  - @onerepo/git@0.5.0
+  - @onerepo/package-manager@0.5.0
+  - @onerepo/yargs@0.6.0
+  - @onerepo/builders@0.5.6
 
 ## 0.15.4
 
@@ -222,7 +286,10 @@ tableOfContents:
   				repository: {
   					type: 'object',
   					properties: {
-  						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+  						directory: {
+  							type: 'string',
+  							const: graph.root.relative(workspace.location),
+  						},
   					},
   					required: ['directory'],
   				},

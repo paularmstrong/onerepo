@@ -1,5 +1,18 @@
 # @onerepo/subprocess
 
+## 0.7.0
+
+### Minor Changes
+
+- Environment variable prefixes have been changed from `ONE_REPO_` to `ONEREPO_` for consistency. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- When creating a `detached` subprocess, automatically sets `stdio` to `ignore` to speed up unref performance. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`1bbef18`](https://github.com/paularmstrong/onerepo/commit/1bbef18a5f5c768921916db2d641b9cf60815e31), [`6233a36`](https://github.com/paularmstrong/onerepo/commit/6233a3671d22ab312a8e04b935f13980ac30d947)]:
+  - @onerepo/logger@0.6.0
+
 ## 0.6.0
 
 ### Minor Changes
