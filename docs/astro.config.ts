@@ -70,6 +70,7 @@ export default defineConfig({
 			components: {
 				Footer: './src/components/Footer.astro',
 				Head: './src/components/Head.astro',
+				PageFrame: './src/components/PageFrame.astro',
 				PageTitle: './src/components/PageTitle.astro',
 			},
 			expressiveCode: {

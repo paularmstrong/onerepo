@@ -97,6 +97,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 			step: runStep,
 		});
 	} catch (e) {
+		runStep.error(e);
 		const files = (e instanceof Error ? e.message : `${e}`).trim().split('\n');
 		const err = `The following files were not properly formatted.
 

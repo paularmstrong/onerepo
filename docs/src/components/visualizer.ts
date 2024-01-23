@@ -1,103 +1,127 @@
-import mermaid from 'mermaid';
-import type { graph } from 'onerepo';
+import { curveBasis, select, zoom, zoomIdentity } from 'd3';
+import { graphlib, render } from 'dagre-d3-es';
 import pako from 'pako';
 import { toUint8Array } from 'js-base64';
-// import Graph from 'graph-data-structure';
 
 const params = new URLSearchParams(window.location.search);
 const input = params.get('g');
 
 type DepKey = 3 | 2 | 1;
 
-const arrow: Record<number, string> = {
-	3: '---',
-	2: '-.-',
-	1: '-. peer .-',
-};
+const graph = new graphlib.Graph({ directed: true, multigraph: true });
 
-class UI {
-	#container = document.querySelector('#mermaid')! as HTMLDivElement;
-	#element?: HTMLPreElement;
-	#serialized: graph.Serialized;
-	#current: graph.Serialized;
-	#deps: Record<DepKey, boolean> = {
-		3: !!(document.querySelector('[name=dependencies][value="3"]') as HTMLInputElement).checked,
-		2: !!(document.querySelector('[name=dependencies][value="2"]') as HTMLInputElement).checked,
-		1: !!(document.querySelector('[name=dependencies][value="1"]') as HTMLInputElement).checked,
-	};
+graph.setGraph({});
+graph.graph().rankdir = 'RL';
+graph.graph().ranksep = 10;
+graph.graph().nodesep = 5;
+graph.setDefaultEdgeLabel(() => ({}));
 
-	constructor(datastring: string) {
-		const inflated = pako.inflate(toUint8Array(datastring), { to: 'string' });
-		this.#serialized = JSON.parse(inflated);
-		this.#current = this.#serialized;
+const group = select('svg g.group');
+const viz = select('svg g.viz');
 
-		this.#container.classList.remove('hidden');
+const renderer = render();
 
-		document.querySelectorAll('[name=dependencies]').forEach((el) => {
-			el.addEventListener('change', this.#handleChangeDependencies, true);
-		});
+function getGraph(datastring: string) {
+	const inflated = pako.inflate(toUint8Array(datastring), { to: 'string' });
+	return JSON.parse(inflated);
+}
 
-		const isDarkMode = document.querySelector('[data-theme]')?.getAttribute('data-theme') !== 'light';
+function addEdge(source: string, target: string, weight: DepKey) {
+	graph.setEdge(
+		{ v: target, w: source },
+		{
+			labeloffset: -10,
+			label: weight === 2 ? 'devDependency' : 'dependency',
+			curve: curveBasis,
+			style: weight === 3 ? undefined : `stroke-dasharray: ${weight === 2 ? '5,5' : '1,2'}`,
+		},
+	);
+}
 
-		mermaid.initialize({
-			startOnLoad: false,
-			maxEdges: 1000,
-			theme: isDarkMode ? 'dark' : 'default',
-			securityLevel: 'loose',
-			flowchart: {
-				diagramPadding: 30,
-				nodeSpacing: 10,
-				rankSpacing: 20,
-				curve: 'basis',
-			},
-		});
-
-		this.update();
-	}
-
-	destroy() {
-		document.querySelectorAll('[name=dependencies]').forEach((el) => {
-			el.removeEventListener('change', this.#handleChangeDependencies, true);
-		});
-	}
-
-	#handleChangeDependencies = (event: Event) => {
-		const { value, checked } = event.target as HTMLInputElement;
-		this.#deps[parseInt(value, 10) as DepKey] = checked;
-		this.update();
-	};
-
-	update() {
-		const { links, nodes } = this.#serialized;
-		const newLinks = links.filter(({ weight }) => this.#deps[weight]);
-		this.#current = { nodes, links: newLinks };
-
-		this.draw();
-	}
-
-	draw() {
-		if (this.#element) {
-			this.#container.removeChild(this.#element);
-		}
-		this.#element = document.createElement('pre');
-		this.#container.appendChild(this.#element);
-		this.#element.innerHTML = `graph RL
-		${this.#current.nodes
-			.map(({ id }) => {
-				return `  ${packageNameToId(id)}("${id}")`;
-			})
-			.join('\n')}
-		${this.#current.links
-			.map(({ source, target, weight }) => `  ${packageNameToId(target)} ${arrow[weight]}> ${packageNameToId(source)}`)
-			.join('\n')}
-		`;
-
-		mermaid.run({ nodes: [this.#element] });
+function addEdges(edges: Array<{ source: string; target: string; weight: DepKey }>) {
+	for (const edge of edges) {
+		addEdge(edge.source, edge.target, edge.weight);
 	}
 }
 
-function packageNameToId(name: string) {
-	return name.replace(/\W+/g, '');
+function addNode(name: string) {
+	graph.setNode(name, { label: name, shape: 'rect' });
+}
+
+function addNodes(nodes: Array<{ id: string }>) {
+	for (const node of nodes) {
+		addNode(node.id);
+	}
+}
+
+function renderGraph(data) {
+	addNodes(data.nodes);
+	addEdges(data.links);
+
+	renderer(viz, graph);
+
+	const bbox = viz.node().getBBox();
+
+	const zoomBehavior = zoom();
+
+	group.call(
+		zoomBehavior.on('zoom', (zoomEvent) => {
+			viz.attr('transform', zoomEvent.transform);
+		}),
+	);
+
+	const parent = group.node().parentElement;
+	const { clientWidth: fullWidth, clientHeight: fullHeight } = parent;
+	const { width, height, x, y } = bbox;
+	const midX = x + width / 2;
+	const midY = y + height / 2;
+	const scale = 0.95 / Math.max(width / fullWidth, height / fullHeight);
+	const zoomFit = zoomIdentity.translate(fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY).scale(scale);
+	zoomBehavior.transform(viz, zoomFit);
+	document.querySelector('#reset-zoom')?.addEventListener('click', () => {
+		zoomBehavior.transform(viz, zoomFit);
+	});
+
+	viz.selectAll('.label-container').attr('rx', 6).attr('ry', 6);
+
+	const edgeLabels = viz.selectAll('.edgeLabel').attr('style', '');
+	edgeLabels
+		.select('g')
+		.select(function () {
+			return this.insertBefore(
+				document.createElementNS('http://www.w3.org/2000/svg', 'rect'),
+				this.querySelector('text'),
+			);
+		})
+		.attr('class', 'edge-box')
+		.attr('transform', 'translate(-5, -5)')
+		.attr('width', function () {
+			return this.parentElement.getBBox().width + 10;
+		})
+		.attr('height', function () {
+			return this.parentElement.getBBox().height + 10;
+		});
+
+	viz
+		.selectAll('.node')
+		.attr('style', '')
+		.on('mouseover', (event, node) => {
+			const neighbors = graph.neighbors(node);
+			viz
+				.selectAll('.edgePath')
+				.classed('edge--output', ({ w }) => w === node)
+				.classed('edge--input', ({ v }) => v === node)
+				.classed('edge--unrelated', ({ v, w }) => !(v === node || w === node));
+			viz.selectAll('.node').classed('node--unrelated', (n) => n !== node && !neighbors.includes(n));
+			viz.selectAll('.edgeLabel').classed('edgeLabel--related', ({ v, w }) => v === node || w === node);
+		})
+		.on('mouseout', () => {
+			viz.selectAll('.edgePath').classed('edge--input edge--output edge--unrelated', false);
+			viz.selectAll('.node').classed('node--unrelated', false);
+			viz.selectAll('.edgeLabel').classed('edgeLabel--related', false);
+		});
+
+	group.select('rect.underlay').attr('width', bbox.width).attr('height', bbox.height).attr('fill', 'transparent');
 }
 
 const dialog = document.querySelector('dialog[data-dialog=help]')! as HTMLDialogElement;
@@ -108,10 +132,12 @@ document.getElementById('help')?.addEventListener('click', () => {
 
 document.getElementById('example')?.addEventListener('click', (event: MouseEvent) => {
 	noContent.classList.add('sr-only');
-	new UI((event.target! as HTMLButtonElement).dataset.graphData!);
+	const graph = getGraph((event.target! as HTMLButtonElement).dataset.graphData!);
+	renderGraph(graph);
 });
 
 if (input) {
 	noContent.classList.add('sr-only');
-	new UI(input);
+	const graph = getGraph(input);
+	renderGraph(graph);
 }

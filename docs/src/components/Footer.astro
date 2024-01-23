@@ -2,17 +2,18 @@
 import Default from '@astrojs/starlight/components/Footer.astro';
 
 const isHomepage = Astro.props.slug === '';
+const isVisualizer = Astro.props.slug === 'visualize';
 ---
 
 {
-	!isHomepage ? (
+	!isHomepage && !isVisualizer ? (
 		<Default {...Astro.props}>
 			<slot />
 		</Default>
 	) : null
 }
 
-<footer class="home-footer">
+<footer class={`home-footer ${isVisualizer ? 'home-footer--minimal' : ''}`}>
 	<div>
 		Copyright ©{new Date().getFullYear()}{' '}<a href="https://paularmstrong.dev">Paul Armstrong</a>
 	</div>
@@ -41,6 +42,12 @@ const isHomepage = Astro.props.slug === '';
 		justify-content: space-between;
 		padding: 1rem 0;
 		margin: 6rem auto 2rem;
+	}
+
+	.home-footer.home-footer--minimal {
+		margin: 1em calc(50% - 50vw);
+		padding: 1em;
+		font-size: var(--sl-text-xs);
 	}
 
 	.home-footer a {
