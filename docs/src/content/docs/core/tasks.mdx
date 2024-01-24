@@ -28,13 +28,7 @@ export default {
 		],
 	},
 	'pre-merge': {
-		serial: [
-			'$0 lint --all --no-fix',
-			'$0 format --check',
-			'$0 test',
-			'$0 tsc',
-			'$0 build',
-		],
+		serial: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 };
@@ -82,9 +76,7 @@ Sequential tasks can be denoted by an array of strings within the list of tasks 
 /** @type import('onerepo').TaskConfig */
 export default {
 	deploy: {
-		serial: [
-			['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy'],
-		],
+		serial: [['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy']],
 	},
 };
 ```
@@ -111,11 +103,7 @@ export default {
 		serial: [
 			{
 				match: './src/**/*',
-				cmd: [
-					'$0 ws my-app build',
-					'$0 ws my-app cdn-push',
-					'$0 ws my-app deploy',
-				],
+				cmd: ['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy'],
 			},
 		],
 	},

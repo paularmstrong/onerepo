@@ -5,63 +5,390 @@ sidebar:
   order: 2
 ---
 
+import FileTree from '../../../components/FileTree.astro';
+
 Every team, repo, and workspace has unique needs. oneRepo shines when it comes to doing what you need at the right time.
 
 oneRepo commands are an extended version of the [Yargs command module](https://github.com/yargs/yargs/blob/main/docs/advanced.md#providing-a-command-module), written as ESM and TypeScript compatible modules. By default, command files can be placed in a `commands/` folder at the repository root and within any workspace and they will automatically be registered. This directory can be changed by setting the [`commands.directory` setting](/docs/config/#commandsdirectory) in the [root configuration](/docs/config/#root-configuration).
 
 Commands are required to implement the following `exports`:
 
-| Export        | Type                                     | Description                                                                                                                                                                                                                         |
-| ------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | `string \| Array<string>`                | The command’s name. If provided as an array, all values will be considered aliases for the same command.<br/><br/>Any value can also be `'$0'`, which is a special token that allows this command to be the default for the parent. |
-| `description` | `string \| false`                        | A help description. If set to `false`, the command will be hidden from help output unless `--show-advanced` is included with `--help`. <br/><br/>**Note:** unlike in Yargs, this export _must_ be `description` and not `describe`. |
-| `builder`     | [`Builder<T>`](/api/#buildercommandargv) | A function that helps parse the command-line arguments                                                                                                                                                                              |
-| `handler`     | [`Handler<T>`](/api/#handlercommandargv) | Asynchronous function that is invoked for the command                                                                                                                                                                               |
+| Export        | Type                                     | Description                                                                                                                                                                                                                                                      |
+| ------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | `string \| Array<string>`                | The command’s name. If provided as an array, all values will be considered aliases for the same command.<br/><br/>Any value can also be `'$0'`, which is a special token that allows this command to be the default for the [parent command](#nesting-commands). |
+| `description` | `string \| false`                        | A helpful description. If set to `false`, the command will be hidden from help output unless `--show-advanced` is included with `--help`. <br/><br/>**Note:** unlike in Yargs, this export _must_ be `description` and not `describe`.                           |
+| `builder`     | [`Builder<T>`](/api/#buildercommandargv) | A function that helps parse the command-line arguments                                                                                                                                                                                                           |
+| `handler`     | [`Handler<T>`](/api/#handlercommandargv) | Asynchronous function that is invoked for the command                                                                                                                                                                                                            |
 
-## Basic example
+## Tutorial
 
-```ts title="./commands/basic.ts"
+### A basic command
+
+Let's create a custom command for our team for creating new branches using a standard naming format. This will help make it quick and easy when working on many different things to organize and avoid conflicts with each other when pushing our branches for peer review.
+
+#### 1. Create a command
+
+```ts title="./commands/new-branch.ts"
 import type { Builder, Handler } from 'onerepo';
 
-export const command = 'basic';
+export const command = 'new-branch';
 
-export const description =
-	'A basic command that shows the minimum requirements for writing commands with eRepo';
+export const description = 'Create a new branch using our team’s standard naming format.';
 
 export const builder: Builder = (yargs) => yargs.usage(`$0 ${command}`);
 
-export const handler: Handler = async (argv, { logger }) => {
-	logger.warn('Nothing to do!');
+export const handler: Handler = async (argv) => {
+	// TODO
 };
 ```
 
-## API
+#### 2. Add arguments
+
+For our branch names, we want to follow the common structure: `<username>/[issue-number]/<description>`, where `[issue-number]` is optional. Let's start by setting up the input options for the issue number and description.
+
+If you're using TypeScript, be sure to add the `type` for the arguments that will be found by the `builder` and passed through to the `handler`. This can be done by defining each as `Builder<Args>` and `Handler<Args>`, respectively. By doing so, the `builder` will be checked via `tsc` to ensure that all options are accounted for correctly and the first argument passed to our `handler` function (`argv`) will include the appropriate shape.
+
+Note the difference between optional and required arguments: the required `description` argument includes an option `demandOption` set to `true`:
+
+```ts title="./commands/basic.ts" collapse={1-6} ins="Args"
+import type { Builder, Handler } from 'onerepo';
+
+export const command = 'new-branch';
+
+export const description =
+	'A basic command that shows the minimum requirements for writing commands with oneRepo';
+
+type Args = {
+	issue?: number;
+	description: string;
+};
+
+export const builder: Builder<Args> = (yargs) =>
+	yargs
+		.usage(`$0 ${command}`)
+		.option('issue', {
+			type: 'number',
+			description: 'The GitHub issue number for this change.',
+		})
+		.option('description', {
+			type: 'string',
+			description: 'A short and concise description of the work.',
+			demandOption: true,
+		});
+
+export const handler: Handler<Args> = async (argv, { logger }) => {
+	const { issue, description } = argv;
+	logger.info(`TODO: create new branch for #${issue} with description "${description}"`);
+};
+```
+
+```ansi
+$ one new-branch --issue 123 --description "my issue description"
+ [34m[1mINFO[0m TODO: create new branch for #123 with description "my issue description"
+ [1;2m■ [0;32m✔ [0mCompleted [2m48ms[0m
+```
+
+:::tip[More options]
+For more in-depth documentation, refer to the [Yargs `.options()` documentation](https://yargs.js.org/docs/#api-reference-optionkey-opt).
+:::
+
+#### 3. Getting your username
+
+You may have noticed that we skipped the `<username>` in our input arguments for creating new branches. That's because we should be able to get the username from the operating system and reduce the extra burden on developers needing to add that in for every branch.
+
+To get the username, we can use Node's [`os.userInfo()`](https://nodejs.org/docs/latest-v20.x/api/os.html#osuserinfooptions) command:
+
+```ts title="./commands/basic.ts" collapse={3-25} ins={1,30}
+import { userInfo } from 'node:os';
+
+import type { Builder, Handler } from 'onerepo';
+
+export const command = 'new-branch';
+
+export const description =
+	'A basic command that shows the minimum requirements for writing commands with oneRepo';
+
+type Args = {
+	issue?: number;
+	description: string;
+};
+
+export const builder: Builder<Args> = (yargs) =>
+	yargs
+		.usage(`$0 ${command}`)
+		.option('issue', {
+			type: 'number',
+			description: 'The GitHub issue number for this change.',
+		})
+		.option('description', {
+			type: 'string',
+			description: 'A short and concise description of the work.',
+			demandOption: true,
+		});
+
+export const handler: Handler<Args> = async (argv, { logger }) => {
+	const { issue, description } = argv;
+	const { username } = userInfo();
+	logger.info(
+		`TODO: create new branch for ${username} with issue #${issue} and description "${description}"`,
+	);
+};
+```
+
+Now, when running our command, we can see our username. For this example, we'll use the creator of JavaScript, Brendan Eich’s username, `brendaneich`:
+
+```ansi ins="brendaneich"
+$ one new-branch --issue 123 --description "my issue description"
+ [34m[1mINFO[0m TODO: create new branch for brendaneich with issue #123 and description "my issue description"
+ [1;2m■ [0;32m✔ [0mCompleted [2m48ms[0m
+```
+
+#### 4. Logic & scripts
+
+Now that we have the basic plumbing and all of the input information we need, it's time to actually make our command create new branches.
+
+```ts title="./commands/basic.ts" collapse={1-2,5-28} ins={3}
+import { userInfo } from 'node:os';
+
+import { run } from 'onerepo';
+
+import type { Builder, Handler } from 'onerepo';
+
+export const command = 'new-branch';
+
+export const description =
+	'A basic command that shows the minimum requirements for writing commands with oneRepo';
+
+type Args = {
+	issue?: number;
+	description: string;
+};
+
+export const builder: Builder<Args> = (yargs) =>
+	yargs
+		.usage(`$0 ${command}`)
+		.option('issue', {
+			type: 'number',
+			description: 'The GitHub issue number for this change.',
+		})
+		.option('description', {
+			type: 'string',
+			description: 'A short and concise description of the work.',
+			demandOption: true,
+		});
+
+export const handler: Handler<Args> = async (argv) => {
+	const { issue, description } = argv;
+	const { username } = userInfo();
+
+	// Ensure the description is suitable for git branch names by removing non-word characters
+	const sanitizedDescription = description.replace(/[\W]+/g, '-');
+	// Construct the branch name replacing empty or no issue with 'no-issue'
+	const branchName = `${username}/${issue || 'no-issue'}/${sanitizedDescription}`;
+
+	// Use oneRepo's subprocessing, `run` to run commands:
+	await run({
+		name: 'Create branch',
+		cmd: 'git',
+		args: ['checkout', '-b', branchName, 'origin/main'],
+	});
+};
+```
+
+One last time, let's run our command and create a new branch for adding the command:
+
+```ansi
+$ one new-branch --issue 123 --description "create new-branch command"
+ ┌ Create branch
+ └ [32m✔[39m [2m985ms[0m
+[1;2m■ [0;32m✔ [0mCompleted [2m1028ms[0m
+
+$ git rev-parse --abbrev-ref HEAD
+brendaneich/123/create-new-branch-command
+```
+
+### Nesting commands
+
+Commands may be nested for organization purposes. Nesting can help create a logical hierarchy and flow for users when working with various aspects of your monorepo's tooling. Using our previous example of `new-branch` it may make sense to create multiple commands for working with branches.
+
+In this example, let's make our new branch command accessible by running `one branch new` and set up the plumbing for more sub-commands of `branch` in the future.
+
+#### 1. Parent command
+
+To create a parent command that can have nested sub-commands, use the `.commandDir()` function in the `builder` to reference a relative path from the current file that holds the sub-commands. Let's assume we want to create a suite of git branch management commands to make it easier for developers to use standard branch naming conventions and more:
+
+```ts title="./commands/branch.ts" collapse={1-5}
+import type { Builder, Handler } from 'onerepo';
+
+export const command = 'branch';
+
+export const description = 'A suite of branch management commands';
+
+export const builder: Builder = (yargs) =>
+	yargs.usage(`$0 ${command}`).commandDir('./branch').demandCommand(1);
+```
+
+This function uses the same logic for finding commands as all other commands are found. You can configure various aspects of this logic using the [`RootConfig` `#commands`](/docs/config/#commands) setting.
+
+Notice that we also have not defined or exported a `handler` function, however, we have defined `demandCommand(1)`. This signals to the CLI that when this command is run without a sub-command, that it should return the help documentation and exit immediately.
+
+#### 2. Move the sub-command
+
+Next ensure we have a sub-directory `./commands/branch`, as previously used for the `commandDir()` argument in our `builder`. Then we can create our `new` command with the basic 4-export structure `command`, `description`, `builder`, and `handler`
+
+```sh
+mkdir -p commands/branch
+git mv commands/new-branch.ts commands/branch/new.ts
+```
+
+We should now have a file tree that looks like this:
+
+<FileTree>
+
+- commands/
+  - branch/
+    - new.ts
+  - branch.ts
+
+</FileTree>
+
+#### 3. Update the command name
+
+Lastly, we need to remember to update the command’s name. We do this by changing the `command` export variable:
+
+```ts title="./commands/branch/new.ts" del={5} ins={6} collapse={1-3,8-44}
+import { userInfo } from 'node:os';
+import { run } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
+
+export const command = 'new-branch';
+export const command = 'new';
+
+export const description =
+	'A basic command that shows the minimum requirements for writing commands with oneRepo';
+
+type Args = {
+	issue?: number;
+	description: string;
+};
+
+export const builder: Builder<Args> = (yargs) =>
+	yargs
+		.usage(`$0 ${command}`)
+		.option('issue', {
+			type: 'number',
+			description: 'The GitHub issue number for this change.',
+		})
+		.option('description', {
+			type: 'string',
+			description: 'A short and concise description of the work.',
+			demandOption: true,
+		});
+
+export const handler: Handler<Args> = async (argv) => {
+	const { issue, description } = argv;
+	const { username } = userInfo();
+
+	// Ensure the description is suitable for git branch names by removing non-word characters
+	const sanitizedDescription = description.replace(/[\W]+/g, '-');
+	// Construct the branch name replacing empty or no issue with 'no-issue'
+	const branchName = `${username}/${issue || 'no-issue'}/${sanitizedDescription}`;
+
+	// Use oneRepo's subprocessing, `run` to run commands:
+	await run({
+		name: 'Create branch',
+		cmd: 'git',
+		args: ['checkout', '-b', branchName, 'origin/main'],
+	});
+};
+```
+
+That's it! We can now run our new branch command using the parent/sub-command pattern:
+
+```ansi ins="branch new"
+$ one branch new --issue 123 --description "create new-branch command"
+ ┌ Create branch
+ └ [32m✔[39m [2m985ms[0m
+[1;2m■ [0;32m✔ [0mCompleted [2m1028ms[0m
+
+$ git rev-parse --abbrev-ref HEAD
+brendaneich/123/create-new-branch-command
+```
+
+#### 4. Adding more commands
+
+Just like with the previous `commands/branch/new.ts` command file. We can continue adding commands to the `commands/branch` directory and they will automatically become sub-commands of `one branch`.
+
+## Best practices
 
 oneRepo provides a robust API and suite of tools to flesh out your commands. Please refer to the [full API documentation](/api/) for available methods, namespaces, and interfaces.
 
-## Common use-cases
+### Input arguments
 
-oneRepo exports helpers in the form of [`builders`](/api/namespaces/builders/) for common input arguments and [`getters`](/api/namespaces/getters/) for file and workspace querying based on the `builders`’ input arguments.
+oneRepo exports a handful of [`builders`](/api/namespaces/builders/) for common input arguments and [`getters`](/api/namespaces/getters/) for file and workspace querying based on the `builders`’ input arguments.
 
-```ts
-export const builder: Builder<WithWorkspaces> = (yargs) =>
-	builders.withWorkspaces(yargs);
+```ts title="commands/list-workspaces.ts" ins={1,8,11,15}
+import { builders } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
-export const handler: Handler<WithWorkspaces> = (argv, { getWorkspaces }) => {
+export const command = 'list-workspaces';
+
+export const description = 'A basic command lists workspaces based on input arguments';
+
+type Argv = builders.WithWorkspaces & builders.WithAffected;
+
+export const builder: Builder<Argv> = (yargs) =>
+	builders.withWorkspaces(builders.withAffected(yargs));
+
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) => {
 	// Get a list of workspaces given the input arguments
-	const workspaces = getWorkspaces();
+	const workspaces = await getWorkspaces();
+	logger.info(workspaces.map((ws) => ws.name).join('\n'));
 };
 ```
 
-Using the previous command, we can then get the list of _affected_ workspaces based on the input workspace ome-workspace` using common inputs:
+Adding the `withWorkspaces` and `withAffected` builder composition functions to our exported `builder`, a few options are automatically added to our command. Looking at the `--help` output will describe each one of them in detail:
 
-```sh
-one my-command --workspace some-workspace --affected
+```ansi collapse={3-13}
+$ one list-workspaces --help
+
+A basic command that shows the minimum requirements for writing commands with
+oneRepo
+
+Global:
+      --dry-run        Run without actually making modifications or destructive
+                       operations                     [boolean] [default: false]
+  -v, --verbosity      Set the verbosity of the script output. Increase
+                       verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce
+                       verbosity with `-v` or `--silent`    [count] [default: 2]
+      --show-advanced  Pair with `--help` to show advanced options.    [boolean]
+  -h, --help           Show this help screen                           [boolean]
+
+Options:
+      --affected    Select all affected workspaces. If no other inputs are
+                    chosen, this will default to `true`.               [boolean]
+      --staged      Use files on the git stage to calculate affected files or
+                    workspaces. When unset or `--no-staged`, changes will be
+                    calculated from the entire branch, since its fork point.
+                                                                       [boolean]
+  -a, --all         Run across all workspaces                          [boolean]
+  -w, --workspaces  List of workspace names to run against               [array]
 ```
 
-For a full list of available helpers on handlers, see [`HandlerExtra`](/api/#handlerextra).
+Finally, running our command, we can see list of workspaces based on those added input argument flags:
 
-## Best practices
+```ansi
+$ one my-command --workspace some-workspace --affected
+ ┌ Get workspaces from inputs
+ └ [32m✔[39m [2m101ms[0m
+ [34m[1mINFO[0m workspace-a
+ [34m[1mINFO[0m workspace-b
+[1;2m■ [0;32m✔ [0mCompleted [2m128ms[0m
+```
+
+:::note[Full API documentation]
+Refer to the online API documentation for a full list of helpful [builders](/api/namespaces/builders/#builder) and [handler getters](/api/#handlerextra).
+:::
 
 ### Write helpful documentation
 
@@ -96,9 +423,7 @@ The `logger` instance is primarily available in command handlers via the [`Handl
 ```ts
 export const handler: Handler = async (argv, { logger }) => {
 	// -v (1)
-	logger.error(
-		'This will output an error (and also set cause this run to exit with code 1)',
-	);
+	logger.error('This will output an error (and also set cause this run to exit with code 1)');
 	logger.info('This will output an important informative message.');
 	// -vv (2, default)
 	logger.warn('This will output a warning');
@@ -152,7 +477,7 @@ export const handler: Handler = async (argv) => {
 };
 ```
 
-#### Batching processes
+### Batching processes
 
 Often it will make sense to run many things at once. The [`batch`](/api/#batch) function handles automatic resource sharing and prevents running too many processes at once for your current machine.
 
@@ -174,6 +499,22 @@ export const handler: Handler = async (argv) => {
 	]);
 };
 ```
+
+### File operations
+
+<div class="grid grid-cols-2">
+
+:::tip[Do]
+Use oneRepo's `file` methods.
+:::
+
+:::danger[Don’t]
+Use `fs` from Node.
+:::
+
+</div>
+
+oneRepo includes many functions for reading and writing files that ensure safe operation. Developers should use these as much as possible. Check the [`file` API documentation](/api/namespaces/file/) for a full list of available helpers.
 
 ### Limiting workspaces
 
@@ -221,7 +562,7 @@ one my-command --workspaces foo bar
 one my-command --all
 ```
 
-## Automated tests
+### Automated tests
 
 Avoiding writing tooling that is easily mis-interpreted and prone to breaking by writing functional tests around your custom commands. The oneRepo suite includes the ability to set up a mock environment to run commands with CLI flags and assert on their behaviors within both [Jest](https://jestjs.io) and [Vitest](https://vitest.dev).
 
@@ -261,9 +602,9 @@ describe('my-command', () => {
 });
 ```
 
-## Examples
+## More examples
 
-The official oneRepo plugins are the best source for up-to-date, working examples.
+Did you also know that oneRepo plugins are written nearly identical to the way commands are custom written in your monorepo? The official oneRepo plugins are the best source for up-to-date, working examples of commands.
 
 - Determining appropriate files and default setup for a single process: [@onerepo/plugin-eslint](https://github.com/paularmstrong/onerepo/blob/main/plugins/eslint/src/eslint.ts)
 - Batching multiple processes against affected or input workspaces: [@onerepo/plugin-typescript](https://github.com/paularmstrong/onerepo/blob/main/plugins/typescript/src/typescript.ts)
