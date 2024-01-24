@@ -1,5 +1,16 @@
 # @onerepo/plugin-typescript
 
+## 0.4.2
+
+### Patch Changes
+
+- Fix package.json homepage URLs. [#561](https://github.com/paularmstrong/onerepo/pull/561) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`19049eb`](https://github.com/paularmstrong/onerepo/commit/19049ebd60f965c4ab8bdc16045ce2112ae35fc1), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`0de22b4`](https://github.com/paularmstrong/onerepo/commit/0de22b4cd25911794975cedb709e5c378c3982ae), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c)]:
+  - @onerepo/file@0.6.0
+  - @onerepo/subprocess@0.7.0
+  - @onerepo/builders@0.5.6
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @onerepo/logger
 
+## 0.6.0
+
+### Minor Changes
+
+- When a LogStep has not properly ended while its parent Logger is ended, a warning will be thrown in the step. [#562](https://github.com/paularmstrong/onerepo/pull/562) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Unpausing the logger will now correctly resume the animated step output. [#509](https://github.com/paularmstrong/onerepo/pull/509) ([@paularmstrong](https://github.com/paularmstrong))
+
 ## 0.5.0
 
 ### Minor Changes

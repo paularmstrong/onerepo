@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-eslint",
 	"description": "Official ESLint plugin for the oneRepo toolchain.",
 	"title": "ESLint",
-	"version": "0.6.6",
+	"version": "0.6.7",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,11 +23,11 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.5.5",
-		"@onerepo/file": "0.5.2",
-		"@onerepo/git": "0.4.4",
-		"@onerepo/logger": "0.5.0",
-		"@onerepo/subprocess": "0.6.0",
+		"@onerepo/builders": "0.5.6",
+		"@onerepo/file": "0.6.0",
+		"@onerepo/git": "0.5.0",
+		"@onerepo/logger": "0.6.0",
+		"@onerepo/subprocess": "0.7.0",
 		"eslint-formatter-onerepo": "0.1.1",
 		"minimatch": "^9.0.3"
 	},
