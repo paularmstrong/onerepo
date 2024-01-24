@@ -1,5 +1,16 @@
 # @onerepo/package-manager
 
+## 0.5.0
+
+### Minor Changes
+
+- Potentially speed up package manager determination by using the `npm_config_user_agent` environment variable. [#510](https://github.com/paularmstrong/onerepo/pull/510) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c)]:
+  - @onerepo/subprocess@0.7.0
+
 ## 0.4.2
 
 ### Patch Changes

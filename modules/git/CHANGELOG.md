@@ -1,5 +1,20 @@
 # @onerepo/git
 
+## 0.5.0
+
+### Minor Changes
+
+- Environment variable prefixes have been changed from `ONE_REPO_` to `ONEREPO_` for consistency. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Fix `updateIndex` log step wrapper/output. [#516](https://github.com/paularmstrong/onerepo/pull/516) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Updated dependencies [[`19049eb`](https://github.com/paularmstrong/onerepo/commit/19049ebd60f965c4ab8bdc16045ce2112ae35fc1), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c), [`0de22b4`](https://github.com/paularmstrong/onerepo/commit/0de22b4cd25911794975cedb709e5c378c3982ae), [`1bbef18`](https://github.com/paularmstrong/onerepo/commit/1bbef18a5f5c768921916db2d641b9cf60815e31), [`6233a36`](https://github.com/paularmstrong/onerepo/commit/6233a3671d22ab312a8e04b935f13980ac30d947), [`65bc5f0`](https://github.com/paularmstrong/onerepo/commit/65bc5f0267abb728ea603f43a7e68e4e1996709c)]:
+  - @onerepo/file@0.6.0
+  - @onerepo/subprocess@0.7.0
+  - @onerepo/logger@0.6.0
+
 ## 0.4.4
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @onerepo/file
 
+## 0.6.0
+
+### Minor Changes
+
+- Added signed file write and read operations. [#538](https://github.com/paularmstrong/onerepo/pull/538) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Switched runtime from `esbuild-register` to `jiti` to avoid heavy dependencies and platform-specific requirements. [#513](https://github.com/paularmstrong/onerepo/pull/513) ([@paularmstrong](https://github.com/paularmstrong))
+
+- Environment variable prefixes have been changed from `ONE_REPO_` to `ONEREPO_` for consistency. [#559](https://github.com/paularmstrong/onerepo/pull/559) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`1bbef18`](https://github.com/paularmstrong/onerepo/commit/1bbef18a5f5c768921916db2d641b9cf60815e31), [`6233a36`](https://github.com/paularmstrong/onerepo/commit/6233a3671d22ab312a8e04b935f13980ac30d947)]:
+  - @onerepo/logger@0.6.0
+
 ## 0.5.2
 
 ### Patch Changes
