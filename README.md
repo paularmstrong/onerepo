@@ -4,7 +4,7 @@
 
 ## Documentation
 
-https://onerepo.tools/docs/
+https://onerepo.tools/
 
 ## License
 
