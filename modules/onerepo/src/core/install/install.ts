@@ -112,8 +112,24 @@ export default {
 BASEDIR=$(dirname $0)
 node "$BASEDIR/one.js" "$@"
 `;
+
+	let binLocation: string = '';
+	let cwd = fileURLToPath(import.meta.url);
+	while (!binLocation && cwd !== '/') {
+		const searchLocation = path.join(path.dirname(cwd), pkg.publishConfig.bin.one);
+		installStep.debug(`searching for bin: ${searchLocation}`);
+		if (await file.exists(searchLocation, { step: installStep })) {
+			installStep.debug(`found bin: ${searchLocation}`);
+			binLocation = searchLocation;
+		}
+		cwd = path.dirname(cwd);
+	}
+	if (!binLocation) {
+		installStep.error('Critical: unable to find oneRepo bin.');
+	}
+
 	await file.remove(path.join(location!, 'bin'), { step: installStep });
-	await file.copy(fileURLToPath(import.meta.url), path.join(location!, 'bin', 'one.js'), {
+	await file.copy(binLocation, path.join(location!, 'bin', 'one.js'), {
 		step: installStep,
 	});
 	await file.write(path.join(location!, 'bin', 'one'), binContents, { step: installStep });

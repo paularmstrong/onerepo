@@ -28,6 +28,7 @@ describe('handler', () => {
 	beforeEach(() => {
 		vi.spyOn(file, 'copy').mockResolvedValue();
 		vi.spyOn(file, 'remove').mockResolvedValue();
+		vi.spyOn(file, 'exists').mockResolvedValue(true);
 		vi.spyOn(file, 'write').mockResolvedValue();
 		vi.spyOn(file, 'writeSafe').mockResolvedValue();
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
@@ -57,6 +58,7 @@ describe('handler', () => {
 			// @ts-ignore acceptable in test
 			{ homedir: '/Users/test-user', shell: '/bin/bash' },
 		);
+		vi.spyOn(file, 'exists').mockResolvedValueOnce(false).mockResolvedValue(true);
 		await expect(run(args)).resolves.toMatch('source /Users/test-user/.bash_profile');
 
 		expect(file.write).toHaveBeenCalledWith(
