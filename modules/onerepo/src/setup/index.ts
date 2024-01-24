@@ -37,7 +37,7 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, tasks];
+export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, install, tasks];
 
 /**
  * @internal
