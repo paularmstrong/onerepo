@@ -110,7 +110,7 @@ export default {
 
 	const binContents = `#!/usr/bin/env sh
 BASEDIR=$(dirname $0)
-node "$BASEDIR/one.js" $@
+node "$BASEDIR/one.js" "$@"
 `;
 	await file.remove(path.join(location!, 'bin'), { step: installStep });
 	await file.copy(fileURLToPath(import.meta.url), path.join(location!, 'bin', 'one.js'), {
