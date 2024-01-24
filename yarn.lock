@@ -3262,6 +3262,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@types/pako": ^2
     astro: ^4.0.8
+    astro-meta-tags: ^0.2.1
     astro-og-canvas: ^0.4.2
     clsx: ^2.0.0
     d3: ^7.8.5
@@ -5954,6 +5955,15 @@ __metadata:
   peerDependencies:
     astro: ^3.3.0 || ^4.0.0-beta
   checksum: cd9e2c9578ffde7663fbbbffd516a8fa05a97a2aef53f44f64b1c544fee5d7b33fc08d3d626f5bd5d4f15ecf59301defe3988c36aac3be4d2b30e497777ee401
+  languageName: node
+  linkType: hard
+
+"astro-meta-tags@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "astro-meta-tags@npm:0.2.1"
+  peerDependencies:
+    astro: ^4.0.0
+  checksum: 0bbfe8dc48e150cfd7434bc71691e18ab9732cad69c1d11b0bc802cda2a36332511f79a4ac0592c4d6316e1a131a57d899670b916648cf821d8c542dbe3814ad
   languageName: node
   linkType: hard
 

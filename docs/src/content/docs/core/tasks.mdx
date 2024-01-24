@@ -28,7 +28,13 @@ export default {
 		],
 	},
 	'pre-merge': {
-		serial: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
+		serial: [
+			'$0 lint --all --no-fix',
+			'$0 format --check',
+			'$0 test',
+			'$0 tsc',
+			'$0 build',
+		],
 		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
 	},
 };
@@ -76,7 +82,9 @@ Sequential tasks can be denoted by an array of strings within the list of tasks 
 /** @type import('onerepo').TaskConfig */
 export default {
 	deploy: {
-		serial: [['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy']],
+		serial: [
+			['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy'],
+		],
 	},
 };
 ```
@@ -103,7 +111,11 @@ export default {
 		serial: [
 			{
 				match: './src/**/*',
-				cmd: ['$0 ws my-app build', '$0 ws my-app cdn-push', '$0 ws my-app deploy'],
+				cmd: [
+					'$0 ws my-app build',
+					'$0 ws my-app cdn-push',
+					'$0 ws my-app deploy',
+				],
 			},
 		],
 	},
@@ -113,7 +125,11 @@ export default {
 Lastly, conditional tasks aren't just conditional, they can also include a record of `meta` information. This information will only be available when listing tasks like in [GitHub Actions](#github-actions).
 
 ```ts
-type TaskDef = { cmd: string | Array<string>; match?: string; meta?: Record<string, unknown> };
+type TaskDef = {
+	cmd: string | Array<string>;
+	match?: string;
+	meta?: Record<string, unknown>;
+};
 ```
 
 ### Adding more lifecycles

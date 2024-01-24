@@ -25,7 +25,8 @@ import type { Builder, Handler } from 'onerepo';
 
 export const command = 'basic';
 
-export const description = 'A basic command that shows the minimum requirements for writing commands with eRepo';
+export const description =
+	'A basic command that shows the minimum requirements for writing commands with eRepo';
 
 export const builder: Builder = (yargs) => yargs.usage(`$0 ${command}`);
 
@@ -43,7 +44,8 @@ oneRepo provides a robust API and suite of tools to flesh out your commands. Ple
 oneRepo exports helpers in the form of [`builders`](/api/namespaces/builders/) for common input arguments and [`getters`](/api/namespaces/getters/) for file and workspace querying based on the `builders`’ input arguments.
 
 ```ts
-export const builder: Builder<WithWorkspaces> = (yargs) => builders.withWorkspaces(yargs);
+export const builder: Builder<WithWorkspaces> = (yargs) =>
+	builders.withWorkspaces(yargs);
 
 export const handler: Handler<WithWorkspaces> = (argv, { getWorkspaces }) => {
 	// Get a list of workspaces given the input arguments
@@ -94,7 +96,9 @@ The `logger` instance is primarily available in command handlers via the [`Handl
 ```ts
 export const handler: Handler = async (argv, { logger }) => {
 	// -v (1)
-	logger.error('This will output an error (and also set cause this run to exit with code 1)');
+	logger.error(
+		'This will output an error (and also set cause this run to exit with code 1)',
+	);
 	logger.info('This will output an important informative message.');
 	// -vv (2, default)
 	logger.warn('This will output a warning');
@@ -194,7 +198,8 @@ export const description = 'A useful description for my command';
 
 type Argv = builders.WithWorkspaces & builders.WithAffected;
 
-export const builder: Builder<Argv> = (yargs) => builders.withAffected(builders.withWorkspaces(yargs));
+export const builder: Builder<Argv> = (yargs) =>
+	builders.withAffected(builders.withWorkspaces(yargs));
 
 export const handler: Handler<Argv> = (argv, { getWorkspaces }) => {
 	// Get a list of workspaces given the input arguments

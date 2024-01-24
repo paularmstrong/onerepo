@@ -164,7 +164,10 @@ Avoiding extra work by utilizing cached responses based on a set of input files 
 	},
 	"namedInputs": {
 		"default": ["{projectRoot}/**/*", "sharedGlobals"],
-		"sharedGlobals": ["{workspaceRoot}/prisma/**", "{workspaceRoot}/babel.config.json"],
+		"sharedGlobals": [
+			"{workspaceRoot}/prisma/**",
+			"{workspaceRoot}/babel.config.json"
+		],
 		"production": ["default", "{projectRoot}/tsconfig.json"]
 	}
 }

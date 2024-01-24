@@ -86,7 +86,10 @@ tableOfContents:
   		serial: [['echo "first"', 'echo "second"'], 'echo "run separately"'],
   	},
   	'example-serial-with-match': {
-  		serial: [{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' }, 'echo "run separately"'],
+  		serial: [
+  			{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' },
+  			'echo "run separately"',
+  		],
   	},
   };
   ```

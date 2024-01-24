@@ -222,7 +222,10 @@ tableOfContents:
   				repository: {
   					type: 'object',
   					properties: {
-  						directory: { type: 'string', const: graph.root.relative(workspace.location) },
+  						directory: {
+  							type: 'string',
+  							const: graph.root.relative(workspace.location),
+  						},
   					},
   					required: ['directory'],
   				},
@@ -281,7 +284,10 @@ tableOfContents:
   		serial: [['echo "first"', 'echo "second"'], 'echo "run separately"'],
   	},
   	'example-serial-with-match': {
-  		serial: [{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' }, 'echo "run separately"'],
+  		serial: [
+  			{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' },
+  			'echo "run separately"',
+  		],
   	},
   };
   ```
@@ -456,7 +462,8 @@ tableOfContents:
   const path = require('path');
 
   module.exports = {
-  	outDir: ({ name }) => path.join(__dirname, '..', '..', '..', 'modules', name),
+  	outDir: ({ name }) =>
+  		path.join(__dirname, '..', '..', '..', 'modules', name),
   	prompts: [
   		{
   			name: 'name',
@@ -663,7 +670,10 @@ tableOfContents:
   		serial: [['echo "first"', 'echo "second"'], 'echo "run separately"'],
   	},
   	'example-serial-with-match': {
-  		serial: [{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' }, 'echo "run separately"'],
+  		serial: [
+  			{ cmd: ['echo "first"', 'echo "second"'], match: './**/*' },
+  			'echo "run separately"',
+  		],
   	},
   };
   ```
@@ -838,7 +848,8 @@ tableOfContents:
   const path = require('path');
 
   module.exports = {
-  	outDir: ({ name }) => path.join(__dirname, '..', '..', '..', 'modules', name),
+  	outDir: ({ name }) =>
+  		path.join(__dirname, '..', '..', '..', 'modules', name),
   	prompts: [
   		{
   			name: 'name',
