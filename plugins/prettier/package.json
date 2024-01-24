@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-prettier",
 	"description": "Official Prettier plugin for the oneRepo toolchain.",
 	"title": "Prettier",
-	"version": "0.5.6",
+	"version": "0.6.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -24,11 +24,11 @@
 	],
 	"dependencies": {
 		"@actions/core": "^1.10.1",
-		"@onerepo/builders": "0.5.5",
-		"@onerepo/file": "0.5.2",
-		"@onerepo/git": "0.4.4",
-		"@onerepo/logger": "0.5.0",
-		"@onerepo/subprocess": "0.6.0",
+		"@onerepo/builders": "0.5.6",
+		"@onerepo/file": "0.6.0",
+		"@onerepo/git": "0.5.0",
+		"@onerepo/logger": "0.6.0",
+		"@onerepo/subprocess": "0.7.0",
 		"minimatch": "^9.0.3"
 	},
 	"devDependencies": {

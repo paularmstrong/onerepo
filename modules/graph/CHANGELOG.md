@@ -1,5 +1,16 @@
 # @onerepo/graph
 
+## 0.10.0
+
+### Minor Changes
+
+- Switched runtime from `esbuild-register` to `jiti` to avoid heavy dependencies and platform-specific requirements. [#513](https://github.com/paularmstrong/onerepo/pull/513) ([@paularmstrong](https://github.com/paularmstrong))
+
+### Patch Changes
+
+- Updated dependencies [[`154a2d1`](https://github.com/paularmstrong/onerepo/commit/154a2d151012f0c0c31831ab3ecab32ef6dc45ef)]:
+  - @onerepo/package-manager@0.5.0
+
 ## 0.9.3
 
 ### Patch Changes
