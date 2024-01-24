@@ -3,6 +3,7 @@ import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import sitemap from '@astrojs/sitemap';
 import starlightLinksValidator from 'starlight-links-validator';
+import astroMetaTags from 'astro-meta-tags';
 import { rehypeAutolink } from './src/plugins/rehype-autolink';
 import { mermaid } from './src/plugins/remark-mermaid';
 
@@ -14,6 +15,7 @@ export default defineConfig({
 	},
 	site: 'https://onerepo.tools',
 	integrations: [
+		astroMetaTags(),
 		sitemap({
 			filter: (page) => page !== 'https://onerepo.tools/visualize/',
 			serialize(item) {
