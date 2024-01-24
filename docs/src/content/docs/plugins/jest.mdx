@@ -46,10 +46,7 @@ Create a root level jest config with the appropriate references to your workspac
 ```js title="jest.config.js"
 /** @type {import('jest').Config} */
 export default {
-	projects: [
-		'<rootDir>/apps/*/jest.config.js',
-		'<rootDir>/modules/*/jest.config.js',
-	],
+	projects: ['<rootDir>/apps/*/jest.config.js', '<rootDir>/modules/*/jest.config.js'],
 };
 ```
 

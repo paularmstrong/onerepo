@@ -10,7 +10,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<e42748bd5d65f6cc73f9f421fefd83f3>> */}
+{/* @generated SignedSource<<456e1b2e790aead2af3f3d7d88c861a2>> */}
 
 ## `one`
 
@@ -647,6 +647,23 @@ one hooks init
 | `--hooks-path` | `string` | Tracked path to use for git hooks. | ✅       |
 
 </details>
+
+---
+
+### `one install`
+
+Install the oneRepo CLI into your environment.
+
+```sh
+one install [options]
+```
+
+| Option            | Type                          | Description                                                                                                         | Required |
+| ----------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
+| `--force`         | `boolean`                     | Force installation regardless of pre-existing command.                                                              |          |
+| `--location`      | `string`                      | Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type. |          |
+| `--show-advanced` | `boolean`                     | Pair with `--help` to show advanced options.                                                                        |          |
+| `--version`       | `string`, default: `"0.15.4"` | Version of oneRepo to install. Defaults to the current version.                                                     |          |
 
 ---
 

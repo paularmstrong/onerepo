@@ -33,8 +33,7 @@ import type { Builder, Handler } from 'onerepo';
 
 export const command = 'new-branch';
 
-export const description =
-	'Create a new branch using our team’s standard naming format.';
+export const description = 'Create a new branch using our team’s standard naming format.';
 
 export const builder: Builder = (yargs) => yargs.usage(`$0 ${command}`);
 
@@ -79,9 +78,7 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async (argv, { logger }) => {
 	const { issue, description } = argv;
-	logger.info(
-		`TODO: create new branch for #${issue} with description "${description}"`,
-	);
+	logger.info(`TODO: create new branch for #${issue} with description "${description}"`);
 };
 ```
 
@@ -187,9 +184,7 @@ export const handler: Handler<Args> = async (argv) => {
 	// Ensure the description is suitable for git branch names by removing non-word characters
 	const sanitizedDescription = description.replace(/[\W]+/g, '-');
 	// Construct the branch name replacing empty or no issue with 'no-issue'
-	const branchName = `${username}/${
-		issue || 'no-issue'
-	}/${sanitizedDescription}`;
+	const branchName = `${username}/${issue || 'no-issue'}/${sanitizedDescription}`;
 
 	// Use oneRepo's subprocessing, `run` to run commands:
 	await run({
@@ -297,9 +292,7 @@ export const handler: Handler<Args> = async (argv) => {
 	// Ensure the description is suitable for git branch names by removing non-word characters
 	const sanitizedDescription = description.replace(/[\W]+/g, '-');
 	// Construct the branch name replacing empty or no issue with 'no-issue'
-	const branchName = `${username}/${
-		issue || 'no-issue'
-	}/${sanitizedDescription}`;
+	const branchName = `${username}/${issue || 'no-issue'}/${sanitizedDescription}`;
 
 	// Use oneRepo's subprocessing, `run` to run commands:
 	await run({
@@ -340,18 +333,14 @@ import type { Builder, Handler } from 'onerepo';
 
 export const command = 'list-workspaces';
 
-export const description =
-	'A basic command lists workspaces based on input arguments';
+export const description = 'A basic command lists workspaces based on input arguments';
 
 type Argv = builders.WithWorkspaces & builders.WithAffected;
 
 export const builder: Builder<Argv> = (yargs) =>
 	builders.withWorkspaces(builders.withAffected(yargs));
 
-export const handler: Handler<Argv> = async (
-	argv,
-	{ getWorkspaces, logger },
-) => {
+export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) => {
 	// Get a list of workspaces given the input arguments
 	const workspaces = await getWorkspaces();
 	logger.info(workspaces.map((ws) => ws.name).join('\n'));
@@ -434,9 +423,7 @@ The `logger` instance is primarily available in command handlers via the [`Handl
 ```ts
 export const handler: Handler = async (argv, { logger }) => {
 	// -v (1)
-	logger.error(
-		'This will output an error (and also set cause this run to exit with code 1)',
-	);
+	logger.error('This will output an error (and also set cause this run to exit with code 1)');
 	logger.info('This will output an important informative message.');
 	// -vv (2, default)
 	logger.warn('This will output a warning');
