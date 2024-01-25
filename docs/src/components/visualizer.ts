@@ -84,29 +84,49 @@ function renderGraph(graph) {
 			return this.parentElement.getBBox().height + 10;
 		});
 
+	function reset() {
+		viz.selectAll('.edgePath').classed('edge--input edge--output edge--unrelated', false);
+		viz.selectAll('.node').classed('node--unrelated node--clicked', false);
+		viz.selectAll('.edgeLabel').classed('edgeLabel--related', false);
+	}
+
 	viz
 		.selectAll('.node')
 		.attr('style', '')
-		.on('mouseover', (event, node) => {
+		.on('mouseover click', (event, node) => {
+			if (event.type !== 'click' && viz.selectAll('.node--clicked').size()) {
+				return;
+			}
+
 			const neighbors = graph.neighbors(node);
+
 			viz
 				.selectAll('.edgePath')
+
 				.classed('edge--output', ({ w }) => w === node)
 				.classed('edge--input', ({ v }) => v === node)
 				.classed('edge--unrelated', ({ v, w }) => !(v === node || w === node));
-			viz.selectAll('.node').classed('node--unrelated', (n) => n !== node && !neighbors.includes(n));
+			viz
+				.selectAll('.node')
+				.classed('node--clicked', (n) => n === node && event.type === 'click')
+				.classed('node--unrelated', (n) => n !== node && !neighbors.includes(n));
 			viz.selectAll('.edgeLabel').classed('edgeLabel--related', ({ v, w }) => v === node || w === node);
 		})
 		.on('mouseout', () => {
-			viz.selectAll('.edgePath').classed('edge--input edge--output edge--unrelated', false);
-			viz.selectAll('.node').classed('node--unrelated', false);
-			viz.selectAll('.edgeLabel').classed('edgeLabel--related', false);
-		})
-		.on('click', (e, d) => {
-			graph.removeNode(d);
+			if (viz.selectAll('.node--clicked').size()) {
+				return;
+			}
+			reset();
 		});
 
-	group.select('rect.underlay').attr('width', bbox.width).attr('height', bbox.height).attr('fill', 'transparent');
+	group
+		.select('rect.underlay')
+		.attr('width', bbox.width)
+		.attr('height', bbox.height)
+		.attr('fill', 'transparent')
+		.on('click', () => {
+			reset();
+		});
 }
 
 const dialog = document.querySelector('dialog[data-dialog=help]')! as HTMLDialogElement;

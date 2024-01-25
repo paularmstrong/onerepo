@@ -53,7 +53,8 @@ import { Icon } from '@astrojs/starlight/components';
 			<ul>
 				<li>Use your mouse wheel to zoom in and out of the chart.</li>
 				<li>Click and drag the chart with your mouse to pan.</li>
-				<li>Hover over a workspace node to highlight dependencies and dependents.</li>
+				<li>Hover over a Workspace node to highlight dependencies and dependents.</li>
+				<li>Click an individual Workspace node to lock the highlight. Click anywhere else to unlock the highlight.</li>
 			</ul>
 			<form method="dialog">
 				<button>OK</button>
@@ -255,6 +256,10 @@ import { Icon } from '@astrojs/starlight/components';
 		stroke-width: 2px;
 		stroke: var(--sl-color-gray-4);
 	}
+	.vis-container .node {
+		cursor: pointer;
+	}
+
 	.vis-container .node text {
 		font-size: var(--sl-text-lg);
 		fill: var(--sl-color-white);

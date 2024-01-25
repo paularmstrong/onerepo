@@ -269,6 +269,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
+"changelogs/@onerepo/plugin-docgen.mdx": {
+	id: "changelogs/@onerepo/plugin-docgen.mdx";
+  slug: "changelogs/onerepo/plugin-docgen";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-eslint.mdx": {
 	id: "changelogs/@onerepo/plugin-eslint.mdx";
   slug: "changelogs/onerepo/plugin-eslint";
