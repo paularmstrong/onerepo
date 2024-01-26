@@ -2,7 +2,6 @@ import type { Plugin } from 'onerepo';
 import * as commands from './commands';
 
 /**
- * @example
  *
  * ```ts title="onerepo.config.ts"
  * import { changesets } from '@onerepo/plugin-changesets';
@@ -23,7 +22,6 @@ export type Options = {
 /**
  * Include the `changesets` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```ts title="onerepo.config.ts" {1,4}
  * import { changesets } from '@onerepo/plugin-changesets';

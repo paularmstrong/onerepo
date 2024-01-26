@@ -8,7 +8,6 @@ import { makeTempDir, write } from '@onerepo/file';
 /**
  * Include the `performanceWriter` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,6}
  * import { performanceWriter } from '@onerepo/plugin-performance-writer';
@@ -36,7 +35,6 @@ export type Options = {
 /**
  * Include the `performanceWriter` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { performanceWriter } from '@onerepo/plugin-performance-writer';

@@ -3,7 +3,7 @@ import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { RootConfig } from './config-root';
 
 /**
- * @group Core
+ * @group Plugins
  */
 
 export type PluginObject = {
@@ -25,11 +25,11 @@ export type PluginObject = {
 };
 
 /**
- * @group Core
+ * @group Plugins
  */
 export type Plugin = PluginObject | ((config: Required<RootConfig>) => PluginObject);
+
 /**
  * @internal
  */
-
 export type CorePlugins = Array<Plugin>;

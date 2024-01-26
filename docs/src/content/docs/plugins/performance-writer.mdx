@@ -46,7 +46,7 @@ oneRepo does not send metrics, telemetry, or any other information anywhere – 
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<dca2e3f1a6292f1369ac6b0d9a716ca7>> */}
+{/* @generated SignedSource<<065b744e685485351adc33fa303a8922>> */}
 
 ### performanceWriter()
 
@@ -56,14 +56,6 @@ performanceWriter(opts): PluginObject
 
 Include the `performanceWriter` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { performanceWriter } from '@onerepo/plugin-performance-writer';
 
@@ -71,6 +63,12 @@ export default {
 	plugins: [performanceWriter()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -81,8 +79,6 @@ type Options: {
 ```
 
 Include the `performanceWriter` plugin in your oneRepo plugin setup:
-
-#### Example
 
 ```js title="onerepo.config.ts" {1,6}
 import { performanceWriter } from '@onerepo/plugin-performance-writer';

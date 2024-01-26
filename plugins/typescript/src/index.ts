@@ -2,7 +2,6 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/typescript';
 
 /**
- * @example
  *
  * ```js title="onerepo.config.js"
  * export default {
@@ -32,7 +31,6 @@ export type Options = {
 /**
  * Include the `typescript` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { typescript } from '@onerepo/plugin-typescript';

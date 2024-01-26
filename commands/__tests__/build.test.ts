@@ -5,7 +5,7 @@ import * as Build from '../build';
 
 const { run } = getCommand(Build);
 
-const graph = oneRepo.graph.getGraph(path.join(__dirname, '__fixtures__', 'build'));
+const graph = oneRepo.getGraph(path.join(__dirname, '__fixtures__', 'build'));
 
 describe('handler', () => {
 	beforeEach(async () => {

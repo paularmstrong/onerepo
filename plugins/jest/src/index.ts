@@ -2,7 +2,6 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/jest';
 
 /**
- * @example
  *
  * ```js title="onerepo.config.js"
  * export default {
@@ -17,7 +16,6 @@ import * as cmd from './commands/jest';
 export type Options = {
 	/**
 	 * Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.
-	 * @example
 	 * ```js
 	 * jest({
 	 * 	config: 'configs/jest/config.js'
@@ -34,7 +32,6 @@ export type Options = {
 /**
  * Include the `jest` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { jest } from '@onerepo/plugin-jest';

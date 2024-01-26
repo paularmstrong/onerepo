@@ -6,7 +6,6 @@ import type { Graph, Workspace } from '@onerepo/graph';
  *
  * See [“Validating configurations”](/core/graph/#validating-configurations) for more examples and use cases.
  *
- * @example
  * ```ts
  * import type { GraphSchemaValidators } from 'onerepo';
  *
@@ -24,7 +23,7 @@ import type { Graph, Workspace } from '@onerepo/graph';
  * } satisfies GraphSchemaValidators;
  * ```
  *
- * @group Core
+ * @group Graph
  */
 export type GraphSchemaValidators = Record<
 	string,

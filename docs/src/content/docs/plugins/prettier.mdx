@@ -38,7 +38,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<47e4475fd73d0385cc158f44b83d93e5>> */}
+{/* @generated SignedSource<<fb1d15f29d572b671de764ee27abd180>> */}
 
 ### prettier()
 
@@ -48,14 +48,6 @@ prettier(opts): Plugin
 
 Include the `prettier` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { prettier } from '@onerepo/plugin-prettier';
 
@@ -63,6 +55,12 @@ export default {
 	plugins: [prettier()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -73,8 +71,6 @@ type Options: {
   useCache: boolean;
 };
 ```
-
-#### Example
 
 ```js title="onerepo.config.js"
 export default {

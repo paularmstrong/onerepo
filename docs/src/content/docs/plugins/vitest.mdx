@@ -38,7 +38,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<a1e20249c105591710afcc6402a52260>> */}
+{/* @generated SignedSource<<68ae9c71e427cb561b49a704b36a3b64>> */}
 
 ### vitest()
 
@@ -48,14 +48,6 @@ vitest(opts): PluginObject
 
 Include the `vitest` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { vitest } from '@onerepo/plugin-vitest';
 
@@ -63,6 +55,12 @@ export default {
 	plugins: [vitest()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -72,8 +70,6 @@ type Options: {
   name: string | string[];
 };
 ```
-
-#### Example
 
 ```js
 export default {

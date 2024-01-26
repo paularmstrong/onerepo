@@ -3,6 +3,10 @@ import type { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
 import { LogBuffer } from './LogBuffer';
 
+/**
+ * @module Logger
+ */
+
 export * from './Logger';
 export * from './LogStep';
 
@@ -44,7 +48,6 @@ export function destroyLogger() {
 /**
  * For cases where multiple processes need to be completed, but should be joined under a single {@link LogStep | `LogStep`} to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
  *
- * @example
  *
  * ```ts
  * export async function exists(filename: string, { step }: Options = {}) {
@@ -76,7 +79,6 @@ export async function stepWrapper<T>(
 /**
  * Create a new Logger instance that has its output buffered up to a LogStep.
  *
- * @example
  * ```ts
  * const step = logger.createStep(name, { writePrefixes: false });
  * const subLogger = bufferSubLogger(step);

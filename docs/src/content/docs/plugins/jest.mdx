@@ -51,7 +51,7 @@ export default {
 ```
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<50c56e3794dc6a8d83ba3b0d7c3cd3bd>> */}
+{/* @generated SignedSource<<761362d6ac5d8aa28d259b6d97eb99a0>> */}
 
 ### jest()
 
@@ -61,14 +61,6 @@ jest(opts): Plugin
 
 Include the `jest` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { jest } from '@onerepo/plugin-jest';
 
@@ -76,6 +68,12 @@ export default {
 	plugins: [jest()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -85,8 +83,6 @@ type Options: {
   name: string | string[];
 };
 ```
-
-#### Example
 
 ```js title="onerepo.config.js"
 export default {
@@ -107,8 +103,6 @@ config?: string;
 ```
 
 Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.
-
-###### Example
 
 ```js
 jest({

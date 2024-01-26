@@ -3,7 +3,6 @@
  *
  * This package is also canonically available from the `onerepo` package under the `file` namespace or methods directly from `@onerepo/file`:
  *
- * @example
  * ```ts {1,4}
  * import { file } from 'onerepo';
  *
@@ -50,7 +49,6 @@ export type Options = {
 /**
  * Step-wrapped `fs.existsSync` implementation.
  *
- * @example Check whether the file `/path/to/file.ts` exists.
  * ```ts
  * await file.exists('/path/to/file.ts');
  * ```
@@ -65,7 +63,6 @@ export async function exists(filename: string, options: Options = {}) {
 /**
  * Sign the contents for a given file without writing out. This function is typically useful for manually comparing signed file contents.
  *
- * @example
  * ```ts
  * const filename = graph.root.resolve('README.md');
  * const currentContents = await file.read(filename);
@@ -104,7 +101,6 @@ export type WriteOptions = {
  *
  * If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
  *
- * @example Write to `/path/to/out.md`.
  * ```ts
  * await file.write('/path/to/out.md', '# hello!');
  * ```
@@ -143,7 +139,6 @@ export async function write(filename: string, contents: string, options: WriteOp
  *
  * If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
  *
- * @example Copy `/path/to/in.md` to `/path/to/out.md`.
  * ```ts
  * await file.copy('/path/to/in.md', '/path/to/out.md');
  * ```
@@ -174,7 +169,6 @@ export async function copy(input: string, output: string, options: Options = {})
  *
  * @returns If the `filename` does not exist, `null` will be returned instead of a Stats object.
  *
- * @example Get the stats of `/path/to/file.md`.
  * ```ts
  * const stat = await file.lstat('/path/to/file.md');
  * if (stat.isDirectory()) { /* ... *\/ }
@@ -195,7 +189,6 @@ export async function lstat(filename: string, options: Options = {}) {
 /**
  * Read the contents of a file.
  *
- * @example Read the contents of the file `/path/to/file.md`.
  * ```ts
  * const contents = await file.read('/path/to/file.md');
  * ```
@@ -219,7 +212,6 @@ export async function read(filename: string, flag: OpenMode = 'r', options: Opti
 /**
  * Recursively create a directory.
  *
- * @example Make a directory (recursively) at `/path/to/something`.
  * ```ts
  * await file.mkdirp('/path/to/something');
  * ```
@@ -239,7 +231,6 @@ export async function mkdirp(pathname: string, options: Options = {}) {
 /**
  * Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
  *
- * @example Remove the path at `/path/to/something`.
  * ```ts
  * await file.remove('/path/to/something');
  * ```
@@ -298,12 +289,12 @@ export type WriteSafeOptions = {
 /**
  * Safely write contents to a file, wrapped in a start and end sentinel. This allows writing to a file without overwriting the current content of the file – other than that which falls between the start and end sentinel.
  *
- * @example Write to `/path/to/out.md` between a section denoted by the sentinel `'some-unique-string'` while leaving the rest of the file intact.
+ * Write to `/path/to/out.md` between a section denoted by the sentinel `'some-unique-string'` while leaving the rest of the file intact.
  * ```ts
  * await file.writeSafe('/path/to/out.md', '# hello', { sentinel: 'some-unique-string' });
  * ```
  *
- * @example Write to a section of the file as signed content for verifying later.
+ * Write to a section of the file as signed content for verifying later.
  * ```ts
  * await file.writeSafe('/path/to/out.md', '# hello', { signed: true });
  * ```
@@ -346,7 +337,6 @@ export type ReadSafeOptions = {
 /**
  * Read a sentinel-wrapped portion of a file that was previously written with {@link writeSafe} and return both the wrapped portion as well as the full contents of the file.
  *
- * @example
  * ```ts
  * const [portion, fullContents] = await file.readSafe('/path/to/file.md', { sentinel: 'tacos' });
  * ```
@@ -410,7 +400,6 @@ async function format(filename: string, contents: string, options: Options = {})
 /**
  * Create a tmp directory in the os tmpdir.
  *
- * @example Make a temp directory with the prefix `tacos-`
  * ```ts
  * const dir = await file.makeTempDir('tacos-');
  * ```
@@ -433,7 +422,6 @@ export async function makeTempDir(prefix: string, options: Options = {}) {
 /**
  * Change file permissions
  *
- * @example Make the file `/foo` executable.
  * ```ts
  * await file.chmod('/foo', 'a+x');
  * ```

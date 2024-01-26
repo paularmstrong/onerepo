@@ -1,8 +1,3 @@
-/**
- * The workspace graph sits at the center of oneRepo. It determines workspaces, their relationships, and how changes affect the repository.
- *
- * @module
- */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import yaml from 'js-yaml';
@@ -17,7 +12,14 @@ export * from './Workspace';
 const PackageCache = new Map<string, PackageJson>();
 
 /**
- * @internal
+ * Get the {@link Graph | `Graph`} given a particular root working directory. If the working directory is not a monorepo's root, an empty `Graph` will be given in its place.
+ *
+ * ```ts
+ * const graph = getGraph(process.cwd());
+ * assert.ok(graph.isRoot);
+ * ```
+ *
+ * @group Graph
  */
 export function getGraph(workingDir: string = process.cwd()) {
 	const jiti = initJiti(workingDir, { interopDefault: true });
@@ -48,8 +50,11 @@ export function getRootPackageJson(searchLocation: string): { filePath: string; 
 	throw new Error('No monorepo found. Unable to find lock file.');
 }
 
-function getPackageJson<T extends PackageJson = PackageJson>(root: string): { filePath: string; json: T } {
-	const filePath = path.join(root, 'package.json');
+/**
+ * Get the filepath and json contents of a `package.json` given a working directory.
+ */
+function getPackageJson<T extends PackageJson = PackageJson>(cwd: string): { filePath: string; json: T } {
+	const filePath = path.join(cwd, 'package.json');
 	if (PackageCache.has(filePath)) {
 		return { filePath, json: PackageCache.get(filePath) as T };
 	}
