@@ -178,7 +178,7 @@ ${JSON.stringify(argv, null, 2)}`);
 /**
  * Default arguments provided globally for all commands. These arguments are included by when using {@link Builder | `Builder`} and {@link Handler | `Handler`}.
  *
- * @group Command type aliases
+ * @group Commands
  */
 export type DefaultArgv = {
 	/**
@@ -208,7 +208,7 @@ export type DefaultArgv = {
 /**
  * Always present in Builder and Handler arguments as parsed by Yargs.
  *
- * @group Command type aliases
+ * @group Commands
  */
 export type PositionalArgv = {
 	/**
@@ -229,7 +229,7 @@ export type PositionalArgv = {
  *
  * @typeParam CommandArgv Arguments that will be parsed for this command
  *
- * @group Command type aliases
+ * @group Commands
  * @internal
  */
 export type Arguments<CommandArgv = object> = { [key in keyof CommandArgv]: CommandArgv[key] } & PositionalArgv;
@@ -237,7 +237,7 @@ export type Arguments<CommandArgv = object> = { [key in keyof CommandArgv]: Comm
 /**
  * A [yargs object](http://yargs.js.org/docs/).
  *
- * @group Command type aliases
+ * @group Commands
  * @internal
  */
 export type Yargs<CommandArgv = DefaultArgv> = Yargv<CommandArgv>;
@@ -246,28 +246,28 @@ export type Yargs<CommandArgv = DefaultArgv> = Yargv<CommandArgv>;
  * Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
  *
  * @typeParam CommandArgv Arguments that will be parsed for this command, always a union with {@link DefaultArgv | `DefaultArgv`} and {@link PositionalArgv | `PositionalArgv`}.
- * @group Command type aliases
+ * @group Commands
  */
 export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
 
 /**
  * Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
  *
- * @group Command type aliases
- *
- * @example All extras are available as the second argument on your {@link Handler | `Handler`}
+ * All extras are available as the second argument on your {@link Handler | `Handler`}
  * ```ts
  * export const handler: Handler = (argv, { getAffected, getFilepaths, getWorkspace, logger }) => {
  * 	logger.warn('Nothing to do!');
  * };
  * ```
  *
- * @example Overriding the affected threshold in `getFilepaths`
+ * Overriding the affected threshold in `getFilepaths`
  * ```ts
  * export const handler: Handler = (argv, { getFilepaths }) => {
  * 	const filepaths = await getFilepaths({ affectedThreshold: 0 });
  * };
  * ```
+ *
+ * @group Commands
  */
 export type HandlerExtra = {
 	/**
@@ -313,7 +313,6 @@ export type HandlerExtra = {
  *
  * For common arguments that work in conjunction with {@link HandlerExtra | `HandlerExtra`} methods like `getAffected()`, you can use helpers from the {@link builders! | `builders` namespace}, like {@link builders!withAffected | `builders.withAffected()`}.
  *
- * @example
  * ```ts
  * type Argv = {
  *   'with-tacos'?: boolean;
@@ -333,14 +332,13 @@ export type HandlerExtra = {
  * @see [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
  * @see Common extensions via the {@link !builders | `builders`} namespace.
  *
- * @group Command type aliases
+ * @group Commands
  */
 export type Builder<CommandArgv = object> = (yargs: Yargs) => Yargv<CommandArgv>;
 
 /**
  * Command handler that includes oneRepo tools like `graph`, `logger`, and more. This function is type-safe if `Argv` is correctly passed through to the type definition.
  *
- * @example
  * ```ts
  * type Argv = {
  *   'with-tacos'?: boolean;
@@ -357,6 +355,6 @@ export type Builder<CommandArgv = object> = (yargs: Yargs) => Yargv<CommandArgv>
  * @see [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
  * @see {@link HandlerExtra | `HandlerExtra`} for extended extra arguments provided above and beyond the scope of Yargs.
  *
- * @group Command type aliases
+ * @group Commands
  */
 export type Handler<CommandArgv = object> = (argv: Argv<CommandArgv>, extra: HandlerExtra) => Promise<void>;

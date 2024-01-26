@@ -44,7 +44,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<c8fff2c295f0bfea2f8a964d0408b81c>> */}
+{/* @generated SignedSource<<a4e745279eb4a237c0616e5ac5514add>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
@@ -71,8 +71,6 @@ Map of paths to array of owners.
 
 When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export default {
 	codeowners: {
@@ -95,8 +93,6 @@ Configuration for custom commands.
 
 A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export default {
 	commands: {
@@ -118,8 +114,6 @@ Given the preceding configuration, commands will be searched for within the `com
 Prevent reading matched files in the `commands.directory` as commands.
 
 When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -158,8 +152,6 @@ When modifying dependencies using the `one dependencies` command, a `dedupe` wil
 
 The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export default {
 	head: 'develop',
@@ -181,8 +173,6 @@ To avoid extra processing, we can add file globs to ignore when calculated the a
 This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
 :::
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export default {
 	ignore: ['.changeset/*', '.github/*'],
@@ -195,8 +185,6 @@ export default {
 - **Default:** `{}`
 
 A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -212,8 +200,6 @@ export default {
 - **Default:** `[]`
 
 Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 import { eslint } from '@onerepo/plugins-eslint';
@@ -244,8 +230,6 @@ Additional `task` lifecycles to make available.
 
 See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export default {
 	tasks: {
@@ -260,8 +244,6 @@ export default {
 - **Default:** `['pre-commit']`
 
 Stash unstaged changes before running these tasks and re-apply them after the task has completed.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -302,8 +284,6 @@ Version control system settings.
 
 Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export defualt {
 	vcs: {
@@ -319,8 +299,6 @@ export defualt {
 
 Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 
-##### Example
-
 ```ts title="onerepo.config.ts"
 export defualt {
 	vcs: {
@@ -335,8 +313,6 @@ export defualt {
 - **Default:** `'github'`
 
 The provider will be factored in to various commands, like `CODEOWNERS` generation.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -391,7 +367,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-workspace */}
-{/* @generated SignedSource<<ecdb26d10c5014b8137d5e3ee53b056f>> */}
+{/* @generated SignedSource<<223a5985dfee5324ae4e56dbf8aa516f>> */}
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
@@ -408,9 +384,7 @@ module.exports = {
 
 Map of paths to array of owners.
 
-When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
-
-##### Example
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -427,8 +401,6 @@ export default {
 - **Default:** `{}`
 
 A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
-
-##### Example
 
 ```ts title="onerepo.config.ts"
 export default {

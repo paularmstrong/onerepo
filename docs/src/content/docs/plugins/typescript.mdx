@@ -38,7 +38,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<98ca943278b8769885db63645d74c272>> */}
+{/* @generated SignedSource<<b4e2d78caf9594374778ec2dcdf576ad>> */}
 
 ### typescript()
 
@@ -48,14 +48,6 @@ typescript(opts): Plugin
 
 Include the `typescript` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { typescript } from '@onerepo/plugin-typescript';
 
@@ -63,6 +55,12 @@ export default {
 	plugins: [typescript()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -73,8 +71,6 @@ type Options: {
   useProjectReferences: boolean;
 };
 ```
-
-#### Example
 
 ```js title="onerepo.config.js"
 export default {

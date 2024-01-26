@@ -1,4 +1,20 @@
 /**
+ * Tasks can optionally include meta information or only be run if the configured `match` glob string matches the modified files. If no files match, the individual task will not be run.
+ *
+ * ```ts
+ * export default {
+ * 	tasks: {
+ * 		'pre-commit': {
+ * 			parallel: [
+ * 				// Only run `astro check` if astro files have been modified
+ * 				{ match: '*.astro', cmd: '$0 astro check' },
+ * 				// Use a glob match with sequential tasks
+ * 				{ match: '*.{ts,js}', cmd: ['$0 lint', '$0 format'] },
+ * 			],
+ * 		},
+ * 	},
+ * } satisfies Config;
+ * ```
  * @group Config
  */
 export type TaskDef = {
@@ -21,7 +37,7 @@ export type TaskDef = {
 };
 
 /**
- * A Task can either be a string or TaskDef object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
+ * A Task can either be a string or {@link TaskDef | `TaskDef`} object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
  *
  * To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a {@link TaskDef | `TaskDef`}.
  *
@@ -30,6 +46,7 @@ export type TaskDef = {
 export type Task = string | TaskDef | Array<string>;
 
 /**
+ * Individual {@link Task | `Task`}s in any {@link Lifecycle | `Lifecycle`} may be grouped to run either serial (one after the other) or in parallel (multiple at the same time).
  * @group Config
  */
 export type Tasks = {
@@ -37,6 +54,7 @@ export type Tasks = {
 	parallel?: Array<Task>;
 };
 /**
+ * oneRepo comes with a pre-configured list of common lifecycles for grouping [tasks](/core/tasks/).
  * @group Config
  */
 export type Lifecycle =

@@ -58,7 +58,7 @@ export type RunSpec = {
 };
 
 /**
- * Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one [`run()`](#run) or [`batch()`](#batch) processes.
+ * Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one {@link run | `run()` } or {@link batch | `batch()`} processes.
  *
  * The `run()` command is an async wrapper around Node.js’s [`child_process.spawn`](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) and has a very similar API, with some additions. This command will buffer and catch all `stdout` and `stderr` responses.
  *
@@ -70,7 +70,7 @@ export type RunSpec = {
  * });
  * ```
  *
- * @example **Skipping failures:**
+ * **Skipping failures:**
  *
  * If a subprocess fails when called through `run()`, a {@link SubprocessError | `SubprocessError`} will be thrown. Some third-party tooling will exit with error codes as an informational tool. While this is discouraged, there’s nothing we can do about how they’ve been chosen to work. To prevent throwing errors, but still act on the `stderr` response, include the `skipFailures` option:
  *
@@ -85,7 +85,7 @@ export type RunSpec = {
  * logger.error(stderr);
  * ```
  *
- * @example **Dry-run:**
+ * **Dry-run:**
  *
  * By default, `run()` will respect oneRepo’s `--dry-run` option (see {@link DefaultArgv | `DefaultArgv`}, `process.env.ONEREPO_DRY_RUN`). When set, the process will not be spawned, but merely log information about what would run instead. To continue running a command, despite the `--dry-run` option being set, use `runDry: true`:
  *
@@ -313,7 +313,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  *
  * If any process throws a `SubprocessError`, this function will reject with a `BatchError`, but only after _all_ processes have completed running.
  *
- * Most oneRepo commands will consist of at least one [`run()`](#run) or [`batch()`](#batch) processes.
+ * Most oneRepo commands will consist of at least one {@link run | `run()`} or {@link batch | `batch()`} processes.
  *
  * ```ts
  * const processes: Array<RunSpec> = [

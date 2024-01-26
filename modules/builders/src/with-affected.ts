@@ -10,7 +10,6 @@ import type { Yargs } from '@onerepo/yargs';
  *
  * See [`WithAffected`](#withaffected-1) for type safety.
  *
- * @example
  * ```js title="commands/mycommand.js"
  * export const builder = (yargs) => builders.withAffected(yargs);
  * ```
@@ -52,7 +51,6 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 /**
  * To be paired with the {@link withAffected | `builders.withAffected`}. Adds types for arguments parsed.
  *
- * @example
  * ```ts title="commands/mycommand.ts"
  * type Argv = builders.WithAffected & {
  *   // ...

@@ -2,7 +2,6 @@ import type { PluginObject } from 'onerepo';
 import * as cmd from './commands/vitest';
 
 /**
- * @example
  *
  * ```js
  * export default {
@@ -25,7 +24,6 @@ export type Options = {
 /**
  * Include the `vitest` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { vitest } from '@onerepo/plugin-vitest';

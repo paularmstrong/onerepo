@@ -40,7 +40,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<a06c9ef9e56b00c828d3dd17a23fc2b1>> */}
+{/* @generated SignedSource<<9830df2ce4696a28936a31bc6e807754>> */}
 
 ### changesets()
 
@@ -50,14 +50,6 @@ changesets(opts): Plugin
 
 Include the `changesets` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```ts title="onerepo.config.ts" {1,4}
 import { changesets } from '@onerepo/plugin-changesets';
 
@@ -66,6 +58,12 @@ export default {
 };
 ```
 
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
+
 ### Options
 
 ```ts
@@ -73,8 +71,6 @@ type Options: {
   name: string | string[];
 };
 ```
-
-#### Example
 
 ```ts title="onerepo.config.ts"
 import { changesets } from '@onerepo/plugin-changesets';

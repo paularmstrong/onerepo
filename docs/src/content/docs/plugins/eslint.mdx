@@ -38,7 +38,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<e1695a1d64de26f7cb67b9807e921d58>> */}
+{/* @generated SignedSource<<bee6ac303709e89f0d6b224ce5de94e9>> */}
 
 ### eslint()
 
@@ -48,14 +48,6 @@ eslint(opts): Plugin
 
 Include the `eslint` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { eslint } from '@onerepo/plugin-eslint';
 
@@ -63,6 +55,12 @@ export default {
 	plugins: [eslint()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -74,8 +72,6 @@ type Options: {
   quiet: boolean;
 };
 ```
-
-#### Example
 
 ```js title="onerepo.config.js"
 export default {

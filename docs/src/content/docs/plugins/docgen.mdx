@@ -42,7 +42,7 @@ Check out our very own source level [example](example/) generated directly from 
 :::
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<42a2d7e66cde5328bdc3f286c8f52d47>> */}
+{/* @generated SignedSource<<d146d0e5b4d603e3e9b4b8c268138d48>> */}
 
 ### docgen()
 
@@ -52,14 +52,6 @@ docgen(opts): Plugin
 
 Include the `eslint` plugin in your oneRepo plugin setup:
 
-#### Parameters
-
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `opts`    | [`Options`](#options) |
-
-#### Example
-
 ```js title="onerepo.config.ts" {1,4}
 import { docgen } from '@onerepo/plugin-docgen';
 
@@ -67,6 +59,12 @@ export default {
 	plugins: [docgen()],
 };
 ```
+
+#### Parameters
+
+| Parameter | Type                  |
+| :-------- | :-------------------- |
+| `opts`    | [`Options`](#options) |
 
 ### Options
 
@@ -81,8 +79,6 @@ type Options: {
 ```
 
 Full configuration options for the Docgen core command.
-
-#### Example
 
 ```js title="onerepo.config.ts"
 import { docgen } from '@onerepo/plugin-docgen';

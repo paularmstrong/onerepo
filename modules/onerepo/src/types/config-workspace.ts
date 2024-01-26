@@ -8,9 +8,8 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 	 * @default `{}`.
 	 * Map of paths to array of owners.
 	 *
-	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	codeowners: {
@@ -25,7 +24,6 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 	 * @default `{}`
 	 * A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	meta: {

@@ -51,7 +51,6 @@ const defaultConfig: Required<RootConfig> = {
 /**
  * Command-line application returned from {@link setup | `setup()`}.
  *
- * @example
  * ```js
  * setup().then(({ run }) => run());
  * ```

@@ -177,7 +177,6 @@ export type FileGetterOptions = GetterOptions & {
  *
  * When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading {@link !run | subprocess `run`} arguments. When the threshold is hit, this function will swap to return the set of parent workspace locations for the affected file lists.
  *
- * @example
  * ```ts
  * export const handler: Handler = (argv, { getFilepaths, logger }) => {
  * 	const filepaths = await getFilepaths();

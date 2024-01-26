@@ -1,8 +1,8 @@
-import type { graph, GraphSchemaValidators } from 'onerepo';
+import type { Graph, GraphSchemaValidators, Workspace } from 'onerepo';
 
 export default {
 	'**': {
-		'package.json': (workspace: graph.Workspace, graph: graph.Graph) => ({
+		'package.json': (workspace: Workspace, graph: Graph) => ({
 			type: 'object',
 			properties: {
 				repository: {

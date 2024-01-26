@@ -293,3 +293,10 @@ header {
 .sl-markdown-content .anchor-link {
 	margin: 0;
 }
+
+.sl-markdown-content .level-h2 ~ .level-h2,
+.sl-markdown-content .level-h2:not(:first-child) {
+	margin-block-start: 3rem;
+	padding-block-start: 3rem;
+	border-top: 1px solid var(--sl-color-gray-5);
+}

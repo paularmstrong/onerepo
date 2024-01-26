@@ -76,13 +76,16 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		const out = contents
 			.replace(
 				/modules\/([^/]+)\/dist\/src\/(.*)\.d\.ts:?(\d+)?/g,
-				'[modules/$1/src/$2.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/$1/src/$2.ts#L$3)',
+				'[modules/$1/src/$2.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/$1/src/$2.ts)',
 			)
 			.replace(/\.\.\//g, '../../')
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\(([\w-]+)\.md(#[^)]+)?/g, '($2')
 			.replace(/\/([\w-]+)\.md(#[^)]+)?/g, '/$1/$2')
+			.replace(/^#+ (Type parameters|Parameters|Type declaration)\n\n/gm, '**$1:**\n\n')
+			.replace(/^#+ See\n\n/gm, '**See also:**\n')
 			.replace(/^#+ (Returns|Source|Default)\n\n/gm, '**$1:** ')
+			.replace(/^\*\*([^*]+)\*\*(.*)\n\n\*\*/gm, '**$1**$2  \n**')
 			.replace('[**onerepo**](/docs/api/)\n\n---\n\n', '');
 
 		await file.writeSafe(docs.resolve(outPath, doc), out, { step: fixFiles, sign: true });

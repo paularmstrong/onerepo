@@ -2,6 +2,9 @@ import path from 'node:path';
 import { minimatch } from 'minimatch';
 import type { Tasks, TaskConfig, WorkspaceConfig } from 'onerepo';
 
+/**
+ * @group Graph
+ */
 export class Workspace {
 	#packageJson: PackageJson;
 	#location: string;
@@ -206,12 +209,18 @@ export class Workspace {
 	}
 }
 
+/**
+ * @group package.json
+ */
 export type Person = {
 	name?: string;
 	email?: string;
 	url?: string;
 };
 
+/**
+ * @group package.json
+ */
 export type PackageJson = {
 	name: string;
 	description?: string;
@@ -240,23 +249,35 @@ export type PackageJson = {
 	packageManager?: string;
 };
 
+/**
+ * @group package.json
+ */
 export type PrivatePackageJson = PackageJson & {
 	private: true;
 	license?: 'UNLICENSED';
 	workspaces?: Array<string>;
 };
 
+/**
+ * @group package.json
+ */
 export type PublishConfig = {
 	access?: 'public' | 'restricted';
 	registry?: string;
 	[key: string]: unknown;
 };
 
+/**
+ * @group package.json
+ */
 export type PublicPackageJson = PackageJson & {
 	private?: false;
 	publishConfig?: PublishConfig;
 };
 
+/**
+ * @group package.json
+ */
 export type PackageJsonWithLocation = PackageJson & {
 	location: string;
 };

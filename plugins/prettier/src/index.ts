@@ -2,7 +2,6 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/prettier';
 
 /**
- * @example
  *
  * ```js title="onerepo.config.js"
  * export default {
@@ -34,7 +33,6 @@ export type Options = {
 /**
  * Include the `prettier` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { prettier } from '@onerepo/plugin-prettier';

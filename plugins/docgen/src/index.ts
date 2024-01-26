@@ -10,7 +10,6 @@ import type { Docs } from './yargs';
 
 /**
  * Full configuration options for the Docgen core command.
- * @example
  *
  * ```js title="onerepo.config.ts"
  * import { docgen } from '@onerepo/plugin-docgen';
@@ -64,7 +63,6 @@ interface Args {
 /**
  * Include the `eslint` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { docgen } from '@onerepo/plugin-docgen';

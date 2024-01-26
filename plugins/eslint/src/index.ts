@@ -2,7 +2,6 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/eslint';
 
 /**
- * @example
  *
  * ```js title="onerepo.config.js"
  * export default {
@@ -36,7 +35,6 @@ export type Options = {
 /**
  * Include the `eslint` plugin in your oneRepo plugin setup:
  *
- * @example
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { eslint } from '@onerepo/plugin-eslint';

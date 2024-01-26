@@ -213,13 +213,6 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".md"] };
-"api/namespaces/graph.md": {
-	id: "api/namespaces/graph.md";
-  slug: "api/namespaces/graph";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".md"] };
 "changelogs/@onerepo/builders.mdx": {
 	id: "changelogs/@onerepo/builders.mdx";
   slug: "changelogs/onerepo/builders";

@@ -13,7 +13,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	codeowners: {
@@ -33,7 +32,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
 		 * 	commands: {
@@ -55,7 +53,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
 		 * 	commands: {
@@ -89,7 +86,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 *   head: 'develop',
@@ -110,7 +106,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 * This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
 	 * :::
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	ignore: ['.changeset/*', '.github/\*'],
@@ -123,7 +118,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	meta: {
@@ -138,7 +132,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
 	 *
-	 * @example
 	 * ```ts title="onerepo.config.ts"
 	 * import { eslint } from '@onerepo/plugins-eslint';
 	 * export default {
@@ -170,7 +163,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
 		 * 	tasks: {
@@ -183,7 +175,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `['pre-commit']`
 		 * Stash unstaged changes before running these tasks and re-apply them after the task has completed.
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
 		 * 	tasks: {
@@ -216,7 +207,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export defualt {
 		 * 	vcs: {
@@ -231,7 +221,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export defualt {
 		 * 	vcs: {
@@ -246,7 +235,6 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * The provider will be factored in to various commands, like `CODEOWNERS` generation.
 		 *
-		 * @example
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
 		 * 	vcs: {
