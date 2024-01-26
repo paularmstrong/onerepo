@@ -8,7 +8,7 @@ template: splash
 hero:
   tagline: Easy, strict, safe, and fast JavaScript & TypeScript monorepo toolchain for high performance teams.
   image:
-    file: ../../assets/logo.svg
+    file: ../../assets/render.png
   actions:
     - text: Why oneRepo?
       link: /concepts/why-onerepo/
@@ -49,15 +49,15 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 <h2>Helpful links</h2>
 
-<LinkCard
-	title="Monorepo primer"
-	description="Refresh your knowledge on why a monorepo may be right for you"
-	href="/concepts/primer/"
-/>
-
 <CardGrid>
 	<LinkCard title="Configuration" href="/docs/config/" />
 	<LinkCard title="Custom commands" href="/docs/commands/" />
 	<LinkCard title="Changelog" href="/changelogs/" />
 	<LinkCard title="GitHub" href="https://github.com/paularmstrong/onerepo" />
 </CardGrid>
+
+<LinkCard
+	title="Monorepo primer"
+	description="Refresh your knowledge on why a monorepo may be right for you"
+	href="/concepts/primer/"
+/>

@@ -554,10 +554,12 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		
+		"i18n": {
+};
+
 	};
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = typeof import("../src/content/config");
+	type ContentConfig = typeof import("../src/content/config.js");
 }

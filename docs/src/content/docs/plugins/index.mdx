@@ -12,7 +12,9 @@ import Prettier from '../../../assets/plugins/prettier.webp';
 import TypeScript from '../../../assets/plugins/typescript.webp';
 import Vitest from '../../../assets/plugins/vitest.webp';
 
-# Featured plugins
+oneRepo features a plugin interface to enable shared and reusable commands and functionality into the `one` command-line interface.
+
+## Featured plugins
 
 <CardGrid>
 	<LinkCardImage
@@ -62,3 +64,13 @@ import Vitest from '../../../assets/plugins/vitest.webp';
 		href="vitest/"
 	/>
 </CardGrid>
+
+## Writing plugins
+
+Plugins are objects comprised of three possible hooks.
+
+| Key                          | Type                                | Description                                                                                                                                      |
+| ---------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`startup`](/api/#startup)   | `(argv) => Promise<void> \| <void>` | Run a function _before_ any and all commands, after argument parsing.                                                                            |
+| [`shutdown`](/api/#shutdown) | `(argv) => Promise<void> \| <void>` | Run a function _after_ any and all commands, after argument parsing.                                                                             |
+| [`yargs`](/api/#yargs)       | `(yargs, visitor) => Yargs`         | A function that is given the CLI's [Yargs instance](https://yargs.js.org/docs/#api-reference). Useful for adding custom commands and middleware. |

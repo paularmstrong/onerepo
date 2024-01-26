@@ -294,8 +294,13 @@ header {
 	margin: 0;
 }
 
-.sl-markdown-content .level-h2 ~ .level-h2,
-.sl-markdown-content .level-h2:not(:first-child) {
+/* Increase heading  */
+.sl-markdown-content :not(.heading-wrapper) + :is(.heading-wrapper):not(:where(.not-content *)) {
+	margin-block-start: 3rem;
+}
+
+/* Add HR before H2s within page content */
+.sl-markdown-content :not(.level-h2) + :is(.level-h2):not(:where(.not-content *)) {
 	margin-block-start: 3rem;
 	padding-block-start: 3rem;
 	border-top: 1px solid var(--sl-color-gray-5);

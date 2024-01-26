@@ -14,7 +14,7 @@ interface Props extends Omit<HTMLAttributes<'a'>, 'title'> {
 const { title, description, icon, image, size, ...attributes } = Astro.props;
 ---
 
-<div>
+<div class="sl-link-card">
 	{
 		image ? (
 			<span class={`not-content img ${size === 'small' ? 'img-small' : ''}`}>
@@ -32,7 +32,7 @@ const { title, description, icon, image, size, ...attributes } = Astro.props;
 </div>
 
 <style>
-	div {
+	.sl-link-card {
 		display: flex;
 		gap: 1rem;
 		border: 1px solid var(--sl-color-gray-5);
@@ -44,6 +44,7 @@ const { title, description, icon, image, size, ...attributes } = Astro.props;
 
 	a {
 		text-decoration: none;
+		line-height: var(--sl-line-height-headings);
 	}
 
 	/* a11y fix for https://github.com/withastro/starlight/issues/487 */
@@ -100,12 +101,12 @@ const { title, description, icon, image, size, ...attributes } = Astro.props;
 	}
 
 	/* Hover state */
-	div:hover {
+	.sl-link-card:hover {
 		background: var(--sl-color-gray-7, var(--sl-color-gray-6));
 		border-color: var(--sl-color-gray-2);
 	}
 
-	div:hover .icon {
+	.sl-link-card:hover .icon {
 		color: var(--sl-color-white);
 	}
 </style>
