@@ -14,6 +14,9 @@ export default defineConfig({
 		rehypePlugins: [...rehypeAutolink()],
 	},
 	site: 'https://onerepo.tools',
+	devToolbar: {
+		enabled: true,
+	},
 	integrations: [
 		astroMetaTags(),
 		sitemap({
