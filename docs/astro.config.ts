@@ -42,9 +42,16 @@ export default defineConfig({
 		}),
 		starlight({
 			title: 'oneRepo',
+			defaultLocale: 'root',
+			locales: {
+				root: {
+					label: 'English',
+					lang: 'en',
+				},
+			},
 			logo: {
 				dark: './src/assets/logo-full-dark.svg',
-				light: './src/assets/logo-full.svg',
+				light: './src/assets/logo-full-dark.svg',
 				replacesTitle: true,
 			},
 			customCss: ['./src/custom.css'],

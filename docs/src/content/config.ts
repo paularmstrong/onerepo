@@ -1,5 +1,5 @@
 import { z, defineCollection } from 'astro:content';
-import { docsSchema } from '@astrojs/starlight/schema';
+import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
 
 export const collections: Record<string, ReturnType<typeof defineCollection>> = {
 	docs: defineCollection({
@@ -14,4 +14,5 @@ export const collections: Record<string, ReturnType<typeof defineCollection>> = 
 			}),
 		}),
 	}),
+	i18n: defineCollection({ type: 'data', schema: i18nSchema() }),
 };
