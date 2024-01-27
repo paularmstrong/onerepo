@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<ebc8a0ea8eaec0f2e318efbc39ea228f>> -->
+<!-- @generated SignedSource<<e8984e47606ebfa96b0e50a52c8a2166>> -->
 
 ## Namespaces
 
@@ -1437,13 +1437,33 @@ If a workspace `package.json` is set to `private: true`, it will not be availabl
 **Returns:** `boolean`  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
-##### publishConfig
+##### publishablePackageJson
 
 ```ts
-get publishConfig(): PublishConfig
+get publishablePackageJson(): null | PublicPackageJson
 ```
 
-**Returns:** [`PublishConfig`](#publishconfig-1)  
+Get a version of the Workspace's `package.json` that is meant for publishing.
+
+This strips off `devDependencies` and applies appropriate [`publishConfig`](#publishconfig) values to the root of the `package.json`. This feature enables your monorepo to use source-dependencies and avoid manually building shared Workspaces for every change in order to see them take affect in dependent Workspaces.
+
+To take advantage of this, configure your `package.json` root level to point to source files and the `publishConfig` entries to point to the build location of those entrypoints.
+
+```json collapse={2-4}
+{
+	"name": "my-module",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/index.d.ts"
+	}
+}
+```
+
+**Returns:** `null` \| [`PublicPackageJson`](#publicpackagejson)  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### scope
@@ -3094,10 +3114,10 @@ Pass a custom [`LogStep`](#logstep) to bundle this process input & output into a
 
 ## package.json
 
-### PackageJson
+### BasePackageJson
 
 ```ts
-type PackageJson: {
+type BasePackageJson: {
   alias: string[];
   author: string | Person;
   bin: string | Record<string, string>;
@@ -3111,6 +3131,12 @@ type PackageJson: {
   description: string;
   devDependencies: Record<string, string>;
   engines: Record<string, string>;
+  exports: Record<string, string | {
+     default: string;
+     import: string;
+     require: string;
+     types: string;
+  }>;
   files: string[];
   homepage: string;
   keywords: string[];
@@ -3137,6 +3163,8 @@ type PackageJson: {
 ```ts
 alias?: string[];
 ```
+
+Enable's the [`Graph`](#graph) to look up [`Workspace`](#workspace)s by shorter names or common Workspace.alias | aliases used by teams. This enables much short command-line execution. See [`Graph.getByName`](#getbyname) and [`Graph.getAllByName`](#getallbyname).
 
 ##### author?
 
@@ -3207,6 +3235,17 @@ devDependencies?: Record<string, string>;
 engines?: Record<string, string>;
 ```
 
+##### exports?
+
+```ts
+exports?: Record<string, string | {
+  default: string;
+  import: string;
+  require: string;
+  types: string;
+}>;
+```
+
 ##### files?
 
 ```ts
@@ -3242,6 +3281,8 @@ main?: string;
 ```ts
 name: string;
 ```
+
+The full name for the [`Workspace`](#workspace). This will be used within the package manager and publishable registry.
 
 ##### optionalDependencies?
 
@@ -3297,20 +3338,10 @@ version?: string;
 
 ---
 
-### PackageJsonWithLocation
+### PackageJson
 
 ```ts
-type PackageJsonWithLocation: PackageJson & {
-  location: string;
-};
-```
-
-**Type declaration:**
-
-##### location
-
-```ts
-location: string;
+type PackageJson: PrivatePackageJson | PublicPackageJson;
 ```
 
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -3354,11 +3385,11 @@ url?: string;
 ### PrivatePackageJson
 
 ```ts
-type PrivatePackageJson: PackageJson & {
+type PrivatePackageJson: {
   license: "UNLICENSED";
   private: true;
   workspaces: string[];
-};
+  } & BasePackageJson;
 ```
 
 **Type declaration:**
@@ -3388,10 +3419,11 @@ workspaces?: string[];
 ### PublicPackageJson
 
 ```ts
-type PublicPackageJson: PackageJson & {
+type PublicPackageJson: {
   private: false;
   publishConfig: PublishConfig;
-};
+  workspaces: never;
+  } & BasePackageJson;
 ```
 
 **Type declaration:**
@@ -3408,6 +3440,12 @@ private?: false;
 publishConfig?: PublishConfig;
 ```
 
+##### workspaces?
+
+```ts
+workspaces?: never;
+```
+
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ---
@@ -3416,27 +3454,76 @@ publishConfig?: PublishConfig;
 
 ```ts
 type PublishConfig: {
-[key: string]: unknown;   access: "public" | "restricted";
-  registry: string;
+[key: typeof publishConfigKeep[number]]: unknown;   bin: string | Record<string, string>;
+  exports: Record<string, string | {
+     default: string;
+     import: string;
+     require: string;
+     types: string;
+  }>;
+  main: string;
+  module: string;
+  typings: string;
 };
+```
+
+The `publishConfig` should follow [NPM's guidelines](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#publishconfig), apart from the possible defined extra keys here. Anything defined here will be merged back to the root of the `package.json` at publish time.
+
+Use these keys to help differentiate between your repository's source-dependency entrypoints vs published module entrypoints.
+
+```json collapse={2-4}
+{
+	"name": "my-module",
+	"license": "MIT",
+	"type": "module",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public",
+		"main": "./dist/index.js",
+		"typings": "./dist/index.d.ts"
+	}
+}
 ```
 
 #### Index signature
 
-\[`key`: `string`\]: `unknown`
+\[`key`: _typeof_ `publishConfigKeep`\[`number`\]\]: `unknown`
 
 **Type declaration:**
 
-##### access?
+##### bin?
 
 ```ts
-access?: "public" | "restricted";
+bin?: string | Record<string, string>;
 ```
 
-##### registry?
+##### exports?
 
 ```ts
-registry?: string;
+exports?: Record<string, string | {
+  default: string;
+  import: string;
+  require: string;
+  types: string;
+}>;
+```
+
+##### main?
+
+```ts
+main?: string;
+```
+
+##### module?
+
+```ts
+module?: string;
+```
+
+##### typings?
+
+```ts
+typings?: string;
 ```
 
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)

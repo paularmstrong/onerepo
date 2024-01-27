@@ -8,7 +8,7 @@ import { exists, mkdirp, read, write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type { PrivatePackageJson } from '@onerepo/graph';
+import type { PackageJson } from '@onerepo/graph';
 
 export const command = ['create', 'init'];
 
@@ -75,10 +75,10 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	const outdir = dir ?? path.join(process.cwd(), location || '.');
 	const isExistingRepo = await exists(path.join(outdir, 'package.json'), { step: existStep });
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
-	let packageJson: PrivatePackageJson | null = null;
+	let packageJson: PackageJson | null = null;
 	if (isExistingRepo) {
 		const raw = await read(path.join(outdir, 'package.json'), 'r', { step: existStep });
-		packageJson = JSON.parse(raw) as PrivatePackageJson;
+		packageJson = JSON.parse(raw) as PackageJson;
 		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
 	}
 	let workspaces: Array<string> = packageJson?.workspaces ?? inputWorkspaces ?? [];
@@ -143,9 +143,9 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	logger.debug({ outdir, workspaces, plugins });
 
-	const outPackageJson: PrivatePackageJson = {
+	const outPackageJson = {
 		name: path.basename(outdir),
-		license: 'UNLICENSED',
+		license: 'UNLICENSED' as const,
 		private: true,
 		packageManager: `${pkgManager}@${pkgManagerVersion}`,
 		...packageJson,
@@ -160,7 +160,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 				{} as Record<string, string>,
 			),
 		},
-	};
+	} as PackageJson;
 
 	if (pkgManager !== 'pnpm') {
 		outPackageJson.workspaces = workspaces.map((ws) => (/\/\*?$/.test(ws) ? ws : `${ws}/*`));

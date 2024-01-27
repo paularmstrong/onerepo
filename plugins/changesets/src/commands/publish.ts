@@ -4,7 +4,8 @@ import { write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getBranch, isClean } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
-import { applyPublishConfig, resetPackageJson } from '../publish-config';
+import type { PublishConfig } from 'onerepo';
+import { resetPackageJson } from '../publish-config';
 
 export const command = ['publish', 'release'];
 
@@ -86,7 +87,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 	if (!skipAuth) {
 		const isLoggedIn = await graph.packageManager.loggedIn({
 			scope: publishable[0].scope?.replace(/^@/, ''),
-			registry: publishable[0].publishConfig.registry,
+			registry: workspaces[0].publishablePackageJson!.publishConfig?.registry as string | undefined,
 		});
 		if (!isLoggedIn) {
 			logger.error(
@@ -115,7 +116,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 
 	const configStep = logger.createStep('Apply publishConfig');
 	for (const workspace of publishable) {
-		const newPackageJson = applyPublishConfig(workspace.packageJson);
+		const newPackageJson = workspace.publishablePackageJson;
 		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step: configStep });
 	}
 	await configStep.end();
@@ -141,8 +142,10 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		logger.unpause();
 	}
 
+	const publishConfig =
+		'publishConfig' in publishable[0].packageJson ? (publishable[0].packageJson.publishConfig as PublishConfig) : {};
 	await graph.packageManager.publish({
-		access: publishable[0].publishConfig?.access ?? 'public',
+		access: (publishConfig.access || 'public') as 'restricted' | 'public',
 		workspaces: publishable,
 		otp,
 		tag: 'latest',
