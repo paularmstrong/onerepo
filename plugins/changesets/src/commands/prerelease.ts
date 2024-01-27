@@ -9,7 +9,8 @@ import type { ReleasePlan } from '@changesets/types';
 import type { Package, Packages } from '@manypkg/get-packages';
 import applyReleasePlan from '@changesets/apply-release-plan';
 import readChangesets from '@changesets/read';
-import { applyPublishConfig, resetPackageJson } from '../publish-config';
+import type { PublishConfig } from 'onerepo';
+import { resetPackageJson } from '../publish-config';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 
@@ -72,12 +73,12 @@ Commit or stash your changes to continue.`);
 	}
 
 	const packageList: Array<Package> = Object.values(graph.workspaces).map(
-		(ws) => ({ packageJson: applyPublishConfig(ws.packageJson), dir: ws.location }) as Package,
+		(ws) => ({ packageJson: ws.publishablePackageJson, dir: ws.location }) as Package,
 	);
 	const packages: Packages = {
 		tool: 'root',
 		packages: packageList,
-		root: { packageJson: applyPublishConfig(graph.root.packageJson), dir: graph.root.location } as Package,
+		root: { packageJson: graph.root.publishablePackageJson, dir: graph.root.location } as Package,
 	};
 
 	const config = await readConfig(graph.root.location, packages);
@@ -140,7 +141,7 @@ Commit or stash your changes to continue.`);
 	if (!skipAuth) {
 		const isLoggedIn = await graph.packageManager.loggedIn({
 			scope: workspaces[0].scope?.replace(/^@/, ''),
-			registry: workspaces[0].publishConfig.registry,
+			registry: workspaces[0].publishablePackageJson!.publishConfig?.registry as string,
 		});
 		if (!isLoggedIn) {
 			logger.error(
@@ -221,8 +222,10 @@ Commit or stash your changes to continue.`);
 		logger.unpause();
 	}
 
+	const publishConfig =
+		'publishConfig' in workspaces[0].packageJson ? (workspaces[0].packageJson.publishConfig as PublishConfig) : {};
 	await graph.packageManager.publish({
-		access: workspaces[0].publishConfig?.access ?? 'public',
+		access: (publishConfig.access || 'public') as 'restricted' | 'public',
 		workspaces,
 		otp,
 		tag: 'prerelease',

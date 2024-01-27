@@ -60,7 +60,7 @@ export interface PackageManager {
 		/**
 		 * The base URL of your NPM registry. PNPM and NPM ignore scope and look up per-registry.
 		 */
-		registry?: string;
+		registry?: string | undefined;
 	}): Promise<boolean>;
 
 	/**

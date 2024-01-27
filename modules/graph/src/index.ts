@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import { getLockfile, getPackageManagerName } from '@onerepo/package-manager';
 import initJiti from 'jiti';
 import { Graph } from './Graph';
-import type { PackageJson, PrivatePackageJson } from './Workspace';
+import type { PackageJson } from './Workspace';
 
 export * from './Graph';
 export * from './Workspace';
@@ -35,14 +35,14 @@ export function getGraph(workingDir: string = process.cwd()) {
 		}
 	}
 
-	return new Graph(workingDir, json as PrivatePackageJson, workspaces, jiti);
+	return new Graph(workingDir, json as PackageJson, workspaces, jiti);
 }
 
 /**
  * @internal
  */
-export function getRootPackageJson(searchLocation: string): { filePath: string; json: PrivatePackageJson } {
-	const match = getPackageJson<PrivatePackageJson>(searchLocation);
+export function getRootPackageJson(searchLocation: string): { filePath: string; json: PackageJson } {
+	const match = getPackageJson<PackageJson>(searchLocation);
 	if (getLockfile(path.dirname(match.filePath))) {
 		return match;
 	}

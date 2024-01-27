@@ -6,7 +6,7 @@ import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { PackageManager } from '@onerepo/package-manager';
 import { Workspace } from './Workspace';
-import type { PackageJson, PrivatePackageJson } from './Workspace';
+import type { PackageJson } from './Workspace';
 
 /**
  * @group Graph
@@ -95,7 +95,7 @@ export class Graph {
 	/**
 	 * @internal
 	 */
-	constructor(location: string, packageJson: PrivatePackageJson, workspaces: Array<string>, moduleRequire = require) {
+	constructor(location: string, packageJson: PackageJson, workspaces: Array<string>, moduleRequire = require) {
 		this.#require = moduleRequire;
 		this.#rootLocation = location;
 		this.#addWorkspace(location, packageJson);
