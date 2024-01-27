@@ -6,6 +6,12 @@ import { getCommand } from '@onerepo/test-cli';
 import * as Show from '../show';
 
 vi.mock('node:os');
+// Mock the version, since that's included in the output
+vi.mock('../../../../package.json', () => ({
+	default: {
+		version: '0.0.0-test',
+	},
+}));
 
 const { run } = getCommand(Show);
 
@@ -34,7 +40,7 @@ describe('graph show', () => {
 			await run('--all', { graph });
 
 			const expected =
-				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
+				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0ANC3ZLU4hIlHaXUlPTUYiWraqXc1LxSJavoaKW0zIqS0qJU3ZLE5PxiJR3j2FgduFhRfn4JUBGSCEQVilBSaVFRZglEtLYWAIa%2BJ2I%3D';
 
 			expect(spy.out.trim()).toEqual(expected);
 		});
@@ -48,7 +54,7 @@ describe('graph show', () => {
 			await run('--all --open', { graph });
 
 			const expected =
-				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
+				'https://onerepo.tools/visualize/?g=eJyrVipTslIy0ANC3ZLU4hIlHaXUlPTUYiWraqXc1LxSJavoaKW0zIqS0qJU3ZLE5PxiJR3j2FgduFhRfn4JUBGSCEQVilBSaVFRZglEtLYWAIa%2BJ2I%3D';
 
 			expect(subprocess.run).toHaveBeenCalledWith(
 				expect.objectContaining({
@@ -64,7 +70,7 @@ describe('graph show', () => {
 			await run('--all --url=https://example.com', { graph });
 
 			const expected =
-				'https://example.com/?g=eJyrVipTslIy0DM01TNR0lFKTUlPLVayqlbKTc0rVbKKjlZKy6woKS1K1S1JTM4vVtIxjo3VgYsV5eeXABUhiUBUoQgllRYVZZZARGtrAc3aJa8%3D';
+				'https://example.com/?g=eJyrVipTslIy0ANC3ZLU4hIlHaXUlPTUYiWraqXc1LxSJavoaKW0zIqS0qJU3ZLE5PxiJR3j2FgduFhRfn4JUBGSCEQVilBSaVFRZglEtLYWAIa%2BJ2I%3D';
 
 			expect(spy.out.trim()).toEqual(expected);
 		});

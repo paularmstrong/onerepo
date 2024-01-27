@@ -97,15 +97,18 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 			}
 			const g = Buffer.from(deflateSync(Buffer.from(JSON.stringify({ v: pkg.version, edges })))).toString('base64');
 			const url = new URL(urlBase);
+			logger.info(g);
 			url.search = new URLSearchParams({ g }).toString();
-			process.stdout.write(`\n${url.toString()}`);
-			if (open) {
-				await run({
-					name: 'Open browser',
-					cmd: platform() === 'darwin' ? 'open' : 'xdg-open',
-					args: [url.toString()],
-				});
-			}
+			process.stdout.write(`\n${url.toString()}\n\n`);
+			setImmediate(async () => {
+				if (open) {
+					await run({
+						name: 'Open browser',
+						cmd: platform() === 'darwin' ? 'open' : 'xdg-open',
+						args: [url.toString()],
+					});
+				}
+			});
 		}
 	}
 };
