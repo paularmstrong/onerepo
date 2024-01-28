@@ -233,7 +233,7 @@ describe('handler', () => {
 		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
-	test('runs all workspaces if the root is affected', async () => {
+	test('runs all Workspaces if the root is affected', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 

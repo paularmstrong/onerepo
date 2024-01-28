@@ -44,12 +44,12 @@ export const builder: Builder<Args> = (yargs) =>
 			hidden: true,
 		})
 		.epilogue(
-			`This command can generate representations of your workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
+			`This command can generate representations of your Workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
 
 Pass \`--open\` to auto-open your default browser with the URL or use one of the \`--format\` options to print out various other representations.`,
 		)
-		.example(`$0 ${command}`, 'Print a URL to the online visualizer for the current affected workspace graph.')
-		.example(`$0 ${command} --all --open`, 'Open the online visualizer for your full workspace graph.')
+		.example(`$0 ${command}`, 'Print a URL to the online visualizer for the current affected Workspace graph.')
+		.example(`$0 ${command} --all --open`, 'Open the online visualizer for your full Workspace graph.')
 		.example(
 			'$0 show --format=mermaid -w <workspace> > ./out.mermaid',
 			'Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.',

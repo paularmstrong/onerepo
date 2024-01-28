@@ -38,7 +38,7 @@ export function changesets(opts: Options = {}): Plugin {
 			const resolved = Object.values(commands).map((cmd) => visitor(cmd));
 			return yargs.command(
 				name,
-				'Manage changesets, versioning, and publishing your public workspaces to packages.',
+				'Manage changesets, versioning, and publishing your public Workspaces to packages.',
 				(yargs) => {
 					yargs.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`).demandCommand(1);
 

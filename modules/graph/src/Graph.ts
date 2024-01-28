@@ -266,7 +266,7 @@ export class Graph {
 			return this.#byName.get(actualName)!;
 		}
 
-		throw new Error(`No workspace available for the name "${name}"`);
+		throw new Error(`No Workspace available for the name "${name}"`);
 	}
 
 	/**
@@ -276,7 +276,7 @@ export class Graph {
 	 * const workspaces = graph.getAllByName(['tacos', 'burritos']);
 	 * ```
 	 *
-	 * @param names A list of workspace {@link Workspace.name | `name`}s or any available {@link Workspace.aliases | `aliases`}.
+	 * @param names A list of Workspace {@link Workspace.name | `name`}s or any available {@link Workspace.aliases | `aliases`}.
 	 */
 	getAllByName(names: Array<string>): Array<Workspace> {
 		return names.map((name) => this.getByName(name)).filter(Boolean) as Array<Workspace>;
@@ -311,11 +311,11 @@ export class Graph {
 			segments.pop();
 		}
 
-		throw new Error(`No workspace was found for "${location}"`);
+		throw new Error(`No Workspace was found for "${location}"`);
 	}
 
 	/**
-	 * Get all workspaces given an array of filepaths.
+	 * Get all Workspaces given an array of filepaths.
 	 *
 	 * ```ts
 	 * const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);

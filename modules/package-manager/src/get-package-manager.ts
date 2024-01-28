@@ -48,7 +48,7 @@ function guessPackageManager(cwd: string): 'npm' | 'pnpm' | 'yarn' | null {
 	}
 
 	if (
-		// From PNPm: 'The workspace manifest file should be named "pnpm-workspace.yaml"'
+		// From PNPm: 'The Workspace manifest file should be named "pnpm-workspace.yaml"'
 		// pnpm-workspace.yml will throw an error from PNPm and not work.
 		existsSync(path.resolve(cwd, 'pnpm-workspace.yaml'))
 	) {

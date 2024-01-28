@@ -22,7 +22,7 @@ const corePlugins: CorePlugins = [generate, graph, codeowners];
 export const command = 'tasks';
 
 export const description =
-	'Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.';
+	'Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected Workspace set based on the current state of the repository.';
 
 export type Argv = {
 	ignore: Array<string>;
@@ -49,7 +49,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.withAffected(builders.withWorkspaces(yargs))
 		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
 		.epilogue(
-			'You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.',
+			'You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.',
 		)
 		.option('lifecycle', {
 			alias: 'c',

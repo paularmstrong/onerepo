@@ -23,7 +23,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.option('tsconfig', {
 			type: 'string',
 			default: 'tsconfig.json',
-			description: 'The filename of the tsconfig to find in each workspace.',
+			description: 'The filename of the tsconfig to find in each Workspace.',
 			hidden: true,
 		})
 		.option('use-project-references', {
@@ -33,7 +33,7 @@ export const builder: Builder<Argv> = (yargs) =>
 			hidden: true,
 			description: 'Automatically sync and use typescript project references',
 		})
-		.epilogue('Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each workspace.');
+		.epilogue('Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each Workspace.');
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
 	const { pretty, 'use-project-references': useProjectRefs, tsconfig, verbosity } = argv;

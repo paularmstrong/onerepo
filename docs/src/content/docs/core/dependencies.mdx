@@ -37,7 +37,7 @@ No configuration necessary! oneRepo automatically detects which package manager 
 </div>
 
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<45376b9b10592385f135053227daf343>> */}
+{/* @generated SignedSource<<29fc8b0a064abca21cbbf62dfdbcf3ed>> */}
 
 ### `one dependencies`
 
@@ -53,7 +53,7 @@ one dependencies <command> [options...]
 
 #### `one dependencies add`
 
-Add dependencies to workspaces.
+Add dependencies to Workspaces.
 
 ```sh
 one dependencies add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]
@@ -73,7 +73,7 @@ Otherwise, the latest version will be requested from the registry.
 | `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |          |
 | `--prod`, `-p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |          |
 | `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |          |
-| `--workspaces`, `-w` | `array`                                            | One or more workspaces to add dependencies into                                                                                        |          |
+| `--workspaces`, `-w` | `array`                                            | One or more Workspaces to add dependencies into                                                                                        |          |
 
 Install the latest version of `normalizr` from the registry, using a strict version number.
 
@@ -97,7 +97,7 @@ one dependencies add -w workspace-a workspace-b -d babel-core -p react
 
 #### `one dependencies remove`
 
-Remove dependencies from workspaces.
+Remove dependencies from Workspaces.
 
 ```sh
 one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
@@ -109,7 +109,7 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 | `--dedupe`             | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
 | `--dependencies`, `-d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
 | `--show-advanced`      | `boolean`                  | Pair with `--help` to show advanced options.                              |          |
-| `--workspaces`, `-w`   | `array`                    | List of workspace names to run against                                    |          |
+| `--workspaces`, `-w`   | `array`                    | List of Workspace names to run against                                    |          |
 
 ---
 
@@ -121,7 +121,7 @@ Verify dependencies across workspaces.
 one dependencies verify -w [workspaces...]
 ```
 
-Dependencies across workspaces can be validated using one of the various modes:
+Dependencies across Workspaces can be validated using one of the various modes:
 
 - `off`: No validation will occur. Everything goes.
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
@@ -132,6 +132,6 @@ Dependencies across workspaces can be validated using one of the various modes:
 | `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |          |
 | `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |          |
 | `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |          |
-| `--workspaces`, `-w` | `array`                                            | List of workspace names to run against                                                                                                                        |          |
+| `--workspaces`, `-w` | `array`                                            | List of Workspace names to run against                                                                                                                        |          |
 
 {/* end-auto-generated-from-cli-dependencies */}

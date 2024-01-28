@@ -286,21 +286,21 @@ jobs:
 ## Commands
 
 {/* start-auto-generated-from-cli-tasks */}
-{/* @generated SignedSource<<201c62da137b2a6724a452c68b82c21a>> */}
+{/* @generated SignedSource<<f177497985a1ac83b25e0c58dfd7fdca>> */}
 
 ### `one tasks`
 
-Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected workspace set based on the current state of the repository.
+Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected Workspace set based on the current state of the repository.
 
 ```sh
 one tasks --lifecycle=<lifecycle> [options]
 ```
 
-You can fine-tune the determination of affected workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
+You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
 
 | Option               | Type                                                                                                                  | Description                                                                                                                                      | Required |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| `--affected`         | `boolean`                                                                                                             | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                      |          |
+| `--affected`         | `boolean`                                                                                                             | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                      |          |
 | `--all`, `-a`        | `boolean`                                                                                                             | Run across all workspaces                                                                                                                        |          |
 | `--ignore-unstaged`  | `boolean`                                                                                                             | Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.                                     |          |
 | `--lifecycle`, `-c`  | `"pre-commit"`, `"post-commit"`, `"post-checkout"`, `"pre-merge"`, `"post-merge"`, `"build"`, `"deploy"`, `"publish"` | Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.       | ✅       |
@@ -308,7 +308,7 @@ You can fine-tune the determination of affected workspaces by providing a `--fro
 | `--shard`            | `string`                                                                                                              | Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`                                                         |          |
 | `--show-advanced`    | `boolean`                                                                                                             | Pair with `--help` to show advanced options.                                                                                                     |          |
 | `--staged`           | `boolean`                                                                                                             | Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit. |          |
-| `--workspaces`, `-w` | `array`                                                                                                               | List of workspace names to run against                                                                                                           |          |
+| `--workspaces`, `-w` | `array`                                                                                                               | List of Workspace names to run against                                                                                                           |          |
 
 <details>
 

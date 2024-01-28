@@ -94,7 +94,7 @@ export const docgen = (opts: Options = {}): Plugin => {
 				if (wsName && outFile) {
 					const workspace = graph.getByName(wsName);
 					if (!workspace) {
-						throw new Error(`No workspace by name "${wsName}"`);
+						throw new Error(`No Workspace by name "${wsName}"`);
 					}
 					outPath = workspace.resolve(outFile);
 				}

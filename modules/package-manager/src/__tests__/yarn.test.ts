@@ -154,7 +154,7 @@ describe('Yarn', () => {
 	});
 
 	describe('publishable', () => {
-		test('filters workspaces by the ones with a version not in the registry', async () => {
+		test('filters Workspaces by the ones with a version not in the registry', async () => {
 			vi.spyOn(subprocess, 'batch').mockImplementation((calls) => {
 				return Promise.resolve(
 					calls.map((spec) => {

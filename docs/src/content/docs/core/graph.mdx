@@ -35,7 +35,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<940cc4c44a67a49dba1813dfdc70d4b1>> */}
+{/* @generated SignedSource<<f0c450606500615d7b5238c8a2504cc3>> */}
 
 ### `one graph`
 
@@ -55,19 +55,19 @@ Show this repository’s Workspace Graph using an online visualizer or output gr
 one graph show [options]
 ```
 
-This command can generate representations of your workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
+This command can generate representations of your Workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
 
 Pass `--open` to auto-open your default browser with the URL or use one of the `--format` options to print out various other representations.
 
 | Option               | Type                             | Description                                                                                                                                                                 | Required |
 | -------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean`                        | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--affected`         | `boolean`                        | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
 | `--all`, `-a`        | `boolean`                        | Run across all workspaces                                                                                                                                                   |          |
 | `--format`, `-f`     | `"mermaid"`, `"plain"`, `"json"` | Output format for inspecting the Workspace Graph.                                                                                                                           |          |
 | `--open`             | `boolean`                        | Auto-open the browser for the online visualizer.                                                                                                                            |          |
 | `--show-advanced`    | `boolean`                        | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                        | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--workspaces`, `-w` | `array`                          | List of workspace names to run against                                                                                                                                      |          |
+| `--staged`           | `boolean`                        | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--workspaces`, `-w` | `array`                          | List of Workspace names to run against                                                                                                                                      |          |
 
 <details>
 
@@ -81,13 +81,13 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 
 </details>
 
-Print a URL to the online visualizer for the current affected workspace graph.
+Print a URL to the online visualizer for the current affected Workspace graph.
 
 ```sh
 one graph show
 ```
 
-Open the online visualizer for your full workspace graph.
+Open the online visualizer for your full Workspace graph.
 
 ```sh
 one graph show --all --open
@@ -103,7 +103,7 @@ one graph show --format=mermaid -w <workspace> > ./out.mermaid
 
 #### `one graph verify`
 
-Verify the integrity of the repo’s dependency graph and files in each workspace.
+Verify the integrity of the repo’s dependency graph and files in each Workspace.
 
 ```sh
 one graph verify
@@ -111,7 +111,7 @@ one graph verify
 
 This command will first validate dependencies across Workspace Graph trees using the given `--mode` as well as Workspace configuration file integrity using the repo’s defined JSON schema validators.
 
-Dependencies across workspaces can be validated using one of the various modes:
+Dependencies across Workspaces can be validated using one of the various modes:
 
 - `off`: No validation will occur. Everything goes.
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.

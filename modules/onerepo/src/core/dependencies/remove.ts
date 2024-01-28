@@ -7,7 +7,7 @@ import { write } from '@onerepo/file';
 
 export const command = 'remove';
 
-export const description = 'Remove dependencies from workspaces.';
+export const description = 'Remove dependencies from Workspaces.';
 
 type Args = WithWorkspaces & { dedupe: boolean; dependencies: Array<string> };
 

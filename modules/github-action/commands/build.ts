@@ -4,7 +4,7 @@ import type { Builder, Handler } from 'onerepo';
 
 export const command = 'build';
 
-export const description = 'Build public workspaces using esbuild.';
+export const description = 'Build public Workspaces using esbuild.';
 
 type Args = builders.WithAffected &
 	builders.WithWorkspaces & {
@@ -16,8 +16,8 @@ export const builder: Builder<Args> = (yargs) =>
 		builders.withWorkspaces(
 			yargs
 				.usage('$0 build [options]')
-				.example('$0 build', 'Build all workspaces.')
-				.example('$0 build -w graph', 'Build the `graph` workspace only.')
+				.example('$0 build', 'Build all Workspaces.')
+				.example('$0 build -w graph', 'Build the `graph` Workspace only.')
 				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.'),
 		),
 	);

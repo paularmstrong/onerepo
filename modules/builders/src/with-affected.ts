@@ -20,7 +20,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 	yargs
 		.option('affected', {
 			type: 'boolean',
-			description: 'Select all affected workspaces. If no other inputs are chosen, this will default to `true`.',
+			description: 'Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.',
 			conflicts: ['all'],
 		})
 		.option('from-ref', {
@@ -32,7 +32,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 		.option('staged', {
 			type: 'boolean',
 			description:
-				'Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point.',
+				'Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point.',
 			conflicts: ['all', 'from-ref', 'through-ref'],
 		})
 		.option('through-ref', {
@@ -63,7 +63,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
  */
 export type WithAffected = {
 	/**
-	 * When used with builder helpers, will include all of the affected workspaces based on changes within the repository.
+	 * When used with builder helpers, will include all of the affected Workspaces based on changes within the repository.
 	 */
 	affected?: boolean;
 	/**

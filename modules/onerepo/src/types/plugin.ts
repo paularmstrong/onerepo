@@ -9,7 +9,7 @@ import type { RootConfig } from './config-root';
 export type PluginObject = {
 	/**
 	 * A function that is called with the CLI's `yargs` object and a visitor.
-	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
+	 * It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the Workspace graph, affected list, and much more.
 	 */
 	yargs?: (yargs: Yargs, visitor: NonNullable<RequireDirectoryOptions['visit']>) => Yargs;
 	/**

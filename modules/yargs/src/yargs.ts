@@ -271,7 +271,7 @@ export type Argv<CommandArgv = object> = Arguments<CommandArgv & DefaultArgv>;
  */
 export type HandlerExtra = {
 	/**
-	 * Get the affected workspaces based on the current state of the repository.
+	 * Get the affected Workspaces based on the current state of the repository.
 	 *
 	 * This is a wrapped implementation of {@link builders.getAffected | `builders.getAffected`} that does not require passing the `graph` argument.
 	 */
@@ -281,12 +281,12 @@ export type HandlerExtra = {
 	 *
 	 * This is a wrapped implementation of {@link builders.getFilepaths | `builders.getFilepaths`} that does not require the `graph` and `argv` arguments.
 	 *
-	 * **Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit.
+	 * **Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected Workspace paths. Use `affectedThreshold: 0` to disable the limit.
 	 *
 	 */
 	getFilepaths: (opts?: builders.FileGetterOptions) => Promise<Array<string>>;
 	/**
-	 * Get the affected workspaces based on the current inputs and the state of the repository.
+	 * Get the affected Workspaces based on the current inputs and the state of the repository.
 	 * This function differs from `getAffected` in that it respects all input arguments provided by
 	 * {@link builders.withWorkspaces | `builders.withWorkspaces`}, {@link builders.withFiles | `builders.withFiles`} and {@link builders.withAffected | `builders.withAffected`}.
 	 *

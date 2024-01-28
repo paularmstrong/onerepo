@@ -97,13 +97,13 @@ name?: string | string[];
 ## Commands
 
 {/* start-auto-generated-from-cli-changesets */}
-{/* @generated SignedSource<<8337717c44791a8812124c457ee218cb>> */}
+{/* @generated SignedSource<<1aeb61d2d142116c78a9aac4b8efa16b>> */}
 
 ### `one change`
 
 Aliases: `changeset`, `changesets`
 
-Manage changesets, versioning, and publishing your public workspaces to packages.
+Manage changesets, versioning, and publishing your public Workspaces to packages.
 
 ```sh
 one change <command> [options]
@@ -124,13 +124,13 @@ one change add [options]
 | Option               | Type                            | Description                                                                                                                                                                 | Required |
 | -------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `--add`              | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                                                                                      |          |
-| `--affected`         | `boolean`                       | Select all affected workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
+| `--affected`         | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
 | `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                                                                                   |          |
-| `--files`, `-f`      | `array`                         | Determine workspaces from specific files                                                                                                                                    |          |
+| `--files`, `-f`      | `array`                         | Determine Workspaces from specific files                                                                                                                                    |          |
 | `--show-advanced`    | `boolean`                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                       | Use files on the git stage to calculate affected files or workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
+| `--staged`           | `boolean`                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
 | `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.                                                         |          |
-| `--workspaces`, `-w` | `array`                         | List of workspace names to run against                                                                                                                                      |          |
+| `--workspaces`, `-w` | `array`                         | List of Workspace names to run against                                                                                                                                      |          |
 
 <details>
 
@@ -165,7 +165,7 @@ You should only ever have to do this once.
 
 Aliases: `pre-release`, `pre`
 
-Pre-release available workspaces.
+Pre-release available Workspaces.
 
 ```sh
 one change prerelease
@@ -173,7 +173,7 @@ one change prerelease
 
 | Option            | Type                       | Description                                                                                   | Required |
 | ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| `--build`         | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
+| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |          |
 | `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
 | `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
 | `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
@@ -194,7 +194,7 @@ one change prerelease
 
 Aliases: `release`
 
-Publish all workspaces with versions not available in the registry.
+Publish all Workspaces with versions not available in the registry.
 
 ```sh
 one change publish [options]
@@ -204,7 +204,7 @@ This command is safe to run any time – only packages that have previously gone
 
 | Option            | Type                       | Description                                                                                   | Required |
 | ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| `--build`         | `boolean`, default: `true` | Build workspaces before publishing                                                            |          |
+| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |          |
 | `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
 | `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
 | `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
@@ -223,7 +223,7 @@ This command is safe to run any time – only packages that have previously gone
 
 #### `one change version`
 
-Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.
+Version Workspaces for publishing. Allows you to select a minimal set of Workspaces from the current changesets, version them, and write changelogs.
 
 ```sh
 one change version

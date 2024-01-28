@@ -14,9 +14,9 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<2e9ce9f1418963aa83d2c42cc383bf27>> -->
+<!-- @generated SignedSource<<5e09f842394c337a22027f1b160b136a>> -->
 
-Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
+Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived.
 
 Note that while `builders` are available, the “getters” should typically be referenced from the extra arguments passed to your `handler` function:
 
@@ -57,7 +57,7 @@ type FileGetterOptions: GetterOptions & {
 affectedThreshold?: number;
 ```
 
-Threshold of number of files until we fall-back and swap to workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
+Threshold of number of files until we fall-back and swap to Workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
 
 ###### Default Value
 
@@ -299,7 +299,7 @@ export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
 affected?: boolean;
 ```
 
-When used with builder helpers, will include all of the affected workspaces based on changes within the repository.
+When used with builder helpers, will include all of the affected Workspaces based on changes within the repository.
 
 ##### from-ref?
 
@@ -408,7 +408,7 @@ export const builder: Builder<Argv> = (yargs) => builders.withWorkspaces(yargs);
 all?: boolean;
 ```
 
-Include _all_ workspaces.
+Include _all_ Workspaces.
 
 ##### workspaces?
 
@@ -416,7 +416,7 @@ Include _all_ workspaces.
 workspaces?: string[];
 ```
 
-One or more workspaces by `name` or `alias` string.
+One or more Workspaces by `name` or `alias` string.
 
 **Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
 
@@ -428,11 +428,11 @@ One or more workspaces by `name` or `alias` string.
 getAffected(graph, __namedParameters?): Promise<Workspace[]>
 ```
 
-Get a list of the affected workspaces.
+Get a list of the affected Workspaces.
 
 Typically, this should be used from the helpers provided by the command [`Handler`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
 
-If the root workspace is included in the list, all workspaces will be presumed affected and returned.
+If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
 
 ```ts
 export const handler: Handler = (argv, { getAffected, logger }) => {
@@ -466,11 +466,11 @@ __namedParameters?): Promise<string[]>
 
 Get a list of filepaths based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
 
-When providing `--workspaces <names>`, the paths will be paths to the requested workspaces, not individual files.
+When providing `--workspaces <names>`, the paths will be paths to the requested Workspaces, not individual files.
 
 Typically, this should be used from the helpers provided by the command handler’s [`HandlerExtra`](../../#handlerextra), in which case the first argument has been scoped for you already.
 
-When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading [subprocess `run`](../../#run-1) arguments. When the threshold is hit, this function will swap to return the set of parent workspace locations for the affected file lists.
+When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading [subprocess `run`](../../#run-1) arguments. When the threshold is hit, this function will swap to return the set of parent Workspace locations for the affected file lists.
 
 ```ts
 export const handler: Handler = (argv, { getFilepaths, logger }) => {
@@ -506,11 +506,11 @@ getWorkspaces(
 __namedParameters?): Promise<Workspace[]>
 ```
 
-Get a list of workspaces based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
+Get a list of Workspaces based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
 
 Typically, this should be used from the helpers provided by the command [`Handler`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
 
-If the root workspace is included in the list, all workspaces will be presumed affected and returned.
+If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
 
 ```ts
 export const handler: Handler = (argv, { getWorkspaces, logger }) => {
