@@ -177,7 +177,7 @@ export async function setup({
 
 		// Workspace commands using resolvedConfig.commands.directory
 		yargs.command({
-			describe: 'Run workspace-specific commands',
+			describe: 'Run Workspace-specific commands',
 			command: '$0',
 			aliases: ['workspace', 'ws'],
 			builder: workspaceBuilder(graph, resolvedConfig.commands.directory || 'commands'),

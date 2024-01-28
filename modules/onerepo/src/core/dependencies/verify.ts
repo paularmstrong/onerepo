@@ -7,7 +7,7 @@ export const command = 'verify';
 
 export const description = 'Verify dependencies across workspaces.';
 
-export const epilogue = `Dependencies across workspaces can be validated using one of the various modes:
+export const epilogue = `Dependencies across Workspaces can be validated using one of the various modes:
 
 - \`off\`: No validation will occur. Everything goes.
 - \`loose\`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.

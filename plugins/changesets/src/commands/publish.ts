@@ -9,7 +9,7 @@ import { resetPackageJson } from '../publish-config';
 
 export const command = ['publish', 'release'];
 
-export const description = 'Publish all workspaces with versions not available in the registry.';
+export const description = 'Publish all Workspaces with versions not available in the registry.';
 
 type Args = {
 	'allow-dirty': boolean;
@@ -29,7 +29,7 @@ export const builder: Builder<Args> = (yargs) =>
 		})
 		.option('build', {
 			type: 'boolean',
-			description: 'Build workspaces before publishing',
+			description: 'Build Workspaces before publishing',
 			default: true,
 		})
 		.option('otp', {

@@ -47,11 +47,11 @@ export type GetterOptions = (Through | Staged) & {
 export type Argv = WithAllInputs;
 
 /**
- * Get a list of the affected workspaces.
+ * Get a list of the affected Workspaces.
  *
  * Typically, this should be used from the helpers provided by the command {@link !Handler | `Handler`}, in which case the first argument has been scoped for you already.
  *
- * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
+ * If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
  *
  * ```ts
  * export const handler: Handler = (argv, { getAffected, logger }) => {
@@ -83,10 +83,10 @@ export function getAffected(graph: Graph, { from, ignore, staged, step, through 
 		}
 
 		/**
-		 * Return all workspaces if the root is included
+		 * Return all Workspaces if the root is included
 		 */
 		if (workspaces.has(graph.root.name)) {
-			step.log('Root workspace included in affected list. Assuming all workspaces.');
+			step.log('Root Workspace included in affected list. Assuming all Workspaces.');
 			return graph.workspaces;
 		}
 
@@ -95,11 +95,11 @@ export function getAffected(graph: Graph, { from, ignore, staged, step, through 
 }
 
 /**
- * Get a list of workspaces based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
+ * Get a list of Workspaces based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
  *
  * Typically, this should be used from the helpers provided by the command {@link !Handler | `Handler`}, in which case the first argument has been scoped for you already.
  *
- * If the root workspace is included in the list, all workspaces will be presumed affected and returned.
+ * If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
  *
  * ```ts
  * export const handler: Handler = (argv, { getWorkspaces, logger }) => {
@@ -117,7 +117,7 @@ export async function getWorkspaces(
 	argv: Argv,
 	{ step, from, staged, through, ...opts }: GetterOptions = {},
 ): Promise<Array<Workspace>> {
-	return stepWrapper({ step, name: 'Get workspaces from inputs' }, async (step) => {
+	return stepWrapper({ step, name: 'Get Workspaces from inputs' }, async (step) => {
 		let workspaces: Array<Workspace> = [];
 		if ('all' in argv && argv.all) {
 			step.log('`all` requested');
@@ -148,10 +148,10 @@ export async function getWorkspaces(
 		}
 
 		/**
-		 * Return all workspaces if the root is included
+		 * Return all Workspaces if the root is included
 		 */
 		if (workspaces.includes(graph.root)) {
-			step.log('Root workspace included in requested list. Assuming all workspaces.');
+			step.log('Root Workspace included in requested list. Assuming all Workspaces.');
 			return graph.workspaces;
 		}
 
@@ -161,7 +161,7 @@ export async function getWorkspaces(
 
 export type FileGetterOptions = GetterOptions & {
 	/**
-	 * Threshold of number of files until we fall-back and swap to workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
+	 * Threshold of number of files until we fall-back and swap to Workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
 	 *
 	 * @defaultValue 100
 	 */
@@ -171,11 +171,11 @@ export type FileGetterOptions = GetterOptions & {
 /**
  * Get a list of filepaths based on the input arguments made available with the builders {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withAllInputs | `builders.withAllInputs`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`}.
  *
- * When providing `--workspaces <names>`, the paths will be paths to the requested workspaces, not individual files.
+ * When providing `--workspaces <names>`, the paths will be paths to the requested Workspaces, not individual files.
  *
  * Typically, this should be used from the helpers provided by the command handler’s {@link !HandlerExtra | `HandlerExtra`}, in which case the first argument has been scoped for you already.
  *
- * When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading {@link !run | subprocess `run`} arguments. When the threshold is hit, this function will swap to return the set of parent workspace locations for the affected file lists.
+ * When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading {@link !run | subprocess `run`} arguments. When the threshold is hit, this function will swap to return the set of parent Workspace locations for the affected file lists.
  *
  * ```ts
  * export const handler: Handler = (argv, { getFilepaths, logger }) => {

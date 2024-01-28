@@ -1,5 +1,5 @@
 /**
- * Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived.
+ * Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived.
  *
  * Note that while `builders` are available, the “getters” should typically be referenced from the extra arguments passed to your `handler` function:
  *

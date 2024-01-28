@@ -7,7 +7,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 		yargs
 			.usage('$0 workspace <workspace-name> <command> [options]')
 			.positional('workspace-name', {
-				description: 'Workspace name – may be the fully qualified package name or an available alias.',
+				description: 'The name or alias of a Workspace.',
 				type: 'string',
 			})
 			.positional('command', {
@@ -16,7 +16,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 				type: 'string',
 			})
 			.epilogue(
-				`Add commands to the \`${dirname}\` directory within a workspace to create workspace-specific commands.`,
+				`Add commands to the \`${dirname}\` directory within a Workspace to create Workspace-specific commands.`,
 			);
 
 		const workspaceName = process.argv[3];
@@ -30,18 +30,18 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 			// pass
 		}
 
-		// Allow omitting the workspace name if the process working directory is already in a workspace
+		// Allow omitting the Workspace name if the process working directory is already in a workspace
 		const workingWorkspace = graph.getByLocation(process.cwd());
 		if (workingWorkspace !== graph.root && existsSync(workingWorkspace.resolve(dirname))) {
 			yargs
 				.usage('$0 workspace <command> [options]')
 				.usage('$0 ws <command> [options]')
 				.epilogue(
-					`You are currently working in the ${workingWorkspace.name} workspace, so workspace-specific commands will be run by default when a suitable name or alias for this workspace is omitted.`,
+					`You are currently working in the ${workingWorkspace.name} Workspace, so Workspace-specific commands will be run by default when a suitable name or alias for this Workspace is omitted.`,
 				);
 			return addCommandDir(yargs, workingWorkspace, dirname).demandCommand(
 				2,
-				`Please enter a valid command for the ${workingWorkspace.name} workspace or enter the name of another workspace for more choices.`,
+				`Please enter a valid command for the ${workingWorkspace.name} Workspace or enter the name of another Workspace for more choices.`,
 			);
 		}
 
@@ -54,14 +54,14 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 				addWorkspace(yargs, ws, dirname);
 			}
 		});
-		return yargs.demandCommand(1, 'Please enter a workspace name from the list above.');
+		return yargs.demandCommand(1, 'Please enter a Workspace name from the list above.');
 	};
 }
 
 function addWorkspace(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
 	const wsNames = [ws.name, ...ws.aliases];
 
-	return yargs.command(wsNames, `Runs commands in the \`${ws.name}\` workspace`, (yargs: Yargs) => {
+	return yargs.command(wsNames, `Runs commands in the \`${ws.name}\` Workspace`, (yargs: Yargs) => {
 		return addCommandDir(yargs, ws, dirname);
 	});
 }
@@ -69,5 +69,5 @@ function addWorkspace(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
 function addCommandDir(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
 	return yargs
 		.commandDir(ws.resolve(dirname))
-		.demandCommand(1, `Please enter a valid command for the ${ws.name} workspace.`);
+		.demandCommand(1, `Please enter a valid command for the ${ws.name} Workspace.`);
 }

@@ -15,7 +15,7 @@ import type { NewChangeset } from '@changesets/types';
 export const command = 'version';
 
 export const description =
-	'Version workspaces for publishing. Allows you to select a minimal set of workspaces from the current changesets, version them, and write changelogs.';
+	'Version Workspaces for publishing. Allows you to select a minimal set of Workspaces from the current changesets, version them, and write changelogs.';
 
 type Argv = {
 	add: boolean;
@@ -81,7 +81,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		{
 			type: 'checkbox',
 			name: 'choices',
-			message: `Which workspaces would you like to release?
+			message: `Which Workspaces would you like to release?
   ${pc.dim('Something missing? Add a changeset to describe the version update before proceeding.')}
 
 `,
@@ -89,7 +89,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			pageSize: available.length,
 			validate: (input) => {
 				if (!input.length) {
-					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+					return `${pc.bold(pc.red('Error:'))} Please select at least one Workspace.`;
 				}
 				return true;
 			},
@@ -98,7 +98,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	logger.unpause();
 
 	if (choices.length === 0) {
-		requestStep.warn('No workspaces were selected. Nothing to do.');
+		requestStep.warn('No Workspaces were selected. Nothing to do.');
 		return;
 	}
 
@@ -135,7 +135,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			{
 				type: 'confirm',
 				name: 'okay',
-				message: `Due to changesets related to multiple workspaces not chosen, the following ${pc.red(
+				message: `Due to changesets related to multiple Workspaces not chosen, the following ${pc.red(
 					'also',
 				)} need to be published!\n${pc.dim(
 					affectedChoices

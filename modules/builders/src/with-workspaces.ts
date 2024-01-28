@@ -25,7 +25,7 @@ export const withWorkspaces = <T>(yargs: Yargs<T>): Yargs<T & WithWorkspaces> =>
 			alias: 'w',
 			type: 'array',
 			string: true,
-			description: 'List of workspace names to run against',
+			description: 'List of Workspace names to run against',
 			conflicts: ['all'],
 		});
 
@@ -44,11 +44,11 @@ export const withWorkspaces = <T>(yargs: Yargs<T>): Yargs<T & WithWorkspaces> =>
  */
 export type WithWorkspaces = {
 	/**
-	 * Include _all_ workspaces.
+	 * Include _all_ Workspaces.
 	 */
 	all?: boolean;
 	/**
-	 * One or more workspaces by `name` or `alias` string.
+	 * One or more Workspaces by `name` or `alias` string.
 	 */
 	workspaces?: Array<string>;
 };

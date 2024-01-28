@@ -13,7 +13,7 @@ import Unsupported from '../../../components/checks/Unsupported.astro';
 
 Other monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
 
-- **Safe and strict:** Other tools rely on manually configuring globs of files that contribute to workspace integrity and decision making for whether or not checks and tasks must run. oneRepo, on the other hand _does not_ use a cache and automatically determines which workspaces, tasks, and checks must run for any given change. We sacrifice a little bit of speed for strict correctness.
+- **Safe and strict:** Other tools rely on manually configuring globs of files that contribute to Workspace integrity and decision making for whether or not checks and tasks must run. oneRepo, on the other hand _does not_ use a cache and automatically determines which Workspaces, tasks, and checks must run for any given change. We sacrifice a little bit of speed for strict correctness.
 - **Source level dependencies:** When working within the monorepo all import/require chains come from the _source_ files; never requires building shared packages to capture changes.
 
 ## Tenets
@@ -42,7 +42,7 @@ Other monorepo tooling either does too much or not enough in order to maintain a
 
 ### Script overload
 
-Many tools available for JavaScript repos rely on writing individual commands into each workspace’s [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This creates both a brittle setup, copy/paste boilerplate, reduced reusability, and limited documentation & discoverability.
+Many tools available for JavaScript repos rely on writing individual commands into each Workspace’s [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This creates both a brittle setup, copy/paste boilerplate, reduced reusability, and limited documentation & discoverability.
 
 Take for example, the following real world _portion_ of an application. This `package.json` had 43 various scripts _just_ for running `cypress`. None of these were documented and many may be completely or nearly identical.
 
@@ -98,7 +98,7 @@ Take for example, the following real world _portion_ of an application. This `pa
 
 This behavior we refer to as _script overload_.
 
-Furthermore, it is difficult to remember how to run scripts in individual workspaces due to lack of documentation on `package.json` scripts – and other tooling does not provide a way to enforce standards or help developers find what they’re looking for – relying instead on manual documentation, or worse, memory.
+Furthermore, it is difficult to remember how to run scripts in individual Workspaces due to lack of documentation on `package.json` scripts – and other tooling does not provide a way to enforce standards or help developers find what they’re looking for – relying instead on manual documentation, or worse, memory.
 
 Other pitfalls with npm scripts and similar DSL-like implementations like [Nx task pipelines](https://nx.dev/recipes/running-tasks/defining-task-pipeline) and [moonrepo tasks](https://moonrepo.dev/docs/create-task) require developers to succumb to _script overload_ through task chaining.
 
@@ -140,11 +140,11 @@ tasks:
       - build-tsdefs
 ```
 
-While this may seem okay to start, as repos grow and become complex, workspaces may have unique needs and need conditional checks for whether they should run certain portions of tasks or not. Using a DSL requires developers to learn _yet another thing_ or rely on dedicated teams to build infrastructure for them.
+While this may seem okay to start, as repos grow and become complex, Workspaces may have unique needs and need conditional checks for whether they should run certain portions of tasks or not. Using a DSL requires developers to learn _yet another thing_ or rely on dedicated teams to build infrastructure for them.
 
 ### Cache inconsistency
 
-Avoiding extra work by utilizing cached responses based on a set of input files is a great time saver in theory. The problem is that the responsibility of knowing exactly what files and workspaces affect the cache for each individual task lies on you and your team.
+Avoiding extra work by utilizing cached responses based on a set of input files is a great time saver in theory. The problem is that the responsibility of knowing exactly what files and Workspaces affect the cache for each individual task lies on you and your team.
 
 ```json title="modules/my-project/nx.json" collapse={2-11}
 {
@@ -200,7 +200,7 @@ Hint: let's highlight the important part at line 2 from the `tsconfig.json` and 
 }
 ```
 
-Because it's expected that this may not be abundantly clear: `../../shared/tsconfig/base.json` is outside of the local workspace and _not_ declared as an input to consider for cache consistency.
+Because it's expected that this may not be abundantly clear: `../../shared/tsconfig/base.json` is outside of the local Workspace and _not_ declared as an input to consider for cache consistency.
 
 If we were to make any modifications to the `compilerOptions` within the `../../shared/tsconfig/base.json` file, we would expect to need to run a full build of `my-project` _without_ any cache. However, because of the way the cache configuration is done in Nx (and other monorepo tools), it's easily missed or mis-configured.
 

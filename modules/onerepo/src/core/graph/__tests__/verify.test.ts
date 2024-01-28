@@ -18,13 +18,13 @@ describe('verify', () => {
 		}
 	});
 
-	test('can turn off graph dependency verification', async () => {
+	test('can turn off Graph dependency verification', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 
 		await expect(run('--mode off', { graph })).resolves.toBeTruthy();
 	});
 
-	test('can verify the graph dependencies', async () => {
+	test('can verify the Graph dependencies', async () => {
 		const graphProd = getGraph(path.join(__dirname, '__fixtures__', 'bad-repo'));
 
 		await expect(run('--mode loose', { graph: graphProd })).rejects.toMatch('Version mismatches found in "menu"');

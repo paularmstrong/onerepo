@@ -52,7 +52,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			type: 'checkbox',
 			name: 'chosen',
 			prefix: '📦',
-			message: `What workspaces would you like to add a changeset for?
+			message: `What Workspaces would you like to add a changeset for?
 ${pc.dim(
 	'  Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.',
 )}
@@ -66,7 +66,7 @@ ${pc.dim(
 			pageSize: choices.length + 2,
 			validate: (input) => {
 				if (!input.length) {
-					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+					return `${pc.bold(pc.red('Error:'))} Please select at least one Workspace.`;
 				}
 				return true;
 			},
@@ -75,7 +75,7 @@ ${pc.dim(
 			type: 'checkbox',
 			name: 'other',
 			prefix: '📦',
-			message: `What ${pc.bold('other')} workspaces would you like to add a changeset for as well?`,
+			message: `What ${pc.bold('other')} Workspaces would you like to add a changeset for as well?`,
 			choices: graph.workspaces.map((ws) => ws.name).sort(),
 			when: ({ chosen }) => chosen.includes('_OTHER_'),
 			filter: (input, answers) => {
@@ -85,7 +85,7 @@ ${pc.dim(
 			pageSize: Math.min(12, graph.workspaces.length),
 			validate: (input, answers) => {
 				if (!answers.chosen.length) {
-					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+					return `${pc.bold(pc.red('Error:'))} Please select at least one Workspace.`;
 				}
 				return true;
 			},
@@ -119,7 +119,7 @@ ${pc.dim(
 	]);
 
 	if (!chosen.length) {
-		logger.error('No workspaces were chosen for changesets. Please try again.');
+		logger.error('No Workspaces were chosen for changesets. Please try again.');
 		return;
 	}
 

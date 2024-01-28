@@ -10,7 +10,7 @@ import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = ['generate', 'gen'];
 
-export const description = 'Generate files, folders, and workspaces from templates.';
+export const description = 'Generate files, folders, and Workspaces from templates.';
 
 export type Args = {
 	'templates-dir': string;

@@ -64,22 +64,22 @@ export interface PackageManager {
 	}): Promise<boolean>;
 
 	/**
-	 * Filter workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
+	 * Filter Workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
 	 * @param workspaces List of compatible {@link graph.Workspace | `graph.Workspace`} objects.
 	 */
 	publishable<T extends MinimalWorkspace>(workspaces: Array<T>): Promise<Array<T>>;
 
 	/**
-	 * Publish workspaces to the external registry
+	 * Publish Workspaces to the external registry
 	 */
 	publish<T extends MinimalWorkspace>(opts?: {
 		/**
-		 * Workspaces to publish. If not provided or empty array, only the given workspace at `cwd` will be published. This type is generally compatible with {@link graph.Workspace | `graph.Workspace`}.
+		 * Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with {@link graph.Workspace | `graph.Workspace`}.
 		 */
 		workspaces?: Array<T>;
 		/**
 		 * Set the registry access level for the package
-		 * @default inferred from workspaces `publishConfig.access` or `'public'`
+		 * @default inferred from Workspaces `publishConfig.access` or `'public'`
 		 */
 		access?: 'restricted' | 'public';
 		/**

@@ -14,7 +14,7 @@ describe('getRootPackageJson', () => {
 });
 
 describe('getGraph', () => {
-	test('gets a graph for pnpm repos', async () => {
+	test('gets a Graph for pnpm repos', async () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__/pnpm'));
 		expect(graph.root.name).toMatch('pnpm');
 		expect(graph.serialized).toMatchObject({

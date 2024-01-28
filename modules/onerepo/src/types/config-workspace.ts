@@ -8,7 +8,7 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 	 * @default `{}`.
 	 * Map of paths to array of owners.
 	 *
-	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
+	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
@@ -35,7 +35,7 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 	meta?: Record<string, unknown>;
 	/**
 	 * @default `{}`
-	 * Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+	 * Tasks for this Workspace. These will be merged with global tasks and any other affected Workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
 	 *
 	 * :::tip[Merging tasks]
 	 * Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.

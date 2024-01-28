@@ -53,7 +53,7 @@ describe('handler', () => {
 		]);
 	});
 
-	test('updates versions across workspaces and updates the git index', async () => {
+	test('updates versions across Workspaces and updates the git index', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['tortillas'] });
 
 		await run('', { graph });

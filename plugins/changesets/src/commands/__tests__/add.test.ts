@@ -48,7 +48,7 @@ describe('handler', () => {
 			chosen: [],
 		});
 
-		await expect(run('', { graph })).rejects.toMatch('No workspaces were chosen');
+		await expect(run('', { graph })).rejects.toMatch('No Workspaces were chosen');
 
 		expect(changesetWrite.default).not.toHaveBeenCalled();
 		expect(git.updateIndex).not.toHaveBeenCalled();

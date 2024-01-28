@@ -12,7 +12,7 @@ describe('affected', () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 	});
 
-	test('returns all workspaces if the root is affected', async () => {
+	test('returns all Workspaces if the root is affected', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['not/in/a/module.json']);
 
 		const workspaces = await getAffected(graph);
@@ -51,7 +51,7 @@ describe('filepaths', () => {
 		expect(pathAffected).toEqual(['.']);
 	});
 
-	test('returns workspace locations if threshold is hit', async () => {
+	test('returns Workspace locations if threshold is hit', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue([
 			'modules/burritos/package.json',
 			'modules/burritos/bar',
@@ -86,14 +86,14 @@ describe('workspaces', () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 	});
 
-	test('returns all workspaces if root is affected', async () => {
+	test('returns all Workspaces if root is affected', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['not/in/a/module.json']);
 
 		const wss = await getWorkspaces(graph, { affected: true });
 		expect(wss).toEqual(graph.workspaces);
 	});
 
-	test('returns all workspaces if --all', async () => {
+	test('returns all Workspaces if --all', async () => {
 		const wss = await getWorkspaces(graph, { all: true });
 		expect(wss).toEqual(graph.workspaces);
 	});

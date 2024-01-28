@@ -11,7 +11,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * Map of paths to array of owners.
 	 *
-	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+	 * When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
@@ -30,7 +30,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `'commands'`
 		 *
-		 * A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
+		 * A string to use as filepaths to subcommands. We'll look for commands in all Workspaces using this string. If any are found, they'll be available from the CLI.
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
@@ -51,7 +51,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * Prevent reading matched files in the `commands.directory` as commands.
 		 *
-		 * When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
+		 * When writing custom commands and Workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
@@ -96,11 +96,11 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	/**
 	 * @default `[]`
 	 *
-	 * Array of fileglobs to ignore when calculating the changed workspaces.
+	 * Array of fileglobs to ignore when calculating the changed Workspaces.
 	 *
 	 * Periodically we may find that there are certain files or types of files that we _know_ for a fact do not affect the validity of the repository or any code. When this happens and the files are modified, unnecessary tasks and processes will be spun up that don't have any bearing on the outcome of the change.
 	 *
-	 * To avoid extra processing, we can add file globs to ignore when calculated the afected workspace graph.
+	 * To avoid extra processing, we can add file globs to ignore when calculated the afected Workspace graph.
 	 *
 	 * :::caution
 	 * This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
@@ -149,7 +149,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	/**
 	 * @default `{}`
 	 *
-	 * Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+	 * Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected Workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
 	 */
 	tasks?: TaskConfig<CustomLifecycles>;
 	/**
@@ -194,7 +194,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `undefined`
 		 *
-		 * File path for custom graph and configuration file validation schema.
+		 * File path for custom Graph and configuration file validation schema.
 		 */
 		schema?: string | null;
 	};
@@ -248,7 +248,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	/**
 	 * @default `'https://onerepo.tools/visualize/'`
 	 *
-	 * Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+	 * Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 	 */
 	visualizationUrl?: string;
 };

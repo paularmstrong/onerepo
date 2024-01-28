@@ -20,7 +20,7 @@ export const graph: Plugin = function graph(opts) {
 			const verify = visitor(Verify);
 			return yargs.command(
 				'graph',
-				'Run core graph commands',
+				'Run core Graph commands',
 				(yargs) => {
 					const y = yargs
 						.usage(`$0 graph <command>`)

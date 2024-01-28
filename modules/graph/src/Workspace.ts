@@ -38,14 +38,14 @@ export class Workspace {
 	}
 
 	/**
-	 * Whether or not this workspace is the root of the repository / Graph.
+	 * Whether or not this Workspace is the root of the repository / Graph.
 	 */
 	get isRoot() {
 		return this.#rootLocation === this.#location;
 	}
 
 	/**
-	 * Absolute path on the current filesystem to the workspace.
+	 * Absolute path on the current filesystem to the Workspace.
 	 */
 	get location() {
 		return this.#location;
@@ -87,7 +87,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the `package.json` defined production dependencies for the workspace.
+	 * Get the `package.json` defined production dependencies for the Workspace.
 	 *
 	 * @return Map of modules to their version.
 	 */
@@ -96,7 +96,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the `package.json` defined development dependencies for the workspace.
+	 * Get the `package.json` defined development dependencies for the Workspace.
 	 *
 	 * @return Map of modules to their version.
 	 */
@@ -105,7 +105,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the `package.json` defined peer dependencies for the workspace.
+	 * Get the `package.json` defined peer dependencies for the Workspace.
 	 *
 	 * @return Map of modules to their version.
 	 */
@@ -114,7 +114,7 @@ export class Workspace {
 	}
 
 	/**
-	 * If a workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
+	 * If a Workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
 	 */
 	get private() {
 		return 'private' in this.#packageJson && Boolean(this.#packageJson.private);
@@ -139,7 +139,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the task configuration as defined in the `onerepo.config.js` file at the root of the workspace.
+	 * Get the task configuration as defined in the `onerepo.config.js` file at the root of the Workspace.
 	 *
 	 * @return If a config does not exist, an empty object will be given.
 	 */
@@ -218,7 +218,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Resolve a full filepath within the workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
+	 * Resolve a full filepath within the Workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
 	 *
 	 * ```ts
 	 * const main = workspace.resolve(workspace.main);

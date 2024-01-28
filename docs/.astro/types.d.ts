@@ -190,364 +190,364 @@ declare module 'astro:content' {
   slug: "api";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
 "api/namespaces/builders.md": {
 	id: "api/namespaces/builders.md";
   slug: "api/namespaces/builders";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
 "api/namespaces/file.md": {
 	id: "api/namespaces/file.md";
   slug: "api/namespaces/file";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
 "api/namespaces/git.md": {
 	id: "api/namespaces/git.md";
   slug: "api/namespaces/git";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".md"] };
 "changelogs/@onerepo/builders.mdx": {
 	id: "changelogs/@onerepo/builders.mdx";
   slug: "changelogs/onerepo/builders";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/file.mdx": {
 	id: "changelogs/@onerepo/file.mdx";
   slug: "changelogs/onerepo/file";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/git.mdx": {
 	id: "changelogs/@onerepo/git.mdx";
   slug: "changelogs/onerepo/git";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/graph.mdx": {
 	id: "changelogs/@onerepo/graph.mdx";
   slug: "changelogs/onerepo/graph";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/logger.mdx": {
 	id: "changelogs/@onerepo/logger.mdx";
   slug: "changelogs/onerepo/logger";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/package-manager.mdx": {
 	id: "changelogs/@onerepo/package-manager.mdx";
   slug: "changelogs/onerepo/package-manager";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-changesets.mdx": {
 	id: "changelogs/@onerepo/plugin-changesets.mdx";
   slug: "changelogs/onerepo/plugin-changesets";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-docgen.mdx": {
 	id: "changelogs/@onerepo/plugin-docgen.mdx";
   slug: "changelogs/onerepo/plugin-docgen";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-eslint.mdx": {
 	id: "changelogs/@onerepo/plugin-eslint.mdx";
   slug: "changelogs/onerepo/plugin-eslint";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-jest.mdx": {
 	id: "changelogs/@onerepo/plugin-jest.mdx";
   slug: "changelogs/onerepo/plugin-jest";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-performance-writer.mdx": {
 	id: "changelogs/@onerepo/plugin-performance-writer.mdx";
   slug: "changelogs/onerepo/plugin-performance-writer";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-prettier.mdx": {
 	id: "changelogs/@onerepo/plugin-prettier.mdx";
   slug: "changelogs/onerepo/plugin-prettier";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-typescript.mdx": {
 	id: "changelogs/@onerepo/plugin-typescript.mdx";
   slug: "changelogs/onerepo/plugin-typescript";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-vitest.mdx": {
 	id: "changelogs/@onerepo/plugin-vitest.mdx";
   slug: "changelogs/onerepo/plugin-vitest";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/subprocess.mdx": {
 	id: "changelogs/@onerepo/subprocess.mdx";
   slug: "changelogs/onerepo/subprocess";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/test-cli.mdx": {
 	id: "changelogs/@onerepo/test-cli.mdx";
   slug: "changelogs/onerepo/test-cli";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/@onerepo/yargs.mdx": {
 	id: "changelogs/@onerepo/yargs.mdx";
   slug: "changelogs/onerepo/yargs";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "changelogs/index.mdx": {
 	id: "changelogs/index.mdx";
   slug: "changelogs";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "concepts/primer.mdx": {
 	id: "concepts/primer.mdx";
   slug: "concepts/primer";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "concepts/why-onerepo.mdx": {
 	id: "concepts/why-onerepo.mdx";
   slug: "concepts/why-onerepo";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/codeowners.mdx": {
 	id: "core/codeowners.mdx";
   slug: "core/codeowners";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/create.mdx": {
 	id: "core/create.mdx";
   slug: "core/create";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/dependencies.mdx": {
 	id: "core/dependencies.mdx";
   slug: "core/dependencies";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/generate.mdx": {
 	id: "core/generate.mdx";
   slug: "core/generate";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/graph.mdx": {
 	id: "core/graph.mdx";
   slug: "core/graph";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/hooks.mdx": {
 	id: "core/hooks.mdx";
   slug: "core/hooks";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/install.mdx": {
 	id: "core/install.mdx";
   slug: "core/install";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "core/tasks.mdx": {
 	id: "core/tasks.mdx";
   slug: "core/tasks";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "docs/commands.mdx": {
 	id: "docs/commands.mdx";
   slug: "docs/commands";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "docs/config.mdx": {
 	id: "docs/config.mdx";
   slug: "docs/config";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "docs/getting-started.mdx": {
 	id: "docs/getting-started.mdx";
   slug: "docs/getting-started";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "docs/log-output.mdx": {
 	id: "docs/log-output.mdx";
   slug: "docs/log-output";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "docs/source-dependencies.mdx": {
 	id: "docs/source-dependencies.mdx";
   slug: "docs/source-dependencies";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "index.mdx": {
 	id: "index.mdx";
   slug: "index";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/changesets.mdx": {
 	id: "plugins/changesets.mdx";
   slug: "plugins/changesets";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/docgen.mdx": {
 	id: "plugins/docgen.mdx";
   slug: "plugins/docgen";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/docgen/example.mdx": {
 	id: "plugins/docgen/example.mdx";
   slug: "plugins/docgen/example";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/eslint.mdx": {
 	id: "plugins/eslint.mdx";
   slug: "plugins/eslint";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/index.mdx": {
 	id: "plugins/index.mdx";
   slug: "plugins";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/jest.mdx": {
 	id: "plugins/jest.mdx";
   slug: "plugins/jest";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/performance-writer.mdx": {
 	id: "plugins/performance-writer.mdx";
   slug: "plugins/performance-writer";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/prettier.mdx": {
 	id: "plugins/prettier.mdx";
   slug: "plugins/prettier";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/typescript.mdx": {
 	id: "plugins/typescript.mdx";
   slug: "plugins/typescript";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "plugins/vitest.mdx": {
 	id: "plugins/vitest.mdx";
   slug: "plugins/vitest";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "project/code-of-conduct.mdx": {
 	id: "project/code-of-conduct.mdx";
   slug: "project/code-of-conduct";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "project/contributing.mdx": {
 	id: "project/contributing.mdx";
   slug: "project/contributing";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "project/index.mdx": {
 	id: "project/index.mdx";
   slug: "project";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 "visualize.mdx": {
 	id: "visualize.mdx";
   slug: "visualize";
   body: string;
   collection: "docs";
-  data: InferEntrySchema<"docs">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 
@@ -561,5 +561,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = typeof import("../src/content/config.js");
+	type ContentConfig = never;
 }

@@ -121,7 +121,7 @@ describe('handler', () => {
 		});
 	});
 
-	test('can prerelease selected workspaces with dependencies', async () => {
+	test('can prerelease selected Workspaces with dependencies', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ choices: ['burritos'] });
 		await run('', { graph });
 

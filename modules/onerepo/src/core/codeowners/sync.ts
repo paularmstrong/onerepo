@@ -6,7 +6,7 @@ import { codeownersFilepath, getCodeowners, providers } from './get-codeowners';
 
 export const command = 'sync';
 
-export const description = 'Sync code owners from workspace configurations to the repository’s CODEOWNERS file.';
+export const description = 'Sync code owners from Workspace configurations to the repository’s CODEOWNERS file.';
 
 type Argv = {
 	add: boolean;

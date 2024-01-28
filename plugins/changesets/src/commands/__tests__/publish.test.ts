@@ -144,7 +144,7 @@ describe('handler', () => {
 		});
 	});
 
-	test('does not build or publish when no workspaces need to publish', async () => {
+	test('does not build or publish when no Workspaces need to publish', async () => {
 		vi.spyOn(graph.packageManager, 'publishable').mockResolvedValue([]);
 
 		await run('', { graph });

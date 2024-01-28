@@ -36,7 +36,7 @@ export const builder: Builder<Args> = (yargs) =>
 		.example(`$0 ${command}`, 'Run only tests related to modified files.')
 		.example(`$0 ${command} --watch`, 'Run vitest in --watch mode.')
 		.example(`$0 ${command} --watch -- path/to/test.ts`, 'Run vitest in watch mode with a particular file.')
-		.example(`$0 ${command} -w <workspace>`, 'Run all tests in a given workspace.')
+		.example(`$0 ${command} -w <workspace>`, 'Run all tests in a given Workspace.')
 		.epilogue(
 			'This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (` -- `), you can further restrict the tests to those specific files only.',
 		)

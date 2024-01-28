@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e393f1b9f1215222c899d8b9dc94253e>> -->
+<!-- @generated SignedSource<<11c58cd05f42307bd28447ad6a3f0040>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -43,7 +43,7 @@ new StagingWorkflow(options): StagingWorkflow
 | Parameter        | Type                                                                        | Description                            |
 | :--------------- | :-------------------------------------------------------------------------- | :------------------------------------- |
 | `options`        | \{ `graph`: [`Graph`](../../#graph); `logger`: [`Logger`](../../#logger); } | -                                      |
-| `options.graph`  | [`Graph`](../../#graph)                                                     | The repository graph                   |
+| `options.graph`  | [`Graph`](../../#graph)                                                     | The repository Graph                   |
 | `options.logger` | [`Logger`](../../#logger)                                                   | Logger instance to use for all actions |
 
 **Returns:** [`StagingWorkflow`](#stagingworkflow)  

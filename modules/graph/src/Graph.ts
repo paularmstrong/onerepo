@@ -34,7 +34,7 @@ export const DependencyType = {
 export type DepType = 1 | 2 | 3;
 
 /**
- * Serialized representation of a graph data structure. This is available from {@link Graph.serialized | `Graph.serialized`} and may not be very useful outside of specific visualization needs. It is also unstable and subject to change.
+ * Serialized representation of a Graph data structure. This is available from {@link Graph.serialized | `Graph.serialized`} and may not be very useful outside of specific visualization needs. It is also unstable and subject to change.
  *
  * @group Graph
  * @internal
@@ -58,7 +58,7 @@ export type Serialized = {
 };
 
 /**
- * The oneRepo Graph is a representation of the entire repository’s {@link Workspace | `Workspaces`} and how they depend upon each other. Most commonly, you will want to use the graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
+ * The oneRepo Graph is a representation of the entire repository’s {@link Workspace | `Workspaces`} and how they depend upon each other. Most commonly, you will want to use the Graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
  *
  * ```ts
  * const workspacesToCheck = graph.affected('tacos');
@@ -86,7 +86,7 @@ export class Graph {
 	#byName: Map<string, Workspace> = new Map();
 	#nameByLocation: Map<string, string> = new Map();
 	/**
-	 * Separate map for aliases to locations to ensure the graph only uses fully qualified names
+	 * Separate map for aliases to locations to ensure the Graph only uses fully qualified names
 	 */
 	#nameByAlias: Map<string, string> = new Map();
 	#require: typeof require;
@@ -120,9 +120,9 @@ export class Graph {
 	}
 
 	/**
-	 * Get a serialized representation of the graph. This is useful for creating visualizations of the Workspace Graph, but cannot be used to deserialize back to a full Graph object.
+	 * Get a serialized representation of the Graph. This is useful for creating visualizations of the Workspace Graph, but cannot be used to deserialize back to a full Graph object.
 	 *
-	 * This very same serialization method is used to help generate the [online graph visualizer](https://onerepo.tools/visualize/).
+	 * This very same serialization method is used to help generate the [online Graph visualizer](https://onerepo.tools/visualize/).
 	 *
 	 * ```ts
 	 * const { nodes, links } = graph.serialized;
@@ -266,7 +266,7 @@ export class Graph {
 			return this.#byName.get(actualName)!;
 		}
 
-		throw new Error(`No workspace available for the name "${name}"`);
+		throw new Error(`No Workspace available for the name "${name}"`);
 	}
 
 	/**
@@ -276,7 +276,7 @@ export class Graph {
 	 * const workspaces = graph.getAllByName(['tacos', 'burritos']);
 	 * ```
 	 *
-	 * @param names A list of workspace {@link Workspace.name | `name`}s or any available {@link Workspace.aliases | `aliases`}.
+	 * @param names A list of Workspace {@link Workspace.name | `name`}s or any available {@link Workspace.aliases | `aliases`}.
 	 */
 	getAllByName(names: Array<string>): Array<Workspace> {
 		return names.map((name) => this.getByName(name)).filter(Boolean) as Array<Workspace>;
@@ -311,11 +311,11 @@ export class Graph {
 			segments.pop();
 		}
 
-		throw new Error(`No workspace was found for "${location}"`);
+		throw new Error(`No Workspace was found for "${location}"`);
 	}
 
 	/**
-	 * Get all workspaces given an array of filepaths.
+	 * Get all Workspaces given an array of filepaths.
 	 *
 	 * ```ts
 	 * const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
@@ -337,10 +337,10 @@ export class Graph {
 	}
 
 	/**
-	 * Get an isolated graph of dependents from the list of sources
+	 * Get an isolated Graph of dependents from the list of sources
 	 *
 	 * @param sources A list of {@link Workspace | `Workspaces`} by {@link Workspace#name | `name`}s or any available {@link Workspace#aliases | `aliases`}.
-	 * @param type Filter the graph to a dependency type.
+	 * @param type Filter the Graph to a dependency type.
 	 * @return This does not return a oneRepo `Graph`, but instead a graph-data-structure instance. See [graph-data-structure](https://www.npmjs.com/package/graph-data-structure) for usage information and help.
 	 * @internal
 	 */

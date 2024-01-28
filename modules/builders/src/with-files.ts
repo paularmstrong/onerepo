@@ -17,7 +17,7 @@ export const withFiles = <T>(yargs: Yargs<T>): Yargs<T & WithFiles> =>
 		alias: 'f',
 		type: 'array',
 		string: true,
-		description: 'Determine workspaces from specific files',
+		description: 'Determine Workspaces from specific files',
 		conflicts: ['all', 'workspaces'],
 	});
 

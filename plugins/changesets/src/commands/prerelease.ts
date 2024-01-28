@@ -14,7 +14,7 @@ import { resetPackageJson } from '../publish-config';
 
 export const command = ['prerelease', 'pre-release', 'pre'];
 
-export const description = 'Pre-release available workspaces.';
+export const description = 'Pre-release available Workspaces.';
 
 type Args = {
 	'allow-dirty': boolean;
@@ -34,7 +34,7 @@ export const builder: Builder<Args> = (yargs) =>
 		})
 		.option('build', {
 			type: 'boolean',
-			description: 'Build workspaces before publishing',
+			description: 'Build Workspaces before publishing',
 			default: true,
 		})
 		.option('otp', {
@@ -96,7 +96,7 @@ Commit or stash your changes to continue.`);
 			{
 				type: 'checkbox',
 				name: 'choices',
-				message: 'Which workspaces would you like to release?',
+				message: 'Which Workspaces would you like to release?',
 				choices: [
 					{ name: pc.bold('All workspaces'), value: '_ALL_' },
 					new inquirer.Separator('⎯'.repeat(20)),
@@ -115,7 +115,7 @@ Commit or stash your changes to continue.`);
 				pageSize: Math.min(hasChanges.size + 4, 20),
 				validate: (input) => {
 					if (!input.length) {
-						return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+						return `${pc.bold(pc.red('Error:'))} Please select at least one Workspace.`;
 					}
 					return true;
 				},
@@ -129,13 +129,13 @@ Commit or stash your changes to continue.`);
 		}
 
 		if (choices.length === 0) {
-			logger.warn('No workspaces were selected so nothing will be published.');
+			logger.warn('No Workspaces were selected so nothing will be published.');
 			return;
 		}
 
 		logger.unpause();
 	} else {
-		logger.warn('No changesets found. Defaulting to all workspaces.');
+		logger.warn('No changesets found. Defaulting to all Workspaces.');
 	}
 
 	if (!skipAuth) {

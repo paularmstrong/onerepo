@@ -79,7 +79,7 @@ describe('handler', () => {
 		);
 	});
 
-	test('shortcuts --all to "." instead of workspaces individually', async () => {
+	test('shortcuts --all to "." instead of Workspaces individually', async () => {
 		await run('--all');
 
 		expect(subprocess.run).toHaveBeenCalledWith(

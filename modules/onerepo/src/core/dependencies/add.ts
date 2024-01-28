@@ -11,7 +11,7 @@ import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'add';
 
-export const description = 'Add dependencies to workspaces.';
+export const description = 'Add dependencies to Workspaces.';
 
 type Args = {
 	dedupe: boolean;
@@ -23,7 +23,7 @@ type Args = {
 export const builder: Builder<Args> = (yargs) =>
 	withWorkspaces(yargs)
 		.usage('$0 add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]')
-		.describe('workspaces', 'One or more workspaces to add dependencies into')
+		.describe('workspaces', 'One or more Workspaces to add dependencies into')
 		.demandOption('workspaces')
 		.option('dedupe', {
 			type: 'boolean',

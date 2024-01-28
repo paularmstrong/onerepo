@@ -8,13 +8,13 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e8984e47606ebfa96b0e50a52c8a2166>> -->
+<!-- @generated SignedSource<<80605613200b1f52b9703314f7b8ff85>> -->
 
 ## Namespaces
 
 | Namespace                        | Description                                                                                                                                   |
 | :------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| [builders](namespaces/builders/) | Builders and Getters work together as reusable ways to add optional command-line arguments that affect how workspaces and files are retrived. |
+| [builders](namespaces/builders/) | Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived. |
 | [file](namespaces/file/)         | File manipulation functions.                                                                                                                  |
 | [git](namespaces/git/)           | This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:      |
 
@@ -222,7 +222,7 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 getAffected: (opts?) => Promise<Workspace[]>;
 ```
 
-Get the affected workspaces based on the current state of the repository.
+Get the affected Workspaces based on the current state of the repository.
 
 This is a wrapped implementation of [`builders.getAffected`](namespaces/builders/#getaffected) that does not require passing the `graph` argument.
 
@@ -244,7 +244,7 @@ Get the affected filepaths based on the current inputs and state of the reposito
 
 This is a wrapped implementation of [`builders.getFilepaths`](namespaces/builders/#getfilepaths) that does not require the `graph` and `argv` arguments.
 
-**Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected workspace paths. Use `affectedThreshold: 0` to disable the limit.  
+**Note:** that when used with `--affected`, there is a default limit of 100 files before this will switch to returning affected Workspace paths. Use `affectedThreshold: 0` to disable the limit.  
 **Parameters:**
 
 | Parameter | Type                                                          |
@@ -259,7 +259,7 @@ This is a wrapped implementation of [`builders.getFilepaths`](namespaces/builder
 getWorkspaces: (opts?) => Promise<Workspace[]>;
 ```
 
-Get the affected workspaces based on the current inputs and the state of the repository.
+Get the affected Workspaces based on the current inputs and the state of the repository.
 This function differs from `getAffected` in that it respects all input arguments provided by
 [`builders.withWorkspaces`](namespaces/builders/#withworkspaces), [`builders.withFiles`](namespaces/builders/#withfiles) and [`builders.withAffected`](namespaces/builders/#withaffected).
 
@@ -454,7 +454,7 @@ codeowners?: Record<string, string[]>;
 
 Map of paths to array of owners.
 
-When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -484,7 +484,7 @@ commands.directory?: string | false;
 
 **Default:** `'commands'`
 
-A string to use as filepaths to subcommands. We'll look for commands in all workspaces using this string. If any are found, they'll be available from the CLI.
+A string to use as filepaths to subcommands. We'll look for commands in all Workspaces using this string. If any are found, they'll be available from the CLI.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -509,7 +509,7 @@ commands.ignore?: RegExp;
 
 Prevent reading matched files in the `commands.directory` as commands.
 
-When writing custom commands and workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
+When writing custom commands and Workspace-level subcommands, we may need to ignore certain files like tests, fixtures, and other helpers. Use a regular expression here to configure which files will be ignored when oneRepo parses and executes commands.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -576,11 +576,11 @@ ignore?: string[];
 
 **Default:** `[]`
 
-Array of fileglobs to ignore when calculating the changed workspaces.
+Array of fileglobs to ignore when calculating the changed Workspaces.
 
 Periodically we may find that there are certain files or types of files that we _know_ for a fact do not affect the validity of the repository or any code. When this happens and the files are modified, unnecessary tasks and processes will be spun up that don't have any bearing on the outcome of the change.
 
-To avoid extra processing, we can add file globs to ignore when calculated the afected workspace graph.
+To avoid extra processing, we can add file globs to ignore when calculated the afected Workspace graph.
 
 :::caution
 This configuration should be used sparingly and with caution. It is better to do too much work as opposed to not enough.
@@ -691,7 +691,7 @@ tasks?: TaskConfig<CustomLifecycles>;
 
 **Default:** `{}`
 
-Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected Workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
 
 ##### templateDir?
 
@@ -718,7 +718,7 @@ validation.schema?: string | null;
 
 **Default:** `undefined`
 
-File path for custom graph and configuration file validation schema.
+File path for custom Graph and configuration file validation schema.
 
 ##### vcs?
 
@@ -794,7 +794,7 @@ visualizationUrl?: string;
 
 **Default:** `'https://onerepo.tools/visualize/'`
 
-Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 
 **Source:** [modules/onerepo/src/types/config-root.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-root.ts)
 
@@ -870,7 +870,7 @@ String command(s) to run. If provided as an array of strings, each command will 
 The commands can use replaced tokens:
 
 - `$0`: the oneRepo CLI for your repository
-- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
+- `${workspaces}`: replaced with a space-separated list of Workspace names necessary for the given lifecycle
 
 ##### match?
 
@@ -948,7 +948,7 @@ codeowners?: Record<string, string[]>;
 **Default:** `{}`.
 Map of paths to array of owners.
 
-When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
+When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your `RootConfig.vcs.provider` as well as verifying that the root file is up to date.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -983,7 +983,7 @@ tasks?: TaskConfig<CustomLifecycles>;
 ```
 
 **Default:** `{}`
-Tasks for this workspace. These will be merged with global tasks and any other affected workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+Tasks for this Workspace. These will be merged with global tasks and any other affected Workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
 
 :::tip[Merging tasks]
 Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
@@ -1019,7 +1019,7 @@ assert.ok(graph.isRoot);
 
 ### Graph
 
-The oneRepo Graph is a representation of the entire repository’s [`Workspaces`](#workspace) and how they depend upon each other. Most commonly, you will want to use the graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
+The oneRepo Graph is a representation of the entire repository’s [`Workspaces`](#workspace) and how they depend upon each other. Most commonly, you will want to use the Graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
 
 ```ts
 const workspacesToCheck = graph.affected('tacos');
@@ -1189,7 +1189,7 @@ for (const workspace of graph.dependents('tacos')) {
 getAllByLocation(locations): Workspace[]
 ```
 
-Get all workspaces given an array of filepaths.
+Get all Workspaces given an array of filepaths.
 
 ```ts
 const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
@@ -1220,7 +1220,7 @@ const workspaces = graph.getAllByName(['tacos', 'burritos']);
 
 | Parameter | Type       | Description                                                                  |
 | :-------- | :--------- | :--------------------------------------------------------------------------- |
-| `names`   | `string`[] | A list of workspace [`name`](#name)s or any available [`aliases`](#aliases). |
+| `names`   | `string`[] | A list of Workspace [`name`](#name)s or any available [`aliases`](#aliases). |
 
 **Returns:** [`Workspace`](#workspace)[]  
 **Source:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
@@ -1326,7 +1326,7 @@ Get the workspace's configuration
 get dependencies(): Record<string, string>
 ```
 
-Get the `package.json` defined production dependencies for the workspace.
+Get the `package.json` defined production dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
@@ -1351,7 +1351,7 @@ Canonical to the `package.json` `"description"` field.
 get devDependencies(): Record<string, string>
 ```
 
-Get the `package.json` defined development dependencies for the workspace.
+Get the `package.json` defined development dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
@@ -1365,7 +1365,7 @@ Map of modules to their version.
 get isRoot(): boolean
 ```
 
-Whether or not this workspace is the root of the repository / Graph.
+Whether or not this Workspace is the root of the repository / Graph.
 
 **Returns:** `boolean`  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -1376,7 +1376,7 @@ Whether or not this workspace is the root of the repository / Graph.
 get location(): string
 ```
 
-Absolute path on the current filesystem to the workspace.
+Absolute path on the current filesystem to the Workspace.
 
 **Returns:** `string`  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -1418,7 +1418,7 @@ A full copy of the `package.json` file for the Workspace.
 get peerDependencies(): Record<string, string>
 ```
 
-Get the `package.json` defined peer dependencies for the workspace.
+Get the `package.json` defined peer dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
@@ -1432,7 +1432,7 @@ Map of modules to their version.
 get private(): boolean
 ```
 
-If a workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
+If a Workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
 
 **Returns:** `boolean`  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -1483,7 +1483,7 @@ Get module name scope if there is one, eg `@onerepo`
 get tasks(): Partial<Record<Lifecycle, Tasks>>
 ```
 
-Get the task configuration as defined in the `onerepo.config.js` file at the root of the workspace.
+Get the task configuration as defined in the `onerepo.config.js` file at the root of the Workspace.
 
 **Returns:** `Partial`\<`Record`\<[`Lifecycle`](#lifecycle), [`Tasks`](#tasks)\>\>
 
@@ -1564,7 +1564,7 @@ Relative path to the workspace’s root location.
 resolve(...pathSegments): string
 ```
 
-Resolve a full filepath within the workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
+Resolve a full filepath within the Workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
 
 ```ts
 const main = workspace.resolve(workspace.main);
@@ -2437,7 +2437,7 @@ Check if the current user is logged in to the external registry
 publish<T>(opts?): Promise<void>
 ```
 
-Publish workspaces to the external registry
+Publish Workspaces to the external registry
 
 **Type parameters:**
 
@@ -2450,11 +2450,11 @@ Publish workspaces to the external registry
 | Parameter          | Type                                                                                                                 | Description                                                                                                                                                                              |
 | :----------------- | :------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `opts`?            | \{ `access`: `"restricted"` \| `"public"`; `cwd`: `string`; `otp`: `string`; `tag`: `string`; `workspaces`: `T`[]; } | -                                                                                                                                                                                        |
-| `opts.access`?     | `"restricted"` \| `"public"`                                                                                         | Set the registry access level for the package<br /><br />**Default**<br />inferred from workspaces `publishConfig.access` or `'public'`                                                  |
+| `opts.access`?     | `"restricted"` \| `"public"`                                                                                         | Set the registry access level for the package<br /><br />**Default**<br />inferred from Workspaces `publishConfig.access` or `'public'`                                                  |
 | `opts.cwd`?        | `string`                                                                                                             | Command working directory. Defaults to the repository root.                                                                                                                              |
 | `opts.otp`?        | `string`                                                                                                             | This is a one-time password from a two-factor authenticator.                                                                                                                             |
 | `opts.tag`?        | `string`                                                                                                             | If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.<br /><br />**Default**<br />`'latest'`                                 |
-| `opts.workspaces`? | `T`[]                                                                                                                | Workspaces to publish. If not provided or empty array, only the given workspace at `cwd` will be published. This type is generally compatible with graph.Workspace \| `graph.Workspace`. |
+| `opts.workspaces`? | `T`[]                                                                                                                | Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with graph.Workspace \| `graph.Workspace`. |
 
 **Returns:** `Promise`\<`void`\>  
 **Source:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
@@ -2465,7 +2465,7 @@ Publish workspaces to the external registry
 publishable<T>(workspaces): Promise<T[]>
 ```
 
-Filter workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
+Filter Workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
 
 **Type parameters:**
 
@@ -2701,7 +2701,7 @@ yargs?: (yargs, visitor) => Yargs;
 ```
 
 A function that is called with the CLI's `yargs` object and a visitor.
-It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the workspace graph, affected list, and much more.
+It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the Workspace graph, affected list, and much more.
 
 **Parameters:**
 

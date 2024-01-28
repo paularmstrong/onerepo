@@ -9,7 +9,7 @@ import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
 import FileTree from '../../../components/FileTree.astro';
 
-Modern software dependency graphs are complex and brittle. The following graph shows a theoretical problem that we may currently face between our own internal and external dependencies.
+Modern software dependency graphs are complex and brittle. The following Graph shows a theoretical problem that we may currently face between our own internal and external dependencies.
 
 Using a monorepo is a great software development strategy for managing any number of dependent code modules in a single repository. **oneRepo** makes this even easier by sharing <b style="color: var(--sl-color-accent-high)">smart tooling</b>, creating safer linking with <b style="color: var(--sl-color-purple-high)">source dependencies</b>, and unifying, verifying, & <b style="color: var(--sl-color-green-high)">speeding up</b> many aspects of the development process.
 
@@ -46,7 +46,7 @@ flowchart RL
   api3 --> auth
 ```
 
-In this situation, we have two web applications, `pub` and `auth` that are maintained with several shared internal repositories. However, since ensuring that dependencies are up to date is a manual process, developers only update dependencies when they know that the update is needed (eg, for new features). This results in a dependency graph could have multiple versions of the same dependency.
+In this situation, we have two web applications, `pub` and `auth` that are maintained with several shared internal repositories. However, since ensuring that dependencies are up to date is a manual process, developers only update dependencies when they know that the update is needed (eg, for new features). This results in a dependency Graph could have multiple versions of the same dependency.
 
 Notice that the _Logged-in website_ `app.example.com` now relies on two separate versions of React. Typically this shouldn't be a problem, as package managers and the Node.js require resolution algorithm will handle loading the correct version per shared module. However, many packages, React included, explicitly _do not work_ if there are multiple versions loaded within the same application.
 
@@ -83,7 +83,7 @@ When package managers are configured as monorepos, they follow an array of glob 
 <Tabs>
   <TabItem label="npm">
 
-    npm is configured using the [workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces) field in the root `package.json`:
+    npm is configured using the [`workspaces`](https://docs.npmjs.com/cli/v10/using-npm/workspaces) field in the root `package.json`:
 
     ```json title="package.json"
     {
@@ -172,7 +172,7 @@ Using the `workspaces` globs configured previously for the package manager each 
 
 </div>
 
-Notice that each of the workspaces have dependencies on `lettuce` and `tortillas`, but there is a bit of a version mismatching. While both `lettuce` dependencies allow for major version `4.4.3` and above, `tortillas` on the other hand require separate major versions (`v2` for `burritos` and `v1` for `tacos`). In order to satisfy this, the package manager should deduplicate `lettuce` and resolve to only picking `4.4.3`, but will need to install `tortillas` versions separately so there are no conflicts. This will result in a file tree that may look something like this:
+Notice that each of the Workspaces have dependencies on `lettuce` and `tortillas`, but there is a bit of a version mismatching. While both `lettuce` dependencies allow for major version `4.4.3` and above, `tortillas` on the other hand require separate major versions (`v2` for `burritos` and `v1` for `tacos`). In order to satisfy this, the package manager should deduplicate `lettuce` and resolve to only picking `4.4.3`, but will need to install `tortillas` versions separately so there are no conflicts. This will result in a file tree that may look something like this:
 
 <FileTree>
 
@@ -196,7 +196,7 @@ Notice that each of the workspaces have dependencies on `lettuce` and `tortillas
 </FileTree>
 
 :::note
-Notice that not _all_ workspaces will have a `node_modules/` folder within them. When possible, your package manager will _hoist_ duplicate packages up to the root of the repository.
+Notice that not _all_ Workspaces will have a `node_modules/` folder within them. When possible, your package manager will _hoist_ duplicate packages up to the root of the repository.
 :::
 
 ## Glossary
@@ -217,12 +217,12 @@ A [repository](#repository) that includes more than one project, typically with 
 
 ### Root
 
-The root folder of a [repository](#repository). This term may also be used to refer to the root [workspace](#workspace) of a [monorepo](#monorepo).
+The root folder of a [repository](#repository). This term may also be used to refer to the root [Workspace](#workspace) of a [monorepo](#monorepo).
 
 ### Workspace
 
-A workspace is a singular project within a [monorepo](#monorepo) that is either able to be published, deployed, or imported as a dependency of another workspace.
+A Workspace is a singular project within a [monorepo](#monorepo) that is either able to be published, deployed, or imported as a dependency of another Workspace.
 
 ### Graph
 
-The graph is a representation of the [workspaces](#workspace) interdependencies within a [monorepo](#monorepo).
+The Graph is a representation of the [Workspaces](#workspace) interdependencies within a [monorepo](#monorepo).
