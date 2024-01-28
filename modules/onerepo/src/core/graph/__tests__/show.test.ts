@@ -77,7 +77,7 @@ describe('graph show', () => {
 	});
 
 	describe('json', () => {
-		test('writes a json graph to stdout', async () => {
+		test('writes a json Graph to stdout', async () => {
 			const spy = processStdoutSpy();
 
 			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
@@ -89,7 +89,7 @@ describe('graph show', () => {
 			});
 		});
 
-		test('writes json graph to stdout for input set', async () => {
+		test('writes json Graph to stdout for input set', async () => {
 			const spy = processStdoutSpy();
 
 			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
@@ -103,7 +103,7 @@ describe('graph show', () => {
 	});
 
 	describe('mermaid', () => {
-		test('writes a mermaid graph to stdout', async () => {
+		test('writes a mermaid Graph to stdout', async () => {
 			const spy = processStdoutSpy();
 
 			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
@@ -119,7 +119,7 @@ describe('graph show', () => {
 			);
 		});
 
-		test('writes mermaid graph to stdout for input set', async () => {
+		test('writes mermaid Graph to stdout for input set', async () => {
 			const spy = processStdoutSpy();
 
 			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));

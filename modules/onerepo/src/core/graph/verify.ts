@@ -17,7 +17,7 @@ import type { GraphSchemaValidators } from './schema';
 
 export const command = 'verify';
 
-export const description = 'Verify the integrity of the repo’s dependency graph and files in each Workspace.';
+export const description = 'Verify the integrity of the repo’s dependency Graph and files in each Workspace.';
 
 type Argv = {
 	'custom-schema'?: string;

@@ -169,7 +169,7 @@ ${e.stack ?? 'none'}
 		});
 		url.search = params.toString();
 		showError(
-			`There was an error rendering the input graph. Try re-running <code>one graph show --open</code>. If this problem persists, please <a href="${url.toString()}">file and issue</a>.`,
+			`There was an error rendering the input Graph. Try re-running <code>one Graph show --open</code>. If this problem persists, please <a href="${url.toString()}">file and issue</a>.`,
 		);
 	}
 }

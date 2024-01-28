@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<ef3192b8d5a7687bf7df659020b36291>> -->
+<!-- @generated SignedSource<<80605613200b1f52b9703314f7b8ff85>> -->
 
 ## Namespaces
 
@@ -718,7 +718,7 @@ validation.schema?: string | null;
 
 **Default:** `undefined`
 
-File path for custom graph and configuration file validation schema.
+File path for custom Graph and configuration file validation schema.
 
 ##### vcs?
 
@@ -794,7 +794,7 @@ visualizationUrl?: string;
 
 **Default:** `'https://onerepo.tools/visualize/'`
 
-Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 
 **Source:** [modules/onerepo/src/types/config-root.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-root.ts)
 
@@ -1019,7 +1019,7 @@ assert.ok(graph.isRoot);
 
 ### Graph
 
-The oneRepo Graph is a representation of the entire repository’s [`Workspaces`](#workspace) and how they depend upon each other. Most commonly, you will want to use the graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
+The oneRepo Graph is a representation of the entire repository’s [`Workspaces`](#workspace) and how they depend upon each other. Most commonly, you will want to use the Graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
 
 ```ts
 const workspacesToCheck = graph.affected('tacos');

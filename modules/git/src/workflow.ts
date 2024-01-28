@@ -35,7 +35,7 @@ export class StagingWorkflow {
 
 	constructor(options: {
 		/**
-		 * The repository graph
+		 * The repository Graph
 		 */
 		graph: Graph;
 		/**

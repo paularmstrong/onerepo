@@ -12,7 +12,7 @@ import pkg from '../../../package.json';
 export const command = 'show';
 
 export const description =
-	'Show this repository’s Workspace Graph using an online visualizer or output graph representations to various formats.';
+	'Show this repository’s Workspace Graph using an online visualizer or output Graph representations to various formats.';
 
 type Args = {
 	format?: 'mermaid' | 'plain' | 'json';
@@ -40,11 +40,11 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'string',
 			default: 'https://onerepo.tools/visualize/',
 			description:
-				'Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.',
+				'Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.',
 			hidden: true,
 		})
 		.epilogue(
-			`This command can generate representations of your Workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
+			`This command can generate representations of your Workspace Graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your Graph online.
 
 Pass \`--open\` to auto-open your default browser with the URL or use one of the \`--format\` options to print out various other representations.`,
 		)
@@ -63,7 +63,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 		serialized = graph.serialized;
 	} else {
 		const workspaces = await getWorkspaces();
-		logger.log(`Getting graph from workspaces:\n • ${workspaces.map(({ name }) => name).join('\n • ')}`);
+		logger.log(`Getting Graph from Workspaces:\n • ${workspaces.map(({ name }) => name).join('\n • ')}`);
 		const isolated = graph.isolatedGraph(workspaces);
 		serialized = isolated.serialize();
 	}

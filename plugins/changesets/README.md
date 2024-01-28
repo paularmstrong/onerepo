@@ -57,7 +57,7 @@ This causes issues when publishing shared modules for use outside of the monorep
 
    This will also prompt you for the workspaces that you want to publish. You can restrict this to avoid publishing any workspaces that are not yet ready.
 
-   However, any dependency in the graph of the chosen workspace(s) that has changes will also be versioned and published at this time. This is an important step to ensure consumers external to your oneRepo have all of the latest changes.
+   However, any dependency in the Graph of the chosen workspace(s) that has changes will also be versioned and published at this time. This is an important step to ensure consumers external to your oneRepo have all of the latest changes.
 
    This command will delete the consumed changesets, write changelogs, and update version numbers across all modified workspaces. Commit these changes and review them using a pull-request.
 

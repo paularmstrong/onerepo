@@ -194,7 +194,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `undefined`
 		 *
-		 * File path for custom graph and configuration file validation schema.
+		 * File path for custom Graph and configuration file validation schema.
 		 */
 		schema?: string | null;
 	};
@@ -248,7 +248,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	/**
 	 * @default `'https://onerepo.tools/visualize/'`
 	 *
-	 * Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+	 * Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 	 */
 	visualizationUrl?: string;
 };

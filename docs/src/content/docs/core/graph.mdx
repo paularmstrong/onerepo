@@ -35,11 +35,11 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<f0c450606500615d7b5238c8a2504cc3>> */}
+{/* @generated SignedSource<<4e755685291bb0585078e765e5788682>> */}
 
 ### `one graph`
 
-Run core graph commands
+Run core Graph commands
 
 ```sh
 one graph <command>
@@ -49,13 +49,13 @@ one graph <command>
 
 #### `one graph show`
 
-Show this repository’s Workspace Graph using an online visualizer or output graph representations to various formats.
+Show this repository’s Workspace Graph using an online visualizer or output Graph representations to various formats.
 
 ```sh
 one graph show [options]
 ```
 
-This command can generate representations of your Workspace graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your graph online.
+This command can generate representations of your Workspace Graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your Graph online.
 
 Pass `--open` to auto-open your default browser with the URL or use one of the `--format` options to print out various other representations.
 
@@ -77,7 +77,7 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 | --------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `--from-ref`    | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |          |
 | `--through-ref` | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |          |
-| `--url`         | `string`, default: `"https://onerepo.tools/visualize/"` | Override the URL used to visualize the Graph. The graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |          |
+| `--url`         | `string`, default: `"https://onerepo.tools/visualize/"` | Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |          |
 
 </details>
 
@@ -103,7 +103,7 @@ one graph show --format=mermaid -w <workspace> > ./out.mermaid
 
 #### `one graph verify`
 
-Verify the integrity of the repo’s dependency graph and files in each Workspace.
+Verify the integrity of the repo’s dependency Graph and files in each Workspace.
 
 ```sh
 one graph verify
