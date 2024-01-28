@@ -5,9 +5,9 @@ import type { Yargs } from '@onerepo/yargs';
 export function workspaceBuilder(graph: Graph, dirname: string) {
 	return (yargs: Yargs) => {
 		yargs
-			.usage('$0 Workspace <workspace-name> <command> [options]')
+			.usage('$0 workspace <workspace-name> <command> [options]')
 			.positional('workspace-name', {
-				description: 'Workspace name – may be the fully qualified package name or an available alias.',
+				description: 'The name or alias of a Workspace.',
 				type: 'string',
 			})
 			.positional('command', {
@@ -37,7 +37,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 				.usage('$0 workspace <command> [options]')
 				.usage('$0 ws <command> [options]')
 				.epilogue(
-					`You are currently working in the ${workingWorkspace.name} workspace, so Workspace-specific commands will be run by default when a suitable name or alias for this Workspace is omitted.`,
+					`You are currently working in the ${workingWorkspace.name} Workspace, so Workspace-specific commands will be run by default when a suitable name or alias for this Workspace is omitted.`,
 				);
 			return addCommandDir(yargs, workingWorkspace, dirname).demandCommand(
 				2,
@@ -61,7 +61,7 @@ export function workspaceBuilder(graph: Graph, dirname: string) {
 function addWorkspace(yargs: Yargs, ws: Workspace, dirname: string): Yargs {
 	const wsNames = [ws.name, ...ws.aliases];
 
-	return yargs.command(wsNames, `Runs commands in the \`${ws.name}\` workspace`, (yargs: Yargs) => {
+	return yargs.command(wsNames, `Runs commands in the \`${ws.name}\` Workspace`, (yargs: Yargs) => {
 		return addCommandDir(yargs, ws, dirname);
 	});
 }
