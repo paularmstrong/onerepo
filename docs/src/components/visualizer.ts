@@ -146,7 +146,6 @@ if (input) {
 	noContent.classList.add('sr-only');
 	try {
 		const dag = decodeToDag(input);
-		throw new Error('test');
 		renderGraph(getGraph(dag));
 	} catch (e) {
 		const url = new URL('https://github.com/paularmstrong/onerepo/issues/new');
