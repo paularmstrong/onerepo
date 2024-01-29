@@ -61,6 +61,7 @@ export default defineConfig({
 			social: {
 				github: 'https://github.com/paularmstrong/onerepo',
 			},
+			titleDelimiter: '🚀',
 			sidebar: [
 				{ label: 'Core concepts', autogenerate: { directory: 'concepts' } },
 				{ label: 'Documentation', autogenerate: { directory: 'docs' } },
