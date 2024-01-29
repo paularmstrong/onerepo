@@ -1,0 +1,39 @@
+name: 🚀 Feature addition or change
+description: Use this to track new features or changes unrelated to bugs
+labels:
+  - 🚀 feature
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ##  Quick Checklist
+        This template is _not_ for feature requests. If you have an idea for a feature, please use one of the two approaches:
+
+        - Create an [idea discussion](https://github.com/paularmstrong/onerepo/discussions/new?category=ideas) to get early feedback.
+        - Make the changes and submit a pull request following the [contributing guidelines](https://onerepo.tools/project/contributing/)
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: This work is already approved through discussions.
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Problem
+      description: Describe the problem area, needs, and pain points.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Suggested solution
+      description: Describe the idea for how we might solve for the problem given.
+    validations:
+      required: true
