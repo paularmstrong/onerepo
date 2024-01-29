@@ -18,7 +18,7 @@ Please follow the steps for [code changes](#code-changes).
 
 ## Reporting issues
 
-Use the [Bug Report issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=bug-report.yaml).
+Use the [Bug Report issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=---01-bug-report.yaml).
 
 The template will guide you through asking for extra information. Fill out as much as possible to help maintainers help you faster.
 

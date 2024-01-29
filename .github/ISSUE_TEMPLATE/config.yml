@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💡 Ideas for new features, improvements, and RFCs
+    url: https://github.com/paularmstrong/onerepo/discussions/categories/ideas
+    about: Propose and discuss future improvements to oneRepo.
+  - name: 📚 Documentation
+    url: https://onerepo.tools/
+  - name: 🧑‍⚕️ Support
+    url: https://github.com/paularmstrong/onerepo/discussions/categories/q-a
+    about: The issue tracker is not for support questions or other discussions.

@@ -7,6 +7,14 @@ body:
   - type: markdown
     attributes:
       value: |
+        ##  Quick Checklist
+        Thank you for taking the time to file a bug report! Please fill out this form as completely as possible.
+
+        ✅ I am using the **latest version of oneRepo** and all plugins.
+        ✅ I am using a version of Node that oneRepo supports (`>=18.14.1`)
+  - type: markdown
+    attributes:
+      value: |
         First, to best help, it might be important to know some details about your system, as differing versions can be very impactful!
   - type: input
     id: version
@@ -62,10 +70,8 @@ body:
       value: |
         ---
   - type: checkboxes
-    id: terms
+    id: participation
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://onerepo.tools/project/code-of-conduct/)
+      label: Participation
       options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+        - label: I am willing to submit a pull request for this issue.

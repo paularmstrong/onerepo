@@ -1,0 +1,36 @@
+name: 🔖 Report a documentation issue
+description: Something is wrong or missing in the documentation.
+labels:
+  - bug
+  - 📖 documentation
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Thank you!
+        Documentation is really hard. Your help in making it better is appreciated!
+  - type: input
+    id: url
+    attributes:
+      label: What is the URL of the page?
+      placeholder: https://onerepo.tools/
+    validations:
+      required: true
+  - type: textarea
+    id: information
+    attributes:
+      label: What's wrong?
+      description: The more details, the better.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+  - type: checkboxes
+    id: participation
+    attributes:
+      label: Participation
+      options:
+        - label: I am willing to submit a pull request for this issue.

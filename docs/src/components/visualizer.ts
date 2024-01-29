@@ -146,21 +146,22 @@ if (input) {
 	noContent.classList.add('sr-only');
 	try {
 		const dag = decodeToDag(input);
+		throw new Error('test');
 		renderGraph(getGraph(dag));
 	} catch (e) {
 		const url = new URL('https://github.com/paularmstrong/onerepo/issues/new');
 		const params = new URLSearchParams({
 			labels: 'bug,triage',
-			template: 'bug-report.yaml',
+			template: '02-documentation-issue.yml',
 			title: 'Graph visualizer error',
-			command: 'n/a',
-			envinfo: 'n/a',
-			version: 'n/a',
-			expectation: `Graph visualizer should appear using payload:
+			url: window.location.toString(),
+			information: `Graph visualizer should appear using payload:
 \`\`\`
 ${input}
-\`\`\``,
-			actual: `Received error:
+\`\`\`
+
+Here's the error that was thrown:
+
 \`\`\`
 ${e.toString()}
 # Stack trace
