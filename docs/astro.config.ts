@@ -65,7 +65,7 @@ export default defineConfig({
 			sidebar: [
 				{ label: 'Core concepts', autogenerate: { directory: 'concepts' } },
 				{ label: 'Documentation', autogenerate: { directory: 'docs' } },
-				{ label: 'Core utilities', autogenerate: { directory: 'core' } },
+				{ label: 'Core commands', autogenerate: { directory: 'core' } },
 				{ label: 'Plugins', autogenerate: { directory: 'plugins' } },
 				{ label: 'Project', autogenerate: { directory: 'project' } },
 				{

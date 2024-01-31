@@ -16,8 +16,11 @@ import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../types'
 import { generate } from '../generate';
 import { graph } from '../graph';
 import { codeowners } from '../codeowners';
+import { dependencies } from '../dependencies';
+import { hooks } from '../hooks';
+import { workspace } from '../workspace';
 
-const corePlugins: CorePlugins = [generate, graph, codeowners];
+const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, workspace];
 
 export const command = 'tasks';
 

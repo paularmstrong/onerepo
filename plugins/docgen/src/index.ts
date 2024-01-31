@@ -99,6 +99,10 @@ export const docgen = (opts: Options = {}): Plugin => {
 					outPath = workspace.resolve(outFile);
 				}
 
+				if (command) {
+					process.env.ONEREPO_DOCGEN = command;
+				}
+
 				const parseStep = logger.createStep('Parse commands');
 				const docsYargs = new Yargs(parseStep);
 				await internalSetup({

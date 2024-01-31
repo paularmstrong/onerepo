@@ -21,6 +21,28 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 	 */
 	codeowners?: Record<string, Array<string>>;
 	/**
+	 * Configuration for custom commands. To configure the commands directory, see [`RootConfig` `commands.directory`](#commandsdirectory).
+	 */
+	commands?: {
+		/**
+		 * @default `{}`
+		 *
+		 * Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by workspace. Passthrough commands _must_ have helpful descriptions.
+		 *
+		 * ```ts title="onerepo.config.ts"
+		 * export default {
+		 * 	commands: {
+		 * 		passthrough: {
+		 * 			astro: { description: 'Run Astro commands directly.' },
+		 * 			start: { description: 'Run the Astro dev server.', command: 'astro dev --port=8000' },
+		 * 		},
+		 * 	},
+		 * };
+		 * ```
+		 */
+		passthrough: Record<string, { description: string; command?: string }>;
+	};
+	/**
 	 * @default `{}`
 	 * A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
 	 *

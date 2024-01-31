@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<80605613200b1f52b9703314f7b8ff85>> -->
+<!-- @generated SignedSource<<edaa1c35e634eaa62235c1d001defd76>> -->
 
 ## Namespaces
 
@@ -926,6 +926,12 @@ serial?: Task[];
 ```ts
 type WorkspaceConfig<CustomLifecycles>: {
   codeowners: Record<string, string[]>;
+  commands: {
+     passthrough: Record<string, {
+        command: string;
+        description: string;
+     }>;
+  };
   meta: Record<string, unknown>;
   tasks: TaskConfig<CustomLifecycles>;
 };
@@ -955,6 +961,43 @@ export default {
 	codeowners: {
 		'*': ['@my-team', '@person'],
 		scripts: ['@infra-team'],
+	},
+};
+```
+
+##### commands?
+
+```ts
+commands?: {
+  passthrough: Record<string, {
+     command: string;
+     description: string;
+  }>;
+};
+```
+
+Configuration for custom commands. To configure the commands directory, see [`RootConfig` `commands.directory`](#commandsdirectory).
+
+##### commands.passthrough
+
+```ts
+commands.passthrough: Record<string, {
+  command: string;
+  description: string;
+}>;
+```
+
+**Default:** `{}`
+
+Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by workspace. Passthrough commands _must_ have helpful descriptions.
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		passthrough: {
+			astro: { description: 'Run Astro commands directly.' },
+			start: { description: 'Run the Astro dev server.', command: 'astro dev --port=8000' },
+		},
 	},
 };
 ```
@@ -1312,12 +1355,12 @@ get codeowners(): Required<Record<string, string[]>>
 ##### config
 
 ```ts
-get config(): WorkspaceConfig
+get config(): Required<WorkspaceConfig | RootConfig>
 ```
 
 Get the workspace's configuration
 
-**Returns:** [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)  
+**Returns:** `Required`\<[`WorkspaceConfig`](#workspaceconfigcustomlifecycles) \| [`RootConfig`](#rootconfigcustomlifecycles)\>  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### dependencies
@@ -2641,7 +2684,7 @@ versions: string[];
 ### Plugin
 
 ```ts
-type Plugin: PluginObject | (config) => PluginObject;
+type Plugin: PluginObject | (config, graph) => PluginObject;
 ```
 
 **Source:** [modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts)

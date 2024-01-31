@@ -1,0 +1,127 @@
+---
+title: Workspace commands
+description: Run commands in Workspaces.
+meta:
+  stability: stable
+---
+
+import FileTree from '../../../components/FileTree.astro';
+
+Your monorepo's Workspaces may end up having unique needs that differ from other Workspaces. When this occurs, you may want to have commands that are specific to an individual Workspace. There are two ways to configure oneRepo to enable Workspace-specific commands.
+
+## Custom commands
+
+Workspaces can have custom commands that work identically to commands at the root of your repository. The [`RootConfig.commands.directory`](/docs/config/#commandsdirectory) configuration value enables a directory within _each_ Workspace of your application, if present, to contain command files that will automatically be included in the `one` CLI when invoked.
+
+By default, the `commands.directory` is set to `'commands'`.
+
+```ts title="onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	commands: {
+		directory: 'commands',
+	},
+} satisfies Config;
+```
+
+This setting will automatically enable each Workspace to add command files:
+
+<FileTree>
+
+- apps
+  - public-app
+    - commands/
+      - start.ts # one ws public-app start
+      - build.ts
+  - private-app
+    - commands/
+      - start.ts # one ws private-app start
+      - build.ts
+
+</FileTree>
+
+And in turn, our custom commands will be exposed on the `one workspace` (or `one ws` alias, for short) command:
+
+```sh title="Run public-app commands."
+# Run the `start` command
+one workspace public-app start
+
+# Run the `build` command
+one workspace public-app build
+```
+
+```sh title="Build private-app commands."
+one workspace private-app build
+# ↑ Equivalent to ↓
+one ws private-app build
+```
+
+Read the [writing commands documentation](/docs/commands/) for a tutorial and in-depth information on the structure, shape, and strategies for commands.
+
+## Passthrough commands
+
+Alternatively, for quick access to third-party commands that don't require extra configuration, we can configure _passthrough_ commands in Workspace configuration files:
+
+```ts title="apps/public-app/onerepo.config.ts"
+export default {
+	commands: {
+		passthrough: {
+			start: { command: 'astro dev', description: 'Start the Astro dev server.' },
+			build: { command: 'astro build', description: 'Build the app using Astro.' },
+		},
+	},
+} satisfies WorkspaceConfig;
+```
+
+Some third-party spackages expose executables for running servers and quick helpers that use configuration files instead of command-line flags, like [Astro](https://astro.build) and [Vite](https://vitejs.dev). These types of commands are great candidates for passthroughs.
+
+:::danger
+This configuration is a shortcut for quick one-offs with little to no extra options necessary. Avoid over-using this configuration to avoid [script overload](/concepts/why-onerepo/#script-overload) pitfalls.
+:::
+
+By enabling the passthrough using the above configuration for `public-app`, we add two commands to the Workspace: `start` and `build` and can be called with either form of the `workspace` command using `one workspace …` or the alias `one ws …`:
+
+```sh title="Run the Astro dev server."
+one workspace public-app start
+# ↑ Equivalent to ↓
+one ws public-app start
+```
+
+```sh title="Build the app using Astro."
+one workspace public-app build
+# ↑ Equivalent to ↓
+one ws public-app build
+```
+
+If you need a little bit more and want to pass arguments through to the underlying command (in this case `astro …`), include any extra argument flags after the CLI parser stop point (`--`):
+
+```sh title="Pass arguments to Astro"
+one workspace public app start -- --port=8000 --open
+```
+
+## Command usage
+
+{/* start-auto-generated-from-cli-workspace */}
+{/* @generated SignedSource<<88b5edb9556a0953b6fc2f856d4b6c5d>> */}
+
+### `one workspace`
+
+Aliases: `one ws`
+
+Run commands within individual Workspaces.
+
+```sh
+one workspace <workspace-name> <command...> [options...] -- [passthrough...]
+```
+
+This enables running both custom commands as defined via the `commands.directory` configuration option within each Workspace as well as `commands.passthrough` aliases.
+
+Arguments for passthrough commands meant for the underlying command must be sent after `--`.
+
+| Positional       | Type     | Description                       |
+| ---------------- | -------- | --------------------------------- |
+| `command`        | `string` | Command to run.                   |
+| `workspace-name` | `string` | The name or alias of a Workspace. |
+
+{/* end-auto-generated-from-cli-workspace */}

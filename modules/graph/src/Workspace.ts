@@ -1,6 +1,16 @@
 import path from 'node:path';
+import defaults from 'defaults';
 import { minimatch } from 'minimatch';
-import type { Tasks, TaskConfig, WorkspaceConfig } from 'onerepo';
+import type { Tasks, TaskConfig, WorkspaceConfig, RootConfig } from 'onerepo';
+
+const defaultConfig: Required<WorkspaceConfig> = {
+	codeowners: {},
+	commands: {
+		passthrough: {},
+	},
+	meta: {},
+	tasks: {},
+};
 
 /**
  * @group Graph
@@ -11,7 +21,7 @@ export class Workspace {
 	#rootLocation: string;
 	#tasks: TaskConfig | null = null;
 	#require: typeof require;
-	#config?: WorkspaceConfig;
+	#config?: Required<WorkspaceConfig | RootConfig>;
 
 	/**
 	 * @internal
@@ -123,16 +133,21 @@ export class Workspace {
 	/**
 	 * Get the workspace's configuration
 	 */
-	get config(): WorkspaceConfig {
+	get config(): Required<WorkspaceConfig | RootConfig> {
 		if (!this.#config) {
 			try {
 				const config = this.#require(this.resolve('onerepo.config'));
-				this.#config = (config.default ?? config) as WorkspaceConfig;
+				if (this.isRoot) {
+					this.#config = config as Required<RootConfig>;
+				} else {
+					this.#config = defaults(config.default ?? config, defaultConfig) as Required<WorkspaceConfig>;
+				}
 			} catch (e) {
 				if (e && (e as NodeJS.ErrnoException).code === 'MODULE_NOT_FOUND') {
-					return {};
+					this.#config = { ...defaultConfig } as Required<WorkspaceConfig>;
+				} else {
+					throw e;
 				}
-				throw e;
 			}
 		}
 		return this.#config;

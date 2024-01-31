@@ -72,6 +72,7 @@ export const parserConfiguration = {
 	'camel-case-expansion': false,
 	'greedy-arrays': true,
 	'populate--': true,
+	// 'sort-commands': true,
 };
 
 function fallbackHandler(argv: Arguments<DefaultArgv>) {

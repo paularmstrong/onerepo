@@ -367,7 +367,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-workspace */}
-{/* @generated SignedSource<<2f550887309eb9605eec80f301fb8d29>> */}
+{/* @generated SignedSource<<ae884de3eadba89c965d40c9a7f14055>> */}
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
@@ -391,6 +391,30 @@ export default {
 	codeowners: {
 		'*': ['@my-team', '@person'],
 		scripts: ['@infra-team'],
+	},
+};
+```
+
+#### commands?
+
+- **Type:** `Object`
+
+Configuration for custom commands. To configure the commands directory, see [`RootConfig` `commands.directory`](#commandsdirectory).
+
+#### commands.passthrough
+
+- **Type:** `Record`\<`string`, `Object`\>
+- **Default:** `{}`
+
+Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by workspace. Passthrough commands _must_ have helpful descriptions.
+
+```ts title="onerepo.config.ts"
+export default {
+	commands: {
+		passthrough: {
+			astro: { description: 'Run Astro commands directly.' },
+			start: { description: 'Run the Astro dev server.', command: 'astro dev --port=8000' },
+		},
 	},
 };
 ```
