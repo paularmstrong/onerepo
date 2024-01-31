@@ -102,11 +102,11 @@ The name of the vitest command. You might change this to `'test'` or `['test', '
 ## Commands
 
 {/* start-auto-generated-from-cli-vitest */}
-{/* @generated SignedSource<<ff39b8c397d720be0e52b08cdb4b7acd>> */}
+{/* @generated SignedSource<<595d46f456184a9d2b9e5ea531e788ab>> */}
 
 ### `one test`
 
-Aliases: `vitest`
+Aliases: `one vitest`
 
 Run unit tests using Vitest
 
@@ -119,25 +119,25 @@ This test commad will automatically attempt to run only the test files related t
 
 Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) can be used as passthrough arguments as well after an argument separator (two dashes `--`).
 
-| Option               | Type      | Description                                                                                                                                                                 | Required |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                                                                                   |          |
-| `--inspect`          | `boolean` | Break for the the Node inspector to debug tests.                                                                                                                            |          |
-| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--watch`            | `boolean` | Shortcut for vitest `--watch` mode.                                                                                                                                         |          |
-| `--workspaces`, `-w` | `array`   | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type      | Description                                                                                                                                                                 |
+| ------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
+| `--inspect`        | `boolean` | Break for the the Node inspector to debug tests.                                                                                                                            |
+| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--watch`          | `boolean` | Shortcut for vitest `--watch` mode.                                                                                                                                         |
+| `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                      | Description                                                | Required |
-| --------------- | ----------------------------------------- | ---------------------------------------------------------- | -------- |
-| `--config`      | `string`, default: `"./vitest.config.ts"` | Path to the vitest.config file, relative to the repo root. |          |
-| `--from-ref`    | `string`                                  | Git ref to start looking for affected files or workspaces  |          |
-| `--through-ref` | `string`                                  | Git ref to start looking for affected files or workspaces  |          |
+| Option          | Type                                      | Description                                                |
+| --------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| `--config`      | `string`, default: `"./vitest.config.ts"` | Path to the vitest.config file, relative to the repo root. |
+| `--from-ref`    | `string`                                  | Git ref to start looking for affected files or workspaces  |
+| `--through-ref` | `string`                                  | Git ref to start looking for affected files or workspaces  |
 
 </details>
 

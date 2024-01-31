@@ -121,11 +121,11 @@ Whether to use Prettier's built-in cache determinism.
 ## Commands
 
 {/* start-auto-generated-from-cli-prettier */}
-{/* @generated SignedSource<<d5d26cbfa4e1df5b956788d013f94ad2>> */}
+{/* @generated SignedSource<<06661420740212ff5497999154969309>> */}
 
 ### `one format`
 
-Aliases: `prettier`
+Aliases: `one prettier`
 
 Format files with prettier
 
@@ -133,27 +133,27 @@ Format files with prettier
 one format [options]
 ```
 
-| Option               | Type      | Description                                                                                                                                                                 | Required |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--add`              | `boolean` | Add modified files after write                                                                                                                                              |          |
-| `--affected`         | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean` | Run across all workspaces                                                                                                                                                   |          |
-| `--check`            | `boolean` | Check for changes.                                                                                                                                                          |          |
-| `--files`, `-f`      | `array`   | Determine Workspaces from specific files                                                                                                                                    |          |
-| `--show-advanced`    | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--workspaces`, `-w` | `array`   | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type      | Description                                                                                                                                                                 |
+| ------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--add`            | `boolean` | Add modified files after write                                                                                                                                              |
+| `--affected`       | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
+| `--check`          | `boolean` | Check for changes.                                                                                                                                                          |
+| `--files, -f`      | `array`   | Determine Workspaces from specific files                                                                                                                                    |
+| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option              | Type                       | Description                                                                        | Required |
-| ------------------- | -------------------------- | ---------------------------------------------------------------------------------- | -------- |
-| `--cache`           | `boolean`, default: `true` | Use Prettier’s built-in cache to determin whether files need formatting or not.    |          |
-| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                          |          |
-| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing format checks in GitHub Actions. |          |
-| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                          |          |
+| Option              | Type                       | Description                                                                        |
+| ------------------- | -------------------------- | ---------------------------------------------------------------------------------- |
+| `--cache`           | `boolean`, default: `true` | Use Prettier’s built-in cache to determin whether files need formatting or not.    |
+| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                          |
+| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing format checks in GitHub Actions. |
+| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                          |
 
 </details>
 

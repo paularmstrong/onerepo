@@ -123,7 +123,7 @@ Rename the default command name.
 ## Commands
 
 {/* start-auto-generated-from-cli-jest */}
-{/* @generated SignedSource<<ee7f1a85bac3b3f5123d83949df89fac>> */}
+{/* @generated SignedSource<<6285b7b62a98fde902106bd8c682cdc1>> */}
 
 ### `one jest`
 
@@ -138,26 +138,26 @@ This test commad will automatically attempt to run only the test files related t
 
 Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes `--`)
 
-| Option               | Type                       | Description                                                                                                                                                                 | Required |
-| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
-| `--inspect`          | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |          |
-| `--pretty`           | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |          |
-| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--watch`            | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |          |
-| `--workspaces`, `-w` | `array`                    | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type                       | Description                                                                                                                                                                 |
+| ------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |
+| `--inspect`        | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |
+| `--pretty`         | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |
+| `--show-advanced`  | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--watch`          | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |
+| `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                    | Description                                               | Required |
-| --------------- | --------------------------------------- | --------------------------------------------------------- | -------- |
-| `--config`      | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.  |          |
-| `--from-ref`    | `string`                                | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref` | `string`                                | Git ref to start looking for affected files or workspaces |          |
+| Option          | Type                                    | Description                                               |
+| --------------- | --------------------------------------- | --------------------------------------------------------- |
+| `--config`      | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.  |
+| `--from-ref`    | `string`                                | Git ref to start looking for affected files or workspaces |
+| `--through-ref` | `string`                                | Git ref to start looking for affected files or workspaces |
 
 </details>
 

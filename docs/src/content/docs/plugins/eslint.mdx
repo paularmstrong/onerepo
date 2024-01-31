@@ -122,11 +122,11 @@ Control the ESLint setting default to suppress warnings and only report errors.
 ## Commands
 
 {/* start-auto-generated-from-cli-eslint */}
-{/* @generated SignedSource<<153cfaee9db2fece7f36f3ad3af4ae2f>> */}
+{/* @generated SignedSource<<f13b2f7d5e4f69e3e20fa29d23cf5148>> */}
 
 ### `one lint`
 
-Aliases: `eslint`
+Aliases: `one eslint`
 
 Run eslint across files and workspaces
 
@@ -134,30 +134,30 @@ Run eslint across files and workspaces
 one lint [options]
 ```
 
-| Option               | Type                                                            | Description                                                                                                                                                                 | Required |
-| -------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--add`              | `boolean`                                                       | Add modified files after write to the git stage.                                                                                                                            |          |
-| `--affected`         | `boolean`                                                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean`                                                       | Run across all workspaces                                                                                                                                                   |          |
-| `--cache`            | `boolean`, default: `true`                                      | Use cache if available                                                                                                                                                      |          |
-| `--extensions`       | `array`, default: `["ts","tsx","js","jsx","cjs","mjs","astro"]` |                                                                                                                                                                             |          |
-| `--files`, `-f`      | `array`                                                         | Determine Workspaces from specific files                                                                                                                                    |          |
-| `--fix`              | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                                                                                                |          |
-| `--pretty`           | `boolean`, default: `true`                                      | Control ESLint’s `--color` flag.                                                                                                                                            |          |
-| `--quiet`            | `boolean`                                                       | Report errors only                                                                                                                                                          |          |
-| `--show-advanced`    | `boolean`                                                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                                                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--workspaces`, `-w` | `array`                                                         | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type                                                            | Description                                                                                                                                                                 |
+| ------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--add`            | `boolean`                                                       | Add modified files after write to the git stage.                                                                                                                            |
+| `--affected`       | `boolean`                                                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                                                       | Run across all workspaces                                                                                                                                                   |
+| `--cache`          | `boolean`, default: `true`                                      | Use cache if available                                                                                                                                                      |
+| `--extensions`     | `array`, default: `["ts","tsx","js","jsx","cjs","mjs","astro"]` |                                                                                                                                                                             |
+| `--files, -f`      | `array`                                                         | Determine Workspaces from specific files                                                                                                                                    |
+| `--fix`            | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                                                                                                |
+| `--pretty`         | `boolean`, default: `true`                                      | Control ESLint’s `--color` flag.                                                                                                                                            |
+| `--quiet`          | `boolean`                                                       | Report errors only                                                                                                                                                          |
+| `--show-advanced`  | `boolean`                                                       | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean`                                                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`                                                         | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option              | Type                       | Description                                                                     | Required |
-| ------------------- | -------------------------- | ------------------------------------------------------------------------------- | -------- |
-| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
-| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing lint checks in GitHub Actions |          |
-| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                       |          |
+| Option              | Type                       | Description                                                                     |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------- |
+| `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                       |
+| `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing lint checks in GitHub Actions |
+| `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                       |
 
 </details>
 

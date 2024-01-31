@@ -37,11 +37,11 @@ No configuration necessary! oneRepo automatically detects which package manager 
 </div>
 
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<29fc8b0a064abca21cbbf62dfdbcf3ed>> */}
+{/* @generated SignedSource<<fd2516a190a5c215b9b3ad060184ef57>> */}
 
 ### `one dependencies`
 
-Aliases: `dependency`, `deps`, `dep`
+Aliases: `one dependency`, `one deps`, `one dep`
 
 Safely manage Workspace dependencies across your repository.
 
@@ -65,15 +65,15 @@ If multiple versions of the requested dependencies are found in the Workspace Gr
 
 Otherwise, the latest version will be requested from the registry.
 
-| Option               | Type                                               | Description                                                                                                                            | Required |
-| -------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                              |          |
-| `--dedupe`           | `boolean`, default: `true`                         | Deduplicate dependencies across the repository after install is complete.                                                              |          |
-| `--dev`, `-d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |          |
-| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |          |
-| `--prod`, `-p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |          |
-| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |          |
-| `--workspaces`, `-w` | `array`                                            | One or more Workspaces to add dependencies into                                                                                        |          |
+| Option             | Type                                               | Description                                                                                                                            |
+| ------------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `--all, -a`        | `boolean`                                          | Run across all workspaces                                                                                                              |
+| `--dedupe`         | `boolean`, default: `true`                         | Deduplicate dependencies across the repository after install is complete.                                                              |
+| `--dev, -d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |
+| `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |
+| `--prod, -p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |
+| `--show-advanced`  | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |
+| `--workspaces, -w` | `array`                                            | One or more Workspaces to add dependencies into                                                                                        |
 
 Install the latest version of `normalizr` from the registry, using a strict version number.
 
@@ -103,13 +103,13 @@ Remove dependencies from Workspaces.
 one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 ```
 
-| Option                 | Type                       | Description                                                               | Required |
-| ---------------------- | -------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`          | `boolean`                  | Run across all workspaces                                                 |          |
-| `--dedupe`             | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
-| `--dependencies`, `-d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
-| `--show-advanced`      | `boolean`                  | Pair with `--help` to show advanced options.                              |          |
-| `--workspaces`, `-w`   | `array`                    | List of Workspace names to run against                                    |          |
+| Option               | Type                       | Description                                                               | Required |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------- | -------- |
+| `--all, -a`          | `boolean`                  | Run across all workspaces                                                 |          |
+| `--dedupe`           | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
+| `--dependencies, -d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
+| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                              |          |
+| `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                    |          |
 
 ---
 
@@ -127,11 +127,11 @@ Dependencies across Workspaces can be validated using one of the various modes:
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
 - `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-| Option               | Type                                               | Description                                                                                                                                                   | Required |
-| -------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--all`, `-a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |          |
-| `--mode`             | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |          |
-| `--show-advanced`    | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |          |
-| `--workspaces`, `-w` | `array`                                            | List of Workspace names to run against                                                                                                                        |          |
+| Option             | Type                                               | Description                                                                                                                                                   |
+| ------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--all, -a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |
+| `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |
+| `--show-advanced`  | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |
+| `--workspaces, -w` | `array`                                            | List of Workspace names to run against                                                                                                                        |
 
 {/* end-auto-generated-from-cli-dependencies */}
