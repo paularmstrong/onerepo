@@ -68,7 +68,9 @@ function aliases(command: Docs): Array<Node> {
 			text('Aliases: '),
 			...command.aliases
 				.map((alias, index, self) => {
-					const nodes = [inlineCode(alias)];
+					const nodes = [
+						inlineCode(command.fullCommand.replace(` ${command.command}`, alias === '$0' ? '' : ` ${alias}`)),
+					];
 					if (index !== self.length - 1) {
 						nodes.push(text(', '));
 					}
@@ -159,27 +161,35 @@ function positionals(cmd: Docs): Array<Node> {
 }
 
 function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positional>) {
+	const hasRequired = Object.values(options).some((opt) => opt.required);
+	const columns = [
+		tableCell(text(type === 'pos' ? 'Positional' : 'Option')),
+		tableCell(text('Type')),
+		tableCell(text('Description')),
+	];
+	if (hasRequired) {
+		columns.push(tableCell(text('Required')));
+	}
 	return [
 		table(
 			[],
 			[
-				tableRow([
-					tableCell(text(type === 'pos' ? 'Positional' : 'Option')),
-					tableCell(text('Type')),
-					tableCell(text('Description')),
-					tableCell(text('Required')),
-				]),
-				...Object.values(options).map((opt) =>
-					tableRow([
-						tableCell(
-							[
-								inlineCode(type === 'pos' ? opt.name : `--${opt.name}`),
-								...(opt.aliases || []).map((alias) => [
-									text(', '),
-									inlineCode(`${alias.length === 1 ? '-' : '--'}${alias}`),
-								]),
-							].flat(),
-						),
+				tableRow(columns),
+				...Object.values(options).map((opt) => {
+					const cells = [
+						tableCell([
+							inlineCode(
+								[opt.name, ...(opt.aliases ?? [])]
+									.map((o) => {
+										if (type === 'pos') {
+											return o;
+										}
+										return o ? `${o.length === 1 ? '-' : '--'}${o}` : false;
+									})
+									.filter(Boolean)
+									.join(', '),
+							),
+						]),
 						tableCell(
 							// @ts-expect-error unist v11 broke things
 							typeAndDefault(opt),
@@ -188,9 +198,14 @@ function optPosTable(type: 'opt' | 'pos', options: Array<Option> | Array<Positio
 							// @ts-expect-error unist v11 broke things
 							parse(opt.description ?? '')?.children || [],
 						),
-						tableCell(opt.required ? text('✅') : text('')),
-					]),
-				),
+					];
+
+					if (hasRequired) {
+						cells.push(tableCell(opt.required ? text('✅') : text('')));
+					}
+
+					return tableRow(cells);
+				}),
 			],
 		),
 	];

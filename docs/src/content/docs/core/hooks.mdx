@@ -81,7 +81,7 @@ git config --unset core.hooksPath
 ## Commands
 
 {/* start-auto-generated-from-cli-hooks */}
-{/* @generated SignedSource<<4e161842f4ab1c433ec277a208bbebb9>> */}
+{/* @generated SignedSource<<1398ccb2bc14058361a9d8f4e2bc9d45>> */}
 
 ### `one hooks`
 
@@ -101,12 +101,12 @@ Create git hooks
 one hooks create
 ```
 
-| Option            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                | Required |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
-| `--add`           | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |          |
-| `--hook`          | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |          |
-| `--overwrite`     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |          |
-| `--show-advanced` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Pair with `--help` to show advanced options.                               |          |
+| Option            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `--add`           | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |
+| `--hook`          | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |
+| `--overwrite`     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |
+| `--show-advanced` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Pair with `--help` to show advanced options.                               |
 
 <details>
 
@@ -122,7 +122,7 @@ one hooks create
 
 #### `one hooks init`
 
-Aliases: `sync`
+Aliases: `one hooks sync`
 
 Initialize and sync git hook settings for this repository.
 
@@ -130,9 +130,9 @@ Initialize and sync git hook settings for this repository.
 one hooks init
 ```
 
-| Option            | Type      | Description                                  | Required |
-| ----------------- | --------- | -------------------------------------------- | -------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 <details>
 

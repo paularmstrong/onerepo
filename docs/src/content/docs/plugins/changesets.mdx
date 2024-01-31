@@ -97,11 +97,11 @@ name?: string | string[];
 ## Commands
 
 {/* start-auto-generated-from-cli-changesets */}
-{/* @generated SignedSource<<1aeb61d2d142116c78a9aac4b8efa16b>> */}
+{/* @generated SignedSource<<53551c3fc59ea2d2163a6dc5344915ff>> */}
 
 ### `one change`
 
-Aliases: `changeset`, `changesets`
+Aliases: `one changeset`, `one changesets`
 
 Manage changesets, versioning, and publishing your public Workspaces to packages.
 
@@ -113,7 +113,7 @@ one change <command> [options]
 
 #### `one change add`
 
-Aliases: `$0`
+Aliases: `one change`
 
 Add a changeset
 
@@ -121,25 +121,25 @@ Add a changeset
 one change add [options]
 ```
 
-| Option               | Type                            | Description                                                                                                                                                                 | Required |
-| -------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--add`              | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                                                                                      |          |
-| `--affected`         | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean`                       | Run across all workspaces                                                                                                                                                   |          |
-| `--files`, `-f`      | `array`                         | Determine Workspaces from specific files                                                                                                                                    |          |
-| `--show-advanced`    | `boolean`                       | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--type`             | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.                                                         |          |
-| `--workspaces`, `-w` | `array`                         | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type                            | Description                                                                                                                                                                 |
+| ------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                                                                                      |
+| `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                                                                                   |
+| `--files, -f`      | `array`                         | Determine Workspaces from specific files                                                                                                                                    |
+| `--show-advanced`  | `boolean`                       | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean`                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.                                                         |
+| `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type     | Description                                               | Required |
-| --------------- | -------- | --------------------------------------------------------- | -------- |
-| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |          |
+| Option          | Type     | Description                                               |
+| --------------- | -------- | --------------------------------------------------------- |
+| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |
+| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |
 
 </details>
 
@@ -155,15 +155,15 @@ one change init
 
 You should only ever have to do this once.
 
-| Option            | Type      | Description                                  | Required |
-| ----------------- | --------- | -------------------------------------------- | -------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |          |
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 ---
 
 #### `one change prerelease`
 
-Aliases: `pre-release`, `pre`
+Aliases: `one change pre-release`, `one change pre`
 
 Pre-release available Workspaces.
 
@@ -171,20 +171,20 @@ Pre-release available Workspaces.
 one change prerelease
 ```
 
-| Option            | Type                       | Description                                                                                   | Required |
-| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |          |
-| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
-| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
+| Option            | Type                       | Description                                                                                   |
+| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
+| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |
+| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |
+| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type      | Description                                                 | Required |
-| --------------- | --------- | ----------------------------------------------------------- | -------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+| Option          | Type      | Description                                                 |
+| --------------- | --------- | ----------------------------------------------------------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
 
 </details>
 
@@ -192,7 +192,7 @@ one change prerelease
 
 #### `one change publish`
 
-Aliases: `release`
+Aliases: `one change release`
 
 Publish all Workspaces with versions not available in the registry.
 
@@ -202,20 +202,20 @@ one change publish [options]
 
 This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
 
-| Option            | Type                       | Description                                                                                   | Required |
-| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |          |
-| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |          |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |          |
-| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |          |
+| Option            | Type                       | Description                                                                                   |
+| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
+| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |
+| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |
+| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type      | Description                                                 | Required |
-| --------------- | --------- | ----------------------------------------------------------- | -------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+| Option          | Type      | Description                                                 |
+| --------------- | --------- | ----------------------------------------------------------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
 
 </details>
 
@@ -229,18 +229,18 @@ Version Workspaces for publishing. Allows you to select a minimal set of Workspa
 one change version
 ```
 
-| Option            | Type                       | Description                                                                                          | Required |
-| ----------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- | -------- |
-| `--add`           | `boolean`, default: `true` | Add the modified files like `package.json` and `CHANGELOG.md` files to the git stage for committing. |          |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                         |          |
+| Option            | Type                       | Description                                                                                          |
+| ----------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `--add`           | `boolean`, default: `true` | Add the modified files like `package.json` and `CHANGELOG.md` files to the git stage for committing. |
+| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                         |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type      | Description                                                 | Required |
-| --------------- | --------- | ----------------------------------------------------------- | -------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |          |
+| Option          | Type      | Description                                                 |
+| --------------- | --------- | ----------------------------------------------------------- |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
 
 </details>
 

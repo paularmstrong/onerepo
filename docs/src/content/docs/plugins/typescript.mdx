@@ -113,11 +113,11 @@ Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook
 ## Commands
 
 {/* start-auto-generated-from-cli-typescript */}
-{/* @generated SignedSource<<f185e6e4ab5603d8161b896bbf94f58d>> */}
+{/* @generated SignedSource<<e368491e3176772b5651be9ead8976e5>> */}
 
 ### `one tsc`
 
-Aliases: `typescript`, `typecheck`
+Aliases: `one typescript`, `one typecheck`
 
 Sync TS project references
 
@@ -127,25 +127,25 @@ one tsc [options]
 
 Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each Workspace.
 
-| Option               | Type                       | Description                                                                                                                                                                 | Required |
-| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `--affected`         | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |          |
-| `--all`, `-a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |          |
-| `--pretty`           | `boolean`, default: `true` | Control TypeScript’s `--pretty` flag.                                                                                                                                       |          |
-| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |          |
-| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |          |
-| `--workspaces`, `-w` | `array`                    | List of Workspace names to run against                                                                                                                                      |          |
+| Option             | Type                       | Description                                                                                                                                                                 |
+| ------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |
+| `--pretty`         | `boolean`, default: `true` | Control TypeScript’s `--pretty` flag.                                                                                                                                       |
+| `--show-advanced`  | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |
+| `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option                                                               | Type                                 | Description                                               | Required |
-| -------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------- | -------- |
-| `--from-ref`                                                         | `string`                             | Git ref to start looking for affected files or workspaces |          |
-| `--through-ref`                                                      | `string`                             | Git ref to start looking for affected files or workspaces |          |
-| `--tsconfig`                                                         | `string`, default: `"tsconfig.json"` | The filename of the tsconfig to find in each Workspace.   |          |
-| `--use-project-references`, `--project-references`, `--project-refs` | `boolean`, default: `true`           | Automatically sync and use typescript project references  |          |
+| Option                                                           | Type                                 | Description                                               |
+| ---------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------- |
+| `--from-ref`                                                     | `string`                             | Git ref to start looking for affected files or workspaces |
+| `--through-ref`                                                  | `string`                             | Git ref to start looking for affected files or workspaces |
+| `--tsconfig`                                                     | `string`, default: `"tsconfig.json"` | The filename of the tsconfig to find in each Workspace.   |
+| `--use-project-references, --project-references, --project-refs` | `boolean`, default: `true`           | Automatically sync and use typescript project references  |
 
 </details>
 

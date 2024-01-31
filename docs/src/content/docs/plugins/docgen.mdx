@@ -149,7 +149,7 @@ Set to true to amend content to the given file using the file.writeSafe | `file.
 ## Commands
 
 {/* start-auto-generated-from-cli-docgen */}
-{/* @generated SignedSource<<89cebedc4a33eb9586e88ad0cf13443c>> */}
+{/* @generated SignedSource<<4673a8de2f1d979aecc9b936d589a437>> */}
 
 ### `one docgen`
 
@@ -163,22 +163,22 @@ Help documentation should always be easy to find. This command will help automat
 
 Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.
 
-| Option            | Type                                                                      | Description                                                                | Required |
-| ----------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------- |
-| `--add`           | `boolean`                                                                 | Add the output file to the git stage                                       |          |
-| `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                             | Output format for documentation                                            |          |
-| `--heading-level` | `number`                                                                  | Heading level to start at for Markdown output                              |          |
-| `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |          |
-| `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |          |
-| `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |          |
+| Option            | Type                                                                      | Description                                                                |
+| ----------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `--add`           | `boolean`                                                                 | Add the output file to the git stage                                       |
+| `--format`        | `"markdown"`, `"json"`, default: `"markdown"`                             | Output format for documentation                                            |
+| `--heading-level` | `number`                                                                  | Heading level to start at for Markdown output                              |
+| `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |
+| `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |
+| `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option      | Type     | Description                                              | Required |
-| ----------- | -------- | -------------------------------------------------------- | -------- |
-| `--command` | `string` | Start at the given command, skip the root and any others |          |
+| Option      | Type     | Description                                              |
+| ----------- | -------- | -------------------------------------------------------- |
+| `--command` | `string` | Start at the given command, skip the root and any others |
 
 </details>
 
