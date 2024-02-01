@@ -55,4 +55,64 @@ describe('add', () => {
 			{ step: expect.any(LogStep) },
 		);
 	});
+
+	test('does not get all workspaces when installing in root workspace', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		vi.spyOn(graph.packageManager, 'install');
+		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
+			// @ts-ignore
+			{ 'dist-tags': { latest: '3.4.0 ' }, versions: ['3.5.0', '3.4.0'] },
+		);
+		const root = graph.getByName('fixture-root');
+
+		await expect(run('-w fixture-root -d normalizr@3.4.0 --mode strict', { graph })).resolves.toBeTruthy();
+
+		expect(graph.packageManager.install).toHaveBeenCalled();
+		expect(file.write).toHaveBeenCalledWith(
+			root.resolve('package.json'),
+			JSON.stringify({ ...root.packageJson, dependencies: {}, devDependencies: { normalizr: '3.4.0' } }, null, 2),
+			{ step: expect.any(LogStep) },
+		);
+
+		expect(file.write).toHaveBeenCalledTimes(1);
+	});
+
+	test('can cancel if trying to add prod deps to root workspace', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		vi.spyOn(graph.packageManager, 'install');
+		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
+			// @ts-ignore
+			{ 'dist-tags': { latest: '3.4.0 ' }, versions: ['3.5.0', '3.4.0'] },
+		);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ confirm: false });
+
+		await expect(run('-w fixture-root -p normalizr@3.4.0 --mode strict', { graph })).rejects.toMatch(
+			'Root Workspaces may not include production-level dependencies.',
+		);
+
+		expect(file.write).not.toHaveBeenCalled();
+	});
+
+	test('can fix prod deps to dev when adding to root workspace', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		vi.spyOn(graph.packageManager, 'install');
+		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
+			// @ts-ignore
+			{ 'dist-tags': { latest: '3.4.0 ' }, versions: ['3.5.0', '3.4.0'] },
+		);
+		vi.spyOn(inquirer, 'prompt').mockResolvedValueOnce({ confirm: true });
+
+		await expect(run('-w fixture-root -p normalizr@3.4.0 --mode strict', { graph })).resolves.toBeTruthy();
+
+		const root = graph.getByName('fixture-root');
+
+		expect(graph.packageManager.install).toHaveBeenCalled();
+		expect(file.write).toHaveBeenCalledWith(
+			root.resolve('package.json'),
+			JSON.stringify({ ...root.packageJson, dependencies: {}, devDependencies: { normalizr: '3.4.0' } }, null, 2),
+			{ step: expect.any(LogStep) },
+		);
+
+		expect(file.write).toHaveBeenCalledTimes(1);
+	});
 });
