@@ -74,7 +74,9 @@ interface Args {
  */
 export const docgen = (opts: Options = {}): Plugin => {
 	if (typeof opts.outFile === 'string' && (!opts.outFile || path.isAbsolute(opts.outFile))) {
-		throw new Error('Invalid path specified for `core.docgen.outFile`. Path must be relative, eg, "./docs/usage.md"');
+		throw new Error(
+			'Invalid path specified for `outFile`. Path must be relative to the repository root, eg, "./docs/usage.md"',
+		);
 	}
 
 	return (rootConfig) => ({
