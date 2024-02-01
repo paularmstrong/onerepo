@@ -1,12 +1,11 @@
 /**
- * This code is adapted from strip-json-commands: https://github.com/sindresorhus/strip-json-comments/tree/main
+ * This code is adapted from strip-json-comments: https://github.com/sindresorhus/strip-json-comments/tree/main
  *
  * Licensed under the MIT license
  * Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
  */
 
-const singleComment = Symbol('singleComment');
-const multiComment = Symbol('multiComment');
+const strip = (str: string, start?: number, end?: number) => str.slice(start, end).replace(/\S/g, '');
 
 const isEscaped = (jsonString: string, quotePosition: number) => {
 	let index = quotePosition - 1;
@@ -21,12 +20,15 @@ const isEscaped = (jsonString: string, quotePosition: number) => {
 };
 
 export default function stripJsonComments(jsonString: string) {
+	const singleComment = Symbol('singleComment');
+	const multiComment = Symbol('multiComment');
+
 	if (typeof jsonString !== 'string') {
 		throw new TypeError(`Expected argument \`jsonString\` to be a \`string\`, got \`${typeof jsonString}\``);
 	}
 
-	let isInsideString: symbol | boolean = false;
-	let isInsideComment: symbol | boolean = false;
+	let isInsideString: boolean = false;
+	let isInsideComment: symbol | false = false;
 	let offset = 0;
 	let buffer = '';
 	let result = '';
@@ -58,13 +60,13 @@ export default function stripJsonComments(jsonString: string) {
 			// Exit single-line comment via \r\n
 			index++;
 			isInsideComment = false;
-			buffer += jsonString;
+			buffer += strip(jsonString, offset, index);
 			offset = index;
 			continue;
 		} else if (isInsideComment === singleComment && currentCharacter === '\n') {
 			// Exit single-line comment via \n
 			isInsideComment = false;
-			buffer += jsonString;
+			buffer += strip(jsonString, offset, index);
 			offset = index;
 		} else if (!isInsideComment && currentCharacter + nextCharacter === '/*') {
 			// Enter multiline comment
@@ -77,7 +79,7 @@ export default function stripJsonComments(jsonString: string) {
 			// Exit multiline comment
 			index++;
 			isInsideComment = false;
-			buffer += jsonString;
+			buffer += strip(jsonString, offset, index + 1);
 			offset = index + 1;
 			continue;
 		} else if (!isInsideComment) {
@@ -85,7 +87,7 @@ export default function stripJsonComments(jsonString: string) {
 				if (currentCharacter === '}' || currentCharacter === ']') {
 					// Strip trailing comma
 					buffer += jsonString.slice(offset, index);
-					result += buffer.slice(0, 1) + buffer.slice(1);
+					result += strip(buffer, 0, 1) + buffer.slice(1);
 					buffer = '';
 					offset = index;
 					commaIndex = -1;
@@ -110,5 +112,5 @@ export default function stripJsonComments(jsonString: string) {
 		}
 	}
 
-	return result + buffer + (isInsideComment ? jsonString.slice(offset) : jsonString.slice(offset));
+	return result + buffer + (isInsideComment ? strip(jsonString.slice(offset)) : jsonString.slice(offset));
 }

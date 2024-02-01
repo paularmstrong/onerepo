@@ -229,4 +229,93 @@ add some contents`),
 			);
 		});
 	});
+
+	describe('readJson', () => {
+		describe('as jsonc', () => {
+			test.each([
+				['//comment\n{"a":"b"}', { a: 'b' }],
+				['/*//comment*/{"a":"b"}', { a: 'b' }],
+				['{"a":"b"//comment\n}', { a: 'b' }],
+				['{"a":"b"/*comment*/}', { a: 'b' }],
+				['{"a"/*\n\n\ncomment\r\n*/:"b"}', { a: 'b' }],
+				['/*!\n * comment\n */\n{"a":"b"}', { a: 'b' }],
+				['{/*comment*/"a":"b"}', { a: 'b' }],
+			])('removes comments %#', async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+
+			test.each([
+				['{"a":"b//c"}', { a: 'b//c' }],
+				['{"a":"b/*c*/"}', { a: 'b/*c*/' }],
+				['{"/*a":"b"}', { '/*a': 'b' }],
+				['{"\\"/*a":"b"}', { '"/*a': 'b' }],
+			])("doesn't strip comments inside strings %#", async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+
+			test.each([
+				['{"\\\\":"https://foobar.com"}', { '\\': 'https://foobar.com' }],
+				['{"foo\\"":"https://foobar.com"}', { 'foo"': 'https://foobar.com' }],
+			])('consider escaped slashes when checking for escaped string quote %#', async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+
+			test.each([
+				['{"a":"b"\n}', { a: 'b' }],
+				['{"a":"b"\r\n}', { a: 'b' }],
+			])('line endings - no comments %#', async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+			test.each([
+				['{"a":"b"//c\n}', { a: 'b' }],
+				['{"a":"b"//c\r\n}', { a: 'b' }],
+				['{"a":"b"/*c*/\n}', { a: 'b' }],
+				['{"a":"b"/*c*/\r\n}', { a: 'b' }],
+				['{"a":"b",/*c\nc2*/"x":"y"\n}', { a: 'b', x: 'y' }],
+				['{"a":"b",/*c\r\nc2*/"x":"y"\r\n}', { a: 'b', x: 'y' }],
+				['{\r\n\t"a":"b"\r\n} //EOF', { a: 'b' }],
+			])('line endings with comments %#', async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+
+			test('handles weird escaping', async () => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(
+					String.raw`{"x":"x \"sed -e \\\"s/^.\\\\{46\\\\}T//\\\" -e \\\"s/#033/\\\\x1b/g\\\"\""}`,
+				);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual({ x: 'x "sed -e \\"s/^.\\\\{46\\\\}T//\\" -e \\"s/#033/\\\\x1b/g\\""' });
+			});
+
+			test.each([
+				['{"x":true,}', { x: true }],
+				['{"x":true,}', { x: true }],
+				['{"x":true,\n  }', { x: true }],
+				['[true, false,]', [true, false]],
+				['[true, false,]', [true, false]],
+				['{\n  "array": [\n    true,\n    false,\n  ],\n}', { array: [true, false] }],
+				['{\n  "array": [\n    true,\n    false /* comment */ ,\n /*comment*/ ],\n}', { array: [true, false] }],
+			])('strips trailing commas %#', async (input, expected) => {
+				vi.spyOn(fs, 'readFile').mockResolvedValue(input);
+				const output = await file.readJson('anything', 'r', { jsonc: true });
+
+				expect(output).toEqual(expected);
+			});
+		});
+	});
 });
