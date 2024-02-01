@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6b39faa68f07a155b881e91a2c54d872>> -->
+<!-- @generated SignedSource<<38a2db581b4944d1f161693f0dfa71bd>> -->
 
 File manipulation functions.
 
@@ -50,6 +50,28 @@ step?: LogStep;
 
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
+
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
+
+---
+
+### ReadJsonOptions
+
+```ts
+type ReadJsonOptions: {
+  jsonc: boolean;
+  } & Options;
+```
+
+**Type declaration:**
+
+##### jsonc?
+
+```ts
+jsonc?: boolean;
+```
+
+Parse the file as JSONC (JSON with comments).
 
 **Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
@@ -373,6 +395,43 @@ const contents = await file.read('/path/to/file/');
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
+**Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
+
+---
+
+### readJson()
+
+```ts
+readJson<T>(
+   filename,
+   flag?,
+options?): Promise<T>
+```
+
+Read and parse a JSON files.
+
+Compatible with jsonc by stripping comments before running `JSON.parse()`. Pass `jsonc: true` to the options to enable jsonc.
+
+```ts
+const contents = await file.readJson('/path/to/package.json');
+const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc: true });
+```
+
+**Type parameters:**
+
+| Type parameter                              |
+| :------------------------------------------ |
+| `T` extends `Record`\<`string`, `unknown`\> |
+
+**Parameters:**
+
+| Parameter  | Type                                  |
+| :--------- | :------------------------------------ |
+| `filename` | `string`                              |
+| `flag`?    | `OpenMode`                            |
+| `options`? | [`ReadJsonOptions`](#readjsonoptions) |
+
+**Returns:** `Promise`\<`T`\>  
 **Source:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 ---

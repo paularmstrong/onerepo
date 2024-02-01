@@ -4,7 +4,7 @@ import { homedir } from 'node:os';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
 import yaml from 'js-yaml';
-import { exists, mkdirp, read, write, writeSafe } from '@onerepo/file';
+import { exists, mkdirp, read, readJson, write, writeSafe } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -77,8 +77,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	let pkgManager: 'npm' | 'pnpm' | 'yarn' = 'npm';
 	let packageJson: PackageJson | null = null;
 	if (isExistingRepo) {
-		const raw = await read(path.join(outdir, 'package.json'), 'r', { step: existStep });
-		packageJson = JSON.parse(raw) as PackageJson;
+		packageJson = await readJson<PackageJson>(path.join(outdir, 'package.json'), 'r', { step: existStep });
 		pkgManager = getPackageManagerName(outdir, 'packageManager' in packageJson ? `${packageJson.packageManager}` : '');
 	}
 	let workspaces: Array<string> = packageJson?.workspaces ?? inputWorkspaces ?? [];

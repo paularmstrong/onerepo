@@ -23,6 +23,7 @@ import initJiti from 'jiti';
 import { stepWrapper } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 import { signFile, signingToken } from './signing';
+import stripJsonComments from './utils/strip-json-comments';
 
 export { isSigned, verifySignature } from './signing';
 export type { SigningStatus } from './signing';
@@ -206,6 +207,39 @@ export async function read(filename: string, flag: OpenMode = 'r', options: Opti
 			step.error(e);
 			throw e;
 		}
+	});
+}
+
+export type ReadJsonOptions = {
+	/**
+	 * Parse the file as JSONC (JSON with comments).
+	 */
+	jsonc?: boolean;
+} & Options;
+
+/**
+ * Read and parse a JSON files.
+ *
+ * Compatible with jsonc by stripping comments before running `JSON.parse()`. Pass `jsonc: true` to the options to enable jsonc.
+ *
+ * ```ts
+ * const contents = await file.readJson('/path/to/package.json');
+ * const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc: true });
+ * ```
+ */
+export async function readJson<T extends Record<string, unknown>>(
+	filename: string,
+	flag: OpenMode = 'r',
+	options: ReadJsonOptions = {},
+) {
+	const { jsonc, step } = options;
+	const relativeFilename = normalizefilepath(filename);
+	return stepWrapper({ step, name: `Read ${relativeFilename}` }, async (step) => {
+		let contents = await read(filename, flag, { step });
+		if (jsonc) {
+			contents = stripJsonComments(contents);
+		}
+		return JSON.parse(contents) as T;
 	});
 }
 
