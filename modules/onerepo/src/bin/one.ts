@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
-import { Graph } from '@onerepo/graph';
-import { internalSetup, noRepoPlugins } from '..';
-import type { setup as Setup } from '../setup';
+import createYargs from 'yargs/yargs';
+import { Graph, internalSetup, noRepoPlugins } from '..';
+import { updateNodeModules } from './utils/update-node-modules';
+import { getConfig } from './utils/get-config';
 
 // Suppress Node experimental warnings.
 const { emitWarning } = process;
@@ -22,51 +22,62 @@ process.emitWarning = (warning, ...args) => {
 	emitWarning(warning, ...args);
 };
 
-const cwd = process.cwd();
-const jiti = initJiti(cwd, { interopDefault: true });
+export const jiti = initJiti(process.cwd(), { interopDefault: true });
 
-// Find a root config starting at the current working directory, looking upward toward filesystem root
-let curPath = cwd;
-let config;
-while (curPath && curPath !== '/') {
-	try {
-		const { default: conf } = jiti(path.join(curPath, `onerepo.config`));
-		config = conf;
-		if (config.root) {
-			break;
-		}
-		curPath = path.dirname(curPath);
-		config = undefined;
-	} catch (e) {
-		curPath = path.dirname(curPath);
-		config = undefined;
-	}
-}
-
-if (!config) {
-	config = { root: true };
-}
-
-let app: ReturnType<typeof Setup>;
-try {
-	// Use the cwd-local version of onerepo, if it exists
-	const { setup } = jiti('onerepo');
-	app = setup(curPath, config);
-} catch (e) {
-	// fall back on this binary's pre-built version
+/**
+ * Fall back on running `one` in global mode.
+ * This enables non-repo functions like `create` and `install`.
+ */
+async function runGlobal() {
 	const root = path.join(`${process.env.HOME}`, '.onerepo');
-	const require = createRequire(process.cwd());
-	app = internalSetup({
+	const require = createRequire(__filename);
+	const { run } = await internalSetup({
 		require,
 		root,
-		graph: new Graph(root, { name: 'onerepo-bin', private: true }, [], jiti),
+		graph: new Graph(root, { name: 'onerepo-bin', private: true }, [], require),
 		config: {
-			...config,
-			plugins: Object.values(noRepoPlugins).map((plugin) => (plugin as () => void)()),
+			// Pretend we're in a root anyway
+			root: true,
+			// Disable the "workspace" commands
+			commands: { directory: false },
+			// No plugins
+			plugins: [],
 		},
 		yargs: createYargs(process.argv.slice(2), process.cwd(), require),
-		corePlugins: [],
+		corePlugins: noRepoPlugins,
 	});
+
+	return run();
 }
 
-app.then(({ run }) => run());
+/**
+ * Run oneRepo, hopefully finding a monorepo in the cwd
+ */
+async function getSetupAndRun() {
+	const { config, configRoot } = getConfig(jiti, process.cwd());
+
+	if (configRoot === '/' || !config) {
+		return runGlobal();
+	}
+
+	await updateNodeModules(configRoot, jiti);
+
+	// Use the cwd-local version of onerepo, assuming it exists
+	const { setup } = jiti('onerepo');
+	const app = setup(configRoot, config).catch((e: unknown) => {
+		process.stderr.write(`${'='.repeat(Math.min(process.stderr.columns, 120))}
+  Unable to configure oneRepo in your working directory (${configRoot});
+  Check your configuration & commands for syntax errors and ensure node_modules are installed.
+${'-'.repeat(Math.min(process.stderr.columns, 120))}
+
+  ${e?.toString().replace(/\n/g, '\n  ')}
+
+${'='.repeat(Math.min(process.stderr.columns, 120))}`);
+		process.exit(1);
+	});
+
+	const { run } = await app;
+	run();
+}
+
+getSetupAndRun();
