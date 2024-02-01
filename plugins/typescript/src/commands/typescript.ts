@@ -56,10 +56,11 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				const deps = (ws.isRoot ? graph.workspaces : graph.dependencies(ws)).filter(
 					(workspace) => ws !== workspace && withTsConfig.includes(workspace),
 				);
-				const contents = await file.read(wsTsconfigPath, constants.O_RDWR, { step: sync });
-				const config = JSON.parse(contents);
+				const config = await file.readJson(wsTsconfigPath, constants.O_RDWR, { jsonc: true, step: sync });
 				const newProjects = new Set(deps.map((dep) => ws.relative(dep.location)));
-				const oldProjects = new Set((config.references ?? []).map(({ path }: { path: string }) => path));
+				const oldProjects = new Set(
+					((config.references as Array<{ path: string }>) ?? []).map(({ path }: { path: string }) => path),
+				);
 				const union = new Set([...newProjects, ...oldProjects]);
 				if (union.size !== newProjects.size || union.size !== oldProjects.size) {
 					config.references = Array.from(newProjects).map((path) => ({ path }));
