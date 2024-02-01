@@ -63,7 +63,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, getW
 		serialized = graph.serialized;
 	} else {
 		const workspaces = await getWorkspaces();
-		logger.log(`Getting Graph from Workspaces:\n • ${workspaces.map(({ name }) => name).join('\n • ')}`);
+		logger.log(() => `Getting Graph from Workspaces:\n • ${workspaces.map(({ name }) => name).join('\n • ')}`);
 		const isolated = graph.isolatedGraph(workspaces);
 		serialized = isolated.serialize();
 	}

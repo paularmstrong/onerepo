@@ -146,7 +146,20 @@ describe('LogStep', () => {
 	});
 
 	test.concurrent.each([
-		['function', function foo() {}, ` │ ${pc.cyan(pc.bold('LOG'))} function foo() {`],
+		[
+			'function',
+			function foo(asdf: unknown) {
+				return asdf;
+			},
+			` │ ${pc.cyan(pc.bold('LOG'))} function foo(asdf) {`,
+		],
+		[
+			'function with zero arguments are executed',
+			function foo() {
+				return 'tacos';
+			},
+			` │ ${pc.cyan(pc.bold('LOG'))} tacos`,
+		],
 		[
 			'object',
 			{ foo: 'bar' },

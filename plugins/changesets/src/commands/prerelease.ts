@@ -122,7 +122,7 @@ Commit or stash your changes to continue.`);
 			},
 		]);
 
-		logger.info(choices);
+		logger.info(() => choices);
 
 		if (!choices.includes('_ALL_')) {
 			workspaces = graph.dependencies(choices, true).filter((ws) => !ws.private);
@@ -161,7 +161,7 @@ Commit or stash your changes to continue.`);
 	});
 	const newVersion = `0.0.0-pre-${sha}`;
 
-	versionStep.info(`The following version will be used for all published workspaces: ${newVersion}`);
+	versionStep.info(() => `The following version will be used for all published workspaces: ${newVersion}`);
 	await versionStep.end();
 
 	const releases: ReleasePlan['releases'] = workspaces.map((ws) => ({
