@@ -115,9 +115,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-remark@npm:4.2.0, @astrojs/markdown-remark@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "@astrojs/markdown-remark@npm:4.2.0"
+"@astrojs/markdown-remark@npm:4.2.1, @astrojs/markdown-remark@npm:^4.2.0":
+  version: 4.2.1
+  resolution: "@astrojs/markdown-remark@npm:4.2.1"
   dependencies:
     "@astrojs/prism": ^3.0.0
     github-slugger: ^2.0.0
@@ -133,15 +133,15 @@ __metadata:
     unified: ^11.0.4
     unist-util-visit: ^5.0.0
     vfile: ^6.0.1
-  checksum: a04c220f197696ba92f93920f507f0811b7859acae6a333d3cb9af1c2c62ad589dd98f7323c59b92bdb85b222bf1efe74aca64cbd49d4f87ee40f84716619538
+  checksum: 24e8fb5b9c92d7cc607ea698317dc9c6791a1ff08fa03bce3369c17852ab477e3addbb6d074b332389b2d0ec9902bacd0ae018db302f76618a9a976901ac8748
   languageName: node
   linkType: hard
 
 "@astrojs/mdx@npm:^2.0.4, @astrojs/mdx@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@astrojs/mdx@npm:2.1.0"
+  version: 2.1.1
+  resolution: "@astrojs/mdx@npm:2.1.1"
   dependencies:
-    "@astrojs/markdown-remark": 4.2.0
+    "@astrojs/markdown-remark": 4.2.1
     "@mdx-js/mdx": ^3.0.0
     acorn: ^8.11.2
     es-module-lexer: ^1.4.1
@@ -158,7 +158,7 @@ __metadata:
     vfile: ^6.0.1
   peerDependencies:
     astro: ^4.0.0
-  checksum: 97a3459e09d94dee348cd699463f3065aee322ae3364ed7e0026c3d9223599ca59745dbb00b596f68408fddbd1ee5ddb7bc71f4eb14ad7d114ad5e456c9b8255
+  checksum: 3e40d81750217594253b3ba4d4732d8bb482e92ec80fe11c204e860819695c09182a57b7779c4a7873416eec86af253bd390995f3616517417eeb36951845b4f
   languageName: node
   linkType: hard
 
@@ -5822,12 +5822,12 @@ __metadata:
   linkType: hard
 
 "astro@npm:^4.2.5":
-  version: 4.2.5
-  resolution: "astro@npm:4.2.5"
+  version: 4.3.0
+  resolution: "astro@npm:4.3.0"
   dependencies:
     "@astrojs/compiler": ^2.5.0
     "@astrojs/internal-helpers": 0.2.1
-    "@astrojs/markdown-remark": 4.2.0
+    "@astrojs/markdown-remark": 4.2.1
     "@astrojs/telemetry": 3.0.4
     "@babel/core": ^7.23.3
     "@babel/generator": ^7.23.3
@@ -5895,7 +5895,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: 1305bebfd7ebaeb1db7504d6befe7c6550fbfd95129affb68ac96cae18f738690d4de275678bc1faa54ebbc1f402150d552e82ad93b985d84741532d38c8d6e8
+  checksum: 2fce8af3c16fc0234b3c9678163ad2fa64bae224a6fedf5b2ad08db5e9432777eec1fc0de0b41b02f27f4776e83a559f9a764110d9d3bb47a2571efcb00e25b5
   languageName: node
   linkType: hard
 
@@ -15687,13 +15687,13 @@ __metadata:
   linkType: hard
 
 "netlify-plugin-csp-generator@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "netlify-plugin-csp-generator@npm:1.5.0"
+  version: 1.6.1
+  resolution: "netlify-plugin-csp-generator@npm:1.6.1"
   dependencies:
     globby: ^11.0.1
     js-sha256: ^0.9.0
     jsdom: ^16.4.0
-  checksum: bc2a59495f244cbf6237847b4c6f5ff5fcb3aa32a4b25d07ed1f186a88f642865adfb55ad696b7262123fc1bbad5f8bbf0c3621462f3e6d7adc975552ff3934e
+  checksum: 22d45acb6aaa51841f0245c33233e1097ee76d8b32eaa983fc335b94cf74c676cfe1d2b29ad07ba5a8afc0943d8f21b43ebc7503f643159fb65100ce835e2028
   languageName: node
   linkType: hard
 
