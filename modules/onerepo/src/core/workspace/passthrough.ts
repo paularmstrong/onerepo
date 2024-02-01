@@ -6,7 +6,7 @@ import unparser from 'yargs-unparser';
 export const builder: Builder = (yargs) => yargs;
 
 export function getHandler(cmd: string, workspace: Workspace): Handler {
-	return async function (argv, { graph, logger }) {
+	return async function (argv, { graph }) {
 		const { '--': passthrough = [] } = argv;
 
 		const defaults = parser(cmd);
@@ -15,8 +15,6 @@ export function getHandler(cmd: string, workspace: Workspace): Handler {
 			...args
 		} = defaults;
 		const restArgs = unparser({ _: [], ...args }).map(String);
-
-		logger.info([...rest.map(String), ...restArgs, ...passthrough]);
 
 		await graph.packageManager.run({
 			name: `Run ${cmd}`,

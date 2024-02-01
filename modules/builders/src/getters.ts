@@ -70,7 +70,7 @@ export function getAffected(graph: Graph, { from, ignore, staged, step, through 
 		const all = await getModifiedFiles(modifiedOpts, { step });
 		const files =
 			ignore && ignore.length ? all.filter((file) => !ignore.some((ignore) => minimatch(file, ignore))) : all;
-		step.debug(`Modified files not ignored:\n${JSON.stringify(ignore)}\n • ${files.join('\n • ')}`);
+		step.debug(() => `Modified files not ignored:\n${JSON.stringify(ignore)}\n • ${files.join('\n • ')}`);
 		const workspaces = new Set<string>();
 		for (const filepath of files) {
 			const ws = graph.getByLocation(graph.root.resolve(filepath));
@@ -123,10 +123,10 @@ export async function getWorkspaces(
 			step.log('`all` requested');
 			workspaces = graph.workspaces;
 		} else if ('files' in argv && Array.isArray(argv.files)) {
-			step.log(`\`files\` requested: \n • ${argv.files.join('\n • ')}`);
+			step.log(() => `\`files\` requested: \n • ${argv.files!.join('\n • ')}`);
 			workspaces = graph.getAllByLocation(argv.files);
 		} else if ('workspaces' in argv && Array.isArray(argv.workspaces)) {
-			step.log(`\`workspaces\` requested: \n • ${argv.workspaces.join('\n • ')}`);
+			step.log(() => `\`workspaces\` requested: \n • ${argv.workspaces!.join('\n • ')}`);
 			workspaces = graph.getAllByName(argv.workspaces);
 		}
 
@@ -142,7 +142,7 @@ export async function getWorkspaces(
 				workspaces = await getAffected(graph, affectedOptions);
 			} else {
 				const names = workspaces.map((ws) => ws.name);
-				step.log(`\`affected\` requested from • ${names.join('\n • ')}`);
+				step.log(() => `\`affected\` requested from • ${names.join('\n • ')}`);
 				workspaces = await graph.affected(names);
 			}
 		}
@@ -203,10 +203,10 @@ export async function getFilepaths(
 			step.log('`all` requested');
 			return ['.'];
 		} else if ('files' in argv && Array.isArray(argv.files)) {
-			step.log(`\`files\` requested: \n • ${argv.files.join('\n • ')}`);
+			step.log(() => `\`files\` requested: \n • ${argv.files!.join('\n • ')}`);
 			paths.push(...argv.files);
 		} else if ('workspaces' in argv && Array.isArray(argv.workspaces)) {
-			step.log(`\`workspaces\` requested: \n • ${argv.workspaces.join('\n • ')}`);
+			step.log(() => `\`workspaces\` requested: \n • ${argv.workspaces!.join('\n • ')}`);
 			workspaces.push(...(graph.getAllByName(argv.workspaces) ?? Object.values(graph.workspaces)));
 			paths.push(...workspaces.map((workspace) => path.relative(graph.root.location, workspace.location)));
 		}

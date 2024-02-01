@@ -240,6 +240,16 @@ export class LogStep {
 	/**
 	 * Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
 	 *
+	 * ```ts
+	 * step.info('Log this content when verbosity is >= 1');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * step.info(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
@@ -253,6 +263,16 @@ export class LogStep {
 
 	/**
 	 * Log an error. This will cause the root logger to include an error and fail a command.
+	 *
+	 * ```ts
+	 * step.error('Log this content when verbosity is >= 1');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
+	 *
+	 * ```ts
+	 * step.error(() => bigArray.map((item) => item.name));
+	 * ```
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -268,6 +288,16 @@ export class LogStep {
 	/**
 	 * Log a warning. Does not have any effect on the command run, but will be called out.
 	 *
+	 * ```ts
+	 * step.warn('Log this content when verbosity is >= 2');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
+	 *
+	 * ```ts
+	 * step.warn(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
@@ -282,6 +312,16 @@ export class LogStep {
 	/**
 	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
 	 *
+	 * ```ts
+	 * step.log('Log this content when verbosity is >= 3');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * step.log(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
@@ -295,6 +335,16 @@ export class LogStep {
 
 	/**
 	 * Extra debug logging when verbosity greater than or equal to 4.
+	 *
+	 * ```ts
+	 * step.debug('Log this content when verbosity is >= 4');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
+	 *
+	 * ```ts
+	 * step.debug(() => bigArray.map((item) => item.name));
+	 * ```
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -368,6 +418,10 @@ function stringify(item: unknown): string {
 
 	if (item instanceof Date) {
 		return item.toISOString();
+	}
+
+	if (typeof item === 'function' && item.length === 0) {
+		return stringify(item());
 	}
 
 	return `${String(item)}`;

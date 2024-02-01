@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<edaa1c35e634eaa62235c1d001defd76>> -->
+<!-- @generated SignedSource<<21e09a71336245d7478cb8fcf29e8228>> -->
 
 ## Namespaces
 
@@ -1875,6 +1875,16 @@ debug(contents): void
 
 Extra debug logging when verbosity greater than or equal to 4.
 
+```ts
+step.debug('Log this content when verbosity is >= 4');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
+
+```ts
+step.debug(() => bigArray.map((item) => item.name));
+```
+
 **Parameters:**
 
 | Parameter  | Type      | Description                                                          |
@@ -1891,6 +1901,16 @@ error(contents): void
 ```
 
 Log an error. This will cause the root logger to include an error and fail a command.
+
+```ts
+step.error('Log this content when verbosity is >= 1');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
+
+```ts
+step.error(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 
@@ -1909,6 +1929,16 @@ info(contents): void
 
 Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
 
+```ts
+step.info('Log this content when verbosity is >= 1');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+
+```ts
+step.info(() => bigArray.map((item) => item.name));
+```
+
 **Parameters:**
 
 | Parameter  | Type      | Description                                                          |
@@ -1925,6 +1955,16 @@ log(contents): void
 ```
 
 General logging information. Useful for light informative debugging. Recommended to use sparingly.
+
+```ts
+step.log('Log this content when verbosity is >= 3');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+
+```ts
+step.log(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 
@@ -1960,6 +2000,16 @@ warn(contents): void
 ```
 
 Log a warning. Does not have any effect on the command run, but will be called out.
+
+```ts
+step.warn('Log this content when verbosity is >= 2');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
+
+```ts
+step.warn(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 
@@ -2133,6 +2183,16 @@ debug(contents): void
 
 Extra debug logging when verbosity greater than or equal to 4.
 
+```ts
+logger.debug('Log this content when verbosity is >= 4');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
+
+```ts
+logger.debug(() => bigArray.map((item) => item.name));
+```
+
 **Parameters:**
 
 | Parameter  | Type      | Description                                                          |
@@ -2152,6 +2212,16 @@ error(contents): void
 ```
 
 Log an error. This will cause the root logger to include an error and fail a command.
+
+```ts
+logger.error('Log this content when verbosity is >= 1');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
+
+```ts
+logger.error(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 
@@ -2173,6 +2243,16 @@ info(contents): void
 
 Should be used to convey information or instructions through the log, will log when verbositu >= 1
 
+```ts
+logger.info('Log this content when verbosity is >= 1');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+
+```ts
+logger.info(() => bigArray.map((item) => item.name));
+```
+
 **Parameters:**
 
 | Parameter  | Type      | Description                                                          |
@@ -2192,6 +2272,16 @@ log(contents): void
 ```
 
 General logging information. Useful for light informative debugging. Recommended to use sparingly.
+
+```ts
+logger.log('Log this content when verbosity is >= 3');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+
+```ts
+logger.log(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 
@@ -2233,6 +2323,16 @@ warn(contents): void
 ```
 
 Log a warning. Does not have any effect on the command run, but will be called out.
+
+```ts
+logger.warn('Log this content when verbosity is >= 2');
+```
+
+If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
+
+```ts
+logger.warn(() => bigArray.map((item) => item.name));
+```
 
 **Parameters:**
 

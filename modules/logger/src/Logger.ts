@@ -225,18 +225,18 @@ export class Logger {
 	}
 
 	/**
-	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
-	 */
-	log(contents: unknown) {
-		this.#defaultLogger.log(contents);
-	}
-
-	/**
 	 * Should be used to convey information or instructions through the log, will log when verbositu >= 1
+	 *
+	 * ```ts
+	 * logger.info('Log this content when verbosity is >= 1');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * logger.info(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
@@ -249,6 +249,16 @@ export class Logger {
 	/**
 	 * Log an error. This will cause the root logger to include an error and fail a command.
 	 *
+	 * ```ts
+	 * logger.error('Log this content when verbosity is >= 1');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
+	 *
+	 * ```ts
+	 * logger.error(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 * @see {@link LogStep#error | `error()`} This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
@@ -260,6 +270,16 @@ export class Logger {
 	/**
 	 * Log a warning. Does not have any effect on the command run, but will be called out.
 	 *
+	 * ```ts
+	 * logger.warn('Log this content when verbosity is >= 2');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
+	 *
+	 * ```ts
+	 * logger.warn(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 * @see {@link LogStep#warn | `warn()`} This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
@@ -269,7 +289,38 @@ export class Logger {
 	}
 
 	/**
+	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
+	 *
+	 * ```ts
+	 * logger.log('Log this content when verbosity is >= 3');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * logger.log(() => bigArray.map((item) => item.name));
+	 * ```
+	 *
+	 * @group Logging
+	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
+	 */
+	log(contents: unknown) {
+		this.#defaultLogger.log(contents);
+	}
+
+	/**
 	 * Extra debug logging when verbosity greater than or equal to 4.
+	 *
+	 * ```ts
+	 * logger.debug('Log this content when verbosity is >= 4');
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
+	 *
+	 * ```ts
+	 * logger.debug(() => bigArray.map((item) => item.name));
+	 * ```
 	 *
 	 * @group Logging
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.

@@ -81,7 +81,7 @@ export const handler: Handler<Args> = async (argv, { graph, logger }) => {
 		return;
 	}
 
-	infoStep.info(`Publishing:\n${publishable.map((ws) => `  - ${ws.name}`).join('\n')}`);
+	infoStep.info(() => `Publishing:\n${publishable.map((ws) => `  - ${ws.name}`).join('\n')}`);
 	await infoStep.end();
 
 	if (!skipAuth) {

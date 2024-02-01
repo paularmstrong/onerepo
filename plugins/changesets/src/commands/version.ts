@@ -123,11 +123,11 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { filteredChangesets, affectedChoices } = filterChangesets(changesets, choiceDependencies, filterStep);
 
 	if (!filteredChangesets.length) {
-		logger.error(`There are no changesets available for ${choices.join(', ')}`);
+		logger.error(() => `There are no changesets available for ${choices.join(', ')}`);
 		return;
 	}
 
-	filterStep.debug(`Found changesets:\n${JSON.stringify(filteredChangesets)}`);
+	filterStep.debug(() => `Found changesets:\n${JSON.stringify(filteredChangesets)}`);
 
 	if (affectedChoices.length !== choiceDependencies.length) {
 		logger.pause();
