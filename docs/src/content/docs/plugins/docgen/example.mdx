@@ -3,6 +3,8 @@ title: Docgen Example
 sidebar:
   hidden: true
 pagefind: false
+tableOfContents:
+  maxHeadingLevel: 5
 ---
 
 :::note
@@ -10,7 +12,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<46fffee68c0c3f21e75e50830aa3200b>> */}
+{/* @generated SignedSource<<20d792693f551fd42c691bd5a0edecf4>> */}
 
 ## `one`
 
@@ -917,15 +919,17 @@ Checks for the existence of `tsconfig.json` file and batches running `tsc --noEm
 
 ### `one workspace`
 
-Aliases: `one`, `one ws`
+Aliases: `one ws`
 
-Run Workspace-specific commands
+Run commands within individual Workspaces.
 
 ```sh
-one workspace <workspace-name> <command> [options]
+one workspace <workspace-name> <command...> [options...] -- [passthrough...]
 ```
 
-Add commands to the `commands` directory within a Workspace to create Workspace-specific commands.
+This enables running both custom commands as defined via the `commands.directory` configuration option within each Workspace as well as `commands.passthrough` aliases.
+
+Arguments for passthrough commands meant for the underlying command must be sent after `--`.
 
 | Positional       | Type     | Description                       |
 | ---------------- | -------- | --------------------------------- |
@@ -934,27 +938,37 @@ Add commands to the `commands` directory within a Workspace to create Workspace-
 
 ---
 
-#### `one workspace @onerepo/docs`
+#### `one workspace docs`
 
-Aliases: `one workspace docs`
+Aliases: `one workspace @onerepo/docs`
 
-Runs commands in the `@onerepo/docs` Workspace
-
----
-
-##### `one workspace @onerepo/docs astro`
-
-Run astro commands.
-
-```sh
-one workspace @onerepo/docs astro
-```
+Runs commands in the "@onerepo/docs" Workspace.
 
 ---
 
-##### `one workspace @onerepo/docs changelogs`
+##### `one workspace docs astro`
 
-Aliases: `one workspace @onerepo/docs pull-changelogs`
+Run Astro directly.
+
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
+
+---
+
+##### `one workspace docs build`
+
+Build the documentation site for production.
+
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
+
+---
+
+##### `one workspace docs changelogs`
+
+Aliases: `one workspace docs pull-changelogs`
 
 Update changelogs from source files
 
@@ -980,7 +994,17 @@ Update changelogs from source files
 
 ---
 
-##### `one workspace @onerepo/docs collect-content`
+##### `one workspace docs check`
+
+Check Astro pages for errors.
+
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
+
+---
+
+##### `one workspace docs collect-content`
 
 Generate docs for the oneRepo monorepo
 
@@ -1006,26 +1030,22 @@ Generate docs for the oneRepo monorepo
 
 ---
 
-##### `one workspace @onerepo/docs start`
+##### `one workspace docs start`
 
-Start the docs development server
+Start the Astro dev server.
 
-```sh
-one workspace @onerepo/docs start
-```
-
-| Option          | Type      | Description              |
-| --------------- | --------- | ------------------------ |
-| `--netlify, -n` | `boolean` | Run with the Netlify CLI |
+| Option            | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 ---
 
-##### `one workspace @onerepo/docs typedoc`
+##### `one workspace docs typedoc`
 
 Generate typedoc markdown files for the toolchain.
 
 ```sh
-one workspace @onerepo/docs typedoc
+one workspace docs typedoc
 ```
 
 | Option  | Type      | Description                |
@@ -1034,20 +1054,20 @@ one workspace @onerepo/docs typedoc
 
 ---
 
-#### `one workspace @onerepo/github-action`
+#### `one workspace github-action`
 
-Aliases: `one workspace github-action`
+Aliases: `one workspace @onerepo/github-action`
 
-Runs commands in the `@onerepo/github-action` Workspace
+Runs commands in the "@onerepo/github-action" Workspace.
 
 ---
 
-##### `one workspace @onerepo/github-action build`
+##### `one workspace github-action build`
 
 Build public Workspaces using esbuild.
 
 ```sh
-one workspace @onerepo/github-action build [options]
+one workspace github-action build [options]
 ```
 
 | Option             | Type      | Description                                                                                                                                                                 |
@@ -1071,19 +1091,19 @@ one workspace @onerepo/github-action build [options]
 Build all Workspaces.
 
 ```sh
-one workspace @onerepo/github-action build
+one workspace github-action build
 ```
 
 Build the `graph` Workspace only.
 
 ```sh
-one workspace @onerepo/github-action build -w graph
+one workspace github-action build -w graph
 ```
 
 Build the `graph`, `cli`, and `logger` workspaces.
 
 ```sh
-one workspace @onerepo/github-action build -w graph cli logger
+one workspace github-action build -w graph cli logger
 ```
 
 {/* end-auto-generated-from-cli */}

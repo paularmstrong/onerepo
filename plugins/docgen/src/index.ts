@@ -74,7 +74,9 @@ interface Args {
  */
 export const docgen = (opts: Options = {}): Plugin => {
 	if (typeof opts.outFile === 'string' && (!opts.outFile || path.isAbsolute(opts.outFile))) {
-		throw new Error('Invalid path specified for `core.docgen.outFile`. Path must be relative, eg, "./docs/usage.md"');
+		throw new Error(
+			'Invalid path specified for `outFile`. Path must be relative to the repository root, eg, "./docs/usage.md"',
+		);
 	}
 
 	return (rootConfig) => ({
@@ -97,6 +99,10 @@ export const docgen = (opts: Options = {}): Plugin => {
 						throw new Error(`No Workspace by name "${wsName}"`);
 					}
 					outPath = workspace.resolve(outFile);
+				}
+
+				if (command) {
+					process.env.ONEREPO_DOCGEN = command;
 				}
 
 				const parseStep = logger.createStep('Parse commands');

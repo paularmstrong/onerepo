@@ -9,6 +9,7 @@ import { graph } from '../core/graph';
 import { hooks } from '../core/hooks';
 import { install } from '../core/install';
 import { tasks } from '../core/tasks';
+import { workspace } from '../core/workspace';
 import { setup as internalSetup } from './setup';
 
 export type { GraphSchemaValidators } from '../core/graph';
@@ -37,7 +38,7 @@ export { internalSetup };
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, install, tasks];
+export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, install, tasks, workspace];
 
 /**
  * @internal

@@ -14,7 +14,6 @@ import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
 import pkg from '../../package.json';
-import { workspaceBuilder } from './workspaces';
 
 const defaultConfig: Required<RootConfig> = {
 	root: true,
@@ -153,7 +152,7 @@ export async function setup({
 			yargs: pluginYargs,
 			startup: startupHandler,
 			shutdown: shutdownHandler,
-		} = typeof plugin === 'function' ? plugin({ ...resolvedConfig, plugins: userPlugins }) : plugin;
+		} = typeof plugin === 'function' ? plugin({ ...resolvedConfig, plugins: userPlugins }, graph) : plugin;
 		if (typeof pluginYargs === 'function') {
 			pluginYargs(yargs, options.visit);
 		}
@@ -174,16 +173,6 @@ export async function setup({
 				yargs.commandDir(rootCommandPath);
 			}
 		}
-
-		// Workspace commands using resolvedConfig.commands.directory
-		yargs.command({
-			describe: 'Run Workspace-specific commands',
-			command: '$0',
-			aliases: ['workspace', 'ws'],
-			builder: workspaceBuilder(graph, resolvedConfig.commands.directory || 'commands'),
-			// This handler is a no-op because the builder demands N+1 command(s) be input
-			handler: () => {},
-		});
 	}
 
 	return {

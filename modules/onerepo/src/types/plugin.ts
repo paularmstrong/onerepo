@@ -1,5 +1,6 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
+import type { Graph } from '@onerepo/graph';
 import type { RootConfig } from './config-root';
 
 /**
@@ -27,7 +28,7 @@ export type PluginObject = {
 /**
  * @group Plugins
  */
-export type Plugin = PluginObject | ((config: Required<RootConfig>) => PluginObject);
+export type Plugin = PluginObject | ((config: Required<RootConfig>, graph: Graph) => PluginObject);
 
 /**
  * @internal

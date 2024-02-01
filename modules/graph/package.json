@@ -22,6 +22,7 @@
 	],
 	"dependencies": {
 		"@onerepo/package-manager": "0.5.0",
+		"defaults": "^3.0.0",
 		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
 		"jiti": "^1.21.0",
