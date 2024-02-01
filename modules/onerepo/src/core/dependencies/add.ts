@@ -79,10 +79,33 @@ Otherwise, the latest version will be requested from the registry.`,
 			'Install `react` as a production dependency and `babel-core` as a development dependency in both `workspace-a` and `workspace-b`.',
 		);
 
-export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, graph, logger }) {
-	const { dedupe, dev = [], mode, prod = [] } = argv;
+export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
+	const { dedupe, dev = [], mode, prod = [], workspaces: requestedWorkspaces } = argv;
 
-	const workspaces = await getWorkspaces();
+	const workspaces = graph.getAllByName(requestedWorkspaces!);
+
+	if (prod.length && workspaces.includes(graph.root)) {
+		logger.warn('Root Workspaces may not include production-level dependencies.');
+		logger.pause();
+		const { confirm } = await inquirer.prompt([
+			{
+				type: 'confirm',
+				name: 'confirm',
+				message: 'Switch production dependencies to devDependencies?',
+				prefix: '⚠️',
+			},
+		]);
+
+		logger.unpause();
+
+		if (!confirm) {
+			logger.error('Cancelled');
+			return;
+		}
+
+		dev.push(...prod);
+		prod.splice(0, prod.length);
+	}
 
 	const dependents = graph.dependents(workspaces);
 	const dependencies = graph.dependencies(workspaces);
