@@ -3103,7 +3103,7 @@ __metadata:
     rehype-slug: ^6.0.0
     starlight-links-validator: ^0.5.2
     typedoc: ^0.25.7
-    typedoc-plugin-markdown: ^4.0.0-next.40
+    typedoc-plugin-markdown: 4.0.0-next.40
     typescript: ^5.3.3
     unist-util-visit: ^5.0.0
   languageName: unknown
@@ -6792,15 +6792,6 @@ __metadata:
   version: 1.2.2
   resolution: "cjs-module-lexer@npm:1.2.2"
   checksum: 977f3f042bd4f08e368c890d91eecfbc4f91da0bc009a3c557bc4dfbf32022ad1141244ac1178d44de70fc9f3dea7add7cd9a658a34b9fae98a55d8f92331ce5
-  languageName: node
-  linkType: hard
-
-"cjson@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "cjson@npm:0.5.0"
-  dependencies:
-    json-parse-helpfulerror: ^1.0.3
-  checksum: 63a839949c63eba999804e0c6611a7a96c74084845777a4cabd5c34cd284ee696b9934fbe4f65f77ac73912ca1f49b4ed79468f0bee1108c337647798748e9ef
   languageName: node
   linkType: hard
 
@@ -13096,13 +13087,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jju@npm:^1.1.0":
-  version: 1.4.0
-  resolution: "jju@npm:1.4.0"
-  checksum: 3790481bd2b7827dd6336e6e3dc2dcc6d425679ba7ebde7b679f61dceb4457ea0cda330972494de608571f4973c6dfb5f70fab6f3c5037dbab19ac449a60424f
-  languageName: node
-  linkType: hard
-
 "js-base64@npm:^3.7.5":
   version: 3.7.5
   resolution: "js-base64@npm:3.7.5"
@@ -13214,15 +13198,6 @@ __metadata:
   version: 2.3.1
   resolution: "json-parse-even-better-errors@npm:2.3.1"
   checksum: 798ed4cf3354a2d9ccd78e86d2169515a0097a5c133337807cdf7f1fc32e1391d207ccfc276518cc1d7d8d4db93288b8a50ba4293d212ad1336e52a8ec0a941f
-  languageName: node
-  linkType: hard
-
-"json-parse-helpfulerror@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "json-parse-helpfulerror@npm:1.0.3"
-  dependencies:
-    jju: ^1.1.0
-  checksum: 376d85c3728ab4446e30fa943ad2cf5fe63d8a780be16bade9f846f2e4c1431ef61ae01746011d815fb3627abb3d21b0cc74fe9ed6cc74b93819e720afb05cae
   languageName: node
   linkType: hard
 
@@ -16256,7 +16231,6 @@ __metadata:
     "@types/yargs-unparser": ^2.0.3
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
-    cjson: ^0.5.0
     cliui: ^8.0.1
     defaults: ^3.0.0
     ejs: ^3.1.8
@@ -20264,12 +20238,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^4.0.0-next.40":
-  version: 4.0.0-next.48
-  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.48"
+"typedoc-plugin-markdown@npm:4.0.0-next.40":
+  version: 4.0.0-next.40
+  resolution: "typedoc-plugin-markdown@npm:4.0.0-next.40"
   peerDependencies:
     typedoc: 0.25.x
-  checksum: 7f9ca09fad99a11da456556c28624c06822e05fc92002ed959e592391c81049dfb7199be687f4a198adde06e7e57047b566cd7225865b00fa7ccfe236fd5ea57
+  checksum: ef6e2a6b26dc4d804ce868027d081cd3f923ee316efa2c8ad8e9663964052a9c2a6e163795c91da91b2b2a16267214f3abd8e5abb9d94362ce1bac2df4cbb450
   languageName: node
   linkType: hard
 

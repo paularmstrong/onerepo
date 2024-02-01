@@ -1,9 +1,8 @@
 import initJiti from 'jiti';
-import cjson from 'cjson';
 import { glob } from 'glob';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
-import { read } from '@onerepo/file';
+import { read, readJson } from '@onerepo/file';
 // NB: important to keep extension because AJV does not properly declare this export
 import Ajv from 'ajv/dist/2019.js';
 import type { AnySchema } from 'ajv';
@@ -104,8 +103,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				schemaStep.debug(`Using schema for "${schemaKey}"`);
 				let contents: Record<string, unknown> = {};
 				if (file.endsWith('json')) {
-					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
-					contents = cjson.parse(rawContents);
+					contents = await readJson(workspace.resolve(file), 'r', { jsonc: true, step: schemaStep });
 				} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
 					contents = require(workspace.resolve(file));
 				} else if (minimatch(file, '**/*.{yml,yaml}')) {
