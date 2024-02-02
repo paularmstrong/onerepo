@@ -12,7 +12,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<73df5de81dfb6aedc28fa4cc8d5872e3>> */}
+{/* @generated SignedSource<<4cc444a3b6f6cb42e95e2664f7884a61>> */}
 
 ## `one`
 
@@ -414,14 +414,16 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 | `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |
 | `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |
 | `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |
+| `--show-advanced` | `boolean`                                                                 | Pair with `--help` to show advanced options.                               |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option      | Type     | Description                                              |
-| ----------- | -------- | -------------------------------------------------------- |
-| `--command` | `string` | Start at the given command, skip the root and any others |
+| Option           | Type      | Description                                                                          |
+| ---------------- | --------- | ------------------------------------------------------------------------------------ |
+| `--command`      | `string`  | Start at the given command, skip the root and any others                             |
+| `--use-defaults` | `boolean` | Use the oneRepo default configuration. Helpful for generating default documentation. |
 
 </details>
 

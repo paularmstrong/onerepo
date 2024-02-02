@@ -82,6 +82,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			cmd: process.argv[1],
 			args: [
 				'docgen',
+				'--use-defaults',
 				'--format',
 				'markdown',
 				'--heading-level',
@@ -133,6 +134,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				cmd: process.argv[1],
 				args: [
 					'docgen',
+					'--use-defaults',
 					'--format',
 					'markdown',
 					'--heading-level',
