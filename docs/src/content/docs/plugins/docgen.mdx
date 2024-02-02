@@ -42,12 +42,12 @@ Check out our very own source level [example](example/) generated directly from 
 :::
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<d146d0e5b4d603e3e9b4b8c268138d48>> */}
+{/* @generated SignedSource<<b065f8c6f3fb23e3f73746e97a6cbc8a>> */}
 
 ### docgen()
 
 ```ts
-docgen(opts): Plugin
+function docgen(opts): Plugin;
 ```
 
 Include the `eslint` plugin in your oneRepo plugin setup:
@@ -104,9 +104,7 @@ format?: "markdown" | "json";
 
 Default output format for the documentation
 
-###### Default
-
-`'markdown'`
+- **Default:** `'markdown'`
 
 ##### name?
 
@@ -116,9 +114,7 @@ name?: string | string[];
 
 Override the name of the command.
 
-###### Default
-
-`'docgen'`
+- **Default:** `'docgen'`
 
 ##### outFile?
 

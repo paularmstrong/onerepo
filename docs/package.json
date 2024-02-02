@@ -23,7 +23,7 @@
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-slug": "^6.0.0",
 		"typedoc": "^0.25.7",
-		"typedoc-plugin-markdown": "4.0.0-next.40",
+		"typedoc-plugin-markdown": "^4.0.0-next.50",
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {

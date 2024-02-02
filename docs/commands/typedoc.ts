@@ -82,7 +82,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\(([\w-]+)\.md(#[^)]+)?/g, '($2')
 			.replace(/\/([\w-]+)\.md(#[^)]+)?/g, '/$1/$2')
-			.replace(/^#+ (Type parameters|Parameters|Type declaration)\n\n/gm, '**$1:**\n\n')
+			.replace(/^#+ (Type parameters|Parameters)\n\n/gm, '**$1:**\n\n')
 			.replace(/^#+ See\n\n/gm, '**See also:**\n')
 			.replace(/^#+ (Returns|Source|Default)\n\n/gm, '**$1:** ')
 			.replace(/^\*\*([^*]+)\*\*(.*)\n\n\*\*/gm, '**$1**$2  \n**')

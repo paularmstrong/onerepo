@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<5e09f842394c337a22027f1b160b136a>> -->
+<!-- @generated SignedSource<<583ca9b9f8b25bdb19c57dcb2fa3bb53>> -->
 
 Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived.
 
@@ -49,7 +49,7 @@ type FileGetterOptions: GetterOptions & {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### affectedThreshold?
 
@@ -79,7 +79,7 @@ type Staged: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### from?
 
@@ -115,7 +115,7 @@ type Through: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### from?
 
@@ -146,7 +146,7 @@ Git ref to calculate changes _inclusively_ _through_.
 ### withAffected()
 
 ```ts
-withAffected<T>(yargs): Yargs<T & WithAffected>
+function withAffected<T>(yargs): Yargs<T & WithAffected>;
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected), [`builders.getFilepaths`](#getfilepaths), and [`builders.getGetWorkspaces`](#getworkspaces).
@@ -183,7 +183,7 @@ export const builder = (yargs) => builders.withAffected(yargs);
 ### withAllInputs()
 
 ```ts
-withAllInputs(yargs): Yargs<WithAllInputs>
+function withAllInputs(yargs): Yargs<WithAllInputs>;
 ```
 
 Helper to chain all of [`builders.withAffected`](#withaffected), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces) on a [`Builder`](../../#buildercommandargv).
@@ -206,7 +206,7 @@ export const builder = (yargs) => builders.withAllInputs(yargs);
 ### withFiles()
 
 ```ts
-withFiles<T>(yargs): Yargs<T & WithFiles>
+function withFiles<T>(yargs): Yargs<T & WithFiles>;
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getFilepaths`](#getfilepaths).
@@ -239,7 +239,7 @@ export const builder = (yargs) => builders.withFiles(yargs);
 ### withWorkspaces()
 
 ```ts
-withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>
+function withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>;
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected) [`builders.getWorkspaces`](#getworkspaces).
@@ -291,7 +291,7 @@ type Argv = builders.WithAffected & {
 export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### affected?
 
@@ -367,7 +367,7 @@ type Argv = builders.WithFiles & {
 export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### files?
 
@@ -400,7 +400,7 @@ type Argv = builders.WithWorkspaces & {
 export const builder: Builder<Argv> = (yargs) => builders.withWorkspaces(yargs);
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### all?
 
@@ -425,7 +425,7 @@ One or more Workspaces by `name` or `alias` string.
 ### getAffected()
 
 ```ts
-getAffected(graph, __namedParameters?): Promise<Workspace[]>
+function getAffected(graph, __namedParameters?): Promise<Workspace[]>;
 ```
 
 Get a list of the affected Workspaces.
@@ -458,10 +458,7 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 ### getFilepaths()
 
 ```ts
-getFilepaths(
-   graph,
-   argv,
-__namedParameters?): Promise<string[]>
+function getFilepaths(graph, argv, __namedParameters?): Promise<string[]>;
 ```
 
 Get a list of filepaths based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
@@ -500,10 +497,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 ### getWorkspaces()
 
 ```ts
-getWorkspaces(
-   graph,
-   argv,
-__namedParameters?): Promise<Workspace[]>
+function getWorkspaces(graph, argv, __namedParameters?): Promise<Workspace[]>;
 ```
 
 Get a list of Workspaces based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
@@ -553,7 +547,7 @@ type GetterOptions: Through | Staged & {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### ignore?
 
