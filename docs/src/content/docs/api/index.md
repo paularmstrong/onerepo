@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<21e09a71336245d7478cb8fcf29e8228>> -->
+<!-- @generated SignedSource<<e353e4a4428689374cf71e12c37b4a17>> -->
 
 ## Namespaces
 
@@ -95,7 +95,7 @@ type DefaultArgv: {
 
 Default arguments provided globally for all commands. These arguments are included by when using [`Builder`](#buildercommandargv) and [`Handler`](#handlercommandargv).
 
-**Type declaration:**
+#### Type declaration
 
 ##### dry-run
 
@@ -214,7 +214,7 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### getAffected
 
@@ -306,7 +306,7 @@ type PositionalArgv: {
 
 Always present in Builder and Handler arguments as parsed by Yargs.
 
-**Type declaration:**
+#### Type declaration
 
 ##### $0
 
@@ -442,7 +442,7 @@ Setup configuration for the root of the repository.
 | :-------------------------------------------- | :----- |
 | `CustomLifecycles` extends `string` \| `void` | `void` |
 
-**Type declaration:**
+#### Type declaration
 
 ##### codeowners?
 
@@ -857,7 +857,7 @@ export default {
 } satisfies Config;
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### cmd
 
@@ -903,7 +903,7 @@ type Tasks: {
 
 Individual [`Task`](#task)s in any [`Lifecycle`](#lifecycle) may be grouped to run either serial (one after the other) or in parallel (multiple at the same time).
 
-**Type declaration:**
+#### Type declaration
 
 ##### parallel?
 
@@ -943,7 +943,7 @@ type WorkspaceConfig<CustomLifecycles>: {
 | :-------------------------------------------- | :----- |
 | `CustomLifecycles` extends `string` \| `void` | `void` |
 
-**Type declaration:**
+#### Type declaration
 
 ##### codeowners?
 
@@ -1039,7 +1039,7 @@ Each modified Workspace or Workspace that is affected by another Workspace's mod
 ### getGraph()
 
 ```ts
-getGraph(workingDir?): Graph
+function getGraph(workingDir?): Graph;
 ```
 
 Get the [`Graph`](#graph) given a particular root working directory. If the working directory is not a monorepo's root, an empty `Graph` will be given in its place.
@@ -1637,7 +1637,7 @@ const DependencyType: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### DEV
 
@@ -1720,10 +1720,10 @@ export default {
 ### bufferSubLogger()
 
 ```ts
-bufferSubLogger(step): {
-  end: () => Promise<void>;
-  logger: Logger;
-}
+function bufferSubLogger(step): {
+	end: () => Promise<void>;
+	logger: Logger;
+};
 ```
 
 Create a new Logger instance that has its output buffered up to a LogStep.
@@ -1769,7 +1769,7 @@ await step.en();
 ### getLogger()
 
 ```ts
-getLogger(opts?): Logger
+function getLogger(opts?): Logger;
 ```
 
 This gets the logger singleton for use across all of oneRepo and its commands.
@@ -1796,7 +1796,7 @@ export const handler: Handler = (argv, { logger }) => {
 ### stepWrapper()
 
 ```ts
-stepWrapper<T>(options, fn): Promise<T>
+function stepWrapper<T>(options, fn): Promise<T>;
 ```
 
 For cases where multiple processes need to be completed, but should be joined under a single [`LogStep`](#logstep) to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
@@ -2357,7 +2357,7 @@ type LoggerOptions: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### stream?
 
@@ -2409,7 +2409,7 @@ Control the verbosity of the log output
 ### getLockfile()
 
 ```ts
-getLockfile(cwd): string | null
+function getLockfile(cwd): string | null;
 ```
 
 Get the absolute path for the package manager's lock file for this repository.
@@ -2428,7 +2428,7 @@ Get the absolute path for the package manager's lock file for this repository.
 ### getPackageManager()
 
 ```ts
-getPackageManager(type): PackageManager
+function getPackageManager(type): PackageManager;
 ```
 
 Get the [`PackageManager`](#packagemanager-1) for the given package manager type (NPM, PNPm, or Yarn)
@@ -2447,7 +2447,7 @@ Get the [`PackageManager`](#packagemanager-1) for the given package manager type
 ### getPackageManagerName()
 
 ```ts
-getPackageManagerName(cwd, fromPkgJson?): "npm" | "pnpm" | "yarn"
+function getPackageManagerName(cwd, fromPkgJson?): 'npm' | 'pnpm' | 'yarn';
 ```
 
 Get the package manager for the current working directory with _some_ confidence
@@ -2675,7 +2675,7 @@ type MinimalWorkspace: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### location?
 
@@ -2721,7 +2721,7 @@ type NpmInfo: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### dependencies
 
@@ -2801,7 +2801,7 @@ type PluginObject: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### shutdown?
 
@@ -2861,7 +2861,7 @@ It is important to ensure every command passed through the `visitor` to enable a
 ### batch()
 
 ```ts
-batch(processes): Promise<([string, string] | Error)[]>
+function batch(processes): Promise<([string, string] | Error)[]>;
 ```
 
 Batch multiple subprocesses, similar to `Promise.all`, but only run as many processes at a time fulfilling N-1 cores. If there are more processes than cores, as each process finishes, a new process will be picked to run, ensuring maximum CPU usage at all times.
@@ -2906,7 +2906,7 @@ expect(results).toEqual([
 ### run()
 
 ```ts
-run(options): Promise<[string, string]>
+function run(options): Promise<[string, string]>;
 ```
 
 Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one [`run()` ](#run-1) or [`batch()`](#batch-1) processes.
@@ -2973,7 +2973,7 @@ A promise with an array of `[stdout, stderr]`, as captured from the command run.
 ### start()
 
 ```ts
-start(options): ChildProcess
+function start(options): ChildProcess;
 ```
 
 Start a subprocess. For use when control over watching the stdout and stderr or long-running processes that are not expected to complete without SIGINT/SIGKILL.
@@ -2992,7 +2992,7 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 ### sudo()
 
 ```ts
-sudo(options): Promise<[string, string]>
+function sudo(options): Promise<[string, string]>;
 ```
 
 This function is similar to `run`, but can request and run with elevated `sudo` permissions. This function should not be used unless you absolutely _know_ that you will need to spawn an executable with elevated permissions.
@@ -3050,15 +3050,15 @@ new BatchError(errors, options?): BatchError
 
 #### Properties
 
-| Modifier | Property             | Type                                                  | Description                                                                                                                        | Inherited from            |
-| :------- | :------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| `public` | `cause?`             | `unknown`                                             | -                                                                                                                                  | `Error.cause`             |
-| `public` | `errors`             | (`string` \| [`SubprocessError`](#subprocesserror))[] | -                                                                                                                                  | -                         |
-| `public` | `message`            | `string`                                              | -                                                                                                                                  | `Error.message`           |
-| `public` | `name`               | `string`                                              | -                                                                                                                                  | `Error.name`              |
-| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any`                       | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
-| `public` | `stack?`             | `string`                                              | -                                                                                                                                  | `Error.stack`             |
-| `static` | `stackTraceLimit`    | `number`                                              | -                                                                                                                                  | `Error.stackTraceLimit`   |
+| Property             | Modifier | Type                                                   | Description                                                                                                                        | Inherited from            |
+| :------------------- | :------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| `cause?`             | `public` | `unknown`                                              | -                                                                                                                                  | `Error.cause`             |
+| `errors`             | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                                  | -                         |
+| `message`            | `public` | `string`                                               | -                                                                                                                                  | `Error.message`           |
+| `name`               | `public` | `string`                                               | -                                                                                                                                  | `Error.name`              |
+| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
+| `stack?`             | `public` | `string`                                               | -                                                                                                                                  | `Error.stack`             |
+| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                                  | `Error.stackTraceLimit`   |
 
 #### Methods
 
@@ -3118,14 +3118,14 @@ new SubprocessError(message, options?): SubprocessError
 
 #### Properties
 
-| Modifier | Property             | Type                            | Description                                                                                                                        | Inherited from            |
-| :------- | :------------------- | :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| `public` | `cause?`             | `unknown`                       | -                                                                                                                                  | `Error.cause`             |
-| `public` | `message`            | `string`                        | -                                                                                                                                  | `Error.message`           |
-| `public` | `name`               | `string`                        | -                                                                                                                                  | `Error.name`              |
-| `static` | `prepareStackTrace?` | (`err`, `stackTraces`) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
-| `public` | `stack?`             | `string`                        | -                                                                                                                                  | `Error.stack`             |
-| `static` | `stackTraceLimit`    | `number`                        | -                                                                                                                                  | `Error.stackTraceLimit`   |
+| Property             | Modifier | Type                                                   | Description                                                                                                                        | Inherited from            |
+| :------------------- | :------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| `cause?`             | `public` | `unknown`                                              | -                                                                                                                                  | `Error.cause`             |
+| `message`            | `public` | `string`                                               | -                                                                                                                                  | `Error.message`           |
+| `name`               | `public` | `string`                                               | -                                                                                                                                  | `Error.name`              |
+| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
+| `stack?`             | `public` | `string`                                               | -                                                                                                                                  | `Error.stack`             |
+| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                                  | `Error.stackTraceLimit`   |
 
 #### Methods
 
@@ -3181,7 +3181,7 @@ type RunSpec: {
 
 The core configuration for [`run`](#run-1), [`start`](#start), [`sudo`](#sudo), and [`batch`](#batch-1) subprocessing.
 
-**Type declaration:**
+#### Type declaration
 
 ##### args?
 
@@ -3299,7 +3299,7 @@ type BasePackageJson: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### alias?
 
@@ -3501,7 +3501,7 @@ type Person: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### email?
 
@@ -3535,7 +3535,7 @@ type PrivatePackageJson: {
   } & BasePackageJson;
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### license?
 
@@ -3569,7 +3569,7 @@ type PublicPackageJson: {
   } & BasePackageJson;
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### private?
 
@@ -3632,7 +3632,7 @@ Use these keys to help differentiate between your repository's source-dependency
 
 \[`key`: _typeof_ `publishConfigKeep`\[`number`\]\]: `unknown`
 
-**Type declaration:**
+#### Type declaration
 
 ##### bin?
 

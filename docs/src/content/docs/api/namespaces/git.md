@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<11c58cd05f42307bd28447ad6a3f0040>> -->
+<!-- @generated SignedSource<<d83a1caca436431e23f5ab96e713065a>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -92,7 +92,7 @@ type ModifiedFromThrough: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### from?
 
@@ -132,7 +132,7 @@ type ModifiedStaged: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### from?
 
@@ -172,7 +172,7 @@ type Options: {
 
 Generic options passed to all Git operations.
 
-**Type declaration:**
+#### Type declaration
 
 ##### step?
 
@@ -189,7 +189,7 @@ Avoid creating a new step in output for each function. Pass a Logger Step to pip
 ### getBranch()
 
 ```ts
-getBranch(__namedParameters?): Promise<string>
+function getBranch(__namedParameters?): Promise<string>;
 ```
 
 Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
@@ -212,7 +212,7 @@ const currentBranch = await git.getBranch();
 ### getCurrentSha()
 
 ```ts
-getCurrentSha(__namedParameters?): Promise<string>
+function getCurrentSha(__namedParameters?): Promise<string>;
 ```
 
 Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
@@ -235,7 +235,7 @@ const sha = await git.getCurrentSha();
 ### getMergeBase()
 
 ```ts
-getMergeBase(__namedParameters?): Promise<string>
+function getMergeBase(__namedParameters?): Promise<string>;
 ```
 
 Determine the git ref for merging the current working branch, sha, or ref, whichever that is. This function does a bunch of internal checks to determine the where the most likely point of forking happened.
@@ -258,7 +258,7 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-getModifiedFiles(__namedParameters?, __namedParameters?): Promise<string[]>
+function getModifiedFiles(__namedParameters?, __namedParameters?): Promise<string[]>;
 ```
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -283,7 +283,7 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 ### isClean()
 
 ```ts
-isClean(__namedParameters?): Promise<boolean>
+function isClean(__namedParameters?): Promise<boolean>;
 ```
 
 Check if the current git working state is clean.
@@ -309,7 +309,7 @@ if (!isClean) {
 ### updateIndex()
 
 ```ts
-updateIndex(paths, __namedParameters?): Promise<string>
+function updateIndex(paths, __namedParameters?): Promise<string>;
 ```
 
 Add filepaths to the git index. Equivalent to `git add [...files]`.

@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<38a2db581b4944d1f161693f0dfa71bd>> -->
+<!-- @generated SignedSource<<d146e0db259b4e2edd21f29b0d443333>> -->
 
 File manipulation functions.
 
@@ -40,7 +40,7 @@ type Options: {
 
 Generic options for file functions
 
-**Type declaration:**
+#### Type declaration
 
 ##### step?
 
@@ -63,7 +63,7 @@ type ReadJsonOptions: {
   } & Options;
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### jsonc?
 
@@ -86,7 +86,7 @@ type ReadSafeOptions: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### sentinel?
 
@@ -128,7 +128,7 @@ type WriteOptions: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### sign?
 
@@ -161,7 +161,7 @@ type WriteSafeOptions: {
 };
 ```
 
-**Type declaration:**
+#### Type declaration
 
 ##### sentinel?
 
@@ -195,10 +195,7 @@ Pass a Logger Step to pipe all logs and output to that instead.
 ### chmod()
 
 ```ts
-chmod(
-   filename,
-   mode,
-options?): Promise<void>
+function chmod(filename, mode, options?): Promise<void>;
 ```
 
 Change file permissions
@@ -223,10 +220,7 @@ await file.chmod('/foo', 'a+x');
 ### copy()
 
 ```ts
-copy(
-   input,
-   output,
-options?): Promise<void>
+function copy(input, output, options?): Promise<void>;
 ```
 
 Copy a file from one location to another.
@@ -253,7 +247,7 @@ await file.copy('/path/to/in/', '/path/to/out/');
 ### exists()
 
 ```ts
-exists(filename, options?): Promise<boolean>
+function exists(filename, options?): Promise<boolean>;
 ```
 
 Step-wrapped `fs.existsSync` implementation.
@@ -277,7 +271,7 @@ await file.exists('/path/to/file.ts');
 ### isSigned()
 
 ```ts
-isSigned(contents): boolean
+function isSigned(contents): boolean;
 ```
 
 Checks whether a file is signed _without_ verifying the signature.
@@ -296,7 +290,7 @@ Checks whether a file is signed _without_ verifying the signature.
 ### lstat()
 
 ```ts
-lstat(filename, options?): Promise<Stats | null>
+function lstat(filename, options?): Promise<Stats | null>;
 ```
 
 Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation](https://nodejs.org/api/fs.html#class-fsstats) for more on how to use the return data.
@@ -326,7 +320,7 @@ if (stat.isDirectory()) {
 ### makeTempDir()
 
 ```ts
-makeTempDir(prefix, options?): Promise<string>
+function makeTempDir(prefix, options?): Promise<string>;
 ```
 
 Create a tmp directory in the os tmpdir.
@@ -350,7 +344,7 @@ const dir = await file.makeTempDir('tacos-');
 ### mkdirp()
 
 ```ts
-mkdirp(pathname, options?): Promise<void>
+function mkdirp(pathname, options?): Promise<void>;
 ```
 
 Recursively create a directory.
@@ -374,10 +368,7 @@ await file.mkdirp('/path/to/something');
 ### read()
 
 ```ts
-read(
-   filename,
-   flag?,
-options?): Promise<string>
+function read(filename, flag?, options?): Promise<string>;
 ```
 
 Read the contents of a file.
@@ -402,10 +393,7 @@ const contents = await file.read('/path/to/file/');
 ### readJson()
 
 ```ts
-readJson<T>(
-   filename,
-   flag?,
-options?): Promise<T>
+function readJson<T>(filename, flag?, options?): Promise<T>;
 ```
 
 Read and parse a JSON files.
@@ -439,7 +427,7 @@ const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc
 ### readSafe()
 
 ```ts
-readSafe(filename, options?): Promise<[string | null, string]>
+function readSafe(filename, options?): Promise<[string | null, string]>;
 ```
 
 Read a sentinel-wrapped portion of a file that was previously written with [writeSafe](#writesafe) and return both the wrapped portion as well as the full contents of the file.
@@ -463,7 +451,7 @@ const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel
 ### remove()
 
 ```ts
-remove(pathname, options?): Promise<void>
+function remove(pathname, options?): Promise<void>;
 ```
 
 Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
@@ -487,10 +475,7 @@ await file.remove('/path/to/something');
 ### signContents()
 
 ```ts
-signContents(
-   filename,
-   contents,
-options?): Promise<any>
+function signContents(filename, contents, options?): Promise<any>;
 ```
 
 Sign the contents for a given file without writing out. This function is typically useful for manually comparing signed file contents.
@@ -520,7 +505,7 @@ if (currentContents !== (await signContents(filename, contents))) {
 ### verifySignature()
 
 ```ts
-verifySignature(contents): SigningStatus
+function verifySignature(contents): SigningStatus;
 ```
 
 Verify the signature in a signed file.
@@ -539,10 +524,7 @@ Verify the signature in a signed file.
 ### write()
 
 ```ts
-write(
-   filename,
-   contents,
-options?): Promise<void>
+function write(filename, contents, options?): Promise<void>;
 ```
 
 Write to a file. This will attempt use Prettier to format the contents based on the `filename` given. If Prettier does not understand the file’s extension, no changes will be made.
@@ -569,10 +551,7 @@ await file.write('/path/to/out/', '# hello!');
 ### writeSafe()
 
 ```ts
-writeSafe(
-   filename,
-   contents,
-options?): Promise<void>
+function writeSafe(filename, contents, options?): Promise<void>;
 ```
 
 Safely write contents to a file, wrapped in a start and end sentinel. This allows writing to a file without overwriting the current content of the file – other than that which falls between the start and end sentinel.

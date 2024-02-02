@@ -38,12 +38,12 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<fb1d15f29d572b671de764ee27abd180>> */}
+{/* @generated SignedSource<<7421192117f0134d37d7b1df9233a681>> */}
 
 ### prettier()
 
 ```ts
-prettier(opts): Plugin
+function prettier(opts): Plugin;
 ```
 
 Include the `prettier` plugin in your oneRepo plugin setup:
@@ -92,9 +92,7 @@ githubAnnotate?: boolean;
 
 When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
 
-###### Default
-
-`true`
+- **Default:** `true`
 
 ##### name?
 
@@ -112,9 +110,7 @@ useCache?: boolean;
 
 Whether to use Prettier's built-in cache determinism.
 
-###### Default
-
-`true`
+- **Default:** `true`
 
 {/* end-install-typedoc */}
 
