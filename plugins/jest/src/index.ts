@@ -2,31 +2,65 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/jest';
 
 /**
+ * Options for configuring the Jest oneRepo plugin.
  *
  * ```js title="onerepo.config.js"
  * export default {
  * 	plugins: [
  * 		jest({
- * 			name: ['test', 'jest']
+ * 			// optional configuration
  * 		}),
  * 	],
  * });
  * ```
+ *
+ * @default `{}`
  */
 export type Options = {
 	/**
 	 * Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.
-	 * ```js
-	 * jest({
-	 * 	config: 'configs/jest/config.js'
+	 *
+	 * ```js title="onerepo.config.js"
+	 * export default {
+	 * 	plugins: [
+	 * 		jest({
+	 * 			config: 'configs/jest.config.js'
+	 * 		}),
+	 * 	],
 	 * });
 	 * ```
 	 */
 	config?: string;
 	/**
-	 * Rename the default command name.
+	 * @default `'jest'`
+	 * Rename the default command name. This configuration is recommended, but not provided, to avoid potential conflicts with other commands.
+	 *
+	 * ```js title="onerepo.config.js"
+	 * export default {
+	 * 	plugins: [
+	 * 		jest({
+	 * 			name: ['test', 'jest']
+	 * 		}),
+	 * 	],
+	 * });
+	 * ```
 	 */
 	name?: string | Array<string>;
+	/**
+	 * @default `true`
+	 * Automatically include Jests's flag `--passWithNoTests` when running.
+	 *
+	 * ```js title="onerepo.config.js"
+	 * export default {
+	 * 	plugins: [
+	 * 		jest({
+	 * 			passWithNoTests: false,
+	 * 		}),
+	 * 	],
+	 * });
+	 * ```
+	 */
+	passWithNoTests?: boolean;
 };
 
 /**
@@ -54,6 +88,7 @@ export function jest(opts: Options = {}): Plugin {
 					if (opts.config) {
 						y.default('config', opts.config);
 					}
+					y.default('passWithNoTests', opts.passWithNoTests ?? true);
 					return y;
 				},
 				handler,

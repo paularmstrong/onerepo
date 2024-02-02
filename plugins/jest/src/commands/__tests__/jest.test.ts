@@ -21,7 +21,15 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '--changedSince', 'tacobase'],
+				args: [
+					'node_modules/.bin/jest',
+					'--config',
+					'./jest.config.js',
+					'--colors',
+					'--passWithNoTests',
+					'--changedSince',
+					'tacobase',
+				],
 				opts: { stdio: 'inherit' },
 			}),
 		);
@@ -38,6 +46,7 @@ describe('handler', () => {
 					'--config',
 					'./jest.config.js',
 					'--colors',
+					'--passWithNoTests',
 					expect.stringMatching(/modules\/burritos$/),
 				],
 				opts: { stdio: 'inherit' },
@@ -61,6 +70,7 @@ describe('handler', () => {
 					'--config',
 					'./jest.config.js',
 					'--colors',
+					'--passWithNoTests',
 					'--changedSince',
 					'burritobase',
 				],
@@ -74,7 +84,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '-w', 'foo'],
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '--passWithNoTests', '-w', 'foo'],
 			}),
 		);
 	});
@@ -85,7 +95,7 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'node',
-				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '.'],
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '--passWithNoTests', '.'],
 			}),
 		);
 	});
@@ -96,6 +106,17 @@ describe('handler', () => {
 		expect(subprocess.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				args: expect.arrayContaining(['node_modules/.bin/jest', '--no-colors']),
+			}),
+		);
+	});
+
+	test('can disable --passWithNoTests', async () => {
+		await run('--all --no-passWithNoTests');
+
+		expect(subprocess.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'node',
+				args: ['node_modules/.bin/jest', '--config', './jest.config.js', '--colors', '.'],
 			}),
 		);
 	});

@@ -38,7 +38,7 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<20e3dd0d6a120fddc5f7d1bf934ef5bf>> */}
+{/* @generated SignedSource<<12c4855cea236c5e298a4cfa5ebe6fe2>> */}
 
 ### vitest()
 
@@ -71,7 +71,9 @@ type Options: {
 };
 ```
 
-```js
+Options for configuring the Vitest oneRepo plugin.
+
+```js title="onerepo.config.js"
 export default {
 	plugins: [
 		vitest({
@@ -89,13 +91,37 @@ export default {
 config?: string;
 ```
 
+Specify the main Jest configuration file, if different from `<repo>/vitest.config.js`. This can be relative to the repository root.
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		vitest({
+			config: 'configs/vitest.config.js'
+		}),
+	],
+});
+```
+
 ##### name?
 
 ```ts
 name?: string | string[];
 ```
 
-The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers.
+- **Default:** `'vitest'`
+
+Rename the default command name. This configuration is recommended, but not provided, to avoid potential conflicts with other commands.
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		vitest({
+			name: ['test', 'vitest']
+		}),
+	],
+});
+```
 
 {/* end-install-typedoc */}
 
