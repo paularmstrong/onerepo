@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { updateIndex } from '@onerepo/git';
 import { write, writeSafe } from '@onerepo/file';
-import type { Handler } from '@onerepo/yargs';
+import type { Builder, Handler } from '@onerepo/yargs';
 import { corePlugins, internalSetup } from 'onerepo';
 import type { Plugin } from 'onerepo';
 import { toMarkdown } from './markdown';
@@ -58,6 +58,7 @@ interface Args {
 	'out-workspace'?: string;
 	'safe-write'?: boolean;
 	command?: string;
+	'use-defaults'?: boolean;
 }
 
 /**
@@ -81,6 +82,60 @@ export const docgen = (opts: Options = {}): Plugin => {
 
 	return (rootConfig) => ({
 		yargs: (yargs, visitor) => {
+			const command = opts.name ?? 'docgen';
+			const description = `Generate documentation for the oneRepo cli.`;
+			const builder: Builder<Args> = (yargs) =>
+				yargs
+					.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
+					.epilogue(
+						'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!',
+					)
+					.epilogue(
+						'Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.',
+					)
+					.option('add', {
+						type: 'boolean',
+						description: 'Add the output file to the git stage',
+						default: false,
+					})
+					.option('out-file', {
+						type: 'string',
+						description: 'File to write output to. If not provided, stdout will be used',
+						default: 'outFile' in opts ? opts.outFile : undefined,
+					})
+					.option('out-workspace', {
+						type: 'string',
+						description: 'Workspace name to write the --out-file to',
+						default: 'outWorkspace' in opts ? opts.outWorkspace : undefined,
+					})
+					.option('format', {
+						type: 'string',
+						choices: ['markdown', 'json'],
+						default: opts.format ?? 'markdown',
+						description: 'Output format for documentation',
+					} as const)
+					.option('heading-level', {
+						type: 'number',
+						min: 1,
+						max: 5,
+						description: 'Heading level to start at for Markdown output',
+					})
+					.option('safe-write', {
+						type: 'boolean',
+						description: 'Write documentation to a portion of the file with start and end sentinels.',
+						default: opts.safeWrite ?? false,
+					})
+					.option('command', {
+						type: 'string',
+						hidden: true,
+						description: 'Start at the given command, skip the root and any others',
+					})
+					.option('use-defaults', {
+						type: 'boolean',
+						hidden: true,
+						description: 'Use the oneRepo default configuration. Helpful for generating default documentation.',
+					});
+
 			const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 				const {
 					add,
@@ -90,6 +145,7 @@ export const docgen = (opts: Options = {}): Plugin => {
 					'out-workspace': wsName,
 					'safe-write': safeWrite,
 					command,
+					'use-defaults': useDefaults,
 				} = argv;
 
 				let outPath = outFile;
@@ -109,7 +165,7 @@ export const docgen = (opts: Options = {}): Plugin => {
 				const docsYargs = new Yargs(parseStep);
 				await internalSetup({
 					root: graph.root.location,
-					config: rootConfig,
+					config: useDefaults && command !== 'docgen' ? { root: true } : rootConfig,
 					// @ts-ignore
 					yargs: docsYargs,
 					corePlugins,
@@ -156,61 +212,9 @@ export const docgen = (opts: Options = {}): Plugin => {
 				}
 			};
 
-			const command = opts.name ?? 'docgen';
-			const description = `Generate documentation for the oneRepo cli.`;
-			const { handler: wrappedHandler } = visitor({ command, description, handler });
+			const cmd = visitor({ command, description, handler, builder });
 
-			return yargs.command(
-				command,
-				description,
-				(yargs) =>
-					yargs
-						.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
-						.epilogue(
-							'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!',
-						)
-						.epilogue(
-							'Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.',
-						)
-						.option('add', {
-							type: 'boolean',
-							description: 'Add the output file to the git stage',
-							default: false,
-						})
-						.option('out-file', {
-							type: 'string',
-							description: 'File to write output to. If not provided, stdout will be used',
-							default: 'outFile' in opts ? opts.outFile : undefined,
-						})
-						.option('out-workspace', {
-							type: 'string',
-							description: 'Workspace name to write the --out-file to',
-							default: 'outWorkspace' in opts ? opts.outWorkspace : undefined,
-						})
-						.option('format', {
-							type: 'string',
-							choices: ['markdown', 'json'],
-							default: opts.format ?? 'markdown',
-							description: 'Output format for documentation',
-						} as const)
-						.option('heading-level', {
-							type: 'number',
-							min: 1,
-							max: 5,
-							description: 'Heading level to start at for Markdown output',
-						})
-						.option('safe-write', {
-							type: 'boolean',
-							description: 'Write documentation to a portion of the file with start and end sentinels.',
-							default: opts.safeWrite ?? false,
-						})
-						.option('command', {
-							type: 'string',
-							hidden: true,
-							description: 'Start at the given command, skip the root and any others',
-						}),
-				wrappedHandler,
-			);
+			return yargs.command(cmd.command, cmd.description, cmd.builder, cmd.handler);
 		},
 	});
 };
