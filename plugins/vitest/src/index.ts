@@ -2,8 +2,9 @@ import type { PluginObject } from 'onerepo';
 import * as cmd from './commands/vitest';
 
 /**
+ * Options for configuring the Vitest oneRepo plugin.
  *
- * ```js
+ * ```js title="onerepo.config.js"
  * export default {
  * 	plugins: [
  * 		vitest({
@@ -14,9 +15,33 @@ import * as cmd from './commands/vitest';
  * ```
  */
 export type Options = {
+	/**
+	 * Specify the main Jest configuration file, if different from `<repo>/vitest.config.js`. This can be relative to the repository root.
+	 *
+	 * ```js title="onerepo.config.js"
+	 * export default {
+	 * 	plugins: [
+	 * 		vitest({
+	 * 			config: 'configs/vitest.config.js'
+	 * 		}),
+	 * 	],
+	 * });
+	 * ```
+	 */
 	config?: string;
 	/**
-	 * The name of the vitest command. You might change this to `'test'` or `['test', 'vitest']` to keep things more familiar for most developers.
+	 * @default `'vitest'`
+	 * Rename the default command name. This configuration is recommended, but not provided, to avoid potential conflicts with other commands.
+	 *
+	 * ```js title="onerepo.config.js"
+	 * export default {
+	 * 	plugins: [
+	 * 		vitest({
+	 * 			name: ['test', 'vitest']
+	 * 		}),
+	 * 	],
+	 * });
+	 * ```
 	 */
 	name?: string | Array<string>;
 };

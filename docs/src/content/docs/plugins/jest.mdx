@@ -51,7 +51,7 @@ export default {
 ```
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<3f7bda6c35c14c24927548992d1793f4>> */}
+{/* @generated SignedSource<<2fcb2666c7621d908e99cc164904fb0d>> */}
 
 ### jest()
 
@@ -81,18 +81,23 @@ export default {
 type Options: {
   config: string;
   name: string | string[];
+  passWithNoTests: boolean;
 };
 ```
+
+Options for configuring the Jest oneRepo plugin.
 
 ```js title="onerepo.config.js"
 export default {
 	plugins: [
 		jest({
-			name: ['test', 'jest']
+			// optional configuration
 		}),
 	],
 });
 ```
+
+- **Default:** `{}`
 
 #### Type declaration
 
@@ -104,9 +109,13 @@ config?: string;
 
 Specify the main Jest configuration file, if different from `<repo>/jest.config.js`. This can be relative to the repository root.
 
-```js
-jest({
-	config: 'configs/jest/config.js',
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		jest({
+			config: 'configs/jest.config.js'
+		}),
+	],
 });
 ```
 
@@ -116,18 +125,50 @@ jest({
 name?: string | string[];
 ```
 
-Rename the default command name.
+- **Default:** `'jest'`
+
+Rename the default command name. This configuration is recommended, but not provided, to avoid potential conflicts with other commands.
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		jest({
+			name: ['test', 'jest']
+		}),
+	],
+});
+```
+
+##### passWithNoTests?
+
+```ts
+passWithNoTests?: boolean;
+```
+
+- **Default:** `true`
+
+Automatically include Jests's flag `--passWithNoTests` when running.
+
+```js title="onerepo.config.js"
+export default {
+	plugins: [
+		jest({
+			passWithNoTests: false,
+		}),
+	],
+});
+```
 
 {/* end-install-typedoc */}
 
 ## Commands
 
 {/* start-auto-generated-from-cli-jest */}
-{/* @generated SignedSource<<6285b7b62a98fde902106bd8c682cdc1>> */}
+{/* @generated SignedSource<<ee9828e4ce89cffb5ea06d76b6305762>> */}
 
 ### `one jest`
 
-Run tests using Jest
+Run tests using Jest.
 
 ```sh
 one jest [options] -- [passthrough]
@@ -136,7 +177,7 @@ one jest [options]
 
 This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.
 
-Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes `--`)
+Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dashes `--`)
 
 | Option             | Type                       | Description                                                                                                                                                                 |
 | ------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -153,11 +194,12 @@ Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be pa
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                    | Description                                               |
-| --------------- | --------------------------------------- | --------------------------------------------------------- |
-| `--config`      | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.  |
-| `--from-ref`    | `string`                                | Git ref to start looking for affected files or workspaces |
-| `--through-ref` | `string`                                | Git ref to start looking for affected files or workspaces |
+| Option              | Type                                    | Description                                                                                 |
+| ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `--config`          | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.                                    |
+| `--from-ref`        | `string`                                | Git ref to start looking for affected files or workspaces                                   |
+| `--passWithNoTests` | `boolean`, default: `true`              | Allows the test suite to pass when no files are found. See plugin configuration to disable. |
+| `--through-ref`     | `string`                                | Git ref to start looking for affected files or workspaces                                   |
 
 </details>
 

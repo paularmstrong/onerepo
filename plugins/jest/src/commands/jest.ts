@@ -5,13 +5,17 @@ import type { Builder, Handler } from '@onerepo/yargs';
 
 export const command = 'jest';
 
-export const description = 'Run tests using Jest';
+export const description = 'Run tests using Jest.';
 
 type Args = {
 	config: string;
 	inspect: boolean;
 	pretty: boolean;
 	watch?: boolean;
+	/**
+	 * This option is provided camel-case as an exception to match Jest's argument casing.
+	 */
+	passWithNoTests: boolean;
 } & builders.WithAffected &
 	builders.WithWorkspaces;
 
@@ -40,6 +44,12 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			default: false,
 		})
+		.option('passWithNoTests', {
+			type: 'boolean',
+			default: true,
+			description: 'Allows the test suite to pass when no files are found. See plugin configuration to disable.',
+			hidden: true,
+		})
 		.example(`$0 ${command}`, 'Run only tests related to modified files.')
 		.example(`$0 ${command} --watch`, 'Runs jest in --watch mode against the currently affected files.')
 		.example(`$0 ${command} --watch -- path/to/test.ts`, 'Run Jest in watch mode against a particular file.')
@@ -51,11 +61,11 @@ export const builder: Builder<Args> = (yargs) =>
 			'This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes ` -- `), you can further restrict the tests to those files and paths.',
 		)
 		.epilogue(
-			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dasshes ` -- `)',
+			'Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be passed as passthrough arguments as well after an argument separator (two dashes ` -- `)',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces }) {
-	const { '--': other = [], all, affected, config, inspect, pretty, watch, workspaces } = argv;
+	const { '--': other = [], all, affected, config, inspect, passWithNoTests, pretty, watch, workspaces } = argv;
 
 	const args: Array<string> = ['node_modules/.bin/jest', '--config', config, pretty ? '--colors' : '--no-colors'];
 
@@ -64,6 +74,9 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	}
 	if (watch) {
 		args.push('--watch');
+	}
+	if (passWithNoTests) {
+		args.push('--passWithNoTests');
 	}
 
 	const hasNonOptExtraArgs = other.length ? other.filter((o) => !o.startsWith('-')).length > 0 : false;
