@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<2d75a66e0e2fd4dd20b67961dfd8d069>> -->
+<!-- @generated SignedSource<<792483af9b1561e27074757395e6594d>> -->
 
 ## Namespaces
 
@@ -17,6 +17,16 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 | [builders](namespaces/builders/) | Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived. |
 | [file](namespaces/file/)         | File manipulation functions.                                                                                                                  |
 | [git](namespaces/git/)           | This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:      |
+
+## Variables
+
+### defaultConfig
+
+```ts
+const defaultConfig: Required<RootConfig>;
+```
+
+**Source:** [modules/onerepo/src/setup/setup.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/setup/setup.ts)
 
 ## Commands
 
@@ -405,6 +415,10 @@ oneRepo comes with a pre-configured list of common lifecycles for grouping [task
 type RootConfig<CustomLifecycles>: {
   changes: {
      filenames: "hash" | "human";
+     formatting: {
+        commit: string;
+        footer: string;
+     };
      prompts: "guided" | "semver";
   };
   codeowners: Record<string, string[]>;
@@ -454,6 +468,10 @@ Setup configuration for the root of the repository.
 ```ts
 changes?: {
   filenames: "hash" | "human";
+  formatting: {
+     commit: string;
+     footer: string;
+  };
   prompts: "guided" | "semver";
 };
 ```
@@ -467,6 +485,67 @@ changes.filenames?: "hash" | "human";
 **Default:** `'hash'`
 
 To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+
+##### changes.formatting?
+
+```ts
+changes.formatting?: {
+  commit: string;
+  footer: string;
+};
+```
+
+**Default:** `{}`
+
+Override some formatting strings in generated changelog files.
+
+```ts title="onerepo.config.ts"
+export default {
+	root: true,
+	changes: {
+		formatting: {
+			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
+			footer:
+				'> Full changelog [${fromRef.short}...${throughRef.short}](https://github.com/my-repo/commits/${fromRef}...${throughRef})',
+		},
+	},
+};
+```
+
+##### changes.formatting.commit?
+
+```ts
+changes.formatting.commit?: string;
+```
+
+**Default:** `'(${ref.short})'`
+
+Format how the commit ref will appear at the end of the first line of each change entry.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${ref.short}` | 8-character version of the commit ref |
+| `${ref}` | Full commit ref |
+
+##### changes.formatting.footer?
+
+```ts
+changes.formatting.footer?: string;
+```
+
+**Default:** `'_View git logs for full change list._'`
+
+Format the footer at the end of each version in the generated changelog files.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${fromRef.short}` | 8-character version of the first commit ref in the version |
+| `${fromRef}` | Full commit ref of the first commit in the version |
+| `${through.short}` | 8-character version of the last commit ref in the version |
+| `${through}` | Full commit ref of the last commit in the version |
+| `${version}` | New version string |
 
 ##### changes.prompts?
 
@@ -495,6 +574,7 @@ When used with the [`codeowners` commands](/core/codeowners/), this configuratio
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	codeowners: {
 		'*': ['@my-team', '@person'],
 		scripts: ['@infra-team'],
@@ -525,6 +605,7 @@ A string to use as filepaths to subcommands. We'll look for commands in all Work
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		directory: 'commands',
 	},
@@ -550,6 +631,7 @@ When writing custom commands and Workspace-level subcommands, we may need to ign
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		ignore: /(/__\w+__/|\.test\.|\.spec\.|\.config\.)/,
 	},
@@ -601,6 +683,7 @@ The default branch of your repo? Probably `main`, but it might be something else
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	head: 'develop',
 };
 ```
@@ -625,6 +708,7 @@ This configuration should be used sparingly and with caution. It is better to do
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	ignore: ['.changeset/*', '.github/*'],
 };
 ```
@@ -641,6 +725,7 @@ A place to put any custom information or configuration. A helpful space for you 
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	meta: {
 		tacos: 'are delicious',
 	},
@@ -697,6 +782,7 @@ See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		lifecycles: ['deploy-staging'],
 	},
@@ -714,6 +800,7 @@ Stash unstaged changes before running these tasks and re-apply them after the ta
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		stashUnstaged: ['pre-commit', 'post-checkout'],
 	},
@@ -780,10 +867,11 @@ vcs.autoSyncHooks?: boolean;
 Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		autoSyncHooks: false,
-	}
+	},
 };
 ```
 
@@ -798,10 +886,11 @@ vcs.hooksPath?: string;
 Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		hooksPath: '.githooks',
-	}
+	},
 };
 ```
 
@@ -817,6 +906,7 @@ The provider will be factored in to various commands, like `CODEOWNERS` generati
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	vcs: {
 		provider: 'github',
 	},
@@ -1392,12 +1482,12 @@ get codeowners(): Required<Record<string, string[]>>
 ##### config
 
 ```ts
-get config(): Required<WorkspaceConfig | RootConfig>
+get config(): Required<RootConfig | WorkspaceConfig>
 ```
 
 Get the workspace's configuration
 
-**Returns:** `Required`\<[`WorkspaceConfig`](#workspaceconfigcustomlifecycles) \| [`RootConfig`](#rootconfigcustomlifecycles)\>  
+**Returns:** `Required`\<[`RootConfig`](#rootconfigcustomlifecycles) \| [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)\>  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### dependencies
@@ -1487,7 +1577,7 @@ The full `name` of the Workspace, as defined in its `package.json`
 get packageJson(): PackageJson
 ```
 
-A full copy of the `package.json` file for the Workspace.
+A full deep copy of the `package.json` file for the Workspace. Modifications to this object will not be preserved on the Workspace.
 
 **Returns:** [`PackageJson`](#packagejson-1)  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -3324,6 +3414,25 @@ Pass a custom [`LogStep`](#logstep) to bundle this process input & output into a
 
 ## package.json
 
+### getPublishablePackageJson()
+
+```ts
+function getPublishablePackageJson(input): PublicPackageJson;
+```
+
+Return a deep copy of a `package.json` suitabkle for publishing. Moves all non-standard `publishConfig` keys to the root of the `package.json` and deletes `devDependencies`.
+
+**Parameters:**
+
+| Parameter | Type                                      |
+| :-------- | :---------------------------------------- |
+| `input`   | [`PublicPackageJson`](#publicpackagejson) |
+
+**Returns:** [`PublicPackageJson`](#publicpackagejson)  
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
+
+---
+
 ### BasePackageJson
 
 ```ts
@@ -3544,7 +3653,7 @@ scripts?: Record<string, string>;
 version?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3554,7 +3663,7 @@ version?: string;
 type PackageJson: PrivatePackageJson | PublicPackageJson;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3588,7 +3697,7 @@ name?: string;
 url?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3622,7 +3731,7 @@ private: true;
 workspaces?: string[];
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3656,7 +3765,7 @@ publishConfig?: PublishConfig;
 workspaces?: never;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3736,6 +3845,6 @@ module?: string;
 typings?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 <!-- end-onerepo-sentinel -->

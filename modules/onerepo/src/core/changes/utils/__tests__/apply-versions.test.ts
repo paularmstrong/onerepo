@@ -16,7 +16,19 @@ describe('applyVersions', () => {
 		await applyVersions(
 			[lettuce],
 			graph,
-			new Map([[graph.getByName('lettuce'), { type: 'minor', version: '1.1.0', changelogs: ['lettuce'] }]]),
+			new Map([
+				[
+					graph.getByName('lettuce'),
+					{
+						type: 'minor',
+						version: '1.1.0',
+						fromRef: 'abc',
+						throughRef: '123',
+						logs: [],
+						entries: [{ type: 'minor', content: '', ref: '123' }],
+					},
+				],
+			]),
 		);
 
 		const expected = lettuce.packageJson;
@@ -33,7 +45,19 @@ describe('applyVersions', () => {
 		await applyVersions(
 			[lettuce],
 			graph,
-			new Map([[graph.getByName('lettuce'), { type: 'minor', version: '1.1.0', changelogs: ['lettuce'] }]]),
+			new Map([
+				[
+					graph.getByName('lettuce'),
+					{
+						type: 'minor',
+						version: '1.1.0',
+						fromRef: 'abc',
+						throughRef: '123',
+						logs: [],
+						entries: [{ type: 'minor', content: '', ref: '123' }],
+					},
+				],
+			]),
 		);
 
 		const expected = tacos.packageJson;
@@ -50,7 +74,19 @@ describe('applyVersions', () => {
 		await applyVersions(
 			[cheese],
 			graph,
-			new Map([[graph.getByName('cheese'), { type: 'minor', version: '1.1.0', changelogs: ['cheese'] }]]),
+			new Map([
+				[
+					graph.getByName('cheese'),
+					{
+						type: 'minor',
+						version: '1.1.0',
+						fromRef: 'abc',
+						throughRef: '123',
+						logs: [],
+						entries: [{ type: 'minor', content: '', ref: '123' }],
+					},
+				],
+			]),
 		);
 
 		const expected = tacos.packageJson;

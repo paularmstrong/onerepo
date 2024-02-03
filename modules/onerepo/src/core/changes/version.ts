@@ -7,10 +7,7 @@ import { withWorkspaces } from '@onerepo/builders';
 import type { Workspace } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
 import type { VersionPlan } from './utils/get-versionable';
-import { getVersionable } from './utils/get-versionable';
-import { confirmClean } from './utils/confirm-clean';
-import { requestVersioned } from './utils/request-versioned';
-import { applyVersions } from './utils/apply-versions';
+import { applyVersions, getVersionable, confirmClean, requestVersioned, writeChangelogs } from './utils';
 
 export const command = ['version'];
 
@@ -39,7 +36,7 @@ export const builder: Builder<Argv> = (yargs) =>
 			'Create a prerelease for the next version the form of `1.2.3-alpha.0`.',
 		);
 
-export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger }) => {
+export const handler: Handler<Argv> = async (argv, { config, getWorkspaces, graph, logger }) => {
 	const { 'allow-dirty': allowDirty, prerelease } = argv;
 
 	const setup = logger.createStep('Gathering information');
@@ -53,10 +50,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	let requested = await getWorkspaces({ step: setup });
 	await setup.end();
 
-	const versionable = await getVersionable(graph, { prerelease: !!prerelease, identifier: prerelease });
+	const versionPlans = await getVersionable(graph, { prerelease: !!prerelease, identifier: prerelease });
 
 	if (!requested.length) {
-		requested = await requestVersioned(graph, versionable);
+		requested = await requestVersioned(graph, versionPlans);
 	}
 
 	if (!requested.length) {
@@ -66,14 +63,15 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	const deps = graph.dependencies(requested, true);
 	// TODO: should this include dependents?
-	const toVersion: Array<Workspace> = Array.from(versionable.all.keys()).filter((ws) => deps.includes(ws));
+	const toVersion: Array<Workspace> = Array.from(versionPlans.keys()).filter((ws) => deps.includes(ws));
 
-	if (!(await requestedOkay(versionable.all, requested, toVersion, logger))) {
+	if (!(await requestedOkay(versionPlans, requested, toVersion, logger))) {
 		logger.error('Cancelled. No changes have been made.');
 		return;
 	}
 
-	await applyVersions(toVersion, graph, versionable.all);
+	await applyVersions(toVersion, graph, versionPlans);
+	await writeChangelogs(toVersion, graph, versionPlans, config.changes.formatting ?? {});
 };
 
 /**

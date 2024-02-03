@@ -1,7 +1,8 @@
 import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
 import { withAffected, withWorkspaces } from '@onerepo/builders';
 import { write } from '@onerepo/file';
-import type { PublishConfig, Workspace } from '@onerepo/graph';
+import type { Workspace } from '@onerepo/graph';
+import type { PublishConfig } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { runTasks } from '../tasks/run-tasks';
 import { requestOtp } from './utils/request-otp';
@@ -88,14 +89,14 @@ export const handler: Handler<Args> = async (argv, { getFilepaths, getWorkspaces
 
 	await setupStep.end();
 
+	await runTasks('pre-publish', ['--workspaces', ...workspaces.map((ws) => ws.name)], graph);
+
 	const configStep = logger.createStep('Apply publishConfig');
 	for (const workspace of workspaces) {
 		const newPackageJson = workspace.publishablePackageJson;
 		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step: configStep });
 	}
 	await configStep.end();
-
-	await runTasks('pre-publish', ['--workspaces', ...workspaces.map((ws) => ws.name)], graph);
 
 	const otp = shouldRequestOtp ? await requestOtp() : undefined;
 

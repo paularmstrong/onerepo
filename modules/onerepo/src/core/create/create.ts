@@ -8,7 +8,7 @@ import { exists, mkdirp, read, readJson, write, writeSafe } from '@onerepo/file'
 import { run } from '@onerepo/subprocess';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
-import type { PackageJson } from '@onerepo/graph';
+import type { PackageJson } from '@onerepo/package-manager';
 
 export const command = ['create', 'init'];
 

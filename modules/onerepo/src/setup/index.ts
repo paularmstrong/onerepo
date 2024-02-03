@@ -11,7 +11,7 @@ import { hooks } from '../core/hooks';
 import { install } from '../core/install';
 import { tasks } from '../core/tasks';
 import { workspace } from '../core/workspace';
-import { setup as internalSetup } from './setup';
+import { defaultConfig, setup as internalSetup } from './setup';
 
 export type { GraphSchemaValidators } from '../core/graph';
 export type { App } from './setup';
@@ -34,7 +34,7 @@ export async function setup(root: string, config: Config) {
 /**
  * @internal
  */
-export { internalSetup };
+export { defaultConfig, internalSetup };
 
 /**
  * @internal

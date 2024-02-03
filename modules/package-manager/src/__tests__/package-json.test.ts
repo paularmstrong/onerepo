@@ -1,5 +1,5 @@
-import type { PublicPackageJson } from '../Workspace';
-import { Workspace } from '../Workspace';
+import type { PublicPackageJson } from '../package-json';
+import { getPublishablePackageJson } from '../package-json';
 
 describe('Workspace', () => {
 	describe('publishablePackageJson', () => {
@@ -13,15 +13,8 @@ describe('Workspace', () => {
 					typings: './dist/types/tacos.d.ts',
 				},
 			};
-			const ws = new Workspace(
-				'/root',
-				'/root/modules/bar',
-				pkg,
-				// @ts-ignore
-				vi.fn(() => ({})),
-			);
 
-			expect(ws.publishablePackageJson).toEqual({
+			expect(getPublishablePackageJson(pkg)).toEqual({
 				name: 'tacos',
 				version: '1.0.0',
 				main: './dist/tacos.js',
@@ -42,15 +35,8 @@ describe('Workspace', () => {
 					preid: '123',
 				},
 			};
-			const ws = new Workspace(
-				'/root',
-				'/root/modules/bar',
-				pkg,
-				// @ts-ignore
-				vi.fn(() => ({})),
-			);
 
-			expect(ws.publishablePackageJson).toEqual({
+			expect(getPublishablePackageJson(pkg)).toEqual({
 				name: 'tacos',
 				version: '1.0.0',
 				main: './dist/tacos.js',
@@ -73,18 +59,10 @@ describe('Workspace', () => {
 					grill: '1.5.0',
 				},
 			};
-			const ws = new Workspace(
-				'/root',
-				'/root/modules/bar',
-				pkg,
-				// @ts-ignore
-				vi.fn(() => ({})),
-			);
 
-			expect(ws.publishablePackageJson).toEqual({
+			expect(getPublishablePackageJson(pkg)).toEqual({
 				name: 'tacos',
 				version: '1.0.0',
-				publishConfig: {},
 				dependencies: {
 					lettuce: '4.0.0',
 				},

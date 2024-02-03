@@ -5,10 +5,19 @@ import type { Graph, Workspace } from '@onerepo/graph';
 import { run } from '@onerepo/subprocess';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
+import { getCurrentSha } from '@onerepo/git';
 import { readChange } from './read-change';
 
 export type ReleaseType = 'major' | 'minor' | 'patch';
-export type VersionPlan = { type: ReleaseType; version: string; changelogs: Array<string> };
+export type ChangeEntry = { type: ReleaseType; content: string; ref: string };
+export type VersionPlan = {
+	type: ReleaseType;
+	version: string;
+	entries: Array<ChangeEntry>;
+	fromRef: string;
+	throughRef: string;
+	logs: Array<{ ref: string; subject: string }>;
+};
 
 type VersionOptions = { prerelease?: boolean; identifier?: string; snapshot?: string; step?: LogStep };
 
@@ -17,50 +26,21 @@ export async function getVersionable(graph: Graph, options: VersionOptions = {})
 		const workspaces = graph.workspaces;
 
 		const versionable = new Map<Workspace, VersionPlan>();
-		const hasChangesets: Array<Workspace> = [];
-		const hasLogs: Array<Workspace> = [];
 		for (const workspace of workspaces) {
 			if (workspace.private) {
 				continue;
 			}
+			const fromRef = await getLastVersion(workspace, { step });
+			const throughRef = await getCurrentSha({ step });
+
 			const changes = await glob('.changes/*.md', { cwd: workspace.location });
-			if (changes.length) {
-				versionable.set(workspace, await getVersionPlan(workspace, changes, { ...options, step }));
-				hasChangesets.push(workspace);
-				continue;
-			}
-
-			const lastVersion = await getLastVersion(workspace, { step });
-			const [logs] = await run({
-				name: `Get logs for ${workspace.name}`,
-				cmd: 'git',
-				args: ['log', '-z', '--oneline', ...(lastVersion ? [`${lastVersion}..`] : ''), '--', workspace.location],
-				step,
-				runDry: true,
-			});
-
-			if (logs.length) {
-				const version = options.snapshot
-					? `0.0.0-${options.identifier}-${options.snapshot}`
-					: inc(
-							workspace.version!,
-							getReleaseType(workspace.version!, 'patch', options.prerelease),
-							options.identifier,
-						)!;
-				versionable.set(workspace, {
-					type: 'patch',
-					version,
-					changelogs: [],
-				});
-				hasLogs.push(workspace);
-			}
+			versionable.set(
+				workspace,
+				await getVersionPlan(workspace, changes, fromRef ?? '', throughRef, { ...options, step }),
+			);
 		}
 
-		return {
-			all: versionable,
-			hasChangesets,
-			hasLogs,
-		};
+		return versionable;
 	});
 }
 
@@ -103,26 +83,56 @@ export function getLastVersion(workspace: Workspace, options: { step?: LogStep }
 	});
 }
 
-async function getVersionPlan(workspace: Workspace, changes: Array<string>, options: VersionOptions = {}) {
+async function getVersionPlan(
+	workspace: Workspace,
+	changes: Array<string>,
+	fromRef: string,
+	throughRef: string,
+	options: VersionOptions = {},
+) {
 	const results = await Promise.all(
 		changes.map((filepath) => readChange(workspace.resolve(filepath), { step: options.step })),
 	);
 	let type: keyof typeof levelToNum = 'patch';
-	const changelogs: Array<string> = [];
+	const entries: Array<ChangeEntry> = [];
 	for (const result of results) {
 		if (!result) {
 			continue;
 		}
 		type = numToLevel[Math.max(levelToNum[result.type], levelToNum[type]) as keyof typeof numToLevel];
-		changelogs.push(result.contents);
+		entries.push(result);
 	}
+
+	const [rawLogs] = await run({
+		name: `Get logs for ${workspace.name}`,
+		cmd: 'git',
+		args: [
+			'log',
+			'-z',
+			'--format=pretty:%H\u0003\u0002%s',
+			...(fromRef ? [`${fromRef}..`] : ''),
+			'--',
+			workspace.location,
+		],
+		step: options.step,
+		runDry: true,
+	});
+
+	const logs = rawLogs.split('\u0000').map((str) => {
+		const [ref, subject] = str.split('\u0003\u0002');
+		return { ref, subject };
+	});
+
 	const version = options.snapshot
 		? `0.0.0-${options.identifier}-${options.snapshot}`
 		: inc(workspace.version!, getReleaseType(workspace.version!, type, options.prerelease), options.identifier)!;
 	return {
 		type,
 		version,
-		changelogs,
+		entries,
+		fromRef,
+		throughRef,
+		logs,
 	};
 }
 
