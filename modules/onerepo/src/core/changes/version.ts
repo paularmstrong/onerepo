@@ -39,6 +39,10 @@ export const builder: Builder<Argv> = (yargs) =>
 export const handler: Handler<Argv> = async (argv, { config, getWorkspaces, graph, logger }) => {
 	const { 'allow-dirty': allowDirty, prerelease } = argv;
 
+	logger.info('=============');
+	logger.info(config.changes);
+	logger.info('=============');
+
 	const setup = logger.createStep('Gathering information');
 
 	if (!allowDirty) {
