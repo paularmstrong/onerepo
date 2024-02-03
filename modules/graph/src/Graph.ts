@@ -4,9 +4,8 @@ import { readFileSync } from 'node:fs';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
 import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
-import type { PackageManager } from '@onerepo/package-manager';
+import type { PackageManager, PackageJson } from '@onerepo/package-manager';
 import { Workspace } from './Workspace';
-import type { PackageJson } from './Workspace';
 
 /**
  * @group Graph

@@ -1,7 +1,8 @@
-import type { Graph, PackageJson, Workspace } from '@onerepo/graph';
+import type { Graph, Workspace } from '@onerepo/graph';
 import { write } from '@onerepo/file';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
+import type { PackageJson } from '@onerepo/package-manager';
 import type { VersionPlan } from './get-versionable';
 
 export async function applyVersions(

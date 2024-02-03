@@ -15,11 +15,12 @@ import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
 import pkg from '../../package.json';
 
-const defaultConfig: Required<RootConfig> = {
+export const defaultConfig: Required<RootConfig> = {
 	root: true,
 	changes: {
 		filenames: 'hash',
 		prompts: 'guided',
+		formatting: {},
 	},
 	vcs: {
 		autoSyncHooks: false,
@@ -132,7 +133,7 @@ export async function setup({
 		graph,
 		exclude: resolvedConfig.commands.ignore,
 		startup,
-		config,
+		config: config as Required<RootConfig>,
 		logger,
 	});
 

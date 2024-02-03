@@ -9,6 +9,8 @@ import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import type { MiddlewareFunction } from 'yargs';
 import type { Argv, Builder, Handler, HandlerExtra } from '@onerepo/yargs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { defaultConfig } from 'onerepo';
 
 process.env.npm_config_user_agent = undefined;
 delete process.env.npm_config_user_agent;
@@ -114,7 +116,7 @@ async function runHandler<R = Record<string, unknown>>(
 		getFilepaths: wrappedGetFilepaths,
 		getWorkspaces: wrappedGetWorkspaces,
 		graph,
-		config: {},
+		config: defaultConfig,
 	});
 
 	await logger.end();

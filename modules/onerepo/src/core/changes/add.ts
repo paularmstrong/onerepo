@@ -168,11 +168,6 @@ ${pc.dim(
 			changesetFile,
 			`---
 type: ${type}
-related:
-${(chosen as Array<string>)
-	.filter((name) => name !== workspaceName)
-	.map((ws) => `  - '${ws}'`)
-	.join('\n')}
 ---
 
 ${contents}`,

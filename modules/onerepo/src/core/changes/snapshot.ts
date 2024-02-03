@@ -2,8 +2,10 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import type { WithWorkspaces } from '@onerepo/builders';
 import { withWorkspaces } from '@onerepo/builders';
 import type { Workspace } from '@onerepo/graph';
-import { write } from '@onerepo/file';
+import { readJson, write } from '@onerepo/file';
 import { getCurrentSha } from '@onerepo/git';
+import type { PublicPackageJson } from '@onerepo/package-manager';
+import { getPublishablePackageJson } from '@onerepo/package-manager';
 import { runTasks } from '../tasks/run-tasks';
 import { confirmClean } from './utils/confirm-clean';
 import { requestVersioned } from './utils/request-versioned';
@@ -77,23 +79,24 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	const deps = graph.dependencies(requested, true);
 	// TODO: should this include dependents?
-	const toVersion: Array<Workspace> = Array.from(versionable.all.keys()).filter((ws) => deps.includes(ws));
+	const toVersion: Array<Workspace> = Array.from(versionable.keys()).filter((ws) => deps.includes(ws));
 
-	if (!(await requestedOkay(versionable.all, requested, toVersion, logger))) {
+	if (!(await requestedOkay(versionable, requested, toVersion, logger))) {
 		logger.error('Cancelled. No changes have been made.');
 		return;
 	}
 
-	await applyVersions(toVersion, graph, versionable.all);
+	await applyVersions(toVersion, graph, versionable);
+
+	await runTasks('pre-publish', ['--workspaces', ...toVersion.map((ws) => ws.name)], graph);
 
 	const configStep = logger.createStep('Apply publishConfig');
 	for (const workspace of toVersion) {
-		const newPackageJson = workspace.publishablePackageJson;
+		const contents = await readJson<PublicPackageJson>(workspace.resolve('package.json'), 'r', { step: configStep });
+		const newPackageJson = getPublishablePackageJson(contents);
 		await write(workspace.resolve('package.json'), JSON.stringify(newPackageJson, null, 2), { step: configStep });
 	}
 	await configStep.end();
-
-	await runTasks('pre-publish', ['--workspaces', ...toVersion.map((ws) => ws.name)], graph);
 
 	const otp = shouldRequestOtp ? await requestOtp() : undefined;
 
@@ -105,7 +108,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	if (reset) {
 		const resetStep = logger.createStep('Reset package.json changes');
-		for (const ws of toVersion) {
+		for (const ws of graph.workspaces) {
 			await write(ws.resolve('package.json'), JSON.stringify(ws.packageJson, null, 2), { step: resetStep });
 		}
 		await resetStep.end();

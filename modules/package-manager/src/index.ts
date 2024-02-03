@@ -4,6 +4,7 @@ import { Yarn } from './yarn';
 import type { PackageManager } from './methods';
 
 export * from './get-package-manager';
+export * from './package-json';
 export * from './methods';
 
 /**

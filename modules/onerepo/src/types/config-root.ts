@@ -21,6 +21,52 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 * - `'semver'`: A simple choice list of semver release types.
 		 */
 		prompts?: 'guided' | 'semver';
+		/**
+		 * @default `{}`
+		 *
+		 * Override some formatting strings in generated changelog files.
+		 *
+		 * ```ts title="onerepo.config.ts"
+		 * export default {
+		 * 	root: true,
+		 * 	changes: {
+		 * 		formatting: {
+		 * 			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
+		 * 			footer: '> Full changelog [${fromRef.short}...${throughRef.short}](https://github.com/my-repo/commits/${fromRef}...${throughRef})'
+		 * 		},
+		 * 	},
+		 * };
+		 * ```
+		 */
+		formatting?: {
+			/**
+			 * @default `'(${ref.short})'`
+			 *
+			 * Format how the commit ref will appear at the end of the first line of each change entry.
+			 *
+			 * Available replacement strings:
+			 * | Replacement | Description |
+			 * | --- | --- |
+			 * | `${ref.short}` | 8-character version of the commit ref |
+			 * | `${ref}` | Full commit ref |
+			 */
+			commit?: string;
+			/**
+			 * @default `'_View git logs for full change list._'`
+			 *
+			 * Format the footer at the end of each version in the generated changelog files.
+			 *
+			 * Available replacement strings:
+			 * | Replacement | Description |
+			 * | --- | --- |
+			 * | `${fromRef.short}` | 8-character version of the first commit ref in the version |
+			 * | `${fromRef}` | Full commit ref of the first commit in the version |
+			 * | `${through.short}` | 8-character version of the last commit ref in the version |
+			 * | `${through}` | Full commit ref of the last commit in the version |
+			 * | `${version}` | New version string |
+			 */
+			footer?: string;
+		};
 	};
 	/**
 	 * @default `{}`
@@ -31,6 +77,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
+	 * 	root: true,
 	 * 	codeowners: {
 	 * 		'*': ['@my-team', '@person'],
 	 * 		scripts: ['@infra-team'],
@@ -50,6 +97,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
+		 * 	root: true,
 		 * 	commands: {
 		 * 		directory: 'commands',
 		 * 	},
@@ -71,6 +119,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
+		 * 	root: true,
 		 * 	commands: {
 		 * 		ignore: /(\/__\w+__\/|\.test\.|\.spec\.|\.config\.)/,
 		 * 	},
@@ -104,7 +153,8 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
-	 *   head: 'develop',
+	 * 	root: true,
+	 * 	head: 'develop',
 	 * };
 	 * ```
 	 */
@@ -124,6 +174,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
+	 * 	root: true,
 	 * 	ignore: ['.changeset/*', '.github/\*'],
 	 * };
 	 * ```
@@ -136,6 +187,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 *
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
+	 * 	root: true,
 	 * 	meta: {
 	 * 		tacos: 'are delicious',
 	 * 	},
@@ -181,6 +233,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
+		 * 	root: true,
 		 * 	tasks: {
 		 * 		lifecycles: ['deploy-staging'],
 		 * 	},
@@ -193,6 +246,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 * Stash unstaged changes before running these tasks and re-apply them after the task has completed.
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
+		 * 	root: true,
 		 * 	tasks: {
 		 * 		stashUnstaged: ['pre-commit', 'post-checkout'],
 		 * 	},
@@ -224,7 +278,8 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 * Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 		 *
 		 * ```ts title="onerepo.config.ts"
-		 * export defualt {
+		 * export default {
+		 * 	root: true,
 		 * 	vcs: {
 		 * 		autoSyncHooks: false,
 		 * 	}
@@ -238,7 +293,8 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 * Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 		 *
 		 * ```ts title="onerepo.config.ts"
-		 * export defualt {
+		 * export default {
+		 * 	root: true,
 		 * 	vcs: {
 		 * 		hooksPath: '.githooks',
 		 * 	}
@@ -253,6 +309,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
+		 * 	root: true,
 		 * 	vcs: {
 		 * 		provider: 'github',
 		 * 	},

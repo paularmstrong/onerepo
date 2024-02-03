@@ -66,11 +66,6 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				ws.resolve(`.changes/${index}-${filename}.md`),
 				`---
 type: ${info[ws.name]}
-related:
-${Object.keys(info)
-	.filter((name) => name !== ws.name)
-	.map((name) => `  - '${name}'`)
-	.join('\n')}
 ---
 
 ${contents}`,

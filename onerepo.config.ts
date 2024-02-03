@@ -14,6 +14,11 @@ export default {
 	changes: {
 		filenames: 'human',
 		prompts: 'guided',
+		formatting: {
+			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
+			footer:
+				'> View the full changelog: [${fromRef.short}...${throughRef.short}](https://github.com/paularmstrong/onerepo/commits/${fromRef}...${throughRef})',
+		},
 	},
 
 	dependencies: {

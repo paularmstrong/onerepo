@@ -1,10 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import yaml from 'js-yaml';
+import type { PackageJson } from '@onerepo/package-manager';
 import { getLockfile, getPackageManagerName } from '@onerepo/package-manager';
 import initJiti from 'jiti';
 import { Graph } from './Graph';
-import type { PackageJson } from './Workspace';
 
 export * from './Graph';
 export * from './Workspace';

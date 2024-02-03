@@ -4,6 +4,7 @@ import * as builders from '@onerepo/builders';
 import type { Logger } from '@onerepo/logger';
 import type { Graph, Workspace } from '@onerepo/graph';
 import type { Argv as Yargv, RequireDirectoryOptions } from 'yargs';
+import type { RootConfig } from 'onerepo';
 import { checkEnginesMiddleware, setEnvironmentMiddleware, sudoCheckMiddleware } from './middleware';
 
 /**
@@ -86,7 +87,7 @@ type CommandDirOpts = {
 	/**
 	 * @internal
 	 */
-	config: Record<string, unknown>;
+	config: Required<RootConfig>;
 	logger: Logger;
 };
 
@@ -306,7 +307,7 @@ export type HandlerExtra = {
 	/**
 	 * @internal
 	 */
-	config: Record<string, unknown>;
+	config: Required<RootConfig>;
 };
 
 /**

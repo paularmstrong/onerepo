@@ -40,12 +40,13 @@ describe('handler', () => {
 	test('can opt-in to using project references', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
-		vi.spyOn(file, 'read').mockResolvedValue('{}');
+		vi.spyOn(file, 'readJson').mockResolvedValue({});
 		vi.spyOn(file, 'write').mockResolvedValue();
 
 		await run('-a --use-project-references');
 
-		expect(file.read).toHaveBeenCalledWith(graph.root.resolve('tsconfig.json'), constants.O_RDWR, {
+		expect(file.readJson).toHaveBeenCalledWith(graph.root.resolve('tsconfig.json'), constants.O_RDWR, {
+			jsonc: true,
 			step: expect.any(LogStep),
 		});
 
@@ -97,7 +98,7 @@ describe('handler', () => {
 	test('includes verbose flag in in build mode (project references)', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
-		vi.spyOn(file, 'read').mockResolvedValue('{}');
+		vi.spyOn(file, 'readJson').mockResolvedValue({});
 		vi.spyOn(file, 'write').mockResolvedValue();
 
 		await run('-a --use-project-references -vvvv');
