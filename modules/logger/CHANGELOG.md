@@ -1,5 +1,16 @@
 # @onerepo/logger
 
+## 0.7.0
+
+### Minor changes
+
+- Logging an empty function will now execute and stringify the return value of the function. This will prevent expensive loops used to build up helpful information strings. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+  ```ts
+  step.log(() => bigArray.map((item) => item.name));
+  ```
+
+> View the full changelog: [076da8f7...3832aa9f](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...3832aa9f9fffdd83e9368d582e8396e9a0df9e65)
+
 ## 0.6.0
 
 ### Minor Changes

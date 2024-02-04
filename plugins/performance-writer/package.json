@@ -1,7 +1,7 @@
 {
 	"name": "@onerepo/plugin-performance-writer",
 	"description": "Write performance measurements from oneRepo invocations to files.",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"license": "MIT",
 	"title": "Performance Writer",
 	"repository": {
@@ -23,9 +23,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "0.6.0",
-		"@onerepo/logger": "0.6.0",
-		"onerepo": "0.16.0"
+		"@onerepo/file": "0.7.0",
+		"@onerepo/logger": "0.7.0",
+		"onerepo": "0.17.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

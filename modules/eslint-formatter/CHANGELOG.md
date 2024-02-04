@@ -1,5 +1,9 @@
 # eslint-formatter-onerepo
 
+## 0.1.2
+
+> View the full changelog: [d1f6cce5...3832aa9f](https://github.com/paularmstrong/onerepo/commits/d1f6cce5075619666721f813ffcba1957b637fbf...3832aa9f9fffdd83e9368d582e8396e9a0df9e65)
+
 ## 0.1.1
 
 ### Patch Changes

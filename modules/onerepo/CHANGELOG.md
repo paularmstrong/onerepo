@@ -1,5 +1,47 @@
 # onerepo
 
+## 0.17.0
+
+### Minor changes
+
+- Added `passthrough` command ability to Workspace configurations. Use with caution. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- Adds `file.readJson` to read and parse JSON files with the optional ability to support JSONC by stripping out comments and trailing commas ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- Disallows adding production-level dependencies to the root Workspace. Prompts to change to devDependencies or exit. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- Refactored internals for applying `package.json` `publishConfig` entries. Use `workspace.publishablePackageJson` to get a safe version of the Workspace's `package.json` file, ready for publishing. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- Workspace-specific commands will require `workspace` or `ws` before the workspace name when running. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+  **Before:**
+  ```sh
+  one docs start
+  ```
+  **After:**
+  ```sh
+  one workspace docs start
+  ```
+- The oneRepo CLI will now automatically update node_modules using your repository's package manager whenever necessary, before running commands. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- Logging an empty function will now execute and stringify the return value of the function. This will prevent expensive loops used to build up helpful information strings. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+  ```ts
+  step.log(() => bigArray.map((item) => item.name));
+  ```
+
+### Patch changes
+
+- Fixed bug in writing out URLs for visualizer in which they may end up truncated prematurely. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+- When adding a dependency to the repository root, do not also add the dependency to every workspace. ([3832aa9f](https://github.com/paularmstrong/onerepo/commit/3832aa9f9fffdd83e9368d582e8396e9a0df9e65))
+
+### Dependencies updated
+
+- @onerepo/test-cli@0.5.7
+- @onerepo/yargs@0.6.1
+- @onerepo/builders@0.5.7
+- @onerepo/git@0.5.1
+- @onerepo/graph@0.11.0
+- @onerepo/package-manager@0.5.1
+- @onerepo/subprocess@0.7.1
+- @onerepo/file@0.7.0
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f7...3832aa9f](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...3832aa9f9fffdd83e9368d582e8396e9a0df9e65)
+
 ## 0.16.0
 
 ### Minor Changes

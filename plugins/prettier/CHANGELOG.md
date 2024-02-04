@@ -1,5 +1,22 @@
 # @onerepo/plugin-prettier
 
+## 0.6.1
+
+### Dependencies updated
+
+- onerepo@0.17.0
+- @onerepo/test-cli@0.5.7
+- @onerepo/yargs@0.6.1
+- @onerepo/builders@0.5.7
+- @onerepo/git@0.5.1
+- @onerepo/graph@0.11.0
+- @onerepo/package-manager@0.5.1
+- @onerepo/subprocess@0.7.1
+- @onerepo/file@0.7.0
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f7...3832aa9f](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...3832aa9f9fffdd83e9368d582e8396e9a0df9e65)
+
 ## 0.6.0
 
 ### Minor Changes
