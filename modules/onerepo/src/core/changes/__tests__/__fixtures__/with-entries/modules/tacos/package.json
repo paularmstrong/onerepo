@@ -1,0 +1,8 @@
+{
+	"name": "tacos",
+	"version": "1.0.0",
+	"dependencies": {
+		"cheese": "workspace:*",
+		"lettuce": "1.0.0"
+	}
+}

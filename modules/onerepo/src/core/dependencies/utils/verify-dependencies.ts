@@ -1,5 +1,5 @@
 import * as actionsCore from '@actions/core';
-import semver from 'semver';
+import { coerce, eq, intersects, valid } from 'semver';
 import type { Graph, Workspace } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
 import { read } from '@onerepo/file';
@@ -30,11 +30,11 @@ export async function verifyDependencies(
 					}
 					dependencyStep.log(`Checking ${name}@${dependencies[name]} intersects ${version}`);
 					let message: string | null = null;
-					if (semver.valid(semver.coerce(version))) {
-						if (mode === 'loose' && !semver.intersects(version, dependencies[name])) {
+					if (valid(coerce(version))) {
+						if (mode === 'loose' && !intersects(version, dependencies[name])) {
 							message = `Dependency "${name}@${dependencies[name]}" does not intersect "${version}" as is required by Workspace dependency "${dependency.name}"`;
 						} else if (mode === 'strict') {
-							if (!semver.eq(semver.coerce(version)!, semver.coerce(dependencies[name])!)) {
+							if (!eq(coerce(version)!, coerce(dependencies[name])!)) {
 								message = `Dependency "${name}@${dependencies[name]}" expected to match "${version}" from Workspace dependency "${dependency.name}"`;
 							}
 						}

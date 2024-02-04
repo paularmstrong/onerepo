@@ -68,6 +68,7 @@
 		"@types/unist": "^3.0.2",
 		"@types/yargs": "^17.0.32",
 		"@types/yargs-unparser": "^2.0.3",
+		"human-id": "^4.1.0",
 		"typescript": "^5.3.3"
 	},
 	"engines": {

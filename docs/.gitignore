@@ -1,5 +1,5 @@
 # generated types
 .netlify/
-
+.vite/
 src/api/*
 usage/*

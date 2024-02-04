@@ -44,7 +44,7 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<34028a478fea4cb08a4c4e7e3d6b5850>> */}
+{/* @generated SignedSource<<c1a1ddb854b628fcf022dad2f0e56278>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
@@ -62,6 +62,76 @@ Setup configuration for the root of the repository.
 
 Must be set to `true` in order to denote that this is the root of the repository.
 
+#### changes?
+
+- **Type:** `Object`
+
+#### changes.filenames?
+
+- **Type:** `"hash"` \| `"human"`
+- **Default:** `'hash'`
+
+To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+
+#### changes.prompts?
+
+- **Type:** `"guided"` \| `"semver"`
+- **Default:** `'guided'`
+
+Change the prompt question & answer style when adding change entries.
+
+- `'guided'`: Gives more detailed explanations when release types.
+- `'semver'`: A simple choice list of semver release types.
+
+#### changes.formatting?
+
+- **Type:** `Object`
+- **Default:** `{}`
+
+Override some formatting strings in generated changelog files.
+
+```ts title="onerepo.config.ts"
+export default {
+	root: true,
+	changes: {
+		formatting: {
+			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
+			footer:
+				'> Full changelog [${fromRef.short}...${throughRef.short}](https://github.com/my-repo/commits/${fromRef}...${throughRef})',
+		},
+	},
+};
+```
+
+#### changes.formatting.commit?
+
+- **Type:** `string`
+- **Default:** `'(${ref.short})'`
+
+Format how the commit ref will appear at the end of the first line of each change entry.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${ref.short}` | 8-character version of the commit ref |
+| `${ref}` | Full commit ref |
+
+#### changes.formatting.footer?
+
+- **Type:** `string`
+- **Default:** `'_View git logs for full change list._'`
+
+Format the footer at the end of each version in the generated changelog files.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${fromRef.short}` | 8-character version of the first commit ref in the version |
+| `${fromRef}` | Full commit ref of the first commit in the version |
+| `${through.short}` | 8-character version of the last commit ref in the version |
+| `${through}` | Full commit ref of the last commit in the version |
+| `${version}` | New version string |
+
 #### codeowners?
 
 - **Type:** `Record`\<`string`, `string`[]\>
@@ -73,6 +143,7 @@ When used with the [`codeowners` commands](/core/codeowners/), this configuratio
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	codeowners: {
 		'*': ['@my-team', '@person'],
 		scripts: ['@infra-team'],
@@ -95,6 +166,7 @@ A string to use as filepaths to subcommands. We'll look for commands in all Work
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		directory: 'commands',
 	},
@@ -117,6 +189,7 @@ When writing custom commands and Workspace-level subcommands, we may need to ign
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		ignore: /(/__\w+__/|\.test\.|\.spec\.|\.config\.)/,
 	},
@@ -154,6 +227,7 @@ The default branch of your repo? Probably `main`, but it might be something else
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	head: 'develop',
 };
 ```
@@ -175,6 +249,7 @@ This configuration should be used sparingly and with caution. It is better to do
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	ignore: ['.changeset/*', '.github/*'],
 };
 ```
@@ -188,6 +263,7 @@ A place to put any custom information or configuration. A helpful space for you 
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	meta: {
 		tacos: 'are delicious',
 	},
@@ -232,6 +308,7 @@ See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		lifecycles: ['deploy-staging'],
 	},
@@ -247,6 +324,7 @@ Stash unstaged changes before running these tasks and re-apply them after the ta
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		stashUnstaged: ['pre-commit', 'post-checkout'],
 	},
@@ -285,10 +363,11 @@ Version control system settings.
 Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		autoSyncHooks: false,
-	}
+	},
 };
 ```
 
@@ -300,10 +379,11 @@ export defualt {
 Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		hooksPath: '.githooks',
-	}
+	},
 };
 ```
 
@@ -316,6 +396,7 @@ The provider will be factored in to various commands, like `CODEOWNERS` generati
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	vcs: {
 		provider: 'github',
 	},

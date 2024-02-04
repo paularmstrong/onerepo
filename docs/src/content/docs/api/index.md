@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<e353e4a4428689374cf71e12c37b4a17>> -->
+<!-- @generated SignedSource<<792483af9b1561e27074757395e6594d>> -->
 
 ## Namespaces
 
@@ -17,6 +17,16 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 | [builders](namespaces/builders/) | Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived. |
 | [file](namespaces/file/)         | File manipulation functions.                                                                                                                  |
 | [git](namespaces/git/)           | This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:      |
+
+## Variables
+
+### defaultConfig
+
+```ts
+const defaultConfig: Required<RootConfig>;
+```
+
+**Source:** [modules/onerepo/src/setup/setup.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/setup/setup.ts)
 
 ## Commands
 
@@ -279,7 +289,7 @@ This is a wrapped implementation of [`builders.getWorkspaces`](namespaces/builde
 graph: Graph;
 ```
 
-The full monorepo graph.Graph | `graph.Graph`.
+The full monorepo [`Graph`](#graph).
 
 ##### logger
 
@@ -388,8 +398,9 @@ type Lifecycle:
   | "pre-merge"
   | "post-merge"
   | "build"
-  | "deploy"
-  | "publish";
+  | "pre-deploy"
+  | "pre-publish"
+  | "post-publish";
 ```
 
 oneRepo comes with a pre-configured list of common lifecycles for grouping [tasks](/core/tasks/).
@@ -402,6 +413,14 @@ oneRepo comes with a pre-configured list of common lifecycles for grouping [task
 
 ```ts
 type RootConfig<CustomLifecycles>: {
+  changes: {
+     filenames: "hash" | "human";
+     formatting: {
+        commit: string;
+        footer: string;
+     };
+     prompts: "guided" | "semver";
+  };
   codeowners: Record<string, string[]>;
   commands: {
      directory: string | false;
@@ -444,6 +463,103 @@ Setup configuration for the root of the repository.
 
 #### Type declaration
 
+##### changes?
+
+```ts
+changes?: {
+  filenames: "hash" | "human";
+  formatting: {
+     commit: string;
+     footer: string;
+  };
+  prompts: "guided" | "semver";
+};
+```
+
+##### changes.filenames?
+
+```ts
+changes.filenames?: "hash" | "human";
+```
+
+**Default:** `'hash'`
+
+To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
+
+##### changes.formatting?
+
+```ts
+changes.formatting?: {
+  commit: string;
+  footer: string;
+};
+```
+
+**Default:** `{}`
+
+Override some formatting strings in generated changelog files.
+
+```ts title="onerepo.config.ts"
+export default {
+	root: true,
+	changes: {
+		formatting: {
+			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
+			footer:
+				'> Full changelog [${fromRef.short}...${throughRef.short}](https://github.com/my-repo/commits/${fromRef}...${throughRef})',
+		},
+	},
+};
+```
+
+##### changes.formatting.commit?
+
+```ts
+changes.formatting.commit?: string;
+```
+
+**Default:** `'(${ref.short})'`
+
+Format how the commit ref will appear at the end of the first line of each change entry.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${ref.short}` | 8-character version of the commit ref |
+| `${ref}` | Full commit ref |
+
+##### changes.formatting.footer?
+
+```ts
+changes.formatting.footer?: string;
+```
+
+**Default:** `'_View git logs for full change list._'`
+
+Format the footer at the end of each version in the generated changelog files.
+
+Available replacement strings:
+| Replacement | Description |
+| --- | --- |
+| `${fromRef.short}` | 8-character version of the first commit ref in the version |
+| `${fromRef}` | Full commit ref of the first commit in the version |
+| `${through.short}` | 8-character version of the last commit ref in the version |
+| `${through}` | Full commit ref of the last commit in the version |
+| `${version}` | New version string |
+
+##### changes.prompts?
+
+```ts
+changes.prompts?: "guided" | "semver";
+```
+
+**Default:** `'guided'`
+
+Change the prompt question & answer style when adding change entries.
+
+- `'guided'`: Gives more detailed explanations when release types.
+- `'semver'`: A simple choice list of semver release types.
+
 ##### codeowners?
 
 ```ts
@@ -458,6 +574,7 @@ When used with the [`codeowners` commands](/core/codeowners/), this configuratio
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	codeowners: {
 		'*': ['@my-team', '@person'],
 		scripts: ['@infra-team'],
@@ -488,6 +605,7 @@ A string to use as filepaths to subcommands. We'll look for commands in all Work
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		directory: 'commands',
 	},
@@ -513,6 +631,7 @@ When writing custom commands and Workspace-level subcommands, we may need to ign
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	commands: {
 		ignore: /(/__\w+__/|\.test\.|\.spec\.|\.config\.)/,
 	},
@@ -564,6 +683,7 @@ The default branch of your repo? Probably `main`, but it might be something else
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	head: 'develop',
 };
 ```
@@ -588,6 +708,7 @@ This configuration should be used sparingly and with caution. It is better to do
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	ignore: ['.changeset/*', '.github/*'],
 };
 ```
@@ -604,6 +725,7 @@ A place to put any custom information or configuration. A helpful space for you 
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	meta: {
 		tacos: 'are delicious',
 	},
@@ -660,6 +782,7 @@ See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		lifecycles: ['deploy-staging'],
 	},
@@ -677,6 +800,7 @@ Stash unstaged changes before running these tasks and re-apply them after the ta
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	tasks: {
 		stashUnstaged: ['pre-commit', 'post-checkout'],
 	},
@@ -743,10 +867,11 @@ vcs.autoSyncHooks?: boolean;
 Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		autoSyncHooks: false,
-	}
+	},
 };
 ```
 
@@ -761,10 +886,11 @@ vcs.hooksPath?: string;
 Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
 
 ```ts title="onerepo.config.ts"
-export defualt {
+export default {
+	root: true,
 	vcs: {
 		hooksPath: '.githooks',
-	}
+	},
 };
 ```
 
@@ -780,6 +906,7 @@ The provider will be factored in to various commands, like `CODEOWNERS` generati
 
 ```ts title="onerepo.config.ts"
 export default {
+	root: true,
 	vcs: {
 		provider: 'github',
 	},
@@ -870,7 +997,7 @@ String command(s) to run. If provided as an array of strings, each command will 
 The commands can use replaced tokens:
 
 - `$0`: the oneRepo CLI for your repository
-- `${workspaces}`: replaced with a space-separated list of Workspace names necessary for the given lifecycle
+- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
 
 ##### match?
 
@@ -1355,12 +1482,12 @@ get codeowners(): Required<Record<string, string[]>>
 ##### config
 
 ```ts
-get config(): Required<WorkspaceConfig | RootConfig>
+get config(): Required<RootConfig | WorkspaceConfig>
 ```
 
 Get the workspace's configuration
 
-**Returns:** `Required`\<[`WorkspaceConfig`](#workspaceconfigcustomlifecycles) \| [`RootConfig`](#rootconfigcustomlifecycles)\>  
+**Returns:** `Required`\<[`RootConfig`](#rootconfigcustomlifecycles) \| [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)\>  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### dependencies
@@ -1450,7 +1577,7 @@ The full `name` of the Workspace, as defined in its `package.json`
 get packageJson(): PackageJson
 ```
 
-A full copy of the `package.json` file for the Workspace.
+A full deep copy of the `package.json` file for the Workspace. Modifications to this object will not be preserved on the Workspace.
 
 **Returns:** [`PackageJson`](#packagejson-1)  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -1718,6 +1845,8 @@ export default {
 ## Logger
 
 ### bufferSubLogger()
+
+<span class="tag danger">Alpha</span>
 
 ```ts
 function bufferSubLogger(step): {
@@ -2466,7 +2595,7 @@ Get the package manager for the current working directory with _some_ confidence
 
 ### PackageManager
 
-Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency graph.Graph | `graph.Graph` & graph.Workspace | `graph.Workspace`s.
+Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [`Graph`](#graph) & graph.Workspace | `graph.Workspace`s.
 
 #### Methods
 
@@ -2970,6 +3099,34 @@ A promise with an array of `[stdout, stderr]`, as captured from the command run.
 
 ---
 
+### runTasks()
+
+<span class="tag danger">Alpha</span>
+
+```ts
+function runTasks(lifecycle, args, graph, logger?): Promise<void>;
+```
+
+Run Lifecycle tasks in commands other than the `one tasks` command. Use this function when you have a command triggering a Lifecycle in non-standard ways.
+
+```ts
+await runTasks('pre-publish', ['-w', 'my-workspace'], graph);
+```
+
+**Parameters:**
+
+| Parameter   | Type                      | Description                                                                                        |
+| :---------- | :------------------------ | :------------------------------------------------------------------------------------------------- |
+| `lifecycle` | [`Lifecycle`](#lifecycle) | The individual Lifecycle to trigger.                                                               |
+| `args`      | `string`[]                | Array of string arguments as if passed in from the command-line.                                   |
+| `graph`     | [`Graph`](#graph)         | The current repository [Graph](#graph).                                                            |
+| `logger`?   | [`Logger`](#logger)       | Optional [Logger](#logger) instance. Defaults to the current `Logger` (usually there is only one). |
+
+**Returns:** `Promise`\<`void`\>  
+**Source:** [modules/onerepo/src/core/tasks/run-tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/tasks/run-tasks.ts)
+
+---
+
 ### start()
 
 ```ts
@@ -3257,6 +3414,25 @@ Pass a custom [`LogStep`](#logstep) to bundle this process input & output into a
 
 ## package.json
 
+### getPublishablePackageJson()
+
+```ts
+function getPublishablePackageJson(input): PublicPackageJson;
+```
+
+Return a deep copy of a `package.json` suitabkle for publishing. Moves all non-standard `publishConfig` keys to the root of the `package.json` and deletes `devDependencies`.
+
+**Parameters:**
+
+| Parameter | Type                                      |
+| :-------- | :---------------------------------------- |
+| `input`   | [`PublicPackageJson`](#publicpackagejson) |
+
+**Returns:** [`PublicPackageJson`](#publicpackagejson)  
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
+
+---
+
 ### BasePackageJson
 
 ```ts
@@ -3477,7 +3653,7 @@ scripts?: Record<string, string>;
 version?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3487,7 +3663,7 @@ version?: string;
 type PackageJson: PrivatePackageJson | PublicPackageJson;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3521,7 +3697,7 @@ name?: string;
 url?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3555,7 +3731,7 @@ private: true;
 workspaces?: string[];
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3589,7 +3765,7 @@ publishConfig?: PublishConfig;
 workspaces?: never;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 ---
 
@@ -3669,6 +3845,6 @@ module?: string;
 typings?: string;
 ```
 
-**Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Source:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 <!-- end-onerepo-sentinel -->

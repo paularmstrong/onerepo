@@ -43,8 +43,9 @@ export const lifecycles: Array<Lifecycle> = [
 	'pre-merge',
 	'post-merge',
 	'build',
-	'deploy',
-	'publish',
+	'pre-deploy',
+	'pre-publish',
+	'post-publish',
 ];
 
 export const builder: Builder<Argv> = (yargs) =>

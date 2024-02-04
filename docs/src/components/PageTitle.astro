@@ -2,11 +2,12 @@
 import { Icon } from '@astrojs/starlight/components';
 
 const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
-const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental', string> = {
+const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental' | 'deprecated', string> = {
 	stable: 'success',
 	unstable: 'danger',
 	preview: 'info',
 	experimental: 'caution',
+	deprecated: '',
 };
 
 const { title } = Astro.props.entry.data;

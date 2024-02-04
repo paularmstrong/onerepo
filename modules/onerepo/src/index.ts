@@ -10,3 +10,5 @@ export * as builders from '@onerepo/builders';
 export * from './setup';
 export * from './types';
 export * from '@onerepo/graph';
+
+export { runTasks } from './core/tasks/run-tasks';

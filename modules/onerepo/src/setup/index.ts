@@ -1,6 +1,7 @@
 import createYargs from 'yargs/yargs';
 import initJiti from 'jiti';
 import type { Config, CorePlugins } from '../types';
+import { changes } from '../core/changes';
 import { codeowners } from '../core/codeowners';
 import { create } from '../core/create';
 import { dependencies } from '../core/dependencies';
@@ -10,7 +11,7 @@ import { hooks } from '../core/hooks';
 import { install } from '../core/install';
 import { tasks } from '../core/tasks';
 import { workspace } from '../core/workspace';
-import { setup as internalSetup } from './setup';
+import { defaultConfig, setup as internalSetup } from './setup';
 
 export type { GraphSchemaValidators } from '../core/graph';
 export type { App } from './setup';
@@ -33,12 +34,22 @@ export async function setup(root: string, config: Config) {
 /**
  * @internal
  */
-export { internalSetup };
+export { defaultConfig, internalSetup };
 
 /**
  * @internal
  */
-export const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, install, tasks, workspace];
+export const corePlugins: CorePlugins = [
+	changes,
+	codeowners,
+	dependencies,
+	generate,
+	graph,
+	hooks,
+	install,
+	tasks,
+	workspace,
+];
 
 /**
  * @internal

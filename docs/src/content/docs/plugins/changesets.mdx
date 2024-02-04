@@ -5,13 +5,17 @@ sidebar:
   label: Changesets
 meta:
   version: 0.10.0
-  stability: unstable
+  stability: deprecated
 ---
 
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
 
 [Changesets](https://github.com/changesets/changesets) are a way to manage versioning and changelogs in monorepos.
+
+:::danger[Deprecated]
+This plugin is deprecated in favor of the built-in [change management](/core/changes/). Remove this plugin and run `one change migrate` to get started.
+:::
 
 ## Installation
 
@@ -97,16 +101,16 @@ name?: string | string[];
 ## Commands
 
 {/* start-auto-generated-from-cli-changesets */}
-{/* @generated SignedSource<<53551c3fc59ea2d2163a6dc5344915ff>> */}
+{/* @generated SignedSource<<eaca5e1e4bd2838a3b132dda4e62a75e>> */}
 
 ### `one change`
 
-Aliases: `one changeset`, `one changesets`
+Aliases: `one changes`, `one changesets`
 
-Manage changesets, versioning, and publishing your public Workspaces to packages.
+Manage changes and changesets for publishable workspaces.
 
 ```sh
-one change <command> [options]
+one change <command>
 ```
 
 ---
@@ -115,76 +119,58 @@ one change <command> [options]
 
 Aliases: `one change`
 
-Add a changeset
+Add changesets for modified Workspaces.
 
 ```sh
-one change add [options]
+one change add [options...]
 ```
 
-| Option             | Type                            | Description                                                                                                                                                                 |
-| ------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                                                                                      |
-| `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
-| `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                                                                                   |
-| `--files, -f`      | `array`                         | Determine Workspaces from specific files                                                                                                                                    |
-| `--show-advanced`  | `boolean`                       | Pair with `--help` to show advanced options.                                                                                                                                |
-| `--staged`         | `boolean`                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type.                                                         |
-| `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                                                                                      |
+This command will prompt for appropriate Workspace(s), prompt for the release type, and request a descriptive change entry. Once all information has been entered, a change entry file will be created in the appropriate Workspace(s). Be sure to commit these files – they will be used later when you are ready to version and publish Workspaces to the registry for use outside of the Monorepo.
+
+| Option             | Type                            | Description                                                                                                         |
+| ------------------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                              |
+| `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                         |
+| `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                           |
+| `--show-advanced`  | `boolean`                       | Pair with `--help` to show advanced options.                                                                        |
+| `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |
+| `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                              |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type     | Description                                               |
-| --------------- | -------- | --------------------------------------------------------- |
-| `--from-ref`    | `string` | Git ref to start looking for affected files or workspaces |
-| `--through-ref` | `string` | Git ref to start looking for affected files or workspaces |
+| Option          | Type                                        | Description                                                                                                                                                                 |
+| --------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--filenames`   | `"hash"`, `"human"`, default: `"hash"`      | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed.                                                              |
+| `--from-ref`    | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--prompts`     | `"guided"`, `"semver"`, default: `"guided"` | Change the prompt question & answer style when adding change entries.                                                                                                       |
+| `--staged`      | `boolean`                                   | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--through-ref` | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
 
 </details>
 
 ---
 
-#### `one change init`
+#### `one change migrate`
 
-Initialize changesets for this repository.
+Migrate from Changesets to oneRepo changes.
 
 ```sh
-one change init
+one change migrate
 ```
-
-You should only ever have to do this once.
 
 | Option            | Type      | Description                                  |
 | ----------------- | --------- | -------------------------------------------- |
 | `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
----
-
-#### `one change prerelease`
-
-Aliases: `one change pre-release`, `one change pre`
-
-Pre-release available Workspaces.
-
-```sh
-one change prerelease
-```
-
-| Option            | Type                       | Description                                                                                   |
-| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |
-| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |
-| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |
-
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type      | Description                                                 |
-| --------------- | --------- | ----------------------------------------------------------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
+| Option        | Type                                   | Description                                                                                                    |
+| ------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `--filenames` | `"hash"`, `"human"`, default: `"hash"` | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed. |
 
 </details>
 
@@ -200,48 +186,90 @@ Publish all Workspaces with versions not available in the registry.
 one change publish [options]
 ```
 
-This command is safe to run any time – only packages that have previously gone through the `version` process will end up being published.
+This command is safe to run any time. By default, only Workspaces that have previously gone through the `one change version` process will end up being published. Use `--all` for all Workspaces or `--workspaces <workspace-name>` to specify individual Workspaces to try publishing.
 
-| Option            | Type                       | Description                                                                                   |
-| ----------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `--build`         | `boolean`, default: `true` | Build Workspaces before publishing                                                            |
-| `--otp`           | `boolean`                  | Set to true if your publishes require an OTP for NPM.                                         |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                  |
-| `--skip-auth`     | `boolean`                  | Skip NPM auth check. This may be necessary for some internal registries using PATs or tokens. |
+For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.
+
+| Option             | Type      | Description                                                                                |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------ |
+| `--all, -a`        | `boolean` | Run across all workspaces                                                                  |
+| `--otp`            | `boolean` | Set to true if your publishes require an OTP for NPM.                                      |
+| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                               |
+| `--skip-auth`      | `boolean` | Skip auth checks. This may be necessary for some internal registries using PATs or tokens. |
+| `--workspaces, -w` | `array`   | List of Workspace names to run against                                                     |
 
 <details>
 
 <summary>Advanced options</summary>
 
-| Option          | Type      | Description                                                 |
-| --------------- | --------- | ----------------------------------------------------------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
+| Option          | Type      | Description                                                                                                                                                                 |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`    | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure no there are no un-committed changes.                                                                                                               |
+| `--from-ref`    | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--staged`      | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--through-ref` | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
 
 </details>
+
+Publish the `api` Workspace and its dependencies, if necessary.
+
+```sh
+one change publish -w api
+```
+
+Attempt to publish _all_ non-private Workspaces.
+
+```sh
+one change publish --all
+```
+
+---
+
+#### `one change snapshot`
+
+Aliases: `one change snap`
+
+Publish a snapshot pre-release.
+
+```sh
+one change snapshot
+```
+
+Periodically you may want to publish a _snapshot_ release – something that needs testing from the registry, but should not update the current version nor be made widely available. For these cases, use `--snapshot` and versions will be published in the format `0.0.0-{tag}-{hash}`, where `{hash}` is a short version of the current git sha. By appending a prerelease to version `0.0.0`, discoverability is greatly reduced.
+
+| Option             | Type                              | Description                                                               |
+| ------------------ | --------------------------------- | ------------------------------------------------------------------------- |
+| `--all, -a`        | `boolean`                         | Run across all workspaces                                                 |
+| `--allow-dirty`    | `boolean`                         | Bypass checks to ensure no there are no un-committed changes.             |
+| `--otp`            | `boolean`                         | Prompt for one-time password before publishing to the registry            |
+| `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
+| `--show-advanced`  | `boolean`                         | Pair with `--help` to show advanced options.                              |
+| `--tag`            | `string`, default: `"prerelease"` | Distribution tag to apply when publishing the pre-release.                |
+| `--workspaces, -w` | `array`                           | List of Workspace names to run against                                    |
 
 ---
 
 #### `one change version`
 
-Version Workspaces for publishing. Allows you to select a minimal set of Workspaces from the current changesets, version them, and write changelogs.
+Update version numbers for publishable workspaces
 
 ```sh
 one change version
 ```
 
-| Option            | Type                       | Description                                                                                          |
-| ----------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `--add`           | `boolean`, default: `true` | Add the modified files like `package.json` and `CHANGELOG.md` files to the git stage for committing. |
-| `--show-advanced` | `boolean`                  | Pair with `--help` to show advanced options.                                                         |
+| Option                               | Type      | Description                                                   |
+| ------------------------------------ | --------- | ------------------------------------------------------------- |
+| `--all, -a`                          | `boolean` | Run across all workspaces                                     |
+| `--allow-dirty`                      | `boolean` | Bypass checks to ensure no there are no un-committed changes. |
+| `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.          |
+| `--show-advanced`                    | `boolean` | Pair with `--help` to show advanced options.                  |
+| `--workspaces, -w`                   | `array`   | List of Workspace names to run against                        |
 
-<details>
+Create a prerelease for the next version the form of `1.2.3-alpha.0`.
 
-<summary>Advanced options</summary>
-
-| Option          | Type      | Description                                                 |
-| --------------- | --------- | ----------------------------------------------------------- |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no local changes before publishing. |
-
-</details>
+```sh
+one change version --prerelease=alpha
+```
 
 {/* end-auto-generated-from-cli-changesets */}

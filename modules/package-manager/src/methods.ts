@@ -1,7 +1,7 @@
 import type { RunSpec } from '@onerepo/subprocess';
 
 /**
- * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link graph.Graph | `graph.Graph`} & {@link graph.Workspace | `graph.Workspace`}s.
+ * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link Graph | `Graph`} & {@link graph.Workspace | `graph.Workspace`}s.
  *
  * @group Package management
  */
