@@ -1,5 +1,5 @@
 ---
-'onerepo': minor
+type: minor
 ---
 
 Workspace-specific commands will require `workspace` or `ws` before the workspace name when running.

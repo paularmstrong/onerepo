@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<792483af9b1561e27074757395e6594d>> -->
+<!-- @generated SignedSource<<ab04050bc7c1cc268f30e4c5fb259f50>> -->
 
 ## Namespaces
 
@@ -709,7 +709,7 @@ This configuration should be used sparingly and with caution. It is better to do
 ```ts title="onerepo.config.ts"
 export default {
 	root: true,
-	ignore: ['.changeset/*', '.github/*'],
+	ignore: ['.github/*'],
 };
 ```
 
