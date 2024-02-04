@@ -65,6 +65,8 @@ export const handler: Handler<Args> = async (argv, { getFilepaths, getWorkspaces
 		workspaces = await getWorkspaces({ step: setupStep });
 	}
 
+	workspaces = workspaces.filter((ws) => !ws.private);
+
 	if (workspaces.length === 0) {
 		setupStep.info(
 			'No Workspaces available for publishing. Follow instructions at https://onerepo.tools/core/changes/ for to version and publish Workspaces.',
@@ -110,4 +112,10 @@ export const handler: Handler<Args> = async (argv, { getFilepaths, getWorkspaces
 	});
 
 	await runTasks('post-publish', ['--workspaces', ...workspaces.map((ws) => ws.name)], graph);
+
+	const resetStep = logger.createStep('Reset package.json files');
+	for (const workspace of workspaces) {
+		await write(workspace.resolve('package.json'), JSON.stringify(workspace.packageJson, null, 2), { step: resetStep });
+	}
+	await resetStep.end();
 };
