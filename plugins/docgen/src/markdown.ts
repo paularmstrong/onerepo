@@ -23,7 +23,7 @@ const parser = unified().use(remarkParser);
 const parse = parser.parse.bind(parser);
 
 export function toMarkdown(docs: Docs, headingLevel: number = 2) {
-	const ast = command(docs, headingLevel);
+	const ast = command(docs, headingLevel, true);
 	const processor = unified().use(gfm).use(stringify, {
 		bullet: '-',
 		fence: '`',
@@ -36,7 +36,7 @@ export function toMarkdown(docs: Docs, headingLevel: number = 2) {
 	);
 }
 
-function command(cmd: Docs, depth: number, includeBreak: boolean = false): Array<Node> {
+function command(cmd: Docs, depth: number, isInitial: boolean = false, includeBreak: boolean = false): Array<Node> {
 	// False commands are undocumented
 	if (cmd.description === false) {
 		return [];
@@ -50,10 +50,10 @@ function command(cmd: Docs, depth: number, includeBreak: boolean = false): Array
 		...usage(cmd),
 		...epilogue(cmd),
 		...positionals(cmd),
-		...options(cmd),
+		...options(cmd, isInitial),
 		...examples(cmd),
 		...Object.values(cmd.commands)
-			.map((cmd) => command(cmd, depth + 1, true))
+			.map((cmd) => command(cmd, depth + 1, false, true))
 			.flat(),
 	];
 }
@@ -104,7 +104,7 @@ function usage(cmd: Docs): Array<Node> {
 	return [code('sh', cmd.usage.join('\n'))];
 }
 
-function options(cmd: Docs): Array<Node> {
+function options(cmd: Docs, includeGlobal: boolean = false): Array<Node> {
 	// TODO: pull out groups and advanced options separately
 	const opts = Object.values(cmd.options);
 	if (!opts.length) {
@@ -122,8 +122,8 @@ function options(cmd: Docs): Array<Node> {
 		return [];
 	}
 
-	const regularOpts = opts.filter((opt) => !opt.hidden);
-	const advanced = opts.filter((opt) => opt.hidden);
+	const regularOpts = opts.filter((opt) => !opt.hidden && (includeGlobal || !opt.global));
+	const advanced = opts.filter((opt) => opt.hidden && (includeGlobal || !opt.global));
 
 	return [
 		...(regularOpts.length ? optPosTable('opt', regularOpts) : []),

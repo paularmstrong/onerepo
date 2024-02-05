@@ -12,7 +12,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<56492a8f42fe375bcc1f00eb3ab96597>> */}
+{/* @generated SignedSource<<87a5011d7c705a56261716333d653a0f>> */}
 
 ## `one`
 
@@ -22,11 +22,9 @@ one <command> [options]
 
 | Option            | Type                  | Description                                                                                                                            |
 | ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `--0.16.0`        | `boolean`             | Show this CLI’s version number                                                                                                         |
 | `--dry-run`       | `boolean`             | Run without actually making modifications or destructive operations                                                                    |
-| `--show-advanced` | `boolean`             | Pair with `--help` to show advanced options.                                                                                           |
 | `--verbosity, -v` | `count`, default: `2` | Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--silent` |
-| ``                | ``                    | Show the oneRepo CLI version.                                                                                                          |
+| `--version`       | `boolean`             | Show the oneRepo CLI version.                                                                                                          |
 
 <details>
 
@@ -35,6 +33,7 @@ one <command> [options]
 | Option                | Type      | Description                                                                                     |
 | --------------------- | --------- | ----------------------------------------------------------------------------------------------- |
 | `--help, -h`          | `boolean` | Show this help screen                                                                           |
+| `--show-advanced`     | `boolean` | Pair with `--help` to show advanced options.                                                    |
 | `--silent`            | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0.                            |
 | `--skip-engine-check` | `boolean` | Skip the engines check, which ensures the current Node.js version is within the expected range. |
 
@@ -54,7 +53,6 @@ one build [options]
 | ------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--affected`       | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
 
@@ -118,7 +116,6 @@ This command will prompt for appropriate Workspace(s), prompt for the release ty
 | `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                              |
 | `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                         |
 | `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                           |
-| `--show-advanced`  | `boolean`                       | Pair with `--help` to show advanced options.                                                                        |
 | `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |
 | `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                              |
 
@@ -145,10 +142,6 @@ Migrate from Changesets to oneRepo changes.
 ```sh
 one change migrate
 ```
-
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 <details>
 
@@ -180,7 +173,6 @@ For each Workspace, the registry will be queried first to ensure the current ver
 | ------------------ | --------- | ------------------------------------------------------------------------------------------ |
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                  |
 | `--otp`            | `boolean` | Set to true if your publishes require an OTP for NPM.                                      |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                               |
 | `--skip-auth`      | `boolean` | Skip auth checks. This may be necessary for some internal registries using PATs or tokens. |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                     |
 
@@ -230,7 +222,6 @@ Periodically you may want to publish a _snapshot_ release – something that nee
 | `--allow-dirty`    | `boolean`                         | Bypass checks to ensure no there are no un-committed changes.             |
 | `--otp`            | `boolean`                         | Prompt for one-time password before publishing to the registry            |
 | `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
-| `--show-advanced`  | `boolean`                         | Pair with `--help` to show advanced options.                              |
 | `--tag`            | `string`, default: `"prerelease"` | Distribution tag to apply when publishing the pre-release.                |
 | `--workspaces, -w` | `array`                           | List of Workspace names to run against                                    |
 
@@ -249,7 +240,6 @@ one change version
 | `--all, -a`                          | `boolean` | Run across all workspaces                                     |
 | `--allow-dirty`                      | `boolean` | Bypass checks to ensure no there are no un-committed changes. |
 | `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.          |
-| `--show-advanced`                    | `boolean` | Pair with `--help` to show advanced options.                  |
 | `--workspaces, -w`                   | `array`   | List of Workspace names to run against                        |
 
 Create a prerelease for the next version the form of `1.2.3-alpha.0`.
@@ -280,10 +270,9 @@ Sync code owners from Workspace configurations to the repository’s CODEOWNERS 
 one codeowners sync
 ```
 
-| Option            | Type      | Description                                       |
-| ----------------- | --------- | ------------------------------------------------- |
-| `--add`           | `boolean` | Add the updated CODEOWNERS file to the git stage. |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options.      |
+| Option  | Type      | Description                                       |
+| ------- | --------- | ------------------------------------------------- |
+| `--add` | `boolean` | Add the updated CODEOWNERS file to the git stage. |
 
 <details>
 
@@ -304,10 +293,6 @@ Verify the CODEOWNERS file is up to date and unmodified.
 ```sh
 one codeowners verify
 ```
-
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 <details>
 
@@ -354,7 +339,6 @@ Otherwise, the latest version will be requested from the registry.
 | `--dev, -d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |
 | `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |
 | `--prod, -p`       | `array`                                            | Add dependencies for production purposes.                                                                                              |
-| `--show-advanced`  | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                           |
 | `--workspaces, -w` | `array`                                            | One or more Workspaces to add dependencies into                                                                                        |
 
 Install the latest version of `normalizr` from the registry, using a strict version number.
@@ -390,7 +374,6 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 | `--all, -a`          | `boolean`                  | Run across all workspaces                                                 |          |
 | `--dedupe`           | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
 | `--dependencies, -d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
-| `--show-advanced`    | `boolean`                  | Pair with `--help` to show advanced options.                              |          |
 | `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                    |          |
 
 ---
@@ -413,7 +396,6 @@ Dependencies across Workspaces can be validated using one of the various modes:
 | ------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--all, -a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |
 | `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |
-| `--show-advanced`  | `boolean`                                          | Pair with `--help` to show advanced options.                                                                                                                  |
 | `--workspaces, -w` | `array`                                            | List of Workspace names to run against                                                                                                                        |
 
 ---
@@ -438,7 +420,6 @@ Add this command to your one Repo tasks on pre-commit to ensure that your docume
 | `--out-file`      | `string`, default: `"./docs/src/content/docs/plugins/docgen/example.mdx"` | File to write output to. If not provided, stdout will be used              |
 | `--out-workspace` | `string`, default: `"root"`                                               | Workspace name to write the --out-file to                                  |
 | `--safe-write`    | `boolean`, default: `true`                                                | Write documentation to a portion of the file with start and end sentinels. |
-| `--show-advanced` | `boolean`                                                                 | Pair with `--help` to show advanced options.                               |
 
 <details>
 
@@ -470,7 +451,6 @@ one format [options]
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
 | `--check`          | `boolean` | Check for changes.                                                                                                                                                          |
 | `--files, -f`      | `array`   | Determine Workspaces from specific files                                                                                                                                    |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
 
@@ -501,10 +481,9 @@ one generate [options]
 
 To create new templates add a new folder to config/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/plugins/generate/
 
-| Option            | Type      | Description                                                                         |
-| ----------------- | --------- | ----------------------------------------------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options.                                        |
-| `--type, -t`      | `string`  | Template type to generate. If not provided, a list will be provided to choose from. |
+| Option       | Type     | Description                                                                         |
+| ------------ | -------- | ----------------------------------------------------------------------------------- |
+| `--type, -t` | `string` | Template type to generate. If not provided, a list will be provided to choose from. |
 
 <details>
 
@@ -546,7 +525,6 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 | `--all, -a`        | `boolean`                        | Run across all workspaces                                                                                                                                                   |
 | `--format, -f`     | `"mermaid"`, `"plain"`, `"json"` | Output format for inspecting the Workspace Graph.                                                                                                                           |
 | `--open`           | `boolean`                        | Auto-open the browser for the online visualizer.                                                                                                                            |
-| `--show-advanced`  | `boolean`                        | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                        | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`                          | List of Workspace names to run against                                                                                                                                      |
 
@@ -598,10 +576,9 @@ Dependencies across Workspaces can be validated using one of the various modes:
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
 - `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-| Option            | Type                                               | Description                                  |
-| ----------------- | -------------------------------------------------- | -------------------------------------------- |
-| `--mode`          | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |
-| `--show-advanced` | `boolean`                                          | Pair with `--help` to show advanced options. |
+| Option   | Type                                               | Description                           |
+| -------- | -------------------------------------------------- | ------------------------------------- |
+| `--mode` | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method. |
 
 <details>
 
@@ -633,12 +610,11 @@ Create git hooks
 one hooks create
 ```
 
-| Option            | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `--add`           | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |
-| `--hook`          | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |
-| `--overwrite`     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |
-| `--show-advanced` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Pair with `--help` to show advanced options.                               |
+| Option        | Type                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `--add`       | `boolean`, default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                    | Add the hooks to the git stage for committing.                             |
+| `--hook`      | `"applypatch-msg"`, `"pre-applypatch"`, `"post-applypatch"`, `"pre-commit"`, `"pre-merge-commit"`, `"prepare-commit-msg"`, `"commit-msg"`, `"post-commit"`, `"pre-rebase"`, `"post-checkout"`, `"post-merge"`, `"pre-receive"`, `"update"`, `"post-receive"`, `"post-update"`, `"pre-auto-gc"`, `"post-rewrite"`, `"pre-push"`, `"proc-receive"`, `"push-to-checkout"`, default: `["pre-commit","post-checkout","post-merge","post-rewrite"]` | The git hook to create. Omit this option to auto-create recommended hooks. |
+| `--overwrite` | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                     | Overwrite existing hooks                                                   |
 
 <details>
 
@@ -662,10 +638,6 @@ Initialize and sync git hook settings for this repository.
 one hooks init
 ```
 
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
-
 <details>
 
 <summary>Advanced options</summary>
@@ -686,12 +658,11 @@ Install the oneRepo CLI into your environment.
 one install [options]
 ```
 
-| Option            | Type                          | Description                                                                                                         |
-| ----------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `--force`         | `boolean`                     | Force installation regardless of pre-existing command.                                                              |
-| `--location`      | `string`                      | Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type. |
-| `--show-advanced` | `boolean`                     | Pair with `--help` to show advanced options.                                                                        |
-| `--version`       | `string`, default: `"0.16.0"` | Version of oneRepo to install. Defaults to the current version.                                                     |
+| Option       | Type                          | Description                                                                                                         |
+| ------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `--force`    | `boolean`                     | Force installation regardless of pre-existing command.                                                              |
+| `--location` | `string`                      | Install location for the binary. Default location is chosen as default option for usr/bin dependent on the OS type. |
+| `--version`  | `string`, default: `"0.16.0"` | Version of oneRepo to install. Defaults to the current version.                                                     |
 
 ---
 
@@ -714,7 +685,6 @@ Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be pa
 | `--all, -a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |
 | `--inspect`        | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |
 | `--pretty`         | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |
-| `--show-advanced`  | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--watch`          | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |
 | `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
@@ -779,7 +749,6 @@ one lint [options]
 | `--fix`            | `boolean`, default: `true`                                      | Apply auto-fixes if possible                                                                                                                                                |
 | `--pretty`         | `boolean`, default: `true`                                      | Control ESLint’s `--color` flag.                                                                                                                                            |
 | `--quiet`          | `boolean`                                                       | Report errors only                                                                                                                                                          |
-| `--show-advanced`  | `boolean`                                                       | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                                                       | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`                                                         | List of Workspace names to run against                                                                                                                                      |
 
@@ -815,7 +784,6 @@ You can fine-tune the determination of affected Workspaces by providing a `--fro
 | `--lifecycle, -c`   | `"pre-commit"`, `"post-commit"`, `"post-checkout"`, `"pre-merge"`, `"post-merge"`, `"build"`, `"pre-deploy"`, `"pre-publish"`, `"post-publish"` | Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.       | ✅       |
 | `--list`            | `boolean`                                                                                                                                       | List found tasks. Implies dry run and will not actually run any tasks.                                                                           |          |
 | `--shard`           | `string`                                                                                                                                        | Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`                                                         |          |
-| `--show-advanced`   | `boolean`                                                                                                                                       | Pair with `--help` to show advanced options.                                                                                                     |          |
 | `--staged`          | `boolean`                                                                                                                                       | Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit. |          |
 | `--workspaces, -w`  | `array`                                                                                                                                         | List of Workspace names to run against                                                                                                           |          |
 
@@ -865,7 +833,6 @@ Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) ca
 | `--affected`       | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
 | `--inspect`        | `boolean` | Break for the the Node inspector to debug tests.                                                                                                                            |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--watch`          | `boolean` | Shortcut for vitest `--watch` mode.                                                                                                                                         |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
@@ -925,7 +892,6 @@ Checks for the existence of `tsconfig.json` file and batches running `tsc --noEm
 | `--affected`       | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |
 | `--pretty`         | `boolean`, default: `true` | Control TypeScript’s `--pretty` flag.                                                                                                                                       |
-| `--show-advanced`  | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
@@ -977,19 +943,11 @@ Runs commands in the "@onerepo/docs" Workspace.
 
 Run Astro directly.
 
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
-
 ---
 
 ##### `one workspace docs build`
 
 Build the documentation site for production.
-
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 ---
 
@@ -1025,10 +983,6 @@ Update changelogs from source files
 
 Check Astro pages for errors.
 
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
-
 ---
 
 ##### `one workspace docs collect-content`
@@ -1060,10 +1014,6 @@ Generate docs for the oneRepo monorepo
 ##### `one workspace docs start`
 
 Start the Astro dev server.
-
-| Option            | Type      | Description                                  |
-| ----------------- | --------- | -------------------------------------------- |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options. |
 
 ---
 
