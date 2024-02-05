@@ -2,13 +2,13 @@
 
 ## Reporting issues
 
-Use the [Bug Report issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=---01-bug-report.yaml).
+Use the [Bug Report issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug%2Ctriage&projects=&template=01-bug-report.yml).
 
 The template will guide you through asking for extra information. Fill out as much as possible to help maintainers help you faster.
 
 ## Requesting features
 
-Use the [Feature Request issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=feature,triage&projects=&template=feature-request.yaml).
+Use the [Feature Request issue template](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=%F0%9F%9A%80+feature%2Ctriage&projects=&template=06-feature-change.yml).
 
 ## Code changes
 
