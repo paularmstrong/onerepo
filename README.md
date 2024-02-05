@@ -6,6 +6,9 @@
 
 https://onerepo.tools/
 
+- [Getting started](https://onerepo.tools/docs/getting-started/)
+- [Contributing](https://onerepo.tools/project/contributing/)
+
 ## License
 
 MIT License
