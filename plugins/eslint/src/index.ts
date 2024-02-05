@@ -54,7 +54,7 @@ export function eslint(opts: Options = {}): Plugin {
 				description,
 				(yargs) => {
 					const y = builder(yargs)
-						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`)
+						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options...]`)
 						.default('github-annotate', opts.githubAnnotate ?? true);
 					if (opts.extensions) {
 						y.default('extensions', opts.extensions);

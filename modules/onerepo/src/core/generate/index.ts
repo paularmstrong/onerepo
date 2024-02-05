@@ -19,7 +19,7 @@ export const generate: Plugin = function generate(opts) {
 				description,
 				(yargs) => {
 					const y = builder(yargs)
-						.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
+						.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options...]`)
 						.default('templates-dir', resolvedDir)
 						.epilogue(
 							`To create new templates add a new folder to ${path.relative(

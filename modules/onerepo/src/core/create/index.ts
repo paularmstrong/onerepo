@@ -8,7 +8,7 @@ export const create: Plugin = function create() {
 			return yargs.command(
 				command,
 				description,
-				(yargs) => builder(yargs).usage(`$0 ${command[0]} [options]`),
+				(yargs) => builder(yargs).usage(`$0 ${command[0]} [options...]`),
 				handler,
 			);
 		},

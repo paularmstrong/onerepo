@@ -35,7 +35,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<a95cc376a48546154c9d3d9b27711294>> */}
+{/* @generated SignedSource<<b16e5557a670a39f00b1dfe38dbd866c>> */}
 
 ### `one graph`
 
@@ -52,7 +52,7 @@ one graph <command>
 Show this repository’s Workspace Graph using an online visualizer or output Graph representations to various formats.
 
 ```sh
-one graph show [options]
+one graph show [options...]
 ```
 
 This command can generate representations of your Workspace Graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your Graph online.
@@ -92,10 +92,10 @@ Open the online visualizer for your full Workspace graph.
 one graph show --all --open
 ```
 
-Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.
+Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspaces...>` and those that are dependent on it.
 
 ```sh
-one graph show --format=mermaid -w <workspace> > ./out.mermaid
+one graph show --format=mermaid -w <workspaces...> > ./out.mermaid
 ```
 
 ---

@@ -18,7 +18,7 @@ type Argv = {
 export const builder: Builder<Argv> = (yargs) =>
 	builders
 		.withAllInputs(yargs)
-		.usage('$0 add [options]')
+		.usage('$0 add [options...]')
 		.option('add', {
 			description: 'Add the modified `package.json` files to the git stage for committing.',
 			type: 'boolean',

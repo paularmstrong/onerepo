@@ -20,7 +20,7 @@ type Args = {
 
 export const builder: Builder<Args> = (yargs) =>
 	withAffected(withWorkspaces(yargs))
-		.usage(`$0 ${command[0]} [options]`)
+		.usage(`$0 ${command[0]} [options...]`)
 		.option('allow-dirty', {
 			type: 'boolean',
 			default: false,

@@ -20,7 +20,7 @@ type Args = WithWorkspaces & {
 
 export const builder: Builder<Args> = (yargs) =>
 	withWorkspaces(yargs)
-		.usage('$0 verify -w [workspaces...]')
+		.usage('$0 verify [options...]')
 		.option('mode', {
 			type: 'string',
 			choices: ['strict', 'loose', 'off'] as const,

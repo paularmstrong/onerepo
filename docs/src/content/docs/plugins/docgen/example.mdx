@@ -12,12 +12,12 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<f75c5064dddcb8228c9fcea0b5e42f1f>> */}
+{/* @generated SignedSource<<fd5b56dab52e3fc16656b5f2adf1408e>> */}
 
 ## `one`
 
 ```sh
-one <command> [options]
+one <command> [options...]
 ```
 
 | Option            | Type                  | Description                                                                                                                            |
@@ -46,7 +46,7 @@ one <command> [options]
 Build public Workspaces using esbuild.
 
 ```sh
-one build [options]
+one build [options...]
 ```
 
 | Option             | Type      | Description                                                                                                                                                                 |
@@ -162,7 +162,7 @@ Aliases: `one change release`
 Publish all Workspaces with versions not available in the registry.
 
 ```sh
-one change publish [options]
+one change publish [options...]
 ```
 
 This command is safe to run any time. By default, only Workspaces that have previously gone through the `one change version` process will end up being published. Use `--all` for all Workspaces or `--workspaces <workspace-name>` to specify individual Workspaces to try publishing.
@@ -397,7 +397,7 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 Verify dependencies across workspaces.
 
 ```sh
-one dependencies verify -w [workspaces...]
+one dependencies verify [options...]
 ```
 
 Dependencies across Workspaces can be validated using one of the various modes:
@@ -419,7 +419,7 @@ Dependencies across Workspaces can be validated using one of the various modes:
 Generate documentation for the oneRepo cli.
 
 ```sh
-one docgen [options]
+one docgen [options...]
 ```
 
 Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!
@@ -455,7 +455,7 @@ Aliases: `one prettier`
 Format files with prettier
 
 ```sh
-one format [options]
+one format [options...]
 ```
 
 | Option             | Type      | Description                                                                                                                                                                 |
@@ -490,7 +490,7 @@ Aliases: `one gen`
 Generate files, folders, and Workspaces from templates.
 
 ```sh
-one generate [options]
+one generate [options...]
 ```
 
 To create new templates add a new folder to config/templates and create a `.onegen.cjs` configuration file. Follow the instructions online for more: https\://onerepo.tools/plugins/generate/
@@ -526,7 +526,7 @@ one graph <command>
 Show this repository’s Workspace Graph using an online visualizer or output Graph representations to various formats.
 
 ```sh
-one graph show [options]
+one graph show [options...]
 ```
 
 This command can generate representations of your Workspace Graph for use in debugging, verifying, and documentation. By default, a URL will be given to visualize your Graph online.
@@ -566,10 +566,10 @@ Open the online visualizer for your full Workspace graph.
 one graph show --all --open
 ```
 
-Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.
+Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspaces...>` and those that are dependent on it.
 
 ```sh
-one graph show --format=mermaid -w <workspace> > ./out.mermaid
+one graph show --format=mermaid -w <workspaces...> > ./out.mermaid
 ```
 
 ---
@@ -669,7 +669,7 @@ one hooks init
 Install the oneRepo CLI into your environment.
 
 ```sh
-one install [options]
+one install [options...]
 ```
 
 | Option       | Type                          | Description                                                                                                         |
@@ -685,8 +685,8 @@ one install [options]
 Run tests using Jest.
 
 ```sh
-one jest [options] -- [passthrough]
-one jest [options]
+one jest [options...] -- [passthrough]
+one jest [options...]
 ```
 
 This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.
@@ -749,7 +749,7 @@ Aliases: `one eslint`
 Run eslint across files and workspaces
 
 ```sh
-one lint [options]
+one lint [options...]
 ```
 
 | Option             | Type                                                            | Description                                                                                                                                                                 |
@@ -785,7 +785,7 @@ one lint [options]
 Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected Workspace set based on the current state of the repository.
 
 ```sh
-one tasks --lifecycle=<lifecycle> [options]
+one tasks --lifecycle=<lifecycle> [options...]
 ```
 
 You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
@@ -834,8 +834,8 @@ Aliases: `one vitest`
 Run unit tests using Vitest
 
 ```sh
-one test [options] -- [passthrough]
-one test [options]
+one test [options...] -- [passthrough]
+one test [options...]
 ```
 
 This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.
@@ -884,7 +884,7 @@ one test --watch -- path/to/test.ts
 Run all tests in a given Workspace.
 
 ```sh
-one test -w <workspace>
+one test -w <workspaces...>
 ```
 
 ---
@@ -896,7 +896,7 @@ Aliases: `one typescript`, `one typecheck`
 Sync TS project references
 
 ```sh
-one tsc [options]
+one tsc [options...]
 ```
 
 Checks for the existence of `tsconfig.json` file and batches running `tsc --noEmit` in each Workspace.
@@ -931,7 +931,7 @@ Aliases: `one ws`
 Run commands within individual Workspaces.
 
 ```sh
-one workspace <workspace-name> <command...> [options...] -- [passthrough...]
+one workspace <workspace-name> <commands...> [options...] -- [passthrough...]
 ```
 
 This enables running both custom commands as defined via the `commands.directory` configuration option within each Workspace as well as `commands.passthrough` aliases.
@@ -1058,7 +1058,7 @@ Runs commands in the "@onerepo/github-action" Workspace.
 Build public Workspaces using esbuild.
 
 ```sh
-one workspace github-action build [options]
+one workspace github-action build [options...]
 ```
 
 | Option             | Type      | Description                                                                                                                                                                 |

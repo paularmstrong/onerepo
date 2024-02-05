@@ -84,7 +84,7 @@ export function jest(opts: Options = {}): Plugin {
 				name,
 				description,
 				(yargs) => {
-					const y = builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options]`);
+					const y = builder(yargs).usage(`$0 ${Array.isArray(name) ? name[0] : name} [options...]`);
 					if (opts.config) {
 						y.default('config', opts.config);
 					}
