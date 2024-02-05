@@ -5,7 +5,12 @@ export const install: Plugin = function install() {
 	return {
 		yargs: (yargs, visitor) => {
 			const { command, description, builder, handler } = visitor(cmd);
-			return yargs.command(command, description, (yargs) => builder(yargs).usage(`$0 ${command} [options]`), handler);
+			return yargs.command(
+				command,
+				description,
+				(yargs) => builder(yargs).usage(`$0 ${command} [options...]`),
+				handler,
+			);
 		},
 	};
 };

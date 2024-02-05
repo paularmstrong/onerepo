@@ -12,7 +12,7 @@ import { checkEnginesMiddleware, setEnvironmentMiddleware, sudoCheckMiddleware }
  */
 export function setupYargs(yargs: Yargv, { graph, logger }: { graph?: Graph; logger: Logger }): Yargs {
 	const retYargs = yargs
-		.usage('$0 <command> [options]')
+		.usage('$0 <command> [options...]')
 		.help('help', 'Show this help screen')
 		.alias('help', 'h')
 		.option('dry-run', {

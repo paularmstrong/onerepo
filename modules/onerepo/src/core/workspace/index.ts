@@ -15,7 +15,7 @@ export const workspace: Plugin = function workspaces(config, graph) {
 				'Run commands within individual Workspaces.',
 				(yargs) => {
 					yargs
-						.usage(`$0 workspace <workspace-name> <command...> [options...] -- [passthrough...]`)
+						.usage(`$0 workspace <workspace-name> <commands...> [options...] -- [passthrough...]`)
 						.positional('workspace-name', {
 							description: 'The name or alias of a Workspace.',
 							type: 'string',

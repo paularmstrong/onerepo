@@ -40,7 +40,7 @@ export function changesets(opts: Options = {}): Plugin {
 				name,
 				'Manage changesets, versioning, and publishing your public Workspaces to packages.',
 				(yargs) => {
-					yargs.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options]`).demandCommand(1);
+					yargs.usage(`$0 ${Array.isArray(name) ? name[0] : name} <command> [options...]`).demandCommand(1);
 
 					for (const cmd of resolved) {
 						yargs.command(cmd.command, cmd.description, cmd.builder, cmd.handler);

@@ -24,7 +24,7 @@ type Args = {
 export const builder: Builder<Args> = (yargs) =>
 	builders
 		.withAffected(builders.withWorkspaces(yargs))
-		.usage('$0 show [options]')
+		.usage('$0 show [options...]')
 		.option('format', {
 			alias: 'f',
 			type: 'string',
@@ -51,8 +51,8 @@ Pass \`--open\` to auto-open your default browser with the URL or use one of the
 		.example(`$0 ${command}`, 'Print a URL to the online visualizer for the current affected Workspace graph.')
 		.example(`$0 ${command} --all --open`, 'Open the online visualizer for your full Workspace graph.')
 		.example(
-			'$0 show --format=mermaid -w <workspace> > ./out.mermaid',
-			'Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspace>` and those that are dependent on it.',
+			'$0 show --format=mermaid -w <workspaces...> > ./out.mermaid',
+			'Generate a [Mermaid graph](https://mermaid.js.org/) to a file, isolating just the given `<workspaces...>` and those that are dependent on it.',
 		);
 
 export const handler: Handler<Args> = async function handler(argv, { graph, getWorkspaces, logger }) {

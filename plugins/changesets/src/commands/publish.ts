@@ -20,7 +20,7 @@ type Args = {
 
 export const builder: Builder<Args> = (yargs) =>
 	yargs
-		.usage('$0 release [options]')
+		.usage('$0 release [options...]')
 		.option('allow-dirty', {
 			type: 'boolean',
 			default: false,

@@ -86,7 +86,7 @@ export const docgen = (opts: Options = {}): Plugin => {
 			const description = `Generate documentation for the oneRepo cli.`;
 			const builder: Builder<Args> = (yargs) =>
 				yargs
-					.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options]`)
+					.usage(`$0 ${Array.isArray(command) ? command[0] : command} [options...]`)
 					.epilogue(
 						'Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!',
 					)

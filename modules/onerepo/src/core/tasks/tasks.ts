@@ -51,7 +51,7 @@ export const lifecycles: Array<Lifecycle> = [
 export const builder: Builder<Argv> = (yargs) =>
 	builders
 		.withAffected(builders.withWorkspaces(yargs))
-		.usage(`$0 ${command} --lifecycle=<lifecycle> [options]`)
+		.usage(`$0 ${command} --lifecycle=<lifecycle> [options...]`)
 		.epilogue(
 			'You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.',
 		)
