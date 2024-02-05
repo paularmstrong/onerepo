@@ -13,14 +13,15 @@ import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
 import { setup } from '../../setup/setup';
 import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../types';
-import { generate } from '../generate';
-import { graph } from '../graph';
+import { changes } from '../changes';
 import { codeowners } from '../codeowners';
 import { dependencies } from '../dependencies';
+import { generate } from '../generate';
+import { graph } from '../graph';
 import { hooks } from '../hooks';
 import { workspace } from '../workspace';
 
-const corePlugins: CorePlugins = [codeowners, dependencies, generate, graph, hooks, workspace];
+const corePlugins: CorePlugins = [changes, codeowners, dependencies, generate, graph, hooks, workspace];
 
 export const command = 'tasks';
 

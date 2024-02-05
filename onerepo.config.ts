@@ -53,13 +53,7 @@ export default {
 			],
 		},
 		'pre-merge': {
-			serial: [
-				['$0 lint --all --no-fix', '$0 format --check'],
-				'$0 test --affected -w ${workspaces} -- --passWithNoTests',
-				'$0 jest --affected -w ${workspaces} -- --passWithNoTests',
-				'$0 tsc',
-				'$0 build',
-			],
+			serial: [['$0 lint --all --no-fix', '$0 format --check'], '$0 test -a', '$0 jest -a', '$0 tsc', '$0 build'],
 			parallel: [
 				{ match: '**/package.json', cmd: '$0 graph verify' },
 				{ match: '**/onerepo.config.*', cmd: ['$0 codeowners verify'] },
