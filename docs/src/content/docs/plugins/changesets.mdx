@@ -101,7 +101,7 @@ name?: string | string[];
 ## Commands
 
 {/* start-auto-generated-from-cli-changesets */}
-{/* @generated SignedSource<<aaf3ba825667d217308ab86cd6049c96>> */}
+{/* @generated SignedSource<<2cef7301040e6163ff018e4ad7cf33c3>> */}
 
 ### `one change`
 
@@ -240,6 +240,20 @@ Periodically you may want to publish a _snapshot_ release – something that nee
 | `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
 | `--tag`            | `string`, default: `"prerelease"` | Distribution tag to apply when publishing the pre-release.                |
 | `--workspaces, -w` | `array`                           | List of Workspace names to run against                                    |
+
+---
+
+#### `one change verify`
+
+Aliases: `one change required`
+
+Ensure there are change entries for every modified public Workspace.
+
+```sh
+one change verify
+```
+
+Add this to your pre-commit or pre-merge task lifecycles to ensure that changes to public & publishabled Workspaces are always accompanied with change entries.
 
 ---
 
