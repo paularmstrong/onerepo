@@ -12,7 +12,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<87a5011d7c705a56261716333d653a0f>> */}
+{/* @generated SignedSource<<f75c5064dddcb8228c9fcea0b5e42f1f>> */}
 
 ## `one`
 
@@ -227,6 +227,20 @@ Periodically you may want to publish a _snapshot_ release – something that nee
 
 ---
 
+#### `one change verify`
+
+Aliases: `one change required`
+
+Ensure there are change entries for every modified public Workspace.
+
+```sh
+one change verify
+```
+
+Add this to your pre-commit or pre-merge task lifecycles to ensure that changes to public & publishabled Workspaces are always accompanied with change entries.
+
+---
+
 #### `one change version`
 
 Update version numbers for publishable workspaces
@@ -323,7 +337,7 @@ one dependencies <command> [options...]
 Add dependencies to Workspaces.
 
 ```sh
-one dependencies add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]
+one dependencies add -w <workspace-names...> --dev [devDependencies...] --prod [prodDependencies...] [options...]
 ```
 
 If a version is not provided with the command-line input, this command will look for currently installed versions of the requested dependencies throughout all Workspaces within the Workspace Graph. If only one version is found, it will be used, regardless of the `--mode` provided.

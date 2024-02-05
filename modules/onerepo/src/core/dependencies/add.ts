@@ -22,7 +22,7 @@ type Args = {
 
 export const builder: Builder<Args> = (yargs) =>
 	withWorkspaces(yargs)
-		.usage('$0 add -w [workspaces...] --dev [devDependencies...] --prod [prodDependencies...] [options...]')
+		.usage('$0 add -w <workspace-names...> --dev [devDependencies...] --prod [prodDependencies...] [options...]')
 		.describe('workspaces', 'One or more Workspaces to add dependencies into')
 		.demandOption('workspaces')
 		.option('dedupe', {
