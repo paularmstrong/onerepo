@@ -426,6 +426,7 @@ export class Yargs {
 		this.option(key, {
 			description: description || 'Show hidden arguments.',
 			type: 'boolean',
+			hidden: true,
 		});
 	}
 
@@ -454,7 +455,7 @@ export class Yargs {
 		if (!name) {
 			return;
 		}
-		this.option(name, { type: 'boolean', description });
+		this.option('version', { type: 'boolean', description });
 	}
 
 	wrap() {}

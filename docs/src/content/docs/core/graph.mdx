@@ -35,7 +35,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<1d9c2a3716dcf00b4edf128d7ebb6f2b>> */}
+{/* @generated SignedSource<<a95cc376a48546154c9d3d9b27711294>> */}
 
 ### `one graph`
 
@@ -65,7 +65,6 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 | `--all, -a`        | `boolean`                        | Run across all workspaces                                                                                                                                                   |
 | `--format, -f`     | `"mermaid"`, `"plain"`, `"json"` | Output format for inspecting the Workspace Graph.                                                                                                                           |
 | `--open`           | `boolean`                        | Auto-open the browser for the online visualizer.                                                                                                                            |
-| `--show-advanced`  | `boolean`                        | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                        | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`                          | List of Workspace names to run against                                                                                                                                      |
 
@@ -117,10 +116,9 @@ Dependencies across Workspaces can be validated using one of the various modes:
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
 - `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-| Option            | Type                                               | Description                                  |
-| ----------------- | -------------------------------------------------- | -------------------------------------------- |
-| `--mode`          | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method.        |
-| `--show-advanced` | `boolean`                                          | Pair with `--help` to show advanced options. |
+| Option   | Type                                               | Description                           |
+| -------- | -------------------------------------------------- | ------------------------------------- |
+| `--mode` | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Dependency overlap validation method. |
 
 <details>
 
