@@ -26,7 +26,7 @@ describe('add changes', () => {
 			.mockResolvedValueOnce({ contents: 'This is the content' });
 		await run('');
 
-		const entry = graph.getByName('tacos').resolve('.changes/2-d2f3b1c5.md');
+		const entry = graph.getByName('tacos').resolve('.changes/002-d2f3b1c5.md');
 		expect(file.write).toHaveBeenCalledWith(
 			entry,
 			`---
@@ -46,7 +46,7 @@ This is the content`,
 			.mockResolvedValueOnce({ contents: 'This is the content' });
 		await run('--prompts=semver');
 
-		const entry = graph.getByName('tacos').resolve('.changes/2-d2f3b1c5.md');
+		const entry = graph.getByName('tacos').resolve('.changes/002-d2f3b1c5.md');
 		expect(file.write).toHaveBeenCalledWith(
 			entry,
 			`---

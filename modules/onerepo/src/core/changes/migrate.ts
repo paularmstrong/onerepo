@@ -63,7 +63,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				continue;
 			}
 			await write(
-				ws.resolve(`.changes/${index}-${filename}.md`),
+				ws.resolve(`.changes/${index.toString().padStart(3, '0')}-${filename}.md`),
 				`---
 type: ${info[ws.name]}
 ---

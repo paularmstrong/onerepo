@@ -162,7 +162,10 @@ ${pc.dim(
 				return memo;
 			}, [] as Array<number>),
 		);
-		const changesetFile = workspace.resolve('.changes', `${highestIndex + 1}-${filename}.md`);
+		const changesetFile = workspace.resolve(
+			'.changes',
+			`${(highestIndex + 1).toString().padStart(3, '0')}-${filename}.md`,
+		);
 		files.push(changesetFile);
 		await write(
 			changesetFile,
