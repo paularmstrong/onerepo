@@ -60,6 +60,7 @@ export default defineConfig({
 			customCss: ['./src/custom.css'],
 			social: {
 				github: 'https://github.com/paularmstrong/onerepo',
+				discord: 'https://onerepo.tools/discord/',
 			},
 			titleDelimiter: '🚀',
 			sidebar: [
