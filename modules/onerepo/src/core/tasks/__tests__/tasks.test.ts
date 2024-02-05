@@ -162,11 +162,11 @@ describe('handler', () => {
 		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
-	test('includes tasks that match cross-workspaces', async () => {
+	test('includes tasks that match across workspaces', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		await run('-c publish --list', { graph });
+		await run('-c pre-publish --list', { graph });
 
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
@@ -237,7 +237,7 @@ describe('handler', () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		await run('--lifecycle deploy --list', { graph });
+		await run('--lifecycle pre-deploy --list', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
 				[
@@ -276,7 +276,7 @@ describe('handler', () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
-		await run('--lifecycle deploy --list --shard=1/2', { graph });
+		await run('--lifecycle pre-deploy --list --shard=1/2', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
 				[
@@ -303,7 +303,7 @@ describe('handler', () => {
 
 		out = '';
 
-		await run('--lifecycle deploy --list --shard=2/2', { graph });
+		await run('--lifecycle pre-deploy --list --shard=2/2', { graph });
 		expect(JSON.parse(out)).toEqual({
 			parallel: [
 				[

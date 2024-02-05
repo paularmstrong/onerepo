@@ -15,7 +15,8 @@ export const builder: Builder = (yargs) =>
 		);
 
 export const handler: Handler = async (argv, { graph, logger }) => {
-	const files = await getModifiedFiles();
+	const step = logger.createStep('Verify required change entries');
+	const files = await getModifiedFiles(undefined, { step });
 
 	const hasEntry = new Set<Workspace>();
 	const workspaces = new Set<Workspace>();
@@ -36,12 +37,14 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 	const missing = new Set<Workspace>();
 	for (const workspace of workspaces) {
 		if (!hasEntry.has(workspace)) {
-			logger.error(`Workspace "${workspace.name}" is missing a required change entry.`);
+			step.error(`Workspace "${workspace.name}" is missing a required change entry.`);
 			missing.add(workspace);
 		}
 	}
 
-	if (logger.hasError) {
-		logger.error(`\u0000\nAdd change entries to continue:\n\n  $ one change add\n\u0000`);
+	if (step.hasError) {
+		step.error(`\u0000\nAdd change entries to continue:\n\n  $ one change add\n\u0000`);
 	}
+
+	await step.end();
 };

@@ -2,11 +2,22 @@ import * as subprocess from '@onerepo/subprocess';
 import { hooks } from '..';
 
 describe('shutdown handler', () => {
+	let CI: string | undefined, ONEREPO_USE_HOOKS: string | undefined;
 	beforeEach(() => {
 		vi.spyOn(subprocess, 'start').mockReturnValue(
 			// @ts-ignore
 			null,
 		);
+
+		ONEREPO_USE_HOOKS = process.env.ONEREPO_USE_HOOKS;
+		delete process.env.ONEREPO_USE_HOOKS;
+		CI = process.env.CI;
+		delete process.env.CI;
+	});
+
+	afterEach(() => {
+		process.env.ONEREPO_USE_HOOKS = ONEREPO_USE_HOOKS;
+		process.env.CI = CI;
 	});
 
 	test('automatically syncs', async () => {

@@ -5,7 +5,6 @@ import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Graph } from '@onerepo/graph';
 import { setup } from '../../setup/setup';
 import type { Lifecycle } from '../../types';
-import { tasks } from '.';
 
 /**
  * Run Lifecycle tasks in commands other than the `one tasks` command. Use this function when you have a command triggering a Lifecycle in non-standard ways.
@@ -22,6 +21,9 @@ import { tasks } from '.';
  */
 export async function runTasks(lifecycle: Lifecycle, args: Array<string>, graph: Graph, logger: Logger = getLogger()) {
 	const jiti = initJiti(graph.root.location, { interopDefault: true });
+
+	// IMPORTANT: this needs to be async-imported to avoid potential circular imports
+	const { tasks } = await import('.');
 
 	const step = logger.createStep(`Run ${lifecycle} tasks`, { writePrefixes: false });
 	const subLogger = bufferSubLogger(step);
