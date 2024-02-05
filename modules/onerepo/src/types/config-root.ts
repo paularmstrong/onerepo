@@ -175,7 +175,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 	 * ```ts title="onerepo.config.ts"
 	 * export default {
 	 * 	root: true,
-	 * 	ignore: ['.changeset/*', '.github/\*'],
+	 * 	ignore: ['.github/\*'],
 	 * };
 	 * ```
 	 */

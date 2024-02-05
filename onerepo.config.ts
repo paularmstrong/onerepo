@@ -1,5 +1,4 @@
 import type { Config } from 'onerepo';
-// import { changesets } from '@onerepo/plugin-changesets';
 import { docgen } from '@onerepo/plugin-docgen';
 import { eslint } from '@onerepo/plugin-eslint';
 import { jest } from '@onerepo/plugin-jest';
@@ -29,9 +28,8 @@ export default {
 	validation: {
 		schema: './config/graph-schema.ts',
 	},
-	ignore: ['**/README.md', '**/CHANGELOG.md', '.changeset/**'],
+	ignore: ['**/README.md', '**/CHANGELOG.md'],
 	plugins: [
-		// changesets(),
 		docgen({
 			outWorkspace: 'root',
 			outFile: './docs/src/content/docs/plugins/docgen/example.mdx',

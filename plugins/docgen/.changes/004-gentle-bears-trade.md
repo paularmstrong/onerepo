@@ -1,5 +1,5 @@
 ---
-'@onerepo/plugin-docgen': minor
+type: minor
 ---
 
 Adds advanced/hidden option `--use-defaults` to use the default root configuration when generating documentation.

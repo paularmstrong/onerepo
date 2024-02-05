@@ -3189,7 +3189,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@onerepo/plugin-changesets@workspace:^, @onerepo/plugin-changesets@workspace:plugins/changesets":
+"@onerepo/plugin-changesets@workspace:plugins/changesets":
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-changesets@workspace:plugins/changesets"
   dependencies:
@@ -3350,7 +3350,6 @@ __metadata:
     "@internal/jest-config": "workspace:^"
     "@internal/prettier-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/plugin-changesets": "workspace:^"
     "@onerepo/plugin-docgen": "workspace:^"
     "@onerepo/plugin-eslint": "workspace:^"
     "@onerepo/plugin-jest": "workspace:^"
