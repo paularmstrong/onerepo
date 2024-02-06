@@ -4,6 +4,7 @@ import { createRequire } from 'node:module';
 import initJiti from 'jiti';
 import createYargs from 'yargs/yargs';
 import { Graph, internalSetup, noRepoPlugins } from '..';
+import pkg from '../../package.json';
 import { updateNodeModules } from './utils/update-node-modules';
 import { getConfig } from './utils/get-config';
 
@@ -21,6 +22,9 @@ process.emitWarning = (warning, ...args) => {
 	// @ts-ignore
 	emitWarning(warning, ...args);
 };
+
+// @ts-ignore cannot use symbol on global in ts
+globalThis[Symbol.for('onerepo_installed_version')] = pkg.version;
 
 export const jiti = initJiti(process.cwd(), { interopDefault: true });
 
@@ -68,7 +72,7 @@ async function getSetupAndRun() {
 		process.stderr.write(`${'='.repeat(Math.min(process.stderr.columns, 120))}
   Unable to configure oneRepo in your working directory (${configRoot});
   Check your configuration & commands for syntax errors and ensure node_modules are installed.
-${'-'.repeat(Math.min(process.stderr.columns, 120))}
+${'⎯'.repeat(Math.min(process.stderr.columns, 120))}
 
   ${e?.toString().replace(/\n/g, '\n  ')}
 
