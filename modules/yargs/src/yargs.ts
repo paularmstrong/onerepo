@@ -63,6 +63,7 @@ export function setupYargs(yargs: Yargv, { graph, logger }: { graph?: Graph; log
 		.group('help', 'Global:')
 		.strict()
 		.demandCommand(1, 'Please enter a command')
+		.recommendCommands()
 		.parserConfiguration(parserConfiguration);
 }
 
