@@ -26,12 +26,13 @@ export function setupYargs(yargs: Yargv, { graph, logger }: { graph?: Graph; log
 			alias: 'v',
 			default: 2,
 			description:
-				'Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--silent`',
+				'Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--quiet`',
 			global: true,
 			group: 'Global:',
 			type: 'count',
 		})
-		.option('silent', {
+		.option('quiet', {
+			alias: ['q'],
 			type: 'boolean',
 			group: 'Global:',
 			global: true,
@@ -194,7 +195,7 @@ export type DefaultArgv = {
 	 * Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.
 	 * @default `false`
 	 */
-	silent: boolean;
+	quiet: boolean;
 	/**
 	 * Verbosity level for the Logger. See Logger.verbosity for more information.
 	 * @default `3`

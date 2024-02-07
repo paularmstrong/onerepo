@@ -15,7 +15,7 @@ const argv = {
 	_: [],
 	'--': [],
 	'dry-run': false,
-	silent: false,
+	quiet: false,
 	verbosity: 2,
 	'skip-engine-check': false,
 };
