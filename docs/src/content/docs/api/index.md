@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<ab04050bc7c1cc268f30e4c5fb259f50>> -->
+<!-- @generated SignedSource<<5eda7dceca66b59d94ab16ab730df6e2>> -->
 
 ## Namespaces
 
@@ -97,7 +97,7 @@ export const builder: Builder<Argv> = (yargs) =>
 ```ts
 type DefaultArgv: {
   dry-run: boolean;
-  silent: boolean;
+  quiet: boolean;
   skip-engine-check: boolean;
   verbosity: number;
 };
@@ -119,10 +119,10 @@ Also internally sets `process.env.ONEREPO_DRY_RUN = 'true'`.
 
 **Default:** `false`
 
-##### silent
+##### quiet
 
 ```ts
-silent: boolean;
+quiet: boolean;
 ```
 
 Silence all logger output. Prevents _all_ stdout and stderr output from the logger entirely.

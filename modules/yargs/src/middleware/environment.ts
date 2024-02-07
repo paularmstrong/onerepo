@@ -4,6 +4,6 @@ import type { Argv } from '@onerepo/yargs';
 
 export function setEnvironmentMiddleware(argv: Omit<Argv, '--'>) {
 	process.env.ONEREPO_DRY_RUN = `${argv['dry-run']}`;
-	argv.verbosity = argv.silent ? 0 : argv.verbosity;
+	argv.verbosity = argv.quiet ? 0 : argv.verbosity;
 	getLogger().verbosity = argv.verbosity as Verbosity;
 }

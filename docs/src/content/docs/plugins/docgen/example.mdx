@@ -13,7 +13,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<fd5b56dab52e3fc16656b5f2adf1408e>> */}
+{/* @generated SignedSource<<2d48b5c07b78390064175418c5c14d7b>> */}
 
 ## `one`
 
@@ -21,11 +21,11 @@ The following content is auto-generated using the [official documentation plugin
 one <command> [options...]
 ```
 
-| Option            | Type                  | Description                                                                                                                            |
-| ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `--dry-run`       | `boolean`             | Run without actually making modifications or destructive operations                                                                    |
-| `--verbosity, -v` | `count`, default: `2` | Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--silent` |
-| `--version`       | `boolean`             | Show the oneRepo CLI version.                                                                                                          |
+| Option            | Type                  | Description                                                                                                                           |
+| ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `--dry-run`       | `boolean`             | Run without actually making modifications or destructive operations                                                                   |
+| `--verbosity, -v` | `count`, default: `2` | Set the verbosity of the script output. Increase verbosity with `-vvv`, `-vvvv`, or `-vvvvv`. Reduce verbosity with `-v` or `--quiet` |
+| `--version`       | `boolean`             | Show the oneRepo CLI version.                                                                                                         |
 
 <details>
 
@@ -34,8 +34,8 @@ one <command> [options...]
 | Option                | Type      | Description                                                                                     |
 | --------------------- | --------- | ----------------------------------------------------------------------------------------------- |
 | `--help, -h`          | `boolean` | Show this help screen                                                                           |
+| `--quiet, -q`         | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0.                            |
 | `--show-advanced`     | `boolean` | Pair with `--help` to show advanced options.                                                    |
-| `--silent`            | `boolean` | Silence all output from the logger. Effectively sets verbosity to 0.                            |
 | `--skip-engine-check` | `boolean` | Skip the engines check, which ensures the current Node.js version is within the expected range. |
 
 </details>
