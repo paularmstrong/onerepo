@@ -11,9 +11,59 @@ tableOfContents:
 ---
 
 {/* start-onerepo-sentinel */}
-{/* @generated SignedSource<<c9ca3faa619e3d4433de17bb6a9e6e8d>> */}
+{/* @generated SignedSource<<3442417509201794b6ef8cb0bad26078>> */}
 
 # onerepo
+
+## 0.17.0
+
+### Minor changes
+
+- Recommend possible commands when command is not found (for typos, etc). ([490d919](https://github.com/paularmstrong/onerepo/commit/490d919c51cc4353a8201813346a5bfe1cfaf357))
+- Replaced the `--silent` flag with `--quiet`/`-q` for consistency across other CLIs. ([25f5d48](https://github.com/paularmstrong/onerepo/commit/25f5d48b56d46f5f9b83ada2c582d5ec2589b9ee))
+- When installed to the global path, a shutdown check will run comparing the global vs local version. If there is a mismatch, a warning will be prominently displayed prompting to fix the issue. ([44cbb16](https://github.com/paularmstrong/onerepo/commit/44cbb16510f1d743c68d45af6f3dff32c7b617cf))
+- Disallows adding production-level dependencies to the root Workspace. Prompts to change to devDependencies or exit. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- Refactored internals for applying `package.json` `publishConfig` entries. Use `workspace.publishablePackageJson` to get a safe version of the Workspace's `package.json` file, ready for publishing. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- Workspace-specific commands will require `workspace` or `ws` before the workspace name when running. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+  **Before:**
+  ```sh
+  one docs start
+  ```
+  **After:**
+  ```sh
+  one workspace docs start
+  ```
+- Added `passthrough` command ability to Workspace configurations. Use with caution. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- Adds `file.readJson` to read and parse JSON files with the optional ability to support JSONC by stripping out comments and trailing commas ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- The oneRepo CLI will now automatically update node_modules using your repository's package manager whenever necessary, before running commands. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- Logging an empty function will now execute and stringify the return value of the function. This will prevent expensive loops used to build up helpful information strings. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+  ```ts
+  step.log(() => bigArray.map((item) => item.name));
+  ```
+
+### Patch changes
+
+- Ensure the package manager's `install` command is run after versioning workspaces. ([5e203f5](https://github.com/paularmstrong/onerepo/commit/5e203f559b5aca1f45427729a59764d3a47952b5))
+- `one change verify` will not fail if only `CHANGELOG.md` or `package.json`+`CHANGELOG.md` are modified. ([334eacc](https://github.com/paularmstrong/onerepo/commit/334eacc576ae41ae38e9b0a0e0af97d3f09a2f07))
+- When versioning packages, ensure change entries are fully consumed (and deleted). ([e228db5](https://github.com/paularmstrong/onerepo/commit/e228db5b401f7dd63ca3aa381ef89e2adf9cfad4))
+- Include `changes` commands in available local tasks passthrough commands. ([a0eb309](https://github.com/paularmstrong/onerepo/commit/a0eb309c6f96fc2f2769c1b7b320805b6d2a15dc))
+- Correct CLI usage syntax in `--help` output. ([569a10e](https://github.com/paularmstrong/onerepo/commit/569a10e5678f280224bdc03fbc38b37fdaa096a5))
+- Fixed bug in writing out URLs for visualizer in which they may end up truncated prematurely. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+- When adding a dependency to the repository root, do not also add the dependency to every workspace. ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+
+### Dependencies updated
+
+- @onerepo/test-cli@0.5.7
+- @onerepo/yargs@0.7.0
+- @onerepo/builders@0.5.7
+- @onerepo/git@0.5.1
+- @onerepo/graph@0.11.0
+- @onerepo/package-manager@0.5.1
+- @onerepo/subprocess@0.7.1
+- @onerepo/file@0.7.0
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
 
 ## 0.16.0
 

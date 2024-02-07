@@ -1,5 +1,17 @@
 # @onerepo/file
 
+## 0.7.0
+
+### Minor changes
+
+- Adds `file.readJson` to read and parse JSON files with the optional ability to support JSONC by stripping out comments and trailing commas ([db178cc](https://github.com/paularmstrong/onerepo/commit/db178cc3b0ca8a2bbcaa4dee27e6c7e113bca875))
+
+### Dependencies updated
+
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
+
 ## 0.6.0
 
 ### Minor Changes

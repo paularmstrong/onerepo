@@ -1,5 +1,27 @@
 # @onerepo/plugin-eslint
 
+## 0.6.8
+
+### Patch changes
+
+- Correct CLI usage syntax in `--help` output. ([569a10e](https://github.com/paularmstrong/onerepo/commit/569a10e5678f280224bdc03fbc38b37fdaa096a5))
+
+### Dependencies updated
+
+- onerepo@0.17.0
+- @onerepo/test-cli@0.5.7
+- @onerepo/yargs@0.7.0
+- eslint-formatter-onerepo@0.1.2
+- @onerepo/builders@0.5.7
+- @onerepo/git@0.5.1
+- @onerepo/graph@0.11.0
+- @onerepo/package-manager@0.5.1
+- @onerepo/subprocess@0.7.1
+- @onerepo/file@0.7.0
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
+
 ## 0.6.7
 
 ### Patch Changes
