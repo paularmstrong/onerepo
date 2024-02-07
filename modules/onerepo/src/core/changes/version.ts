@@ -72,6 +72,7 @@ export const handler: Handler<Argv> = async (argv, { config, getWorkspaces, grap
 
 	await applyVersions(toVersion, graph, versionPlans);
 	await consumeChangelogs(toVersion, graph, versionPlans, config.changes.formatting ?? {});
+	await graph.packageManager.install();
 };
 
 /**
