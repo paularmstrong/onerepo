@@ -14,6 +14,7 @@ describe('version', () => {
 	beforeEach(() => {
 		vi.spyOn(utils, 'applyVersions').mockResolvedValue();
 		vi.spyOn(utils, 'consumeChangelogs').mockResolvedValue();
+		vi.spyOn(graph.packageManager, 'install').mockResolvedValue('yarn.lock');
 	});
 
 	test('confirms repo clean state', async () => {
@@ -59,6 +60,7 @@ describe('version', () => {
 		await expect(run('-w lettuce')).resolves.toBeTruthy();
 
 		expect(utils.applyVersions).toHaveBeenCalledWith([lettuce], graph, versionPlan);
+		expect(graph.packageManager.install).toHaveBeenCalled();
 	});
 
 	test.todo('writes changelogs', async () => {});
