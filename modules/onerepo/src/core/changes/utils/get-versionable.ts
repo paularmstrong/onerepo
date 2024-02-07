@@ -9,7 +9,7 @@ import { getCurrentSha } from '@onerepo/git';
 import { readChange } from './read-change';
 
 export type ReleaseType = 'major' | 'minor' | 'patch';
-export type ChangeEntry = { type: ReleaseType; content: string; ref: string };
+export type ChangeEntry = { type: ReleaseType; content: string; ref: string; filepath: string };
 export type VersionPlan = {
 	type: ReleaseType;
 	version: string;

@@ -1,5 +1,5 @@
 import type { Graph, Workspace } from '@onerepo/graph';
-import { exists, read, write } from '@onerepo/file';
+import { exists, read, remove, write } from '@onerepo/file';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
 import type { RootConfig } from '../../../types';
@@ -100,25 +100,31 @@ async function writeChangelog(
 	});
 }
 
-export async function writeChangelogs(
+export async function consumeChangelogs(
 	workspaces: Array<Workspace>,
 	graph: Graph,
 	plans: Map<Workspace, VersionPlan>,
 	formatting: Formatting,
+	options: { step?: LogStep } = {},
 ) {
-	for (const ws of workspaces) {
-		const plan = plans.get(ws);
-		if (!plan) {
-			throw new Error(`Missing version plan for ${ws.name}`);
-		}
-		const deps = graph.dependencies(ws);
-		const depPlans = new Map<Workspace, VersionPlan>();
-		for (const dep of deps) {
-			const depPlan = plans.get(dep);
-			if (depPlan) {
-				depPlans.set(dep, depPlan);
+	return stepWrapper({ name: `Consume change entries`, step: options.step }, async (step) => {
+		for (const ws of workspaces) {
+			const plan = plans.get(ws);
+			if (!plan) {
+				throw new Error(`Missing version plan for ${ws.name}`);
+			}
+			const deps = graph.dependencies(ws);
+			const depPlans = new Map<Workspace, VersionPlan>();
+			for (const dep of deps) {
+				const depPlan = plans.get(dep);
+				if (depPlan) {
+					depPlans.set(dep, depPlan);
+				}
+			}
+			await writeChangelog(ws, plan, depPlans, formatting);
+			for (const { filepath } of plan.entries) {
+				remove(filepath, { step });
 			}
 		}
-		await writeChangelog(ws, plan, depPlans, formatting);
-	}
+	});
 }

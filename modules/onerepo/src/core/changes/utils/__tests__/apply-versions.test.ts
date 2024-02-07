@@ -5,6 +5,9 @@ import { LogStep } from '@onerepo/logger';
 import { applyVersions } from '../apply-versions';
 
 const graph = getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
+const lettuce = graph.getByName('lettuce');
+const tacos = graph.getByName('tacos');
+const cheese = graph.getByName('cheese');
 
 describe('applyVersions', () => {
 	beforeEach(() => {
@@ -12,20 +15,19 @@ describe('applyVersions', () => {
 	});
 
 	test('applies new versions', async () => {
-		const lettuce = graph.getByName('lettuce');
 		await applyVersions(
 			[lettuce],
 			graph,
 			new Map([
 				[
-					graph.getByName('lettuce'),
+					lettuce,
 					{
 						type: 'minor',
 						version: '1.1.0',
 						fromRef: 'abc',
 						throughRef: '123',
 						logs: [],
-						entries: [{ type: 'minor', content: '', ref: '123' }],
+						entries: [{ type: 'minor', content: '', ref: '123', filepath: lettuce.resolve('.changes/1-asdf.md') }],
 					},
 				],
 			]),
@@ -41,20 +43,19 @@ describe('applyVersions', () => {
 
 	test('applies versions to dependents', async () => {
 		const tacos = graph.getByName('tacos');
-		const lettuce = graph.getByName('lettuce');
 		await applyVersions(
 			[lettuce],
 			graph,
 			new Map([
 				[
-					graph.getByName('lettuce'),
+					lettuce,
 					{
 						type: 'minor',
 						version: '1.1.0',
 						fromRef: 'abc',
 						throughRef: '123',
 						logs: [],
-						entries: [{ type: 'minor', content: '', ref: '123' }],
+						entries: [{ type: 'minor', content: '', ref: '123', filepath: lettuce.resolve('.changes/1-asdf.md') }],
 					},
 				],
 			]),
@@ -69,8 +70,6 @@ describe('applyVersions', () => {
 	});
 
 	test('ignores workspace protocol dependents', async () => {
-		const tacos = graph.getByName('tacos');
-		const cheese = graph.getByName('cheese');
 		await applyVersions(
 			[cheese],
 			graph,
@@ -83,7 +82,7 @@ describe('applyVersions', () => {
 						fromRef: 'abc',
 						throughRef: '123',
 						logs: [],
-						entries: [{ type: 'minor', content: '', ref: '123' }],
+						entries: [{ type: 'minor', content: '', ref: '123', filepath: cheese.resolve('.changes/0-123.md') }],
 					},
 				],
 			]),

@@ -7,7 +7,7 @@ import { withWorkspaces } from '@onerepo/builders';
 import type { Workspace } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
 import type { VersionPlan } from './utils/get-versionable';
-import { applyVersions, getVersionable, confirmClean, requestVersioned, writeChangelogs } from './utils';
+import { applyVersions, getVersionable, confirmClean, requestVersioned, consumeChangelogs } from './utils';
 
 export const command = ['version'];
 
@@ -71,7 +71,7 @@ export const handler: Handler<Argv> = async (argv, { config, getWorkspaces, grap
 	}
 
 	await applyVersions(toVersion, graph, versionPlans);
-	await writeChangelogs(toVersion, graph, versionPlans, config.changes.formatting ?? {});
+	await consumeChangelogs(toVersion, graph, versionPlans, config.changes.formatting ?? {});
 };
 
 /**
