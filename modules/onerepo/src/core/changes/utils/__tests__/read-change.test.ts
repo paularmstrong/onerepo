@@ -19,6 +19,11 @@ describe('readChange', () => {
 
 	test('returns data and contents', async () => {
 		vi.spyOn(file, 'read').mockResolvedValue('---\ntype: minor\n---\n\nasdf');
-		await expect(readChange('asdf.md')).resolves.toEqual({ type: 'minor', content: 'asdf', ref: 'abc123' });
+		await expect(readChange('asdf.md')).resolves.toEqual({
+			type: 'minor',
+			content: 'asdf',
+			ref: 'abc123',
+			filepath: 'asdf.md',
+		});
 	});
 });

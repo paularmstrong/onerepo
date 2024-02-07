@@ -13,7 +13,7 @@ const lettuce = graph.getByName('lettuce');
 describe('version', () => {
 	beforeEach(() => {
 		vi.spyOn(utils, 'applyVersions').mockResolvedValue();
-		vi.spyOn(utils, 'writeChangelogs').mockResolvedValue();
+		vi.spyOn(utils, 'consumeChangelogs').mockResolvedValue();
 	});
 
 	test('confirms repo clean state', async () => {

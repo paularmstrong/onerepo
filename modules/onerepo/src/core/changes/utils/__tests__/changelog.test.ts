@@ -3,7 +3,7 @@ import * as file from '@onerepo/file';
 import type { Workspace } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import { writeChangelogs } from '../changelog';
+import { consumeChangelogs } from '../changelog';
 import type { VersionPlan } from '../get-versionable';
 
 const graph = getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
@@ -25,7 +25,9 @@ describe('writeChangelogs', () => {
 				{
 					type: 'minor' as const,
 					version: '1.1.0',
-					entries: [{ content: 'exports romaine', ref: 'abc', type: 'minor' }],
+					entries: [
+						{ content: 'exports romaine', ref: 'abc', type: 'minor', filepath: tacos.resolve('.changes/1-abc.md') },
+					],
 					logs: [],
 					fromRef: 'abc',
 					throughRef: '123',
@@ -36,14 +38,21 @@ describe('writeChangelogs', () => {
 				{
 					type: 'patch' as const,
 					version: '1.2.0',
-					entries: [{ content: 'Adds romaine options\non a new line', ref: 'abc', type: 'patch' }],
+					entries: [
+						{
+							content: 'Adds romaine options\non a new line',
+							ref: 'abc',
+							type: 'patch',
+							filepath: tacos.resolve('.changes/1-abc.md'),
+						},
+					],
 					logs: [],
 					fromRef: 'abc',
 					throughRef: '123',
 				},
 			],
 		]);
-		await writeChangelogs([lettuce, tacos], graph, plans, {});
+		await consumeChangelogs([lettuce, tacos], graph, plans, {});
 
 		expect(file.write).toHaveBeenCalledWith(
 			lettuce.resolve('CHANGELOG.md'),
@@ -108,7 +117,7 @@ _View git logs for full change list._
 				},
 			],
 		]);
-		await writeChangelogs([lettuce, tacos], graph, plans, {});
+		await consumeChangelogs([lettuce, tacos], graph, plans, {});
 
 		expect(file.write).toHaveBeenCalledWith(
 			lettuce.resolve('CHANGELOG.md'),
@@ -146,14 +155,21 @@ _View git logs for full change list._
 				{
 					type: 'minor' as const,
 					version: '1.1.0',
-					entries: [{ content: 'exports romaine', ref: 'abc123abc123', type: 'minor' }],
+					entries: [
+						{
+							content: 'exports romaine',
+							ref: 'abc123abc123',
+							type: 'minor',
+							filepath: tacos.resolve('.changes/1-abc.md'),
+						},
+					],
 					logs: [],
 					fromRef: 'abc123abc123abc',
 					throughRef: '123efg123efg123',
 				},
 			],
 		]);
-		await writeChangelogs([lettuce], graph, plans, {
+		await consumeChangelogs([lettuce], graph, plans, {
 			commit: 'override ${ref} (${ref.short})',
 			footer: '> footer ${fromRef.short} ${throughRef.short}',
 		});
