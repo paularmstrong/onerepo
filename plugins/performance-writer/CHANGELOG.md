@@ -1,5 +1,26 @@
 # @onerepo/plugin-performance-writer
 
+## 0.1.8
+
+### Patch changes
+
+- Fix tests to support the `--quiet` flag. ([25f5d48](https://github.com/paularmstrong/onerepo/commit/25f5d48b56d46f5f9b83ada2c582d5ec2589b9ee))
+
+### Dependencies updated
+
+- onerepo@0.17.0
+- @onerepo/test-cli@0.5.7
+- @onerepo/yargs@0.7.0
+- @onerepo/builders@0.5.7
+- @onerepo/git@0.5.1
+- @onerepo/graph@0.11.0
+- @onerepo/package-manager@0.5.1
+- @onerepo/subprocess@0.7.1
+- @onerepo/file@0.7.0
+- @onerepo/logger@0.7.0
+
+> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
+
 ## 0.1.7
 
 ### Patch Changes
