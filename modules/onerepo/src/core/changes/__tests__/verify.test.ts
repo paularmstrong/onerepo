@@ -31,4 +31,22 @@ describe('verify', () => {
 
 		await expect(run()).resolves.toBeTruthy();
 	});
+
+	test('does not fail for changelog changes', async () => {
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/cheese/CHANGELOG.md']);
+
+		await expect(run()).resolves.toBeTruthy();
+	});
+
+	test('does not fail for changelog+package.json changes', async () => {
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/cheese/CHANGELOG.md', 'modules/cheese/package.json']);
+
+		await expect(run()).resolves.toBeTruthy();
+	});
+
+	test('fails for package.json changes', async () => {
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/cheese/package.json']);
+
+		await expect(run()).rejects.toMatch('Workspace "cheese" is missing a required change entry.');
+	});
 });

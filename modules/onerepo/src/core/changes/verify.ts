@@ -20,16 +20,30 @@ export const handler: Handler = async (argv, { graph, logger }) => {
 
 	const hasEntry = new Set<Workspace>();
 	const workspaces = new Set<Workspace>();
+	const filesByWorkspace = new Map<Workspace, Array<string>>(graph.workspaces.map((ws) => [ws, [] as Array<string>]));
 
 	for (const filepath of files) {
 		const fullFilepath = path.join(graph.root.resolve(filepath));
 		const ws = graph.getByLocation(fullFilepath);
-		if (ws.private) {
+		const files = filesByWorkspace.get(ws)!;
+		files.push(fullFilepath);
+	}
+
+	for (const ws of filesByWorkspace.keys()) {
+		const files = filesByWorkspace.get(ws)!;
+		if (ws.private || files.length === 0) {
+			continue;
+		}
+
+		const hasPackageJson = files.some((fp) => fp === ws.resolve('package.json'));
+		const hasChangelog = files.some((fp) => fp === ws.resolve('CHANGELOG.md'));
+
+		if ((files.length === 2 && hasPackageJson && hasChangelog) || (files.length === 1 && hasChangelog)) {
 			continue;
 		}
 
 		workspaces.add(ws);
-		if (fullFilepath.startsWith(ws.resolve('.changes'))) {
+		if (files.some((fp) => fp.startsWith(ws.resolve('.changes')))) {
 			hasEntry.add(ws);
 		}
 	}
