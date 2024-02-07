@@ -5,7 +5,7 @@
 	"main": "./src/index.js",
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"vitest": "^1.1.1"
+		"vitest": "^1.2.2"
 	},
 	"peerDependencies": {
 		"vitest": "^1"

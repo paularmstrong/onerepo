@@ -1647,7 +1647,7 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@vitest/coverage-v8": ^1.1.3
-    vitest: ^1.1.1
+    vitest: ^1.2.2
   peerDependencies:
     vitest: ^1
   languageName: unknown
@@ -3367,7 +3367,7 @@ __metadata:
     onerepo: "workspace:^"
     prettier: ^3.0.0
     typescript: ^5.3.3
-    vitest: ^1.1.1
+    vitest: ^1.2.2
   bin:
     one: ./bin/one.mjs
   languageName: unknown
@@ -20964,7 +20964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^1.1.1":
+"vitest@npm:^1.2.2":
   version: 1.2.2
   resolution: "vitest@npm:1.2.2"
   dependencies:
