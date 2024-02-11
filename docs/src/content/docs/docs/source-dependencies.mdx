@@ -5,9 +5,13 @@ sidebar:
   order: 1
 ---
 
-One core benefit of a monorepo that is often missed or not enabled via tooling is the ability to use shared workspaces as _source level dependencies_. When working in a monorepo, we should never have to rebuild shared workspaces in order to pick up changes in their consuming, dependent workspaces.
+One core benefit of a monorepo that is often missed or not enabled via tooling is the ability to use shared Workspaces as _source-level dependencies_. When our code is co-located in a monorepo, we should never have to rebuild across Workspace boundaries in order to pick up changes in their consuming, dependent workspaces.
 
-`package.json` fields referencing files should always point to the _source_ files. These are the unbuilt, unminified versions of your files (typically in the `src` directory).
+Some implementations of monorepos fail due to their use of TypeScript or other languages and features that need to be compiled or transpiled before use across Workspaces. Some notable projects and teams have famously removed TypeScript for this reason alone.
+
+But with oneRepo, we don't need to worry about waiting for changes, because we enable source-level dependencies out of the box.
+
+In order to achieve a workflow that does not need pre-compilation, we point each Workspace's `package.json` entry fields the uncompiled _source_ files. These are the unbuilt, unminified versions of your files (typically in the `src` directory).
 
 ```json title="./modules/my-module/package.json"
 {
