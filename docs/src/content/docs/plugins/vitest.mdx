@@ -38,12 +38,12 @@ import Tabs from '../../../components/Tabs.astro';
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<12c4855cea236c5e298a4cfa5ebe6fe2>> */}
+{/* @generated SignedSource<<b94b7b65b0b9c244d90aa189b776a379>> */}
 
 ### vitest()
 
 ```ts
-function vitest(opts): PluginObject;
+vitest(opts): PluginObject
 ```
 
 Include the `vitest` plugin in your oneRepo plugin setup:
@@ -88,7 +88,7 @@ export default {
 ##### config?
 
 ```ts
-config?: string;
+optional config: string;
 ```
 
 Specify the main Jest configuration file, if different from `<repo>/vitest.config.js`. This can be relative to the repository root.
@@ -106,7 +106,7 @@ export default {
 ##### name?
 
 ```ts
-name?: string | string[];
+optional name: string | string[];
 ```
 
 - **Default:** `'vitest'`

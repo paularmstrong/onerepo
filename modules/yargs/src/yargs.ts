@@ -315,7 +315,7 @@ export type HandlerExtra = {
 /**
  * Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.
  *
- * For common arguments that work in conjunction with {@link HandlerExtra | `HandlerExtra`} methods like `getAffected()`, you can use helpers from the {@link builders! | `builders` namespace}, like {@link builders!withAffected | `builders.withAffected()`}.
+ * For common arguments that work in conjunction with {@link HandlerExtra | `HandlerExtra`} methods like `getAffected()`, you can use helpers from the {@link builders | `builders` namespace}, like {@link builders.withAffected | `builders.withAffected()`}.
  *
  * ```ts
  * type Argv = {

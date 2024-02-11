@@ -46,12 +46,12 @@ oneRepo does not send metrics, telemetry, or any other information anywhere – 
 </Tabs>
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<032968a2e9b5a7e826e4df3e66ad40f5>> */}
+{/* @generated SignedSource<<547a9f9b8dd20b4f559e0e152b564e11>> */}
 
 ### performanceWriter()
 
 ```ts
-function performanceWriter(opts): PluginObject;
+performanceWriter(opts): PluginObject
 ```
 
 Include the `performanceWriter` plugin in your oneRepo plugin setup:
@@ -97,7 +97,7 @@ export default {
 ##### output?
 
 ```ts
-output?: "temp" | string;
+optional output: "temp" | string;
 ```
 
 Whether or not to measure performance marks. Adds minimal overhead. Disable if you’d prefer to make your own measurements.

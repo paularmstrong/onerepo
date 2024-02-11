@@ -42,12 +42,12 @@ Check out our very own source level [example](example/) generated directly from 
 :::
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<b065f8c6f3fb23e3f73746e97a6cbc8a>> */}
+{/* @generated SignedSource<<55b85567e8384d6dc408bf1c024e7f68>> */}
 
 ### docgen()
 
 ```ts
-function docgen(opts): Plugin;
+docgen(opts): Plugin
 ```
 
 Include the `eslint` plugin in your oneRepo plugin setup:
@@ -99,7 +99,7 @@ export default {
 ##### format?
 
 ```ts
-format?: "markdown" | "json";
+optional format: "markdown" | "json";
 ```
 
 Default output format for the documentation
@@ -109,7 +109,7 @@ Default output format for the documentation
 ##### name?
 
 ```ts
-name?: string | string[];
+optional name: string | string[];
 ```
 
 Override the name of the command.
@@ -119,7 +119,7 @@ Override the name of the command.
 ##### outFile?
 
 ```ts
-outFile?: string;
+optional outFile: string;
 ```
 
 If set, a file will be written by default to the given location (in the given `outWorkspace`)
@@ -127,7 +127,7 @@ If set, a file will be written by default to the given location (in the given `o
 ##### outWorkspace?
 
 ```ts
-outWorkspace?: string;
+optional outWorkspace: string;
 ```
 
 If `outFile` is also set, the generated documentation will be written out.
@@ -135,7 +135,7 @@ If `outFile` is also set, the generated documentation will be written out.
 ##### safeWrite?
 
 ```ts
-safeWrite?: boolean;
+optional safeWrite: boolean;
 ```
 
 Set to true to amend content to the given file using the file.writeSafe | `file.writeSafe` method.

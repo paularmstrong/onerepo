@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<583ca9b9f8b25bdb19c57dcb2fa3bb53>> -->
+<!-- @generated SignedSource<<2f5f2f4788cb79f454e862fbffbc6c05>> -->
 
 Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived.
 
@@ -54,7 +54,7 @@ type FileGetterOptions: GetterOptions & {
 ##### affectedThreshold?
 
 ```ts
-affectedThreshold?: number;
+optional affectedThreshold: number;
 ```
 
 Threshold of number of files until we fall-back and swap to Workspace locations. This exists as a safeguard from attempting to pass too many files through to subprocesses and hitting the limit on input argv, resulting in unexpected and unexplainable errors.
@@ -84,7 +84,7 @@ type Staged: {
 ##### from?
 
 ```ts
-from?: never;
+optional from: never;
 ```
 
 ##### staged
@@ -98,7 +98,7 @@ Limit to only changes that are currently staged. This cannot be used with `from`
 ##### through?
 
 ```ts
-through?: never;
+optional through: never;
 ```
 
 **Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
@@ -120,7 +120,7 @@ type Through: {
 ##### from?
 
 ```ts
-from?: string;
+optional from: string;
 ```
 
 Git ref to calculate changes _exclusively_ _since_.
@@ -128,13 +128,13 @@ Git ref to calculate changes _exclusively_ _since_.
 ##### staged?
 
 ```ts
-staged?: false;
+optional staged: false;
 ```
 
 ##### through?
 
 ```ts
-through?: string;
+optional through: string;
 ```
 
 Git ref to calculate changes _inclusively_ _through_.
@@ -146,7 +146,7 @@ Git ref to calculate changes _inclusively_ _through_.
 ### withAffected()
 
 ```ts
-function withAffected<T>(yargs): Yargs<T & WithAffected>;
+withAffected<T>(yargs): Yargs<T & WithAffected>
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected), [`builders.getFilepaths`](#getfilepaths), and [`builders.getGetWorkspaces`](#getworkspaces).
@@ -183,7 +183,7 @@ export const builder = (yargs) => builders.withAffected(yargs);
 ### withAllInputs()
 
 ```ts
-function withAllInputs(yargs): Yargs<WithAllInputs>;
+withAllInputs(yargs): Yargs<WithAllInputs>
 ```
 
 Helper to chain all of [`builders.withAffected`](#withaffected), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces) on a [`Builder`](../../#buildercommandargv).
@@ -206,7 +206,7 @@ export const builder = (yargs) => builders.withAllInputs(yargs);
 ### withFiles()
 
 ```ts
-function withFiles<T>(yargs): Yargs<T & WithFiles>;
+withFiles<T>(yargs): Yargs<T & WithFiles>
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getFilepaths`](#getfilepaths).
@@ -239,7 +239,7 @@ export const builder = (yargs) => builders.withFiles(yargs);
 ### withWorkspaces()
 
 ```ts
-function withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>;
+withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>
 ```
 
 Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected) [`builders.getWorkspaces`](#getworkspaces).
@@ -296,7 +296,7 @@ export const builder: Builder<Argv> = (yargs) => builders.withAffected(yargs);
 ##### affected?
 
 ```ts
-affected?: boolean;
+optional affected: boolean;
 ```
 
 When used with builder helpers, will include all of the affected Workspaces based on changes within the repository.
@@ -304,7 +304,7 @@ When used with builder helpers, will include all of the affected Workspaces base
 ##### from-ref?
 
 ```ts
-from-ref?: string;
+optional from-ref: string;
 ```
 
 Git ref to calculate changes _exclusively_ _since_.
@@ -312,7 +312,7 @@ Git ref to calculate changes _exclusively_ _since_.
 ##### staged?
 
 ```ts
-staged?: boolean;
+optional staged: boolean;
 ```
 
 Calculate changes based _inclusively_ on the files added to the git stage.
@@ -320,7 +320,7 @@ Calculate changes based _inclusively_ on the files added to the git stage.
 ##### through-ref?
 
 ```ts
-through-ref?: string;
+optional through-ref: string;
 ```
 
 Git ref to calculate changes _inclusively_ _through_.
@@ -372,7 +372,7 @@ export const builder: Builder<Argv> = (yargs) => builders.withFiles(yargs);
 ##### files?
 
 ```ts
-files?: string[];
+optional files: string[];
 ```
 
 List of filepaths.
@@ -405,7 +405,7 @@ export const builder: Builder<Argv> = (yargs) => builders.withWorkspaces(yargs);
 ##### all?
 
 ```ts
-all?: boolean;
+optional all: boolean;
 ```
 
 Include _all_ Workspaces.
@@ -413,7 +413,7 @@ Include _all_ Workspaces.
 ##### workspaces?
 
 ```ts
-workspaces?: string[];
+optional workspaces: string[];
 ```
 
 One or more Workspaces by `name` or `alias` string.
@@ -425,7 +425,7 @@ One or more Workspaces by `name` or `alias` string.
 ### getAffected()
 
 ```ts
-function getAffected(graph, __namedParameters?): Promise<Workspace[]>;
+getAffected(graph, __namedParameters?): Promise<Workspace[]>
 ```
 
 Get a list of the affected Workspaces.
@@ -458,7 +458,10 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 ### getFilepaths()
 
 ```ts
-function getFilepaths(graph, argv, __namedParameters?): Promise<string[]>;
+getFilepaths(
+   graph,
+   argv,
+__namedParameters?): Promise<string[]>
 ```
 
 Get a list of filepaths based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
@@ -497,7 +500,10 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 ### getWorkspaces()
 
 ```ts
-function getWorkspaces(graph, argv, __namedParameters?): Promise<Workspace[]>;
+getWorkspaces(
+   graph,
+   argv,
+__namedParameters?): Promise<Workspace[]>
 ```
 
 Get a list of Workspaces based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
@@ -552,7 +558,7 @@ type GetterOptions: Through | Staged & {
 ##### ignore?
 
 ```ts
-ignore?: string[];
+optional ignore: string[];
 ```
 
 List of files to not take into account when getting the list of files, workspaces, and affected.
@@ -560,7 +566,7 @@ List of files to not take into account when getting the list of files, workspace
 ##### step?
 
 ```ts
-step?: LogStep;
+optional step: LogStep;
 ```
 
 Optional logger step to avoid creating a new

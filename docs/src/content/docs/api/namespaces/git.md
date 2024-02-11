@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<d83a1caca436431e23f5ab96e713065a>> -->
+<!-- @generated SignedSource<<8a2efe3bfd598780f9e9f3dba62ecdc4>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -40,11 +40,11 @@ new StagingWorkflow(options): StagingWorkflow
 
 **Parameters:**
 
-| Parameter        | Type                                                                        | Description                            |
-| :--------------- | :-------------------------------------------------------------------------- | :------------------------------------- |
-| `options`        | \{ `graph`: [`Graph`](../../#graph); `logger`: [`Logger`](../../#logger); } | -                                      |
-| `options.graph`  | [`Graph`](../../#graph)                                                     | The repository Graph                   |
-| `options.logger` | [`Logger`](../../#logger)                                                   | Logger instance to use for all actions |
+| Parameter        | Type                      | Description                            |
+| :--------------- | :------------------------ | :------------------------------------- |
+| `options`        | `Object`                  | -                                      |
+| `options.graph`  | [`Graph`](../../#graph)   | The repository Graph                   |
+| `options.logger` | [`Logger`](../../#logger) | Logger instance to use for all actions |
 
 **Returns:** [`StagingWorkflow`](#stagingworkflow)  
 **Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
@@ -97,7 +97,7 @@ type ModifiedFromThrough: {
 ##### from?
 
 ```ts
-from?: string;
+optional from: string;
 ```
 
 Git ref for start (exclusive) to get list of modified files
@@ -105,7 +105,7 @@ Git ref for start (exclusive) to get list of modified files
 ##### staged?
 
 ```ts
-staged?: false;
+optional staged: false;
 ```
 
 Cannot include `staged` files when using from/through refs.
@@ -113,7 +113,7 @@ Cannot include `staged` files when using from/through refs.
 ##### through?
 
 ```ts
-through?: string;
+optional through: string;
 ```
 
 Git ref for end (inclusive) to get list of modified files
@@ -137,7 +137,7 @@ type ModifiedStaged: {
 ##### from?
 
 ```ts
-from?: never;
+optional from: never;
 ```
 
 Disallowed when `staged: true`
@@ -153,7 +153,7 @@ Get staged modified files only
 ##### through?
 
 ```ts
-through?: never;
+optional through: never;
 ```
 
 Disallowed when `staged: true`
@@ -177,7 +177,7 @@ Generic options passed to all Git operations.
 ##### step?
 
 ```ts
-step?: LogStep;
+optional step: LogStep;
 ```
 
 Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
@@ -189,7 +189,7 @@ Avoid creating a new step in output for each function. Pass a Logger Step to pip
 ### getBranch()
 
 ```ts
-function getBranch(__namedParameters?): Promise<string>;
+getBranch(__namedParameters?): Promise<string>
 ```
 
 Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
@@ -212,7 +212,7 @@ const currentBranch = await git.getBranch();
 ### getCurrentSha()
 
 ```ts
-function getCurrentSha(__namedParameters?): Promise<string>;
+getCurrentSha(__namedParameters?): Promise<string>
 ```
 
 Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
@@ -235,7 +235,7 @@ const sha = await git.getCurrentSha();
 ### getMergeBase()
 
 ```ts
-function getMergeBase(__namedParameters?): Promise<string>;
+getMergeBase(__namedParameters?): Promise<string>
 ```
 
 Determine the git ref for merging the current working branch, sha, or ref, whichever that is. This function does a bunch of internal checks to determine the where the most likely point of forking happened.
@@ -258,7 +258,7 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-function getModifiedFiles(__namedParameters?, __namedParameters?): Promise<string[]>;
+getModifiedFiles(__namedParameters?, __namedParameters?): Promise<string[]>
 ```
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -283,7 +283,7 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 ### isClean()
 
 ```ts
-function isClean(__namedParameters?): Promise<boolean>;
+isClean(__namedParameters?): Promise<boolean>
 ```
 
 Check if the current git working state is clean.
@@ -309,7 +309,7 @@ if (!isClean) {
 ### updateIndex()
 
 ```ts
-function updateIndex(paths, __namedParameters?): Promise<string>;
+updateIndex(paths, __namedParameters?): Promise<string>
 ```
 
 Add filepaths to the git index. Equivalent to `git add [...files]`.
