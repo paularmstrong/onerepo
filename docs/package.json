@@ -8,7 +8,7 @@
 		"@astrojs/mdx": "^2.1.1",
 		"@astrojs/starlight": "^0.18.0",
 		"@internal/tsconfig": "workspace:^",
-		"@types/pako": "^2",
+		"@types/pako": "^2.0.3",
 		"astro": "^4.3.5",
 		"astro-meta-tags": "^0.2.1",
 		"astro-og-canvas": "^0.4.2",

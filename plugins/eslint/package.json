@@ -35,7 +35,7 @@
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8.56.1",
+		"@types/eslint": "^8.56.2",
 		"eslint": "^8.38.0",
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",
