@@ -1,5 +1,24 @@
 # @onerepo/test-cli
 
+## 1.0.0-beta.0
+
+### Major changes
+
+- Triggering major release… ([1525cc1](https://github.com/paularmstrong/onerepo/commit/1525cc1e51b571bc86ed4dbfd71864217881ff88))
+
+### Dependencies updated
+
+- @onerepo/yargs@1.0.0-beta.0
+- @onerepo/builders@1.0.0-beta.0
+- @onerepo/git@1.0.0-beta.0
+- @onerepo/graph@1.0.0-beta.0
+- @onerepo/package-manager@1.0.0-beta.0
+- @onerepo/subprocess@1.0.0-beta.0
+- @onerepo/file@1.0.0-beta.0
+- @onerepo/logger@1.0.0-beta.0
+
+> View the full changelog: [78c3762...1525cc1](https://github.com/paularmstrong/onerepo/commits/78c37627cffe8d026958ec949eda9ab0d9c29cf8...1525cc1e51b571bc86ed4dbfd71864217881ff88)
+
 ## 0.5.7
 
 ### Dependencies updated

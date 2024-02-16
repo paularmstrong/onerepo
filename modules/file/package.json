@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/file",
-	"version": "0.7.0",
+	"version": "1.0.0-beta.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "0.7.0",
+		"@onerepo/logger": "1.0.0-beta.0",
 		"jiti": "^1.21.0"
 	},
 	"devDependencies": {

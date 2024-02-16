@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-vitest",
 	"description": "Official Vitest plugin for the oneRepo toolchain.",
 	"title": "Vitest",
-	"version": "0.6.1",
+	"version": "1.0.0-beta.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,9 +23,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "0.5.7",
-		"@onerepo/git": "0.5.1",
-		"@onerepo/subprocess": "0.7.1"
+		"@onerepo/builders": "1.0.0-beta.0",
+		"@onerepo/git": "1.0.0-beta.0",
+		"@onerepo/subprocess": "1.0.0-beta.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
