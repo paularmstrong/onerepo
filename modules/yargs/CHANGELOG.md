@@ -1,5 +1,29 @@
 # @onerepo/yargs
 
+## 1.0.0-beta.0
+
+### Major changes
+
+- Triggering major release… ([1525cc1](https://github.com/paularmstrong/onerepo/commit/1525cc1e51b571bc86ed4dbfd71864217881ff88))
+
+### Patch changes
+
+- Dev dependency updates ([a96e6d5](https://github.com/paularmstrong/onerepo/commit/a96e6d552678239ea4b82b39130a002329b256d5))
+- Updated internal types dependencies. ([de04ab8](https://github.com/paularmstrong/onerepo/commit/de04ab877c4e04f43ada5383a89c040f678475a2))
+- Minor typedoc fixes ([596d9f2](https://github.com/paularmstrong/onerepo/commit/596d9f2ed3878e7c8f872bdabf6c3a3c248e94fa))
+
+### Dependencies updated
+
+- @onerepo/builders@1.0.0-beta.0
+- @onerepo/git@1.0.0-beta.0
+- @onerepo/graph@1.0.0-beta.0
+- @onerepo/package-manager@1.0.0-beta.0
+- @onerepo/subprocess@1.0.0-beta.0
+- @onerepo/file@1.0.0-beta.0
+- @onerepo/logger@1.0.0-beta.0
+
+> View the full changelog: [78c3762...1525cc1](https://github.com/paularmstrong/onerepo/commits/78c37627cffe8d026958ec949eda9ab0d9c29cf8...1525cc1e51b571bc86ed4dbfd71864217881ff88)
+
 ## 0.7.0
 
 ### Minor changes

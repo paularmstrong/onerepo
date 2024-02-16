@@ -1,5 +1,17 @@
 # eslint-formatter-onerepo
 
+## 1.0.0-beta.0
+
+### Major changes
+
+- Triggering major release… ([1525cc1](https://github.com/paularmstrong/onerepo/commit/1525cc1e51b571bc86ed4dbfd71864217881ff88))
+
+### Patch changes
+
+- Dev dependency updates ([a96e6d5](https://github.com/paularmstrong/onerepo/commit/a96e6d552678239ea4b82b39130a002329b256d5))
+
+> View the full changelog: [78c3762...1525cc1](https://github.com/paularmstrong/onerepo/commits/78c37627cffe8d026958ec949eda9ab0d9c29cf8...1525cc1e51b571bc86ed4dbfd71864217881ff88)
+
 ## 0.1.2
 
 > View the full changelog: [d1f6cce...5e203f5](https://github.com/paularmstrong/onerepo/commits/d1f6cce5075619666721f813ffcba1957b637fbf...5e203f559b5aca1f45427729a59764d3a47952b5)
