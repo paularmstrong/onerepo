@@ -10,6 +10,8 @@ meta:
 
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
+import Instructions from '../../../components/Instructions.astro';
+import InstructionStep from '../../../components/InstructionStep.astro';
 
 ## Installation
 
@@ -36,6 +38,47 @@ import Tabs from '../../../components/Tabs.astro';
 
   </TabItem>
 </Tabs>
+
+Vitest supports Workspaces with a little extra configuration than you may by used to. Create two files at the root of your repository: `vitest.config.ts` and `vitest.workspace.ts`:
+
+<Instructions>
+<InstructionStep title="Create a root config">
+<span slot="content">This is the generic configuration for tests across all workspaces. Anything configurations here will be defaults for each Workspace.</span>
+<span slot="terminal">
+```js title="vitest.config.ts"
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({});
+```
+</span>
+</InstructionStep>
+
+<InstructionStep title="Create a Workspace config">
+<span slot="content">In the `vitest.workspace.ts` file, we need to duplicate the workspace globs from our original `package.json` or `pnpm-workspaces.yaml` file and ensure they point to valid Vitest config files:</span>
+<span slot="terminal">
+```ts title="vitest.workspace.ts"
+import { defineWorkspace } from 'vitest/config';
+
+export default defineWorkspace([
+	'<rootDir>/apps/*/vitest.config.ts',
+	'<rootDir>/modules/*/vitest.config.ts',
+]);
+```
+</span>
+</InstructionStep>
+<InstructionStep title="Create each Workspace configs">
+<span slot="content">In each Workspace that has tests, create a new Vitest config file, ensuring to use `defineProject` (not `defineConfig`):</span>
+<span slot="terminal">
+```ts title="apps/my-app/vitest.config.ts"
+import { defineProject } from 'vitest/config';
+
+export default defineProject({});
+```
+</span>
+</InstructionStep>
+</Instructions>
+
+## Configuration
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<b94b7b65b0b9c244d90aa189b776a379>> */}
@@ -125,6 +168,23 @@ export default {
 
 {/* end-install-typedoc */}
 
+## Recommended tasks
+
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: ['$0 vitest'],
+		},
+		'pre-merge': {
+			serial: ['$0 vitest -a'],
+		},
+	},
+} satisfies Config;
+```
+
 ## Commands
 
 {/* start-auto-generated-from-cli-vitest */}
@@ -192,3 +252,19 @@ one test -w <workspace>
 ```
 
 {/* end-auto-generated-from-cli-vitest */}
+
+## FAQs
+
+<details>
+<summary>**How can I stop Vitest from clearing the output when running in `pre-commit` tasks?**</summary>
+We've filed an issue with Vitest, [vitest-dev/vitest#5185](https://github.com/vitest-dev/vitest/issues/5185) in hopes of being able to prevent the screen from clearing automatically from within the oneRepo plugin. However, until that is accepted, you can work around the issue by updating your root Vitest config:
+
+```ts title="./vitest.config.ts"n {4}
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+	clearScreen: process.argv.includes('--watch'),
+});
+```
+
+</details>

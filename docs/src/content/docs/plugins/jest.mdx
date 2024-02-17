@@ -11,7 +11,7 @@ meta:
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
 
-Jest is the recomended framework for headless testing with oneRepo. As opposed to Vitest and others, Jest allows a single runner that can use multiple project configurations. Think of each project as a separate workspace in your repo.
+Jest is a good framework for headless testing with oneRepo. Jest works well because it allows a single runner that can use multiple project configurations. Each workspace in your repository can be a Jest project, enabling Jest to determine which tests to run.
 
 The added benefit of Jest is that as you are working, you can run this single command and it will automatically test appropriate files related to your changes across all workspaces. There's no need to determine which workspaces to run – and can all be done with `--watch` mode at the same time.
 
@@ -49,6 +49,8 @@ export default {
 	projects: ['<rootDir>/apps/*/jest.config.js', '<rootDir>/modules/*/jest.config.js'],
 };
 ```
+
+## Configuration
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<347453289f233a73126de352538f5cf4>> */}
@@ -160,6 +162,23 @@ export default {
 ```
 
 {/* end-install-typedoc */}
+
+## Recommended tasks
+
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: ['$0 jest'],
+		},
+		'pre-merge': {
+			serial: ['$0 jest -a'],
+		},
+	},
+} satisfies Config;
+```
 
 ## Commands
 

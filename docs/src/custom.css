@@ -28,6 +28,11 @@
 	--sl-color-black: #ffffff;
 }
 
+::selection {
+	background-color: oklch(65% 0.291 0.28 / 0.4);
+	border-radius: 0.25rem;
+}
+
 @media (min-width: 100rem) {
 	:root {
 		--sl-content-width: 56rem;

@@ -37,6 +37,8 @@ import Tabs from '../../../components/Tabs.astro';
   </TabItem>
 </Tabs>
 
+## Configuration
+
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<1773ce7e55565387f70fae21b346c13c>> */}
 
@@ -109,6 +111,23 @@ optional useProjectReferences: boolean;
 Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig
 
 {/* end-install-typedoc */}
+
+## Recommended tasks
+
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: ['$0 tsc'],
+		},
+		'pre-merge': {
+			serial: ['$0 tsc'],
+		},
+	},
+} satisfies Config;
+```
 
 ## Commands
 

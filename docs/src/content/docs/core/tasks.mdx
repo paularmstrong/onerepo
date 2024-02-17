@@ -1,44 +1,15 @@
 ---
 title: Tasks
 description: Distribute and run tasks in JavaScript and TypeScript monorepos using oneRepo task management.
-usage: tasks
-meta:
-  stability: stable
+tableOfContents:
+  maxHeadingLevel: 4
 ---
 
-## Configuration
+Tasks are the primary way that oneRepo manages multiple units of work for you and your team. Run at various _lifecycles_, tasks helps you run commands, checks, and other automation as fast as possible by parallelizing work as much as possible.
 
-Tasks comes pre-configured with a set of common lifecycles that most JavaScript repositories tend to use.
+## Task types
 
-Next, create a `onerepo.config.js` file in your root workspace.
-
-```js title="onerepo.config.js"
-/** @type import('onerepo').TaskConfig */
-export default {
-	'pre-commit': {
-		serial: [
-			{ match: '**/*.{ts,tsx,js,jsx}', cmd: '$0 lint --staged --add' },
-			'$0 format --staged --add',
-			'$0 tsc --staged',
-		],
-		parallel: [
-			{ match: '**/commands/**/*.ts', cmd: '$0 docgen --add' },
-			{ match: '**/package.json', cmd: '$0 graph verify' },
-			{ match: 'plugins/*/src/**/*', cmd: '$0 docgen-internal --add' },
-		],
-	},
-	'pre-merge': {
-		serial: ['$0 lint --all --no-fix', '$0 format --check', '$0 test', '$0 tsc', '$0 build'],
-		parallel: [{ match: '**/package.json', cmd: '$0 graph verify' }],
-	},
-};
-```
-
-### Tasks
-
-There are four main types of tasks:
-
-#### Serial tasks
+### Serial
 
 When running full task sets on a single machine, some tasks may need to use a lot of resources at a single time. For example, running the [TypeScript plugin command](/plugins/typescript/) will batch many processes across as many CPU cores as possible. For that reason, it should not be run in _parallel_ to any other tasks.
 
@@ -51,7 +22,7 @@ export default {
 };
 ```
 
-#### Parallel tasks
+### Parallel
 
 When you have multiple tasks that run quickly and consume very few system resources, it can be possible to run them at the same time to make things faster. All parallel tasks for a given lifecycle will be run first before serial tasks to hopefully provide faster feedback.
 
@@ -64,7 +35,11 @@ export default {
 };
 ```
 
-#### Sequential tasks
+### Advanced tasks
+
+In some cases, we may find that tasks _need_ to be run in a strictly sequential manner, or potentially not run at all. We can handle these needs with the demonstrably named [sequential](#sequential) and [conditional](#conditional) tasks.
+
+#### Sequential
 
 In some cases, it may be necessary to run specific commands in sequential order, but still keep them as separate commands for different use-cases.
 
@@ -81,7 +56,7 @@ export default {
 };
 ```
 
-#### Conditional tasks
+#### Conditional
 
 Tasks may also be conditional based on glob patterns for modified files!
 
@@ -120,6 +95,8 @@ type TaskDef = {
 };
 ```
 
+## Lifecycles
+
 ### Adding more lifecycles
 
 First, configure the extra available `lifecycles` that the task runner should have access to run:
@@ -146,6 +123,59 @@ Some tokens in tasks can be used as special replacement values that the `tasks` 
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | `$0`            | Token for the repo’s oneRepo CLI. More specifically, `process.argv[1]`                                                                    | `$0 tsc`                    |
 | `${workspaces}` | The names of all affected workspaces will be spread comma-spaced. If you're using `withWorkspaces()`, use as `--workspaces ${workspaces}` | `$0 build -w ${workspaces}` |
+
+## Commands
+
+{/* start-auto-generated-from-cli-tasks */}
+{/* @generated SignedSource<<d80fb414366f551d9f9275fad97a7fa8>> */}
+
+### `one tasks`
+
+Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected Workspace set based on the current state of the repository.
+
+```sh
+one tasks --lifecycle=<lifecycle> [options...]
+```
+
+You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
+
+| Option              | Type                                                                                                                                            | Description                                                                                                                                      | Required |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| `--affected`        | `boolean`                                                                                                                                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                      |          |
+| `--all, -a`         | `boolean`                                                                                                                                       | Run across all workspaces                                                                                                                        |          |
+| `--ignore-unstaged` | `boolean`                                                                                                                                       | Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.                                     |          |
+| `--lifecycle, -c`   | `"pre-commit"`, `"post-commit"`, `"post-checkout"`, `"pre-merge"`, `"post-merge"`, `"build"`, `"pre-deploy"`, `"pre-publish"`, `"post-publish"` | Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.       | ✅       |
+| `--list`            | `boolean`                                                                                                                                       | List found tasks. Implies dry run and will not actually run any tasks.                                                                           |          |
+| `--shard`           | `string`                                                                                                                                        | Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`                                                         |          |
+| `--staged`          | `boolean`                                                                                                                                       | Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit. |          |
+| `--workspaces, -w`  | `array`                                                                                                                                         | List of Workspace names to run against                                                                                                           |          |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option            | Type                                  | Description                                                               |
+| ----------------- | ------------------------------------- | ------------------------------------------------------------------------- |
+| `--from-ref`      | `string`                              | Git ref to start looking for affected files or workspaces                 |
+| `--ignore`        | `array`, default: `[".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |
+| `--show-advanced` | `boolean`                             | Pair with `--help` to show advanced options.                              |
+| `--through-ref`   | `string`                              | Git ref to start looking for affected files or workspaces                 |
+
+</details>
+
+Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the first shard.
+
+```sh
+one tasks --lifecycle=pre-merge --shard=1/5
+```
+
+Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the third shard.
+
+```sh
+one tasks --lifecycle=pre-merge --shard=3/5
+```
+
+{/* end-auto-generated-from-cli-tasks */}
 
 ## Workflows
 
@@ -282,56 +312,3 @@ jobs:
           task: |
             ${{ toJSON(matrix.task) }}
 ```
-
-## Commands
-
-{/* start-auto-generated-from-cli-tasks */}
-{/* @generated SignedSource<<d80fb414366f551d9f9275fad97a7fa8>> */}
-
-### `one tasks`
-
-Run tasks against repo-defined lifecycles. This command will limit the tasks across the affected Workspace set based on the current state of the repository.
-
-```sh
-one tasks --lifecycle=<lifecycle> [options...]
-```
-
-You can fine-tune the determination of affected Workspaces by providing a `--from-ref` and/or `through-ref`. For more information, get help with `--help --show-advanced`.
-
-| Option              | Type                                                                                                                                            | Description                                                                                                                                      | Required |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| `--affected`        | `boolean`                                                                                                                                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                      |          |
-| `--all, -a`         | `boolean`                                                                                                                                       | Run across all workspaces                                                                                                                        |          |
-| `--ignore-unstaged` | `boolean`                                                                                                                                       | Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.                                     |          |
-| `--lifecycle, -c`   | `"pre-commit"`, `"post-commit"`, `"post-checkout"`, `"pre-merge"`, `"post-merge"`, `"build"`, `"pre-deploy"`, `"pre-publish"`, `"post-publish"` | Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.       | ✅       |
-| `--list`            | `boolean`                                                                                                                                       | List found tasks. Implies dry run and will not actually run any tasks.                                                                           |          |
-| `--shard`           | `string`                                                                                                                                        | Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`                                                         |          |
-| `--staged`          | `boolean`                                                                                                                                       | Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit. |          |
-| `--workspaces, -w`  | `array`                                                                                                                                         | List of Workspace names to run against                                                                                                           |          |
-
-<details>
-
-<summary>Advanced options</summary>
-
-| Option            | Type                                  | Description                                                               |
-| ----------------- | ------------------------------------- | ------------------------------------------------------------------------- |
-| `--from-ref`      | `string`                              | Git ref to start looking for affected files or workspaces                 |
-| `--ignore`        | `array`, default: `[".changesets/*"]` | List of filepath strings or globs to ignore when matching tasks to files. |
-| `--show-advanced` | `boolean`                             | Pair with `--help` to show advanced options.                              |
-| `--through-ref`   | `string`                              | Git ref to start looking for affected files or workspaces                 |
-
-</details>
-
-Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the first shard.
-
-```sh
-one tasks --lifecycle=pre-merge --shard=1/5
-```
-
-Shard all tasks for the `pre-merge` lifecycle into 5 groups and runs the third shard.
-
-```sh
-one tasks --lifecycle=pre-merge --shard=3/5
-```
-
-{/* end-auto-generated-from-cli-tasks */}

@@ -37,6 +37,8 @@ import Tabs from '../../../components/Tabs.astro';
   </TabItem>
 </Tabs>
 
+## Configuration
+
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<8108f885254cf686f216019a0b4a1455>> */}
 
@@ -113,6 +115,40 @@ Whether to use Prettier's built-in cache determinism.
 - **Default:** `true`
 
 {/* end-install-typedoc */}
+
+## Recommended tasks
+
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: ['$0 prettier --add'],
+		},
+		'pre-merge': {
+			serial: ['$0 prettier --check'],
+		},
+	},
+} satisfies Config;
+```
+
+If you're also running [ESLint](/plugins/eslint/), it is important to run Prettier _after_ ESLint. Do this by creating [sequential tasks](/core/tasks/#sequential-tasks): an array of tasks within the `serial` tasks array:
+
+```ts title="./onerepo.config.ts" ins={7,12}
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: [['$0 eslint --add', '$0 prettier --add']],
+		},
+		'pre-merge': {
+			serial: [['$0 eslint --all --no-fix', '$0 prettier --check']],
+		},
+	},
+} satisfies Config;
+```
 
 ## Commands
 

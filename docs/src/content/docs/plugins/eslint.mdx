@@ -37,6 +37,8 @@ import Tabs from '../../../components/Tabs.astro';
   </TabItem>
 </Tabs>
 
+## Configuration
+
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<946dcf9ff7e6865568f04464212e88df>> */}
 
@@ -118,6 +120,40 @@ optional quiet: boolean;
 Control the ESLint setting default to suppress warnings and only report errors.
 
 {/* end-install-typedoc */}
+
+## Recommended tasks
+
+```ts title="./onerepo.config.ts"
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: ['$0 eslint --add'],
+		},
+		'pre-merge': {
+			serial: ['$0 eslint --all --no-fix'],
+		},
+	},
+} satisfies Config;
+```
+
+If you're also running [Prettier](/plugins/prettier/), it is important to run ESLint \_before\_\_ Prettier. Do this by creating [sequential tasks](/core/tasks/#sequential-tasks): an array of tasks within the `serial` tasks array:
+
+```ts title="./onerepo.config.ts" ins={7,12}
+import type { Config } from 'onerepo';
+
+export default {
+	tasks: {
+		'pre-commit': {
+			serial: [['$0 eslint --add', '$0 prettier --add']],
+		},
+		'pre-merge': {
+			serial: [['$0 eslint --all --no-fix', '$0 prettier --check']],
+		},
+	},
+} satisfies Config;
+```
 
 ## Commands
 
