@@ -1,4 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
+import { prerelease } from 'semver';
 import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
 
 const cmd = 'yarn';
@@ -71,31 +72,27 @@ export const Yarn = {
 		}
 	},
 
-	publish: async (opts = {}) => {
-		const { access, cwd, otp, tag, workspaces } = opts;
+	publish: async (opts) => {
+		const { access, otp, tag, workspaces } = opts;
 		const options: Array<string> = [
+			'--tolerate-republish',
 			...(access ? ['--access', access] : []),
-			...(tag ? ['--tag', tag] : []),
 			...(otp ? ['--otp', otp] : []),
 		];
 
-		if (!workspaces?.length) {
-			await run({
-				name: 'Publish',
-				cmd: 'yarn',
-				args: ['npm', 'publish', '--tolerate-republish', ...options],
-				opts: cwd ? { cwd } : {},
-			});
-		} else {
-			await batch(
-				workspaces.map((ws) => ({
+		await batch(
+			workspaces.map((ws) => {
+				const pre = prerelease(ws.version!);
+				const thisTag = pre && pre[0] ? `${pre[0]}` : tag ?? 'latest';
+				return {
 					name: `Publish ${ws.name}`,
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish', ...options],
+					cmd,
+					args: ['npm', 'publish', '--tag', thisTag, ...options],
 					opts: { cwd: ws.location },
-				})),
-			);
-		}
+				};
+			}),
+			{ maxParallel: 40 },
+		);
 	},
 
 	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {

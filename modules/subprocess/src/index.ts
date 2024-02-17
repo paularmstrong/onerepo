@@ -317,7 +317,9 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  */
 export type BatchOptions = {
 	/**
-	 * @default {number of CPUs - 1}
+	 * The absolute maximum number of subprocesses to batch. This amount will always be limited by the number of CPUs/cores available on the current machine.
+	 *
+	 * @default `deterministic` Number of CPUs - 1
 	 */
 	maxParallel?: number;
 };

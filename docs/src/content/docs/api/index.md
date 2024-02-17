@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<860edfabf2c6cf6a9cc8b1f7425c7f99>> -->
+<!-- @generated SignedSource<<d2155186502a348d6691838f52d6b7a9>> -->
 
 ## Namespaces
 
@@ -2600,7 +2600,7 @@ Get the package manager for the current working directory with _some_ confidence
 
 ### PackageManager
 
-Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [`Graph`](#graph) & graph.Workspace | `graph.Workspace`s.
+Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [`Graph`](#graph) & [`Workspace`](#workspace)s.
 
 #### Methods
 
@@ -2711,7 +2711,7 @@ Check if the current user is logged in to the external registry
 ##### publish()
 
 ```ts
-publish<T>(opts?): Promise<void>
+publish<T>(opts): Promise<void>
 ```
 
 Publish Workspaces to the external registry
@@ -2724,14 +2724,14 @@ Publish Workspaces to the external registry
 
 **Parameters:**
 
-| Parameter          | Type                         | Description                                                                                                                                                                              |
-| :----------------- | :--------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `opts`?            | `Object`                     | -                                                                                                                                                                                        |
-| `opts.access`?     | `"restricted"` \| `"public"` | Set the registry access level for the package<br /><br />**Default**<br />inferred from Workspaces `publishConfig.access` or `'public'`                                                  |
-| `opts.cwd`?        | `string`                     | Command working directory. Defaults to the repository root.                                                                                                                              |
-| `opts.otp`?        | `string`                     | This is a one-time password from a two-factor authenticator.                                                                                                                             |
-| `opts.tag`?        | `string`                     | If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.<br /><br />**Default**<br />`'latest'`                                 |
-| `opts.workspaces`? | `T`[]                        | Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with graph.Workspace \| `graph.Workspace`. |
+| Parameter         | Type                         | Description                                                                                                                                                                   |
+| :---------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `opts`            | `Object`                     | -                                                                                                                                                                             |
+| `opts.access`?    | `"restricted"` \| `"public"` | Set the registry access level for the package<br /><br />**Default**<br />inferred from Workspaces `publishConfig.access` or `'public'`                                       |
+| `opts.cwd`?       | `string`                     | Command working directory. Defaults to the repository root.                                                                                                                   |
+| `opts.otp`?       | `string`                     | This is a one-time password from a two-factor authenticator.                                                                                                                  |
+| `opts.tag`?       | `string`                     | If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag.<br /><br />**Default**<br />`'latest'`                      |
+| `opts.workspaces` | `T`[]                        | Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with [`Workspace`](#workspace). |
 
 **Returns:** `Promise`\<`void`\>  
 **Source:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
@@ -2752,9 +2752,9 @@ Filter Workspaces to the set of those that are actually publishable. This will c
 
 **Parameters:**
 
-| Parameter    | Type  | Description                                                      |
-| :----------- | :---- | :--------------------------------------------------------------- |
-| `workspaces` | `T`[] | List of compatible graph.Workspace \| `graph.Workspace` objects. |
+| Parameter    | Type  | Description                                           |
+| :----------- | :---- | :---------------------------------------------------- |
+| `workspaces` | `T`[] | List of compatible [`Workspace`](#workspace) objects. |
 
 **Returns:** `Promise`\<`T`[]\>  
 **Source:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
@@ -3339,19 +3339,18 @@ Options for running [`batch()`](#batch-1) subprocesses.
 optional maxParallel: number;
 ```
 
-**Default:** ```ts
-{number of CPUs - 1}
+The absolute maximum number of subprocesses to batch. This amount will always be limited by the number of CPUs/cores available on the current machine.
 
-````
-
+**Default:** `deterministic` Number of CPUs - 1  
 **Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
-***
+
+---
 
 ### PromiseFn
 
 ```ts
 type PromiseFn: () => Promise<[string, string]>;
-````
+```
 
 **Returns:** `Promise`\<[`string`, `string`]\>  
 **Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)

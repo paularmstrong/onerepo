@@ -75,81 +75,154 @@ describe('Yarn', () => {
 	});
 
 	describe('publish', () => {
-		test('Publishes', async () => {
-			await manager.publish();
+		let dryRun = process.env.ONEREPO_DRY_RUN;
+		beforeEach(() => {
+			dryRun = process.env.ONEREPO_DRY_RUN;
+		});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish'],
-				}),
+		afterEach(() => {
+			process.env.ONEREPO_DRY_RUN = dryRun;
+		});
+
+		test('publishes', async () => {
+			await manager.publish({
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
+
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'latest', '--tolerate-republish'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
-		/**
-		 * Yarn does not have a --dry-run option!
-		 */
-		test('Does not enable dry-run', async () => {
-			await manager.publish();
+		test('does not --dry-run', async () => {
+			process.env.ONEREPO_DRY_RUN = 'true';
 
-			expect(subprocess.run).not.toHaveBeenCalledWith(expect.objectContaining({ runDry: true }));
+			await manager.publish({
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
+
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.not.objectContaining({
+						cmd: 'yarn',
+						opts: { cwd: '/tacos' },
+						runDry: true,
+					}),
+				],
+				{ maxParallel: 40 },
+			);
 		});
 
 		test('includes --access', async () => {
-			await manager.publish({ access: 'restricted' });
+			await manager.publish({
+				access: 'restricted',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish', '--access', 'restricted'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'latest', '--tolerate-republish', '--access', 'restricted'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --tag', async () => {
-			await manager.publish({ tag: 'tacos' });
+			await manager.publish({
+				tag: 'tacos',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish', '--tag', 'tacos'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'tacos', '--tolerate-republish'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
+			);
+		});
+
+		test('version tag overrides --tag', async () => {
+			await manager.publish({
+				tag: 'tacos',
+				workspaces: [
+					{ name: 'tacos', version: '1.0.0', location: '/tacos' },
+					{ name: 'burritos', version: '1.0.0-beta.1', location: '/burritos' },
+				],
+			});
+
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'tacos', '--tolerate-republish'],
+						opts: { cwd: '/tacos' },
+					}),
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'beta', '--tolerate-republish'],
+						opts: { cwd: '/burritos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --otp', async () => {
-			await manager.publish({ otp: 'taco123' });
+			await manager.publish({
+				otp: 'tacos123',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish', '--otp', 'taco123'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'latest', '--tolerate-republish', '--otp', 'tacos123'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('can publish multiple workspaces', async () => {
 			await manager.publish({
 				workspaces: [
-					{ name: 'tacos', location: 'modules/tacos' },
-					{ name: 'burritos', location: 'modules/burritos' },
+					{ name: 'tacos', version: '1.0.0', location: '/tacos' },
+					{ name: 'burritos', version: '1.0.0-beta.1', location: '/burritos' },
 				],
 			});
 
-			expect(subprocess.run).not.toHaveBeenCalled();
-
-			expect(subprocess.batch).toHaveBeenCalledWith([
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish'],
-					opts: { cwd: 'modules/tacos' },
-				}),
-				expect.objectContaining({
-					cmd: 'yarn',
-					args: ['npm', 'publish', '--tolerate-republish'],
-					opts: { cwd: 'modules/burritos' },
-				}),
-			]);
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'latest', '--tolerate-republish'],
+						opts: { cwd: '/tacos' },
+					}),
+					expect.objectContaining({
+						cmd: 'yarn',
+						args: ['npm', 'publish', '--tag', 'beta', '--tolerate-republish'],
+						opts: { cwd: '/burritos' },
+					}),
+				],
+				{ maxParallel: 40 },
+			);
 		});
 	});
 
