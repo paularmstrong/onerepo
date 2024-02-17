@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<63a0d106fb1ccba8d572719e83079db8>> -->
+<!-- @generated SignedSource<<860edfabf2c6cf6a9cc8b1f7425c7f99>> -->
 
 ## Namespaces
 
@@ -2995,7 +2995,7 @@ It is important to ensure every command passed through the `visitor` to enable a
 ### batch()
 
 ```ts
-batch(processes): Promise<([string, string] | Error)[]>
+batch(processes, options?): Promise<([string, string] | Error)[]>
 ```
 
 Batch multiple subprocesses, similar to `Promise.all`, but only run as many processes at a time fulfilling N-1 cores. If there are more processes than cores, as each process finishes, a new process will be picked to run, ensuring maximum CPU usage at all times.
@@ -3023,6 +3023,7 @@ expect(results).toEqual([
 | Parameter   | Type                                                   |
 | :---------- | :----------------------------------------------------- |
 | `processes` | ([`RunSpec`](#runspec) \| [`PromiseFn`](#promisefn))[] |
+| `options`?  | [`BatchOptions`](#batchoptions)                        |
 
 **Returns:** `Promise`\<([`string`, `string`] \| `Error`)[]\>
 
@@ -3320,11 +3321,37 @@ Create .stack property on a target object
 
 ---
 
+### BatchOptions
+
+```ts
+type BatchOptions: {
+  maxParallel: number;
+};
+```
+
+Options for running [`batch()`](#batch-1) subprocesses.
+
+#### Type declaration
+
+##### maxParallel?
+
+```ts
+optional maxParallel: number;
+```
+
+**Default:** ```ts
+{number of CPUs - 1}
+
+````
+
+**Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+***
+
 ### PromiseFn
 
 ```ts
 type PromiseFn: () => Promise<[string, string]>;
-```
+````
 
 **Returns:** `Promise`\<[`string`, `string`]\>  
 **Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)

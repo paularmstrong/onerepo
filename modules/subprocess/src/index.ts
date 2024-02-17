@@ -311,6 +311,18 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 }
 
 /**
+ * Options for running {@link batch | `batch()`} subprocesses.
+ *
+ * @group Subprocess
+ */
+export type BatchOptions = {
+	/**
+	 * @default {number of CPUs - 1}
+	 */
+	maxParallel?: number;
+};
+
+/**
  * Batch multiple subprocesses, similar to `Promise.all`, but only run as many processes at a time fulfilling N-1 cores. If there are more processes than cores, as each process finishes, a new process will be picked to run, ensuring maximum CPU usage at all times.
  *
  * If any process throws a `SubprocessError`, this function will reject with a `BatchError`, but only after _all_ processes have completed running.
@@ -332,7 +344,10 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
  * @throws {@link BatchError | `BatchError`} An object that includes a list of all of the {@link SubprocessError | `SubprocessError`}s thrown.
  * @see {@link PackageManager.batch | `PackageManager.batch`} to safely batch executables exposed from third party modules.
  */
-export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Array<[string, string] | Error>> {
+export async function batch(
+	processes: Array<RunSpec | PromiseFn>,
+	options: BatchOptions = {},
+): Promise<Array<[string, string] | Error>> {
 	const results: Array<[string, string] | Error> = new Array(processes.length).map(() => ['', '']);
 	let completed = 0;
 
@@ -353,7 +368,7 @@ export async function batch(processes: Array<RunSpec | PromiseFn>): Promise<Arra
 
 	let failing = false;
 	const cpus = os.cpus().length;
-	const maxParallel = Math.min(cpus === 2 ? 2 : cpus - 1, tasks.length);
+	const maxParallel = Math.min(cpus === 2 ? 2 : cpus - 1, options?.maxParallel ?? Infinity, tasks.length);
 
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
