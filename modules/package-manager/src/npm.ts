@@ -1,4 +1,5 @@
 import { batch, run } from '@onerepo/subprocess';
+import { prerelease } from 'semver';
 import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
 
 const cmd = 'npm';
@@ -71,22 +72,28 @@ export const Npm = {
 		}
 	},
 
-	publish: async (opts = {}) => {
-		const { access, cwd, otp, tag, workspaces } = opts;
-		await run({
-			name: `Publish${workspaces?.length ? ` ${workspaces.join(', ')}` : ''}`,
-			cmd,
-			args: [
-				'publish',
-				...(access ? ['--access', access] : []),
-				...(tag ? ['--tag', tag] : []),
-				...(otp ? ['--otp', otp] : []),
-				...(workspaces?.length ? ['--workspaces', ...workspaces.map((ws) => ws.name)] : []),
-				...(process.env.ONEREPO_DRY_RUN === 'true' ? ['--dry-run'] : []),
-			],
-			opts: cwd ? { cwd: cwd } : {},
-			runDry: true,
-		});
+	publish: async (opts) => {
+		const { access, otp, tag, workspaces } = opts;
+		const options: Array<string> = [
+			...(access ? ['--access', access] : []),
+			...(otp ? ['--otp', otp] : []),
+			...(process.env.ONEREPO_DRY_RUN === 'true' ? ['--dry-run'] : []),
+		];
+
+		await batch(
+			workspaces.map((ws) => {
+				const pre = prerelease(ws.version!);
+				const thisTag = pre && pre[0] ? `${pre[0]}` : tag ?? 'latest';
+				return {
+					name: `Publish ${ws.name}`,
+					cmd,
+					args: ['publish', '--tag', thisTag, ...options],
+					opts: { cwd: ws.location },
+					runDry: true,
+				};
+			}),
+			{ maxParallel: 40 },
+		);
 	},
 
 	publishable: async <T extends MinimalWorkspace>(workspaces: Array<T>) => {

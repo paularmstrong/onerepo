@@ -1,7 +1,7 @@
 import type { RunSpec } from '@onerepo/subprocess';
 
 /**
- * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link Graph | `Graph`} & {@link graph.Workspace | `graph.Workspace`}s.
+ * Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency {@link Graph | `Graph`} & {@link Workspace | `Workspace`}s.
  *
  * @group Package management
  */
@@ -65,18 +65,18 @@ export interface PackageManager {
 
 	/**
 	 * Filter Workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
-	 * @param workspaces List of compatible {@link graph.Workspace | `graph.Workspace`} objects.
+	 * @param workspaces List of compatible {@link Workspace | `Workspace`} objects.
 	 */
 	publishable<T extends MinimalWorkspace>(workspaces: Array<T>): Promise<Array<T>>;
 
 	/**
 	 * Publish Workspaces to the external registry
 	 */
-	publish<T extends MinimalWorkspace>(opts?: {
+	publish<T extends MinimalWorkspace>(opts: {
 		/**
-		 * Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with {@link graph.Workspace | `graph.Workspace`}.
+		 * Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with {@link Workspace | `Workspace`}.
 		 */
-		workspaces?: Array<T>;
+		workspaces: Array<T>;
 		/**
 		 * Set the registry access level for the package
 		 * @default inferred from Workspaces `publishConfig.access` or `'public'`

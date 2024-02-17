@@ -4,6 +4,7 @@ import { Pnpm as manager } from '../pnpm';
 describe('PNPm', () => {
 	beforeEach(() => {
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(subprocess, 'batch').mockResolvedValue([['', '']]);
 	});
 
 	describe('add', () => {
@@ -84,77 +85,144 @@ describe('PNPm', () => {
 			process.env.ONEREPO_DRY_RUN = dryRun;
 		});
 
-		test('Publishes', async () => {
-			await manager.publish();
+		test('publishes', async () => {
+			await manager.publish({
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'latest', '--no-git-checks'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --dry-run', async () => {
 			process.env.ONEREPO_DRY_RUN = 'true';
 
-			await manager.publish();
+			await manager.publish({
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks', '--dry-run'],
-					runDry: true,
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'latest', '--no-git-checks', '--dry-run'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --access', async () => {
-			await manager.publish({ access: 'restricted' });
+			await manager.publish({
+				access: 'restricted',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks', '--access', 'restricted'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'latest', '--no-git-checks', '--access', 'restricted'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --tag', async () => {
-			await manager.publish({ tag: 'tacos' });
+			await manager.publish({
+				tag: 'tacos',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks', '--tag', 'tacos'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'tacos', '--no-git-checks'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
+			);
+		});
+
+		test('version tag overrides --tag', async () => {
+			await manager.publish({
+				tag: 'tacos',
+				workspaces: [
+					{ name: 'tacos', version: '1.0.0', location: '/tacos' },
+					{ name: 'burritos', version: '1.0.0-beta.1', location: '/burritos' },
+				],
+			});
+
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'tacos', '--no-git-checks'],
+						opts: { cwd: '/tacos' },
+					}),
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'beta', '--no-git-checks'],
+						opts: { cwd: '/burritos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('includes --otp', async () => {
-			await manager.publish({ otp: 'taco123' });
+			await manager.publish({
+				otp: 'tacos123',
+				workspaces: [{ name: 'tacos', version: '1.0.0', location: '/tacos' }],
+			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks', '--otp', 'taco123'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'latest', '--no-git-checks', '--otp', 'tacos123'],
+						opts: { cwd: '/tacos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 
 		test('can publish multiple workspaces', async () => {
 			await manager.publish({
 				workspaces: [
-					{ name: 'tacos', location: 'modules/tacos' },
-					{ name: 'burritos', location: 'modules/burritos' },
+					{ name: 'tacos', version: '1.0.0', location: '/tacos' },
+					{ name: 'burritos', version: '1.0.0-beta.1', location: '/burritos' },
 				],
 			});
 
-			expect(subprocess.run).toHaveBeenCalledWith(
-				expect.objectContaining({
-					cmd: 'pnpm',
-					args: ['publish', '--no-git-checks', '--filter', 'tacos', '--filter', 'burritos'],
-				}),
+			expect(subprocess.batch).toHaveBeenCalledWith(
+				[
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'latest', '--no-git-checks'],
+						opts: { cwd: '/tacos' },
+					}),
+					expect.objectContaining({
+						cmd: 'pnpm',
+						args: ['publish', '--tag', 'beta', '--no-git-checks'],
+						opts: { cwd: '/burritos' },
+					}),
+				],
+				{ maxParallel: 40 },
 			);
 		});
 	});
