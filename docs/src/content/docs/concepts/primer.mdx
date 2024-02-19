@@ -13,6 +13,12 @@ Modern software dependency graphs are complex and brittle. The following Graph s
 
 Using a monorepo is a great software development strategy for managing any number of dependent code modules in a single repository. **oneRepo** makes this even easier by sharing <b style="color: var(--sl-color-accent-high)">smart tooling</b>, creating safer linking with <b style="color: var(--sl-color-purple-high)">source dependencies</b>, and unifying, verifying, & <b style="color: var(--sl-color-green-high)">speeding up</b> many aspects of the development process.
 
+## JavaScript-based monorepos
+
+JavaScript (and TypeScript) based monorepos come with their own set of problems due to the many ways that source code can be configured, linked, and resolved across boundaries. This is usually referred to as the [require resolution algorithm](https://nodejs.org/api/modules.html#all-together) (for CommonJS) and [import resolution algorithm](https://nodejs.org/api/esm.html#resolution-algorithm-specification) for ECMAScript modules. Notice that there are already two possible ways to resolve modules. There are more, but for the following examples, we'll focus on the CommonJS spec.
+
+### Resolving dependencies
+
 Given two applications: one for our logged-out, public facing marketing pages (`example.com`), and another for the logged in users (`app.example.com`). We have one shared dependency under our control for our component library (`@org/component-library`) and another for interfacing with our backend APIs (`@org/redux-api`):
 
 ```mermaid
@@ -76,7 +82,7 @@ flowchart RL
   api --> auth
 ```
 
-## node_modules
+### Local dependencies in a monorepo
 
 When package managers are configured as monorepos, they follow an array of glob patterns to determine where to find other source-level `package.json` files for determining install dependencies for the repository.
 
@@ -201,28 +207,44 @@ Notice that not _all_ Workspaces will have a `node_modules/` folder within them.
 
 ## Glossary
 
-### Version control system
-
-Version control systems (VCS) are tools to aid with tracking and managing changes to software code. VCS are software tools that help software teams manage changes to source code over time.
+<dl>
+  <dt>Version control system</dt>
+  <dd>
+  Version control systems (VCS) are tools to aid with tracking and managing changes to software code. VCS are software tools that help software teams manage changes to source code over time.
 
 Currently, oneRepo is only compatible with [git](https://git-scm.com/).
 
-### Repository
+  </dd>
 
-Repositories are collections of files and folders managed by a [vcs](#version-control-system) that track changes to software.
+<dt>Repository</dt>
 
-### Monorepo
+<dd>
+	Repositories are collections of files and folders managed by a _VCS_ that track changes to
+	software.
+</dd>
 
-A [repository](#repository) that includes more than one project, typically with inter-connected and shared dependencies between the projects.
+<dt>Monorepo</dt>
 
-### Root
+<dd>
+	A _Repository_ that includes more than one project, typically with inter-connected and shared
+	dependencies between the projects.
+</dd>
 
-The root folder of a [repository](#repository). This term may also be used to refer to the root [Workspace](#workspace) of a [monorepo](#monorepo).
+<dt>Root</dt>
 
-### Workspace
+<dd>
+	The root folder of a _Repository_. This term may also be used to refer to the root _Workspace_ of
+	a _Monorepo_.
+</dd>
 
-A Workspace is a singular project within a [monorepo](#monorepo) that is either able to be published, deployed, or imported as a dependency of another Workspace.
+<dt>Workspace</dt>
 
-### Graph
+<dd>
+	A Workspace is a singular project within a _Monorepo_ that is either able to be published,
+	deployed, or imported as a dependency of another Workspace.
+</dd>
 
-The Graph is a representation of the [Workspaces](#workspace) interdependencies within a [monorepo](#monorepo).
+<dt>Graph</dt>
+
+<dd>The Graph is a representation of all _Workspace_ interdependencies within a _Monorepo_.</dd>
+</dl>

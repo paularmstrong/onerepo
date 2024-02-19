@@ -39,7 +39,7 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 	</Card>
 	<Card title="Safe & strict" icon="approve-check-circle">
 		Avoid common pitfalls and mistakes when working in a monorepo with [Workspace
-		validation](/core/graph/#validating-configurations).
+		validation](/core/graph/#verifying-configurations).
 	</Card>
 	<Card title="Extendable" icon="puzzle">
 		Includes [first-party plugins](/plugins/) and a robust extendable architecture to customize to
@@ -47,7 +47,15 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 	</Card>
 </CardGrid>
 
-<h2>Helpful links</h2>
+## What's a monorepo?
+
+<LinkCard
+	title="Monorepo primer"
+	description="Refresh your knowledge on why a monorepo may be right for you"
+	href="/concepts/primer/"
+/>
+
+## Helpful links
 
 <CardGrid>
 	<LinkCard title="Configuration" href="/docs/config/" />
@@ -55,9 +63,3 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 	<LinkCard title="Changelog" href="/changelogs/" />
 	<LinkCard title="GitHub" href="https://github.com/paularmstrong/onerepo" />
 </CardGrid>
-
-<LinkCard
-	title="Monorepo primer"
-	description="Refresh your knowledge on why a monorepo may be right for you"
-	href="/concepts/primer/"
-/>

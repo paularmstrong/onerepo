@@ -133,7 +133,7 @@ export default {
 } satisfies Config;
 ```
 
-If you're also running [ESLint](/plugins/eslint/), it is important to run Prettier _after_ ESLint. Do this by creating [sequential tasks](/core/tasks/#sequential-tasks): an array of tasks within the `serial` tasks array:
+If you're also running [ESLint](/plugins/eslint/), it is important to run Prettier _after_ ESLint. Do this by creating [sequential tasks](/core/tasks/#sequential): an array of tasks within the `serial` tasks array:
 
 ```ts title="./onerepo.config.ts" ins={6,9}
 import type { Config } from 'onerepo';

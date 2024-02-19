@@ -16,6 +16,12 @@ Other monorepo tooling either does too much or not enough in order to maintain a
 - **Safe and strict:** Other tools rely on manually configuring globs of files that contribute to Workspace integrity and decision making for whether or not checks and tasks must run. oneRepo, on the other hand _does not_ use a cache and automatically determines which Workspaces, tasks, and checks must run for any given change. We sacrifice a little bit of speed for strict correctness.
 - **Source level dependencies:** When working within the monorepo all import/require chains come from the _source_ files; never requires building shared packages to capture changes.
 
+---
+
+:::tip[Read first]
+Get familiar with JavaScript-based monorepos by reading the [monorepo primer](/concepts/primer/) first.
+:::
+
 ## Tenets
 
 - **Documented:** All commands and options must be documented and respond to `--help` requests.
@@ -204,12 +210,36 @@ Because it's expected that this may not be abundantly clear: `../../shared/tscon
 
 If we were to make any modifications to the `compilerOptions` within the `../../shared/tsconfig/base.json` file, we would expect to need to run a full build of `my-project` _without_ any cache. However, because of the way the cache configuration is done in Nx (and other monorepo tools), it's easily missed or mis-configured.
 
+## Human-readable output
+
+```ansi title="Example TurboRepo output"
+[32m@internal-tests/todo-list-cli:integration:[0m +++
+[32m@internal-tests/todo-list-cli:integration:[0m
+[32m@internal-tests/todo-list-cli:integration:[0m dependencies:
+[32m@internal-tests/todo-list-cli:integration:[0m + @internal-tests/todo-list-cli 0.0.0-development
+[32m@internal-tests/todo-list-cli:integration:[0m + @types/node 16.11.41
+[32m@internal-tests/todo-list-cli:integration:[0m + typescript 4.7.3
+[32m@internal-tests/todo-list-cli:integration:[0m
+[32m@internal-kit/ts:setup:integration:[0m Progress: resolved 117, reused 110, downloaded 1, added 0
+[32m@internal-tests/todo-list-cli:integration:[0m Progress: resolved 3, reused 2, downloaded 1, added 3, done
+[32m@internal-tests/todo-list-cli:integration:[0m
+[32m@internal-kit/ts:setup:integration:[0m Progress: resolved 219, reused 208, downloaded 1, added 0
+[32m@internal-tests/todo-list-cli:integration:[0m [32;1m PASS [0m src/__integration__/usingCli.test.ts
+[32m@internal-kit/ts:setup:integration:[0m Progress: resolved 310, reused 292, downloaded 1, added 0
+[32m@internal-kit/ts:setup:integration:[0m Progress: 421, reused 402, downloaded 1, added 0
+[32m@internal-tests/todo-list-cli:integration:[0m [32;1m PASS [0m src/__integration__/usingAsLibrary.test.ts
+[32m@internal-tests/todo-list-cli:integration:[0m
+[32m@internal-tests/todo-list-cli:integration:[0m Test Suites:  [32;1m2 passed[0m, 2 total
+[32m@internal-tests/todo-list-cli:integration:[0m Tests:        [32;1m2 passed[0m, 2 total
+[32m@internal-tests/todo-list-cli:integration:[0m Snapshots:    [32;1m8 passed[0m, 8 total
+[32m@internal-tests/todo-list-cli:integration:[0m Time:         2.9122s, estimated 3 s
+[32m@internal-tests/todo-list-cli:integration:[0m Ran all test suites.
+```
+
 ## Feature comparison
 
-:::note[Work in progress]
-
+:::caution[Work in progress]
 This is a work in progress. If you've found a mistake, please [open an issue](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=bug-report.yaml) or [create a pull request](https://github.com/paularmstrong/onerepo/edit/main/src/content/docs/guides/why-onerepo.mdx).
-
 :::
 
 |                                                      | oneRepo         | [Turbo](https://turbo.build/repo) | [Nx](https://nx.dev) | [Moonrepo](https://moonrepo.dev) | [Bazel](https://bazel.build) |
