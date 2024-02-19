@@ -62,7 +62,7 @@ export type BasePackageJson = {
 	os?: Array<string>;
 	packageManager?: string;
 	/**
-	 * Enable's the {@link Graph | `Graph`} to look up {@link Workspace | `Workspace`}s by shorter names or common {@link Workspace.alias | aliases} used by teams. This enables much short command-line execution. See {@link Graph.getByName | `Graph.getByName`} and {@link Graph.getAllByName | `Graph.getAllByName`}.
+	 * Enable's the {@link Graph | `Graph`} to look up {@link Workspace | `Workspace`}s by shorter names or common {@link Workspace.aliases | `aliases`} used by teams. This enables much short command-line execution. See {@link Graph.getByName | `Graph.getByName`} and {@link Graph.getAllByName | `Graph.getAllByName`}.
 	 */
 	alias?: Array<string>;
 };

@@ -229,7 +229,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 *
 		 * Additional `task` lifecycles to make available.
 		 *
-		 * See [`Lifecycle`](#lifecycle) for a list of pre-configured lifecycles.
+		 * See {@link Lifecycle | `Lifecycle`} for a list of pre-configured lifecycles.
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {
