@@ -81,6 +81,11 @@ export default defineConfig({
 					autogenerate: { directory: 'changelogs', collapsed: true },
 				},
 			],
+			plugins: [
+				starlightLinksValidator({
+					errorOnRelativeLinks: false,
+				}),
+			],
 			components: {
 				Footer: './src/components/Footer.astro',
 				Head: './src/components/Head.astro',
@@ -93,7 +98,7 @@ export default defineConfig({
 					borderRadius: '0.25rem',
 					codeLineHeight: '1.25',
 				},
-				plugins: [pluginCollapsibleSections(), starlightLinksValidator()],
+				plugins: [pluginCollapsibleSections()],
 			},
 			lastUpdated: true,
 			favicon: '/favicon.svg',

@@ -8,7 +8,7 @@ oneRepo is in currently in public beta. Some APIs may not be specifically necess
 :::
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<d2155186502a348d6691838f52d6b7a9>> -->
+<!-- @generated SignedSource<<b64a7020ce59d991b8039a54bbc43879>> -->
 
 ## Namespaces
 
@@ -1822,7 +1822,7 @@ type GraphSchemaValidators: Record<string, Record<string, Schema & {
 
 Definition for `graph verify` JSON schema validators.
 
-See [“Validating configurations”](/core/graph/#validating-configurations) for more examples and use cases.
+See [“Validating configurations”](/core/graph/#verifying-configurations) for more examples and use cases.
 
 ```ts
 import type { GraphSchemaValidators } from 'onerepo';
@@ -3518,7 +3518,7 @@ type BasePackageJson: {
 optional alias: string[];
 ```
 
-Enable's the [`Graph`](#graph) to look up [`Workspace`](#workspace)s by shorter names or common Workspace.alias | aliases used by teams. This enables much short command-line execution. See [`Graph.getByName`](#getbyname) and [`Graph.getAllByName`](#getallbyname).
+Enable's the [`Graph`](#graph) to look up [`Workspace`](#workspace)s by shorter names or common [`aliases`](#aliases) used by teams. This enables much short command-line execution. See [`Graph.getByName`](#getbyname) and [`Graph.getAllByName`](#getallbyname).
 
 ##### author?
 
