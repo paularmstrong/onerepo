@@ -35,7 +35,8 @@ export type Options = {
  * const currentBranch = await git.getBranch();
  * ```
  */
-export async function getBranch({ step }: Options = {}) {
+export async function getBranch(options: Options = {}) {
+	const { step } = options;
 	return stepWrapper({ step, name: 'Get current branch' }, async (step) => {
 		const [out] = await run({
 			name: 'Getting current branch',
@@ -56,7 +57,8 @@ export async function getBranch({ step }: Options = {}) {
  * const mergeBase = await getMergeBase();
  * ```
  */
-export async function getMergeBase({ step }: Options = {}) {
+export async function getMergeBase(options: Options = {}) {
+	const { step } = options;
 	return stepWrapper({ step, name: 'Get merge base' }, async (step) => {
 		const current = await getBranch({ step });
 		const head = process.env.ONEREPO_HEAD_BRANCH;
@@ -128,7 +130,8 @@ export async function getMergeBase({ step }: Options = {}) {
  * }
  * ```
  */
-export async function isClean({ step }: Options = {}) {
+export async function isClean(options: Options = {}) {
+	const { step } = options;
 	return stepWrapper({ step, name: 'Get current changes' }, async (step) => {
 		const [currentStatus] = await run({
 			name: 'Checking for changes',
@@ -180,10 +183,9 @@ export type ModifiedStaged = {
  * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
  * ```
  */
-export async function getModifiedFiles(
-	{ from, staged, through }: ModifiedStaged | ModifiedFromThrough = {},
-	{ step }: Options = {},
-) {
+export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromThrough = {}, options: Options = {}) {
+	const { from, staged, through } = modified;
+	const { step } = options;
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
 		const base = await (from ?? getMergeBase({ step }));
 		const currentSha = await (through ?? getCurrentSha({ step }));
@@ -227,7 +229,8 @@ export async function getModifiedFiles(
  * const sha = await git.getCurrentSha();
  * ```
  */
-export async function getCurrentSha({ step }: Options = {}) {
+export async function getCurrentSha(options: Options = {}) {
+	const { step } = options;
 	return stepWrapper({ step, name: 'Get current SHA' }, async (step) => {
 		const [out] = await run({
 			name: 'Get current SHA',
@@ -241,22 +244,71 @@ export async function getCurrentSha({ step }: Options = {}) {
 	});
 }
 
+const sym = Symbol.for('onerepo_git_add');
+function getAddStore(): Set<string> {
+	// @ts-ignore Cannot type symbol as key on global
+	if (!global[sym]) {
+		// @ts-ignore
+		global[sym] = new Set<string>();
+	}
+	// @ts-ignore
+	return global[sym];
+}
+
+export type UpdateIndexOptions = Options & {
+	/**
+	 * Set whether to immediately add to the git index or defer until process shutdown
+	 * @default `false`
+	 */
+	immediately?: boolean;
+};
+
 /**
- * Add filepaths to the git index. Equivalent to `git add [...files]`.
+ * Add filepaths to the git index. Equivalent to `git add [...files]`. By default, this method will track the files that need to be added to the git index. It will only add files immediately if given the `immediately` option.
+ *
+ * Use {@link flushUpdateIndex | `flushUpdateIndex()`} to write all tracked files the git index. This method is automatically called during the oneRepo command shutdown process, so you may not ever need to call this.
+ *
+ * It is best to avoid immediately adding items to the git index to avoid race conditions which can drop git into a bad state, requiring users to manually delete their `.git/index.lock` file before continuing.
  *
  * ```ts
  * await git.updateIndex(['tacos.ts']);
  * ```
  */
-export async function updateIndex(paths: Array<string> | string, { step }: Options = {}) {
+export async function updateIndex(paths: Array<string> | string, options: UpdateIndexOptions = {}) {
+	const { immediately = false, step } = options;
+	if (!immediately) {
+		const store = getAddStore();
+		(Array.isArray(paths) ? paths : [paths]).forEach((p) => store.add(p));
+		return;
+	}
+
 	return stepWrapper({ step, name: 'Add files to git stage' }, async (step) => {
 		const [out] = await run({
 			name: 'Add files to git stage',
 			cmd: 'git',
-			args: ['add', ...(Array.isArray(paths) ? paths : [paths])],
+			args: ['add', '--', ...(Array.isArray(paths) ? paths : [paths])],
 			step,
 		});
 
 		return out;
 	});
+}
+
+/**
+ * Write all pending files added using {@link updateIndex | `updateIndex()`} to the git index.
+ *
+ * ```ts
+ * await git.flushUpdateIndex();
+ * ```
+ */
+export async function flushUpdateIndex(options: Options = {}) {
+	const { step } = options;
+	const store = getAddStore();
+	if (store.size === 0) {
+		return;
+	}
+
+	await updateIndex(Array.from(getAddStore()), { immediately: true, step });
+	store.clear();
+	return;
 }
