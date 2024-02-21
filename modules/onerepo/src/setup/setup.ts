@@ -12,6 +12,7 @@ import { getGraph } from '@onerepo/graph';
 import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
+import { flushUpdateIndex } from '@onerepo/git';
 import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
 import pkg from '../../package.json';
 
@@ -185,6 +186,8 @@ export async function setup({
 		run: async () => {
 			// @ts-expect-error Yargs types are slightly incorrect here, missing `'--': Array<string>`.
 			const argv = (await yargs.parse()) as Argv<DefaultArgv>;
+
+			await flushUpdateIndex();
 
 			performance.mark('onerepo_end_Program', {
 				detail:

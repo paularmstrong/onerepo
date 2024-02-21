@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<8a2efe3bfd598780f9e9f3dba62ecdc4>> -->
+<!-- @generated SignedSource<<5e3ab187ba6a586a1252ba3957a075e6>> -->
 
 This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
 
@@ -184,12 +184,58 @@ Avoid creating a new step in output for each function. Pass a Logger Step to pip
 
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
+---
+
+### UpdateIndexOptions
+
+```ts
+type UpdateIndexOptions: Options & {
+  immediately: boolean;
+};
+```
+
+#### Type declaration
+
+##### immediately?
+
+```ts
+optional immediately: boolean;
+```
+
+Set whether to immediately add to the git index or defer until process shutdown
+
+**Default:** `false`  
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
 ## Functions
+
+### flushUpdateIndex()
+
+```ts
+flushUpdateIndex(options?): Promise<void>
+```
+
+Write all pending files added using [`updateIndex()`](#updateindex) to the git index.
+
+```ts
+await git.flushUpdateIndex();
+```
+
+**Parameters:**
+
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `options`? | [`Options`](#options) |
+
+**Returns:** `Promise`\<`void`\>  
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
+---
 
 ### getBranch()
 
 ```ts
-getBranch(__namedParameters?): Promise<string>
+getBranch(options?): Promise<string>
 ```
 
 Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
@@ -200,9 +246,9 @@ const currentBranch = await git.getBranch();
 
 **Parameters:**
 
-| Parameter            | Type                  |
-| :------------------- | :-------------------- |
-| `__namedParameters`? | [`Options`](#options) |
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -212,7 +258,7 @@ const currentBranch = await git.getBranch();
 ### getCurrentSha()
 
 ```ts
-getCurrentSha(__namedParameters?): Promise<string>
+getCurrentSha(options?): Promise<string>
 ```
 
 Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
@@ -223,9 +269,9 @@ const sha = await git.getCurrentSha();
 
 **Parameters:**
 
-| Parameter            | Type                  |
-| :------------------- | :-------------------- |
-| `__namedParameters`? | [`Options`](#options) |
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -235,7 +281,7 @@ const sha = await git.getCurrentSha();
 ### getMergeBase()
 
 ```ts
-getMergeBase(__namedParameters?): Promise<string>
+getMergeBase(options?): Promise<string>
 ```
 
 Determine the git ref for merging the current working branch, sha, or ref, whichever that is. This function does a bunch of internal checks to determine the where the most likely point of forking happened.
@@ -246,9 +292,9 @@ const mergeBase = await getMergeBase();
 
 **Parameters:**
 
-| Parameter            | Type                  |
-| :------------------- | :-------------------- |
-| `__namedParameters`? | [`Options`](#options) |
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -258,7 +304,7 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-getModifiedFiles(__namedParameters?, __namedParameters?): Promise<string[]>
+getModifiedFiles(modified?, options?): Promise<string[]>
 ```
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -270,10 +316,10 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 
 **Parameters:**
 
-| Parameter            | Type                                                                                 |
-| :------------------- | :----------------------------------------------------------------------------------- |
-| `__namedParameters`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
-| `__namedParameters`? | [`Options`](#options)                                                                |
+| Parameter   | Type                                                                                 |
+| :---------- | :----------------------------------------------------------------------------------- |
+| `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
+| `options`?  | [`Options`](#options)                                                                |
 
 **Returns:** `Promise`\<`string`[]\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -283,7 +329,7 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 ### isClean()
 
 ```ts
-isClean(__namedParameters?): Promise<boolean>
+isClean(options?): Promise<boolean>
 ```
 
 Check if the current git working state is clean.
@@ -297,9 +343,9 @@ if (!isClean) {
 
 **Parameters:**
 
-| Parameter            | Type                  |
-| :------------------- | :-------------------- |
-| `__namedParameters`? | [`Options`](#options) |
+| Parameter  | Type                  |
+| :--------- | :-------------------- |
+| `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`boolean`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -309,10 +355,14 @@ if (!isClean) {
 ### updateIndex()
 
 ```ts
-updateIndex(paths, __namedParameters?): Promise<string>
+updateIndex(paths, options?): Promise<string | undefined>
 ```
 
-Add filepaths to the git index. Equivalent to `git add [...files]`.
+Add filepaths to the git index. Equivalent to `git add [...files]`. By default, this method will track the files that need to be added to the git index. It will only add files immediately if given the `immediately` option.
+
+Use [`flushUpdateIndex()`](#flushupdateindex) to write all tracked files the git index. This method is automatically called during the oneRepo command shutdown process, so you may not ever need to call this.
+
+It is best to avoid immediately adding items to the git index to avoid race conditions which can drop git into a bad state, requiring users to manually delete their `.git/index.lock` file before continuing.
 
 ```ts
 await git.updateIndex(['tacos.ts']);
@@ -320,12 +370,12 @@ await git.updateIndex(['tacos.ts']);
 
 **Parameters:**
 
-| Parameter            | Type                   |
-| :------------------- | :--------------------- |
-| `paths`              | `string` \| `string`[] |
-| `__namedParameters`? | [`Options`](#options)  |
+| Parameter  | Type                                        |
+| :--------- | :------------------------------------------ |
+| `paths`    | `string` \| `string`[]                      |
+| `options`? | [`UpdateIndexOptions`](#updateindexoptions) |
 
-**Returns:** `Promise`\<`string`\>  
+**Returns:** `Promise`\<`string` \| `undefined`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 <!-- end-onerepo-sentinel -->
