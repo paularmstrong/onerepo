@@ -183,15 +183,17 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-jest */}
-{/* @generated SignedSource<<ee9828e4ce89cffb5ea06d76b6305762>> */}
+{/* @generated SignedSource<<36e6075a2347dd94f8864a29cc11bcb5>> */}
 
 ### `one jest`
+
+Aliases: `one test`
 
 Run tests using Jest.
 
 ```sh
-one jest [options] -- [passthrough]
-one jest [options]
+one jest ,test [options...] -- [passthrough]
+one jest [options...]
 ```
 
 This test commad will automatically attempt to run only the test files related to the changes in your working state. If you have un-committed changes, only those related to files that are in a modified state will be run. If there are no un-committed changes, test files related to those modified since your git merge-base will be run. By passing specific filepaths as extra passthrough arguments an argument separator (two dasshes `--`), you can further restrict the tests to those files and paths.
@@ -204,7 +206,6 @@ Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be pa
 | `--all, -a`        | `boolean`                  | Run across all workspaces                                                                                                                                                   |
 | `--inspect`        | `boolean`                  | Break for the the Node inspector to debug tests.                                                                                                                            |
 | `--pretty`         | `boolean`, default: `true` | Control Jest’s `--colors` flag.                                                                                                                                             |
-| `--show-advanced`  | `boolean`                  | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--watch`          | `boolean`                  | Shortcut for jest `--watch` mode.                                                                                                                                           |
 | `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
@@ -218,6 +219,7 @@ Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be pa
 | `--config`          | `string`, default: `"./jest.config.js"` | Path to the jest.config file, relative to the repo root.                                    |
 | `--from-ref`        | `string`                                | Git ref to start looking for affected files or workspaces                                   |
 | `--passWithNoTests` | `boolean`, default: `true`              | Allows the test suite to pass when no files are found. See plugin configuration to disable. |
+| `--show-advanced`   | `boolean`                               | Pair with `--help` to show advanced options.                                                |
 | `--through-ref`     | `string`                                | Git ref to start looking for affected files or workspaces                                   |
 
 </details>
@@ -225,25 +227,25 @@ Additionally, any other [Jest CLI options](https://jestjs.io/docs/cli) can be pa
 Run only tests related to modified files.
 
 ```sh
-one jest
+one jest ,test
 ```
 
 Runs jest in --watch mode against the currently affected files.
 
 ```sh
-one jest --watch
+one jest ,test --watch
 ```
 
 Run Jest in watch mode against a particular file.
 
 ```sh
-one jest --watch -- path/to/test.ts
+one jest ,test --watch -- path/to/test.ts
 ```
 
 Pass any other Jest CLI options after the argument separator.
 
 ```sh
-one jest -- --runInBand --detectOpenHandles
+one jest ,test -- --runInBand --detectOpenHandles
 ```
 
 {/* end-auto-generated-from-cli-jest */}

@@ -188,17 +188,17 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-vitest */}
-{/* @generated SignedSource<<595d46f456184a9d2b9e5ea531e788ab>> */}
+{/* @generated SignedSource<<7e34c980ef18820e7e3e903f46df5a91>> */}
 
-### `one test`
+### `one vitest`
 
-Aliases: `one vitest`
+Aliases: `one test`
 
 Run unit tests using Vitest
 
 ```sh
-one test [options] -- [passthrough]
-one test [options]
+one vitest ,test [options...] -- [passthrough]
+one vitest [options...]
 ```
 
 This test commad will automatically attempt to run only the test files related to the changes in your git branch. By passing specific filepaths as extra passthrough arguments after two dashes (`--`), you can further restrict the tests to those specific files only.
@@ -210,7 +210,6 @@ Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) ca
 | `--affected`       | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
 | `--inspect`        | `boolean` | Break for the the Node inspector to debug tests.                                                                                                                            |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--watch`          | `boolean` | Shortcut for vitest `--watch` mode.                                                                                                                                         |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
@@ -219,36 +218,37 @@ Additionally, any other [Vitest CLI options](https://jest.dev/guide/cli.html) ca
 
 <summary>Advanced options</summary>
 
-| Option          | Type                                      | Description                                                |
-| --------------- | ----------------------------------------- | ---------------------------------------------------------- |
-| `--config`      | `string`, default: `"./vitest.config.ts"` | Path to the vitest.config file, relative to the repo root. |
-| `--from-ref`    | `string`                                  | Git ref to start looking for affected files or workspaces  |
-| `--through-ref` | `string`                                  | Git ref to start looking for affected files or workspaces  |
+| Option            | Type                                      | Description                                                |
+| ----------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| `--config`        | `string`, default: `"./vitest.config.ts"` | Path to the vitest.config file, relative to the repo root. |
+| `--from-ref`      | `string`                                  | Git ref to start looking for affected files or workspaces  |
+| `--show-advanced` | `boolean`                                 | Pair with `--help` to show advanced options.               |
+| `--through-ref`   | `string`                                  | Git ref to start looking for affected files or workspaces  |
 
 </details>
 
 Run only tests related to modified files.
 
 ```sh
-one test
+one vitest ,test
 ```
 
 Run vitest in --watch mode.
 
 ```sh
-one test --watch
+one vitest ,test --watch
 ```
 
 Run vitest in watch mode with a particular file.
 
 ```sh
-one test --watch -- path/to/test.ts
+one vitest ,test --watch -- path/to/test.ts
 ```
 
 Run all tests in a given Workspace.
 
 ```sh
-one test -w <workspace>
+one vitest ,test -w <workspaces...>
 ```
 
 {/* end-auto-generated-from-cli-vitest */}

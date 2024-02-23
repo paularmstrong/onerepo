@@ -3,7 +3,7 @@ import { run } from '@onerepo/subprocess';
 import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
-export const command = 'jest';
+export const command = ['jest', 'test'];
 
 export const description = 'Run tests using Jest.';
 
