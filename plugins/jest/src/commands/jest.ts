@@ -1,7 +1,5 @@
-import { getMergeBase, isClean } from '@onerepo/git';
-import { run } from '@onerepo/subprocess';
-import * as builders from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/yargs';
+import { builders, git, run } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = ['jest', 'test'];
 
@@ -83,10 +81,10 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
-			if (!(await isClean())) {
+			if (!(await git.isClean())) {
 				args.push('--onlyChanged');
 			} else {
-				args.push('--changedSince', await getMergeBase());
+				args.push('--changedSince', await git.getMergeBase());
 			}
 		} else if (all) {
 			args.push('.');

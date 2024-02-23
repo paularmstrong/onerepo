@@ -1,9 +1,6 @@
 import path from 'node:path';
-import { updateIndex } from '@onerepo/git';
-import { write, writeSafe } from '@onerepo/file';
-import type { Builder, Handler } from '@onerepo/yargs';
-import { corePlugins, internalSetup } from 'onerepo';
-import type { Plugin } from 'onerepo';
+import { git, file, corePlugins, internalSetup } from 'onerepo';
+import type { Builder, Handler, Plugin } from 'onerepo';
 import { toMarkdown } from './markdown';
 import { Yargs } from './yargs';
 import type { Docs } from './yargs';
@@ -199,15 +196,15 @@ export const docgen = (opts: Options = {}): Plugin => {
 
 				if (outPath) {
 					if (safeWrite) {
-						await writeSafe(outPath, output, {
+						await file.writeSafe(outPath, output, {
 							sentinel: `auto-generated-from-cli${command ? `-${command}` : ''}`,
 							sign: true,
 						});
 					} else {
-						await write(outPath, output, { sign: true });
+						await file.write(outPath, output, { sign: true });
 					}
 					if (add) {
-						await updateIndex(outPath);
+						await git.updateIndex(outPath);
 					}
 				} else {
 					await new Promise<void>((resolve) => {

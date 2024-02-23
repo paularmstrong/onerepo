@@ -22,14 +22,13 @@
 		"./README.md",
 		"./CHANGELOG.md"
 	],
-	"dependencies": {
-		"@onerepo/file": "1.0.0-beta.0",
-		"@onerepo/logger": "1.0.0-beta.0",
-		"onerepo": "1.0.0-beta.0"
-	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"@internal/vitest-config": "workspace:^"
+		"@internal/vitest-config": "workspace:^",
+		"onerepo": "workspace:^"
+	},
+	"peerDependencies": {
+		"onerepo": "^1"
 	},
 	"engines": {
 		"node": "^18 || ^20"

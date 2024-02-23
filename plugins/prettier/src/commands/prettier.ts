@@ -1,10 +1,8 @@
 import path from 'node:path';
 import { minimatch } from 'minimatch';
 import * as core from '@actions/core';
-import { updateIndex } from '@onerepo/git';
-import { exists, lstat, read } from '@onerepo/file';
-import * as builders from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/yargs';
+import { git, file, builders } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = ['prettier', 'format'];
 
@@ -54,15 +52,15 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	if (!all) {
 		const ignoreStep = logger.createStep('Filtering ignored files');
 		const ignoreFile = graph.root.resolve('.prettierignore');
-		const hasIgnores = await exists(ignoreFile, { step: ignoreStep });
-		const rawIgnores = await (hasIgnores ? read(ignoreFile, 'r', { step: ignoreStep }) : '');
+		const hasIgnores = await file.exists(ignoreFile, { step: ignoreStep });
+		const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
 		const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 
 		const paths = await getFilepaths({ step: ignoreStep });
 		for (const filepath of paths) {
 			const ext = path.extname(filepath);
 			if (!ext) {
-				const stat = await lstat(graph.root.resolve(filepath), { step: ignoreStep });
+				const stat = await file.lstat(graph.root.resolve(filepath), { step: ignoreStep });
 				const isDirectory = stat && stat.isDirectory();
 				if (isDirectory) {
 					filteredPaths.push(filepath);
@@ -120,6 +118,6 @@ To resolve the issue, run Prettier formatting and commit the resulting changes:
 	await runStep.end();
 
 	if (add && filteredPaths.length) {
-		await updateIndex(filteredPaths);
+		await git.updateIndex(filteredPaths);
 	}
 };

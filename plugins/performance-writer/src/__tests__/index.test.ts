@@ -1,5 +1,5 @@
 import { performance } from 'node:perf_hooks';
-import * as file from '@onerepo/file';
+import * as onerepo from 'onerepo';
 import { performanceWriter } from '..';
 
 async function tick() {
@@ -157,7 +157,7 @@ describe('measure', () => {
 	});
 
 	test('can write to a file with a filepath', async () => {
-		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(onerepo.file, 'write').mockResolvedValue();
 		const { startup, shutdown } = performanceWriter({ output: '/foo' });
 		startup!(
 			argv,
@@ -166,13 +166,13 @@ describe('measure', () => {
 		);
 		await shutdown!(argv);
 
-		expect(file.write).toHaveBeenCalledWith('/foo', '[]', { step: expect.any(Object) });
+		expect(onerepo.file.write).toHaveBeenCalledWith('/foo', '[]', { step: expect.any(Object) });
 	});
 
 	test('can write to a generated temporary file', async () => {
 		vi.spyOn(Date, 'now').mockReturnValue(123);
-		vi.spyOn(file, 'write').mockResolvedValue();
-		vi.spyOn(file, 'makeTempDir').mockResolvedValue('/tmp/foo/onerepo-perf');
+		vi.spyOn(onerepo.file, 'write').mockResolvedValue();
+		vi.spyOn(onerepo.file, 'makeTempDir').mockResolvedValue('/tmp/foo/onerepo-perf');
 		const { startup, shutdown } = performanceWriter();
 		startup!(
 			argv,
@@ -181,7 +181,9 @@ describe('measure', () => {
 		);
 		await shutdown!(argv);
 
-		expect(file.makeTempDir).toHaveBeenCalledWith('onerepo-perf', { step: expect.any(Object) });
-		expect(file.write).toHaveBeenCalledWith('/tmp/foo/onerepo-perf/123.json', '[]', { step: expect.any(Object) });
+		expect(onerepo.file.makeTempDir).toHaveBeenCalledWith('onerepo-perf', { step: expect.any(Object) });
+		expect(onerepo.file.write).toHaveBeenCalledWith('/tmp/foo/onerepo-perf/123.json', '[]', {
+			step: expect.any(Object),
+		});
 	});
 });

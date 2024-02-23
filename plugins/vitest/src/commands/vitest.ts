@@ -1,6 +1,5 @@
-import { getMergeBase } from '@onerepo/git';
-import * as builders from '@onerepo/builders';
-import type { Builder, Handler } from '@onerepo/yargs';
+import { git, builders } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = ['vitest', 'test'];
 
@@ -68,7 +67,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
-			const since = await getMergeBase();
+			const since = await git.getMergeBase();
 			args.push('--changed', since);
 		} else {
 			const workspaces = await getWorkspaces();

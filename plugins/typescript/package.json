@@ -22,16 +22,15 @@
 		"./README.md",
 		"./CHANGELOG.md"
 	],
-	"dependencies": {
-		"@onerepo/builders": "1.0.0-beta.0",
-		"@onerepo/file": "1.0.0-beta.0",
-		"@onerepo/subprocess": "1.0.0-beta.0"
-	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^"
+	},
+	"peerDependencies": {
+		"onerepo": "^1",
+		"typescript": "*"
 	},
 	"engines": {
 		"node": "^18 || ^20"

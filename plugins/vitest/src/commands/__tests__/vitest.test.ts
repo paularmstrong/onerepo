@@ -1,27 +1,23 @@
 import { getCommand } from '@onerepo/test-cli';
-import * as git from '@onerepo/git';
-import * as subprocess from '@onerepo/subprocess';
+import * as onerepo from 'onerepo';
 import * as Vitest from '../vitest';
 
-const { run } = getCommand(Vitest);
-
-vi.mock('@onerepo/subprocess');
-vi.mock('@onerepo/git');
+const { run, graph } = getCommand(Vitest);
 
 describe('handler', () => {
 	beforeEach(() => {
-		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(git, 'getMergeBase').mockResolvedValue('abc123');
+		vi.spyOn(onerepo.git, 'getMergeBase').mockResolvedValue('abc123');
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
+		vi.spyOn(onerepo.git, 'getModifiedFiles').mockResolvedValue(['foo.js', 'bar/baz.js']);
 		await run('');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npm',
-				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', '--changed', 'abc123'],
+				cmd: 'vitest',
+				args: ['--config', './vitest.config.ts', '--run', '--changed', 'abc123'],
 			}),
 		);
 	});
@@ -29,33 +25,23 @@ describe('handler', () => {
 	test('if given --workspaces, runs those', async () => {
 		await run('-w burritos');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npm',
-				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--run', expect.stringMatching(/\/burritos$/)],
+				cmd: 'vitest',
+				args: ['--config', './vitest.config.ts', '--run', expect.stringMatching(/\/burritos$/)],
 			}),
 		);
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
+		vi.spyOn(onerepo.git, 'getModifiedFiles').mockResolvedValue(['foo.js']);
 
 		await run('--inspect');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npm',
-				args: [
-					'exec',
-					'vitest',
-					'--inspect',
-					'--inspect-brk',
-					'--config',
-					'./vitest.config.ts',
-					'--run',
-					'--changed',
-					'abc123',
-				],
+				cmd: 'vitest',
+				args: ['--inspect', '--inspect-brk', '--config', './vitest.config.ts', '--run', '--changed', 'abc123'],
 			}),
 		);
 	});
@@ -63,10 +49,10 @@ describe('handler', () => {
 	test('passes through other arguments', async () => {
 		await run('-- -w foo');
 
-		expect(subprocess.run).toHaveBeenCalledWith(
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
-				cmd: 'npm',
-				args: ['exec', 'vitest', '--config', './vitest.config.ts', '--watch', 'foo'],
+				cmd: 'vitest',
+				args: ['--config', './vitest.config.ts', '--watch', 'foo'],
 			}),
 		);
 	});
