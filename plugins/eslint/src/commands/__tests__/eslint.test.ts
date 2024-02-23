@@ -1,5 +1,4 @@
-import * as file from '@onerepo/file';
-import * as git from '@onerepo/git';
+import * as onerepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
 import * as Eslint from '../eslint';
 
@@ -72,8 +71,8 @@ describe('handler', () => {
 
 	test('can run across individual workspaces', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(file, 'exists').mockResolvedValue(false);
-		vi.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(false);
+		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => true },
 		);
@@ -160,18 +159,18 @@ describe('handler', () => {
 
 	test('filters with .eslintignore', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(file, 'exists').mockResolvedValue(true);
-		vi.spyOn(file, 'read').mockResolvedValue(`
+		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
+		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
 # ignore the comment
 bar/**/*
 `);
-		vi.spyOn(file, 'lstat').mockResolvedValue(
+		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
 			// @ts-ignore mock
 			{ isDirectory: () => false },
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
 
-		expect(file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
+		expect(onerepo.file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -186,7 +185,7 @@ bar/**/*
 
 	test('updates the git index for filtered paths with --add', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(git, 'updateIndex').mockResolvedValue('');
+		vi.spyOn(onerepo.git, 'updateIndex').mockResolvedValue('');
 
 		await expect(run('--extensions mjs js -f foo.xd -f bar.js --add')).resolves.toBeTruthy();
 
@@ -209,7 +208,7 @@ bar/**/*
 				},
 			}),
 		);
-		expect(git.updateIndex).toHaveBeenCalledWith(['bar.js']);
+		expect(onerepo.git.updateIndex).toHaveBeenCalledWith(['bar.js']);
 	});
 
 	test('if --quiet, reports errors only', async () => {

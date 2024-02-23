@@ -2918,17 +2918,16 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/file": 1.0.0-beta.0
-    "@onerepo/git": 1.0.0-beta.0
-    "@onerepo/yargs": 1.0.0-beta.0
     glob: ^10.1.0
     jiti: ^1.21.0
     mdast-builder: ^1.1.1
-    onerepo: 1.0.0-beta.0
+    onerepo: "workspace:^"
     remark-gfm: ^4.0.0
     remark-parse: ^11.0.0
     remark-stringify: ^11.0.0
     unified: ^11.0.4
+  peerDependencies:
+    onerepo: ^1
   languageName: unknown
   linkType: soft
 
@@ -2938,11 +2937,6 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/builders": 1.0.0-beta.0
-    "@onerepo/file": 1.0.0-beta.0
-    "@onerepo/git": 1.0.0-beta.0
-    "@onerepo/logger": 1.0.0-beta.0
-    "@onerepo/subprocess": 1.0.0-beta.0
     "@onerepo/test-cli": "workspace:^"
     "@types/eslint": ^8.56.2
     eslint: ^8.56.0
@@ -2953,6 +2947,7 @@ __metadata:
     typescript: ^5.3.3
   peerDependencies:
     eslint: ^8
+    onerepo: ^1
   languageName: unknown
   linkType: soft
 
@@ -2962,14 +2957,12 @@ __metadata:
   dependencies:
     "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
-    "@onerepo/builders": 1.0.0-beta.0
-    "@onerepo/git": 1.0.0-beta.0
-    "@onerepo/subprocess": 1.0.0-beta.0
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
     typescript: ^5.3.3
   peerDependencies:
     jest: ">=29"
+    onerepo: ^1
   languageName: unknown
   linkType: soft
 
@@ -2979,9 +2972,9 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/file": 1.0.0-beta.0
-    "@onerepo/logger": 1.0.0-beta.0
-    onerepo: 1.0.0-beta.0
+    onerepo: "workspace:^"
+  peerDependencies:
+    onerepo: ^1
   languageName: unknown
   linkType: soft
 
@@ -2992,16 +2985,12 @@ __metadata:
     "@actions/core": ^1.10.1
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/builders": 1.0.0-beta.0
-    "@onerepo/file": 1.0.0-beta.0
-    "@onerepo/git": 1.0.0-beta.0
-    "@onerepo/logger": 1.0.0-beta.0
-    "@onerepo/subprocess": 1.0.0-beta.0
     "@onerepo/test-cli": "workspace:^"
     minimatch: ^9.0.3
     onerepo: "workspace:^"
     typescript: ^5.3.3
   peerDependencies:
+    onerepo: ^1
     prettier: ^2 || ^3
   languageName: unknown
   linkType: soft
@@ -3012,11 +3001,11 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/builders": 1.0.0-beta.0
-    "@onerepo/file": 1.0.0-beta.0
-    "@onerepo/subprocess": 1.0.0-beta.0
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
+  peerDependencies:
+    onerepo: ^1
+    typescript: "*"
   languageName: unknown
   linkType: soft
 
@@ -3026,13 +3015,11 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    "@onerepo/builders": 1.0.0-beta.0
-    "@onerepo/git": 1.0.0-beta.0
-    "@onerepo/subprocess": 1.0.0-beta.0
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
     typescript: ^5.3.3
   peerDependencies:
+    onerepo: ^1
     vitest: ^0 || ^1
   languageName: unknown
   linkType: soft

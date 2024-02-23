@@ -1,9 +1,8 @@
 import path from 'node:path';
 import type { PerformanceMeasure } from 'node:perf_hooks';
 import { performance, PerformanceObserver } from 'node:perf_hooks';
-import { getLogger } from '@onerepo/logger';
+import { getLogger, file } from 'onerepo';
 import type { PluginObject } from 'onerepo';
-import { makeTempDir, write } from '@onerepo/file';
 
 /**
  * Include the `performanceWriter` plugin in your oneRepo plugin setup:
@@ -105,13 +104,13 @@ export function performanceWriter(opts: Options = {}): PluginObject {
 			let outFile: string = fileType;
 			const now = Date.now();
 			if (fileType === 'temp') {
-				const tempDir = await makeTempDir('onerepo-perf', { step });
+				const tempDir = await file.makeTempDir('onerepo-perf', { step });
 				outFile = path.join(tempDir, `${now}.json`);
 			} else {
 				outFile = outFile.startsWith('/') ? outFile : path.join(process.cwd(), outFile);
 			}
 
-			await write(outFile, JSON.stringify(measures), { step });
+			await file.write(outFile, JSON.stringify(measures), { step });
 			await step.end();
 		},
 	};

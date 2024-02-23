@@ -22,11 +22,6 @@
 		"./README.md",
 		"./CHANGELOG.md"
 	],
-	"dependencies": {
-		"@onerepo/builders": "1.0.0-beta.0",
-		"@onerepo/git": "1.0.0-beta.0",
-		"@onerepo/subprocess": "1.0.0-beta.0"
-	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
@@ -35,6 +30,7 @@
 		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
+		"onerepo": "^1",
 		"vitest": "^0 || ^1"
 	},
 	"engines": {

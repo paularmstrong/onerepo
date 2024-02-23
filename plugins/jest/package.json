@@ -22,11 +22,6 @@
 		"./README.md",
 		"./CHANGELOG.md"
 	],
-	"dependencies": {
-		"@onerepo/builders": "1.0.0-beta.0",
-		"@onerepo/git": "1.0.0-beta.0",
-		"@onerepo/subprocess": "1.0.0-beta.0"
-	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
@@ -35,7 +30,8 @@
 		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
-		"jest": ">=29"
+		"jest": ">=29",
+		"onerepo": "^1"
 	},
 	"engines": {
 		"node": "^18 || ^20"

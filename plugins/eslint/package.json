@@ -23,11 +23,6 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "1.0.0-beta.0",
-		"@onerepo/file": "1.0.0-beta.0",
-		"@onerepo/git": "1.0.0-beta.0",
-		"@onerepo/logger": "1.0.0-beta.0",
-		"@onerepo/subprocess": "1.0.0-beta.0",
 		"eslint-formatter-onerepo": "1.0.0-beta.0",
 		"minimatch": "^9.0.3"
 	},
@@ -42,7 +37,8 @@
 		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
-		"eslint": "^8"
+		"eslint": "^8",
+		"onerepo": "^1"
 	},
 	"engines": {
 		"node": "^18 || ^20"

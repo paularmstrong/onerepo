@@ -10,7 +10,7 @@ import type {
 	Options as YargsOptions,
 	PositionalOptions as YargsPositionalOptions,
 } from 'yargs';
-import type { LogStep } from '@onerepo/logger';
+import type { LogStep } from 'onerepo';
 
 type Examples = Record<string, string>;
 

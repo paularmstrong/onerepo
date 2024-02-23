@@ -1,9 +1,6 @@
 import { constants, existsSync } from 'node:fs';
-import * as builders from '@onerepo/builders';
-import * as file from '@onerepo/file';
-import type { RunSpec } from '@onerepo/subprocess';
-import type { Builder, Handler } from '@onerepo/yargs';
-import type { Workspace } from '@onerepo/graph';
+import { builders, file } from 'onerepo';
+import type { RunSpec, Builder, Handler, Workspace } from 'onerepo';
 
 export const command = ['tsc', 'typescript', 'typecheck'];
 

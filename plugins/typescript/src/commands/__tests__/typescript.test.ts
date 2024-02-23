@@ -1,7 +1,6 @@
 import { constants } from 'node:fs';
 import { getCommand } from '@onerepo/test-cli';
-import * as file from '@onerepo/file';
-import { LogStep } from 'onerepo';
+import * as onerepo from 'onerepo';
 import * as command from '../typescript';
 
 const { graph, run } = getCommand(command);
@@ -40,17 +39,17 @@ describe('handler', () => {
 	test('can opt-in to using project references', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
-		vi.spyOn(file, 'readJson').mockResolvedValue({});
-		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(onerepo.file, 'readJson').mockResolvedValue({});
+		vi.spyOn(onerepo.file, 'write').mockResolvedValue();
 
 		await run('-a --use-project-references');
 
-		expect(file.readJson).toHaveBeenCalledWith(graph.root.resolve('tsconfig.json'), constants.O_RDWR, {
+		expect(onerepo.file.readJson).toHaveBeenCalledWith(graph.root.resolve('tsconfig.json'), constants.O_RDWR, {
 			jsonc: true,
-			step: expect.any(LogStep),
+			step: expect.any(onerepo.LogStep),
 		});
 
-		expect(file.write).toHaveBeenCalledWith(
+		expect(onerepo.file.write).toHaveBeenCalledWith(
 			graph.root.resolve('tsconfig.json'),
 			JSON.stringify(
 				{
@@ -62,7 +61,7 @@ describe('handler', () => {
 				null,
 				2,
 			),
-			{ step: expect.any(LogStep) },
+			{ step: expect.any(onerepo.LogStep) },
 		);
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
@@ -98,8 +97,8 @@ describe('handler', () => {
 	test('includes verbose flag in in build mode (project references)', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(graph.packageManager, 'batch').mockResolvedValue([['', '']]);
-		vi.spyOn(file, 'readJson').mockResolvedValue({});
-		vi.spyOn(file, 'write').mockResolvedValue();
+		vi.spyOn(onerepo.file, 'readJson').mockResolvedValue({});
+		vi.spyOn(onerepo.file, 'write').mockResolvedValue();
 
 		await run('-a --use-project-references -vvvv');
 
