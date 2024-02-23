@@ -16,7 +16,7 @@ export default {
 		formatting: {
 			commit: '([${ref.short}](https://github.com/paularmstrong/onerepo/commit/${ref}))',
 			footer:
-				'> View the full changelog: [${fromRef.short}...${throughRef.short}](https://github.com/paularmstrong/onerepo/commits/${fromRef}...${throughRef})',
+				'> View the full changelog: [${fromRef.short}...${throughRef.short}](https://github.com/paularmstrong/onerepo/compare/${fromRef}...${throughRef})',
 		},
 	},
 

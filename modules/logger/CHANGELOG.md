@@ -6,7 +6,7 @@
 
 - Triggering major release… ([1525cc1](https://github.com/paularmstrong/onerepo/commit/1525cc1e51b571bc86ed4dbfd71864217881ff88))
 
-> View the full changelog: [78c3762...1525cc1](https://github.com/paularmstrong/onerepo/commits/78c37627cffe8d026958ec949eda9ab0d9c29cf8...1525cc1e51b571bc86ed4dbfd71864217881ff88)
+> View the full changelog: [78c3762...1525cc1](https://github.com/paularmstrong/onerepo/compare/78c37627cffe8d026958ec949eda9ab0d9c29cf8...1525cc1e51b571bc86ed4dbfd71864217881ff88)
 
 ## 0.7.0
 
@@ -17,7 +17,7 @@
   step.log(() => bigArray.map((item) => item.name));
   ```
 
-> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/commits/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
+> View the full changelog: [076da8f...5e203f5](https://github.com/paularmstrong/onerepo/compare/076da8f7e96c37fdbd5af4e6772778207073136d...5e203f559b5aca1f45427729a59764d3a47952b5)
 
 ## 0.6.0
 
