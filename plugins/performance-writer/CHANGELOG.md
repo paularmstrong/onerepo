@@ -1,5 +1,26 @@
 # @onerepo/plugin-performance-writer
 
+## 1.0.0-beta.1
+
+### Patch changes
+
+- Updated oneRepo dependencies to pin as a peer to the appropriate oneRepo release instead of internal sub-packages. ([92e1441](https://github.com/paularmstrong/onerepo/commit/92e14416aebaf47d21fe7cbcba625f6d48a9b001))
+
+### Dependencies updated
+
+- onerepo@1.0.0-beta.1
+- @onerepo/test-cli@1.0.0-beta.1
+- @onerepo/yargs@1.0.0-beta.1
+- @onerepo/builders@1.0.0-beta.1
+- @onerepo/git@1.0.0-beta.1
+- @onerepo/graph@1.0.0-beta.1
+- @onerepo/package-manager@1.0.0-beta.1
+- @onerepo/subprocess@1.0.0-beta.1
+- @onerepo/file@1.0.0-beta.1
+- @onerepo/logger@1.0.0-beta.1
+
+> View the full changelog: [c9304db...92d39f9](https://github.com/paularmstrong/onerepo/compare/c9304dbcfeaa10ec01a76c3057cfef66188cb428...92d39f9980e2489a25c168f722a6326ab9938b80)
+
 ## 1.0.0-beta.0
 
 ### Major changes

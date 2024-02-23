@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-jest",
 	"description": "Official Jest plugin for the oneRepo toolchain.",
 	"title": "Jest",
-	"version": "1.0.0-beta.0",
+	"version": "1.0.0-beta.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
