@@ -123,6 +123,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 
 		let out = '';
 		let err = '';
+		let sortedOut = '';
 
 		if (!runDry && process.env.ONEREPO_DRY_RUN === 'true') {
 			step.info(
@@ -167,12 +168,14 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 			subprocess.stdout.pipe(
 				makeTransformer((str: string) => {
 					out += str;
+					sortedOut += str;
 					step.log(str);
 				}),
 			);
 			subprocess.stderr.pipe(
 				makeTransformer((str: string) => {
 					err += str;
+					sortedOut += str;
 					step.log(str);
 				}),
 			);
@@ -187,8 +190,8 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 			});
 
 			if (code && isFinite(code) && !options.skipFailures) {
-				const error = new SubprocessError(`${out || err || code}`);
-				step.error(out.trim() || err.trim());
+				const error = new SubprocessError(`${sortedOut || code}`);
+				step.error(sortedOut.trim());
 				step.error(`Process exited with code ${code}`);
 				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
 					logger.unpause();
