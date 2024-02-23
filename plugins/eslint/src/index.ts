@@ -2,12 +2,12 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/eslint';
 
 /**
+ * Options for configuring the ESLint plugin for oneRepo.
  *
  * ```js title="onerepo.config.js"
  * export default {
  * 	plugins: [
  * 		eslint({
- * 			name: ['lint', 'eslint'],
  * 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs']
  * 		}),
  * 	],

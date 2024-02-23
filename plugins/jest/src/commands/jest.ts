@@ -22,7 +22,7 @@ type Args = {
 export const builder: Builder<Args> = (yargs) =>
 	builders
 		.withAffected(builders.withWorkspaces(yargs))
-		.usage(`$0 ${command} [options...] -- [passthrough]`)
+		.usage(`$0 ${command[0]} [options...] -- [passthrough]`)
 		.option('config', {
 			type: 'string',
 			description: 'Path to the jest.config file, relative to the repo root.',

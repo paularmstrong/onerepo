@@ -2,12 +2,13 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/prettier';
 
 /**
+ * Options for configuring the Prettier plugin for oneRepo.
  *
  * ```js title="onerepo.config.js"
  * export default {
  * 	plugins: [
  * 		prettier({
- * 			name: ['format', 'prettier']
+ * 			useCache: true,
  * 		}),
  * 	],
  * };

@@ -11,6 +11,10 @@ meta:
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
 
+Let oneRepo handle running TypeScript across Workspaces.
+
+Avoid potential mistakes when using [project references](https://www.typescriptlang.org/docs/handbook/project-references.html), this plugin will automatically ensure references across all `tsconfig.json` files are kept in sync for every run.
+
 ## Installation
 
 <Tabs group="pkgmanager">
@@ -40,7 +44,7 @@ import Tabs from '../../../components/Tabs.astro';
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<1773ce7e55565387f70fae21b346c13c>> */}
+{/* @generated SignedSource<<274701f3896910b7dfed9098ec816975>> */}
 
 ### typescript()
 
@@ -73,6 +77,8 @@ type Options: {
   useProjectReferences: boolean;
 };
 ```
+
+Options for configuring the TypeScript plugin for oneRepo.
 
 ```js title="onerepo.config.js"
 export default {

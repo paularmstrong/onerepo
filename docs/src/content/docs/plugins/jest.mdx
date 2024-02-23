@@ -11,7 +11,7 @@ meta:
 import { TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../../components/Tabs.astro';
 
-Jest is a good framework for headless testing with oneRepo. Jest works well because it allows a single runner that can use multiple project configurations. Each workspace in your repository can be a Jest project, enabling Jest to determine which tests to run.
+Jest is a good framework for headless testing with oneRepo. Jest works well with monorepos because it allows a single runner that can use multiple project configurations. Each workspace in your repository can be a Jest project, enabling Jest to determine which tests to run.
 
 The added benefit of Jest is that as you are working, you can run this single command and it will automatically test appropriate files related to your changes across all workspaces. There's no need to determine which workspaces to run – and can all be done with `--watch` mode at the same time.
 
@@ -53,7 +53,7 @@ export default {
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<347453289f233a73126de352538f5cf4>> */}
+{/* @generated SignedSource<<75badb5139713c6e3dba0457be70a7d7>> */}
 
 ### jest()
 
@@ -87,7 +87,7 @@ type Options: {
 };
 ```
 
-Options for configuring the Jest oneRepo plugin.
+Options for configuring the Jest plugin for oneRepo.
 
 ```js title="onerepo.config.js"
 export default {
@@ -183,7 +183,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-jest */}
-{/* @generated SignedSource<<36e6075a2347dd94f8864a29cc11bcb5>> */}
+{/* @generated SignedSource<<28e3ef503a4683aaf3061c1921d17303>> */}
 
 ### `one jest`
 
@@ -192,7 +192,7 @@ Aliases: `one test`
 Run tests using Jest.
 
 ```sh
-one jest ,test [options...] -- [passthrough]
+one jest [options...] -- [passthrough]
 one jest [options...]
 ```
 

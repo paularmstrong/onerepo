@@ -2,7 +2,7 @@ import type { Plugin } from 'onerepo';
 import * as cmd from './commands/jest';
 
 /**
- * Options for configuring the Jest oneRepo plugin.
+ * Options for configuring the Jest plugin for oneRepo.
  *
  * ```js title="onerepo.config.js"
  * export default {

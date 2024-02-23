@@ -40,7 +40,7 @@ import Tabs from '../../../components/Tabs.astro';
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<c2ac8eb35d5d3262fc9a1808b79d07e8>> */}
+{/* @generated SignedSource<<5f189783569730ef4e498ad80adfa5f7>> */}
 
 ### eslint()
 
@@ -75,11 +75,12 @@ type Options: {
 };
 ```
 
+Options for configuring the ESLint oneRepo plugin.
+
 ```js title="onerepo.config.js"
 export default {
 	plugins: [
 		eslint({
-			name: ['lint', 'eslint'],
 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs'],
 		}),
 	],

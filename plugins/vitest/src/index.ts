@@ -2,7 +2,7 @@ import type { PluginObject } from 'onerepo';
 import * as cmd from './commands/vitest';
 
 /**
- * Options for configuring the Vitest oneRepo plugin.
+ * Options for configuring the Vitest plugin for oneRepo.
  *
  * ```js title="onerepo.config.js"
  * export default {
@@ -48,7 +48,6 @@ export type Options = {
 
 /**
  * Include the `vitest` plugin in your oneRepo plugin setup:
- *
  *
  * ```js title="onerepo.config.ts" {1,4}
  * import { vitest } from '@onerepo/plugin-vitest';
