@@ -1,5 +1,9 @@
 # @onerepo/logger
 
+## 1.0.0-beta.1
+
+> View the full changelog: [c9304db...d60f641](https://github.com/paularmstrong/onerepo/commits/c9304dbcfeaa10ec01a76c3057cfef66188cb428...d60f641070204496707e5419dd2ee4f1da41c1ca)
+
 ## 1.0.0-beta.0
 
 ### Major changes

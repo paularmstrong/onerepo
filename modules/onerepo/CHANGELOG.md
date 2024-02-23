@@ -1,5 +1,35 @@
 # onerepo
 
+## 1.0.0-beta.1
+
+### Minor changes
+
+- `git.updateIndex()` requires either passing the option `immediately: true` or calling `git.flushUpdateIndex()` afterwards in order to actually write to the git index. ([876e3e7](https://github.com/paularmstrong/onerepo/commit/876e3e71b64390472a3b91f2f554085b29ad2dd5))
+  This process is designed to avoid race conditions from parallel calls which could cause git to become in a bad state, requiring users manually delete their `.git/index.lock` file.
+  > Note: you should not normally need to make any changes to account for this. oneRepo commands will automatically call `flushUpdateIndex()` as necessary during shutdown.
+- Adds option `maxParallel` to `batch()` processes to manually control the maximum number of parallel subprocesses to run. This number will still be limited by the number of CPU cores available. ([483d7c0](https://github.com/paularmstrong/onerepo/commit/483d7c000ca69f094a43797f05e8f0432e2a5d70))
+
+### Patch changes
+
+- Cancelling `tasks` should no longer result in conflicted `.git/index.lock` files when shut down while trying to add files to the git index/stage. ([876e3e7](https://github.com/paularmstrong/onerepo/commit/876e3e71b64390472a3b91f2f554085b29ad2dd5))
+- Removes unnecessary info output when running `one graph show` ([442eafd](https://github.com/paularmstrong/onerepo/commit/442eafda8966ade466ed797859249386cf867cae))
+- Type documentation updates ([0ef3a1b](https://github.com/paularmstrong/onerepo/commit/0ef3a1b414c3a34aaaab8d7a6400bb36430be152))
+- Prevents auto-adding `latest` as the dist-tag when publishing workspaces when their versions have pre-release suffixes. ([483d7c0](https://github.com/paularmstrong/onerepo/commit/483d7c000ca69f094a43797f05e8f0432e2a5d70))
+
+### Dependencies updated
+
+- @onerepo/test-cli@1.0.0-beta.1
+- @onerepo/yargs@1.0.0-beta.1
+- @onerepo/builders@1.0.0-beta.1
+- @onerepo/git@1.0.0-beta.1
+- @onerepo/graph@1.0.0-beta.1
+- @onerepo/package-manager@1.0.0-beta.1
+- @onerepo/subprocess@1.0.0-beta.1
+- @onerepo/file@1.0.0-beta.1
+- @onerepo/logger@1.0.0-beta.1
+
+> View the full changelog: [c9304db...d60f641](https://github.com/paularmstrong/onerepo/commits/c9304dbcfeaa10ec01a76c3057cfef66188cb428...d60f641070204496707e5419dd2ee4f1da41c1ca)
+
 ## 1.0.0-beta.0
 
 ### Major changes

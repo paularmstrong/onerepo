@@ -1,5 +1,22 @@
 # @onerepo/plugin-performance-writer
 
+## 1.0.0-beta.1
+
+### Dependencies updated
+
+- onerepo@1.0.0-beta.1
+- @onerepo/test-cli@1.0.0-beta.1
+- @onerepo/yargs@1.0.0-beta.1
+- @onerepo/builders@1.0.0-beta.1
+- @onerepo/git@1.0.0-beta.1
+- @onerepo/graph@1.0.0-beta.1
+- @onerepo/package-manager@1.0.0-beta.1
+- @onerepo/subprocess@1.0.0-beta.1
+- @onerepo/file@1.0.0-beta.1
+- @onerepo/logger@1.0.0-beta.1
+
+> View the full changelog: [c9304db...d60f641](https://github.com/paularmstrong/onerepo/commits/c9304dbcfeaa10ec01a76c3057cfef66188cb428...d60f641070204496707e5419dd2ee4f1da41c1ca)
+
 ## 1.0.0-beta.0
 
 ### Major changes

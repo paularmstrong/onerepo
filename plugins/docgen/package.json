@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/plugin-docgen",
-	"version": "1.0.0-beta.0",
+	"version": "1.0.0-beta.1",
 	"license": "MIT",
 	"title": "Docgen",
 	"repository": {
@@ -22,13 +22,13 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "1.0.0-beta.0",
-		"@onerepo/git": "1.0.0-beta.0",
-		"@onerepo/yargs": "1.0.0-beta.0",
+		"@onerepo/file": "1.0.0-beta.1",
+		"@onerepo/git": "1.0.0-beta.1",
+		"@onerepo/yargs": "1.0.0-beta.1",
 		"glob": "^10.1.0",
 		"jiti": "^1.21.0",
 		"mdast-builder": "^1.1.1",
-		"onerepo": "1.0.0-beta.0",
+		"onerepo": "1.0.0-beta.1",
 		"remark-gfm": "^4.0.0",
 		"remark-parse": "^11.0.0",
 		"remark-stringify": "^11.0.0",
