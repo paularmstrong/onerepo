@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/test-cli",
-	"version": "1.0.0-beta.0",
+	"version": "1.0.0-beta.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,10 +21,10 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "1.0.0-beta.0",
-		"@onerepo/graph": "1.0.0-beta.0",
-		"@onerepo/logger": "1.0.0-beta.0",
-		"@onerepo/yargs": "1.0.0-beta.0",
+		"@onerepo/builders": "1.0.0-beta.1",
+		"@onerepo/graph": "1.0.0-beta.1",
+		"@onerepo/logger": "1.0.0-beta.1",
+		"@onerepo/yargs": "1.0.0-beta.1",
 		"yargs": "^17.6.2"
 	},
 	"devDependencies": {
