@@ -82,6 +82,12 @@ export const docgen = (opts: Options = {}): Plugin => {
 
 	return (rootConfig) => ({
 		yargs: (yargs, visitor) => {
+			if (process.env.ONEREPO_DOCGEN) {
+				for (const key of Object.keys(opts)) {
+					opts[key as keyof Options] = undefined;
+				}
+			}
+
 			const command = opts.name ?? 'docgen';
 			const description = `Generate documentation for the oneRepo cli.`;
 			const builder: Builder<Args> = (yargs) =>

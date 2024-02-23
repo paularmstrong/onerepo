@@ -153,16 +153,16 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-prettier */}
-{/* @generated SignedSource<<06661420740212ff5497999154969309>> */}
+{/* @generated SignedSource<<49ae120de3ddea0068757dc696a52da4>> */}
 
-### `one format`
+### `one prettier`
 
-Aliases: `one prettier`
+Aliases: `one format`
 
 Format files with prettier
 
 ```sh
-one format [options]
+one prettier [options...]
 ```
 
 | Option             | Type      | Description                                                                                                                                                                 |
@@ -172,7 +172,6 @@ one format [options]
 | `--all, -a`        | `boolean` | Run across all workspaces                                                                                                                                                   |
 | `--check`          | `boolean` | Check for changes.                                                                                                                                                          |
 | `--files, -f`      | `array`   | Determine Workspaces from specific files                                                                                                                                    |
-| `--show-advanced`  | `boolean` | Pair with `--help` to show advanced options.                                                                                                                                |
 | `--staged`         | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                                                                                                      |
 
@@ -185,6 +184,7 @@ one format [options]
 | `--cache`           | `boolean`, default: `true` | Use Prettier’s built-in cache to determin whether files need formatting or not.    |
 | `--from-ref`        | `string`                   | Git ref to start looking for affected files or workspaces                          |
 | `--github-annotate` | `boolean`, default: `true` | Annotate files in GitHub with errors when failing format checks in GitHub Actions. |
+| `--show-advanced`   | `boolean`                  | Pair with `--help` to show advanced options.                                       |
 | `--through-ref`     | `string`                   | Git ref to start looking for affected files or workspaces                          |
 
 </details>

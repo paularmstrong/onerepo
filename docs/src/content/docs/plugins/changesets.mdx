@@ -101,7 +101,7 @@ optional name: string | string[];
 ## Commands
 
 {/* start-auto-generated-from-cli-changesets */}
-{/* @generated SignedSource<<3b021d1d2d6206998de70671056ad043>> */}
+{/* @generated SignedSource<<1df8ed93a5898104236831bc7963931c>> */}
 
 ### `one change`
 
@@ -141,7 +141,7 @@ This command will prompt for appropriate Workspace(s), prompt for the release ty
 
 | Option          | Type                                        | Description                                                                                                                                                                 |
 | --------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--filenames`   | `"hash"`, `"human"`, default: `"hash"`      | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed.                                                              |
+| `--filenames`   | `"hash"`, `"human"`, default: `"human"`     | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed.                                                              |
 | `--from-ref`    | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
 | `--prompts`     | `"guided"`, `"semver"`, default: `"guided"` | Change the prompt question & answer style when adding change entries.                                                                                                       |
 | `--staged`      | `boolean`                                   | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
@@ -163,9 +163,9 @@ one change migrate
 
 <summary>Advanced options</summary>
 
-| Option        | Type                                   | Description                                                                                                    |
-| ------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `--filenames` | `"hash"`, `"human"`, default: `"hash"` | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed. |
+| Option        | Type                                    | Description                                                                                                    |
+| ------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `--filenames` | `"hash"`, `"human"`, default: `"human"` | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed. |
 
 </details>
 

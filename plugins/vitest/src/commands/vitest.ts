@@ -2,7 +2,7 @@ import { getMergeBase } from '@onerepo/git';
 import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
-export const command = 'vitest';
+export const command = ['vitest', 'test'];
 
 export const description = 'Run unit tests using Vitest';
 

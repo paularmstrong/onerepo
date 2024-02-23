@@ -78,11 +78,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		);
 
 		generators.push({
-			name: `Generate for ${ws.name}`,
+			name: `Docgen for ${ws.name}`,
 			cmd: process.argv[1],
 			args: [
 				'docgen',
-				'--use-defaults',
 				'--format',
 				'markdown',
 				'--heading-level',
@@ -99,7 +98,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		});
 
 		generators.push({
-			name: `Gen typedoc for ${ws.name}`,
+			name: `Typedoc for ${ws.name}`,
 			cmd: typedoc,
 			args: [
 				'--plugin',
@@ -130,7 +129,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const outFile = docs.resolve(`src/content/docs/core/${cmd}.mdx`);
 
 			generators.push({
-				name: `Generate for ${cmd}`,
+				name: `Docgen for ${cmd}`,
 				cmd: process.argv[1],
 				args: [
 					'docgen',
@@ -162,7 +161,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		];
 		for (const [name, loc, tmpDir] of configTypes) {
 			generators.push({
-				name: `Gen typedoc for ${name} config`,
+				name: `Typedoc for ${name} config`,
 				cmd: typedoc,
 				args: [
 					'--plugin',

@@ -7,6 +7,7 @@ import * as cmd from './commands/eslint';
  * export default {
  * 	plugins: [
  * 		eslint({
+ * 			name: ['lint', 'eslint'],
  * 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs']
  * 		}),
  * 	],
@@ -15,7 +16,7 @@ import * as cmd from './commands/eslint';
  */
 export type Options = {
 	/**
-	 * List of file extensions (without the `.`) that ESLint should operate across.
+	 * List of file extensions (without the `.`) that ESLint should operate across. Omit this if using the new [flat configuration](https://eslint.org/docs/latest/use/configure/configuration-files-new).
 	 */
 	extensions?: Array<string>;
 	/**
@@ -47,6 +48,11 @@ export type Options = {
 export function eslint(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
+			if (process.env.ONEREPO_DOCGEN) {
+				for (const key of Object.keys(opts)) {
+					opts[key as keyof Options] = undefined;
+				}
+			}
 			const { command, description, builder, handler } = visitor(cmd);
 			const name = opts.name ?? command;
 			return yargs.command(

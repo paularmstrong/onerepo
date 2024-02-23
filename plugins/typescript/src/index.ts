@@ -43,6 +43,12 @@ export type Options = {
 export function typescript(opts: Options = {}): Plugin {
 	return {
 		yargs: (yargs, visitor) => {
+			if (process.env.ONEREPO_DOCGEN) {
+				for (const key of Object.keys(opts)) {
+					opts[key as keyof Options] = undefined;
+				}
+			}
+
 			const { command, description, builder, handler } = visitor(cmd);
 			const name = opts.name ?? command;
 			return yargs.command(

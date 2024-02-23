@@ -6,7 +6,7 @@ import { exists, lstat, read } from '@onerepo/file';
 import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
-export const command = 'prettier';
+export const command = ['prettier', 'format'];
 
 export const description = 'Format files with prettier';
 

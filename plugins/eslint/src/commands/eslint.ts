@@ -5,14 +5,14 @@ import { exists, lstat, read } from '@onerepo/file';
 import * as builders from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
 
-export const command = 'eslint';
+export const command = ['eslint', 'lint'];
 
 export const description = 'Run eslint across files and workspaces';
 
 type Args = builders.WithAllInputs & {
 	add?: boolean;
 	cache: boolean;
-	extensions: Array<string>;
+	extensions?: Array<string>;
 	fix: boolean;
 	'github-annotate': boolean;
 	pretty: boolean;
@@ -38,9 +38,9 @@ export const builder: Builder<Args> = (yargs) =>
 			description: 'Apply auto-fixes if possible',
 		})
 		.option('extensions', {
+			description: 'Make ESLint check files given these extensions.',
 			type: 'array',
 			string: true,
-			default: ['js', 'cjs', 'mjs'],
 		})
 		.option('pretty', {
 			type: 'boolean',
@@ -99,7 +99,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 				continue;
 			}
 
-			if (!extensions.includes(ext.replace(/^\./, ''))) {
+			if (extensions && extensions.length && !extensions.includes(ext.replace(/^\./, ''))) {
 				continue;
 			}
 
@@ -116,7 +116,10 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		return;
 	}
 
-	const args = ['--ext', extensions.join(','), pretty ? '--color' : '--no-color'];
+	const args = [pretty ? '--color' : '--no-color'];
+	if (extensions && extensions.length) {
+		args.push('--ext', extensions.join(','));
+	}
 	if (!(passthrough.includes('-f') || passthrough.includes('--format'))) {
 		args.push('--format', 'onerepo');
 	}
