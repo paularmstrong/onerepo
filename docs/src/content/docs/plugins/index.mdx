@@ -3,8 +3,8 @@ title: Plugins
 description: Official plugins for the oneRepo JavaScript and TypeScript monorepo toolchain.
 ---
 
-import { CardGrid, LinkCard } from '@astrojs/starlight/components';
-import LinkCardImage from '../../../components/LinkCardImage.astro';
+import { CardGrid } from '@astrojs/starlight/components';
+import LinkCard from '../../../components/LinkCard.astro';
 import Eslint from '../../../assets/plugins/eslint.webp';
 import Jest from '../../../assets/plugins/jest.webp';
 import Prettier from '../../../assets/plugins/prettier.webp';
@@ -21,36 +21,31 @@ oneRepo features a plugin interface to enable shared and reusable commands and f
 		description="Generate Markdown documentation for the oneRepo CLI in your repository."
 		href="docgen/"
 	/>
-	<LinkCardImage
+	<LinkCard
 		image={Eslint}
 		title="ESLint"
 		description="Run ESLint across your repo."
 		href="eslint/"
 	/>
-	<LinkCardImage
-		image={Jest}
-		title="Jest"
-		description="Run Jest tests across your repo."
-		href="jest/"
-	/>
+	<LinkCard image={Jest} title="Jest" description="Run Jest tests across your repo." href="jest/" />
 	<LinkCard
 		title="Performance Writer"
 		description="Example plugin for monitoring performance of commands run in your repository."
 		href="performance-writer/"
 	/>
-	<LinkCardImage
+	<LinkCard
 		image={Prettier}
 		title="Prettier"
 		description="Format files with Preggier."
 		href="prettier/"
 	/>
-	<LinkCardImage
+	<LinkCard
 		image={TypeScript}
 		title="TypeScript"
 		description="Automatically sync tsconfig project references and run tsc through the oneRepo CLI."
 		href="typescript/"
 	/>
-	<LinkCardImage
+	<LinkCard
 		image={Vitest}
 		title="Vitest"
 		description="Run Vitest tests across your repo."

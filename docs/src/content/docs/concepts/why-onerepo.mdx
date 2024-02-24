@@ -5,18 +5,10 @@ sidebar:
   order: 1
 ---
 
-import { CardGrid, LinkCard } from '@astrojs/starlight/components';
-import Supported from '../../../components/checks/Supported.astro';
-import Unsupported from '../../../components/checks/Unsupported.astro';
+import { CardGrid } from '@astrojs/starlight/components';
+import LinkCard from '../../../components/LinkCard.astro';
 
 **oneRepo** is a suite of tools for managing JavaScript and TypeScript monorepos, with the goal of enabling speed and confidence for all changes.
-
-Other monorepo tooling either does too much or not enough in order to maintain a healthy monorepo for distributed organizations that need conformance, stability, and discoverability.
-
-- **Safe and strict:** Other tools rely on manually configuring globs of files that contribute to Workspace integrity and decision making for whether or not checks and tasks must run. oneRepo, on the other hand _does not_ use a cache and automatically determines which Workspaces, tasks, and checks must run for any given change. We sacrifice a little bit of speed for strict correctness.
-- **Source level dependencies:** When working within the monorepo all import/require chains come from the _source_ files; never requires building shared packages to capture changes.
-
----
 
 :::tip[Read first]
 Get familiar with JavaScript-based monorepos by reading the [monorepo primer](/concepts/primer/) first.
@@ -25,32 +17,138 @@ Get familiar with JavaScript-based monorepos by reading the [monorepo primer](/c
 ## Tenets
 
 - **Documented:** All commands and options must be documented and respond to `--help` requests.
-- **Discoverable:** Code for commands must be easy to find and trace.
+- **Discoverable:** Code for commands must be easy to find and trace in a familiar language.
 - **Clear output:** All log output must be grouped, labelled with purpose, and clearly defined by its state.
+- **Correct:** Avoid human errors by automating correctness checks whenever possible.
+- **Fast:** Reduce wait time and overhead.
 
 ## Features
 
+Other monorepo tooling is often either overly complicated or lacking in functionality, making it challenging for distributed organizations to maintain a healthy monorepo. To ensure conformance, stability, and discoverability, organizations need a tool that strikes the right balance, which existing solutions often fail to provide.
+
+### Automating tasks
+
+oneRepo simplifies automation by handling common tasks for you and your team. Say goodbye to spending excessive time tinkering with tooling and hello to focusing on your applications.
+
 <LinkCard
-	title="Custom commands"
-	description="Embed custom workflows into the oneRepo CLI for your repository to speed up common workflows and avoid knowledge gaps."
-	href="/docs/commands/"
+	inline
+	icon="rocket"
+	title="Tasks"
+	href="/core/tasks/"
+	description="Learn about oneRepo's task system."
 />
 
+### Strict safety & checks
+
+Gone are the days of manually configuring file glob patterns for Workspace integrity and decision making for whether or not checks and tasks must run. oneRepo automatically and accurately determines which Workspaces, tasks, and checks are necessary for any given change
+
+<LinkCard
+	inline
+	icon="approve-check-circle"
+	title="Validation"
+	href="/core/graph/#validating-configurations"
+	description="Strict, helpful, and extendable integrity checks."
+/>
+
+### Stop recompiling dependencies
+
+With oneRepo, you can utilize shared Workspaces as source-level dependencies. This means that all import/require chains within the monorepo originate from the source files, eliminating the need to rebuild shared packages to capture changes.
+
+<LinkCard
+	inline
+	icon="puzzle"
+	title="Source dependencies"
+	href="/docs/source-dependencies/"
+	description="See how oneRepo prevents recompiling for every change."
+/>
+
+### Not _another_ language
+
+oneRepo and its APIs, plugins, and configurations are all written in JavaScript (and TypeScript). There's no need to learn a new language or decipher YAML/JSON schema DSLs to configure your tooling.
+
+<LinkCard
+	inline
+	icon="pencil"
+	title="Writing commands"
+	href="/docs/commands/"
+	description="Use oneRepo's full featured API to write your own commands."
+/>
+
+### Human-readable output
+
+Logging output from every command and tool in oneRepo is carefully grouped, documented, and prevented from overlapping parallel executions. Every line includes context, timing, and log-type information.
+
+<LinkCard
+	inline
+	icon="list-format"
+	title="Log output"
+	href="/docs/log-output/"
+	description="Clear, concise, and obvious output for <i>humans</i>."
+/>
+
+### No upsells
+
+Once you've installed oneRepo, you're all set. There's no need to pay extra for additional features; simply bring your own infrastructure and enjoy the full feature set.
+
+---
+
+### And more!
+
 <CardGrid>
-	<LinkCard title="Task runner" href="/core/tasks/" />
-	<LinkCard title="Generators" href="/core/generate/" />
-	<LinkCard title="Code owners" href="/core/codeowners/" />
-	<LinkCard title="Validation" href="/core/graph/#validating-configurations" />
-	<LinkCard title="Plugins" href="/plugins/" />
+	<LinkCard
+		title="Change management"
+		href="/core/changes/"
+		description="Automate publishable Workspace versioning and changelogs."
+	/>
+	<LinkCard
+		title="Code owners"
+		href="/core/codeowners/"
+		description="Auto-sync code owners for your version control pull requests."
+	/>
+	<LinkCard
+		title="Dependencies"
+		href="/core/changes/"
+		description="Make adding and managing third-party node_modules a breeze."
+	/>
+	<LinkCard
+		title="Generators"
+		href="/core/generate/"
+		description="Easily template common resources, Workspaces, and files in your monorepo."
+	/>
+	<LinkCard
+		title="Git hooks"
+		href="/core/hooks/"
+		description="Stay safe by automating fast checks along the way."
+	/>
+	<LinkCard
+		title="Task runner"
+		href="/core/tasks/"
+		description="Automate and simplify running groups of tasks & checks at the appropriate time."
+	/>
+	<LinkCard
+		title="Workspace commands"
+		href="/core/workspace/"
+		description="Unique projects have unique needs. oneRepo makes it easy to do it your way."
+	/>
+	<LinkCard title="API reference" href="/api/" description="Fully featured and well documented." />
 </CardGrid>
+
+<LinkCard
+	title="Plugins"
+	icon="puzzle"
+	href="/plugins/"
+	description="Tap into a community of resources for easily working with your favorite utilities, test runners, linters, formatters, and more!"
+/>
 
 ## Alternatives & pitfalls
 
+When considering tools for managing JavaScript repositories, it's essential to be aware of common pitfalls.
+
 ### Script overload
 
-Many tools available for JavaScript repos rely on writing individual commands into each Workspace’s [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This creates both a brittle setup, copy/paste boilerplate, reduced reusability, and limited documentation & discoverability.
+One such pitfall is script overload, where many tools require you to write individual commands into each Workspace's [`package.json` `"scripts"` field](https://docs.npmjs.com/cli/v9/using-npm/scripts). This approach can lead to a brittle setup, copy-paste boilerplate, reduced reusability, and limited documentation and discoverability.
 
-Take for example, the following real world _portion_ of an application. This `package.json` had 43 various scripts _just_ for running `cypress`. None of these were documented and many may be completely or nearly identical.
+Take, for example, the following a real-world _portion_ an application's `package.json` file that contained 43 different scripts just for running Cypress tests. None of these scripts are documented, and many of them may be completely or nearly identical, leading to confusion and inefficiency.
 
 ```json collapse={6-42} title="package.json"
 {
@@ -102,13 +200,17 @@ Take for example, the following real world _portion_ of an application. This `pa
 }
 ```
 
-This behavior we refer to as _script overload_.
+The phenomenon of an excessive number of scripts cluttering the `package.json` file is what we refer to as "script overload". This not only makes it challenging to remember how to run scripts in individual Workspaces but also highlights a broader issue with documentation and tooling standards.
 
-Furthermore, it is difficult to remember how to run scripts in individual Workspaces due to lack of documentation on `package.json` scripts – and other tooling does not provide a way to enforce standards or help developers find what they’re looking for – relying instead on manual documentation, or worse, memory.
+#### Documentation Challenges
 
-Other pitfalls with npm scripts and similar DSL-like implementations like [Nx task pipelines](https://nx.dev/recipes/running-tasks/defining-task-pipeline) and [moonrepo tasks](https://moonrepo.dev/docs/create-task) require developers to succumb to _script overload_ through task chaining.
+Many tools lack proper documentation for `package.json` scripts, making it difficult for developers to share, understand, and use their own tools effectively.
 
-Because you need to define multiple steps separately that need to be run in order to build a module that includes ESM, CJS, and TS definitions, you might end up with this (naïve and shortened version) of a configuration.
+This lack of documentation also extends to other tooling, which often relies on memory, rather than providing an immediately accessible reference.
+
+#### Pitfalls of npm Scripts
+
+Other tools encourage script overload through task chaining – an approach that requires defining individual and separate scripts for building modules with various definitions (ESM, CJS, TS), resulting in complex and cumbersome configurations.
 
 ```yaml title="moon.yml"  collapse={4-9,13-18,22-27}
 tasks:
@@ -146,11 +248,15 @@ tasks:
       - build-tsdefs
 ```
 
-While this may seem okay to start, as repos grow and become complex, Workspaces may have unique needs and need conditional checks for whether they should run certain portions of tasks or not. Using a DSL requires developers to learn _yet another thing_ or rely on dedicated teams to build infrastructure for them.
+While these approaches may seem manageable at first, as repositories grow and become more complex, Workspaces may require unique configurations and conditional checks. Using a DSL (Domain Specific Language) or similar implementation adds another layer of complexity, requiring developers to either learn new concepts or rely on dedicated teams to build infrastructure.
 
 ### Cache inconsistency
 
-Avoiding extra work by utilizing cached responses based on a set of input files is a great time saver in theory. The problem is that the responsibility of knowing exactly what files and Workspaces affect the cache for each individual task lies on you and your team.
+Utilizing cached responses based on a set of input files can significantly reduce unnecessary work. However, the challenge lies in understanding precisely which files and workspaces affect the cache for each task, a responsibility that falls on you and your team. But even the best developers can easily make a configuration mistake that leads to difficult to debug problems.
+
+The main issue with cache-based solutions is the need to maintain knowledge of the inputs and outputs for each task or target, especially when making substantial changes. It becomes crucial to ensure that any modifications do not unintentionally alter your tool's determinism without updating the configuration. Given the complexity of modern projects, expecting every team member to be aware of all these details at all times is unrealistic, leading to potential oversights and confusion.
+
+Here's an example problematic configuration:
 
 ```json title="modules/my-project/nx.json" collapse={2-11}
 {
@@ -176,11 +282,9 @@ Avoiding extra work by utilizing cached responses based on a set of input files 
 }
 ```
 
-The main problem with cache-based solutions is that you and your team need to keep knowledge of the inputs & outputs to each task or target when making major changes to ensure that you haven't added or modified to the determinism without also updating the configuration. It is impossible to expect everyone to know everything all the time and changes will inevitably slip through the cracks, leaving your team confused as to why.
+Can you spot where the previous build task may have issues with cache consistency? It's okay if you aren't sure, because there isn't enough information yet.
 
-Can you spot where the problem with the previous build task may have issues with cache consistency? It's okay if you aren't sure, because there isn't enough information to provided (issue #1!).
-
-What if we also provide the `./tsconfig.json`?
+Using the previous configuration, what if we also take a look at the `./tsconfig.json`?
 
 ```json title="modules/my-project/tsconfig.json"
 {
@@ -192,6 +296,10 @@ What if we also provide the `./tsconfig.json`?
 	"exclude": ["./dist"]
 }
 ```
+
+Take a moment to look again and see if you can spot the issue. It's not immediately obvious.
+
+…
 
 Hint: let's highlight the important part at line 2 from the `tsconfig.json` and compare to the `namedInputs` in the `nx.json`:
 
@@ -206,11 +314,11 @@ Hint: let's highlight the important part at line 2 from the `tsconfig.json` and 
 }
 ```
 
-Because it's expected that this may not be abundantly clear: `../../shared/tsconfig/base.json` is outside of the local Workspace and _not_ declared as an input to consider for cache consistency.
+Identifying potential issues with cache consistency in a build task can be challenging without sufficient information, as seen in the example provided. For instance, consider the impact of changes made to the `./tsconfig.json` file. The configuration in tsconfig.json may include references to files outside of the local workspace, such as `../../shared/tsconfig/base.json`, which are not declared as inputs for cache consistency in nx.json.
 
-If we were to make any modifications to the `compilerOptions` within the `../../shared/tsconfig/base.json` file, we would expect to need to run a full build of `my-project` _without_ any cache. However, because of the way the cache configuration is done in Nx (and other monorepo tools), it's easily missed or mis-configured.
+In the event of modifications to the `compilerOptions` within `../../shared/tsconfig/base.json`, it would be necessary to perform a full build of _my-project_ without using the cache. However, due to the configuration approach in other monorepo tools like Nx and Turbo, overlooking or misconfiguring these dependencies is a common pitfall.
 
-## Human-readable output
+## Confusing output
 
 One big frustration with other tooling is that the log output is difficult for humans to read – particularly when running tasks in parallel. Most monorepo tooling will buffer everything immediately to the output, interleaving parallel task output together, making it difficult to follow what is happening and where there may be issues or all is fine.
 
@@ -247,23 +355,6 @@ oneRepo solves for this by waiting grouping output by individual task. While run
  │ [2mProgress: 421, reused 402, downloaded 1, added 0[0m
  └ ⠙
 ```
-
-## Feature comparison
-
-:::caution[Work in progress]
-This is a work in progress. If you've found a mistake, please [open an issue](https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug,triage&projects=&template=bug-report.yaml) or [create a pull request](https://github.com/paularmstrong/onerepo/edit/main/src/content/docs/guides/why-onerepo.mdx).
-:::
-
-|                                                      | oneRepo         | [Turbo](https://turbo.build/repo) | [Nx](https://nx.dev) | [Moonrepo](https://moonrepo.dev) | [Bazel](https://bazel.build) |
-| ---------------------------------------------------- | --------------- | --------------------------------- | -------------------- | -------------------------------- | ---------------------------- |
-| Custom global commands                               | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
-| Primary support for JavaScript, TypeScript, and Node | <Supported />   | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
-| Upsells to paid service                              | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Unsupported />              |
-| [Cache-based determinism](#cache-inconsistency)      | <Unsupported /> | <Supported />                     | <Supported />        | <Supported />                    | <Supported />                |
-| Change-based determinism                             | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Supported />                |
-| Builds on [npm scripts](#script-overload)            | <Unsupported /> | <Supported />                     | <Supported />        | <Unsupported />                  | <Unsupported />              |
-| [Git hooks management](/core/hooks/)                 | <Supported />   | <Unsupported />                   | <Unsupported />      | <Supported />                    | <Unsupported />              |
-| [Dependency management](/core/dependencies/)         | <Supported />   | <Unsupported />                   | <Unsupported />      | <Unsupported />                  | <Unsupported />              |
 
 ## History
 
