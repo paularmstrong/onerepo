@@ -13,19 +13,23 @@ hero:
     - text: Why oneRepo?
       link: /concepts/why-onerepo/
       icon: list-format
-      variant: primary
+      variant: secondary
     - text: Getting started
       link: /docs/getting-started/
       icon: rocket
-      variant: secondary
+      variant: primary
     - text: API Reference
       link: /api/
       icon: open-book
 ---
 
 import Aurora from '../../components/Aurora.astro';
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import LinkCard from '../../components/LinkCard.astro';
+import { TabItem } from '@astrojs/starlight/components';
+import Tabs from '../../components/Tabs.astro';
+import Instructions from '../../components/Instructions.astro';
+import InstructionStep from '../../components/InstructionStep.astro';
 
 <Aurora bands={40} />
 
@@ -58,19 +62,19 @@ import LinkCard from '../../components/LinkCard.astro';
 
 ## Features
 
-### Automating tasks
+### <Icon name="rocket" />Automating tasks
 
 oneRepo simplifies automation by handling common tasks for you and your team. Say goodbye to spending excessive time tinkering with tooling and hello to focusing on your applications.
 
-### Strict safety & checks
+### <Icon name="approve-check-circle" />Strict safety & checks
 
 Gone are the days of manually configuring file glob patterns for Workspace integrity and decision making for whether or not checks and tasks must run. oneRepo automatically and accurately determines which Workspaces, tasks, and checks are necessary for any given change
 
-### Stop recompiling dependencies
+### <Icon name="puzzle" />Stop recompiling dependencies
 
 With oneRepo, you can utilize shared Workspaces as source-level dependencies. This means that all import/require chains within the monorepo originate from the source files, eliminating the need to rebuild shared packages to capture changes.
 
-### Human-readable output
+### <Icon name="list-format" />Human-readable output
 
 Logging output from every command and tool in oneRepo is carefully grouped, documented, and prevented from overlapping parallel executions. Every line includes context, timing, and log-type information.
 
@@ -82,6 +86,51 @@ Logging output from every command and tool in oneRepo is carefully grouped, docu
 	description="oneRepo is full of a ton of features focused on speed and safety. We haven’t even scratched the surface!"
 	icon="rocket"
 />
+
+## Install and get started now
+
+<Instructions>
+<InstructionStep title="Install the CLI">
+  <span slot="content">First, install oneRepo's `one` command into your path:</span>
+  <span slot="terminal">
+    <Tabs group="pkgmanager">
+      <TabItem label="npm">
+        ```sh title="Install via npm"
+        npx --package=onerepo one install
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```sh title="Install via Yarn"
+        yarn dlx --package=onerepo one install
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```sh title="Install via pnpm"
+        pnpm --package=onerepo dlx one install
+        ```
+      </TabItem>
+    </Tabs>
+  </span>
+</InstructionStep>
+
+<InstructionStep title="Create your oneRepo">
+  <span slot="content">
+    Next, use the `one create` command to initialize into an existing or a new repository.
+  </span>
+
+  <span slot="terminal">
+    ```sh title="Initialize oneRepo in a new or existing repository"
+    one create
+    ```
+  </span>
+</InstructionStep>
+
+<InstructionStep title="Keep going" noTerminal>
+	<span slot="content">
+	You're nearly done. Follow the in-prompt instructions or continue on with the [getting started guide](/docs/getting-started/).
+	</span>
+</InstructionStep>
+</Instructions>
 
 ## Helpful links
 
