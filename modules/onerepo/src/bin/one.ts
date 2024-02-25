@@ -64,10 +64,20 @@ async function getSetupAndRun() {
 		return runGlobal();
 	}
 
+	let setup;
+	try {
+		setup = jiti('onerepo').setup;
+	} catch (e) {
+		// @ts-ignore
+		if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') {
+			return runGlobal();
+		}
+		throw e;
+	}
+
 	await updateNodeModules(configRoot, jiti);
 
 	// Use the cwd-local version of onerepo, assuming it exists
-	const { setup } = jiti('onerepo');
 	const app = setup(configRoot, config).catch((e: unknown) => {
 		process.stderr.write(`${'='.repeat(Math.min(process.stderr.columns, 120))}
   Unable to configure oneRepo in your working directory (${configRoot});
