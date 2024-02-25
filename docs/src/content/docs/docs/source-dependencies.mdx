@@ -5,13 +5,13 @@ sidebar:
   order: 1
 ---
 
-One core benefit of a monorepo that is often missed or not enabled via tooling is the ability to use shared Workspaces as _source-level dependencies_. When our code is co-located in a monorepo, we should never have to rebuild across Workspace boundaries in order to pick up changes in their consuming, dependent workspaces.
+One core benefit of a monorepo, often overlooked or underutilized, is the ability to leverage shared workspaces as _source-level dependencies_. When code is colocated within a monorepo, there should be no need to rebuild across workspace boundaries to incorporate changes from dependent workspaces.
 
-Some implementations of monorepos fail due to their use of TypeScript or other languages and features that need to be compiled or transpiled before use across Workspaces. Some notable projects and teams have famously removed TypeScript for this reason alone.
+However, some monorepo implementations have difficulties when they introduce TypeScript or other languages and features that require compilation or transpilation before sharing code across Workspaces. In fact, some notable projects and teams have opted to remove TypeScript due to these challenges alone.
 
-But with oneRepo, we don't need to worry about waiting for changes, because we enable source-level dependencies out of the box.
+Fortunately, with oneRepo, such concerns are avoidable, as it provides support for using source-level dependencies out of the box.
 
-In order to achieve a workflow that does not need pre-compilation, we point each Workspace's `package.json` entry fields the uncompiled _source_ files. These are the unbuilt, unminified versions of your files (typically in the `src` directory).
+To achieve a workflow that eliminates the need for pre-compilation, each Workspace's `package.json` entry fields should point to the uncompiled source files, typically found in the src directory.
 
 ```json title="./modules/my-module/package.json"
 {
@@ -21,7 +21,7 @@ In order to achieve a workflow that does not need pre-compilation, we point each
 }
 ```
 
-Publishable workspaces may use the `publishConfig` space of the `package.json` to define the overrides for when the package will be published. This is typically a `dist` or `src` directory:
+For workspaces that are publishable to external registries, the `publishConfig` space in the `package.json` can be used to define overrides for the published package, specifying the compiled entrypoints (e.g., within the `dist` or `build` directories) and other publish-only configurations.
 
 ```json title="./modules/my-module/package.json" ins={5-7}
 {
@@ -33,6 +33,8 @@ Publishable workspaces may use the `publishConfig` space of the `package.json` t
 	}
 }
 ```
+
+When using the `publishConfig`, oneRepo's integrated [change management](/core/changes/) tools automatically adjust the `package.json` file during the publishing process. This ensures that the publicly available version of your package includes all necessary entry points pointing to the correctly built resources, rather than internal, unbuilt source dependencies.
 
 ## Ensuring conformance
 
