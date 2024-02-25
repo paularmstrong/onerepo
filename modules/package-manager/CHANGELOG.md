@@ -1,5 +1,14 @@
 # @onerepo/package-manager
 
+## 1.0.0-beta.2
+
+### Dependencies updated
+
+- @onerepo/subprocess@1.0.0-beta.2
+- @onerepo/logger@1.0.0-beta.2
+
+> View the full changelog: [f254b59...9a4b991](https://github.com/paularmstrong/onerepo/compare/f254b59fefa44171397966c8913d3283fa2d0b0b...9a4b991c73b215c2ce440b7c4817e5c3a0e638e2)
+
 ## 1.0.0-beta.1
 
 ### Patch changes
