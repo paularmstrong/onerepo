@@ -14,19 +14,9 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<3d2f0c01ef0a6e75ffddda428f69b7a5>> -->
+<!-- @generated SignedSource<<e18a52b3f4b2ce8f0b6ef61f75bd2719>> -->
 
 File manipulation functions.
-
-This package is also canonically available from the `onerepo` package under the `file` namespace or methods directly from `@onerepo/file`:
-
-```ts {1,4}
-import { file } from 'onerepo';
-
-export handler: Handler =  async () => {
-	await file.write('my-file', 'contents');
-};
-```
 
 ## Type Aliases
 

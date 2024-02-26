@@ -3,18 +3,16 @@ title: oneRepo API
 description: Full API documentation for oneRepo.
 ---
 
-:::caution
-oneRepo is in currently in public beta. Some APIs may not be specifically necessary and are subject to change.
-:::
-
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<b64a7020ce59d991b8039a54bbc43879>> -->
+<!-- @generated SignedSource<<9649f4787e489d74e8297e7cfbd0e0e4>> -->
 
 ## Namespaces
 
-- [builders](namespaces/builders/)
-- [file](namespaces/file/)
-- [git](namespaces/git/)
+| Namespace                        | Description                                                                                   |
+| :------------------------------- | :-------------------------------------------------------------------------------------------- |
+| [builders](namespaces/builders/) | Common and reusable command-line option builders.                                             |
+| [file](namespaces/file/)         | File manipulation functions.                                                                  |
+| [git](namespaces/git/)           | Special handlers for managing complex queries and manipulation of the git repository's state. |
 
 ## Variables
 

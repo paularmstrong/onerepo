@@ -14,17 +14,9 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<5e3ab187ba6a586a1252ba3957a075e6>> -->
+<!-- @generated SignedSource<<a8e3804f9017ba8bc348163fb3751858>> -->
 
-This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
-
-```ts {1,4}
-import { git } from 'onerepo';
-
-export handler: Handler =  async () => {
-	await git.getBranch();
-};
-```
+Special handlers for managing complex queries and manipulation of the git repository's state.
 
 ## Classes
 

@@ -4,23 +4,11 @@ sidebar:
   label: builders
 ---
 
-<!--
+:::note
+Note that while `builders` are available from the namespace import, the “getters” should typically be referenced from the extra arguments passed to your `handler` function:
+:::
 
-DO NOT EDIT BELOW THIS LINE.
-All content is auto-generated using a oneRepo command:
-
-  $ one docs typedoc
-
--->
-
-<!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<2f5f2f4788cb79f454e862fbffbc6c05>> -->
-
-Builders and Getters work together as reusable ways to add optional command-line arguments that affect how Workspaces and files are retrived.
-
-Note that while `builders` are available, the “getters” should typically be referenced from the extra arguments passed to your `handler` function:
-
-```ts
+```ts ins="getWorkspaces" ins="builders"
 import { builders } from 'onerepo';
 
 export const name = 'mycommand';
@@ -38,6 +26,20 @@ export const handler: Handler = async (argv, { getWorkspaces, logger }) => {
 $ one mycommand --workspaces ws-1 ws-2
 ['ws-1', 'ws-2']
 ```
+
+<!--
+
+DO NOT EDIT BELOW THIS LINE.
+All content is auto-generated using a oneRepo command:
+
+  $ one docs typedoc
+
+-->
+
+<!-- start-onerepo-sentinel -->
+<!-- @generated SignedSource<<b98dcaaf91970ae36c20dd6b3195de11>> -->
+
+Common and reusable command-line option builders.
 
 ## Type Aliases
 
@@ -141,7 +143,7 @@ Git ref to calculate changes _inclusively_ _through_.
 
 **Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
-## Builder
+## Builders
 
 ### withAffected()
 
@@ -420,7 +422,7 @@ One or more Workspaces by `name` or `alias` string.
 
 **Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
 
-## Getter
+## Getters
 
 ### getAffected()
 

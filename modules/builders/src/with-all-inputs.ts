@@ -13,7 +13,7 @@ import type { WithWorkspaces } from './with-workspaces';
  * export const builder = (yargs) => builders.withAllInputs(yargs);
  * ```
  *
- * @group Builder
+ * @group Builders
  */
 export const withAllInputs = (yargs: Yargs<DefaultArgv>): Yargs<WithAllInputs> =>
 	withAffected(withFiles(withWorkspaces(yargs)));
@@ -29,6 +29,6 @@ export const withAllInputs = (yargs: Yargs<DefaultArgv>): Yargs<WithAllInputs> =
  * export const builder: Builder<Argv> = (yargs) => builders.withAllInputs(yargs);
  * ```
  *
- * @group Builder
+ * @group Builders
  */
 export type WithAllInputs = WithAffected & WithFiles & WithWorkspaces;

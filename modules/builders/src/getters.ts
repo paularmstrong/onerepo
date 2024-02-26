@@ -28,7 +28,7 @@ export type Staged = {
 };
 
 /**
- * @group Getter
+ * @group Getters
  */
 export type GetterOptions = (Through | Staged) & {
 	/**
@@ -42,7 +42,7 @@ export type GetterOptions = (Through | Staged) & {
 };
 
 /**
- * @group Getter
+ * @group Getters
  */
 export type Argv = WithAllInputs;
 
@@ -62,7 +62,7 @@ export type Argv = WithAllInputs;
  * };
  * ```
  *
- * @group Getter
+ * @group Getters
  */
 export function getAffected(graph: Graph, { from, ignore, staged, step, through }: GetterOptions = {}) {
 	return stepWrapper({ step, name: 'Get affected workspaces' }, async (step) => {
@@ -110,7 +110,7 @@ export function getAffected(graph: Graph, { from, ignore, staged, step, through 
  * };
  * ```
  *
- * @group Getter
+ * @group Getters
  */
 export async function getWorkspaces(
 	graph: Graph,
@@ -187,7 +187,7 @@ export type FileGetterOptions = GetterOptions & {
  * ```
  *
  * @see !HandlerExtra
- * @group Getter
+ * @group Getters
  */
 export async function getFilepaths(
 	graph: Graph,

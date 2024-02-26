@@ -1,13 +1,5 @@
 /**
- * This package is also canonically available from the `onerepo` package under the `git` namespace or methods directly from `@onerepo/git`:
- *
- * ```ts {1,4}
- * import { git } from 'onerepo';
- *
- * export handler: Handler =  async () => {
- * 	await git.getBranch();
- * };
- * ```
+ * Special handlers for managing complex queries and manipulation of the git repository's state.
  *
  * @module
  */

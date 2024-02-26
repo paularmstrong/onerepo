@@ -1,16 +1,6 @@
 /**
  * File manipulation functions.
  *
- * This package is also canonically available from the `onerepo` package under the `file` namespace or methods directly from `@onerepo/file`:
- *
- * ```ts {1,4}
- * import { file } from 'onerepo';
- *
- * export handler: Handler =  async () => {
- * 	await file.write('my-file', 'contents');
- * };
- * ```
- *
  * @module
  */
 

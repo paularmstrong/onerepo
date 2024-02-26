@@ -9,7 +9,7 @@ module.exports = {
 	hideInPageTOC: true,
 	hidePageHeader: true,
 	hidePageTitle: true,
-	indexFormat: 'list',
+	indexFormat: 'table',
 	memberPageTitle: '{name}',
 	outputFileStrategy: 'modules',
 	parametersFormat: 'table',
