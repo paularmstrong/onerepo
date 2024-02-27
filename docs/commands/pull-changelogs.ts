@@ -32,7 +32,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			continue;
 		}
 		const changelog = await file.read(ws.resolve('CHANGELOG.md'), 'r', { step: collectStep });
-		changelogs[ws.name] = changelog;
+		changelogs[ws.name] = changelog.replace(/^# .*/gm, '');
 	}
 	await collectStep.end();
 
