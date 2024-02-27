@@ -2,7 +2,7 @@
 	"name": "@onerepo/plugin-vitest",
 	"description": "Official Vitest plugin for the oneRepo toolchain.",
 	"title": "Vitest",
-	"version": "1.0.0-beta.2",
+	"version": "1.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
