@@ -54,7 +54,7 @@ export default defineConfig({});
 </InstructionStep>
 
 <InstructionStep title="Create a Workspace config">
-<span slot="content">In the `vitest.workspace.ts` file, we need to duplicate the workspace globs from our original `package.json` or `pnpm-workspaces.yaml` file and ensure they point to valid Vitest config files:</span>
+<span slot="content">In the `vitest.workspace.ts` file, we need to duplicate the workspace globs from our original `package.json` or `pnpm-workspace.yaml` file and ensure they point to valid Vitest config files:</span>
 <span slot="terminal">
 ```ts title="vitest.workspace.ts"
 import { defineWorkspace } from 'vitest/config';

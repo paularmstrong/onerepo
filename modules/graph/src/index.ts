@@ -30,8 +30,8 @@ export function getGraph(workingDir: string = process.cwd()) {
 		const yamlfile = path.join(workingDir, 'pnpm-workspace.yaml');
 		if (existsSync(yamlfile)) {
 			const rawFile = readFileSync(yamlfile, { encoding: 'utf8' });
-			const contents = yaml.load(rawFile) as { workspaces?: Array<string> };
-			workspaces = contents.workspaces ?? [];
+			const contents = yaml.load(rawFile) as { packages?: Array<string> };
+			workspaces = contents.packages ?? [];
 		}
 	}
 
