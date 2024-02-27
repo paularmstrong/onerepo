@@ -23,7 +23,7 @@ export const tasks: Plugin = function tasks(config: Required<RootConfig>) {
 						});
 
 					if (config.ignore) {
-						y.default('ignore', ['.changesets/*', ...config.ignore]);
+						y.default('ignore', config.ignore);
 					}
 
 					return y;

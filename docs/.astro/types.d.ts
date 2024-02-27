@@ -206,13 +206,6 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"changelogs/@onerepo/plugin-changesets.mdx": {
-	id: "changelogs/@onerepo/plugin-changesets.mdx";
-  slug: "changelogs/onerepo/plugin-changesets";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
 "changelogs/@onerepo/plugin-docgen.mdx": {
 	id: "changelogs/@onerepo/plugin-docgen.mdx";
   slug: "changelogs/onerepo/plugin-docgen";
@@ -419,13 +412,6 @@ declare module 'astro:content' {
 "index.mdx": {
 	id: "index.mdx";
   slug: "index";
-  body: string;
-  collection: "docs";
-  data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
-"plugins/changesets.mdx": {
-	id: "plugins/changesets.mdx";
-  slug: "plugins/changesets";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
