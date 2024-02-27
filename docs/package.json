@@ -18,7 +18,7 @@
 		"netlify-cli": "^17.16.1",
 		"netlify-plugin-csp-generator": "^1.6.1",
 		"npm-to-yarn": "^2.1.0",
-		"onerepo": "1.0.0-beta.2",
+		"onerepo": "1.0.0-beta.3",
 		"postcss": "^8.4.35",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-slug": "^6.0.0",

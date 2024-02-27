@@ -1,5 +1,19 @@
 # @onerepo/graph
 
+## 1.0.0-beta.3
+
+### Patch changes
+
+- Incorrect reading and writing `pnpm-workspace.yaml` files ([141772b](https://github.com/paularmstrong/onerepo/commit/141772b8f42c43db72a9ab2c1b58168bc7557a33))
+
+### Dependencies updated
+
+- @onerepo/package-manager@1.0.0-beta.3
+- @onerepo/subprocess@1.0.0-beta.3
+- @onerepo/logger@1.0.0-beta.3
+
+> View the full changelog: [3422ce3...c7ddbe9](https://github.com/paularmstrong/onerepo/compare/3422ce36a1c9dc12116c814b132a010e9a4ce286...c7ddbe9fdd3369f3208eae11ab714efcbad43ea2)
+
 ## 1.0.0-beta.2
 
 ### Dependencies updated
