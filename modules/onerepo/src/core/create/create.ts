@@ -87,8 +87,8 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		const yamlFile = path.join(outdir, 'pnpm-workspace.yaml');
 		if (await exists(yamlFile, { step: existStep })) {
 			const rawContents = await read(yamlFile, 'r', { step: existStep });
-			const contents = yaml.load(rawContents) as { workspaces: Array<string> };
-			workspaces = contents.workspaces;
+			const contents = yaml.load(rawContents) as { packages: Array<string> };
+			workspaces = contents.packages;
 		}
 	}
 	await existStep.end();
@@ -166,7 +166,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 	} else {
 		await write(
 			path.join(outdir, 'pnpm-workspace.yaml'),
-			`workspaces:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`).join('\n')}`,
+			`packages:\n${workspaces.map((ws) => `  - ${/\/\*?$/.test(ws) ? ws : `${ws}/*`}`).join('\n')}`,
 		);
 	}
 
