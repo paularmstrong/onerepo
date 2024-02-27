@@ -1,5 +1,22 @@
 # @onerepo/builders
 
+## 1.0.0-beta.3
+
+### Patch changes
+
+- Minor Typedoc updates ([fd80042](https://github.com/paularmstrong/onerepo/commit/fd80042f9db9c226908270a8d3524dd0f451cc85))
+
+### Dependencies updated
+
+- @onerepo/git@1.0.0-beta.3
+- @onerepo/graph@1.0.0-beta.3
+- @onerepo/package-manager@1.0.0-beta.3
+- @onerepo/subprocess@1.0.0-beta.3
+- @onerepo/file@1.0.0-beta.3
+- @onerepo/logger@1.0.0-beta.3
+
+> View the full changelog: [3422ce3...c7ddbe9](https://github.com/paularmstrong/onerepo/compare/3422ce36a1c9dc12116c814b132a010e9a4ce286...c7ddbe9fdd3369f3208eae11ab714efcbad43ea2)
+
 ## 1.0.0-beta.2
 
 ### Dependencies updated
