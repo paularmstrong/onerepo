@@ -1,7 +1,7 @@
 {
 	"name": "@onerepo/plugin-performance-writer",
 	"description": "Write performance measurements from oneRepo invocations to files.",
-	"version": "1.0.0-beta.2",
+	"version": "1.0.0",
 	"license": "MIT",
 	"title": "Performance Writer",
 	"repository": {
