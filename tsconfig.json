@@ -10,9 +10,6 @@
 			"path": "docs",
 		},
 		{
-			"path": "internal/changeset-changelog",
-		},
-		{
 			"path": "internal/eslint-plugin",
 		},
 		{
@@ -59,9 +56,6 @@
 		},
 		{
 			"path": "modules/yargs",
-		},
-		{
-			"path": "plugins/changesets",
 		},
 		{
 			"path": "plugins/docgen",

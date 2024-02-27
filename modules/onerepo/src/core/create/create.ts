@@ -116,7 +116,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 			name: 'plugins',
 			message: 'Which plugins should be included?',
 			choices: foundPlugins
-				.filter(({ package: { name } }) => name.startsWith('@onerepo/plugin-'))
+				.filter(({ package: { name } }) => name.startsWith('@onerepo/plugin-') && name !== '@onerepo/plugin-changesets')
 				.map(({ package: { name, version } }) => ({
 					value: { name, version },
 					name,
