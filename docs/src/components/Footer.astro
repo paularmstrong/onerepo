@@ -17,9 +17,20 @@ const isVisualizer = Astro.props.slug === 'visualize';
 	<div>
 		Copyright ©{new Date().getFullYear()}{' '}<a href="https://paularmstrong.dev">Paul Armstrong</a>
 	</div>
-	{
-		isHomepage ? (
-			<div>
+	<div class="home-footer--links">
+		<a
+			href="https://www.producthunt.com/posts/onerepo?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-onerepo"
+			target="_blank"
+		>
+			<img
+				src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=441937&theme=neutral"
+				alt="oneRepo - Fast, safe, and strict JS & TS monorepo tools for teams | Product Hunt"
+				width={250}
+				height={54}
+			/>
+		</a>
+		{
+			isHomepage ? (
 				<a href="https://www.netlify.com" rel="noopener nofollow" target="_blank">
 					<span class="sr-only">Deploys by Netlify</span>
 					<img
@@ -30,19 +41,21 @@ const isVisualizer = Astro.props.slug === 'visualize';
 						loading="lazy"
 					/>
 				</a>
-			</div>
-		) : null
-	}
+			) : null
+		}
+	</div>
 </footer>
 
 <style>
 	.home-footer {
 		border-top: 1px solid var(--sl-color-gray-4);
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem 0;
 		margin: 6rem auto 2rem;
+		gap: 2rem;
 	}
 
 	.home-footer.home-footer--minimal {
@@ -59,6 +72,13 @@ const isVisualizer = Astro.props.slug === 'visualize';
 	}
 	.home-footer a:active {
 		color: var(--sl-color-accent);
+	}
+
+	.home-footer--links {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 </style>
 
