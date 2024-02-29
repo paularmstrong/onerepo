@@ -19,7 +19,7 @@
     defaultSrc = "'self'"
     fontSrc = "'none'"
     frameSrc = "'none'"
-    imgSrc = "'self' https://www.netlify.com data:"
+    imgSrc = "'self' https://www.netlify.com data: https://api.producthunt.com"
     manifestSrc = "'self'"
     mediaSrc = "'none'"
     objectSrc = "'none'"
