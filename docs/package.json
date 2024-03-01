@@ -17,7 +17,6 @@
 		"glob": "^10.1.0",
 		"netlify-cli": "^17.16.1",
 		"netlify-plugin-csp-generator": "^1.6.1",
-		"npm-to-yarn": "^2.1.0",
 		"onerepo": "1.0.0",
 		"postcss": "^8.4.35",
 		"rehype-autolink-headings": "^7.1.0",
