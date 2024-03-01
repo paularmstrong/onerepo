@@ -15,7 +15,6 @@
 		"eslint": "^8.56.0",
 		"eslint-plugin-astro": "^0.31.4",
 		"glob": "^10.1.0",
-		"netlify-cli": "^17.16.1",
 		"netlify-plugin-csp-generator": "^1.6.1",
 		"onerepo": "1.0.0",
 		"postcss": "^8.4.35",
