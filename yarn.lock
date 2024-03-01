@@ -41,11 +41,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/check@npm:^0.5.4":
-  version: 0.5.4
-  resolution: "@astrojs/check@npm:0.5.4"
+"@astrojs/check@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "@astrojs/check@npm:0.5.6"
   dependencies:
-    "@astrojs/language-server": ^2.7.4
+    "@astrojs/language-server": ^2.7.6
     chokidar: ^3.5.3
     fast-glob: ^3.3.1
     kleur: ^4.1.5
@@ -54,7 +54,7 @@ __metadata:
     typescript: ^5.0.0
   bin:
     astro-check: dist/bin.js
-  checksum: 9a2374c793bd5a7f27df04a4c968e773b9982c48622149404a26d4680c790878eecb5e8d48537d14c3f44b3a63c1e2a190f19cee4fc3b961ab338b8a75406b0a
+  checksum: e07bf1ab7782364d2463d7f7b9bd9f62f942920727cd0c019df00f0afad311e69205cc5ab9148c6341ecab562078fe41db66cd0e41dfd56f976cc8a17123d097
   languageName: node
   linkType: hard
 
@@ -79,9 +79,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/language-server@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@astrojs/language-server@npm:2.7.4"
+"@astrojs/language-server@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@astrojs/language-server@npm:2.7.6"
   dependencies:
     "@astrojs/compiler": ^2.4.0
     "@jridgewell/sourcemap-codec": ^1.4.15
@@ -91,12 +91,12 @@ __metadata:
     "@volar/language-service": ~2.0.4
     "@volar/typescript": ~2.0.4
     fast-glob: ^3.2.12
-    volar-service-css: 0.0.29
-    volar-service-emmet: 0.0.29
-    volar-service-html: 0.0.29
-    volar-service-prettier: 0.0.29
-    volar-service-typescript: 0.0.29
-    volar-service-typescript-twoslash-queries: 0.0.29
+    volar-service-css: 0.0.30
+    volar-service-emmet: 0.0.30
+    volar-service-html: 0.0.30
+    volar-service-prettier: 0.0.30
+    volar-service-typescript: 0.0.30
+    volar-service-typescript-twoslash-queries: 0.0.30
     vscode-html-languageservice: ^5.1.2
     vscode-uri: ^3.0.8
   peerDependencies:
@@ -109,7 +109,7 @@ __metadata:
       optional: true
   bin:
     astro-ls: bin/nodeServer.js
-  checksum: 5474905d7a952add8a144fd75efefe710595d71d237f5b1abaf846c809620e6cea77e480e401131f7a980484367218213c5303f67fc691e41996ae54c4101c41
+  checksum: 6dcf713908020b03e2cec13f149e925f2e0a7af7f5488f96f0b2ce5048714a45b6d3891fb1919e466b2ed620e750cd2a5b124c18dca775c57502bd9e4efcf389
   languageName: node
   linkType: hard
 
@@ -179,16 +179,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/starlight@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@astrojs/starlight@npm:0.19.0"
+"@astrojs/sitemap@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@astrojs/sitemap@npm:3.1.1"
+  dependencies:
+    sitemap: ^7.1.1
+    zod: ^3.22.4
+  checksum: b18402f2cd4327558332f4268baaee3fa3d720df04e9264c4341eda26e935959c4618ad1ab99121c48330d965e97cafcdfd653d975a9e29ace3cde6353e088a9
+  languageName: node
+  linkType: hard
+
+"@astrojs/starlight@npm:^0.20.1":
+  version: 0.20.1
+  resolution: "@astrojs/starlight@npm:0.20.1"
   dependencies:
     "@astrojs/mdx": ^2.1.1
     "@astrojs/sitemap": ^3.0.5
     "@pagefind/default-ui": ^1.0.3
     "@types/hast": ^3.0.3
     "@types/mdast": ^4.0.3
-    astro-expressive-code: ^0.32.4
+    astro-expressive-code: ^0.33.4
     bcp-47: ^2.1.0
     hast-util-select: ^6.0.2
     hastscript: ^8.0.0
@@ -203,7 +213,7 @@ __metadata:
     vfile: ^6.0.1
   peerDependencies:
     astro: ^4.2.7
-  checksum: ac2ab656a773fb73b658b8e0e0d34412faabff31da32979b3855a85694c20611f41cdb09bcb5276b13d5e370af5c1429b4b3b649869c7278249b645a8c55068d
+  checksum: 13b70b6f6e6587e16ebf84fcc00c2c185c3dadc72a4231c7b6ff9aae78148faf0af82201c79b35c0706d933c6123d8691ab1588f4208a2c8ca666ab1aa1f2b18
   languageName: node
   linkType: hard
 
@@ -1164,58 +1174,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expressive-code/core@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "@expressive-code/core@npm:0.32.4"
+"@expressive-code/core@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "@expressive-code/core@npm:0.33.4"
   dependencies:
     "@ctrl/tinycolor": ^3.6.0
     hast-util-to-html: ^8.0.4
     hastscript: ^7.2.0
     postcss: ^8.4.21
     postcss-nested: ^6.0.1
-  checksum: d3b6bdfcb4f6dc00374b88c59890340e50fc934b9a6be3e8e3d40b4f0802764d58f7fcadfded17b34f1f023294608114f7814a6fdf58bbe4bf04db3de26851dd
+  checksum: c86b52f55e1181175f6d1dead0c2746b4bc0cde2ac0529d94973648941dfe826a269d92020c4b0366c06310c1c3b5fbd5b94b94677c73d95e971e455da93ff1b
   languageName: node
   linkType: hard
 
-"@expressive-code/plugin-collapsible-sections@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "@expressive-code/plugin-collapsible-sections@npm:0.32.4"
+"@expressive-code/plugin-collapsible-sections@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "@expressive-code/plugin-collapsible-sections@npm:0.33.4"
   dependencies:
-    "@expressive-code/core": ^0.32.4
+    "@expressive-code/core": ^0.33.4
     hast-util-select: ^5.0.5
     hastscript: ^7.2.0
-  checksum: 9f6534d377cec453274684d664e79179c98681c008d506534dc0ceff38e89b6b2502e65959ed83828101d5796955a633fbba9beb06df93d9f2236468bd1e50aa
+  checksum: 0a66e8e9dc0ebdfba6ec810bae5e8530cc1736221774e48b227aa4a271ecb1cf620422257e5e73fcc9d4e305466ec250a999ddb85c97144e335af303b3ddd596
   languageName: node
   linkType: hard
 
-"@expressive-code/plugin-frames@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "@expressive-code/plugin-frames@npm:0.32.4"
+"@expressive-code/plugin-frames@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "@expressive-code/plugin-frames@npm:0.33.4"
   dependencies:
-    "@expressive-code/core": ^0.32.4
+    "@expressive-code/core": ^0.33.4
     hastscript: ^7.2.0
-  checksum: 8c1e502a808478336da85702b7f22f8e80f7d8f520695b93e9834f87852966b459309a1a19be156b05be1c071e029eff804f8a59fa8f61d8c799d747bea41f81
+  checksum: 28c61daf417fdf5df7aaab48deae948d41499e6dc7c9699bca0e25063a57372acc0e1b2b43ce0dbd6d8febce7a8c8150278c54ff4209048b908d6ef67f3ca50f
   languageName: node
   linkType: hard
 
-"@expressive-code/plugin-shiki@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "@expressive-code/plugin-shiki@npm:0.32.4"
+"@expressive-code/plugin-shiki@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "@expressive-code/plugin-shiki@npm:0.33.4"
   dependencies:
-    "@expressive-code/core": ^0.32.4
-    shikiji: ^0.8.0
-  checksum: be640055a2276a18ff396c88928b5cdd0b8cefc602a663177d2ff1271284d14d1b4a8105321841139d466952d4c3a0b5917133442fce15141832c56df992f271
+    "@expressive-code/core": ^0.33.4
+    shiki: ^1.1.7
+  checksum: 30a216ab1173f16554b09808d1e128202cb1680ec015854fe3bcf780554dd0613f7e3d2f597b82e99db75ab58e417b0638958034d0dc49338eeaaf35370ac3a6
   languageName: node
   linkType: hard
 
-"@expressive-code/plugin-text-markers@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "@expressive-code/plugin-text-markers@npm:0.32.4"
+"@expressive-code/plugin-text-markers@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "@expressive-code/plugin-text-markers@npm:0.33.4"
   dependencies:
-    "@expressive-code/core": ^0.32.4
+    "@expressive-code/core": ^0.33.4
     hastscript: ^7.2.0
     unist-util-visit-parents: ^5.1.3
-  checksum: cbe4606a9d01c8c76260936ea1e37f7fe794a69281763139d4b7b334120330ec49470d03ec3ce5f5e08be5b2207524998899948338ff2e74eefd4d9a3f706d03
+  checksum: 9ff6bee4629d08d60acde5d868fa1fd19eac2fb3de2f22254b7c8eb2a7d1ae089054297ee180de020e94b13a5b8a3cc1ad4130be3700c67d600b488069208ea4
   languageName: node
   linkType: hard
 
@@ -2550,15 +2560,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/docs@workspace:docs"
   dependencies:
-    "@astrojs/check": ^0.5.4
+    "@astrojs/check": ^0.5.6
     "@astrojs/markdown-remark": ^4.2.1
     "@astrojs/mdx": ^2.1.1
-    "@astrojs/sitemap": ^3.0.5
-    "@astrojs/starlight": ^0.19.0
-    "@expressive-code/plugin-collapsible-sections": ^0.32.4
+    "@astrojs/sitemap": ^3.1.1
+    "@astrojs/starlight": ^0.20.1
+    "@expressive-code/plugin-collapsible-sections": ^0.33.4
     "@internal/tsconfig": "workspace:^"
     "@types/pako": ^2.0.3
-    astro: ^4.4.0
+    astro: ^4.4.8
     astro-meta-tags: ^0.2.1
     astro-og-canvas: ^0.4.2
     d3: ^7.8.5
@@ -2570,11 +2580,10 @@ __metadata:
     hast-util-from-html: ^2.0.1
     hast-util-to-string: ^3.0.0
     hastscript: ^8.0.0
-    js-base64: ^3.7.5
+    js-base64: ^3.7.7
     mermaid: 10.8.0
     netlify-cli: ^17.16.1
     netlify-plugin-csp-generator: ^1.6.1
-    npm-to-yarn: ^2.1.0
     onerepo: 1.0.0
     pako: ^2.1.0
     postcss: ^8.4.35
@@ -3183,6 +3192,13 @@ __metadata:
   version: 4.9.2
   resolution: "@rollup/rollup-win32-x64-msvc@npm:4.9.2"
   conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@shikijs/core@npm:1.1.7":
+  version: 1.1.7
+  resolution: "@shikijs/core@npm:1.1.7"
+  checksum: 120002e1bb6223b7b0d69772f1c12e30ef4c0fdc7a3caa96387450ee9e4630fba45729e16cee1cf47a292b2e2f669becdf2e69415ade5de0f02de3b1a099cda0
   languageName: node
   linkType: hard
 
@@ -4880,15 +4896,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-expressive-code@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "astro-expressive-code@npm:0.32.4"
+"astro-expressive-code@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "astro-expressive-code@npm:0.33.4"
   dependencies:
     hast-util-to-html: ^8.0.4
-    remark-expressive-code: ^0.32.4
+    remark-expressive-code: ^0.33.4
   peerDependencies:
     astro: ^3.3.0 || ^4.0.0-beta
-  checksum: 7c9636c7e83989f6ccb7741beef08087a4832484f721b311adb2f29dfb3ff0cc6fd5e5b9d9182ad7caeb895af5d2e6dc1c237cd2b383c7f2347f34d3fbbdfdd0
+  checksum: b00a5bae41e2ee8de1eea7e10352f2a7c0bf7666199541f4a7629a9af5ab0be986af61e270aa4a087047e262b3a47047b656917bf4a8a6c1c97e064f8d89ee7d
   languageName: node
   linkType: hard
 
@@ -4914,9 +4930,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "astro@npm:4.4.0"
+"astro@npm:^4.4.8":
+  version: 4.4.8
+  resolution: "astro@npm:4.4.8"
   dependencies:
     "@astrojs/compiler": ^2.5.3
     "@astrojs/internal-helpers": 0.2.1
@@ -4970,7 +4986,6 @@ __metadata:
     rehype: ^13.0.1
     resolve: ^1.22.4
     semver: ^7.5.4
-    server-destroy: ^1.0.1
     sharp: ^0.32.6
     shikiji: ^0.9.19
     shikiji-core: ^0.9.19
@@ -4979,7 +4994,7 @@ __metadata:
     tsconfck: ^3.0.0
     unist-util-visit: ^5.0.0
     vfile: ^6.0.1
-    vite: ^5.1.2
+    vite: ^5.1.4
     vitefu: ^0.2.5
     which-pm: ^2.1.1
     yargs-parser: ^21.1.1
@@ -4989,7 +5004,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: ac7ace8aec889f19aa2d329d2ac50a2c585f00b9d09bc1a465277505c81bdc365af31f99ccdfd2b8b57402590b5525d0cac85952fd98621eba648e74fe978068
+  checksum: 9563946a14b671974d27feada8e289dbb0df410b91d3d4a74d6822769a6d5f053c01274dd3dd610b66b89fbc5d3ac9ad6bf1851c039399c31b462967e5a97163
   languageName: node
   linkType: hard
 
@@ -8669,15 +8684,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expressive-code@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "expressive-code@npm:0.32.4"
+"expressive-code@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "expressive-code@npm:0.33.4"
   dependencies:
-    "@expressive-code/core": ^0.32.4
-    "@expressive-code/plugin-frames": ^0.32.4
-    "@expressive-code/plugin-shiki": ^0.32.4
-    "@expressive-code/plugin-text-markers": ^0.32.4
-  checksum: 3abf6dc049159e07a59e991791982a2cbc15a74b93500a8e6fa314f419dc0060e733cf513a7c3d45ae11ebf4f53598fe7f236eaadada88ad3264a6d45bae7972
+    "@expressive-code/core": ^0.33.4
+    "@expressive-code/plugin-frames": ^0.33.4
+    "@expressive-code/plugin-shiki": ^0.33.4
+    "@expressive-code/plugin-text-markers": ^0.33.4
+  checksum: e15476b1892da0296a3cb87b5ea018ee936aba0f3feb3300d8efa1dc6c732206428be17b736582e956cf4d5106e81fa90e7e54e8c1972822598797713a8d441d
   languageName: node
   linkType: hard
 
@@ -12212,10 +12227,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-base64@npm:^3.7.5":
-  version: 3.7.6
-  resolution: "js-base64@npm:3.7.6"
-  checksum: 4e1e82443c22f3f8f24902b071ea824069a28a16a86c3d8706e8c0741cace92cfb4affd093f52d13981369e10df840e54df8d0a59ede6dd2204a1f0aa4b64deb
+"js-base64@npm:^3.7.7":
+  version: 3.7.7
+  resolution: "js-base64@npm:3.7.7"
+  checksum: d1b02971db9dc0fd35baecfaf6ba499731fb44fe3373e7e1d6681fbd3ba665f29e8d9d17910254ef8104e2cb8b44117fe4202d3dc54c7cafe9ba300fe5433358
   languageName: node
   linkType: hard
 
@@ -15026,13 +15041,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm-to-yarn@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "npm-to-yarn@npm:2.1.0"
-  checksum: 0e5ed46d9c1bbacc93a83c8ebe347578188b58b5bcb3bc727f7c582aa9144121f981b604778dad10c46dbb2e927da8f0943fd5ca7c2ef26824bdaac317d1d47e
-  languageName: node
-  linkType: hard
-
 "npmlog@npm:^5.0.1":
   version: 5.0.1
   resolution: "npmlog@npm:5.0.1"
@@ -16755,14 +16763,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-expressive-code@npm:^0.32.4":
-  version: 0.32.4
-  resolution: "remark-expressive-code@npm:0.32.4"
+"remark-expressive-code@npm:^0.33.4":
+  version: 0.33.4
+  resolution: "remark-expressive-code@npm:0.33.4"
   dependencies:
-    expressive-code: ^0.32.4
+    expressive-code: ^0.33.4
     hast-util-to-html: ^8.0.4
     unist-util-visit: ^4.1.2
-  checksum: f2dbfedefc375dc9d0da56d585b65eb1ea464fc469688bd01f77f86f7ef59633f734992ddd3fdf8b55f965134fed4126bb29d3e3c43784a6863f952984a6e0f4
+  checksum: 0fdac0777a9ceb977ea358f90e7e9df3d64a01409667b70a5bc3a132fded99511f6dad8d5699b0db73a012a7ce8f578a1043ce1cfbf480fce72536925ea43d19
   languageName: node
   linkType: hard
 
@@ -17479,13 +17487,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"server-destroy@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "server-destroy@npm:1.0.1"
-  checksum: cbc19d4f92d25a0a34430c6a09faccbea77d1a69563560eefe883feb67c14c3fb3a1c5af1affae0e82d537886ea0f91d317e39e46b5d6425de3acf57a3ab13e3
-  languageName: node
-  linkType: hard
-
 "set-blocking@npm:^2.0.0":
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
@@ -17603,19 +17604,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"shiki@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "shiki@npm:1.1.7"
+  dependencies:
+    "@shikijs/core": 1.1.7
+  checksum: 4cf122e594a663cf834027b8a4c36c0ada51886a1cae9e089fd7bd396a6061825e32d63ead8be687214d295561918952e9be48815362b74953acf884a0bb12c5
+  languageName: node
+  linkType: hard
+
 "shikiji-core@npm:0.9.19, shikiji-core@npm:^0.9.19":
   version: 0.9.19
   resolution: "shikiji-core@npm:0.9.19"
   checksum: c3c2d6569d0e6ba75ec98f4dc4329ae3d34d469f9f1aad906520d8e086332ba1b2b236b7cd7016ed3316bc2345b61daa766d193bc507a6b1a90823cf98b222c8
-  languageName: node
-  linkType: hard
-
-"shikiji@npm:^0.8.0":
-  version: 0.8.7
-  resolution: "shikiji@npm:0.8.7"
-  dependencies:
-    hast-util-to-html: ^9.0.0
-  checksum: eda7665d5724cc3128fa7405be975a09266e575a0184c116d7bbe27494498cf305f5bdbc948e55dfb5f061384daa4f25f53d1f244c28b57a5134707de46108f9
   languageName: node
   linkType: hard
 
@@ -19874,7 +19875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0, vite@npm:^5.1.2":
+"vite@npm:^5.0.0":
   version: 5.1.3
   resolution: "vite@npm:5.1.3"
   dependencies:
@@ -19911,6 +19912,46 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 827d67c5b951f0eab9d0293f30a6d60274da914d7548f4220021a596873c8a8891fe8d9418fac52486b8808a57cab8ee61ffe048520cce11b680eae4ed72bffa
+  languageName: node
+  linkType: hard
+
+"vite@npm:^5.1.4":
+  version: 5.1.4
+  resolution: "vite@npm:5.1.4"
+  dependencies:
+    esbuild: ^0.19.3
+    fsevents: ~2.3.3
+    postcss: ^8.4.35
+    rollup: ^4.2.0
+  peerDependencies:
+    "@types/node": ^18.0.0 || >=20.0.0
+    less: "*"
+    lightningcss: ^1.21.0
+    sass: "*"
+    stylus: "*"
+    sugarss: "*"
+    terser: ^5.4.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: fb8b944c69fd738b412ad10471f01db01ed59b5d7fdf182b836b420b221a8bd5ada74d225a87aaa80cf8d2b693cc4a89ab7c291254a8b4e6faefd93843ebb9d3
   languageName: node
   linkType: hard
 
@@ -19977,9 +20018,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"volar-service-css@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-css@npm:0.0.29"
+"volar-service-css@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-css@npm:0.0.30"
   dependencies:
     vscode-css-languageservice: ^6.2.10
     vscode-uri: ^3.0.8
@@ -19988,28 +20029,28 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: f25ea70a106d1e22d4b8a1eea07682b35eba552467a186196f495e05b40ee4d744494a99f15a4a31ad1e8a1e6a167a2bc594a0eeab237151030f5d18c227474d
+  checksum: 55b6c50431af6060a1bd86ea9189c5bef9b2fdd22840c6d97559f9d27544b95864f0a11881b04c7ac7da17fb6c4407bd5abf19d1e2f57c439e5d407d2fa9b757
   languageName: node
   linkType: hard
 
-"volar-service-emmet@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-emmet@npm:0.0.29"
+"volar-service-emmet@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-emmet@npm:0.0.30"
   dependencies:
     "@vscode/emmet-helper": ^2.9.2
-    volar-service-html: 0.0.29
+    volar-service-html: 0.0.30
   peerDependencies:
     "@volar/language-service": ~2.0.1
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 277f94f9d903db9fda16a69d9bc52af19b136c2b75eadec16541f2c601106373e8c8602a6ed8927ad0d6bb4ef673d9f4cf94397b941765304bf0ef875b87f6cd
+  checksum: 5d5811137dafff480ecee0a78b758284ea6cc5845186d3c5c0dcb06a637490a64fd0d10fef8cd4d2029996abe5ebf5a3ab4aa9528ab1ae41808aa7e74b4aba90
   languageName: node
   linkType: hard
 
-"volar-service-html@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-html@npm:0.0.29"
+"volar-service-html@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-html@npm:0.0.30"
   dependencies:
     vscode-html-languageservice: ^5.1.0
     vscode-uri: ^3.0.8
@@ -20018,13 +20059,13 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 6735c7d0e37407e362882ba98528efa53aa630d340203f8425d49bb9e38cc2172865c0d7482b0eea96c64fddb6e46d506794ae3f0d8e046176865ec5817a583b
+  checksum: 04c2649af6467f07a3a33cd52e31db8e8fc3e5bedac8194d8461e4e218a03318de8f05668de31225f2cc6693f26e4a5a943b37fb95b10657af236464a8281b4b
   languageName: node
   linkType: hard
 
-"volar-service-prettier@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-prettier@npm:0.0.29"
+"volar-service-prettier@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-prettier@npm:0.0.30"
   dependencies:
     vscode-uri: ^3.0.8
   peerDependencies:
@@ -20035,25 +20076,25 @@ __metadata:
       optional: true
     prettier:
       optional: true
-  checksum: dee8e9a2bf985836335fc9cf82269324b69bcbd3f4c0f1d521452632f0d5ccaa1f87b856feee0df641c6b04826567c22694144498afd7ed75688cff9168964a2
+  checksum: 93b81447c25c367617a4f6e63b6befdc8f3b424ba2aa6468a4ec41800edbcd77dd8e2fd6cf4d9dabfcb050daf25b0e3ad9e2a43a00ed4cee4cb914c80f7909cd
   languageName: node
   linkType: hard
 
-"volar-service-typescript-twoslash-queries@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-typescript-twoslash-queries@npm:0.0.29"
+"volar-service-typescript-twoslash-queries@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-typescript-twoslash-queries@npm:0.0.30"
   peerDependencies:
     "@volar/language-service": ~2.0.1
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 4ecee98fbe1aca85662951569dfd373d8a68a89d569da95d7a8948ca3989743ac9b8c7bc20c2421a517dbee25ed3ea79f40538c66317eedf79e650e989a5b34a
+  checksum: 7f0b0473df66bf2eccb5695bfa4580ba8a748f4564cc9a2ae4a50c37bc469a350a0ce80ca5571f4ec022972c5eaa1ef685108462fa57383388af28c8f005de2c
   languageName: node
   linkType: hard
 
-"volar-service-typescript@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-typescript@npm:0.0.29"
+"volar-service-typescript@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-typescript@npm:0.0.30"
   dependencies:
     path-browserify: ^1.0.1
     semver: ^7.5.4
@@ -20067,7 +20108,7 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: aa95d41d8eda1f1631fd853b5c19071517646e6b4f141a34c006bde3d98c6026c6582e0cf9b15d3da0ede892dbe88816f216a400cd851fc77374604c8375a22b
+  checksum: e6a9b30736077378bc5e0c8605700dff849ffdd0bc16dae25457577b309e6161c13124b0246e57f112e82b585b374eb9207d92494e0234e2c3f7359b1108d3bb
   languageName: node
   linkType: hard
 

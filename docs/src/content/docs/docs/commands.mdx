@@ -327,7 +327,7 @@ oneRepo provides a robust API and suite of tools to flesh out your commands. Ple
 
 oneRepo exports a handful of [`builders`](/api/namespaces/builders/#builders) for common input arguments and [`getters`](/api/namespaces/builders/#getters) for file and workspace querying based on the `builders`’ input arguments.
 
-```ts title="commands/list-workspaces.ts" ins={1,8,11,15}
+```ts title="commands/list-workspaces.ts" {"1":1} {"2":8} {"3":11} {"4":14-15}
 import { builders } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
@@ -346,6 +346,11 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, logger }) =>
 	logger.info(workspaces.map((ws) => ws.name).join('\n'));
 };
 ```
+
+1. Import the [`builders`](/api/namespaces/builders/#builders) namespace from `onerepo`
+2. For TypeScript, ensure you include the builder types in your arguments type definition.
+3. Wrap the return value from your exported `builder` with the builders helpers.
+4. The [`getters`](/api/namespaces/builders/#getters) from the [handler extra arguments](/api/#handlerextra) will automatically be affected by the input arguments used.
 
 Adding the `withWorkspaces` and `withAffected` builder composition functions to our exported `builder`, a few options are automatically added to our command. Looking at the `--help` output will describe each one of them in detail:
 
