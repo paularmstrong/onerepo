@@ -42,10 +42,10 @@ __metadata:
   linkType: hard
 
 "@astrojs/check@npm:^0.5.4":
-  version: 0.5.4
-  resolution: "@astrojs/check@npm:0.5.4"
+  version: 0.5.6
+  resolution: "@astrojs/check@npm:0.5.6"
   dependencies:
-    "@astrojs/language-server": ^2.7.4
+    "@astrojs/language-server": ^2.7.6
     chokidar: ^3.5.3
     fast-glob: ^3.3.1
     kleur: ^4.1.5
@@ -54,7 +54,7 @@ __metadata:
     typescript: ^5.0.0
   bin:
     astro-check: dist/bin.js
-  checksum: 9a2374c793bd5a7f27df04a4c968e773b9982c48622149404a26d4680c790878eecb5e8d48537d14c3f44b3a63c1e2a190f19cee4fc3b961ab338b8a75406b0a
+  checksum: e07bf1ab7782364d2463d7f7b9bd9f62f942920727cd0c019df00f0afad311e69205cc5ab9148c6341ecab562078fe41db66cd0e41dfd56f976cc8a17123d097
   languageName: node
   linkType: hard
 
@@ -79,9 +79,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/language-server@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@astrojs/language-server@npm:2.7.4"
+"@astrojs/language-server@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@astrojs/language-server@npm:2.7.6"
   dependencies:
     "@astrojs/compiler": ^2.4.0
     "@jridgewell/sourcemap-codec": ^1.4.15
@@ -91,12 +91,12 @@ __metadata:
     "@volar/language-service": ~2.0.4
     "@volar/typescript": ~2.0.4
     fast-glob: ^3.2.12
-    volar-service-css: 0.0.29
-    volar-service-emmet: 0.0.29
-    volar-service-html: 0.0.29
-    volar-service-prettier: 0.0.29
-    volar-service-typescript: 0.0.29
-    volar-service-typescript-twoslash-queries: 0.0.29
+    volar-service-css: 0.0.30
+    volar-service-emmet: 0.0.30
+    volar-service-html: 0.0.30
+    volar-service-prettier: 0.0.30
+    volar-service-typescript: 0.0.30
+    volar-service-typescript-twoslash-queries: 0.0.30
     vscode-html-languageservice: ^5.1.2
     vscode-uri: ^3.0.8
   peerDependencies:
@@ -109,7 +109,7 @@ __metadata:
       optional: true
   bin:
     astro-ls: bin/nodeServer.js
-  checksum: 5474905d7a952add8a144fd75efefe710595d71d237f5b1abaf846c809620e6cea77e480e401131f7a980484367218213c5303f67fc691e41996ae54c4101c41
+  checksum: 6dcf713908020b03e2cec13f149e925f2e0a7af7f5488f96f0b2ce5048714a45b6d3891fb1919e466b2ed620e750cd2a5b124c18dca775c57502bd9e4efcf389
   languageName: node
   linkType: hard
 
@@ -180,8 +180,8 @@ __metadata:
   linkType: hard
 
 "@astrojs/starlight@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@astrojs/starlight@npm:0.19.0"
+  version: 0.19.1
+  resolution: "@astrojs/starlight@npm:0.19.1"
   dependencies:
     "@astrojs/mdx": ^2.1.1
     "@astrojs/sitemap": ^3.0.5
@@ -203,7 +203,7 @@ __metadata:
     vfile: ^6.0.1
   peerDependencies:
     astro: ^4.2.7
-  checksum: ac2ab656a773fb73b658b8e0e0d34412faabff31da32979b3855a85694c20611f41cdb09bcb5276b13d5e370af5c1429b4b3b649869c7278249b645a8c55068d
+  checksum: 1705a3cc9bc880440c8c841df07d3a89ac7166383eafeab4de535f532130b0d0cc85f41874018738b647c9211397c8ccd89cdfe7ef0faa7533fadd7873886e30
   languageName: node
   linkType: hard
 
@@ -1334,6 +1334,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iarna/toml@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "@iarna/toml@npm:2.2.5"
+  checksum: b63b2b2c4fd67969a6291543ada0303d45593801ee744b60f5390f183c03d9192bc67a217abb24be945158f1935f02840d9ffff40c0142aa171b5d3b6b6a3ea5
+  languageName: node
+  linkType: hard
+
 "@import-maps/resolve@npm:^1.0.1":
   version: 1.0.1
   resolution: "@import-maps/resolve@npm:1.0.1"
@@ -1864,56 +1871,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/blobs@npm:6.4.2":
-  version: 6.4.2
-  resolution: "@netlify/blobs@npm:6.4.2"
-  checksum: 41eac7a71460c3ba09345ed817d79eb1edfe821466faf9d923cd215cb8ec0d9e10a8ee43b4e2b4a4f5b4cc5b43330823cf628fdbf87289b346b55241484474d8
-  languageName: node
-  linkType: hard
-
-"@netlify/blobs@npm:^6.5.0":
+"@netlify/blobs@npm:6.5.0, @netlify/blobs@npm:^6.5.0":
   version: 6.5.0
   resolution: "@netlify/blobs@npm:6.5.0"
   checksum: 20b2382a5d960cb08c93d80ad3a3df17837c0ba834a8fc3580d6208c5c840424a8c3cf88e5ea3a8d4adfd941f7d59780e1f94f6511661fe6580d5d8c2a920c76
   languageName: node
   linkType: hard
 
-"@netlify/build-info@npm:7.12.0":
-  version: 7.12.0
-  resolution: "@netlify/build-info@npm:7.12.0"
+"@netlify/build-info@npm:7.13.0":
+  version: 7.13.0
+  resolution: "@netlify/build-info@npm:7.13.0"
   dependencies:
     "@bugsnag/js": ^7.20.0
+    "@iarna/toml": ^2.2.5
     dot-prop: ^7.2.0
     find-up: ^6.3.0
     minimatch: ^9.0.0
     read-pkg: ^7.1.0
     semver: ^7.3.8
-    toml: ^3.0.0
     yaml: ^2.1.3
     yargs: ^17.6.0
   bin:
     build-info: bin.js
-  checksum: f63ba4115d425a82b0a01162922dbe04b849a7809c5250402fde152260c3cd9e546239e47b3cc5eaab83721e0e451e5b7fc7d66d24ea8e1fe02cbbd7a18c9e24
+  checksum: 2db2138146438b290ee06af27681944de16661e8b5f03c2301f1feda8e21bd0af3cdfe199ce350eb797c581d8aac82c01f7f08051e2b571823c713a50035a1af
   languageName: node
   linkType: hard
 
-"@netlify/build@npm:29.33.6":
-  version: 29.33.6
-  resolution: "@netlify/build@npm:29.33.6"
+"@netlify/build@npm:29.36.1":
+  version: 29.36.1
+  resolution: "@netlify/build@npm:29.36.1"
   dependencies:
     "@bugsnag/js": ^7.0.0
     "@netlify/blobs": ^6.5.0
     "@netlify/cache-utils": ^5.1.5
-    "@netlify/config": ^20.11.0
+    "@netlify/config": ^20.12.1
     "@netlify/edge-bundler": 11.2.2
     "@netlify/framework-info": ^9.8.10
-    "@netlify/functions-utils": ^5.2.50
+    "@netlify/functions-utils": ^5.2.51
     "@netlify/git-utils": ^5.1.1
-    "@netlify/opentelemetry-utils": ^1.0.1
-    "@netlify/plugins-list": ^6.73.0
+    "@netlify/opentelemetry-utils": ^1.0.2
+    "@netlify/plugins-list": ^6.75.0
     "@netlify/run-utils": ^5.1.1
-    "@netlify/zip-it-and-ship-it": 9.29.1
-    "@opentelemetry/api": ~1.6.0
+    "@netlify/zip-it-and-ship-it": 9.29.2
+    "@opentelemetry/api": ~1.7.0
     "@sindresorhus/slugify": ^2.0.0
     ansi-escapes: ^6.0.0
     chalk: ^5.0.0
@@ -1960,13 +1960,13 @@ __metadata:
     uuid: ^9.0.0
     yargs: ^17.6.0
   peerDependencies:
-    "@netlify/opentelemetry-sdk-setup": ^1.0.2
+    "@netlify/opentelemetry-sdk-setup": ^1.0.3
   peerDependenciesMeta:
     "@netlify/opentelemetry-sdk-setup":
       optional: true
   bin:
     netlify-build: bin.js
-  checksum: fbf0da9e1273efe4e322bb4b7b5f89f06eb08b3f4339e30fb11f7de8305398157ea2b2d31f77202ac8be779d500adf2996e0b9279d4328658337e3aa361f6a02
+  checksum: 37f9d005922dc716443e1a1008233d3422c599bf9ec06afe7a869ab90065e9fef741f2b69c732e11db431c8ad6be4a87411d24ba59426e4cfed24fb7cb492690
   languageName: node
   linkType: hard
 
@@ -1986,10 +1986,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/config@npm:20.11.0, @netlify/config@npm:^20.11.0":
-  version: 20.11.0
-  resolution: "@netlify/config@npm:20.11.0"
+"@netlify/config@npm:20.12.1, @netlify/config@npm:^20.12.1":
+  version: 20.12.1
+  resolution: "@netlify/config@npm:20.12.1"
   dependencies:
+    "@iarna/toml": ^2.2.5
     chalk: ^5.0.0
     cron-parser: ^4.1.0
     deepmerge: ^4.2.2
@@ -2004,19 +2005,18 @@ __metadata:
     js-yaml: ^4.0.0
     map-obj: ^5.0.0
     netlify: ^13.1.14
-    netlify-headers-parser: ^7.1.3
-    netlify-redirect-parser: ^14.2.1
+    netlify-headers-parser: ^7.1.4
+    netlify-redirect-parser: ^14.2.2
     node-fetch: ^3.3.1
     omit.js: ^2.0.2
     p-locate: ^6.0.0
     path-type: ^5.0.0
-    toml: ^3.0.0
     tomlify-j0.4: ^3.0.0
     validate-npm-package-name: ^4.0.0
     yargs: ^17.6.0
   bin:
     netlify-config: bin.js
-  checksum: 46c7d2014764edbd989c8c4636f59e6545a4ce2d0067c4fa4b5ac80a97b96d9b0820b271ae3945147b52bfdb2e513425f659b7b34a14ecd48ef27e8ed8fb6e40
+  checksum: 4bfd388ea07926c7c600c365a16e99dd6da331f0ac843b868ca09060c639813e77752b8aa168b8b8c88ddff32e9af14ff56acb2b4794dfa307080d30cc6d41a6
   languageName: node
   linkType: hard
 
@@ -2070,14 +2070,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/functions-utils@npm:^5.2.50":
-  version: 5.2.50
-  resolution: "@netlify/functions-utils@npm:5.2.50"
+"@netlify/functions-utils@npm:^5.2.51":
+  version: 5.2.51
+  resolution: "@netlify/functions-utils@npm:5.2.51"
   dependencies:
-    "@netlify/zip-it-and-ship-it": 9.29.1
+    "@netlify/zip-it-and-ship-it": 9.29.2
     cpy: ^9.0.0
     path-exists: ^5.0.0
-  checksum: e39d2ac5add651664323c5fb00f011f9bcb3271753b827ee0d7a10f2eafb445a7e2d95d2ac708bb78e3cccf4cb82efabbcf4d91a46cd7093538d2ad07d09cc49
+  checksum: a8cd72523bb74b2120ddeb4450a5c5c2b3a7886feedc0b2a45c3344887e4f9e5aa305fb11c79b997da76dead942fffa073fe30332df0ce04f75cff691d260cf5
   languageName: node
   linkType: hard
 
@@ -2261,16 +2261,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/opentelemetry-utils@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@netlify/opentelemetry-utils@npm:1.0.1"
+"@netlify/opentelemetry-utils@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@netlify/opentelemetry-utils@npm:1.0.2"
   dependencies:
-    "@opentelemetry/api": ~1.6.0
-  checksum: 5763af5bf612aac6453dccdd827707cb1b5f52657f746d6932d4804063d8c915834ace3b1df3c299e3e2d5b5940fa3ffe53474e01659d83b302531a95c66acc6
+    "@opentelemetry/api": ~1.7.0
+  checksum: 88f1a7424f4ed81e29713d85d10d6e2fdf81029d824904c485835c35c0845e26dc13d34969065d685638fae242dac4e960de18bce667c8f8d0824659c0fe447c
   languageName: node
   linkType: hard
 
-"@netlify/plugins-list@npm:^6.73.0":
+"@netlify/plugins-list@npm:^6.75.0":
   version: 6.75.0
   resolution: "@netlify/plugins-list@npm:6.75.0"
   checksum: 68fe58074977a5a2ab1e8d5f5ef8caf3e18593664340147b2fe60b7ba47c688f28757f23c3229fae4065888ac8c3b69a4c2eb203de76aa0ffea29eb7149105d2
@@ -2296,9 +2296,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/zip-it-and-ship-it@npm:9.29.1":
-  version: 9.29.1
-  resolution: "@netlify/zip-it-and-ship-it@npm:9.29.1"
+"@netlify/zip-it-and-ship-it@npm:9.29.2":
+  version: 9.29.2
+  resolution: "@netlify/zip-it-and-ship-it@npm:9.29.2"
   dependencies:
     "@babel/parser": ^7.22.5
     "@babel/types": 7.23.6
@@ -2335,7 +2335,7 @@ __metadata:
     yargs: ^17.0.0
   bin:
     zip-it-and-ship-it: dist/bin.js
-  checksum: 996ce00c6aa2543b152d6c476443a0e4c8ceb1fe429d13a5a1e7705618e38919322a103111e1f88cb7d7f6ed4223b7442c25d38577e17814c0a0459796b7d73d
+  checksum: 1ef6954b219d6d787301e7f86c3a1b37bab4d547ce3c2cf406c8403cb72bd947a57bd0f5f8515393a49a69672022c9a9d91cb91dc0c2561be48115375ca29ea0
   languageName: node
   linkType: hard
 
@@ -2851,10 +2851,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opentelemetry/api@npm:~1.6.0":
-  version: 1.6.0
-  resolution: "@opentelemetry/api@npm:1.6.0"
-  checksum: 3283b78b62a39f6568eaa050ac7045fcca747679e255874f6d2107cb8e1a3b2e10bfbf553c3e82a72500fb5fdca49dc07a5fe27fd6980debac24506cca638859
+"@opentelemetry/api@npm:~1.7.0":
+  version: 1.7.0
+  resolution: "@opentelemetry/api@npm:1.7.0"
+  checksum: 2398cbe65f199c3a7050125b3ad9c835f789bb0a616665e9c7f4475a29ac8334b6a3c15f38db48d345b522180c41c00b04cc174cd0eeffba98eb4874a565fa7e
   languageName: node
   linkType: hard
 
@@ -4915,8 +4915,8 @@ __metadata:
   linkType: hard
 
 "astro@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "astro@npm:4.4.0"
+  version: 4.4.7
+  resolution: "astro@npm:4.4.7"
   dependencies:
     "@astrojs/compiler": ^2.5.3
     "@astrojs/internal-helpers": 0.2.1
@@ -4970,7 +4970,6 @@ __metadata:
     rehype: ^13.0.1
     resolve: ^1.22.4
     semver: ^7.5.4
-    server-destroy: ^1.0.1
     sharp: ^0.32.6
     shikiji: ^0.9.19
     shikiji-core: ^0.9.19
@@ -4979,7 +4978,7 @@ __metadata:
     tsconfck: ^3.0.0
     unist-util-visit: ^5.0.0
     vfile: ^6.0.1
-    vite: ^5.1.2
+    vite: ^5.1.4
     vitefu: ^0.2.5
     which-pm: ^2.1.1
     yargs-parser: ^21.1.1
@@ -4989,7 +4988,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: ac7ace8aec889f19aa2d329d2ac50a2c585f00b9d09bc1a465277505c81bdc365af31f99ccdfd2b8b57402590b5525d0cac85952fd98621eba648e74fe978068
+  checksum: 99d074e109cdadb0aac28cf471130cc6fbc343b581cfc73e41c46aac9ce2e6c4287bb572cc576269b9b44ffdd4a82d844a7048e0c14183988fc672a35d34c951
   languageName: node
   linkType: hard
 
@@ -14566,18 +14565,18 @@ __metadata:
   linkType: hard
 
 "netlify-cli@npm:^17.16.1":
-  version: 17.16.1
-  resolution: "netlify-cli@npm:17.16.1"
+  version: 17.17.1
+  resolution: "netlify-cli@npm:17.17.1"
   dependencies:
     "@bugsnag/js": 7.20.2
     "@fastify/static": 6.10.2
-    "@netlify/blobs": 6.4.2
-    "@netlify/build": 29.33.6
-    "@netlify/build-info": 7.12.0
-    "@netlify/config": 20.11.0
+    "@netlify/blobs": 6.5.0
+    "@netlify/build": 29.36.1
+    "@netlify/build-info": 7.13.0
+    "@netlify/config": 20.12.1
     "@netlify/edge-bundler": 11.2.2
     "@netlify/local-functions-proxy": 1.1.1
-    "@netlify/zip-it-and-ship-it": 9.29.1
+    "@netlify/zip-it-and-ship-it": 9.29.2
     "@octokit/rest": 19.0.13
     ansi-escapes: 6.2.0
     ansi-styles: 6.2.1
@@ -14643,8 +14642,8 @@ __metadata:
     log-update: 5.0.1
     multiparty: 4.2.3
     netlify: 13.1.14
-    netlify-headers-parser: 7.1.3
-    netlify-redirect-parser: 14.2.1
+    netlify-headers-parser: 7.1.4
+    netlify-redirect-parser: 14.2.2
     netlify-redirector: 0.5.0
     node-fetch: 2.6.12
     node-version-alias: 3.4.1
@@ -14682,21 +14681,21 @@ __metadata:
   bin:
     netlify: bin/run.js
     ntl: bin/run.js
-  checksum: 2175ce5ccc63ed13edaea8cf59b6036457fdace5a4b6d986094cbd59255940954551e806c049e9655c6d9421e3c538f251297a664f5422e2a24eaffc6ecfca64
+  checksum: 2b0cf12944bb8131d6d544f1cd22c5de5c1c6dc9a0f74f3b41b6f714f825e2118fda93bcfdcdb9b419edbf4250c65c3a586962c2506c1118768f141da23c66a3
   languageName: node
   linkType: hard
 
-"netlify-headers-parser@npm:7.1.3, netlify-headers-parser@npm:^7.1.3":
-  version: 7.1.3
-  resolution: "netlify-headers-parser@npm:7.1.3"
+"netlify-headers-parser@npm:7.1.4, netlify-headers-parser@npm:^7.1.4":
+  version: 7.1.4
+  resolution: "netlify-headers-parser@npm:7.1.4"
   dependencies:
+    "@iarna/toml": ^2.2.5
     escape-string-regexp: ^5.0.0
     fast-safe-stringify: ^2.0.7
     is-plain-obj: ^4.0.0
     map-obj: ^5.0.0
     path-exists: ^5.0.0
-    toml: ^3.0.0
-  checksum: 562e4d00fc0a6d88eb4b9f484447e5d9e209d3408059c421afb13770c12fc7497172bc19c9b82e02a95ee4a0f58499e72ae9e02785ff3b4aa278dd42ef18cbf6
+  checksum: 4b47e01680128e805935c93b4ef7e942a1e40ef6b88f13bd74a4feadae876e9edfb974d8035de7570d085cbdc93748cef1f758b5a244db336d16442cdb30ae96
   languageName: node
   linkType: hard
 
@@ -14711,16 +14710,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"netlify-redirect-parser@npm:14.2.1, netlify-redirect-parser@npm:^14.2.1":
-  version: 14.2.1
-  resolution: "netlify-redirect-parser@npm:14.2.1"
+"netlify-redirect-parser@npm:14.2.2, netlify-redirect-parser@npm:^14.2.2":
+  version: 14.2.2
+  resolution: "netlify-redirect-parser@npm:14.2.2"
   dependencies:
+    "@iarna/toml": ^2.2.5
     fast-safe-stringify: ^2.1.1
     filter-obj: ^5.0.0
     is-plain-obj: ^4.0.0
     path-exists: ^5.0.0
-    toml: ^3.0.0
-  checksum: 30ecb08830c51904fac754fa0700e99204b427ae91441f9b52b7ef242f7b72c01fea29ac35455f45b06bac8a28b7e5b22b89145434e68609e828b8f6456bce29
+  checksum: fab0989b2fa64d64b38a6cca908eca732a1981c2cb78b743033e3445a7eaae6d03bcb68e370ca9c1acae6e1f84b81b5674b90d916a3b39c3e16483e2a47162f8
   languageName: node
   linkType: hard
 
@@ -17479,13 +17478,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"server-destroy@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "server-destroy@npm:1.0.1"
-  checksum: cbc19d4f92d25a0a34430c6a09faccbea77d1a69563560eefe883feb67c14c3fb3a1c5af1affae0e82d537886ea0f91d317e39e46b5d6425de3acf57a3ab13e3
-  languageName: node
-  linkType: hard
-
 "set-blocking@npm:^2.0.0":
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
@@ -19874,7 +19866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0, vite@npm:^5.1.2":
+"vite@npm:^5.0.0":
   version: 5.1.3
   resolution: "vite@npm:5.1.3"
   dependencies:
@@ -19911,6 +19903,46 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 827d67c5b951f0eab9d0293f30a6d60274da914d7548f4220021a596873c8a8891fe8d9418fac52486b8808a57cab8ee61ffe048520cce11b680eae4ed72bffa
+  languageName: node
+  linkType: hard
+
+"vite@npm:^5.1.4":
+  version: 5.1.4
+  resolution: "vite@npm:5.1.4"
+  dependencies:
+    esbuild: ^0.19.3
+    fsevents: ~2.3.3
+    postcss: ^8.4.35
+    rollup: ^4.2.0
+  peerDependencies:
+    "@types/node": ^18.0.0 || >=20.0.0
+    less: "*"
+    lightningcss: ^1.21.0
+    sass: "*"
+    stylus: "*"
+    sugarss: "*"
+    terser: ^5.4.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: fb8b944c69fd738b412ad10471f01db01ed59b5d7fdf182b836b420b221a8bd5ada74d225a87aaa80cf8d2b693cc4a89ab7c291254a8b4e6faefd93843ebb9d3
   languageName: node
   linkType: hard
 
@@ -19977,9 +20009,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"volar-service-css@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-css@npm:0.0.29"
+"volar-service-css@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-css@npm:0.0.30"
   dependencies:
     vscode-css-languageservice: ^6.2.10
     vscode-uri: ^3.0.8
@@ -19988,28 +20020,28 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: f25ea70a106d1e22d4b8a1eea07682b35eba552467a186196f495e05b40ee4d744494a99f15a4a31ad1e8a1e6a167a2bc594a0eeab237151030f5d18c227474d
+  checksum: 55b6c50431af6060a1bd86ea9189c5bef9b2fdd22840c6d97559f9d27544b95864f0a11881b04c7ac7da17fb6c4407bd5abf19d1e2f57c439e5d407d2fa9b757
   languageName: node
   linkType: hard
 
-"volar-service-emmet@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-emmet@npm:0.0.29"
+"volar-service-emmet@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-emmet@npm:0.0.30"
   dependencies:
     "@vscode/emmet-helper": ^2.9.2
-    volar-service-html: 0.0.29
+    volar-service-html: 0.0.30
   peerDependencies:
     "@volar/language-service": ~2.0.1
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 277f94f9d903db9fda16a69d9bc52af19b136c2b75eadec16541f2c601106373e8c8602a6ed8927ad0d6bb4ef673d9f4cf94397b941765304bf0ef875b87f6cd
+  checksum: 5d5811137dafff480ecee0a78b758284ea6cc5845186d3c5c0dcb06a637490a64fd0d10fef8cd4d2029996abe5ebf5a3ab4aa9528ab1ae41808aa7e74b4aba90
   languageName: node
   linkType: hard
 
-"volar-service-html@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-html@npm:0.0.29"
+"volar-service-html@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-html@npm:0.0.30"
   dependencies:
     vscode-html-languageservice: ^5.1.0
     vscode-uri: ^3.0.8
@@ -20018,13 +20050,13 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 6735c7d0e37407e362882ba98528efa53aa630d340203f8425d49bb9e38cc2172865c0d7482b0eea96c64fddb6e46d506794ae3f0d8e046176865ec5817a583b
+  checksum: 04c2649af6467f07a3a33cd52e31db8e8fc3e5bedac8194d8461e4e218a03318de8f05668de31225f2cc6693f26e4a5a943b37fb95b10657af236464a8281b4b
   languageName: node
   linkType: hard
 
-"volar-service-prettier@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-prettier@npm:0.0.29"
+"volar-service-prettier@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-prettier@npm:0.0.30"
   dependencies:
     vscode-uri: ^3.0.8
   peerDependencies:
@@ -20035,25 +20067,25 @@ __metadata:
       optional: true
     prettier:
       optional: true
-  checksum: dee8e9a2bf985836335fc9cf82269324b69bcbd3f4c0f1d521452632f0d5ccaa1f87b856feee0df641c6b04826567c22694144498afd7ed75688cff9168964a2
+  checksum: 93b81447c25c367617a4f6e63b6befdc8f3b424ba2aa6468a4ec41800edbcd77dd8e2fd6cf4d9dabfcb050daf25b0e3ad9e2a43a00ed4cee4cb914c80f7909cd
   languageName: node
   linkType: hard
 
-"volar-service-typescript-twoslash-queries@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-typescript-twoslash-queries@npm:0.0.29"
+"volar-service-typescript-twoslash-queries@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-typescript-twoslash-queries@npm:0.0.30"
   peerDependencies:
     "@volar/language-service": ~2.0.1
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: 4ecee98fbe1aca85662951569dfd373d8a68a89d569da95d7a8948ca3989743ac9b8c7bc20c2421a517dbee25ed3ea79f40538c66317eedf79e650e989a5b34a
+  checksum: 7f0b0473df66bf2eccb5695bfa4580ba8a748f4564cc9a2ae4a50c37bc469a350a0ce80ca5571f4ec022972c5eaa1ef685108462fa57383388af28c8f005de2c
   languageName: node
   linkType: hard
 
-"volar-service-typescript@npm:0.0.29":
-  version: 0.0.29
-  resolution: "volar-service-typescript@npm:0.0.29"
+"volar-service-typescript@npm:0.0.30":
+  version: 0.0.30
+  resolution: "volar-service-typescript@npm:0.0.30"
   dependencies:
     path-browserify: ^1.0.1
     semver: ^7.5.4
@@ -20067,7 +20099,7 @@ __metadata:
   peerDependenciesMeta:
     "@volar/language-service":
       optional: true
-  checksum: aa95d41d8eda1f1631fd853b5c19071517646e6b4f141a34c006bde3d98c6026c6582e0cf9b15d3da0ede892dbe88816f216a400cd851fc77374604c8375a22b
+  checksum: e6a9b30736077378bc5e0c8605700dff849ffdd0bc16dae25457577b309e6161c13124b0246e57f112e82b585b374eb9207d92494e0234e2c3f7359b1108d3bb
   languageName: node
   linkType: hard
 
