@@ -93,10 +93,17 @@ export default defineConfig({
 				PageTitle: './src/components/PageTitle.astro',
 			},
 			expressiveCode: {
+				defaultProps: {
+					wrap: true,
+					overridesByLang: {
+						'bash,ps,sh': { preserveIndent: false },
+					},
+				},
 				tabWidth: 2,
 				styleOverrides: {
 					borderRadius: '0.25rem',
 					codeLineHeight: '1.25',
+					codePaddingInline: '1.25rem',
 				},
 				plugins: [pluginCollapsibleSections()],
 			},
