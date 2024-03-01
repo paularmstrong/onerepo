@@ -10599,11 +10599,11 @@ __metadata:
   linkType: hard
 
 "human-id@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "human-id@npm:4.1.0"
+  version: 4.1.1
+  resolution: "human-id@npm:4.1.1"
   bin:
     human-id: dist/cli.js
-  checksum: de70c22dcfcfe47f6e671b8c97c729897d84af36466891473a6a3d2cb1b6249f5ddbab4e1a9c7f96b80ed383ef79ac4cac7a975899afaf4fbef267afd7d0049e
+  checksum: 7d78857b532323e065ae6b6d141b3b8407d6a3714adea8c91f451d5ea8e5461677970b2e2c99e879ff94a8bbefdaa396e9a0f337d82e840183a86fa78c4f88ce
   languageName: node
   linkType: hard
 
