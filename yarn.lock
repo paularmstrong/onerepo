@@ -15027,9 +15027,9 @@ __metadata:
   linkType: hard
 
 "npm-to-yarn@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "npm-to-yarn@npm:2.1.0"
-  checksum: 0e5ed46d9c1bbacc93a83c8ebe347578188b58b5bcb3bc727f7c582aa9144121f981b604778dad10c46dbb2e927da8f0943fd5ca7c2ef26824bdaac317d1d47e
+  version: 2.2.1
+  resolution: "npm-to-yarn@npm:2.2.1"
+  checksum: 8596169260f80add174918b742161e139ebe34688e5e4506e6826da46ca6b15ff729f42a35c24eac66d33b3aaecc57386492e0363026a292d588b1d953b46aef
   languageName: node
   linkType: hard
 
