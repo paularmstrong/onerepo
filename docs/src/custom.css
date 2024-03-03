@@ -314,3 +314,14 @@ header {
 	padding-block-start: 3rem;
 	border-top: 1px solid var(--sl-color-gray-5);
 }
+
+starlight-file-tree {
+	border-radius: 0.5rem;
+}
+
+.sl-steps > ol > li {
+	padding-bottom: 2rem;
+}
+.sl-steps > ol > li:last-child {
+	padding-bottom: 0;
+}

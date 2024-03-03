@@ -11,3 +11,8 @@ coverage/*
 **/.astro/*
 **/.netlify/*
 **/coverage/*
+
+# Prettier is really terrible with complex MDX files…
+docs/src/content/docs/index.mdx
+docs/src/content/docs/core/changes.mdx
+docs/src/content/docs/docs/getting-started.mdx

@@ -26,10 +26,8 @@ hero:
 import Aurora from '../../components/Aurora.astro';
 import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import LinkCard from '../../components/LinkCard.astro';
-import { TabItem } from '@astrojs/starlight/components';
+import { Steps, TabItem } from '@astrojs/starlight/components';
 import Tabs from '../../components/Tabs.astro';
-import Instructions from '../../components/Instructions.astro';
-import InstructionStep from '../../components/InstructionStep.astro';
 
 <Aurora bands={40} />
 
@@ -89,48 +87,48 @@ Logging output from every command and tool in oneRepo is carefully grouped, docu
 
 ## Install and get started now
 
-<Instructions>
-<InstructionStep title="Install the CLI">
-  <span slot="content">First, install oneRepo's `one` command into your path:</span>
-  <span slot="terminal">
-    <Tabs group="pkgmanager">
-      <TabItem label="npm">
-        ```sh title="Install via npm"
-        npx --package=onerepo one install
-        ```
-      </TabItem>
-      <TabItem label="yarn">
-        ```sh title="Install via Yarn"
-        yarn dlx --package=onerepo one install
-        ```
-      </TabItem>
-      <TabItem label="pnpm">
-        ```sh title="Install via pnpm"
-        pnpm --package=onerepo dlx one install
-        ```
-      </TabItem>
-    </Tabs>
-  </span>
-</InstructionStep>
+<Steps>
 
-<InstructionStep title="Create your oneRepo">
-  <span slot="content">
-    Next, use the `one create` command to initialize into an existing or a new repository.
-  </span>
+1. **Install the CLI**
 
-  <span slot="terminal">
-    ```sh title="Initialize oneRepo in a new or existing repository"
-    one create
-    ```
-  </span>
-</InstructionStep>
+   First, install oneRepo's `one` command into your path:
 
-<InstructionStep title="Keep going" noTerminal>
-	<span slot="content">
-	You're nearly done. Follow the in-prompt instructions or continue on with the [getting started guide](/docs/getting-started/).
-	</span>
-</InstructionStep>
-</Instructions>
+   <Tabs group="pkgmanager">
+   	<TabItem label="npm">
+
+   		```sh title="Install via npm"
+   		npx --package=onerepo one install
+   		```
+
+   	</TabItem>
+   	<TabItem label="yarn">
+
+   		```sh title="Install via Yarn"
+   		yarn dlx --package=onerepo one install
+   		```
+
+   	</TabItem>
+   	<TabItem label="pnpm">
+
+   		```sh title="Install via pnpm"
+   		pnpm --package=onerepo dlx one install
+   		```
+
+   	</TabItem>
+   </Tabs>
+
+1. **Create your oneRepo**
+   Next, use the `one create` command to initialize into an existing or a new repository.
+
+   ```sh title="Initialize oneRepo in a new or existing repository"
+   one create
+   ```
+
+1. **Keep going…**
+
+   You're nearly done. Follow the in-prompt instructions or continue on with the [getting started guide](/docs/getting-started/).
+
+</Steps>
 
 ## Helpful links
 
