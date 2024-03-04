@@ -38,6 +38,7 @@ Unlike other change entry systems, oneRepo compiles change entry files into a `.
 If you prefer something a little more fun, add the [human-id](https://www.npmjs.com/package/human-id) package to your Root Workspace and set `changes.filenames` to `'human'` in your Root configuration file.
 
 <Steps>
+
 1. **Add the `human-id` dependency**
 
    Use the [`dependencies`](/core/dependencies/) command to make things easy.
@@ -84,6 +85,7 @@ If you prefer something a little more fun, add the [human-id](https://www.npmjs.
 ### Code changes
 
 <Steps>
+
 1. **Modify code and add change files**
 
    For each Workspaces that publishes a module, whenever we commit notable changes that should appear in a changelog, we add change entry files using `one change add` command. This command will help us create individual changelog entries in the form of Markdown formatted files with YAML frontmatter. The files are stored away in each related Workspace until needed later.
@@ -133,6 +135,7 @@ If you prefer something a little more fun, add the [human-id](https://www.npmjs.
 Eventually, we will need to publish one or more Workspaces to our registry for use in another repository. To do this, we follow another short workflow:
 
 <Steps>
+
 1. **Update versions**
 
    First, we _increment the version_ automatically using the command `one change version`. This command will prompt for the Workspace or Workspaces that we would like to publish and automatically ensure that any dependencies with changes are also incremented appropriately.

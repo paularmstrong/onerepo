@@ -13,7 +13,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 			<slot />
 		</div>
 	) : (
-		<Default {...Astro.props}>
+		<Default {...(Astro.props as any)}>
 			<span slot="header">
 				<slot name="header" />
 			</span>

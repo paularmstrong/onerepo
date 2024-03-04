@@ -1,0 +1,13 @@
+diff --git a/user-components/rehype-file-tree.ts b/user-components/rehype-file-tree.ts
+index 5af454fe32dc0cd7a1b8448e08c00d56a85babe9..5716e5f5c120633d7173464203efa94d8fa5d1cd 100644
+--- a/user-components/rehype-file-tree.ts
++++ b/user-components/rehype-file-tree.ts
+@@ -170,7 +170,7 @@ function getFileIcon(fileName: string) {
+ function getFileIconName(fileName: string) {
+ 	let icon = definitions.files[fileName];
+ 	if (icon) return icon;
+-	icon = getFileIconTypeFromExtension(fileName);
++	icon = getFileIconTypeFromExtension(fileName)!;
+ 	if (icon) return icon;
+ 	for (const [partial, partialIcon] of Object.entries(definitions.partials)) {
+ 		if (fileName.includes(partial)) return partialIcon;

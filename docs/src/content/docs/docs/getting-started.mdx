@@ -18,27 +18,31 @@ import Tabs from '../../../components/Tabs.astro';
    First, install oneRepo's `one` command into your path:
 
    <Tabs group="pkgmanager">
+
     <TabItem label="npm">
 
-      ```sh title="Install via npm"
-      npx --package=onerepo one install
-      ```
+   ```sh title="Install via npm"
+   npx --package=onerepo one install
+   ```
 
     </TabItem>
+
     <TabItem label="yarn">
 
-      ```sh title="Install via Yarn"
-      yarn dlx --package=onerepo one install
-      ```
+   ```sh title="Install via Yarn"
+   yarn dlx --package=onerepo one install
+   ```
 
     </TabItem>
+
     <TabItem label="pnpm">
 
-      ```sh title="Install via pnpm"
-      pnpm --package=onerepo dlx one install
-      ```
+   ```sh title="Install via pnpm"
+   pnpm --package=onerepo dlx one install
+   ```
 
     </TabItem>
+
    </Tabs>
 
 2. **Create your oneRepo**
@@ -54,36 +58,40 @@ import Tabs from '../../../components/Tabs.astro';
    oneRepo is compatible with all major package managers for Node.js.
 
    <Tabs group="pkgmanager">
+
     <TabItem label="npm">
 
-      ```ansi title="Choose your own package manager"
-      [32m?[0m Which package manager would you like to use?
-      [34m❯ npm[0m
-       pnpm
-       yarn
-      ```
+   ```ansi title="Choose your own package manager"
+   [32m?[0m Which package manager would you like to use?
+   [34m❯ npm[0m
+    pnpm
+    yarn
+   ```
 
     </TabItem>
+
     <TabItem label="yarn">
 
-      ```ansi title="Choose your own package manager"
-      [32m?[0m Which package manager would you like to use?
-       npm
-       pnpm
-       [34m❯ yarn[0m
-      ```
+   ```ansi title="Choose your own package manager"
+   [32m?[0m Which package manager would you like to use?
+    npm
+    pnpm
+    [34m❯ yarn[0m
+   ```
 
     </TabItem>
+
     <TabItem label="pnpm">
 
-      ```ansi title="Choose your own package manager"
-      [32m?[0m Which package manager would you like to use?
-       npm
-      [34m❯ pnpm[0m
-      yarn
-      ```
+   ```ansi title="Choose your own package manager"
+   [32m?[0m Which package manager would you like to use?
+    npm
+   [34m❯ pnpm[0m
+   yarn
+   ```
 
     </TabItem>
+
    </Tabs>
 
 4. **Configure your repo**
@@ -93,44 +101,48 @@ import Tabs from '../../../components/Tabs.astro';
    Refer to the full [configuration documentation](/docs/config/) for more information.
 
    <Tabs group="jsflavor">
+
     <TabItem label="ES Module">
 
-      ```ts title="./onerepo.config.js" {3-5}
-      export default {
-        root: true,
-        codeowners: {},
-        tasks: {},
-        // And much more!
-      };
-      ```
+   ```ts title="./onerepo.config.js" {3-5}
+   export default {
+   	root: true,
+   	codeowners: {},
+   	tasks: {},
+   	// And much more!
+   };
+   ```
 
    </TabItem>
+
    <TabItem label="TypeScript">
 
-     ```ts title="./onerepo.config.ts" {5-7}
-     import type { Config } from 'onerepo';
+   ```ts title="./onerepo.config.ts" {5-7}
+   import type { Config } from 'onerepo';
 
-     export default {
-       root: true,
-       codeowners: {},
-       tasks: {},
-       // And much more!
-     } satisfies Config;
-     ```
+   export default {
+   	root: true,
+   	codeowners: {},
+   	tasks: {},
+   	// And much more!
+   } satisfies Config;
+   ```
 
    </TabItem>
+
    <TabItem label="Common JS">
 
-     ```ts title="./onerepo.config.cjs" {3-5}
-     module.exports = {
-       root: true,
-       codeowners: {},
-       tasks: {},
-       // And much more!
-     };
-     ```
+   ```ts title="./onerepo.config.cjs" {3-5}
+   module.exports = {
+   	root: true,
+   	codeowners: {},
+   	tasks: {},
+   	// And much more!
+   };
+   ```
 
     </TabItem>
+
    </Tabs>
 
 5. **Ready to go!**
@@ -164,136 +176,152 @@ import Tabs from '../../../components/Tabs.astro';
 
 <Steps>
 
-1. **Install dependencies**
+1.  **Install dependencies**
 
-   Install dependencies using your package manager of choice.
+    Install dependencies using your package manager of choice.
 
-   <Tabs group="pkgmanager">
-    <TabItem label="npm">
+    <Tabs group="pkgmanager">
+
+     <TabItem label="npm">
 
     ```sh title="Install via npm"
     npm install --save-dev onerepo
     ```
 
-    </TabItem>
-    <TabItem label="yarn">
+     </TabItem>
+
+     <TabItem label="yarn">
 
     ```sh title="Install via Yarn"
     yarn add --dev onerepo
     ```
 
-    </TabItem>
-    <TabItem label="pnpm">
+     </TabItem>
+
+     <TabItem label="pnpm">
 
     ```sh title="Install via pnpm"
     pnpm add --save-dev onerepo
     ```
 
-    </TabItem>
-   </Tabs>
+     </TabItem>
 
-1. **Install the CLI**
+    </Tabs>
 
-   Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
+1.  **Install the CLI**
 
-   <Tabs group="pkgmanager">
-    <TabItem label="npm">
+    Install the CLI into your system. This will create a command, `one`, that can be run from anywhere in your path. It will always pick up a local version of `onerepo`, if it exists, otherwise fall back on the current version.
+
+    <Tabs group="pkgmanager">
+
+     <TabItem label="npm">
 
     ```sh title="Install via npm"
     npm exec one install
     ```
 
-    </TabItem>
-    <TabItem label="yarn">
+     </TabItem>
+
+     <TabItem label="yarn">
 
     ```sh title="Install via Yarn"
     yarn one install
     ```
 
-    </TabItem>
-    <TabItem label="pnpm">
+     </TabItem>
+
+     <TabItem label="pnpm">
 
     ```sh title="Install via pnpm"
     pnpm one install
     ```
 
-    </TabItem>
-   </Tabs>
-
-1. **Configure workspaces**
-
-   Configure your package manager to work with workspaces
-
-   <Tabs group="pkgmanager">
-     <TabItem label="npm">
-
-       ```json title="package.json" {4}
-       {
-        "name": "my-monorepo",
-        "private": true,
-        "workspaces": ["apps/*", "modules/*"]
-       }
-       ```
-
      </TabItem>
-     <TabItem label="yarn">
 
-       ```json title="package.json" {4}
-       {
+    </Tabs>
+
+1.  **Configure workspaces**
+
+    Configure your package manager to work with workspaces
+
+    <Tabs group="pkgmanager">
+
+      <TabItem label="npm">
+
+        ```json title="package.json" {4}
+        {
          "name": "my-monorepo",
          "private": true,
          "workspaces": ["apps/*", "modules/*"]
-       }
-       ```
+        }
+        ```
 
-    </TabItem>
-    <TabItem label="pnpm">
+      </TabItem>
 
-      ```yaml title="pnpm-workspace.yaml"
-      packages:
-        - 'apps/*'
-        - 'modules/*'
-      ```
+      <TabItem label="yarn">
 
-    </TabItem>
-   </Tabs>
-
-1. **Configure**
-
-   Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
-
-   Refer to the full [configuration documentation](/docs/config/) for more information.
-
-   <Tabs group="jsflavor">
-     <TabItem label="ES Module">
-
-       ```ts title="./onerepo.config.js"
-       export default {
-         root: true,
-       };
-       ```
+        ```json title="package.json" {4}
+        {
+          "name": "my-monorepo",
+          "private": true,
+          "workspaces": ["apps/*", "modules/*"]
+        }
+        ```
 
      </TabItem>
-     <TabItem label="TypeScript">
 
-       ```ts title="./onerepo.config.ts"
-       import type { Config } from 'onerepo';
+     <TabItem label="pnpm">
 
-       export default {
-         root: true,
-       } satisfies Config;
-       ```
+    ```yaml title="pnpm-workspace.yaml"
+    packages:
+      - 'apps/*'
+      - 'modules/*'
+    ```
 
      </TabItem>
-     <TabItem label="Common JS">
 
-       ```ts title="./onerepo.config.cjs"
-       module.exports = {
-         root: true,
-       };
-       ```
+    </Tabs>
 
-    </TabItem>
-   </Tabs>
+1.  **Configure**
+
+    Create a configuration file at the root of your repository. This may be either JavaScript or TypeScript.
+
+    Refer to the full [configuration documentation](/docs/config/) for more information.
+
+    <Tabs group="jsflavor">
+
+      <TabItem label="ES Module">
+
+        ```ts title="./onerepo.config.js"
+        export default {
+          root: true,
+        };
+        ```
+
+      </TabItem>
+
+      <TabItem label="TypeScript">
+
+        ```ts title="./onerepo.config.ts"
+        import type { Config } from 'onerepo';
+
+        export default {
+          root: true,
+        } satisfies Config;
+        ```
+
+      </TabItem>
+
+      <TabItem label="Common JS">
+
+        ```ts title="./onerepo.config.cjs"
+        module.exports = {
+          root: true,
+        };
+        ```
+
+     </TabItem>
+
+    </Tabs>
 
 </Steps>

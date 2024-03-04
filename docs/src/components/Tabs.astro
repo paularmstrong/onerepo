@@ -28,8 +28,8 @@ export interface Props {
 
 			const tablist = this.querySelector('[role="tablist"]')!;
 			const starlightTab = this.querySelector('starlight-tabs')!;
-			this.tabs = [...tablist.querySelectorAll<HTMLAnchorElement>('[role="tab"]')];
-			this.panels = [...this.querySelectorAll<HTMLElement>('starlight-tabs > [role="tabpanel"]')];
+			this.tabs = Array.from(tablist.querySelectorAll<HTMLAnchorElement>('[role="tab"]'));
+			this.panels = Array.from(this.querySelectorAll<HTMLElement>('starlight-tabs > [role="tabpanel"]'));
 
 			if (!this.dataset.group) {
 				return;

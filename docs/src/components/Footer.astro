@@ -7,7 +7,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 
 {
 	!isHomepage && !isVisualizer ? (
-		<Default {...Astro.props}>
+		<Default {...(Astro.props as any)}>
 			<slot />
 		</Default>
 	) : null
@@ -86,7 +86,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 	/**
 	 * @params {HTMLCollectionOf<HTMLElement>} graphs
 	 */
-	async function renderDiagrams(graphs) {
+	async function renderDiagrams(graphs: HTMLCollection) {
 		const { default: mermaid } = await import('mermaid');
 		mermaid.initialize({
 			startOnLoad: false,
@@ -95,7 +95,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 			theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default',
 		});
 
-		for (const graph of graphs) {
+		for (const graph of Array.from(graphs)) {
 			const content = graph.getAttribute('data-content');
 			if (!content) {
 				continue;

@@ -1,11 +1,14 @@
 {
-	"extends": "@internal/tsconfig/base.json",
+	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
-		"types": ["astro/client", "./.astro/types.d.ts"],
 		"outDir": "./dist",
+		"noEmit": false,
+		"composite": true,
+		"emitDeclarationOnly": true,
+		"types": ["node"],
 	},
-	"include": ["./src/*", "./commands/**/*", "./.astro/*"],
-	"exclude": ["netlify/edge-functions", "dist/**/*"],
+	"include": ["./**/*"],
+	"exclude": ["dist/**/*"],
 	"references": [
 		{
 			"path": "../modules/onerepo",

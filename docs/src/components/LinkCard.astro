@@ -1,14 +1,15 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
+import { ImageMetadata } from 'astro';
 import type { ComponentProps, HTMLAttributes } from 'astro/types';
-import { LocalImageProps, Image } from 'astro:assets';
+import { Image } from 'astro:assets';
 
 interface Props extends Omit<HTMLAttributes<'a'>, 'title'> {
 	inline?: boolean;
 	title: string;
 	description?: string;
 	icon?: ComponentProps<typeof Icon>['name'];
-	image?: LocalImageProps['image'];
+	image?: ImageMetadata;
 	size?: 'small' | 'large';
 }
 
