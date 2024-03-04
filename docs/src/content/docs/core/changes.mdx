@@ -5,11 +5,8 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
-import Instructions from '../../../components/Instructions.astro';
-import InstructionStep from '../../../components/InstructionStep.astro';
 import Tabs from '../../../components/Tabs.astro';
-import { TabItem } from '@astrojs/starlight/components';
-import FileTree from '../../../components/FileTree.astro';
+import { FileTree, Steps, TabItem } from '@astrojs/starlight/components';
 
 In a typical monorepo, we want to build up changes for publishable workspaces over time while we work on features and major changes. Because we are using a monorepo with [_source dependencies_](/docs/source-dependencies/), we should not need to publish often, because our local Workspace's are benefitting from code changes immediately.
 
@@ -26,12 +23,12 @@ Unlike other change entry systems, oneRepo compiles change entry files into a `.
 - modules
   - burritos
     - .changes
-      - 1-978af1g.md
-      - 2-3ah36g1.md
+      - 001-978af1g.md
+      - 002-3ah36g1.md
     - package.json
   - tacos
     - .changes
-      - 1-978af1g.md
+      - 001-978af1g.md
     - package.json
 
 </FileTree>
@@ -40,206 +37,172 @@ Unlike other change entry systems, oneRepo compiles change entry files into a `.
 
 If you prefer something a little more fun, add the [human-id](https://www.npmjs.com/package/human-id) package to your Root Workspace and set `changes.filenames` to `'human'` in your Root configuration file.
 
-<Instructions>
-<InstructionStep title="Add the dependency">
-  <span slot="content">
-  Use the [`dependencies`](/core/dependencies/) command to make things easy.
-  </span>
-  <span slot="terminal">
+<Steps>
 
-```sh
-one dependencies add -w <root> --dev human-id
-```
+1. **Add the `human-id` dependency**
 
-  </span>
-</InstructionStep>
-<InstructionStep title="Update the config">
-  <span slot="content">
-  Use the [`dependencies`](/core/dependencies/) command to make things easy.
-  </span>
-  <span slot="terminal">
+   Use the [`dependencies`](/core/dependencies/) command to make things easy.
 
-```ts title="onerepo.config.js" ins={4-6}
-import type { Config } from 'onerepo';
+   ```sh
+   one dependencies add -w <root> --dev human-id
+   ```
 
-export default {
-	changes: {
-		filenames: 'human',
-	},
-} satisfies Config;
-```
+1. **Update the config**
 
-  </span>
-</InstructionStep>
-<InstructionStep>
-  <span slot="content">
-  Enjoy your funny filenames.
-  </span>
-  <span slot="terminal">
-<FileTree>
+   Use the [`dependencies`](/core/dependencies/) command to make things easy.
 
-- modules
-  - burritos
-    - .changes
-      - 1-late-lions-accept.md
-      - 2-pretty-jars-dig.md
-    - package.json
-  - tacos
-    - .changes
-      - 1-swift-seals-walk.md
-    - package.json
+   ```ts title="onerepo.config.js" ins={4-6}
+   import type { Config } from 'onerepo';
 
-</FileTree>
-</span>
-</InstructionStep>
-</Instructions>
+   export default {
+   	changes: {
+   		filenames: 'human',
+   	},
+   } satisfies Config;
+   ```
+
+1. **Enjoy your funny filenames.**
+
+   <FileTree>
+
+   - modules
+     - burritos
+       - .changes
+         - 001-late-lions-accept.md
+         - 002-pretty-jars-dig.md
+       - package.json
+     - tacos
+       - .changes
+         - 001-swift-seals-walk.md
+       - package.json
+
+   </FileTree>
+
+</Steps>
 
 ## Workflow
 
 ### Code changes
 
-<Instructions>
-<InstructionStep title="Modify code and add change files">
-  <span slot="content">
-  For each Workspaces that publishes a module, whenever we commit notable changes that should appear in a changelog, we add change entry files using `one change add` command. This command will help us create individual changelog entries in the form of Markdown formatted files with YAML frontmatter. The files are stored away in each related Workspace until needed later.
-  </span>
-  <span slot="terminal">
+<Steps>
 
-```ansi
-[34m❯[0m one change add
+1. **Modify code and add change files**
 
-📦 What workspace(s) would you like to
-add a change entry to?
+   For each Workspaces that publishes a module, whenever we commit notable changes that should appear in a changelog, we add change entry files using `one change add` command. This command will help us create individual changelog entries in the form of Markdown formatted files with YAML frontmatter. The files are stored away in each related Workspace until needed later.
 
-[2m↗ Modified Workspaces
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
-[34m❯◯ @onerepo/graph[0m
- ◯ onerepo
- ◯ @onerepo/plugin-changesets
+   ```ansi
+   [34m❯[0m one change add
 
-[2m→ Affected Workspaces
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
- ◯ @onerepo/builders
- ◯ @onerepo/file
-```
+   📦 What workspace(s) would you like to
+   add a change entry to?
 
-</span>
-</InstructionStep>
-<InstructionStep title="Commit files">
-<span slot="content">
-Add change entries will create Markdown files with the change entry content in each appropriate workspace. You will see these files in `<workspace>/.changes/*.md`. It is important to track and commit these files to the repository, as we will use them later on down the line when we're ready to publish a new version.
-</span>
-<span slot="terminal">
+   [2m↗ Modified Workspaces
+   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+   [34m❯◯ @onerepo/graph[0m
+    ◯ onerepo
+    ◯ @onerepo/plugin-changesets
 
-```ansi
-[34m❯[0m git status
+   [2m→ Affected Workspaces
+   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+    ◯ @onerepo/builders
+    ◯ @onerepo/file
+   ```
 
- On branch [1madd-change-entries[0m
- Changes to be committed:
-    new file:   [32mmodules/graph/.changes/3-d1eb2419.md[0m
+1. **Commit files**
 
-[34m❯[0m git commit -m "add change entries"
-```
+   Add change entries will create Markdown files with the change entry content in each appropriate workspace. You will see these files in `<workspace>/.changes/*.md`. It is important to track and commit these files to the repository, as we will use them later on down the line when we're ready to publish a new version.
 
-  </span>
-</InstructionStep>
-<InstructionStep title="Pull request & merge" noTerminal>
-  <span slot="content">
-  Create a pull request with your commits to review. Since change entry files are tracked, you can always edit them later if there's a mistake or you would like to add more information for the change.
+   ```ansi
+   [34m❯[0m git status
 
-Once ready, merge your pull request to your main branch and move on.
+    On branch [1madd-change-entries[0m
+    Changes to be committed:
+       new file:   [32mmodules/graph/.changes/3-d1eb2419.md[0m
 
-  </span>
-</InstructionStep>
-</Instructions>
+   [34m❯[0m git commit -m "add change entries"
+   ```
+
+1. **Pull request & merge" noTermina**
+
+   Create a pull request with your commits to review. Since change entry files are tracked, you can always edit them later if there's a mistake or you would like to add more information for the change.
+
+   Once ready, merge your pull request to your main branch and move on.
+
+</Steps>
 
 ### Version & publish
 
 Eventually, we will need to publish one or more Workspaces to our registry for use in another repository. To do this, we follow another short workflow:
 
-<Instructions>
-<InstructionStep title="Update versions">
-  <span slot="content">
-  First, we _increment the version_ automatically using the command `one change version`. This command will prompt for the Workspace or Workspaces that we would like to publish and automatically ensure that any dependencies with changes are also incremented appropriately.
+<Steps>
 
-This extra increment is necessary to ensure that each Workspace is published with the latest changes. Without this step, it would be possible that critical features would end up missing and causing errors in your published modules.
+1. **Update versions**
 
-  </span>
-  <span slot="terminal">
+   First, we _increment the version_ automatically using the command `one change version`. This command will prompt for the Workspace or Workspaces that we would like to publish and automatically ensure that any dependencies with changes are also incremented appropriately.
 
-```ansi
-[34m❯[0m one change version
+   This extra increment is necessary to ensure that each Workspace is published with the latest changes. Without this step, it would be possible that critical features would end up missing and causing errors in your published modules.
 
-📦 What workspace(s) should be
-versioned for publishing?
+   ```ansi
+   [34m❯[0m one change version
 
-[2m↗ Workspaces with change entries
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
-[34m❯◯ @onerepo/graph[0m [2m(1.0.0)[0m
- ◯ onerepo [2m(1.0.0)[0m
- ◯ @onerepo/plugin-changesets [2m(1.0.0)[0m
+   📦 What workspace(s) should be
+   versioned for publishing?
 
-[2m→ Workspaces modified & missing change entries
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
- ◯ @onerepo/builders [2m(1.0.0)[0m
- ◯ @onerepo/file [2m(1.0.0)[0m
-```
+   [2m↗ Workspaces with change entries
+   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+   [34m❯◯ @onerepo/graph[0m [2m(1.0.0)[0m
+    ◯ onerepo [2m(1.0.0)[0m
+    ◯ @onerepo/plugin-changesets [2m(1.0.0)[0m
 
-  </span>
-</InstructionStep>
-<InstructionStep title="Verify new versions">
-  <span slot="content">
+   [2m→ Workspaces modified & missing change entries
+   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+    ◯ @onerepo/builders [2m(1.0.0)[0m
+    ◯ @onerepo/file [2m(1.0.0)[0m
+   ```
 
-Next, you will be asked to verify new versions. This step will list new versions for dependencies of the Workspace(s) that you requested to version that also have changes in them.
+1. **Verify new versions**
 
-You _cannot_ version and publish the requested Workspaces without including these Workspaces as well.
+   Next, you will be asked to verify new versions. This step will list new versions for dependencies of the Workspace(s) that you requested to version that also have changes in them.
 
-  </span>
-  <span slot="terminal">
+   You _cannot_ version and publish the requested Workspaces without including these Workspaces as well.
 
-```ansi
-[34m❯[0m one change version
+   ```ansi
+   [34m❯[0m one change version
 
-[2m(…continued)[0m
+   [2m(…continued)[0m
 
-┌ Verify workspaces
-│ [2mWorkspace                 Current  Type     New[0m
-│ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
-│ @onerepo/graph            0.10.0   [33mminor[0m   0.11.0
-│
-│ [2mThe following dependencies also require versioning[0m
-│ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
-│ @onerepo/logger           0.6.0    [32mpatch[0m   0.6.1
-│ @onerepo/package-manager  0.5.0    [32mpatch[0m   0.5.1
-│ @onerepo/subprocess       0.7.0    [32mpatch[0m   0.7.1
-└ ✔ 2ms
+   ┌ Verify workspaces
+   │ [2mWorkspace                 Current  Type     New[0m
+   │ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+   │ @onerepo/graph            0.10.0   [33mminor[0m   0.11.0
+   │
+   │ [2mThe following dependencies also require versioning[0m
+   │ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
+   │ @onerepo/logger           0.6.0    [32mpatch[0m   0.6.1
+   │ @onerepo/package-manager  0.5.0    [32mpatch[0m   0.5.1
+   │ @onerepo/subprocess       0.7.0    [32mpatch[0m   0.7.1
+   └ ✔ 2ms
 
-[32;1m?[0m Is it okay to proceed? [2m(Y/n)[0m
-```
+   [32;1m?[0m Is it okay to proceed? [2m(Y/n)[0m
+   ```
 
-  </span>
-</InstructionStep>
-<InstructionStep title="Pull request & merge" noTerminal>
-  <span slot="content">
-  The change entries related to the versioned Workspaces will be removed and their contents recreated into each Workspace's `CHANGELOG.md` file.
+1. **Pull request & merge" noTermina**
 
-Add and commit all changes, then create a pull request with your commits to review.
+   The change entries related to the versioned Workspaces will be removed and their contents recreated into each Workspace's `CHANGELOG.md` file.
 
-Once ready, merge your pull request to your main branch.
+   Add and commit all changes, then create a pull request with your commits to review.
 
-  </span>
-</InstructionStep>
-<InstructionStep title="Publish">
-  <span slot="content">
-  Your updated versions are now ready to publish. Either automate this step in your CI pipline after pull requests are merged or run the command manually.
-  </span>
-  <span slot="terminal">
-```ansi
-[34m❯[0m one change publish
-```
-  </span>
-</InstructionStep>
-</Instructions>
+   Once ready, merge your pull request to your main branch.
+
+1. **Publish**
+
+   Your updated versions are now ready to publish. Either automate this step in your CI pipline after pull requests are merged or run the command manually.
+
+   ```ansi
+   [34m❯[0m one change publish
+   ```
+
+</Steps>
 
 ## Commands
 

@@ -1,3 +1,4 @@
+// @ts-nocheck TODO: come back to this
 import { curveBasis, select, zoom, zoomIdentity } from 'd3';
 import { graphlib, render } from 'dagre-d3-es';
 import pako from 'pako';
@@ -39,10 +40,10 @@ function decodeToDag(datastring: string) {
 	return dag;
 }
 
-function renderGraph(graph) {
+function renderGraph(graph: graphlib.Graph) {
 	renderer(viz, graph);
 
-	const bbox = viz.node().getBBox();
+	const bbox = viz.node()!.getBBox();
 
 	const zoomBehavior = zoom();
 
@@ -162,9 +163,9 @@ ${input}
 Here's the error that was thrown:
 
 \`\`\`
-${e.toString()}
+${(e as Error).toString()}
 # Stack trace
-${e.stack ?? 'none'}
+${(e as Error).stack ?? 'none'}
 \`\`\``,
 		});
 		url.search = params.toString();
@@ -179,7 +180,7 @@ function showError(text: string) {
 	errorDialog.showModal();
 }
 
-function getGraph(dag: ReturnType<typeof Graph>) {
+function getGraph(dag: ReturnType<typeof Graph>): graphlib.Graph {
 	const graph = new graphlib.Graph({ directed: true, multigraph: true });
 
 	graph.setGraph({});

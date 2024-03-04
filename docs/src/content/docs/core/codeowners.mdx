@@ -5,6 +5,9 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
+import LinkCard from '../../../components/LinkCard.astro';
+import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
+
 Use code owners to define individuals or teams that are responsible for code in your monorepo and integrate with your git hosting provider's CODEOWNERS implementation.
 
 ## Getting started
@@ -42,12 +45,24 @@ one codeowners sync
 
 The following providers are currently enabled:
 
-- [GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) (default)
-- [Gitlab](https://docs.gitlab.com/ee/user/project/codeowners/#codeowners-file)
-- [Gitea](https://docs.gitea.com/usage/code-owners)
-- [BitBucket](https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud)[^bitbucket]
-
-[^bitbucket]: Requires add-on "[Code Owners for BitBucket](https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud)".
+<CardGrid>
+	<LinkCard
+		icon="github"
+		href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
+		title="GitHub"
+	/>
+	<LinkCard
+		icon="gitlab"
+		href="https://docs.gitlab.com/ee/user/project/codeowners/#codeowners-file"
+		title="Gitlab"
+	/>
+	<LinkCard
+		icon="bitbucket"
+		href="https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud"
+		title="BitBucket"
+	/>
+	<LinkCard href="https://docs.gitea.com/usage/code-owners" title="Gitea" />
+</CardGrid>
 
 ## Commands
 
