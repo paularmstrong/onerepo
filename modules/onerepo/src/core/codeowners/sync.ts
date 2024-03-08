@@ -2,7 +2,7 @@ import { write } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
 import type { Providers } from './get-codeowners';
-import { codeownersFilepath, getCodeowners, providers } from './get-codeowners';
+import { codeownersFilepath, getCodeownersContents, providers } from './get-codeowners';
 
 export const command = 'sync';
 
@@ -33,7 +33,7 @@ export const handler: Handler<Argv> = async (argv, { graph }) => {
 	const { add, provider } = argv;
 
 	const filepath = codeownersFilepath(graph, provider);
-	await write(filepath, getCodeowners(graph), { sign: true });
+	await write(filepath, getCodeownersContents(graph), { sign: true });
 
 	if (add) {
 		await updateIndex(filepath);

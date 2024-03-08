@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<9649f4787e489d74e8297e7cfbd0e0e4>> -->
+<!-- @generated SignedSource<<784b04898a29c03df437c8d9ebc15ab4>> -->
 
 ## Namespaces
 
@@ -2569,7 +2569,7 @@ Get the [`PackageManager`](#packagemanager-1) for the given package manager type
 
 | Parameter | Type                            |
 | :-------- | :------------------------------ |
-| `type`    | `"yarn"` \| `"npm"` \| `"pnpm"` |
+| `type`    | `"yarn"` \| `"pnpm"` \| `"npm"` |
 
 **Returns:** [`PackageManager`](#packagemanager-1)  
 **Source:** [modules/package-manager/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/index.ts)

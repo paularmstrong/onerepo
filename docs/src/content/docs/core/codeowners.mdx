@@ -67,7 +67,7 @@ The following providers are currently enabled:
 ## Commands
 
 {/* start-auto-generated-from-cli-codeowners */}
-{/* @generated SignedSource<<cff48ac9a67494c4eb16ba14cc97e975>> */}
+{/* @generated SignedSource<<5a164ef5c7612f58fff6cbd84b5c1686>> */}
 
 ### `one codeowners`
 
@@ -78,6 +78,38 @@ Manage codeowners
 ```sh
 one codeowners <command>
 ```
+
+---
+
+#### `one codeowners show`
+
+Show the code owners for files and Workspaces.
+
+```sh
+one codeowners show [options]
+```
+
+| Option             | Type                                    | Description                                                                                                                                                                 |
+| ------------------ | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean`                               | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                               | Run across all workspaces                                                                                                                                                   |
+| `--files, -f`      | `array`                                 | Determine Workspaces from specific files                                                                                                                                    |
+| `--format`         | `"plain"`, `"json"`, default: `"plain"` | Choose how the results will be returned.                                                                                                                                    |
+| `--list`           | `boolean`                               | Just list the owners without the files                                                                                                                                      |
+| `--staged`         | `boolean`                               | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`                                 | List of Workspace names to run against                                                                                                                                      |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                             | Description                                                                 | Required |
+| --------------- | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+| `--provider`    | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+| `--through-ref` | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+
+</details>
 
 ---
 

@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { read, signContents, verifySignature } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Providers } from './get-codeowners';
-import { codeownersFilepath, getCodeowners } from './get-codeowners';
+import { codeownersFilepath, getCodeownersContents } from './get-codeowners';
 
 export const command = 'verify';
 
@@ -43,7 +43,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	await verifyStep.end();
 
 	const compareStep = logger.createStep('Verify up to date');
-	if (contents !== (await signContents(filepath, getCodeowners(graph), { step: compareStep }))) {
+	if (contents !== (await signContents(filepath, getCodeownersContents(graph), { step: compareStep }))) {
 		const msg = `Code owners file is not up to date. Please run the following and commit the changes to fix this issue:
 
   ${$0} codeowners sync --add
