@@ -50,24 +50,31 @@ The following providers are currently enabled:
 		icon="github"
 		href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
 		title="GitHub"
+		description=".github/CODEOWNERS"
 	/>
 	<LinkCard
 		icon="gitlab"
 		href="https://docs.gitlab.com/ee/user/project/codeowners/#codeowners-file"
 		title="Gitlab"
+		description=".gitlab/CODEOWNERS"
 	/>
 	<LinkCard
 		icon="bitbucket"
 		href="https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud"
 		title="BitBucket"
+		description="CODEOWNERS"
 	/>
-	<LinkCard href="https://docs.gitea.com/usage/code-owners" title="Gitea" />
+	<LinkCard
+		href="https://docs.gitea.com/usage/code-owners"
+		title="Gitea"
+		description=".gitea/CODEOWNERS"
+	/>
 </CardGrid>
 
 ## Commands
 
 {/* start-auto-generated-from-cli-codeowners */}
-{/* @generated SignedSource<<cff48ac9a67494c4eb16ba14cc97e975>> */}
+{/* @generated SignedSource<<a2e4e8f1a8131ac5a32dc80021a44a08>> */}
 
 ### `one codeowners`
 
@@ -81,6 +88,50 @@ one codeowners <command>
 
 ---
 
+#### `one codeowners show`
+
+Show the code owners for files and Workspaces.
+
+```sh
+one codeowners show [options]
+```
+
+| Option             | Type                                    | Description                                                                                                                                                                 |
+| ------------------ | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean`                               | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                               | Run across all workspaces                                                                                                                                                   |
+| `--files, -f`      | `array`                                 | Determine Workspaces from specific files                                                                                                                                    |
+| `--format`         | `"plain"`, `"json"`, default: `"plain"` | Choose how the results will be returned.                                                                                                                                    |
+| `--list`           | `boolean`                               | Just list the owners without the files                                                                                                                                      |
+| `--staged`         | `boolean`                               | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`                                 | List of Workspace names to run against                                                                                                                                      |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                             | Description                                                                 | Required |
+| --------------- | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+| `--provider`    | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+| `--through-ref` | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+
+</details>
+
+Show the codeowners for currently modified files.
+
+```sh
+one codeowners show
+```
+
+List the unique set of codeowners given an input `workspace-name`.
+
+```sh
+one codeowners show --list -w <workspace-name>
+```
+
+---
+
 #### `one codeowners sync`
 
 Sync code owners from Workspace configurations to the repository’s CODEOWNERS file.
@@ -88,6 +139,13 @@ Sync code owners from Workspace configurations to the repository’s CODEOWNERS 
 ```sh
 one codeowners sync
 ```
+
+This command will sync each Workspace’s `codeowners` to the repository’s configured [`vcs.provider`](https://onerepo.tools/docs/config/#vcsprovider) compatible code owners file.
+
+- github: `.github/CODEOWNERS`
+- gitlab: `.gitlab/CODEOWNERS`
+- gitea: `.gitea/CODEOWNERS`
+- bitbucket: `CODEOWNERS`
 
 | Option  | Type      | Description                                       |
 | ------- | --------- | ------------------------------------------------- |

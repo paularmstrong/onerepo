@@ -130,7 +130,7 @@ function writeStdio(graph: Serialized): void {
 	type Deps = { prod: Array<string>; dev: Array<string>; peer: Array<string> };
 
 	graph.nodes.forEach(({ id: name }) => {
-		div({ text: pc.blue(pc.cyan(pc.underline(name))), padding: [0, 0, 0, 1] });
+		div({ text: pc.cyan(pc.underline(name)), padding: [0, 0, 0, 1] });
 		div();
 		const deps = graph.links.reduce(
 			(memo, { source, target, weight }) => {

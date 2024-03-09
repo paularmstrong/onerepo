@@ -13,7 +13,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<b958eee37585a989d6ca79f018288229>> */}
+{/* @generated SignedSource<<953a87825b511982869a1afa4ab8557b>> */}
 
 ## `one`
 
@@ -277,6 +277,50 @@ one codeowners <command>
 
 ---
 
+#### `one codeowners show`
+
+Show the code owners for files and Workspaces.
+
+```sh
+one codeowners show [options]
+```
+
+| Option             | Type                                    | Description                                                                                                                                                                 |
+| ------------------ | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--affected`       | `boolean`                               | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`        | `boolean`                               | Run across all workspaces                                                                                                                                                   |
+| `--files, -f`      | `array`                                 | Determine Workspaces from specific files                                                                                                                                    |
+| `--format`         | `"plain"`, `"json"`, default: `"plain"` | Choose how the results will be returned.                                                                                                                                    |
+| `--list`           | `boolean`                               | Just list the owners without the files                                                                                                                                      |
+| `--staged`         | `boolean`                               | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--workspaces, -w` | `array`                                 | List of Workspace names to run against                                                                                                                                      |
+
+<details>
+
+<summary>Advanced options</summary>
+
+| Option          | Type                                             | Description                                                                 | Required |
+| --------------- | ------------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `--from-ref`    | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+| `--provider`    | `"github"`, `"gitlab"`, `"gitea"`, `"bitbucket"` | Codeowner provider determines where the CODEOWNERS file(s) will be written. | ✅       |
+| `--through-ref` | `string`                                         | Git ref to start looking for affected files or workspaces                   |          |
+
+</details>
+
+Show the codeowners for currently modified files.
+
+```sh
+one codeowners show
+```
+
+List the unique set of codeowners given an input `workspace-name`.
+
+```sh
+one codeowners show --list -w <workspace-name>
+```
+
+---
+
 #### `one codeowners sync`
 
 Sync code owners from Workspace configurations to the repository’s CODEOWNERS file.
@@ -284,6 +328,13 @@ Sync code owners from Workspace configurations to the repository’s CODEOWNERS 
 ```sh
 one codeowners sync
 ```
+
+This command will sync each Workspace’s `codeowners` to the repository’s configured [`vcs.provider`](https://onerepo.tools/docs/config/#vcsprovider) compatible code owners file.
+
+- github: `.github/CODEOWNERS`
+- gitlab: `.gitlab/CODEOWNERS`
+- gitea: `.gitea/CODEOWNERS`
+- bitbucket: `CODEOWNERS`
 
 | Option  | Type      | Description                                       |
 | ------- | --------- | ------------------------------------------------- |

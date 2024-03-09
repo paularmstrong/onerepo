@@ -45,6 +45,7 @@
 		"ejs": "^3.1.8",
 		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
+		"ignore": "^5.3.1",
 		"inquirer": "^9.1.4",
 		"jiti": "^1.21.0",
 		"js-yaml": "^4.1.0",
