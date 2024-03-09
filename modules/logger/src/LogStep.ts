@@ -25,8 +25,6 @@ const prefix = {
 	INFO: pc.blue(pc.bold('INFO')),
 };
 
-const noop = () => {};
-
 /**
  * Log steps should only be created via the {@link Logger#createStep | `logger.createStep()`} method.
  *
@@ -163,8 +161,7 @@ export class LogStep {
 
 		this.#active = false;
 		if (this.#writing) {
-			this.#buffer.off('data', noop);
-			this.#buffer.off('data', this.#write);
+			this.#buffer.cork();
 			this.#writing = false;
 		}
 	}
@@ -175,19 +172,20 @@ export class LogStep {
 		}
 
 		if (this.verbosity <= 0) {
-			// no-op to get into "flowing mode"
-			this.#buffer.on('data', noop);
 			this.#writing = false;
 			return;
 		}
 
-		this.#buffer.off('data', noop);
-		// Ideally we'd use `this.#buffer.pipe(this.#stream)`, but that seems to not always pipe??
-		this.#buffer.on('data', this.#write);
+		if (this.#buffer.writableCorked) {
+			this.#buffer.uncork();
+			this.#writing = true;
+			return;
+		}
+
+		this.#buffer.pipe(this.#stream);
+		this.#buffer.read();
 		this.#writing = true;
 	}
-
-	#write = (chunk: unknown) => this.#stream.write(chunk);
 
 	/**
 	 * Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
@@ -226,15 +224,15 @@ export class LogStep {
 			return;
 		}
 
-		// End the buffer, helps with memory/gc
-		// But do it after immediate otherwise the buffer may not be done flushing to stream
-		return await new Promise<void>((resolve) => {
+		await new Promise<void>((resolve) => {
 			setImmediate(() => {
-				this.#buffer.end(() => {
-					resolve();
-				});
+				resolve();
 			});
 		});
+
+		// Unpipe the buffer, helps with memory/gc
+		// But do it after a tick (above) otherwise the buffer may not be done flushing to stream
+		this.#buffer.unpipe();
 	}
 
 	/**

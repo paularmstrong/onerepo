@@ -92,7 +92,7 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 	const logger = getLogger();
 	const buffer = new LogBuffer();
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
-	buffer.on('data', (chunk) => {
+	function proxyChunks(chunk: Buffer) {
 		if (!step.writable) {
 			return;
 		}
@@ -107,14 +107,17 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 		} else if (logger.verbosity >= 4) {
 			step.debug(() => chunk.toString().trimEnd());
 		}
-	});
+	}
+	buffer.on('data', proxyChunks);
 
 	return {
 		logger: subLogger,
 		async end() {
+			buffer.off('data', proxyChunks);
 			await new Promise<void>((resolve) => {
 				setImmediate(async () => {
 					await subLogger.end();
+					buffer.destroy();
 					resolve();
 				});
 			});

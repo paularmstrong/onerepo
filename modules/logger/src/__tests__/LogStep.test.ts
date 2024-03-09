@@ -2,15 +2,6 @@ import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
 import { LogStep } from '../LogStep';
 
-async function waitStreamEnd(stream: PassThrough) {
-	return new Promise<void>((resolve) => {
-		stream.on('end', () => {
-			resolve();
-		});
-		stream.end();
-	});
-}
-
 describe('LogStep', () => {
 	let runId: string | undefined;
 
@@ -56,7 +47,6 @@ describe('LogStep', () => {
 		step.log('hello');
 		await step.end();
 		await step.flush();
-		await waitStreamEnd(stream);
 
 		expect(out).toMatch(/^::group::tacos\n/);
 		expect(out).toMatch(/::endgroup::\n$/);
@@ -77,7 +67,6 @@ describe('LogStep', () => {
 		step.activate();
 		await step.end();
 		await step.flush();
-		await waitStreamEnd(stream);
 
 		expect(out).toEqual(
 			` ┌ tacos
@@ -132,8 +121,6 @@ describe('LogStep', () => {
 		if (verbosity === 0) {
 			stream.end();
 		}
-
-		await waitStreamEnd(stream);
 
 		for (const [method, str] of Object.entries(logs)) {
 			// @ts-ignore
@@ -190,7 +177,6 @@ describe('LogStep', () => {
 		step.activate();
 		await step.end();
 		await step.flush();
-		await waitStreamEnd(stream);
 
 		expect(out).toMatch(exp);
 	});
@@ -213,7 +199,6 @@ describe('LogStep', () => {
 		step.activate();
 		await step.end();
 		await step.flush();
-		await waitStreamEnd(stream);
 
 		expect(out).toEqual(` ┌ tacos
  │error
