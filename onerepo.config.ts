@@ -71,7 +71,6 @@ export default {
 
 	codeowners: {
 		'*': ['@paularmstrong'],
-		'modules/onerepo': ['@foobar'],
 	},
 
 	vcs: {
