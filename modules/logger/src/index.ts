@@ -92,29 +92,29 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 	const logger = getLogger();
 	const buffer = new LogBuffer();
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
-	buffer.on('data', (chunk) => {
-		if (!step.writable) {
-			return;
-		}
-		if (subLogger.hasError && logger.verbosity >= 1) {
+	function proxyChunks(chunk: Buffer) {
+		if (subLogger.hasError) {
 			step.error(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasInfo && logger.verbosity >= 1) {
+		} else if (subLogger.hasInfo) {
 			step.info(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasWarning && logger.verbosity >= 2) {
+		} else if (subLogger.hasWarning) {
 			step.warn(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasLog && logger.verbosity >= 3) {
+		} else if (subLogger.hasLog) {
 			step.log(() => chunk.toString().trimEnd());
-		} else if (logger.verbosity >= 4) {
+		} else {
 			step.debug(() => chunk.toString().trimEnd());
 		}
-	});
+	}
+	buffer.on('data', proxyChunks);
 
 	return {
 		logger: subLogger,
 		async end() {
+			buffer.off('data', proxyChunks);
 			await new Promise<void>((resolve) => {
 				setImmediate(async () => {
 					await subLogger.end();
+					buffer.destroy();
 					resolve();
 				});
 			});
