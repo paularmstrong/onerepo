@@ -1866,8 +1866,8 @@ __metadata:
     "@types/eslint": ^8.56.2
     eslint: ^8.56.0
     eslint-formatter-onerepo: 1.0.0
+    ignore: ^5.3.1
     jiti: ^1.21.0
-    minimatch: ^9.0.3
     onerepo: "workspace:^"
     typescript: ^5.3.3
   peerDependencies:
@@ -1911,7 +1911,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/test-cli": "workspace:^"
-    minimatch: ^9.0.3
+    ignore: ^5.3.1
     onerepo: "workspace:^"
     typescript: ^5.3.3
   peerDependencies:

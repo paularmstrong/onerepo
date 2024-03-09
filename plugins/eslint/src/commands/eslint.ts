@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { minimatch } from 'minimatch';
+import ignore from 'ignore';
 import { git, file, builders } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
@@ -76,7 +76,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		'--': passthrough = [],
 	} = argv;
 
-	const filteredPaths = [];
+	let filteredPaths: Array<string> = [];
 	if (!all) {
 		const ignoreStep = logger.createStep('Filtering ignored files');
 		const ignoreFile = graph.root.resolve('.eslintignore');
@@ -84,26 +84,19 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
 		const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 
+		const matcher = ignore().add(ignores);
 		const paths = await getFilepaths({ step: ignoreStep });
-		ignoreStep.debug(paths);
-		for (const filepath of paths) {
-			const ext = path.extname(filepath);
-			if (!ext) {
-				const stat = await file.lstat(graph.root.resolve(filepath), { step: ignoreStep });
-				const isDirectory = stat && stat.isDirectory();
-				if (isDirectory) {
-					filteredPaths.push(filepath);
+		filteredPaths = matcher.filter(paths);
+
+		if (extensions && extensions.length) {
+			filteredPaths = filteredPaths.filter((filepath) => {
+				const ext = path.extname(filepath);
+				if (!ext) {
+					return true;
 				}
-				continue;
-			}
 
-			if (extensions && extensions.length && !extensions.includes(ext.replace(/^\./, ''))) {
-				continue;
-			}
-
-			if (!ignores.some((pattern) => minimatch(filepath, pattern))) {
-				filteredPaths.push(filepath);
-			}
+				return extensions.includes(ext.replace(/^\./, ''));
+			});
 		}
 
 		await ignoreStep.end();
