@@ -50,24 +50,31 @@ The following providers are currently enabled:
 		icon="github"
 		href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
 		title="GitHub"
+		description=".github/CODEOWNERS"
 	/>
 	<LinkCard
 		icon="gitlab"
 		href="https://docs.gitlab.com/ee/user/project/codeowners/#codeowners-file"
 		title="Gitlab"
+		description=".gitlab/CODEOWNERS"
 	/>
 	<LinkCard
 		icon="bitbucket"
 		href="https://marketplace.atlassian.com/apps/1218598/code-owners-for-bitbucket?tab=overview&hosting=cloud"
 		title="BitBucket"
+		description="CODEOWNERS"
 	/>
-	<LinkCard href="https://docs.gitea.com/usage/code-owners" title="Gitea" />
+	<LinkCard
+		href="https://docs.gitea.com/usage/code-owners"
+		title="Gitea"
+		description=".gitea/CODEOWNERS"
+	/>
 </CardGrid>
 
 ## Commands
 
 {/* start-auto-generated-from-cli-codeowners */}
-{/* @generated SignedSource<<5a164ef5c7612f58fff6cbd84b5c1686>> */}
+{/* @generated SignedSource<<a2e4e8f1a8131ac5a32dc80021a44a08>> */}
 
 ### `one codeowners`
 
@@ -111,6 +118,18 @@ one codeowners show [options]
 
 </details>
 
+Show the codeowners for currently modified files.
+
+```sh
+one codeowners show
+```
+
+List the unique set of codeowners given an input `workspace-name`.
+
+```sh
+one codeowners show --list -w <workspace-name>
+```
+
 ---
 
 #### `one codeowners sync`
@@ -120,6 +139,13 @@ Sync code owners from Workspace configurations to the repository’s CODEOWNERS 
 ```sh
 one codeowners sync
 ```
+
+This command will sync each Workspace’s `codeowners` to the repository’s configured [`vcs.provider`](https://onerepo.tools/docs/config/#vcsprovider) compatible code owners file.
+
+- github: `.github/CODEOWNERS`
+- gitlab: `.gitlab/CODEOWNERS`
+- gitea: `.gitea/CODEOWNERS`
+- bitbucket: `CODEOWNERS`
 
 | Option  | Type      | Description                                       |
 | ------- | --------- | ------------------------------------------------- |

@@ -36,7 +36,12 @@ export const builder: Builder<Argv> = (yargs) =>
 			demandOption: true,
 			description: 'Codeowner provider determines where the CODEOWNERS file(s) will be written.',
 			hidden: true,
-		});
+		})
+		.example(`$0 ${command}`, 'Show the codeowners for currently modified files.')
+		.example(
+			`$0 ${command} --list -w <workspace-name>`,
+			'List the unique set of codeowners given an input `workspace-name`.',
+		);
 
 export const handler: Handler<Argv> = async (argv, { getFilepaths, graph, logger }) => {
 	const { format, list } = argv;

@@ -2,7 +2,7 @@ import { write } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { updateIndex } from '@onerepo/git';
 import type { Providers } from './get-codeowners';
-import { codeownersFilepath, getCodeownersContents, providers } from './get-codeowners';
+import { codeownersFilepath, getCodeownersContents, location, providers } from './get-codeowners';
 
 export const command = 'sync';
 
@@ -27,7 +27,14 @@ export const builder: Builder<Argv> = (yargs) =>
 			demandOption: true,
 			description: 'Codeowner provider determines where the CODEOWNERS file(s) will be written.',
 			hidden: true,
-		});
+		})
+		.epilogue(
+			`This command will sync each Workspace’s \`codeowners\` to the repository’s configured [\`vcs.provider\`](https://onerepo.tools/docs/config/#vcsprovider) compatible code owners file.
+
+${Object.entries(location)
+	.map(([key, location]) => ` - ${key}: \`${location}\``)
+	.join('\n')}`,
+		);
 
 export const handler: Handler<Argv> = async (argv, { graph }) => {
 	const { add, provider } = argv;
