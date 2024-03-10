@@ -13,7 +13,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<953a87825b511982869a1afa4ab8557b>> */}
+{/* @generated SignedSource<<08893ba03b34cdb9ab05787ac817a439>> */}
 
 ## `one`
 
@@ -202,6 +202,22 @@ Attempt to publish _all_ non-private Workspaces.
 ```sh
 one change publish --all
 ```
+
+---
+
+#### `one change show`
+
+Preview the next versions and changelogs for Workspaces.
+
+```sh
+one change show
+```
+
+| Option             | Type                                    | Description                              |
+| ------------------ | --------------------------------------- | ---------------------------------------- |
+| `--all, -a`        | `boolean`                               | Run across all workspaces                |
+| `--format`         | `"json"`, `"plain"`, default: `"plain"` | Choose how the results will be returned. |
+| `--workspaces, -w` | `array`                                 | List of Workspace names to run against   |
 
 ---
 
