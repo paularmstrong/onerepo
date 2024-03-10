@@ -17,7 +17,7 @@
 		"eslint-plugin-astro": "^0.31.4",
 		"glob": "^10.1.0",
 		"netlify-plugin-csp-generator": "^1.6.1",
-		"onerepo": "1.0.0",
+		"onerepo": "1.1.0",
 		"postcss": "^8.4.35",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-slug": "^6.0.0",
