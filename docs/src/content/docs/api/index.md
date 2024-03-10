@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<784b04898a29c03df437c8d9ebc15ab4>> -->
+<!-- @generated SignedSource<<cb83a57132bfa1996076c30d8069562e>> -->
 
 ## Namespaces
 
@@ -608,7 +608,7 @@ export default {
 };
 ```
 
-Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each workspace:
+Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each Workspace:
 
 - `<root>/commands/*`
 - `<root>/<workspaces>/commands/*`
@@ -993,7 +993,7 @@ String command(s) to run. If provided as an array of strings, each command will 
 The commands can use replaced tokens:
 
 - `$0`: the oneRepo CLI for your repository
-- `${workspaces}`: replaced with a space-separated list of workspace names necessary for the given lifecycle
+- `${workspaces}`: replaced with a space-separated list of Workspace names necessary for the given lifecycle
 
 ##### match?
 
@@ -1115,7 +1115,7 @@ passthrough: Record<
 
 **Default:** `{}`
 
-Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by workspace. Passthrough commands _must_ have helpful descriptions.
+Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by Workspace. Passthrough commands _must_ have helpful descriptions.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -1484,7 +1484,7 @@ get codeowners(): Required<Record<string, string[]>>
 get config(): Required<RootConfig | WorkspaceConfig>
 ```
 
-Get the workspace's configuration
+Get the Workspace's configuration
 
 **Returns:** `Required`\<[`RootConfig`](#rootconfigcustomlifecycles) \| [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)\>  
 **Source:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
@@ -1709,7 +1709,7 @@ Get a list of Workspace tasks for the given lifecycle
 relative(to): string
 ```
 
-Get the relative path of an absolute path to the workspace’s location root
+Get the relative path of an absolute path to the Workspace’s location root
 
 ```ts
 const relativePath = workspace.relative('/some/absolute/path');

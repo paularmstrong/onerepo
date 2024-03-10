@@ -29,7 +29,7 @@ export const builder: Builder<Argv> = (yargs) =>
 			alias: 'w',
 			type: 'array',
 			string: true,
-			description: 'List of glob locations for workspaces',
+			description: 'List of glob locations for Workspaces',
 		});
 
 export const handler: Handler<Argv> = async (argv, { logger }) => {
@@ -107,7 +107,7 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 		{
 			name: 'workspaces',
 			type: 'input',
-			message: 'Enter a comma-separated list of locations for workspaces:',
+			message: 'Enter a comma-separated list of locations for Workspaces:',
 			default: 'apps/*,modules/*',
 			when: () => !workspaces.length,
 		},

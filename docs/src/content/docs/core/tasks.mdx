@@ -127,7 +127,7 @@ Some tokens in tasks can be used as special replacement values that the `tasks` 
 ## Commands
 
 {/* start-auto-generated-from-cli-tasks */}
-{/* @generated SignedSource<<fa2d18fcdc273fcadecc80ad1682ee63>> */}
+{/* @generated SignedSource<<a6a6db8261018649e3216120583375fc>> */}
 
 ### `one tasks`
 
@@ -142,12 +142,12 @@ You can fine-tune the determination of affected Workspaces by providing a `--fro
 | Option              | Type                                                                                                                                            | Description                                                                                                                                      | Required |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
 | `--affected`        | `boolean`                                                                                                                                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                      |          |
-| `--all, -a`         | `boolean`                                                                                                                                       | Run across all workspaces                                                                                                                        |          |
+| `--all, -a`         | `boolean`                                                                                                                                       | Run across all Workspaces                                                                                                                        |          |
 | `--ignore-unstaged` | `boolean`                                                                                                                                       | Force staged-changes mode on or off. If `true`, task determination and runners will ignore unstaged changes.                                     |          |
 | `--lifecycle, -c`   | `"pre-commit"`, `"post-commit"`, `"post-checkout"`, `"pre-merge"`, `"post-merge"`, `"build"`, `"pre-deploy"`, `"pre-publish"`, `"post-publish"` | Task lifecycle to run. All tasks for the given lifecycle will be run as merged parallel tasks, followed by the merged set of serial tasks.       | ✅       |
 | `--list`            | `boolean`                                                                                                                                       | List found tasks. Implies dry run and will not actually run any tasks.                                                                           |          |
 | `--shard`           | `string`                                                                                                                                        | Shard the lifecycle across multiple instances. Format as `<shard-number>/<total-shards>`                                                         |          |
-| `--staged`          | `boolean`                                                                                                                                       | Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit. |          |
+| `--staged`          | `boolean`                                                                                                                                       | Backup unstaged files and use only those on the git stage to calculate affected files or Workspaces. Will re-apply the unstaged files upon exit. |          |
 | `--workspaces, -w`  | `array`                                                                                                                                         | List of Workspace names to run against                                                                                                           |          |
 
 <details>
@@ -156,10 +156,10 @@ You can fine-tune the determination of affected Workspaces by providing a `--fro
 
 | Option            | Type                   | Description                                                               |
 | ----------------- | ---------------------- | ------------------------------------------------------------------------- |
-| `--from-ref`      | `string`               | Git ref to start looking for affected files or workspaces                 |
+| `--from-ref`      | `string`               | Git ref to start looking for affected files or Workspaces                 |
 | `--ignore`        | `array`, default: `[]` | List of filepath strings or globs to ignore when matching tasks to files. |
 | `--show-advanced` | `boolean`              | Pair with `--help` to show advanced options.                              |
-| `--through-ref`   | `string`               | Git ref to start looking for affected files or workspaces                 |
+| `--through-ref`   | `string`               | Git ref to start looking for affected files or Workspaces                 |
 
 </details>
 

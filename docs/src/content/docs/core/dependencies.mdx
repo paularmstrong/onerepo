@@ -33,7 +33,7 @@ No configuration necessary! oneRepo automatically detects which package manager 
 </div>
 
 {/* start-auto-generated-from-cli-dependencies */}
-{/* @generated SignedSource<<010aefd30892a3a87886322f5b1af26e>> */}
+{/* @generated SignedSource<<a8fcd0920245c8ac7790511389321972>> */}
 
 ### `one dependencies`
 
@@ -63,7 +63,7 @@ Otherwise, the latest version will be requested from the registry.
 
 | Option             | Type                                               | Description                                                                                                                            |
 | ------------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `--all, -a`        | `boolean`                                          | Run across all workspaces                                                                                                              |
+| `--all, -a`        | `boolean`                                          | Run across all Workspaces                                                                                                              |
 | `--dedupe`         | `boolean`, default: `true`                         | Deduplicate dependencies across the repository after install is complete.                                                              |
 | `--dev, -d`        | `array`                                            | Add dependencies for development purposes only.                                                                                        |
 | `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use strict version numbers, `loose` to use caret (`^`) ranges, and `off` for nothing specific. |
@@ -100,7 +100,7 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 
 | Option               | Type                       | Description                                                               | Required |
 | -------------------- | -------------------------- | ------------------------------------------------------------------------- | -------- |
-| `--all, -a`          | `boolean`                  | Run across all workspaces                                                 |          |
+| `--all, -a`          | `boolean`                  | Run across all Workspaces                                                 |          |
 | `--dedupe`           | `boolean`, default: `true` | Deduplicate dependencies across the repository after install is complete. |          |
 | `--dependencies, -d` | `array`                    | Dependency names that should be removed.                                  | ✅       |
 | `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                    |          |
@@ -109,7 +109,7 @@ one dependencies remove -w [workspaces...] -d [dependencies...] [options...]
 
 #### `one dependencies verify`
 
-Verify dependencies across workspaces.
+Verify dependencies across Workspaces.
 
 ```sh
 one dependencies verify [options...]
@@ -123,7 +123,7 @@ Dependencies across Workspaces can be validated using one of the various modes:
 
 | Option             | Type                                               | Description                                                                                                                                                   |
 | ------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--all, -a`        | `boolean`                                          | Run across all workspaces                                                                                                                                     |
+| `--all, -a`        | `boolean`                                          | Run across all Workspaces                                                                                                                                     |
 | `--mode`           | `"strict"`, `"loose"`, `"off"`, default: `"loose"` | Version selection mode. Use `strict` to use exact version matches, `loose` to accept within defined ranges (`^` or `~` range), and `off` for no verification. |
 | `--workspaces, -w` | `array`                                            | List of Workspace names to run against                                                                                                                        |
 

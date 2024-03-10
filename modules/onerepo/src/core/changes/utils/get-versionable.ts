@@ -22,7 +22,7 @@ export type VersionPlan = {
 type VersionOptions = { prerelease?: boolean; identifier?: string; snapshot?: string; step?: LogStep };
 
 export async function getVersionable(graph: Graph, options: VersionOptions = {}) {
-	return stepWrapper({ step: options.step, name: 'Get versionable workspaces' }, async (step) => {
+	return stepWrapper({ step: options.step, name: 'Get versionable Workspaces' }, async (step) => {
 		const workspaces = graph.workspaces;
 
 		const versionable = new Map<Workspace, VersionPlan>();

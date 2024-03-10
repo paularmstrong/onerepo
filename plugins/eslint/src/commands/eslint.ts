@@ -5,7 +5,7 @@ import type { Builder, Handler } from 'onerepo';
 
 export const command = ['eslint', 'lint'];
 
-export const description = 'Run eslint across files and workspaces';
+export const description = 'Run eslint across files and Workspaces.';
 
 type Args = builders.WithAllInputs & {
 	add?: boolean;

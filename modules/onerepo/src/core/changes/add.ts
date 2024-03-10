@@ -98,7 +98,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			name: 'chosen',
 			type: 'checkbox',
 			prefix: '📦',
-			message: `What workspace(s) would you like to add a change entry to?
+			message: `What Workspace(s) would you like to add a change entry to?
 ${pc.dim(
 	'\n   Keep in mind that each changeset entry should be related to a single change. If you have made multiple changes, please run this command once for each change.\n',
 )}
@@ -107,7 +107,7 @@ ${pc.dim(
 			pageSize: Math.min(choices.length + 2, 12),
 			validate: (input) => {
 				if (!input.length) {
-					return `${pc.bold(pc.red('Error:'))} Please select at least one workspace.`;
+					return `${pc.bold(pc.red('Error:'))} Please select at least one Workspace.`;
 				}
 				return true;
 			},

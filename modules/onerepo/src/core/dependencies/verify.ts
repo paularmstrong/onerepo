@@ -5,7 +5,7 @@ import { verifyDependencies } from './utils/verify-dependencies';
 
 export const command = 'verify';
 
-export const description = 'Verify dependencies across workspaces.';
+export const description = 'Verify dependencies across Workspaces.';
 
 export const epilogue = `Dependencies across Workspaces can be validated using one of the various modes:
 

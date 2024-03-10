@@ -59,7 +59,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		const filename = await getFilename(graph, contents, filenameMethod, { step });
 		for (const ws of workspaces) {
 			if (ws.private) {
-				step.warn(`Not adding changeset "${changesetFilename}" to private workspace ${ws.name}`);
+				step.warn(`Not adding changeset "${changesetFilename}" to private Workspace ${ws.name}`);
 				continue;
 			}
 			await write(

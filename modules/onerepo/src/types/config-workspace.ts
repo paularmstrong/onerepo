@@ -27,7 +27,7 @@ export type WorkspaceConfig<CustomLifecycles extends string | void = void> = {
 		/**
 		 * @default `{}`
 		 *
-		 * Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by workspace. Passthrough commands _must_ have helpful descriptions.
+		 * Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by Workspace. Passthrough commands _must_ have helpful descriptions.
 		 *
 		 * ```ts title="onerepo.config.ts"
 		 * export default {

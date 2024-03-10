@@ -32,7 +32,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-graph */}
-{/* @generated SignedSource<<b16e5557a670a39f00b1dfe38dbd866c>> */}
+{/* @generated SignedSource<<13b61356862f130d155348bbd3dfcd39>> */}
 
 ### `one graph`
 
@@ -59,7 +59,7 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 | Option             | Type                             | Description                                                                                                                                                                 |
 | ------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--affected`       | `boolean`                        | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
-| `--all, -a`        | `boolean`                        | Run across all workspaces                                                                                                                                                   |
+| `--all, -a`        | `boolean`                        | Run across all Workspaces                                                                                                                                                   |
 | `--format, -f`     | `"mermaid"`, `"plain"`, `"json"` | Output format for inspecting the Workspace Graph.                                                                                                                           |
 | `--open`           | `boolean`                        | Auto-open the browser for the online visualizer.                                                                                                                            |
 | `--staged`         | `boolean`                        | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
@@ -71,8 +71,8 @@ Pass `--open` to auto-open your default browser with the URL or use one of the `
 
 | Option          | Type                                                    | Description                                                                                                                                                           |
 | --------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--from-ref`    | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |
-| `--through-ref` | `string`                                                | Git ref to start looking for affected files or workspaces                                                                                                             |
+| `--from-ref`    | `string`                                                | Git ref to start looking for affected files or Workspaces                                                                                                             |
+| `--through-ref` | `string`                                                | Git ref to start looking for affected files or Workspaces                                                                                                             |
 | `--url`         | `string`, default: `"https://onerepo.tools/visualize/"` | Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate. |
 
 </details>

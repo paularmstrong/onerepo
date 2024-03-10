@@ -25,7 +25,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 		})
 		.option('from-ref', {
 			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
+			description: 'Git ref to start looking for affected files or Workspaces',
 			conflicts: ['all'],
 			hidden: true,
 		})
@@ -37,7 +37,7 @@ export const withAffected = <T>(yargs: Yargs<T>): Yargs<T & WithAffected> =>
 		})
 		.option('through-ref', {
 			type: 'string',
-			description: 'Git ref to start looking for affected files or workspaces',
+			description: 'Git ref to start looking for affected files or Workspaces',
 			conflicts: ['all'],
 			hidden: true,
 		})

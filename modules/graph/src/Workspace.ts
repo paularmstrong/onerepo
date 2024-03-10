@@ -133,7 +133,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the workspace's configuration
+	 * Get the Workspace's configuration
 	 */
 	get config(): Required<WorkspaceConfig | RootConfig> {
 		if (!this.#config) {
@@ -235,7 +235,7 @@ export class Workspace {
 	}
 
 	/**
-	 * Get the relative path of an absolute path to the workspace’s location root
+	 * Get the relative path of an absolute path to the Workspace’s location root
 	 *
 	 * ```ts
 	 * const relativePath = workspace.relative('/some/absolute/path');

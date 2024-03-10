@@ -8,7 +8,7 @@ tableOfContents:
 import Tabs from '../../../components/Tabs.astro';
 import { FileTree, Steps, TabItem } from '@astrojs/starlight/components';
 
-In a typical monorepo, we want to build up changes for publishable workspaces over time while we work on features and major changes. Because we are using a monorepo with [_source dependencies_](/docs/source-dependencies/), we should not need to publish often, because our local Workspace's are benefitting from code changes immediately.
+In a typical monorepo, we want to build up changes for publishable Workspaces over time while we work on features and major changes. Because we are using a monorepo with [_source dependencies_](/docs/source-dependencies/), we should not need to publish often, because our local Workspace's are benefitting from code changes immediately.
 
 We still may have certain modules that we publish to a public or private registry. Developer workflows will have a few additional steps.
 
@@ -93,7 +93,7 @@ If you prefer something a little more fun, add the [human-id](https://www.npmjs.
    ```ansi
    [34m❯[0m one change add
 
-   📦 What workspace(s) would you like to
+   📦 What Workspace(s) would you like to
    add a change entry to?
 
    [2m↗ Modified Workspaces
@@ -110,7 +110,7 @@ If you prefer something a little more fun, add the [human-id](https://www.npmjs.
 
 1. **Commit files**
 
-   Add change entries will create Markdown files with the change entry content in each appropriate workspace. You will see these files in `<workspace>/.changes/*.md`. It is important to track and commit these files to the repository, as we will use them later on down the line when we're ready to publish a new version.
+   Add change entries will create Markdown files with the change entry content in each appropriate Workspace. You will see these files in `<workspace>/.changes/*.md`. It is important to track and commit these files to the repository, as we will use them later on down the line when we're ready to publish a new version.
 
    ```ansi
    [34m❯[0m git status
@@ -145,7 +145,7 @@ Eventually, we will need to publish one or more Workspaces to our registry for u
    ```ansi
    [34m❯[0m one change version
 
-   📦 What workspace(s) should be
+   📦 What Workspace(s) should be
    versioned for publishing?
 
    [2m↗ Workspaces with change entries
@@ -171,7 +171,7 @@ Eventually, we will need to publish one or more Workspaces to our registry for u
 
    [2m(…continued)[0m
 
-   ┌ Verify workspaces
+   ┌ Verify Workspaces
    │ [2mWorkspace                 Current  Type     New[0m
    │ [2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[0m
    │ @onerepo/graph            0.10.0   [33mminor[0m   0.11.0
@@ -207,13 +207,13 @@ Eventually, we will need to publish one or more Workspaces to our registry for u
 ## Commands
 
 {/* start-auto-generated-from-cli-changes */}
-{/* @generated SignedSource<<f529fa58fee56452257f226f54831a72>> */}
+{/* @generated SignedSource<<dc497473b71dea54aa55c43e68ad6464>> */}
 
 ### `one change`
 
 Aliases: `one changes`, `one changesets`
 
-Manage changes and changesets for publishable workspaces.
+Manage changes and changesets for publishable Workspaces.
 
 ```sh
 one change <command>
@@ -237,7 +237,7 @@ This command will prompt for appropriate Workspace(s), prompt for the release ty
 | ------------------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `--add`            | `boolean`, default: `true`      | Add the modified `package.json` files to the git stage for committing.                                              |
 | `--affected`       | `boolean`                       | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                         |
-| `--all, -a`        | `boolean`                       | Run across all workspaces                                                                                           |
+| `--all, -a`        | `boolean`                       | Run across all Workspaces                                                                                           |
 | `--type`           | `"major"`, `"minor"`, `"patch"` | Provide a semantic version bump type. If not given, a prompt will guide you through selecting the appropriate type. |
 | `--workspaces, -w` | `array`                         | List of Workspace names to run against                                                                              |
 
@@ -248,10 +248,10 @@ This command will prompt for appropriate Workspace(s), prompt for the release ty
 | Option          | Type                                        | Description                                                                                                                                                                 |
 | --------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--filenames`   | `"hash"`, `"human"`, default: `"hash"`      | Filename generation strategy for change files. If `'human'`, ensure you have the `human-id` package installed.                                                              |
-| `--from-ref`    | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--from-ref`    | `string`                                    | Git ref to start looking for affected files or Workspaces                                                                                                                   |
 | `--prompts`     | `"guided"`, `"semver"`, default: `"guided"` | Change the prompt question & answer style when adding change entries.                                                                                                       |
 | `--staged`      | `boolean`                                   | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--through-ref` | `string`                                    | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--through-ref` | `string`                                    | Git ref to start looking for affected files or Workspaces                                                                                                                   |
 
 </details>
 
@@ -293,7 +293,7 @@ For each Workspace, the registry will be queried first to ensure the current ver
 
 | Option             | Type      | Description                                                                                |
 | ------------------ | --------- | ------------------------------------------------------------------------------------------ |
-| `--all, -a`        | `boolean` | Run across all workspaces                                                                  |
+| `--all, -a`        | `boolean` | Run across all Workspaces                                                                  |
 | `--otp`            | `boolean` | Set to true if your publishes require an OTP for NPM.                                      |
 | `--skip-auth`      | `boolean` | Skip auth checks. This may be necessary for some internal registries using PATs or tokens. |
 | `--workspaces, -w` | `array`   | List of Workspace names to run against                                                     |
@@ -306,9 +306,9 @@ For each Workspace, the registry will be queried first to ensure the current ver
 | --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--affected`    | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--allow-dirty` | `boolean` | Bypass checks to ensure no there are no un-committed changes.                                                                                                               |
-| `--from-ref`    | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--from-ref`    | `string`  | Git ref to start looking for affected files or Workspaces                                                                                                                   |
 | `--staged`      | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--through-ref` | `string`  | Git ref to start looking for affected files or workspaces                                                                                                                   |
+| `--through-ref` | `string`  | Git ref to start looking for affected files or Workspaces                                                                                                                   |
 
 </details>
 
@@ -336,7 +336,7 @@ one change show
 
 | Option             | Type                                    | Description                              |
 | ------------------ | --------------------------------------- | ---------------------------------------- |
-| `--all, -a`        | `boolean`                               | Run across all workspaces                |
+| `--all, -a`        | `boolean`                               | Run across all Workspaces                |
 | `--format`         | `"json"`, `"plain"`, default: `"plain"` | Choose how the results will be returned. |
 | `--workspaces, -w` | `array`                                 | List of Workspace names to run against   |
 
@@ -356,7 +356,7 @@ Periodically you may want to publish a _snapshot_ release – something that nee
 
 | Option             | Type                              | Description                                                               |
 | ------------------ | --------------------------------- | ------------------------------------------------------------------------- |
-| `--all, -a`        | `boolean`                         | Run across all workspaces                                                 |
+| `--all, -a`        | `boolean`                         | Run across all Workspaces                                                 |
 | `--allow-dirty`    | `boolean`                         | Bypass checks to ensure no there are no un-committed changes.             |
 | `--otp`            | `boolean`                         | Prompt for one-time password before publishing to the registry            |
 | `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
@@ -381,7 +381,7 @@ Add this to your pre-commit or pre-merge task lifecycles to ensure that changes 
 
 #### `one change version`
 
-Update version numbers for publishable workspaces
+Update version numbers for publishable Workspaces
 
 ```sh
 one change version
@@ -389,7 +389,7 @@ one change version
 
 | Option                               | Type      | Description                                                   |
 | ------------------------------------ | --------- | ------------------------------------------------------------- |
-| `--all, -a`                          | `boolean` | Run across all workspaces                                     |
+| `--all, -a`                          | `boolean` | Run across all Workspaces                                     |
 | `--allow-dirty`                      | `boolean` | Bypass checks to ensure no there are no un-committed changes. |
 | `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.          |
 | `--workspaces, -w`                   | `array`   | List of Workspace names to run against                        |
