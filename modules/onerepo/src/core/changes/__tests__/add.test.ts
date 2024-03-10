@@ -14,6 +14,7 @@ describe('add changes', () => {
 	beforeEach(() => {
 		vi.spyOn(file, 'write').mockResolvedValue();
 		vi.spyOn(git, 'updateIndex').mockResolvedValue('yes');
+		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue([]);
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({});
 		vi.spyOn(Date, 'now').mockReturnValue(1706903142100);
 	});
