@@ -7,7 +7,7 @@ import type { getVersionable } from './get-versionable';
 export async function requestVersioned(
 	graph: Graph,
 	versionable: Awaited<ReturnType<typeof getVersionable>>,
-	message: string = 'Which workspaces should be versioned?',
+	message: string = 'Which Workspaces should be versioned?',
 ) {
 	const logger = getLogger();
 	logger.pause();

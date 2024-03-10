@@ -21,7 +21,7 @@ export const changes: Plugin = function codeowners(config) {
 
 			return yargs.command(
 				command,
-				'Manage changes and changesets for publishable workspaces.',
+				'Manage changes and changesets for publishable Workspaces.',
 				(yargs) => {
 					const y = yargs
 						.usage(`$0 ${command[0]} <command>`)

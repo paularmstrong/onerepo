@@ -104,7 +104,7 @@ export type RootConfig<CustomLifecycles extends string | void = void> = {
 		 * };
 		 * ```
 		 *
-		 * Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each workspace:
+		 * Given the preceding configuration, commands will be searched for within the `commands/` directory at the root of the repository as well as a directory of the same name at the root of each Workspace:
 		 *
 		 * - `<root>/commands/*`
 		 * - `<root>/<workspaces>/commands/*`

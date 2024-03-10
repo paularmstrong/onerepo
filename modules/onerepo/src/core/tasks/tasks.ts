@@ -105,7 +105,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		})
 		.describe(
 			'staged',
-			'Backup unstaged files and use only those on the git stage to calculate affected files or workspaces. Will re-apply the unstaged files upon exit.',
+			'Backup unstaged files and use only those on the git stage to calculate affected files or Workspaces. Will re-apply the unstaged files upon exit.',
 		);
 
 export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logger, config }) => {

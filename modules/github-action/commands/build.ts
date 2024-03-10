@@ -18,7 +18,7 @@ export const builder: Builder<Args> = (yargs) =>
 				.usage('$0 build [options...]')
 				.example('$0 build', 'Build all Workspaces.')
 				.example('$0 build -w graph', 'Build the `graph` Workspace only.')
-				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` workspaces.'),
+				.example('$0 build -w graph cli logger', 'Build the `graph`, `cli`, and `logger` Workspaces.'),
 		),
 	);
 

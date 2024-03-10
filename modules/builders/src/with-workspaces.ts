@@ -18,7 +18,7 @@ export const withWorkspaces = <T>(yargs: Yargs<T>): Yargs<T & WithWorkspaces> =>
 		.option('all', {
 			alias: 'a',
 			type: 'boolean',
-			description: 'Run across all workspaces',
+			description: 'Run across all Workspaces',
 			conflicts: ['affected', 'workspaces'],
 		})
 		.option('workspaces', {

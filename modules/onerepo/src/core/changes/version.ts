@@ -11,7 +11,7 @@ import { applyVersions, getVersionable, confirmClean, requestVersioned, consumeC
 
 export const command = ['version'];
 
-export const description = 'Update version numbers for publishable workspaces';
+export const description = 'Update version numbers for publishable Workspaces';
 
 type Argv = WithWorkspaces & {
 	'allow-dirty': boolean;
@@ -57,7 +57,7 @@ export const handler: Handler<Argv> = async (argv, { config, getWorkspaces, grap
 	}
 
 	if (!requested.length) {
-		logger.error('No workspaces selected. Cancelling.');
+		logger.error('No Workspaces selected. Cancelling.');
 		return;
 	}
 
@@ -113,7 +113,7 @@ export async function requestedOkay(
 		{ text: pc.bold('New'), padding, width: newVersionWidth },
 	);
 	ui.div(pc.dim('⎯'.repeat(width)));
-	const step = logger.createStep('Verify workspaces');
+	const step = logger.createStep('Verify Workspaces');
 
 	requested.map(listItem);
 

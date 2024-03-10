@@ -235,7 +235,7 @@ export async function getFilepaths(
 					paths.push(...workspaces.map((ws) => graph.root.relative(ws.location)));
 				}
 			} else {
-				step.log('`affected` requested from workspaces');
+				step.log('`affected` requested from Workspaces');
 				const affected = await graph.affected(argv.workspaces!);
 				paths.push(...affected.map((ws) => ws.location));
 			}
