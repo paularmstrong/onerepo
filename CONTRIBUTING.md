@@ -63,6 +63,15 @@ Please follow the steps for [code changes](#local-development) before making doc
    one workspace docs typedoc
    ```
 
+#### Style guide
+
+Always capitalize the following words unless referred to in a context outside of their meanings from the [glossary](https://onerepo.tools/concepts/primer/#glossary):
+
+- Monorepo
+- Root
+- Workspace
+- Graph
+
 ## License
 
 When you submit code changes, your submissions are understood to be under the same [MIT License](https://github.com/paularmstrong/onerepo/blob/main/LICENSE.md) that covers the project.
