@@ -133,7 +133,7 @@ export class Graph {
 	}
 
 	/**
-	 * Get a list of all {@link Workspace | `Workspaces`} that are part of the repository graph.
+	 * Get a list of all {@link Workspace | `Workspaces`} that are part of the repository {@Link Graph | `Graph`}.
 	 *
 	 * ```ts
 	 * for (const workspace of graph.workspaces) {

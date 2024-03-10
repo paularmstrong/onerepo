@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<cb83a57132bfa1996076c30d8069562e>> -->
+<!-- @generated SignedSource<<2b2f31e0c763fb032b9924b6e508a6d8>> -->
 
 ## Namespaces
 
@@ -1240,7 +1240,7 @@ root.isRoot === true;
 get workspaces(): Workspace[]
 ```
 
-Get a list of all [`Workspaces`](#workspace) that are part of the repository graph.
+Get a list of all [`Workspaces`](#workspace) that are part of the repository \{@Link Graph | `Graph`\}.
 
 ```ts
 for (const workspace of graph.workspaces) {
@@ -2976,7 +2976,7 @@ optional yargs: (yargs, visitor) => Yargs;
 ```
 
 A function that is called with the CLI's `yargs` object and a visitor.
-It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the Workspace graph, affected list, and much more.
+It is important to ensure every command passed through the `visitor` to enable all of the features of oneRepo. Without this step, you will not have access to the Workspace Graph, affected list, and much more.
 
 **Parameters:**
 
