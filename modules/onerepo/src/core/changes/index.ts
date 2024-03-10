@@ -2,6 +2,7 @@ import type { Plugin } from '../../types';
 import * as Add from './add';
 import * as Migrate from './migrate';
 import * as Publish from './publish';
+import * as Show from './show';
 import * as Snapshot from './snapshot';
 import * as Verify from './verify';
 import * as Version from './version';
@@ -13,6 +14,7 @@ export const changes: Plugin = function codeowners(config) {
 			const add = visitor(Add);
 			const migrate = visitor(Migrate);
 			const publish = visitor(Publish);
+			const show = visitor(Show);
 			const snapshot = visitor(Snapshot);
 			const verify = visitor(Verify);
 			const version = visitor(Version);
@@ -40,6 +42,7 @@ export const changes: Plugin = function codeowners(config) {
 							migrate.handler,
 						)
 						.command(publish.command, publish.description, publish.builder, publish.handler)
+						.command(show.command, show.description, show.builder, show.handler)
 						.command(snapshot.command, snapshot.description, snapshot.builder, snapshot.handler)
 						.command(verify.command, verify.description, verify.builder, verify.handler)
 						.command(version.command, version.description, version.builder, version.handler)

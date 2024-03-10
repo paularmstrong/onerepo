@@ -118,10 +118,13 @@ async function getVersionPlan(
 		runDry: true,
 	});
 
-	const logs = rawLogs.split('\u0000').map((str) => {
-		const [ref, subject] = str.split('\u0003\u0002');
-		return { ref, subject };
-	});
+	const logs = rawLogs
+		.split('\u0000')
+		.map((str) => {
+			const [ref, subject] = str.split('\u0003\u0002');
+			return { ref, subject };
+		})
+		.filter(({ subject }) => !!subject);
 
 	const version = options.snapshot
 		? `0.0.0-${options.identifier}-${options.snapshot}`

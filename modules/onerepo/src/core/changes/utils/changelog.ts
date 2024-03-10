@@ -7,7 +7,7 @@ import type { ChangeEntry, ReleaseType, VersionPlan } from './get-versionable';
 
 type Formatting = Required<Required<RootConfig>['changes']>['formatting'];
 
-async function buildChangelog(
+export async function buildChangelog(
 	plan: VersionPlan,
 	dependencies: Map<Workspace, VersionPlan>,
 	formatting: Formatting = {},

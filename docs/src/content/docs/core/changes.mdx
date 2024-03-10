@@ -207,7 +207,7 @@ Eventually, we will need to publish one or more Workspaces to our registry for u
 ## Commands
 
 {/* start-auto-generated-from-cli-changes */}
-{/* @generated SignedSource<<3b021d1d2d6206998de70671056ad043>> */}
+{/* @generated SignedSource<<f529fa58fee56452257f226f54831a72>> */}
 
 ### `one change`
 
@@ -323,6 +323,22 @@ Attempt to publish _all_ non-private Workspaces.
 ```sh
 one change publish --all
 ```
+
+---
+
+#### `one change show`
+
+Preview the next versions and changelogs for Workspaces.
+
+```sh
+one change show
+```
+
+| Option             | Type                                    | Description                              |
+| ------------------ | --------------------------------------- | ---------------------------------------- |
+| `--all, -a`        | `boolean`                               | Run across all workspaces                |
+| `--format`         | `"json"`, `"plain"`, default: `"plain"` | Choose how the results will be returned. |
+| `--workspaces, -w` | `array`                                 | List of Workspace names to run against   |
 
 ---
 
