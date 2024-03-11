@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/builders",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,8 +21,8 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/git": "1.0.0",
-		"@onerepo/logger": "1.0.0",
+		"@onerepo/git": "1.0.1",
+		"@onerepo/logger": "1.0.1",
 		"minimatch": "^9.0.3"
 	},
 	"devDependencies": {
