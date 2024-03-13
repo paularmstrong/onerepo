@@ -1,3 +1,4 @@
+import path from 'node:path';
 import ignore from 'ignore';
 import * as core from '@actions/core';
 import { git, file, builders } from 'onerepo';
@@ -57,7 +58,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 		const matcher = ignore().add(ignores);
 		const paths = await getFilepaths({ step: ignoreStep });
-		filteredPaths = matcher.filter(paths);
+		filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
 
 		await ignoreStep.end();
 	}

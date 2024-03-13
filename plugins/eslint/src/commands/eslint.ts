@@ -86,7 +86,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 		const matcher = ignore().add(ignores);
 		const paths = await getFilepaths({ step: ignoreStep });
-		filteredPaths = matcher.filter(paths);
+		filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
 
 		if (extensions && extensions.length) {
 			filteredPaths = filteredPaths.filter((filepath) => {

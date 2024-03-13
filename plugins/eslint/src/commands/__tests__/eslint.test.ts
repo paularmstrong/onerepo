@@ -1,3 +1,4 @@
+import path from 'node:path';
 import * as onerepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
 import * as Eslint from '../eslint';
@@ -169,6 +170,34 @@ bar/**/*
 			{ isDirectory: () => false },
 		);
 		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
+
+		expect(onerepo.file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'eslint',
+				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
+				opts: {
+					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
+				},
+			}),
+		);
+	});
+
+	test('filtering works with absolute paths', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
+		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
+# ignore the comment
+bar/**/*
+`);
+		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
+			// @ts-ignore mock
+			{ isDirectory: () => false },
+		);
+		await expect(
+			run(`-f ${path.join(graph.root.location, 'foo.js')} -f ${path.join(graph.root.location, 'bar/baz/bop.js')}`),
+		).resolves.toBeTruthy();
 
 		expect(onerepo.file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
 

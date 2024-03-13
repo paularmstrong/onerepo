@@ -1,3 +1,4 @@
+import path from 'node:path';
 import pc from 'picocolors';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { WithAllInputs } from '@onerepo/builders';
@@ -58,7 +59,7 @@ export const handler: Handler<Argv> = async (argv, { getFilepaths, graph, logger
 	for (const [pattern, owners] of Object.entries(codeowners)) {
 		const matcher = ignore().add(pattern);
 		for (const filepath of files) {
-			if (matcher.ignores(filepath)) {
+			if (matcher.ignores(path.isAbsolute(filepath) ? graph.root.relative(filepath) : filepath)) {
 				if (!(filepath in result)) {
 					result[filepath] = [];
 				}
