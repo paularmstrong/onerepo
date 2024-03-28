@@ -254,9 +254,7 @@ export class LogStep {
 	info(contents: unknown) {
 		this.#onMessage('info');
 		this.hasInfo = true;
-		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)));
-		}
+		this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)), this.verbosity >= 1);
 	}
 
 	/**
@@ -278,9 +276,7 @@ export class LogStep {
 	error(contents: unknown) {
 		this.#onMessage('error');
 		this.hasError = true;
-		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
-		}
+		this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)), this.verbosity >= 1);
 	}
 
 	/**
@@ -302,9 +298,7 @@ export class LogStep {
 	warn(contents: unknown) {
 		this.#onMessage('warn');
 		this.hasWarning = true;
-		if (this.verbosity >= 2) {
-			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
-		}
+		this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)), this.verbosity >= 2);
 	}
 
 	/**
@@ -326,9 +320,7 @@ export class LogStep {
 	log(contents: unknown) {
 		this.#onMessage('log');
 		this.hasLog = true;
-		if (this.verbosity >= 3) {
-			this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)));
-		}
+		this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)), this.verbosity >= 3);
 	}
 
 	/**
@@ -349,9 +341,7 @@ export class LogStep {
 	 */
 	debug(contents: unknown) {
 		this.#onMessage('debug');
-		if (this.verbosity >= 4) {
-			this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)));
-		}
+		this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)), this.verbosity >= 4);
 	}
 
 	/**
@@ -375,8 +365,11 @@ export class LogStep {
 		}
 	}
 
-	#writeStream(line: string) {
-		this.#buffer.write(ensureNewline(line));
+	#writeStream(line: string, toBuffer: boolean = true) {
+		if (toBuffer) {
+			this.#buffer.write(ensureNewline(line));
+		}
+
 		if (this.#active) {
 			const lines = line.split('\n');
 			const lastThree = lines.slice(-3);
