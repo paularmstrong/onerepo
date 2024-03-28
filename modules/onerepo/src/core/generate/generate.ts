@@ -13,7 +13,7 @@ export const command = ['generate', 'gen'];
 export const description = 'Generate files, folders, and Workspaces from templates.';
 
 export type Args = {
-	'templates-dir': string;
+	'template-dir': string;
 	type?: string;
 };
 
@@ -24,7 +24,8 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'string',
 			description: 'Template type to generate. If not provided, a list will be provided to choose from.',
 		})
-		.option('templates-dir', {
+		.option('template-dir', {
+			alias: ['templates-dir'],
 			type: 'string',
 			normalize: true,
 			description: 'Path to the templates',
@@ -34,12 +35,12 @@ export const builder: Builder<Args> = (yargs) =>
 		});
 
 export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
-	const { 'templates-dir': templatesDir, type } = argv;
-	const templateConfigs = await glob('*/.onegen.{js,cjs,mjs}', { cwd: templatesDir });
+	const { 'template-dir': templateDir, type } = argv;
+	const templateConfigs = await glob('*/.onegen.{js,cjs,mjs}', { cwd: templateDir });
 	const templates = [];
 
 	for (const name of templateConfigs) {
-		const dir = path.join(templatesDir, name);
+		const dir = path.join(templateDir, name);
 		const config = loadConfig(dir);
 		const resolvedName = config.name ?? name.split('/')[0];
 		templates.push({
@@ -73,7 +74,7 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 
 	if (!template) {
 		logger.error(
-			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templatesDir}/${type}/.onegen.js"`,
+			`Template does not exist for given type "${type}". Confirm that a configuration file exists at "${templateDir}/${type}/.onegen.js"`,
 		);
 		return;
 	}

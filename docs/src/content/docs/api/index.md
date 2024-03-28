@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<2b2f31e0c763fb032b9924b6e508a6d8>> -->
+<!-- @generated SignedSource<<37d9d59c6eea9804efd663594bd87be2>> -->
 
 ## Namespaces
 
@@ -566,7 +566,7 @@ optional codeowners: Record<string, string[]>;
 
 Map of paths to array of owners.
 
-When used with the [`codeowners` commands](/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
+When used with the [`codeowners` commands](https://onerepo.tools/core/codeowners/), this configuration enables syncing configurations from Workspaces to the appropriate root level CODEOWNERS file given your [`vcsProvider`](#vcsprovider) as well as verifying that the root file is up to date.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -811,7 +811,7 @@ optional tasks: TaskConfig<CustomLifecycles>;
 
 **Default:** `{}`
 
-Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected Workspaces. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
+Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected Workspaces. Refer to the [`tasks` command](https://onerepo.tools/core/tasks/) specifications for details and examples.
 
 ##### templateDir?
 
@@ -820,7 +820,8 @@ optional templateDir: string;
 ```
 
 **Default:** `'./config/templates'`
-Folder path for `generate` templates.
+
+Folder path for [`generate` command’s](https://onerepo.tools/core/generate/) templates.
 
 ##### validation?
 
@@ -860,7 +861,7 @@ optional autoSyncHooks: boolean;
 
 **Default:** `false`
 
-Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](/core/hooks/) to learn more.
+Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](https://onerepo.tools/core/hooks/) to learn more.
 
 ```ts title="onerepo.config.ts"
 export default {
