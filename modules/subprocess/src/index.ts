@@ -115,7 +115,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 			detail: { description: 'Spawned subprocess', subprocess: { ...withoutLogger, opts } },
 		});
 
-		if (options.opts?.stdio === 'inherit') {
+		if (!logger.captureAll && options.opts?.stdio === 'inherit') {
 			logger.pause();
 		}
 
@@ -150,7 +150,14 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process.cwd()}\n`,
 		);
 
-		const subprocess = start(options);
+		const subprocess = start({
+			...options,
+			opts: {
+				...options.opts,
+				env: { ...options.opts?.env, FORCE_COLOR: !process.env.NO_COLOR ? '1' : undefined },
+				stdio: logger.captureAll ? 'pipe' : options.opts?.stdio,
+			},
+		});
 
 		subprocess.on('error', (error) => {
 			!options.skipFailures && step.error(error);

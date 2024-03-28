@@ -91,7 +91,7 @@ export async function stepWrapper<T>(
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
 	const buffer = new LogBuffer();
-	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
+	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer, captureAll: true });
 	function proxyChunks(chunk: Buffer) {
 		if (subLogger.hasError) {
 			step.error(() => chunk.toString().trimEnd());
