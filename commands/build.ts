@@ -45,7 +45,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 	for (const workspace of workspaces) {
 		if (workspace.private) {
-			buildableStep.warn(`Not building \`${workspace.name}\` because it is private`);
+			// buildableStep.warn(`Not building \`${workspace.name}\` because it is private`);
 			continue;
 		}
 
