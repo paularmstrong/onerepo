@@ -34,6 +34,10 @@ export type LoggerOptions = {
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
 	stream?: Writable;
+	/**
+	 * @experimental
+	 */
+	captureAll?: boolean;
 };
 
 const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
@@ -64,6 +68,7 @@ export class Logger {
 	#hasWarning = false;
 	#hasInfo = false;
 	#hasLog = false;
+	#captureAll = false;
 
 	/**
 	 * @internal
@@ -73,6 +78,8 @@ export class Logger {
 
 		this.#stream = options.stream ?? process.stderr;
 		this.#updater = createLogUpdate(this.#stream);
+
+		this.#captureAll = !!options.captureAll;
 
 		this.#defaultLogger = new LogStep('', {
 			onEnd: this.#onEnd,
@@ -88,6 +95,13 @@ export class Logger {
 		}
 
 		setCurrent(this);
+	}
+
+	/**
+	 * @experimental
+	 */
+	get captureAll() {
+		return this.#captureAll;
 	}
 
 	/**
