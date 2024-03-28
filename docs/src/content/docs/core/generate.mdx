@@ -11,17 +11,13 @@ Generate common files, folders, and workspaces from your own standard templates.
 
 First, set the location for oneRepo to look for your templates. This can be anywhere within your repository, but must be a relative path from the root configuration file.
 
-```js {3-5} title="./onerepo.config.js"
+```js {2} title="./onerepo.config.js"
 export default {
-	core: {
-		generate: {
-			templatesDir: './templates',
-		},
-	},
+	templateDir: './templates',
 };
 ```
 
-In your `templatesDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`. Ensure each template directory includes a `.onegen.js` or `.onegen.cjs` file:
+In your `templateDir` directory, create folders for different template types. Most use-cases will include separate templates for `app` and `module`. Ensure each template directory includes a `.onegen.js` or `.onegen.cjs` file:
 
 <FileTree>
 
@@ -107,7 +103,7 @@ Please see the [inquirer documentation](https://github.com/SBoudrias/Inquirer.js
 ## Commands
 
 {/* start-auto-generated-from-cli-generate */}
-{/* @generated SignedSource<<20ff8b306d7949c8677858726f25e268>> */}
+{/* @generated SignedSource<<2346e4ea34007476178dc7c1318893a4>> */}
 
 ### `one generate`
 
@@ -129,10 +125,10 @@ To create new templates add a new folder to config/templates and create a `.oneg
 
 <summary>Advanced options</summary>
 
-| Option            | Type                                    | Description                                  | Required |
-| ----------------- | --------------------------------------- | -------------------------------------------- | -------- |
-| `--show-advanced` | `boolean`                               | Pair with `--help` to show advanced options. |          |
-| `--templates-dir` | `string`, default: `"config/templates"` | Path to the templates                        | ✅       |
+| Option                            | Type                                    | Description                                  | Required |
+| --------------------------------- | --------------------------------------- | -------------------------------------------- | -------- |
+| `--show-advanced`                 | `boolean`                               | Pair with `--help` to show advanced options. |          |
+| `--template-dir, --templates-dir` | `string`, default: `"config/templates"` | Path to the templates                        | ✅       |
 
 </details>
 
