@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<37d9d59c6eea9804efd663594bd87be2>> -->
+<!-- @generated SignedSource<<3a92b43b1f1f18111c274c26eaba8e87>> -->
 
 ## Namespaces
 
@@ -194,6 +194,7 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 
 ```ts
 type HandlerExtra: {
+  config: Required<RootConfig>;
   getAffected: (opts?) => Promise<Workspace[]>;
   getFilepaths: (opts?) => Promise<string[]>;
   getWorkspaces: (opts?) => Promise<Workspace[]>;
@@ -221,6 +222,14 @@ export const handler: Handler = (argv, { getFilepaths }) => {
 ```
 
 #### Type declaration
+
+##### config
+
+```ts
+config: Required<RootConfig>;
+```
+
+This repository’s oneRepo [config](#rootconfigcustomlifecycles), resolved with all defaults.
 
 ##### getAffected
 
