@@ -47,4 +47,20 @@ describe('verify', () => {
 
 		await expect(run('-a --mode strict', { graph: graph })).rejects.toMatch('Version mismatches found in "menu"');
 	});
+
+	test('verifies local versions (regression #678)', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'regression-678'));
+
+		await expect(run('-a --mode strict -vvvv', { graph })).rejects.toMatch(
+			'Dependency "@acme/foo@1.0.0" expected to match "2.0.0"',
+		);
+	});
+
+	test('verifies local dependencies are public (regression #682)', async () => {
+		const graph = getGraph(path.join(__dirname, '__fixtures__', 'regression-682'));
+
+		await expect(run('-a --mode strict -vvvv', { graph })).rejects.toMatch(
+			'Dependency "@acme/foo" is a private workspace',
+		);
+	});
 });
