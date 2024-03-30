@@ -307,7 +307,7 @@ export type HandlerExtra = {
 	 */
 	logger: Logger;
 	/**
-	 * @internal
+	 * This repository’s oneRepo {@link RootConfig | config}, resolved with all defaults.
 	 */
 	config: Required<RootConfig>;
 };

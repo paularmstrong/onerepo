@@ -134,7 +134,7 @@ export async function setup({
 		graph,
 		exclude: resolvedConfig.commands.ignore,
 		startup,
-		config: config as Required<RootConfig>,
+		config: { ...resolvedConfig, plugins: userPlugins },
 		logger,
 	});
 
