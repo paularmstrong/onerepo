@@ -36,7 +36,7 @@ describe('handler', () => {
 	beforeEach(() => {
 		out = '';
 		vi.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
+			out += (content as string).toString();
 			return true;
 		});
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);

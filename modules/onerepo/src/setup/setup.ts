@@ -209,6 +209,11 @@ export async function setup({
 			// Register a new logger on the  top of the stack to silence output so that shutdown handlers to not write any output
 			const silencedLogger = new Logger({ verbosity: 0 });
 			await shutdown(argv);
+			await new Promise<void>((resolve) => {
+				setImmediate(() => {
+					resolve();
+				});
+			});
 			await silencedLogger.end();
 		},
 	};

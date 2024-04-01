@@ -1,12 +1,12 @@
 import { performance } from 'node:perf_hooks';
 import type { Writable } from 'node:stream';
 import pc from 'picocolors';
+import type { LineType } from './LogBuffer';
 import { LogBuffer } from './LogBuffer';
 
 type StepOptions = {
 	verbosity: number;
 	onEnd: (step: LogStep) => Promise<void>;
-	onMessage: (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => void;
 	stream?: Writable;
 	description?: string;
 	writePrefixes?: boolean;
@@ -43,8 +43,7 @@ export class LogStep {
 	#stream: Writable;
 	#active = false;
 	#onEnd: StepOptions['onEnd'];
-	#onMessage: StepOptions['onMessage'];
-	#lastThree: Array<string> = [];
+	#lastThree: Array<{ type: LineType; line: string }> = [];
 	#writing: boolean = false;
 	#writePrefixes: boolean = true;
 	#startMark: string;
@@ -69,7 +68,7 @@ export class LogStep {
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onMessage, verbosity, stream, description, writePrefixes }: StepOptions) {
+	constructor(name: string, { onEnd, verbosity, stream, description, writePrefixes }: StepOptions) {
 		this.#startMark = name || `${performance.now()}`;
 		performance.mark(`onerepo_start_${this.#startMark}`, {
 			detail: description,
@@ -77,16 +76,15 @@ export class LogStep {
 		this.#verbosity = verbosity;
 		this.#name = name;
 		this.#onEnd = onEnd;
-		this.#onMessage = onMessage;
-		this.#buffer = new LogBuffer({});
+		this.#buffer = new LogBuffer({ name });
 		this.#stream = stream ?? process.stderr;
 		this.#writePrefixes = writePrefixes ?? true;
 
 		if (this.name) {
-			if (process.env.GITHUB_RUN_ID) {
-				this.#writeStream(`::group::${this.name}\n`);
-			}
-			this.#writeStream(this.#prefixStart(this.name));
+			// if (process.env.GITHUB_RUN_ID) {
+			// 	this.#writeStream(`::group::${this.name}\n`);
+			// }
+			this.#writeStream('start', this.name);
 		}
 	}
 
@@ -116,8 +114,8 @@ export class LogStep {
 	 *
 	 * @internal
 	 */
-	get status(): Array<string> {
-		return [this.#prefixStart(this.name), ...this.#lastThree];
+	get status(): Array<{ type: LineType; line: string }> {
+		return this.#lastThree;
 	}
 
 	/**
@@ -204,10 +202,10 @@ export class LogStep {
 		const text = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
-		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? prefix.FAIL : prefix.SUCCESS} ${text}`)));
-		if (this.name && process.env.GITHUB_RUN_ID) {
-			this.#writeStream('::endgroup::\n');
-		}
+		this.#writeStream('end', ensureNewline(`${this.hasError ? prefix.FAIL : prefix.SUCCESS} ${text}`));
+		// if (this.name && process.env.GITHUB_RUN_ID) {
+		// 	this.#writeStream('::endgroup::\n');
+		// }
 
 		return this.#onEnd(this);
 	}
@@ -252,9 +250,9 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	info(contents: unknown) {
-		this.#onMessage('info');
+		// this.#onMessage('info');
 		this.hasInfo = true;
-		this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)), this.verbosity >= 1);
+		this.#writeStream('info', stringify(contents), this.verbosity >= 1);
 	}
 
 	/**
@@ -274,9 +272,9 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	error(contents: unknown) {
-		this.#onMessage('error');
+		// this.#onMessage('error');
 		this.hasError = true;
-		this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)), this.verbosity >= 1);
+		this.#writeStream('error', stringify(contents), this.verbosity >= 1);
 	}
 
 	/**
@@ -296,9 +294,9 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	warn(contents: unknown) {
-		this.#onMessage('warn');
+		// this.#onMessage('warn');
 		this.hasWarning = true;
-		this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)), this.verbosity >= 2);
+		this.#writeStream('warn', stringify(contents), this.verbosity >= 2);
 	}
 
 	/**
@@ -318,9 +316,9 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	log(contents: unknown) {
-		this.#onMessage('log');
+		// this.#onMessage('log');
 		this.hasLog = true;
-		this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)), this.verbosity >= 3);
+		this.#writeStream('log', stringify(contents), this.verbosity >= 3);
 	}
 
 	/**
@@ -340,8 +338,8 @@ export class LogStep {
 	 * @param contents Any value that can be converted to a string for writing to `stderr`.
 	 */
 	debug(contents: unknown) {
-		this.#onMessage('debug');
-		this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)), this.verbosity >= 4);
+		// this.#onMessage('debug');
+		this.#writeStream('debug', stringify(contents), this.verbosity >= 4);
 	}
 
 	/**
@@ -359,21 +357,19 @@ export class LogStep {
 				this.warn(`Unable to log timing. Missing either mark ${start} → ${end}`);
 				return;
 			}
-			this.#writeStream(
-				this.#prefix(prefix.TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`),
-			);
+			this.#writeStream('timing', `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`);
 		}
 	}
 
-	#writeStream(line: string, toBuffer: boolean = true) {
+	#writeStream(type: LineType, line: string, toBuffer: boolean = true) {
 		if (toBuffer) {
 			this.#buffer.write(ensureNewline(line));
 		}
 
 		if (this.#active) {
-			const lines = line.split('\n');
-			const lastThree = lines.slice(-3);
-			this.#lastThree.push(...lastThree.map(pc.dim));
+			// const lines = line.split('\n');
+			// const lastThree = lines.slice(-3);
+			this.#lastThree.push({ type, line });
 			this.#lastThree.splice(0, this.#lastThree.length - 3);
 		}
 	}
