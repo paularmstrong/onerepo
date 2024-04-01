@@ -94,17 +94,31 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 	const logger = getLogger();
 	const buffer = new LogBuffer();
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer, captureAll: true });
+	let activeStep: Buffer | undefined;
+	function write(method: 'error' | 'info' | 'warn' | 'log' | 'debug', chunk: Buffer) {
+		activeStep && step.error(() => activeStep?.toString().trimEnd());
+		activeStep = undefined;
+		step[method](() => chunk.toString().trimEnd());
+	}
 	function proxyChunks(chunk: Buffer) {
+		if (chunk.toString().startsWith(' ┌')) {
+			activeStep = chunk;
+		}
+
+		if (chunk.toString().startsWith(' └')) {
+			activeStep = undefined;
+		}
+
 		if (subLogger.hasError) {
-			step.error(() => chunk.toString().trimEnd());
+			write('error', chunk);
 		} else if (subLogger.hasInfo) {
-			step.info(() => chunk.toString().trimEnd());
+			write('info', chunk);
 		} else if (subLogger.hasWarning) {
-			step.warn(() => chunk.toString().trimEnd());
+			write('warn', chunk);
 		} else if (subLogger.hasLog) {
-			step.log(() => chunk.toString().trimEnd());
+			write('log', chunk);
 		} else {
-			step.debug(() => chunk.toString().trimEnd());
+			write('debug', chunk);
 		}
 	}
 	buffer.on('data', proxyChunks);

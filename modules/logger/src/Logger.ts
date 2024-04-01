@@ -1,10 +1,15 @@
 import type { Writable } from 'node:stream';
+import { cpus } from 'node:os';
+import { EventEmitter } from 'node:events';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
 import { LogStep } from './LogStep';
 import { destroyCurrent, setCurrent } from './global';
+import { LogBuffer, LogBufferToString } from './LogBuffer';
 
 type LogUpdate = typeof logUpdate;
+
+EventEmitter.defaultMaxListeners = cpus().length + 2;
 
 /**
  * Control the verbosity of the log output
@@ -54,8 +59,8 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  * @group Logger
  */
 export class Logger {
-	#defaultLogger: LogStep;
-	#steps: Array<LogStep> = [];
+	#defaultLogger: LogBuffer;
+	#steps: Array<LogBuffer> = [];
 	#verbosity: Verbosity = 0;
 	#updater: LogUpdate;
 	#frame = 0;
@@ -77,22 +82,23 @@ export class Logger {
 		this.verbosity = options.verbosity;
 
 		this.#stream = options.stream ?? process.stderr;
-		this.#updater = createLogUpdate(this.#stream);
+		// this.#updater = createLogUpdate(this.#stream);
 
 		this.#captureAll = !!options.captureAll;
 
-		this.#defaultLogger = new LogStep('', {
+		this.#defaultLogger = new LogBuffer({
+			name: '',
 			onEnd: this.#onEnd,
-			onMessage: this.#onMessage,
-			verbosity: this.verbosity,
-			stream: this.#stream,
+			// onMessage: this.#onMessage,
+			// verbosity: this.verbosity,
+			// stream: this.#stream,
 		});
 
-		if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
-			process.nextTick(() => {
-				this.#runUpdater();
-			});
-		}
+		// if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
+		// 	process.nextTick(() => {
+		// 		this.#runUpdater();
+		// 	});
+		// }
 
 		setCurrent(this);
 	}
@@ -118,11 +124,11 @@ export class Logger {
 		this.#verbosity = Math.max(0, value) as Verbosity;
 
 		if (this.#defaultLogger) {
-			this.#defaultLogger.verbosity = this.#verbosity;
-			this.#defaultLogger.activate(true);
+			// this.#defaultLogger.verbosity = this.#verbosity;
+			this.#activate(this.#defaultLogger);
 		}
 
-		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
+		// this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
 	}
 
 	get writable() {
@@ -162,8 +168,8 @@ export class Logger {
 	 */
 	set stream(stream: Writable) {
 		this.#stream = stream;
-		this.#updater.clear();
-		this.#updater = createLogUpdate(this.#stream);
+		// this.#updater.clear();
+		// this.#updater = createLogUpdate(this.#stream);
 	}
 
 	/**
@@ -179,7 +185,8 @@ export class Logger {
 	 */
 	pause(write: boolean = true) {
 		this.#paused = true;
-		clearTimeout(this.#updaterTimeout);
+		this.#stream.cork();
+		// clearTimeout(this.#updaterTimeout);
 		if (write) {
 			this.#writeSteps();
 		}
@@ -189,9 +196,10 @@ export class Logger {
 	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
-		this.#updater.clear();
+		// this.#updater.clear();
 		this.#paused = false;
-		this.#runUpdater();
+		this.#stream.uncork();
+		// this.#runUpdater();
 	}
 
 	#runUpdater() {
@@ -210,7 +218,7 @@ export class Logger {
 			return;
 		}
 		this.#updater(
-			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n'),
+			this.#steps.map((step) => [` ┌ ${step.name}`, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n'),
 		);
 	}
 
@@ -226,14 +234,25 @@ export class Logger {
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
 	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
-		const step = new LogStep(name, {
+		// const step = new LogStep(name, {
+		// 	onEnd: this.#onEnd,
+		// 	// onMessage: this.#onMessage,
+		// 	verbosity: this.verbosity,
+		// 	stream: this.#stream,
+		// 	writePrefixes,
+		// });
+
+		const step = new LogBuffer({
+			name,
 			onEnd: this.#onEnd,
-			onMessage: this.#onMessage,
-			verbosity: this.verbosity,
-			stream: this.#stream,
-			writePrefixes,
+			// onMessage: this.#onMessage,
+			// verbosity: this.verbosity,
+			// stream: this.#stream,
+			// writePrefixes,
 		});
 		this.#steps.push(step);
+		step.on('end', () => this.#onEnd(step));
+
 		this.#activate(step);
 		return step;
 	}
@@ -361,41 +380,53 @@ export class Logger {
 	 */
 	async end() {
 		this.pause(false);
-		clearTimeout(this.#updaterTimeout);
+		// clearTimeout(this.#updaterTimeout);
 
-		for (const step of this.#steps) {
-			this.#activate(step);
-			step.warn(
-				'Step did not finish before command shutdown. Fix this issue by updating this command to `await step.end();` at the appropriate time.',
-			);
-			await step.end();
-		}
+		// for (const step of this.#steps) {
+		// 	this.#activate(step);
+		// 	step.warn(
+		// 		`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to \`await step.end();\` at the appropriate time.`,
+		// 	);
+		// 	await step.end();
+		// }
 
 		await this.#defaultLogger.end();
-		await this.#defaultLogger.flush();
+		// await this.#defaultLogger.flush();
 		destroyCurrent();
 	}
 
-	#activate(step: LogStep) {
-		const activeStep = this.#steps.find((step) => step.active);
+	#activate(step: LogBuffer) {
+		const activeStep = this.#steps.find((step) => step.isPiped);
+
 		if (activeStep) {
-			return;
-		}
-		if (step !== this.#defaultLogger && this.#defaultLogger.active) {
-			this.#defaultLogger.deactivate();
-		}
-
-		if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
-			step.activate();
+			// console.log('cannot activate', step.name, 'because', activeStep.name);
 			return;
 		}
 
-		setImmediate(() => {
-			step.activate();
-		});
+		if (step !== this.#defaultLogger && !this.#defaultLogger.isPaused()) {
+			this.#defaultLogger.pause();
+			// step.unpipe();
+			// this.#defaultLogger.deactivate();
+		}
+
+		if (step.isPiped) {
+			step.unpipe();
+		}
+
+		this.unpause();
+		step.pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
+		step.isPiped = true;
+
+		// if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
+		// 	step.pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
+		// 	return;
+		// }
+
+		// setImmediate(() => {
+		// });
 	}
 
-	#onEnd = async (step: LogStep) => {
+	#onEnd = async (step: LogBuffer) => {
 		if (step === this.#defaultLogger) {
 			return;
 		}
@@ -405,45 +436,64 @@ export class Logger {
 			return;
 		}
 
-		this.#updater.clear();
-		await step.flush();
+		// await new Promise<void>((resolve) => {
+		// 	// setImmediate(() => {
+		// 	setImmediate(() => {
+		// 		resolve();
+		// 	});
+		// 	// });
+		// });
 
-		this.#defaultLogger.activate(true);
+		// this.#updater.clear();
+		step.unpipe();
+		step.destroy();
+		step.isPiped = false;
+		// step.destroy();
+		// await step.flush();
 
-		if (step.hasError && process.env.GITHUB_RUN_ID) {
-			this.error('The previous step has errors.');
-		}
+		// this.#defaultLogger.resume();
+
+		// if (step.hasError && process.env.GITHUB_RUN_ID) {
+		// 	this.error('The previous step has errors.');
+		// }
+
+		// Remove this step
+		this.#steps.splice(index, 1);
 
 		await new Promise<void>((resolve) => {
 			setImmediate(() => {
 				setImmediate(() => {
-					this.#defaultLogger.deactivate();
+					this.#defaultLogger.pause();
 					resolve();
 				});
 			});
 		});
 
-		this.#steps.splice(index, 1);
-		this.#activate(this.#steps[0] ?? this.#defaultLogger);
+		if (this.#steps.length < 1) {
+			return;
+		}
+
+		this.#activate(this.#steps[0]);
+		// this.#steps[0].pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
 	};
 
-	#onMessage = (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => {
-		switch (type) {
-			case 'error':
-				this.#hasError = true;
-				this.#defaultLogger.hasError = true;
-				break;
-			case 'warn':
-				this.#hasWarning = true;
-				break;
-			case 'info':
-				this.#hasInfo = true;
-				break;
-			case 'log':
-				this.#hasLog = true;
-				break;
-			default:
-			// no default
-		}
-	};
+	// #onMessage = (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => {
+	// 	switch (type) {
+	// 		case 'error':
+	// 			this.#hasError = true;
+	// 			this.#defaultLogger.hasError = true;
+	// 			break;
+	// 		case 'warn':
+	// 			this.#hasWarning = true;
+	// 			break;
+	// 		case 'info':
+	// 			this.#hasInfo = true;
+	// 			break;
+	// 		case 'log':
+	// 			this.#hasLog = true;
+	// 			break;
+	// 		default:
+	// 		// no default
+	// 	}
+	// };
 }
