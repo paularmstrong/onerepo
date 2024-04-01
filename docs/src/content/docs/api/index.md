@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<3a92b43b1f1f18111c274c26eaba8e87>> -->
+<!-- @generated SignedSource<<c89cd5646449f784ffda4f2a9b96dc2b>> -->
 
 ## Namespaces
 
@@ -2176,6 +2176,15 @@ See [`HandlerExtra`](#handlerextra) for access the the global Logger instance.
 
 #### Accessors
 
+##### captureAll
+
+```ts
+get captureAll(): boolean
+```
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 ##### hasError
 
 ```ts
@@ -2494,12 +2503,21 @@ logger.warn(() => bigArray.map((item) => item.name));
 
 ```ts
 type LoggerOptions: {
+  captureAll: boolean;
   stream: Writable;
   verbosity: Verbosity;
 };
 ```
 
 #### Type declaration
+
+##### captureAll?
+
+<span class="tag danger">Experimental</span>
+
+```ts
+optional captureAll: boolean;
+```
 
 ##### stream?
 
