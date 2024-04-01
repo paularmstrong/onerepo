@@ -3674,11 +3674,11 @@ __metadata:
   linkType: hard
 
 "astro-meta-tags@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "astro-meta-tags@npm:0.2.1"
+  version: 0.2.2
+  resolution: "astro-meta-tags@npm:0.2.2"
   peerDependencies:
     astro: ^4.0.0
-  checksum: 0bbfe8dc48e150cfd7434bc71691e18ab9732cad69c1d11b0bc802cda2a36332511f79a4ac0592c4d6316e1a131a57d899670b916648cf821d8c542dbe3814ad
+  checksum: ca9b28ad0ac97f52e2f4becfd32766b61446f720dbd90f19efc47612177403d0cf22ad3c56906c87a403d582da2917e144bd3e99bfb8aed6e2ecbb93e4e78b4b
   languageName: node
   linkType: hard
 
