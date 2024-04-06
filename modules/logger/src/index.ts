@@ -1,10 +1,11 @@
 import { Logger } from './Logger';
-import type { LogStep } from './LogStep';
+// import { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
-import { LogBuffer } from './LogBuffer';
+import { LogStep } from './LogBuffer';
 
 export * from './Logger';
-export * from './LogStep';
+// export * from './LogStep';
+export * from './LogBuffer';
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.
@@ -92,7 +93,7 @@ export async function stepWrapper<T>(
  */
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
-	const buffer = new LogBuffer();
+	const buffer = new LogStep({ name: '', onEnd: async () => {} });
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer, captureAll: true });
 	let activeStep: Buffer | undefined;
 	function write(method: 'error' | 'info' | 'warn' | 'log' | 'debug', chunk: Buffer) {
