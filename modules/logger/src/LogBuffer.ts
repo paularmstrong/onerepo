@@ -4,10 +4,10 @@ import pc from 'picocolors';
 type BufferOptions = {
 	name: string;
 	description?: string;
-	onEnd: (step: LogBuffer) => Promise<void>;
+	onEnd: (step: LogStep) => Promise<void>;
 };
 
-export class LogBuffer extends Duplex {
+export class LogStep extends Duplex {
 	name?: string;
 	#hasError: boolean = false;
 	#startMark: string;
