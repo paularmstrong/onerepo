@@ -1,15 +1,11 @@
 import type { Writable } from 'node:stream';
-import { cpus } from 'node:os';
-import { EventEmitter } from 'node:events';
-import { createLogUpdate } from 'log-update';
-import type logUpdate from 'log-update';
-// import { LogStep } from './LogStep';
 import { destroyCurrent, setCurrent } from './global';
-import { LogStep, LogBufferToString } from './LogBuffer';
+import { LogStep } from './LogStep';
+import { LogStepToString } from './transforms/LogStepToString';
+import { LogProgress } from './transforms/LogProgress';
+import { hideCursor, showCursor } from './utils/cursor';
 
-type LogUpdate = typeof logUpdate;
-
-EventEmitter.defaultMaxListeners = cpus().length + 2;
+// EventEmitter.defaultMaxListeners = cpus().length + 2;
 
 /**
  * Control the verbosity of the log output
@@ -38,14 +34,12 @@ export type LoggerOptions = {
 	/**
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
-	stream?: Writable;
+	stream?: Writable | LogStep;
 	/**
 	 * @experimental
 	 */
 	captureAll?: boolean;
 };
-
-const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 
 /**
  * The oneRepo logger helps build commands and capture output from spawned subprocess in a way that's both delightful to the end user and includes easy to scan and follow output.
@@ -62,12 +56,7 @@ export class Logger {
 	#defaultLogger: LogStep;
 	#steps: Array<LogStep> = [];
 	#verbosity: Verbosity = 0;
-	#updater: LogUpdate;
-	#frame = 0;
-	#stream: Writable;
-
-	#paused = false;
-	#updaterTimeout: NodeJS.Timeout | undefined;
+	#stream: Writable | LogStep;
 
 	#hasError = false;
 	#hasWarning = false;
@@ -80,25 +69,9 @@ export class Logger {
 	 */
 	constructor(options: LoggerOptions) {
 		this.verbosity = options.verbosity;
-
 		this.#stream = options.stream ?? process.stderr;
-		// this.#updater = createLogUpdate(this.#stream);
-
 		this.#captureAll = !!options.captureAll;
-
-		this.#defaultLogger = new LogStep({
-			name: '',
-			onEnd: this.#onEnd,
-			// onMessage: this.#onMessage,
-			// verbosity: this.verbosity,
-			// stream: this.#stream,
-		});
-
-		// if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
-		// 	process.nextTick(() => {
-		// 		this.#runUpdater();
-		// 	});
-		// }
+		this.#defaultLogger = new LogStep({ name: '' });
 
 		setCurrent(this);
 	}
@@ -166,10 +139,15 @@ export class Logger {
 	/**
 	 * @internal
 	 */
-	set stream(stream: Writable) {
+	set stream(stream: Writable | LogStep) {
 		this.#stream = stream;
-		// this.#updater.clear();
-		// this.#updater = createLogUpdate(this.#stream);
+	}
+
+	/**
+	 * @internal
+	 */
+	get stream() {
+		return this.#stream;
 	}
 
 	/**
@@ -183,43 +161,17 @@ export class Logger {
 	 * logger.unpause();
 	 * ```
 	 */
-	pause(write: boolean = true) {
-		this.#paused = true;
+	pause() {
 		this.#stream.cork();
-		// clearTimeout(this.#updaterTimeout);
-		if (write) {
-			this.#writeSteps();
-		}
+		showCursor();
 	}
 
 	/**
 	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
-		// this.#updater.clear();
-		this.#paused = false;
 		this.#stream.uncork();
-		// this.#runUpdater();
-	}
-
-	#runUpdater() {
-		if (this.#paused) {
-			return;
-		}
-		this.#updaterTimeout = setTimeout(() => {
-			this.#writeSteps();
-			this.#frame += 1;
-			this.#runUpdater();
-		}, 80);
-	}
-
-	#writeSteps() {
-		if (process.env.NODE_ENV === 'test' || this.verbosity <= 0) {
-			return;
-		}
-		this.#updater(
-			this.#steps.map((step) => [` ┌ ${step.name}`, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n'),
-		);
+		hideCursor();
 	}
 
 	/**
@@ -234,22 +186,7 @@ export class Logger {
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
 	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
-		// const step = new LogStep(name, {
-		// 	onEnd: this.#onEnd,
-		// 	// onMessage: this.#onMessage,
-		// 	verbosity: this.verbosity,
-		// 	stream: this.#stream,
-		// 	writePrefixes,
-		// });
-
-		const step = new LogStep({
-			name,
-			onEnd: this.#onEnd,
-			// onMessage: this.#onMessage,
-			// verbosity: this.verbosity,
-			// stream: this.#stream,
-			// writePrefixes,
-		});
+		const step = new LogStep({ name });
 		this.#steps.push(step);
 		step.on('end', () => this.#onEnd(step));
 
@@ -379,20 +316,19 @@ export class Logger {
 	 * @internal
 	 */
 	async end() {
-		this.pause(false);
-		// clearTimeout(this.#updaterTimeout);
+		this.pause();
 
-		// for (const step of this.#steps) {
-		// 	this.#activate(step);
-		// 	step.warn(
-		// 		`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to \`await step.end();\` at the appropriate time.`,
-		// 	);
-		// 	await step.end();
-		// }
+		for (const step of this.#steps) {
+			this.#activate(step);
+			step.warn(
+				`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to \`await step.end();\` at the appropriate time.`,
+			);
+			step.end();
+		}
 
 		await this.#defaultLogger.end();
-		// await this.#defaultLogger.flush();
 		destroyCurrent();
+		showCursor();
 	}
 
 	#activate(step: LogStep) {
@@ -405,29 +341,28 @@ export class Logger {
 
 		if (step !== this.#defaultLogger && !this.#defaultLogger.isPaused()) {
 			this.#defaultLogger.pause();
-			// step.unpipe();
-			// this.#defaultLogger.deactivate();
 		}
 
 		if (step.isPiped) {
-			step.unpipe();
+			return;
+			// step.unpipe();
 		}
 
 		this.unpause();
-		step.pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
+
+		if (!step.name) {
+			step.pipe(new LogStepToString({ verbosity: this.#verbosity })).pipe(this.#stream);
+		} else {
+			step
+				.pipe(new LogStepToString({ verbosity: this.#verbosity }))
+				.pipe(new LogProgress())
+				.pipe(this.#stream);
+		}
 		step.isPiped = true;
-
-		// if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
-		// 	step.pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
-		// 	return;
-		// }
-
-		// setImmediate(() => {
-		// });
 	}
 
 	#onEnd = async (step: LogStep) => {
-		if (step === this.#defaultLogger) {
+		if (step === this.#defaultLogger || !step.isPiped) {
 			return;
 		}
 
@@ -436,15 +371,6 @@ export class Logger {
 			return;
 		}
 
-		// await new Promise<void>((resolve) => {
-		// 	// setImmediate(() => {
-		// 	setImmediate(() => {
-		// 		resolve();
-		// 	});
-		// 	// });
-		// });
-
-		// this.#updater.clear();
 		step.unpipe();
 		step.destroy();
 		step.isPiped = false;
@@ -460,21 +386,20 @@ export class Logger {
 		// Remove this step
 		this.#steps.splice(index, 1);
 
-		await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				setImmediate(() => {
-					this.#defaultLogger.pause();
-					resolve();
-				});
-			});
-		});
+		// await new Promise<void>((resolve) => {
+		// 	setImmediate(() => {
+		// 		setImmediate(() => {
+		this.#defaultLogger.pause();
+		// 			resolve();
+		// 		});
+		// 	});
+		// });
 
 		if (this.#steps.length < 1) {
 			return;
 		}
 
 		this.#activate(this.#steps[0]);
-		// this.#steps[0].pipe(new LogBufferToString({ verbosity: this.#verbosity })).pipe(this.#stream);
 	};
 
 	// #onMessage = (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => {
