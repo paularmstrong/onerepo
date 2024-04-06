@@ -1,6 +1,6 @@
 import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
-import { LogStep } from '../LogBuffer';
+import { LogStep } from '../LogStep';
 
 // describe('LogStep', () => {
 // 	let runId: string | undefined;

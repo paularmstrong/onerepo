@@ -1,11 +1,13 @@
+import { PassThrough } from 'node:stream';
+import restoreCursorDefault from 'restore-cursor';
 import { Logger } from './Logger';
 // import { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
-import { LogStep } from './LogBuffer';
+import type { LogStep } from './LogStep';
 
 export * from './Logger';
 // export * from './LogStep';
-export * from './LogBuffer';
+export * from './LogStep';
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.
@@ -40,6 +42,7 @@ export function getLogger(opts: Partial<ConstructorParameters<typeof Logger>[0]>
  */
 export function destroyLogger() {
 	destroyCurrent();
+	restoreCursor();
 }
 
 /**
@@ -93,48 +96,54 @@ export async function stepWrapper<T>(
  */
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
-	const buffer = new LogStep({ name: '', onEnd: async () => {} });
-	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer, captureAll: true });
-	let activeStep: Buffer | undefined;
-	function write(method: 'error' | 'info' | 'warn' | 'log' | 'debug', chunk: Buffer) {
-		activeStep && step.error(() => activeStep?.toString().trimEnd());
-		activeStep = undefined;
-		step[method](() => chunk.toString().trimEnd());
-	}
-	function proxyChunks(chunk: Buffer) {
-		if (chunk.toString().startsWith(' ┌')) {
-			activeStep = chunk;
-		}
+	// const buffer = new LogStep({ name: '' });
+	const stream = new PassThrough();
+	const subLogger = new Logger({ verbosity: logger.verbosity, stream, captureAll: true });
+	// let activeStep: Buffer | undefined;
+	// function write(method: 'error' | 'info' | 'warn' | 'log' | 'debug', chunk: Buffer) {
+	// 	activeStep && step.error(() => activeStep?.toString().trimEnd());
+	// 	activeStep = undefined;
+	// 	step[method](() => chunk.toString().trimEnd());
+	// }
+	// function proxyChunks(chunk: Buffer) {
+	// 	if (chunk.toString().startsWith(' ┌')) {
+	// 		activeStep = chunk;
+	// 	}
 
-		if (chunk.toString().startsWith(' └')) {
-			activeStep = undefined;
-		}
+	// 	if (chunk.toString().startsWith(' └')) {
+	// 		activeStep = undefined;
+	// 	}
 
-		if (subLogger.hasError) {
-			write('error', chunk);
-		} else if (subLogger.hasInfo) {
-			write('info', chunk);
-		} else if (subLogger.hasWarning) {
-			write('warn', chunk);
-		} else if (subLogger.hasLog) {
-			write('log', chunk);
-		} else {
-			write('debug', chunk);
-		}
-	}
-	buffer.on('data', proxyChunks);
+	// 	if (subLogger.hasError) {
+	// 		write('error', chunk);
+	// 	} else if (subLogger.hasInfo) {
+	// 		write('info', chunk);
+	// 	} else if (subLogger.hasWarning) {
+	// 		write('warn', chunk);
+	// 	} else if (subLogger.hasLog) {
+	// 		write('log', chunk);
+	// 	} else {
+	// 		write('debug', chunk);
+	// 	}
+	// }
+
+	stream.pipe(step);
+	// buffer.on('data', proxyChunks);
 
 	return {
 		logger: subLogger,
 		async end() {
-			buffer.off('data', proxyChunks);
-			await new Promise<void>((resolve) => {
-				setImmediate(async () => {
-					await subLogger.end();
-					buffer.destroy();
-					resolve();
-				});
-			});
+			// buffer.unpipe();
+			// buffer.off('data', proxyChunks);
+			// await new Promise<void>((resolve) => {
+			// 	setImmediate(async () => {
+			// 		await subLogger.end();
+			// 		buffer.destroy();
+			// 		resolve();
+			// 	});
+			// });
 		},
 	};
 }
+
+export const restoreCursor = restoreCursorDefault;

@@ -132,13 +132,11 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		${JSON.stringify(withoutLogger, null, 2)}\n`,
 			);
 
-			return Promise.resolve()
-				.then(() => {
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					resolve([out.trim(), err.trim()]);
-				});
+			if (!inputStep) {
+				step.end();
+			}
+
+			return resolve([out.trim(), err.trim()]);
 		}
 
 		if (inputStep) {
@@ -160,17 +158,12 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 		});
 
 		subprocess.on('error', (error) => {
-			if (!options.skipFailures) {
-				step.error(error);
+			!options.skipFailures && step.error(error);
+			logger.unpause();
+			if (!inputStep) {
+				step.end();
 			}
-			return Promise.resolve()
-				.then(() => {
-					logger.unpause();
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					reject(error);
-				});
+			return reject(error);
 		});
 
 		if (subprocess.stdout && subprocess.stderr) {
@@ -202,23 +195,24 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 				const error = new SubprocessError(`${sortedOut || code}`);
 				step.error(sortedOut.trim());
 				step.error(`Process exited with code ${code}`);
-				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
-					logger.unpause();
-					reject(error);
-				});
+				if (!inputStep) {
+					step.end();
+				}
+
+				logger.unpause();
+				reject(error);
+				return;
 			}
 
 			if (inputStep) {
 				step.timing(`onerepo_start_Subprocess: ${options.name}`, `onerepo_end_Subprocess: ${options.name}`);
 			}
 
-			return Promise.resolve()
-				.then(() => {
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					resolve([out.trim(), err.trim()]);
-				});
+			if (!inputStep) {
+				step.end();
+			}
+
+			return resolve([out.trim(), err.trim()]);
 		});
 	});
 }
@@ -286,7 +280,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	return new Promise((resolve, reject) => {
 		try {
 			execSync('sudo -n true &> /dev/null');
-		} catch {
+		} catch (e) {
 			step.warn('Sudo permissions are required to continue!');
 			step.warn(options.reason ?? 'If prompted, please type your password and hit [RETURN].');
 			step.debug(`Sudo permissions are being requested to run the following:
@@ -311,12 +305,9 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 				logger.log(stdout);
 				logger.log(stderr);
 
-				return Promise.resolve()
-					.then(() => {
-						logger.unpause();
-						return step.end();
-					})
-					.then(() => resolve([stdout, stderr]));
+				logger.unpause();
+				step.end();
+				resolve([stdout, stderr]);
 			},
 		);
 	});
