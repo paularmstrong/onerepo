@@ -3,9 +3,9 @@ import { cpus } from 'node:os';
 import { EventEmitter } from 'node:events';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
-import { LogStep } from './LogStep';
+// import { LogStep } from './LogStep';
 import { destroyCurrent, setCurrent } from './global';
-import { LogBuffer, LogBufferToString } from './LogBuffer';
+import { LogStep, LogBufferToString } from './LogBuffer';
 
 type LogUpdate = typeof logUpdate;
 
@@ -59,8 +59,8 @@ const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', 
  * @group Logger
  */
 export class Logger {
-	#defaultLogger: LogBuffer;
-	#steps: Array<LogBuffer> = [];
+	#defaultLogger: LogStep;
+	#steps: Array<LogStep> = [];
 	#verbosity: Verbosity = 0;
 	#updater: LogUpdate;
 	#frame = 0;
@@ -86,7 +86,7 @@ export class Logger {
 
 		this.#captureAll = !!options.captureAll;
 
-		this.#defaultLogger = new LogBuffer({
+		this.#defaultLogger = new LogStep({
 			name: '',
 			onEnd: this.#onEnd,
 			// onMessage: this.#onMessage,
@@ -242,7 +242,7 @@ export class Logger {
 		// 	writePrefixes,
 		// });
 
-		const step = new LogBuffer({
+		const step = new LogStep({
 			name,
 			onEnd: this.#onEnd,
 			// onMessage: this.#onMessage,
@@ -395,7 +395,7 @@ export class Logger {
 		destroyCurrent();
 	}
 
-	#activate(step: LogBuffer) {
+	#activate(step: LogStep) {
 		const activeStep = this.#steps.find((step) => step.isPiped);
 
 		if (activeStep) {
@@ -426,7 +426,7 @@ export class Logger {
 		// });
 	}
 
-	#onEnd = async (step: LogBuffer) => {
+	#onEnd = async (step: LogStep) => {
 		if (step === this.#defaultLogger) {
 			return;
 		}
