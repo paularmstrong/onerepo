@@ -64,16 +64,32 @@ export class LogStep extends Duplex {
 		this.#verbosity = verbosity;
 	}
 
+	set hasError(has: boolean) {
+		this.#hasError = this.#hasError || has;
+	}
+
 	get hasError() {
 		return this.#hasError;
+	}
+
+	set hasWarning(has: boolean) {
+		this.#hasWarning = this.#hasWarning || has;
 	}
 
 	get hasWarning() {
 		return this.#hasWarning;
 	}
 
+	set hasInfo(has: boolean) {
+		this.#hasInfo = this.#hasInfo || has;
+	}
+
 	get hasInfo() {
 		return this.#hasInfo;
+	}
+
+	set hasLog(has: boolean) {
+		this.#hasLog = this.#hasLog || has;
 	}
 
 	get hasLog() {
