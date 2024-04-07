@@ -201,6 +201,10 @@ export async function setup({
 			logger.verbosity = argv.verbosity as Verbosity;
 			await logger.end();
 
+			if (logger.hasError) {
+				process.exitCode = 1;
+			}
+
 			// Register a new logger on the  top of the stack to silence output so that shutdown handlers to not write any output
 			const silencedLogger = new Logger({ verbosity: 0 });
 			await shutdown(argv);
