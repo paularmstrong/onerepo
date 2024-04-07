@@ -98,28 +98,28 @@ export class Logger {
 	 * Whether or not an error has been sent to the logger or any of its steps. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in the `Logger` or any `Step` instance.
 	 */
 	get hasError() {
-		return this.#hasError;
+		return this.#defaultLogger.hasError;
 	}
 
 	/**
 	 * Whether or not a warning has been sent to the logger or any of its steps.
 	 */
 	get hasWarning() {
-		return this.#hasWarning;
+		return this.#defaultLogger.hasWarning;
 	}
 
 	/**
 	 * Whether or not an info message has been sent to the logger or any of its steps.
 	 */
 	get hasInfo() {
-		return this.#hasInfo;
+		return this.#defaultLogger.hasInfo;
 	}
 
 	/**
 	 * Whether or not a log message has been sent to the logger or any of its steps.
 	 */
 	get hasLog() {
-		return this.#hasLog;
+		return this.#defaultLogger.hasLog;
 	}
 
 	/**
@@ -422,9 +422,9 @@ export class Logger {
 	};
 
 	#setState = (step: LogStep) => {
-		this.#hasError = this.#hasError || step.hasError;
-		this.#hasWarning = this.#hasWarning || step.hasWarning;
-		this.#hasInfo = this.#hasInfo || step.hasInfo;
-		this.#hasLog = this.#hasLog || step.hasLog;
+		this.#defaultLogger.hasError = this.#defaultLogger.hasError || step.hasError;
+		this.#defaultLogger.hasWarning = this.#defaultLogger.hasWarning || step.hasWarning;
+		this.#defaultLogger.hasInfo = this.#defaultLogger.hasInfo || step.hasInfo;
+		this.#defaultLogger.hasLog = this.#defaultLogger.hasLog || step.hasLog;
 	};
 }
