@@ -4,24 +4,9 @@ import { LogStep } from './LogStep';
 import { LogStepToString } from './transforms/LogStepToString';
 import { LogProgress } from './transforms/LogProgress';
 import { hideCursor, showCursor } from './utils/cursor';
+import type { Verbosity } from './types';
 
 // EventEmitter.defaultMaxListeners = cpus().length + 2;
-
-/**
- * Control the verbosity of the log output
- *
- * | Value  | What           | Description                                      |
- * | ------ | -------------- | ------------------------------------------------ |
- * | `<= 0` | Silent         | No output will be read or written.               |
- * | `>= 1` | Error, Info    |                                                  |
- * | `>= 2` | Warnings       |                                                  |
- * | `>= 3` | Log            |                                                  |
- * | `>= 4` | Debug          | `logger.debug()` will be included                |
- * | `>= 5` | Timing         | Extra performance timing metrics will be written |
- *
- * @group Logger
- */
-export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
 
 /**
  * @group Logger
@@ -62,16 +47,17 @@ export class Logger {
 	#hasWarning = false;
 	#hasInfo = false;
 	#hasLog = false;
+
 	#captureAll = false;
 
 	/**
 	 * @internal
 	 */
 	constructor(options: LoggerOptions) {
-		this.verbosity = options.verbosity;
+		this.#defaultLogger = new LogStep({ name: '', verbosity: options.verbosity });
 		this.#stream = options.stream ?? process.stderr;
 		this.#captureAll = !!options.captureAll;
-		this.#defaultLogger = new LogStep({ name: '' });
+		this.verbosity = options.verbosity;
 
 		setCurrent(this);
 	}
@@ -97,11 +83,11 @@ export class Logger {
 		this.#verbosity = Math.max(0, value) as Verbosity;
 
 		if (this.#defaultLogger) {
-			// this.#defaultLogger.verbosity = this.#verbosity;
+			this.#defaultLogger.verbosity = this.#verbosity;
 			this.#activate(this.#defaultLogger);
 		}
 
-		// this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
+		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
 	}
 
 	get writable() {
@@ -167,7 +153,7 @@ export class Logger {
 	}
 
 	/**
-	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause | `logger.pause()`} for more information.
+	 * Unpause the logger and resume writing buffered logs to the output stream. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
 		this.#stream.uncork();
@@ -185,8 +171,15 @@ export class Logger {
 	 *
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
-	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
-		const step = new LogStep({ name });
+	createStep(
+		name: string,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		opts: {
+			// @deprecated This option no longer does anything
+			writePrefixes?: boolean;
+		} = {},
+	) {
+		const step = new LogStep({ name, verbosity: this.#verbosity });
 		this.#steps.push(step);
 		step.on('end', () => this.#onEnd(step));
 
@@ -213,6 +206,7 @@ export class Logger {
 	 * @see {@link LogStep#info | `info()`} This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 */
 	info(contents: unknown) {
+		this.#hasInfo = true;
 		this.#defaultLogger.info(contents);
 	}
 
@@ -234,6 +228,7 @@ export class Logger {
 	 * @see {@link LogStep#error | `error()`} This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 */
 	error(contents: unknown) {
+		this.#hasError = true;
 		this.#defaultLogger.error(contents);
 	}
 
@@ -255,6 +250,7 @@ export class Logger {
 	 * @see {@link LogStep#warn | `warn()`} This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
 	 */
 	warn(contents: unknown) {
+		this.#hasWarning = true;
 		this.#defaultLogger.warn(contents);
 	}
 
@@ -276,6 +272,7 @@ export class Logger {
 	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
 	 */
 	log(contents: unknown) {
+		this.#hasLog = true;
 		this.#defaultLogger.log(contents);
 	}
 
@@ -316,17 +313,41 @@ export class Logger {
 	 * @internal
 	 */
 	async end() {
-		this.pause();
+		this.unpause();
+
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				setImmediate(() => {
+					resolve();
+				});
+			});
+		});
 
 		for (const step of this.#steps) {
-			this.#activate(step);
-			step.warn(
-				`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to \`await step.end();\` at the appropriate time.`,
+			this.#defaultLogger.warn(
+				`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to call \`step.end();\` at the appropriate time.`,
 			);
-			step.end();
+			await this.#onEnd(step);
 		}
 
-		await this.#defaultLogger.end();
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				setImmediate(() => {
+					resolve();
+				});
+			});
+		});
+
+		this.#defaultLogger.end();
+
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				setImmediate(() => {
+					resolve();
+				});
+			});
+		});
+
 		destroyCurrent();
 		showCursor();
 	}
@@ -335,7 +356,6 @@ export class Logger {
 		const activeStep = this.#steps.find((step) => step.isPiped);
 
 		if (activeStep) {
-			// console.log('cannot activate', step.name, 'because', activeStep.name);
 			return;
 		}
 
@@ -348,15 +368,12 @@ export class Logger {
 			// step.unpipe();
 		}
 
-		this.unpause();
+		// this.unpause();
 
-		if (!step.name) {
-			step.pipe(new LogStepToString({ verbosity: this.#verbosity })).pipe(this.#stream);
+		if (!step.name || !(this.#stream as typeof process.stderr).isTTY) {
+			step.pipe(new LogStepToString()).pipe(this.#stream);
 		} else {
-			step
-				.pipe(new LogStepToString({ verbosity: this.#verbosity }))
-				.pipe(new LogProgress())
-				.pipe(this.#stream);
+			step.pipe(new LogStepToString()).pipe(new LogProgress()).pipe(this.#stream);
 		}
 		step.isPiped = true;
 	}
@@ -371,13 +388,15 @@ export class Logger {
 			return;
 		}
 
+		this.#setState(step);
+
 		step.unpipe();
 		step.destroy();
 		step.isPiped = false;
 		// step.destroy();
 		// await step.flush();
 
-		// this.#defaultLogger.resume();
+		this.#defaultLogger.resume();
 
 		// if (step.hasError && process.env.GITHUB_RUN_ID) {
 		// 	this.error('The previous step has errors.');
@@ -386,39 +405,26 @@ export class Logger {
 		// Remove this step
 		this.#steps.splice(index, 1);
 
-		// await new Promise<void>((resolve) => {
-		// 	setImmediate(() => {
-		// 		setImmediate(() => {
-		this.#defaultLogger.pause();
-		// 			resolve();
-		// 		});
-		// 	});
-		// });
-
 		if (this.#steps.length < 1) {
 			return;
 		}
 
+		await new Promise<void>((resolve) => {
+			setImmediate(() => {
+				setImmediate(() => {
+					this.#defaultLogger.pause();
+					resolve();
+				});
+			});
+		});
+
 		this.#activate(this.#steps[0]);
 	};
 
-	// #onMessage = (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => {
-	// 	switch (type) {
-	// 		case 'error':
-	// 			this.#hasError = true;
-	// 			this.#defaultLogger.hasError = true;
-	// 			break;
-	// 		case 'warn':
-	// 			this.#hasWarning = true;
-	// 			break;
-	// 		case 'info':
-	// 			this.#hasInfo = true;
-	// 			break;
-	// 		case 'log':
-	// 			this.#hasLog = true;
-	// 			break;
-	// 		default:
-	// 		// no default
-	// 	}
-	// };
+	#setState = (step: LogStep) => {
+		this.#hasError = this.#hasError || step.hasError;
+		this.#hasWarning = this.#hasWarning || step.hasWarning;
+		this.#hasInfo = this.#hasInfo || step.hasInfo;
+		this.#hasLog = this.#hasLog || step.hasLog;
+	};
 }
