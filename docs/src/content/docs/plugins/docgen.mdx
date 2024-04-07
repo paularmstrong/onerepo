@@ -1,47 +1,40 @@
----
-title: '@onerepo/plugin-docgen'
-sidebar:
-  label: Documentation generation
-description: Official plugin for generating documentation in the oneRepo JavaScript and TypeScript monorepo toolchain.
-meta:
-  version: 1.0.0
-  stability: stable
----
+{/* start-auto-generated-from-cli-docgen */}
+{/* @generated SignedSource<<eae31dc5c19ef17bf4fe8e4d9ee63db2>> */}
 
-import { TabItem } from '@astrojs/starlight/components';
-import Tabs from '../../../components/Tabs.astro';
+### `one docgen`
 
-## Installation
+Generate documentation for the oneRepo cli.
 
-<Tabs group="pkgmanager">
-  <TabItem label="npm">
+```sh
+one docgen [options...]
+```
 
-    ```sh title="Install via npm"
-    npm install --save-dev @onerepo/plugin-docgen
-    ```
+Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!
 
-  </TabItem>
-  <TabItem label="yarn">
+Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.
 
-    ```sh title="Install via Yarn"
-    yarn add --dev @onerepo/plugin-docgen
-    ```
+| Option            | Type                                          | Description                                                                |
+| ----------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
+| `--add`           | `boolean`                                     | Add the output file to the git stage                                       |
+| `--format`        | `"markdown"`, `"json"`, default: `"markdown"` | Output format for documentation                                            |
+| `--heading-level` | `number`                                      | Heading level to start at for Markdown output                              |
+| `--out-file`      | `string`                                      | File to write output to. If not provided, stdout will be used              |
+| `--out-workspace` | `string`                                      | Workspace name to write the --out-file to                                  |
+| `--safe-write`    | `boolean`                                     | Write documentation to a portion of the file with start and end sentinels. |
 
-  </TabItem>
-  <TabItem label="pnpm">
+<details>
 
-    ```sh title="Install via pnpm"
-    pnpm install --save-dev @onerepo/plugin-docgen
-    ```
+<summary>Advanced options</summary>
 
-  </TabItem>
-</Tabs>
+| Option            | Type      | Description                                                                          |
+| ----------------- | --------- | ------------------------------------------------------------------------------------ |
+| `--command`       | `string`  | Start at the given command, skip the root and any others                             |
+| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options.                                         |
+| `--use-defaults`  | `boolean` | Use the oneRepo default configuration. Helpful for generating default documentation. |
 
-:::tip[Example]
-Check out our very own source level [example](example/) generated directly from the oneRepo source code using this plugin.
-:::
+</details>
 
-## Configuration
+{/* end-auto-generated-from-cli-docgen */}
 
 {/* start-install-typedoc */}
 {/* @generated SignedSource<<55b85567e8384d6dc408bf1c024e7f68>> */}
@@ -143,43 +136,3 @@ optional safeWrite: boolean;
 Set to true to amend content to the given file using the file.writeSafe | `file.writeSafe` method.
 
 {/* end-install-typedoc */}
-
-## Commands
-
-{/* start-auto-generated-from-cli-docgen */}
-{/* @generated SignedSource<<eae31dc5c19ef17bf4fe8e4d9ee63db2>> */}
-
-### `one docgen`
-
-Generate documentation for the oneRepo cli.
-
-```sh
-one docgen [options...]
-```
-
-Help documentation should always be easy to find. This command will help automate the creation of docs for this command-line interface. If you are reading this somewhere that is not your terminal, there is a very good chance that this command was already run for you!
-
-Add this command to your one Repo tasks on pre-commit to ensure that your documentation is always up-to-date.
-
-| Option            | Type                                          | Description                                                                |
-| ----------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
-| `--add`           | `boolean`                                     | Add the output file to the git stage                                       |
-| `--format`        | `"markdown"`, `"json"`, default: `"markdown"` | Output format for documentation                                            |
-| `--heading-level` | `number`                                      | Heading level to start at for Markdown output                              |
-| `--out-file`      | `string`                                      | File to write output to. If not provided, stdout will be used              |
-| `--out-workspace` | `string`                                      | Workspace name to write the --out-file to                                  |
-| `--safe-write`    | `boolean`                                     | Write documentation to a portion of the file with start and end sentinels. |
-
-<details>
-
-<summary>Advanced options</summary>
-
-| Option            | Type      | Description                                                                          |
-| ----------------- | --------- | ------------------------------------------------------------------------------------ |
-| `--command`       | `string`  | Start at the given command, skip the root and any others                             |
-| `--show-advanced` | `boolean` | Pair with `--help` to show advanced options.                                         |
-| `--use-defaults`  | `boolean` | Use the oneRepo default configuration. Helpful for generating default documentation. |
-
-</details>
-
-{/* end-auto-generated-from-cli-docgen */}

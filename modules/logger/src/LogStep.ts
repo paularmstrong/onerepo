@@ -1,21 +1,29 @@
 import { Duplex } from 'node:stream';
 import pc from 'picocolors';
 import { stringify } from './utils/string';
+import type { LineType, LoggedBuffer, Verbosity } from './types';
 
 export type LogStepOptions = {
 	name: string;
 	description?: string;
+	verbosity: Verbosity;
 };
 
 export class LogStep extends Duplex {
 	name?: string;
-	#hasError: boolean = false;
 	#startMark: string;
+	#verbosity: Verbosity;
 
 	isPiped: boolean = false;
 
-	constructor({ description, name, onEnd }: LogStepOptions) {
+	#hasError: boolean = false;
+	#hasWarning: boolean = false;
+	#hasInfo: boolean = false;
+	#hasLog: boolean = false;
+
+	constructor({ description, name, verbosity }: LogStepOptions) {
 		super({ decodeStrings: false });
+		this.#verbosity = verbosity;
 
 		this.#startMark = name || `${performance.now()}`;
 		performance.mark(`onerepo_start_${this.#startMark}`, {
@@ -46,9 +54,30 @@ export class LogStep extends Duplex {
 					type,
 					contents: stringify(contents),
 					group: this.name,
-				}),
+					verbosity: this.#verbosity,
+				} satisfies LoggedBuffer),
 			),
 		);
+	}
+
+	set verbosity(verbosity: Verbosity) {
+		this.#verbosity = verbosity;
+	}
+
+	get hasError() {
+		return this.#hasError;
+	}
+
+	get hasWarning() {
+		return this.#hasWarning;
+	}
+
+	get hasInfo() {
+		return this.#hasInfo;
+	}
+
+	get hasLog() {
+		return this.#hasLog;
 	}
 
 	error(contents: unknown) {
@@ -57,14 +86,17 @@ export class LogStep extends Duplex {
 	}
 
 	warn(contents: unknown) {
+		this.#hasWarning = true;
 		this.#write('warn', contents);
 	}
 
 	info(contents: unknown) {
+		this.#hasInfo = true;
 		this.#write('info', contents);
 	}
 
 	log(contents: unknown) {
+		this.#hasLog = true;
 		this.#write('log', contents);
 	}
 
@@ -108,10 +140,10 @@ export class LogStep extends Duplex {
 					type: 'end',
 					contents: stringify(contents),
 					group: this.name,
-				}),
+					hasError: this.#hasError,
+					verbosity: this.#verbosity,
+				} satisfies LoggedBuffer),
 			),
 		);
 	}
 }
-
-export type LineType = 'start' | 'end' | 'error' | 'warn' | 'info' | 'log' | 'debug' | 'timing';
