@@ -1,18 +1,11 @@
 import { Transform } from 'node:stream';
 import pc from 'picocolors';
-import type { LineType } from '../LogStep';
+import type { LineType, LoggedBuffer } from '../types';
 import { ensureNewline, stringify } from '../utils/string';
 
-export type StepToStringOptions = {
-	verbosity: number;
-};
-
 export class LogStepToString extends Transform {
-	#verbosity: number;
-
-	constructor({ verbosity }: StepToStringOptions) {
+	constructor() {
 		super({ decodeStrings: false });
-		this.#verbosity = verbosity;
 	}
 
 	_transform(
@@ -22,10 +15,9 @@ export class LogStepToString extends Transform {
 		callback: () => void,
 	) {
 		try {
-			const data = JSON.parse(chunk.toString()) as { type: LineType; contents: string; group?: string };
-			// console.log(chunk.toString());
-			if (typeMinVerbosity[data.type] <= this.#verbosity) {
-				this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents))}`));
+			const data = JSON.parse(chunk.toString()) as LoggedBuffer;
+			if (typeMinVerbosity[data.type] <= data.verbosity) {
+				this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents), data.hasError)}`));
 			}
 		} catch (e) {
 			this.push(chunk);
@@ -38,12 +30,12 @@ export class LogStepToString extends Transform {
 		callback();
 	}
 
-	#prefix(type: LineType, group: string | undefined, output: string) {
+	#prefix(type: LineType, group: string | undefined, output: string, hasError?: boolean) {
 		if (type === 'end') {
-			return `${!group ? '◼︎ ' : prefix[type]}${output}`;
+			return `${!group ? pc.bold(pc.dim('◼︎ ')) : prefix[type]}${hasError ? pc.red('✘') : pc.green('✔')} ${output}`;
 		}
 		if (type === 'start') {
-			return `${!group ? '➤ ' : prefix[type]}${output}`;
+			return `${!group ? pc.bold(pc.dim('➤ ')) : prefix[type]}${output}`;
 		}
 		return output
 			.split('\n')
@@ -63,8 +55,6 @@ const typeMinVerbosity: Record<LineType, number> = {
 };
 
 export const prefix: Record<LineType, string> = {
-	// FAIL: pc.red('✘'),
-	// SUCCESS: pc.green('✔'),
 	timing: pc.red('⏳'),
 	start: ' ┌ ',
 	end: ' └ ',

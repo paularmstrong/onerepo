@@ -74,7 +74,7 @@ describe('Logger', () => {
 		},
 	);
 
-	test('logs "completed" message', async () => {
+	test.only('logs "completed" message', async () => {
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {
@@ -84,9 +84,17 @@ describe('Logger', () => {
 		const logger = new Logger({ verbosity: 2, stream });
 
 		const step = logger.createStep('tacos');
-		await step.end();
+		step.end();
 
 		await logger.end();
+		await new Promise<void>((resolve) => {
+			setTimeout(() => {
+				setImmediate(() => {
+					resolve();
+				});
+			}, 100);
+		});
+		expect(out).toEqual('foo');
 
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
 	});

@@ -1,13 +1,14 @@
-import { PassThrough } from 'node:stream';
+import { Transform } from 'node:stream';
 import restoreCursorDefault from 'restore-cursor';
 import { Logger } from './Logger';
 // import { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
 import type { LogStep } from './LogStep';
+import { prefix } from './transforms/LogStepToString';
 
 export * from './Logger';
-// export * from './LogStep';
 export * from './LogStep';
+export * from './types';
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.
@@ -97,7 +98,7 @@ export async function stepWrapper<T>(
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
 	// const buffer = new LogStep({ name: '' });
-	const stream = new PassThrough();
+	const stream = new Buffered();
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream, captureAll: true });
 	// let activeStep: Buffer | undefined;
 	// function write(method: 'error' | 'info' | 'warn' | 'log' | 'debug', chunk: Buffer) {
@@ -135,15 +136,30 @@ export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Pro
 		async end() {
 			// buffer.unpipe();
 			// buffer.off('data', proxyChunks);
-			// await new Promise<void>((resolve) => {
-			// 	setImmediate(async () => {
-			// 		await subLogger.end();
-			// 		buffer.destroy();
-			// 		resolve();
-			// 	});
-			// });
+			await new Promise<void>((resolve) => {
+				setImmediate(async () => {
+					stream.unpipe();
+					stream.destroy();
+					// await subLogger.end();
+					// buffer.destroy();
+					resolve();
+				});
+			});
 		},
 	};
 }
 
 export const restoreCursor = restoreCursorDefault;
+
+class Buffered extends Transform {
+	_transform(chunk: Buffer, encoding = 'utf8', callback: () => void) {
+		this.push(
+			chunk
+				.toString()
+				.split('\n')
+				.map((line) => ` │${line}`)
+				.join('\n'),
+		);
+		callback();
+	}
+}
