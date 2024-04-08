@@ -1,12 +1,11 @@
 import type { Writable } from 'node:stream';
 import { destroyCurrent, setCurrent } from './global';
+import type { LogStepOptions } from './LogStep';
 import { LogStep } from './LogStep';
 import { LogStepToString } from './transforms/LogStepToString';
 import { LogProgress } from './transforms/LogProgress';
 import { hideCursor, showCursor } from './utils/cursor';
 import type { Verbosity } from './types';
-
-// EventEmitter.defaultMaxListeners = cpus().length + 2;
 
 /**
  * @group Logger
@@ -77,7 +76,7 @@ export class Logger {
 	}
 
 	/**
-	 * Recursively applies the new verbosity to the logger and all of its active steps.
+	 * Applies the new verbosity to the main logger and any future steps.
 	 */
 	set verbosity(value: Verbosity) {
 		this.#verbosity = Math.max(0, value) as Verbosity;
@@ -173,18 +172,59 @@ export class Logger {
 	 */
 	createStep(
 		name: string,
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		opts: {
-			// @deprecated This option no longer does anything
+			/**
+			 * Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.
+			 *
+			 * Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail.
+			 */
+			description?: string;
+			/**
+			 * @deprecated This option no longer does anything and will be removed in v2.0.0
+			 */
 			writePrefixes?: boolean;
 		} = {},
 	) {
-		const step = new LogStep({ name, verbosity: this.#verbosity });
+		const step = new LogStep({ name, verbosity: this.#verbosity, description: opts.description });
 		this.#steps.push(step);
 		step.on('end', () => this.#onEnd(step));
 
 		this.#activate(step);
 		return step;
+	}
+
+	/**
+	 * Write directly to the Logger's output stream, bypassing any formatting and verbosity filtering.
+	 *
+	 * :::caution[Advanced]
+	 * Since {@link LogStep} implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+	 * :::
+	 *
+	 * @group Logging
+	 * @see {@link LogStep.write | `LogStep.write`}.
+	 */
+	write(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		chunk: any,
+		encoding?: BufferEncoding,
+		cb?: (error: Error | null | undefined) => void,
+	): boolean;
+
+	/**
+	 * @internal
+	 */
+	write(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		chunk: any,
+		cb?: (error: Error | null | undefined) => void,
+	): boolean;
+
+	write(
+		// @ts-expect-error
+		...args
+	) {
+		// @ts-expect-error
+		return super.write(...args);
 	}
 
 	/**
@@ -197,12 +237,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 	 *
 	 * ```ts
-	 * logger.info(() => bigArray.map((item) => item.name));
+	 * logger.info(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
-	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#info | `info()`} This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 */
 	info(contents: unknown) {
@@ -220,11 +259,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
 	 *
 	 * ```ts
-	 * logger.error(() => bigArray.map((item) => item.name));
+	 * logger.error(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#error | `error()`} This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 */
 	error(contents: unknown) {
@@ -242,11 +281,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
 	 *
 	 * ```ts
-	 * logger.warn(() => bigArray.map((item) => item.name));
+	 * logger.warn(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#warn | `warn()`} This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
 	 */
 	warn(contents: unknown) {
@@ -264,11 +303,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 	 *
 	 * ```ts
-	 * logger.log(() => bigArray.map((item) => item.name));
+	 * logger.log(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
 	 */
 	log(contents: unknown) {
@@ -286,11 +325,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
 	 *
 	 * ```ts
-	 * logger.debug(() => bigArray.map((item) => item.name));
+	 * logger.debug(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#debug | `debug()`} This is a pass-through for the main step’s {@link LogStep#debug | `debug()`} method.
 	 */
 	debug(contents: unknown) {
@@ -365,10 +404,9 @@ export class Logger {
 
 		if (step.isPiped) {
 			return;
-			// step.unpipe();
 		}
 
-		// this.unpause();
+		hideCursor();
 
 		if (!step.name || !(this.#stream as typeof process.stderr).isTTY) {
 			step.pipe(new LogStepToString()).pipe(this.#stream);

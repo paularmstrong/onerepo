@@ -14,8 +14,14 @@
  */
 export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
 
+/**
+ * @internal
+ */
 export type LineType = 'start' | 'end' | 'error' | 'warn' | 'info' | 'log' | 'debug' | 'timing';
 
+/**
+ * @internal
+ */
 export type LoggedBuffer = {
 	type: LineType;
 	contents: string;
