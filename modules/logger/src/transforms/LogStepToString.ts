@@ -35,7 +35,7 @@ export class LogStepToString extends Transform {
 			return `${!group ? pc.bold(pc.dim('◼︎ ')) : prefix[type]}${hasError ? pc.red('✘') : pc.green('✔')} ${output}`;
 		}
 		if (type === 'start') {
-			return `${!group ? pc.bold(pc.dim('➤ ')) : prefix[type]}${output}`;
+			return `${!group ? '' : prefix[type]}${output}`;
 		}
 		return output
 			.split('\n')
