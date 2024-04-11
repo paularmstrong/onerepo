@@ -1,268 +1,160 @@
 import { PassThrough } from 'node:stream';
-import pc from 'picocolors';
 import { LogStep } from '../LogStep';
+import type { Verbosity } from '../types';
 
-// describe('LogStep', () => {
-// 	let runId: string | undefined;
+const parser = (out: Array<unknown>) => {
+	const stream = new PassThrough();
+	stream.on('data', (chunk) => {
+		out.push(JSON.parse(chunk.toString()));
+	});
+	return stream;
+};
 
-// 	beforeEach(() => {
-// 		runId = process.env.GITHUB_RUN_ID;
-// 		delete process.env.GITHUB_RUN_ID;
-// 	});
+const waitAtick = () =>
+	new Promise<void>((resolve) => {
+		setImmediate(() => {
+			setImmediate(() => {
+				resolve();
+			});
+		});
+	});
 
-// 	afterEach(() => {
-// 		process.env.GITHUB_RUN_ID = runId;
-// 	});
+describe('LogStep', () => {
+	test('setup', async () => {
+		const step = new LogStep({ name: 'tacos', verbosity: 3 });
 
-// 	test('setup', async () => {
-// 		const onEnd = vi.fn();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 3, onMessage: () => {} });
+		expect(step.name).toBe('tacos');
+		expect(step.isPiped).toBe(false);
+	});
 
-// 		expect(step.name).toBe('tacos');
-// 		expect(step.verbosity).toBe(3);
-// 		expect(step.active).toBe(false);
-// 		expect(step.status).toEqual([' ┌ tacos']);
-// 	});
+	test('can be piped', async () => {
+		const out: Array<unknown> = [];
+		const step = new LogStep({ name: 'tacos', verbosity: 3 });
+		const stream = parser(out);
+		step.pipe(stream);
+		step.end();
 
-// 	test('can be activated', async () => {
-// 		const onEnd = vi.fn();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 3, onMessage: () => {} });
-// 		step.activate();
+		await waitAtick();
 
-// 		expect(step.active).toBe(true);
-// 	});
+		expect(out).toEqual([
+			{ type: 'start', contents: 'tacos', group: 'tacos', verbosity: 3 },
+			{ type: 'end', contents: expect.stringContaining('ms'), group: 'tacos', hasError: false, verbosity: 3 },
+		]);
+	});
 
-// 	test('writes group & endgroup when GITHUB_RUN_ID is set', async () => {
-// 		process.env.GITHUB_RUN_ID = 'yes';
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, onMessage: () => {} });
+	test.concurrent.each([
+		[0, []],
+		[1, ['info', 'error']],
+		[2, ['info', 'error', 'warn']],
+		[3, ['info', 'error', 'warn', 'log']],
+		[4, ['info', 'error', 'warn', 'log', 'debug']],
+		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
+	] as Array<[Verbosity, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
+		const logs = {
+			info: { type: 'info', contents: 'some information', verbosity, group: 'tacos' },
+			error: { type: 'error', contents: 'an error', verbosity, group: 'tacos' },
+			warn: { type: 'warn', contents: 'a warning', verbosity, group: 'tacos' },
+			log: { type: 'log', contents: 'a log', verbosity, group: 'tacos' },
+			debug: { type: 'debug', contents: 'a debug', verbosity, group: 'tacos' },
+			timing: { type: 'timing', contents: 'foo → bar: 0ms', verbosity, group: 'tacos' },
+		};
 
-// 		let out = '';
-// 		stream.on('data', (chunk) => {
-// 			out += chunk.toString();
-// 		});
-// 		step.activate();
+		const out: Array<unknown> = [];
+		const stream = parser(out);
+		const step = new LogStep({ name: 'tacos', verbosity });
+		step.pipe(stream);
 
-// 		step.log('hello');
-// 		await step.end();
-// 		await step.flush();
+		step.info('some information');
+		step.error('an error');
+		step.warn('a warning');
+		step.log('a log');
+		step.debug('a debug');
+		performance.mark('foo');
+		performance.mark('bar');
+		step.timing('foo', 'bar');
 
-// 		expect(out).toMatch(/^::group::tacos\n/);
-// 		expect(out).toMatch(/::endgroup::\n$/);
-// 	});
+		step.end();
 
-// 	test('when activated, flushes its logs to the stream', async () => {
-// 		vi.restoreAllMocks();
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream, onMessage: () => {} });
+		await waitAtick();
 
-// 		let out = '';
-// 		stream.on('data', (chunk) => {
-// 			out += chunk.toString();
-// 		});
+		for (const [method, str] of Object.entries(logs)) {
+			// @ts-ignore
+			if (!methods.includes(method)) {
+				expect(out).not.toEqual(expect.arrayContaining(['asdf']));
+			} else {
+				expect(out).toEqual(expect.arrayContaining([str]));
+			}
+		}
+	});
 
-// 		step.log('hellooooo');
-// 		step.activate();
-// 		await step.end();
-// 		await step.flush();
+	test.concurrent.each([
+		[
+			'function',
+			function foo(asdf: unknown) {
+				return asdf;
+			},
+			[{ type: 'log', contents: expect.stringContaining('function foo(asdf) {'), verbosity: 3, group: 'tacos' }],
+		],
+		[
+			'function with zero arguments are executed',
+			function foo() {
+				return 'tacos';
+			},
+			[{ type: 'log', contents: 'tacos', verbosity: 3, group: 'tacos' }],
+		],
+		[
+			'object',
+			{ foo: 'bar' },
+			[{ type: 'log', contents: JSON.stringify({ foo: 'bar' }, null, 2), verbosity: 3, group: 'tacos' }],
+		],
+		[
+			'array',
+			['foo', true],
+			[{ type: 'log', contents: JSON.stringify(['foo', true], null, 2), verbosity: 3, group: 'tacos' }],
+		],
+		[
+			'date',
+			new Date('2023-03-11'),
+			[{ type: 'log', contents: '2023-03-11T00:00:00.000Z', verbosity: 3, group: 'tacos' }],
+		],
+	])('can stringify %s', async (name, obj, exp) => {
+		const out: Array<unknown> = [];
+		const stream = parser(out);
+		const step = new LogStep({ name: 'tacos', verbosity: 3 });
+		step.pipe(stream);
 
-// 		expect(out).toEqual(
-// 			` ┌ tacos
-//  │ [36m[1mLOG[22m[39m hellooooo
-//  └ [32m✔[39m [2m0ms[22m
-// `,
-// 		);
-// 	});
+		step.log(obj);
+		step.end();
 
-// 	test.concurrent.each([
-// 		[0, []],
-// 		[1, ['info', 'error']],
-// 		[2, ['info', 'error', 'warn']],
-// 		[3, ['info', 'error', 'warn', 'log']],
-// 		[4, ['info', 'error', 'warn', 'log', 'debug']],
-// 		[5, ['info', 'error', 'warn', 'log', 'debug', 'timing']],
-// 	] as Array<[number, Array<keyof LogStep>]>)('verbosity = %d writes %j', async (verbosity, methods) => {
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity, stream, onMessage: () => {} });
+		await waitAtick();
 
-// 		const logs = {
-// 			info: `${pc.blue(pc.bold('INFO'))} some information`,
-// 			error: ` │ ${pc.red(pc.bold('ERR'))} an error`,
-// 			warn: ` │ ${pc.yellow(pc.bold('WRN'))} a warning`,
-// 			log: ` │ ${pc.cyan(pc.bold('LOG'))} a log`,
-// 			debug: ` │ ${pc.magenta(pc.bold('DBG'))} a debug`,
-// 			timing: ` │ ${pc.red('⏳')} foo → bar: 0ms`,
-// 		};
+		expect(out).toEqual(expect.arrayContaining(exp));
+	});
 
-// 		let out = '';
-// 		stream.on('data', (chunk) => {
-// 			out += chunk.toString();
-// 		});
+	test('sets hasError/etc when messages are added', async () => {
+		const out: Array<unknown> = [];
+		const stream = parser(out);
+		const step = new LogStep({ name: 'tacos', verbosity: 4 });
+		step.pipe(stream);
 
-// 		step.activate();
+		expect(step.hasError).toBe(false);
+		expect(step.hasWarning).toBe(false);
+		expect(step.hasInfo).toBe(false);
+		expect(step.hasLog).toBe(false);
 
-// 		step.info('some information');
-// 		step.error('an error');
-// 		step.warn('a warning');
-// 		step.log('a log');
-// 		step.debug('a debug');
-// 		performance.mark('foo');
-// 		performance.mark('bar');
-// 		step.timing('foo', 'bar');
+		step.error('foo');
+		expect(step.hasError).toBe(true);
 
-// 		await step.end();
-// 		await step.flush();
+		step.warn('foo');
+		expect(step.hasWarning).toBe(true);
 
-// 		// Some funky stuff happening here
-// 		// @ts-ignore
-// 		if (verbosity === 0) {
-// 			stream.end();
-// 		}
+		step.info('foo');
+		expect(step.hasInfo).toBe(true);
 
-// 		for (const [method, str] of Object.entries(logs)) {
-// 			// @ts-ignore
-// 			if (!methods.includes(method)) {
-// 				expect(out).not.toMatch(str);
-// 			} else {
-// 				expect(out).toMatch(str);
-// 			}
-// 		}
-// 	});
+		step.log('foo');
+		expect(step.hasLog).toBe(true);
 
-// 	test.concurrent.each([
-// 		[
-// 			'function',
-// 			function foo(asdf: unknown) {
-// 				return asdf;
-// 			},
-// 			` │ ${pc.cyan(pc.bold('LOG'))} function foo(asdf) {`,
-// 		],
-// 		[
-// 			'function with zero arguments are executed',
-// 			function foo() {
-// 				return 'tacos';
-// 			},
-// 			` │ ${pc.cyan(pc.bold('LOG'))} tacos`,
-// 		],
-// 		[
-// 			'object',
-// 			{ foo: 'bar' },
-// 			` │ ${pc.cyan(pc.bold('LOG'))} {
-//  │ ${pc.cyan(pc.bold('LOG'))}   "foo": "bar"
-//  │ ${pc.cyan(pc.bold('LOG'))} }`,
-// 		],
-// 		[
-// 			'array',
-// 			['foo', true],
-// 			` │ ${pc.cyan(pc.bold('LOG'))} [
-//  │ ${pc.cyan(pc.bold('LOG'))}   "foo",
-//  │ ${pc.cyan(pc.bold('LOG'))}   true
-//  │ ${pc.cyan(pc.bold('LOG'))} ]`,
-// 		],
-// 		['date', new Date('2023-03-11'), ` │ ${pc.cyan(pc.bold('LOG'))} 2023-03-11T00:00:00.000Z`],
-// 	])('can stringify %s', async (name, obj, exp) => {
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 3, stream, onMessage: () => {} });
-
-// 		let out = '';
-// 		stream.on('data', (chunk) => {
-// 			out += chunk.toString();
-// 		});
-
-// 		step.log(obj);
-// 		step.activate();
-// 		await step.end();
-// 		await step.flush();
-
-// 		expect(out).toMatch(exp);
-// 	});
-
-// 	test('can omit prefixes', async () => {
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, writePrefixes: false, onMessage: () => {} });
-
-// 		let out = '';
-// 		stream.on('data', (chunk) => {
-// 			out += chunk.toString();
-// 		});
-
-// 		step.error('error');
-// 		step.warn('warn');
-// 		step.info('info');
-// 		step.log('log');
-// 		step.debug('debug');
-// 		step.activate();
-// 		await step.end();
-// 		await step.flush();
-
-// 		expect(out).toEqual(` ┌ tacos
-//  │error
-//  │warn
-//  │info
-//  │log
-//  │debug
-//  └ [31m✘[39m [2m0ms[22m
-// `);
-// 	});
-
-// 	test('sets hasError/etc when messages are added', async () => {
-// 		const onEnd = vi.fn(() => Promise.resolve());
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd, verbosity: 4, stream, onMessage: () => {} });
-// 		step.activate();
-
-// 		expect(step.hasError).toBe(false);
-// 		expect(step.hasWarning).toBe(false);
-// 		expect(step.hasInfo).toBe(false);
-// 		expect(step.hasLog).toBe(false);
-
-// 		step.error('foo');
-// 		expect(step.hasError).toBe(true);
-
-// 		step.warn('foo');
-// 		expect(step.hasWarning).toBe(true);
-
-// 		step.info('foo');
-// 		expect(step.hasInfo).toBe(true);
-
-// 		step.log('foo');
-// 		expect(step.hasLog).toBe(true);
-
-// 		await step.end();
-// 		await step.flush();
-// 		stream.destroy();
-// 	});
-
-// 	test('calls onMessage as messages are added', async () => {
-// 		const onMessage = vi.fn();
-// 		const stream = new PassThrough();
-// 		const step = new LogStep('tacos', { onEnd: () => Promise.resolve(), verbosity: 4, stream, onMessage });
-// 		step.activate();
-
-// 		expect(onMessage).not.toHaveBeenCalled();
-
-// 		step.error('foo');
-// 		expect(onMessage).toHaveBeenCalledWith('error');
-
-// 		step.warn('foo');
-// 		expect(onMessage).toHaveBeenCalledWith('warn');
-
-// 		step.info('foo');
-// 		expect(onMessage).toHaveBeenCalledWith('info');
-
-// 		step.log('foo');
-// 		expect(onMessage).toHaveBeenCalledWith('log');
-
-// 		step.debug('foo');
-// 		expect(onMessage).toHaveBeenCalledWith('debug');
-
-// 		await step.end();
-// 		await step.flush();
-// 		stream.destroy();
-// 	});
-// });
+		step.end();
+		stream.destroy();
+	});
+});

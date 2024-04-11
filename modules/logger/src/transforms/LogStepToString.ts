@@ -16,6 +16,7 @@ export class LogStepToString extends Transform {
 	) {
 		try {
 			const data = JSON.parse(chunk.toString()) as LoggedBuffer;
+			// console.log(data);
 			if (typeMinVerbosity[data.type] <= data.verbosity) {
 				this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents), data.hasError)}`));
 			}

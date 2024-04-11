@@ -152,7 +152,7 @@ export class Logger {
 	}
 
 	/**
-	 * Unpause the logger and resume writing buffered logs to the output stream. See {@link Logger#pause | `logger.pause()`} for more information.
+	 * Unpause the logger and uncork writing buffered logs to the output stream. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
 		this.#stream.uncork();
@@ -362,6 +362,7 @@ export class Logger {
 			});
 		});
 
+		this.#defaultLogger.uncork();
 		for (const step of this.#steps) {
 			this.#defaultLogger.warn(
 				`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to call \`step.end();\` at the appropriate time.`,
@@ -387,6 +388,7 @@ export class Logger {
 			});
 		});
 
+		this.#defaultLogger.unpipe();
 		destroyCurrent();
 		showCursor();
 	}
@@ -399,7 +401,7 @@ export class Logger {
 		}
 
 		if (step !== this.#defaultLogger && !this.#defaultLogger.isPaused()) {
-			this.#defaultLogger.pause();
+			this.#defaultLogger.cork();
 		}
 
 		if (step.isPiped) {
@@ -434,7 +436,7 @@ export class Logger {
 		// step.destroy();
 		// await step.flush();
 
-		this.#defaultLogger.resume();
+		this.#defaultLogger.uncork();
 
 		// if (step.hasError && process.env.GITHUB_RUN_ID) {
 		// 	this.error('The previous step has errors.');
@@ -450,7 +452,7 @@ export class Logger {
 		await new Promise<void>((resolve) => {
 			setImmediate(() => {
 				setImmediate(() => {
-					this.#defaultLogger.pause();
+					this.#defaultLogger.cork();
 					resolve();
 				});
 			});

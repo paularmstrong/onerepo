@@ -12,6 +12,7 @@ async function runPendingImmediates() {
 	});
 }
 
+
 describe('Logger', () => {
 	let runId: string | undefined;
 
@@ -74,9 +75,9 @@ describe('Logger', () => {
 		},
 	);
 
-	test.only('logs "completed" message', async () => {
-		const stream = new PassThrough();
+	test('logs "completed" message', async () => {
 		let out = '';
+		const stream = new PassThrough();
 		stream.on('data', (chunk) => {
 			out += chunk.toString();
 		});
@@ -87,22 +88,16 @@ describe('Logger', () => {
 		step.end();
 
 		await logger.end();
-		await new Promise<void>((resolve) => {
-			setTimeout(() => {
-				setImmediate(() => {
-					resolve();
-				});
-			}, 100);
-		});
-		expect(out).toEqual('foo');
+		await runPendingImmediates();
 
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
 	});
 
-	test('logs "completed with errors" message', async () => {
+	test.only('logs "completed with errors" message', async () => {
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {
+			console.log('c', chunk.toString());
 			out += chunk.toString();
 		});
 
@@ -110,9 +105,12 @@ describe('Logger', () => {
 
 		const step = logger.createStep('tacos');
 		step.error('foo');
-		await step.end();
+		step.end();
 
 		await logger.end();
+		console.log('=====');
+		await runPendingImmediates();
+		expect(out).toEqual('foo');
 
 		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.red('✘')} Completed with errors`);
 	});
