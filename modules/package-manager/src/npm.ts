@@ -19,7 +19,7 @@ export const Npm = {
 			processes.map((proc) => ({
 				...proc,
 				cmd: 'npm',
-				args: ['exec', proc.cmd, ...(proc.args ?? [])],
+				args: ['exec', '--', proc.cmd, ...(proc.args ?? [])],
 			})),
 		);
 	},
@@ -141,7 +141,7 @@ export const Npm = {
 		return await run({
 			...opts,
 			cmd: 'npm',
-			args: ['exec', opts.cmd, ...(opts.args ?? [])],
+			args: ['exec', '--', opts.cmd, ...(opts.args ?? [])],
 		});
 	},
 } satisfies PackageManager;
