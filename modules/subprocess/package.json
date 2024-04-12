@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/subprocess",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "1.0.1"
+		"@onerepo/logger": "1.0.2"
 	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",

@@ -1,5 +1,30 @@
 # @onerepo/plugin-eslint
 
+## 1.0.2
+
+### Patch changes
+
+- When passing an absolute path to the command, eg `--file /home/dev/path/to/file`, ignores filtering would throw an error: ([6266a6d](https://github.com/paularmstrong/onerepo/commit/6266a6d68977e34ea1cc26d21b75ab9134c55451))
+  ```
+  RangeError: path should be a `path.relative()`d string, but got "."
+  ```
+
+### Dependencies updated
+
+- onerepo@1.1.1
+- @onerepo/test-cli@1.0.2
+- @onerepo/yargs@1.0.2
+- @onerepo/builders@1.0.2
+- @onerepo/git@1.0.2
+- @onerepo/graph@1.0.2
+- @onerepo/package-manager@1.0.2
+- @onerepo/subprocess@1.0.2
+- @onerepo/file@1.0.2
+- @onerepo/logger@1.0.2
+- eslint-formatter-onerepo@1.0.2
+
+> View the full changelog: [74892d8...d7f3a29](https://github.com/paularmstrong/onerepo/compare/74892d8605917bb0d8a1c3fe113d1b04f2505abb...d7f3a2956c6d8ea4a4346ac2541b67196fdc6011)
+
 ## 1.0.1
 
 ### Patch changes
