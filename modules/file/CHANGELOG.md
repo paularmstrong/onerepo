@@ -1,5 +1,13 @@
 # @onerepo/file
 
+## 1.0.2
+
+### Dependencies updated
+
+- @onerepo/logger@1.0.2
+
+> View the full changelog: [74892d8...d7f3a29](https://github.com/paularmstrong/onerepo/compare/74892d8605917bb0d8a1c3fe113d1b04f2505abb...d7f3a2956c6d8ea4a4346ac2541b67196fdc6011)
+
 ## 1.0.1
 
 ### Dependencies updated
