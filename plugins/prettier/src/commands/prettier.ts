@@ -51,14 +51,20 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	let filteredPaths: Array<string> = [];
 	if (!all) {
 		const ignoreStep = logger.createStep('Filtering ignored files');
-		const ignoreFile = graph.root.resolve('.prettierignore');
-		const hasIgnores = await file.exists(ignoreFile, { step: ignoreStep });
-		const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
-		const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 
-		const matcher = ignore().add(ignores);
 		const paths = await getFilepaths({ step: ignoreStep });
-		filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
+
+		if (paths.includes('.')) {
+			filteredPaths = ['.'];
+		} else {
+			const ignoreFile = graph.root.resolve('.prettierignore');
+			const hasIgnores = await file.exists(ignoreFile, { step: ignoreStep });
+			const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
+			const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
+			const matcher = ignore().add(ignores);
+
+			filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
+		}
 
 		await ignoreStep.end();
 	}
