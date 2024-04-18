@@ -14,7 +14,7 @@ type Args = builders.WithAllInputs & {
 	fix: boolean;
 	'github-annotate': boolean;
 	pretty: boolean;
-	quiet: boolean;
+	warnings: boolean;
 };
 
 export const builder: Builder<Args> = (yargs) =>
@@ -45,10 +45,11 @@ export const builder: Builder<Args> = (yargs) =>
 			default: true,
 			description: 'Control ESLint’s `--color` flag.',
 		})
-		.option('quiet', {
+		.option('warnings', {
+			alias: ['warn'],
 			type: 'boolean',
-			description: 'Report errors only',
-			default: false,
+			description: 'Report warnings from ESLint.',
+			default: true,
 		})
 		.option('github-annotate', {
 			description: 'Annotate files in GitHub with errors when failing lint checks in GitHub Actions',
@@ -72,7 +73,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		fix,
 		'github-annotate': github,
 		pretty,
-		quiet,
+		warnings,
 		'--': passthrough = [],
 	} = argv;
 
@@ -124,7 +125,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	if (!isDry && fix) {
 		args.push('--fix');
 	}
-	if (quiet) {
+	if (!warnings) {
 		args.push('--quiet');
 	}
 

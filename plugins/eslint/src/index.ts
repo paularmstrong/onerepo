@@ -26,7 +26,7 @@ export type Options = {
 	/**
 	 * Control the ESLint setting default to suppress warnings and only report errors.
 	 */
-	quiet?: boolean;
+	warnings?: boolean;
 	/**
 	 * When `true` or unset and run in GitHub Actions, any files failing format checks will be annotated with an error in the GitHub user interface.
 	 */
@@ -65,8 +65,8 @@ export function eslint(opts: Options = {}): Plugin {
 					if (opts.extensions) {
 						y.default('extensions', opts.extensions);
 					}
-					if (opts.quiet) {
-						y.default('quiet', opts.quiet);
+					if (typeof opts.warnings === 'boolean') {
+						y.default('warnings', opts.warnings);
 					}
 					return y;
 				},
