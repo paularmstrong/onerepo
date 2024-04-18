@@ -212,6 +212,33 @@ bar/**/*
 		);
 	});
 
+	test('skips filtering when "." is included', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+		// switch the handler getFilepaths() to return ['.'] by overloading with too many files
+		vi.spyOn(onerepo.git, 'getModifiedFiles').mockResolvedValue(
+			new Array(1000).fill(0).map((v, i) => `${i.toString().padStart(4, '0')}.js`),
+		);
+		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
+		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
+# ignore the comment
+bar/**/*
+`);
+		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
+			// @ts-ignore mock
+			{ isDirectory: () => false },
+		);
+		await expect(run('')).resolves.toBeTruthy();
+
+		expect(onerepo.file.exists).not.toHaveBeenCalled();
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'eslint',
+				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '.'],
+			}),
+		);
+	});
+
 	test('updates the git index for filtered paths with --add', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(onerepo.git, 'updateIndex').mockResolvedValue('');
