@@ -267,10 +267,23 @@ bar/**/*
 		expect(onerepo.git.updateIndex).toHaveBeenCalledWith(['bar.js']);
 	});
 
-	test('if --quiet, reports errors only', async () => {
+	test('if --warnings, reports warnings as well', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
-		await run('--all --quiet');
+		await run('--all --warnings');
+
+		expect(graph.packageManager.run).toHaveBeenCalledWith(
+			expect.objectContaining({
+				cmd: 'eslint',
+				args: expect.not.arrayContaining(['--quiet']),
+			}),
+		);
+	});
+
+	test('if not --warnings, does NOT report warnings', async () => {
+		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
+
+		await run('--all --no-warnings');
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({

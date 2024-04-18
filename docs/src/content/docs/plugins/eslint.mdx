@@ -40,7 +40,7 @@ import Tabs from '../../../components/Tabs.astro';
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<cf6eb737699290c0e0a1c007855f9118>> */}
+{/* @generated SignedSource<<a0273ddffca00e4e3bbdc719b8606de1>> */}
 
 ### eslint()
 
@@ -71,7 +71,7 @@ type Options: {
   extensions: string[];
   githubAnnotate: boolean;
   name: string | string[];
-  quiet: boolean;
+  warnings: boolean;
 };
 ```
 
@@ -113,10 +113,10 @@ optional name: string | string[];
 
 The name of the eslint command. You might change this to `'lint'` or `['lint', 'eslint']` to keep things more familiar for most developers.
 
-##### quiet?
+##### warnings?
 
 ```ts
-optional quiet: boolean;
+optional warnings: boolean;
 ```
 
 Control the ESLint setting default to suppress warnings and only report errors.
@@ -160,7 +160,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-eslint */}
-{/* @generated SignedSource<<607c2a94246fb1033dcf23d1a33f537d>> */}
+{/* @generated SignedSource<<8c1ba95f48e2963cc10413a04bbcc55c>> */}
 
 ### `one eslint`
 
@@ -172,19 +172,19 @@ Run eslint across files and Workspaces.
 one eslint [options...]
 ```
 
-| Option             | Type                       | Description                                                                                                                                                                 |
-| ------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--add`            | `boolean`                  | Add modified files after write to the git stage.                                                                                                                            |
-| `--affected`       | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
-| `--all, -a`        | `boolean`                  | Run across all Workspaces                                                                                                                                                   |
-| `--cache`          | `boolean`, default: `true` | Use cache if available                                                                                                                                                      |
-| `--extensions`     | `array`                    | Make ESLint check files given these extensions.                                                                                                                             |
-| `--files, -f`      | `array`                    | Determine Workspaces from specific files                                                                                                                                    |
-| `--fix`            | `boolean`, default: `true` | Apply auto-fixes if possible                                                                                                                                                |
-| `--pretty`         | `boolean`, default: `true` | Control ESLint’s `--color` flag.                                                                                                                                            |
-| `--quiet`          | `boolean`                  | Report errors only                                                                                                                                                          |
-| `--staged`         | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--workspaces, -w` | `array`                    | List of Workspace names to run against                                                                                                                                      |
+| Option               | Type                       | Description                                                                                                                                                                 |
+| -------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--add`              | `boolean`                  | Add modified files after write to the git stage.                                                                                                                            |
+| `--affected`         | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
+| `--all, -a`          | `boolean`                  | Run across all Workspaces                                                                                                                                                   |
+| `--cache`            | `boolean`, default: `true` | Use cache if available                                                                                                                                                      |
+| `--extensions`       | `array`                    | Make ESLint check files given these extensions.                                                                                                                             |
+| `--files, -f`        | `array`                    | Determine Workspaces from specific files                                                                                                                                    |
+| `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                                                                                                |
+| `--pretty`           | `boolean`, default: `true` | Control ESLint’s `--color` flag.                                                                                                                                            |
+| `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
+| `--warnings, --warn` | `boolean`, default: `true` | Report warnings from ESLint.                                                                                                                                                |
+| `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
 <details>
 
