@@ -1,5 +1,17 @@
 # @onerepo/git
 
+## 1.0.3
+
+### Dependencies updated
+
+- @onerepo/graph@1.0.3
+- @onerepo/package-manager@1.0.3
+- @onerepo/subprocess@1.0.3
+- @onerepo/file@1.0.3
+- @onerepo/logger@1.0.3
+
+> View the full changelog: [c8234dc...9359c78](https://github.com/paularmstrong/onerepo/compare/c8234dc79f7b7f40ca42167d41a6a6f4126c5286...9359c78e4da54e0402ad6a4bf5890a8a71972c8e)
+
 ## 1.0.2
 
 ### Patch changes
