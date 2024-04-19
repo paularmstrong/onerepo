@@ -1,10 +1,14 @@
+import { Transform } from 'node:stream';
+import restoreCursorDefault from 'restore-cursor';
 import { Logger } from './Logger';
-import type { LogStep } from './LogStep';
+// import { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
-import { LogBuffer } from './LogBuffer';
+import type { LogStep } from './LogStep';
+import { prefix } from './transforms/LogStepToString';
 
 export * from './Logger';
 export * from './LogStep';
+export * from './types';
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.
@@ -39,6 +43,7 @@ export function getLogger(opts: Partial<ConstructorParameters<typeof Logger>[0]>
  */
 export function destroyLogger() {
 	destroyCurrent();
+	restoreCursor();
 }
 
 /**
@@ -90,34 +95,42 @@ export async function stepWrapper<T>(
  */
 export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
-	const buffer = new LogBuffer();
-	const subLogger = new Logger({ verbosity: logger.verbosity, stream: buffer });
-	function proxyChunks(chunk: Buffer) {
-		if (subLogger.hasError) {
-			step.error(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasInfo) {
-			step.info(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasWarning) {
-			step.warn(() => chunk.toString().trimEnd());
-		} else if (subLogger.hasLog) {
-			step.log(() => chunk.toString().trimEnd());
-		} else {
-			step.debug(() => chunk.toString().trimEnd());
-		}
-	}
-	buffer.on('data', proxyChunks);
+	const stream = new Buffered();
+	const subLogger = new Logger({ verbosity: logger.verbosity, stream, captureAll: true });
+
+	stream.pipe(step);
 
 	return {
 		logger: subLogger,
 		async end() {
-			buffer.off('data', proxyChunks);
 			await new Promise<void>((resolve) => {
 				setImmediate(async () => {
-					await subLogger.end();
-					buffer.destroy();
+					stream.unpipe();
+					stream.destroy();
 					resolve();
 				});
 			});
 		},
 	};
+}
+
+export const restoreCursor = restoreCursorDefault;
+
+class Buffered extends Transform {
+	_transform(
+		chunk: Buffer,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		encoding = 'utf8',
+		callback: () => void,
+	) {
+		this.push(
+			`${chunk
+				.toString()
+				.trim()
+				.split('\n')
+				.map((line) => (line.startsWith(prefix.end) ? `${line}` : ` │ ${line.trim()}`))
+				.join('\n')}\n`,
+		);
+		callback();
+	}
 }

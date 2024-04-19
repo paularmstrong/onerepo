@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<3a92b43b1f1f18111c274c26eaba8e87>> -->
+<!-- @generated SignedSource<<9281bff381f5db4f1897a14260a36b1f>> -->
 
 ## Namespaces
 
@@ -23,6 +23,32 @@ const defaultConfig: Required<RootConfig>;
 ```
 
 **Source:** [modules/onerepo/src/setup/setup.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/setup/setup.ts)
+
+## Functions
+
+### restoreCursor()
+
+```ts
+restoreCursor(): void
+```
+
+Gracefully restore the CLI cursor on exit.
+
+Prevent the cursor you have hidden interactively from remaining hidden if the process crashes.
+
+It does nothing if run in a non-TTY context.
+
+**Returns:** `void`
+
+#### Example
+
+```
+import restoreCursor from 'restore-cursor';
+
+restoreCursor();
+```
+
+**Source:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
 
 ## Commands
 
@@ -1973,38 +1999,105 @@ export async function exists(filename: string, { step }: Options = {}) {
 
 ### LogStep
 
-Log steps should only be created via the [`logger.createStep()`](#createstep) method.
+LogSteps are an enhancement of [Node.js duplex streams](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex) that enable writing contextual messages to the program's output.
+
+Always create steps using the [`logger.createStep()`](#createstep) method so that they are properly tracked and linked to the parent logger. Creating a LogStep directly may result in errors and unintentional side effects.
 
 ```ts
-const step = logger.createStep('Do some work');
-// ... long task with a bunch of potential output
-await step.end();
+const myStep = logger.createStep();
+// Do work
+myStep.info('Did some work');
+myStep.end();
 ```
 
-#### Properties
+#### Extends
 
-| Property     | Type      | Description                                                                                                                                                                     |
-| :----------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `hasError`   | `boolean` | Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step. |
-| `hasInfo`    | `boolean` | Whether or not an info message has been sent to this step.                                                                                                                      |
-| `hasLog`     | `boolean` | Whether or not a log message has been sent to this step.                                                                                                                        |
-| `hasWarning` | `boolean` | Whether or not a warning has been sent to this step.                                                                                                                            |
+- `Duplex`
+
+#### Accessors
+
+##### hasError
+
+```ts
+get hasError(): boolean
+```
+
+Whether this step has logged an error message.
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+##### hasInfo
+
+```ts
+get hasInfo(): boolean
+```
+
+Whether this step has logged an info-level message.
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+##### hasLog
+
+```ts
+get hasLog(): boolean
+```
+
+Whether this step has logged a log-level message.
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+##### hasWarning
+
+```ts
+get hasWarning(): boolean
+```
+
+Whether this step has logged a warning message.
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+##### verbosity
+
+```ts
+set verbosity(verbosity): void
+```
+
+**Parameters:**
+
+| Parameter   | Type                        |
+| :---------- | :-------------------------- |
+| `verbosity` | [`Verbosity`](#verbosity-2) |
+
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 #### Methods
 
 ##### end()
 
 ```ts
-end(): Promise<void>
+end(): this
 ```
 
-Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
+Signal the end of this step. After this method is called, it will no longer accept any more logs of any variety and will be removed from the parent Logger's queue.
+
+Failure to call this method will result in a warning and potentially fail oneRepo commands. It is important to ensure that each step is cleanly ended before returning from commands.
 
 ```ts
-await step.end();
+const myStep = logger.createStep('My step');
+// do work
+myStep.end();
 ```
 
-**Returns:** `Promise`\<`void`\>  
+**Returns:** `this`
+
+###### Overrides
+
+`Duplex.end`
+
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 #### Logging
@@ -2015,23 +2108,25 @@ await step.end();
 debug(contents): void
 ```
 
-Extra debug logging when verbosity greater than or equal to 4.
+Log a debug message for this step. Debug messages will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 4 or greater.
 
 ```ts
-step.debug('Log this content when verbosity is >= 4');
+const step = logger.createStep('My step');
+step.debug('This message will be recorded and written out as an "DBG" labeled message');
+step.end();
 ```
 
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
 
 ```ts
-step.debug(() => bigArray.map((item) => item.name));
+step.debug(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                               |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value may be logged as a debug message, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
@@ -2042,23 +2137,25 @@ step.debug(() => bigArray.map((item) => item.name));
 error(contents): void
 ```
 
-Log an error. This will cause the root logger to include an error and fail a command.
+Log an error message for this step. Any error log will cause the entire command run in oneRepo to fail and exit with code `1`. Error messages will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 1 or greater – even if not written, the command will still fail and include an exit code.
 
 ```ts
-step.error('Log this content when verbosity is >= 1');
+const step = logger.createStep('My step');
+step.error('This message will be recorded and written out as an "ERR" labeled message');
+step.end();
 ```
 
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
 
 ```ts
-step.error(() => bigArray.map((item) => item.name));
+step.error(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                        |
+| :--------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value may be logged as an error, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
@@ -2069,23 +2166,25 @@ step.error(() => bigArray.map((item) => item.name));
 info(contents): void
 ```
 
-Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
+Log an informative message for this step. Info messages will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 1 or greater.
 
 ```ts
-step.info('Log this content when verbosity is >= 1');
+const step = logger.createStep('My step');
+step.info('This message will be recorded and written out as an "INFO" labeled message');
+step.end();
 ```
 
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 
 ```ts
-step.info(() => bigArray.map((item) => item.name));
+step.info(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                    |
+| :--------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value may be logged as info, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
@@ -2096,23 +2195,25 @@ step.info(() => bigArray.map((item) => item.name));
 log(contents): void
 ```
 
-General logging information. Useful for light informative debugging. Recommended to use sparingly.
+Log a message for this step. Log messages will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 3 or greater.
 
 ```ts
-step.log('Log this content when verbosity is >= 3');
+const step = logger.createStep('My step');
+step.log('This message will be recorded and written out as an "LOG" labeled message');
+step.end();
 ```
 
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 
 ```ts
-step.log(() => bigArray.map((item) => item.name));
+step.log(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                            |
+| :--------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value may be logged, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
@@ -2123,14 +2224,25 @@ step.log(() => bigArray.map((item) => item.name));
 timing(start, end): void
 ```
 
-Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
+Log extra performance timing information.
+
+Timing information will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 5.
+
+```ts
+const myStep = logger.createStep('My step');
+performance.mark('start');
+// do work
+performance.mark('end');
+myStep.timing('start', 'end');
+myStep.end();
+```
 
 **Parameters:**
 
-| Parameter | Type     | Description                    |
-| :-------- | :------- | :----------------------------- |
-| `start`   | `string` | A `PerformanceMark` entry name |
-| `end`     | `string` | A `PerformanceMark` entry name |
+| Parameter | Type     |
+| :-------- | :------- |
+| `start`   | `string` |
+| `end`     | `string` |
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
@@ -2141,25 +2253,58 @@ Log timing information between two [Node.js performance mark names](https://node
 warn(contents): void
 ```
 
-Log a warning. Does not have any effect on the command run, but will be called out.
+Log a warning message for this step. Warnings will _not_ cause oneRepo commands to fail. Warning messages will only be written to the program output if the [`verbosity`](#verbosity-1) is set to 2 or greater.
 
 ```ts
-step.warn('Log this content when verbosity is >= 2');
+const step = logger.createStep('My step');
+step.warn('This message will be recorded and written out as a "WRN" labeled message');
+step.end();
 ```
 
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
 
 ```ts
-step.warn(() => bigArray.map((item) => item.name));
+step.warn(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                         |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value may be logged as a warning, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+##### write()
+
+```ts
+write(
+   chunk,
+   encoding?,
+   cb?): boolean
+```
+
+Write directly to the step's stream, bypassing any formatting and verbosity filtering.
+
+:::caution[Advanced]
+Since [LogStep](#logstep) implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+:::
+
+**Parameters:**
+
+| Parameter   | Type                |
+| :---------- | :------------------ |
+| `chunk`     | `any`               |
+| `encoding`? | `BufferEncoding`    |
+| `cb`?       | (`error`) => `void` |
+
+**Returns:** `boolean`
+
+###### Overrides
+
+`Duplex.write`
+
 **Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 ---
@@ -2175,6 +2320,15 @@ If the current terminal is a TTY, output will be buffered and asynchronous steps
 See [`HandlerExtra`](#handlerextra) for access the the global Logger instance.
 
 #### Accessors
+
+##### captureAll
+
+```ts
+get captureAll(): boolean
+```
+
+**Returns:** `boolean`  
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 ##### hasError
 
@@ -2232,15 +2386,15 @@ Get the logger's verbosity level
 set verbosity(value): void
 ```
 
-Recursively applies the new verbosity to the logger and all of its active steps.
+Applies the new verbosity to the main logger and any future steps.
 
 **Parameters:**
 
 | Parameter | Type                        |
 | :-------- | :-------------------------- |
-| `value`   | [`Verbosity`](#verbosity-1) |
+| `value`   | [`Verbosity`](#verbosity-2) |
 
-**Returns:** [`Verbosity`](#verbosity-1)  
+**Returns:** [`Verbosity`](#verbosity-2)  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 ##### writable
@@ -2257,7 +2411,7 @@ get writable(): boolean
 ##### createStep()
 
 ```ts
-createStep(name, __namedParameters?): LogStep
+createStep(name, opts?): LogStep
 ```
 
 Create a sub-step, [`LogStep`](#logstep), for the logger. This and any other step will be tracked and required to finish before exit.
@@ -2270,11 +2424,12 @@ await step.end();
 
 **Parameters:**
 
-| Parameter                          | Type      | Description                                                                   |
-| :--------------------------------- | :-------- | :---------------------------------------------------------------------------- |
-| `name`                             | `string`  | The name to be written and wrapped around any output logged to this new step. |
-| `__namedParameters`?               | `Object`  | -                                                                             |
-| `__namedParameters.writePrefixes`? | `boolean` | -                                                                             |
+| Parameter             | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| :-------------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                | `string`  | The name to be written and wrapped around any output logged to this new step.                                                                                                                                                                                                                                                                                                                              |
+| `opts`?               | `Object`  | -                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `opts.description`?   | `string`  | Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.<br /><br />Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail. |
+| `opts.writePrefixes`? | `boolean` | **Deprecated**<br />This option no longer does anything and will be removed in v2.0.0                                                                                                                                                                                                                                                                                                                      |
 
 **Returns:** [`LogStep`](#logstep)  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
@@ -2282,7 +2437,7 @@ await step.end();
 ##### pause()
 
 ```ts
-pause(write?): void
+pause(): void
 ```
 
 When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and [`logger.unpause()`](#unpause) when complete.
@@ -2295,12 +2450,6 @@ logger.pause();
 logger.unpause();
 ```
 
-**Parameters:**
-
-| Parameter | Type      |
-| :-------- | :-------- |
-| `write`?  | `boolean` |
-
 **Returns:** `void`  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
@@ -2310,7 +2459,7 @@ logger.unpause();
 unpause(): void
 ```
 
-Unpause the logger and resume writing buffered logs to `stderr`. See [`logger.pause()`](#pause) for more information.
+Unpause the logger and resume writing buffered logs to the output stream. See [`logger.pause()`](#pause) for more information.
 
 **Returns:** `void`  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
@@ -2332,14 +2481,14 @@ logger.debug('Log this content when verbosity is >= 4');
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
 
 ```ts
-logger.debug(() => bigArray.map((item) => item.name));
+logger.debug(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                   |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **See also:**
@@ -2362,14 +2511,14 @@ logger.error('Log this content when verbosity is >= 1');
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
 
 ```ts
-logger.error(() => bigArray.map((item) => item.name));
+logger.error(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                   |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **See also:**
@@ -2392,14 +2541,14 @@ logger.info('Log this content when verbosity is >= 1');
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 
 ```ts
-logger.info(() => bigArray.map((item) => item.name));
+logger.info(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                   |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **See also:**
@@ -2422,14 +2571,14 @@ logger.log('Log this content when verbosity is >= 3');
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 
 ```ts
-logger.log(() => bigArray.map((item) => item.name));
+logger.log(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                   |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **See also:**
@@ -2473,14 +2622,14 @@ logger.warn('Log this content when verbosity is >= 2');
 If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
 
 ```ts
-logger.warn(() => bigArray.map((item) => item.name));
+logger.warn(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
+| Parameter  | Type      | Description                                                                                                                                                                                   |
+| :--------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output. |
 
 **Returns:** `void`  
 **See also:**
@@ -2488,23 +2637,103 @@ logger.warn(() => bigArray.map((item) => item.name));
 
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
----
-
-### LoggerOptions
+##### write()
 
 ```ts
-type LoggerOptions: {
-  stream: Writable;
+write(
+   chunk,
+   encoding?,
+   cb?): boolean
+```
+
+Write directly to the Logger's output stream, bypassing any formatting and verbosity filtering.
+
+:::caution[Advanced]
+Since [LogStep](#logstep) implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+:::
+
+**Parameters:**
+
+| Parameter   | Type                |
+| :---------- | :------------------ |
+| `chunk`     | `any`               |
+| `encoding`? | `BufferEncoding`    |
+| `cb`?       | (`error`) => `void` |
+
+**Returns:** `boolean`  
+**See also:**
+[`LogStep.write`](#write).
+
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
+---
+
+### LogStepOptions
+
+```ts
+type LogStepOptions: {
+  description: string;
+  name: string;
   verbosity: Verbosity;
 };
 ```
 
 #### Type declaration
 
+##### description?
+
+```ts
+optional description: string;
+```
+
+Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.
+
+Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail.
+
+##### name
+
+```ts
+name: string;
+```
+
+Wraps all step output within the name provided for the step.
+
+##### verbosity
+
+```ts
+verbosity: Verbosity;
+```
+
+The verbosity for this step, inherited from its parent [Logger](#logger).
+
+**Source:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
+---
+
+### LoggerOptions
+
+```ts
+type LoggerOptions: {
+  captureAll: boolean;
+  stream: Writable | LogStep;
+  verbosity: Verbosity;
+};
+```
+
+#### Type declaration
+
+##### captureAll?
+
+<span class="tag danger">Experimental</span>
+
+```ts
+optional captureAll: boolean;
+```
+
 ##### stream?
 
 ```ts
-optional stream: Writable;
+optional stream: Writable | LogStep;
 ```
 
 Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
@@ -2544,7 +2773,7 @@ Control the verbosity of the log output
 | `>= 4` | Debug       | `logger.debug()` will be included                |
 | `>= 5` | Timing      | Extra performance timing metrics will be written |
 
-**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Source:** [modules/logger/src/types.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/types.ts)
 
 ## Package management
 
@@ -3225,40 +3454,9 @@ new BatchError(errors, options?): BatchError
 
 #### Properties
 
-| Property             | Modifier | Type                                                   | Description                                                                                                                        | Inherited from            |
-| :------------------- | :------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                                  | `Error.cause`             |
-| `errors`             | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                                  | -                         |
-| `message`            | `public` | `string`                                               | -                                                                                                                                  | `Error.message`           |
-| `name`               | `public` | `string`                                               | -                                                                                                                                  | `Error.name`              |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
-| `stack?`             | `public` | `string`                                               | -                                                                                                                                  | `Error.stack`             |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                                  | `Error.stackTraceLimit`   |
-
-#### Methods
-
-##### captureStackTrace()
-
-```ts
-static captureStackTrace(targetObject, constructorOpt?): void
-```
-
-Create .stack property on a target object
-
-**Parameters:**
-
-| Parameter         | Type       |
-| :---------------- | :--------- |
-| `targetObject`    | `object`   |
-| `constructorOpt`? | `Function` |
-
-**Returns:** `void`
-
-###### Inherited from
-
-`Error.captureStackTrace`
-
-**Source:** node_modules/@types/node/globals.d.ts:21
+| Property | Type                                                  |
+| :------- | :---------------------------------------------------- |
+| `errors` | (`string` \| [`SubprocessError`](#subprocesserror))[] |
 
 ---
 
@@ -3290,42 +3488,6 @@ new SubprocessError(message, options?): SubprocessError
 `Error.constructor`
 
 **Source:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
-
-#### Properties
-
-| Property             | Modifier | Type                                                   | Description                                                                                                                        | Inherited from            |
-| :------------------- | :------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                                  | `Error.cause`             |
-| `message`            | `public` | `string`                                               | -                                                                                                                                  | `Error.message`           |
-| `name`               | `public` | `string`                                               | -                                                                                                                                  | `Error.name`              |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces<br /><br />**See**<br />https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` |
-| `stack?`             | `public` | `string`                                               | -                                                                                                                                  | `Error.stack`             |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                                  | `Error.stackTraceLimit`   |
-
-#### Methods
-
-##### captureStackTrace()
-
-```ts
-static captureStackTrace(targetObject, constructorOpt?): void
-```
-
-Create .stack property on a target object
-
-**Parameters:**
-
-| Parameter         | Type       |
-| :---------------- | :--------- |
-| `targetObject`    | `object`   |
-| `constructorOpt`? | `Function` |
-
-**Returns:** `void`
-
-###### Inherited from
-
-`Error.captureStackTrace`
-
-**Source:** node_modules/@types/node/globals.d.ts:21
 
 ---
 

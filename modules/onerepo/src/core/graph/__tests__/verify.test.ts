@@ -38,7 +38,7 @@ describe('verify', () => {
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const schema = require.resolve('./__fixtures__/tsconfig-schema.ts');
 
-		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toMatch('must be equal to constant');
+		await expect(run(`--custom-schema ${schema}`, { graph })).rejects.toEqual('must be equal to constant');
 	});
 
 	test('can verify js (eg jest.config, etc)', async () => {
