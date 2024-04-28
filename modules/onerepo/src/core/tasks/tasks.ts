@@ -43,6 +43,7 @@ export const lifecycles: Array<Lifecycle> = [
 	'post-checkout',
 	'pre-merge',
 	'post-merge',
+	'pre-push',
 	'build',
 	'pre-deploy',
 	'pre-publish',

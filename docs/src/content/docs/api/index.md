@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<3a92b43b1f1f18111c274c26eaba8e87>> -->
+<!-- @generated SignedSource<<1a022d00beb1cc8527c08e27af5f44e2>> -->
 
 ## Namespaces
 
@@ -402,6 +402,7 @@ type Lifecycle:
   | "post-checkout"
   | "pre-merge"
   | "post-merge"
+  | "pre-push"
   | "build"
   | "pre-deploy"
   | "pre-publish"
