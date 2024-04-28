@@ -44,7 +44,7 @@ Avoid potential mistakes when using [project references](https://www.typescriptl
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<274701f3896910b7dfed9098ec816975>> */}
+{/* @generated SignedSource<<980ffd231dc95dcac234f6e5d1275c46>> */}
 
 ### typescript()
 
@@ -100,13 +100,17 @@ optional name: string;
 
 The name of the typescript command.
 
+- **Default:** `['tsc', 'typescript', 'typecheck']`
+
 ##### tsconfig?
 
 ```ts
 optional tsconfig: string;
 ```
 
-Use a different filename thant he default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.
+Use a different filename than the default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.
+
+- **Default:** `'tsconfig.json'`
 
 ##### useProjectReferences?
 
@@ -114,7 +118,9 @@ Use a different filename thant he default `tsconfig.json` for type checking by d
 optional useProjectReferences: boolean;
 ```
 
-Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig
+Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig. Defaults to `false`.
+
+- **Default:** `false`
 
 {/* end-install-typedoc */}
 

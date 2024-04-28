@@ -44,7 +44,7 @@ export const builder: Builder<Args> = (yargs) =>
 
 For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.
 
-The \`pre-publish\` and \`post-publish\` task lifecycles will be run. They're roughly equivalent to [\`prepack\` and \`postpack\`](https://yarnpkg.com/advanced/lifecycle-scripts#prepack-and-postpack).`,
+The \`pre-publish\` and \`post-publish\` task lifecycles will be run during this command for each Workspace published. These Task lifecycles are roughly equivalent to the \`prepack\` and \`postpack\` provided by [npm](https://docs.npmjs.com/cli/v10/using-npm/scripts#life-cycle-scripts), [Yarn](https://yarnpkg.com/advanced/lifecycle-scripts#prepack-and-postpack), and [pnpm](https://pnpm.io/cli/publish#life-cycle-scripts).`,
 		)
 		.example(`$0 ${command[0]} -w api`, 'Publish the `api` Workspace and its dependencies, if necessary.')
 		.example(`$0 ${command[0]} --all`, 'Attempt to publish _all_ non-private Workspaces. ');

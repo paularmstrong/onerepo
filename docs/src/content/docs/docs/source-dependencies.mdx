@@ -41,18 +41,18 @@ When using the `publishConfig`, oneRepo's integrated [change management](/core/c
 Use the built-in [`one graph verify` command](/core/graph/#one-graph-verify) with a custom [JSON schema](/core/graph/#json-validation) to ensure all shared workspaces conform to using fields correctly.
 
 ```ts title="graph-schema.ts"
-import type { GraphSchemaValidators } from 'onerepo';
+import type { Graph, GraphSchemaValidators, Workspace } from 'onerepo';
 
 export default {
-  'modules/*': {
-    'package.json': {
+	'modules/*': {
+		'package.json': (workspace: Workspace, graph: Graph) => ({
 			type: 'object',
 			properties: {
-        main: {
-          type: 'string',
-          const: './src/index.ts',
-          errorMessage: '`main` field must be set to `./src/index.ts`',
-        },
+				main: {
+					type: 'string',
+					const: './src/index.ts',
+					errorMessage: '`main` field must be set to `./src/index.ts`',
+				},
 				publishConfig: {
 					type: 'object',
 					properties: {
@@ -71,7 +71,7 @@ export default {
 				},
 			},
 			required: ['publishConfig'],
-		},
-  },
+		}),
+	},
 } satisfies GraphSchemaValidators;
 ```
