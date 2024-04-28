@@ -31,7 +31,7 @@ export const builder: Builder<Argv> = (yargs) =>
 		.option('allow-dirty', {
 			type: 'boolean',
 			default: false,
-			description: 'Bypass checks to ensure no there are no un-committed changes.',
+			description: 'Bypass checks to ensure there are no un-committed changes.',
 		})
 		.option('otp', {
 			type: 'boolean',

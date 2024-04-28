@@ -13,7 +13,7 @@ The following content is auto-generated using the [official documentation plugin
 :::
 
 {/* start-auto-generated-from-cli */}
-{/* @generated SignedSource<<bc323b162d7d980d9d152cb01edc72a4>> */}
+{/* @generated SignedSource<<1e5483771cb178c9ed696dfc65d3f78e>> */}
 
 ## `one`
 
@@ -170,6 +170,8 @@ This command is safe to run any time. By default, only Workspaces that have prev
 
 For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.
 
+The `pre-publish` and `post-publish` task lifecycles will be run during this command for each Workspace published. These Task lifecycles are roughly equivalent to the `prepack` and `postpack` provided by [npm](https://docs.npmjs.com/cli/v10/using-npm/scripts#life-cycle-scripts), [Yarn](https://yarnpkg.com/advanced/lifecycle-scripts#prepack-and-postpack), and [pnpm](https://pnpm.io/cli/publish#life-cycle-scripts).
+
 | Option             | Type      | Description                                                                                |
 | ------------------ | --------- | ------------------------------------------------------------------------------------------ |
 | `--all, -a`        | `boolean` | Run across all Workspaces                                                                  |
@@ -184,7 +186,7 @@ For each Workspace, the registry will be queried first to ensure the current ver
 | Option          | Type      | Description                                                                                                                                                                 |
 | --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--affected`    | `boolean` | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
-| `--allow-dirty` | `boolean` | Bypass checks to ensure no there are no un-committed changes.                                                                                                               |
+| `--allow-dirty` | `boolean` | Bypass checks to ensure there are no un-committed changes.                                                                                                                  |
 | `--from-ref`    | `string`  | Git ref to start looking for affected files or Workspaces                                                                                                                   |
 | `--staged`      | `boolean` | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
 | `--through-ref` | `string`  | Git ref to start looking for affected files or Workspaces                                                                                                                   |
@@ -236,7 +238,7 @@ Periodically you may want to publish a _snapshot_ release – something that nee
 | Option             | Type                              | Description                                                               |
 | ------------------ | --------------------------------- | ------------------------------------------------------------------------- |
 | `--all, -a`        | `boolean`                         | Run across all Workspaces                                                 |
-| `--allow-dirty`    | `boolean`                         | Bypass checks to ensure no there are no un-committed changes.             |
+| `--allow-dirty`    | `boolean`                         | Bypass checks to ensure there are no un-committed changes.                |
 | `--otp`            | `boolean`                         | Prompt for one-time password before publishing to the registry            |
 | `--reset`          | `boolean`, default: `true`        | Reset `package.json` changes before exiting. Use `--no-reset` to disable. |
 | `--tag`            | `string`, default: `"prerelease"` | Distribution tag to apply when publishing the pre-release.                |
@@ -266,12 +268,12 @@ Update version numbers for publishable Workspaces
 one change version
 ```
 
-| Option                               | Type      | Description                                                   |
-| ------------------------------------ | --------- | ------------------------------------------------------------- |
-| `--all, -a`                          | `boolean` | Run across all Workspaces                                     |
-| `--allow-dirty`                      | `boolean` | Bypass checks to ensure no there are no un-committed changes. |
-| `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.          |
-| `--workspaces, -w`                   | `array`   | List of Workspace names to run against                        |
+| Option                               | Type      | Description                                                |
+| ------------------------------------ | --------- | ---------------------------------------------------------- |
+| `--all, -a`                          | `boolean` | Run across all Workspaces                                  |
+| `--allow-dirty`                      | `boolean` | Bypass checks to ensure there are no un-committed changes. |
+| `--prerelease, --pre, --pre-release` | `string`  | Create a pre-release using the specified identifier.       |
+| `--workspaces, -w`                   | `array`   | List of Workspace names to run against                     |
 
 Create a prerelease for the next version the form of `1.2.3-alpha.0`.
 
