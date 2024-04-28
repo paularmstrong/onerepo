@@ -25,7 +25,7 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			default: false,
 			hidden: true,
-			description: 'Bypass checks to ensure no there are no un-committed changes.',
+			description: 'Bypass checks to ensure there are no un-committed changes.',
 		})
 		.option('otp', {
 			type: 'boolean',
@@ -42,7 +42,9 @@ export const builder: Builder<Args> = (yargs) =>
 		.epilogue(
 			`This command is safe to run any time. By default, only Workspaces that have previously gone through the \`one change version\` process will end up being published. Use \`--all\` for all Workspaces or \`--workspaces <workspace-name>\` to specify individual Workspaces to try publishing.
 
-For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.`,
+For each Workspace, the registry will be queried first to ensure the current version in the Workspace does not yet exist in the registry. If a version _does_ exist, the Workspace will be skipped.
+
+The \`pre-publish\` and \`post-publish\` task lifecycles will be run. They're roughly equivalent to [\`prepack\` and \`postpack\`](https://yarnpkg.com/advanced/lifecycle-scripts#prepack-and-postpack).`,
 		)
 		.example(`$0 ${command[0]} -w api`, 'Publish the `api` Workspace and its dependencies, if necessary.')
 		.example(`$0 ${command[0]} --all`, 'Attempt to publish _all_ non-private Workspaces. ');

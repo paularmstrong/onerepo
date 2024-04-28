@@ -21,10 +21,8 @@ However, you can enhance this by providing custom schema to match to workspaces 
 
 ```js title="onerepo.config.js" {3-5}
 export default {
-	core: {
-		graph: {
-			customSchema: './path/to/graph-schema.js',
-		},
+	validation: {
+		schema: './path/to/graph-schema.js',
 	},
 };
 ```
@@ -229,7 +227,7 @@ export default {
 
 ### Base schema
 
-oneRepo provides a base schema with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:
+oneRepo provides a [base schema](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/graph/schema.ts) with some defaults for private & public `package.json` files. If the provided schema are not to your liking, you can override with the location glob `'**'`:
 
 ```js title="graph-schema.cjs" {2}
 module.export = {

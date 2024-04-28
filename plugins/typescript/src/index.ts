@@ -20,11 +20,11 @@ export type Options = {
 	 */
 	name?: string;
 	/**
-	 * Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig
+	 * Use [TypeScript Project References](https://www.typescriptlang.org/docs/handbook/project-references.html). Setting to `true` will automatically sync dependency project references to your tsconfig. Defaults to `false`.
 	 */
 	useProjectReferences?: boolean;
 	/**
-	 * Use a different filename thant he default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.
+	 * Use a different filename than the default `tsconfig.json` for type checking by default. This can always be overridden by passing `--tsconfig=<filename>` as an argument to the command.
 	 */
 	tsconfig?: string;
 };
