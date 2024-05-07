@@ -185,7 +185,7 @@ export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromTh
 		const isMain = base === currentSha;
 		const isCleanState = await isClean({ step });
 
-		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', 'ACMR'];
+		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', 'ACMRD'];
 		uncleanArgs.push(!staged ? base : '--cached');
 		const cleanMainArgs = [
 			'diff-tree',
@@ -194,7 +194,7 @@ export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromTh
 			'--name-only',
 			'--no-commit-id',
 			'--diff-filter',
-			'ACMR',
+			'ACMRD',
 			isMain ? `${currentSha}^` : base,
 			isMain ? currentSha : 'HEAD',
 		];
