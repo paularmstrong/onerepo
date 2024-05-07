@@ -168,7 +168,7 @@ export type ModifiedStaged = {
 };
 
 /**
- * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
+ * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
  *
  * ```ts
  * const changesSinceMergeBase = await git.getModifiedFiles();

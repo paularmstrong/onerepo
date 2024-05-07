@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<1665a5998f94c28ec13035a22848de34>> -->
+<!-- @generated SignedSource<<acfb554bdfad59fecb966cd0b9fd06c6>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -299,7 +299,7 @@ const mergeBase = await getMergeBase();
 getModifiedFiles(modified?, options?): Promise<string[]>
 ```
 
-Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
+Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
 
 ```ts
 const changesSinceMergeBase = await git.getModifiedFiles();
