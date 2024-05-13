@@ -25,7 +25,6 @@ type ModifiedByStatus = {
 	copied: Array<string>;
 	modified: Array<string>;
 	deleted: Array<string>;
-	updated: Array<string>;
 	renamed: Array<string>;
 };
 
@@ -177,7 +176,7 @@ export type ModifiedStaged = {
 };
 
 /**
- * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+ * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, and renamed, if you wish to include deleted files pass true to `includeDeletions`.
  *
  * ```ts
  * const changesSinceMergeBase = await git.getModifiedFiles();
@@ -197,17 +196,19 @@ export async function getModifiedFiles(
 
 		const isMain = base === currentSha;
 		const isCleanState = await isClean({ step });
+		const diffFilter = `ACMR${includeDeletions ? 'D' : ''}`;
+		const fileNameFormat = includeDeletions ? '--name-status' : '--name-only';
 
-		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', `ACMR${includeDeletions ? 'D' : ''}`];
+		const uncleanArgs = ['diff', fileNameFormat, '-z', '--diff-filter', diffFilter];
 		uncleanArgs.push(!staged ? base : '--cached');
 		const cleanMainArgs = [
 			'diff-tree',
 			'-r',
 			'-z',
-			'--name-only',
+			fileNameFormat,
 			'--no-commit-id',
 			'--diff-filter',
-			`ACMR${includeDeletions ? 'D' : ''}`,
+			diffFilter,
 			isMain ? `${currentSha}^` : base,
 			isMain ? currentSha : 'HEAD',
 		];
@@ -228,11 +229,11 @@ export async function getModifiedFiles(
 }
 
 /**
- * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+ * Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
  *
  * ```ts
- * const changesSinceMergeBase = await git.getModifiedFiles();
- * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
+ * const changesSinceMergeBase = await git.getModifiedFilesByStatus();
+ * const betweenRefs = await git.getModifiedFilesByStatus('v1.2.3', 'v2.0.0');
  * ```
  */
 export async function getModifiedFilesByStatus(
@@ -248,43 +249,50 @@ export async function getModifiedFilesByStatus(
 			added: [],
 			copied: [],
 			renamed: [],
-			updated: [],
 			deleted: [],
 		};
 
 		let opPtr = 0;
 		let filePtr = 1;
 
-		if (files.length >= 2 && files.length % 2 === 0) {
-			const iterations = files.length / 2;
-			for (let x = 0; x < iterations; x++) {
-				const operation = files[opPtr];
+		if (files.length === 0) {
+			step.warn('No modified files detected.');
+			return modifiedByType;
+		}
 
-				switch (operation) {
-					case 'A':
-						modifiedByType.added.push(files[filePtr]);
-						break;
-					case 'C':
-						modifiedByType.copied.push(files[filePtr]);
-						break;
-					case 'M':
-						modifiedByType.modified.push(files[filePtr]);
-						break;
-					case 'R':
-						modifiedByType.renamed.push(files[filePtr]);
-						break;
-					case 'D':
-						modifiedByType.deleted.push(files[filePtr]);
-						break;
-					default:
-						step.warn('Expected format of modified files response from Github');
-				}
+		if (files.length % 2 !== 0 || files.length < 2) {
+			step.warn('File diff response from Github is in an unexpected format.');
+			return modifiedByType;
+		}
 
-				opPtr += 2;
-				filePtr += 2;
+		const iterations = files.length / 2;
+		for (let x = 0; x < iterations; x++) {
+			const operation = files[opPtr];
+
+			switch (operation) {
+				case 'A':
+					modifiedByType.added.push(files[filePtr]);
+					break;
+				case 'C':
+					modifiedByType.copied.push(files[filePtr]);
+					break;
+				case 'M':
+					modifiedByType.modified.push(files[filePtr]);
+					break;
+				case 'R':
+					modifiedByType.renamed.push(files[filePtr]);
+					break;
+				case 'D':
+					modifiedByType.deleted.push(files[filePtr]);
+					break;
+				default:
+					step.warn(
+						`Unknown file diff operation ${operation} detected. This file ${files[filePtr]} will not be included in the results.`,
+					);
 			}
-		} else {
-			step.error('Modified file response from Github is in an unexpected format.');
+
+			opPtr += 2;
+			filePtr += 2;
 		}
 
 		return modifiedByType;

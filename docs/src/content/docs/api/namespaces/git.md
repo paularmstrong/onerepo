@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<acfb554bdfad59fecb966cd0b9fd06c6>> -->
+<!-- @generated SignedSource<<f074f37b1b6b3308fb575afa88497b35>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -296,14 +296,43 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-getModifiedFiles(modified?, options?): Promise<string[]>
+getModifiedFiles(
+   modified?,
+   options?,
+includeDeletions?): Promise<string[]>
 ```
 
-Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, and renamed, if you wish to include deleted files pass true to `includeDeletions`.
 
 ```ts
 const changesSinceMergeBase = await git.getModifiedFiles();
 const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
+```
+
+**Parameters:**
+
+| Parameter           | Type                                                                                 |
+| :------------------ | :----------------------------------------------------------------------------------- |
+| `modified`?         | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
+| `options`?          | [`Options`](#options)                                                                |
+| `includeDeletions`? | `boolean`                                                                            |
+
+**Returns:** `Promise`\<`string`[]\>  
+**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
+---
+
+### getModifiedFilesByStatus()
+
+```ts
+getModifiedFilesByStatus(modified?, options?): Promise<ModifiedByStatus>
+```
+
+Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+
+```ts
+const changesSinceMergeBase = await git.getModifiedFilesByStatus();
+const betweenRefs = await git.getModifiedFilesByStatus('v1.2.3', 'v2.0.0');
 ```
 
 **Parameters:**
@@ -313,7 +342,7 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 | `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
 | `options`?  | [`Options`](#options)                                                                |
 
-**Returns:** `Promise`\<`string`[]\>  
+**Returns:** `Promise`\<`ModifiedByStatus`\>  
 **Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
