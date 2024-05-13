@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<0078a6960526e704b18d6eef32900c6b>> -->
+<!-- @generated SignedSource<<cabfb7b52732a63d448d39633f6e35ec>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -299,7 +299,8 @@ const mergeBase = await getMergeBase();
 function getModifiedFiles(modified?, options?, includeDeletions?): Promise<string[]>;
 ```
 
-Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, and renamed, if you wish to include deleted files pass true to `includeDeletions`.
+Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
+Modified files include files that were added, copied, modified, and renamed. if you wish to include deleted files pass true to `includeDeletions`.
 
 ```ts
 const changesSinceMergeBase = await git.getModifiedFiles();
@@ -325,7 +326,8 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 function getModifiedFilesByStatus(modified?, options?): Promise<ModifiedByStatus>;
 ```
 
-Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
+Modified files are returned in an object grouped by the operation that was performed on them according to git.
 
 ```ts
 const changesSinceMergeBase = await git.getModifiedFilesByStatus();

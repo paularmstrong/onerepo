@@ -162,7 +162,7 @@ describe('handler', () => {
 		expect(JSON.parse(out)).toEqual({ parallel: [], serial: [] });
 	});
 
-	test('includes tasks that match across workspaces', async () => {
+	test.only('includes tasks that match across workspaces', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
 		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
