@@ -20,6 +20,15 @@ export type Options = {
 	step?: LogStep;
 };
 
+type ModifiedByStatus = {
+	added: Array<string>;
+	copied: Array<string>;
+	modified: Array<string>;
+	deleted: Array<string>;
+	updated: Array<string>;
+	renamed: Array<string>;
+};
+
 /**
  * Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
  *
@@ -175,7 +184,11 @@ export type ModifiedStaged = {
  * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
  * ```
  */
-export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromThrough = {}, options: Options = {}) {
+export async function getModifiedFiles(
+	modified: ModifiedStaged | ModifiedFromThrough = {},
+	options: Options = {},
+	includeDeletions = false,
+) {
 	const { from, staged, through } = modified;
 	const { step } = options;
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
@@ -185,7 +198,7 @@ export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromTh
 		const isMain = base === currentSha;
 		const isCleanState = await isClean({ step });
 
-		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', 'ACMRD'];
+		const uncleanArgs = ['diff', '--name-only', '-z', '--diff-filter', `ACMR${includeDeletions ? 'D' : ''}`];
 		uncleanArgs.push(!staged ? base : '--cached');
 		const cleanMainArgs = [
 			'diff-tree',
@@ -194,7 +207,7 @@ export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromTh
 			'--name-only',
 			'--no-commit-id',
 			'--diff-filter',
-			'ACMRD',
+			`ACMR${includeDeletions ? 'D' : ''}`,
 			isMain ? `${currentSha}^` : base,
 			isMain ? currentSha : 'HEAD',
 		];
@@ -211,6 +224,70 @@ export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromTh
 			.replace(/\\u0000$/, '')
 			.split('\u0000')
 			.filter(Boolean) as Array<string>;
+	});
+}
+
+/**
+ * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`. Modified files include files that were added, copied, modified, renamed, and deleted.
+ *
+ * ```ts
+ * const changesSinceMergeBase = await git.getModifiedFiles();
+ * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
+ * ```
+ */
+export async function getModifiedFilesByStatus(
+	modified: ModifiedStaged | ModifiedFromThrough = {},
+	options: Options = {},
+): Promise<ModifiedByStatus> {
+	const { step } = options;
+	return stepWrapper({ step, name: 'Get modified files by status' }, async (step) => {
+		const files = await getModifiedFiles(modified, options, true);
+
+		const modifiedByType: ModifiedByStatus = {
+			modified: [],
+			added: [],
+			copied: [],
+			renamed: [],
+			updated: [],
+			deleted: [],
+		};
+
+		let opPtr = 0;
+		let filePtr = 1;
+
+		if (files.length >= 2 && files.length % 2 === 0) {
+			const iterations = files.length / 2;
+			for (let x = 0; x < iterations; x++) {
+				const operation = files[opPtr];
+
+				switch (operation) {
+					case 'A':
+						modifiedByType.added.push(files[filePtr]);
+						break;
+					case 'C':
+						modifiedByType.copied.push(files[filePtr]);
+						break;
+					case 'M':
+						modifiedByType.modified.push(files[filePtr]);
+						break;
+					case 'R':
+						modifiedByType.renamed.push(files[filePtr]);
+						break;
+					case 'D':
+						modifiedByType.deleted.push(files[filePtr]);
+						break;
+					default:
+						step.warn('Expected format of modified files response from Github');
+				}
+
+				opPtr += 2;
+				filePtr += 2;
+			}
+		} else {
+			step.error('Modified file response from Github is in an unexpected format.');
+		}
+
+		return modifiedByType;
 	});
 }
 
