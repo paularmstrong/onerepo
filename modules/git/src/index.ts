@@ -18,14 +18,31 @@ export type Options = {
 	 * Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 	 */
 	step?: LogStep;
+	/**
+	 * Whether or not to include files that were deleted
+	 */
+	includeDeletions?: boolean;
+	/**
+	 * Whether or not to include files whose type changed ()
+	 */
+	includeFileTypeChanged?: boolean;
+	includeUnmerged?: boolean;
+	includeUnknown?: boolean;
 };
 
+/**
+ * This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found here
+ * https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203
+ */
 type ModifiedByStatus = {
 	added: Array<string>;
 	copied: Array<string>;
 	modified: Array<string>;
 	deleted: Array<string>;
 	renamed: Array<string>;
+	fileTypeChanged: Array<string>;
+	unmerged: Array<string>;
+	unknown: Array<string>;
 };
 
 /**
@@ -184,20 +201,16 @@ export type ModifiedStaged = {
  * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
  * ```
  */
-export async function getModifiedFiles(
-	modified: ModifiedStaged | ModifiedFromThrough = {},
-	options: Options = {},
-	includeDeletions = false,
-) {
+export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromThrough = {}, options: Options = {}) {
 	const { from, staged, through } = modified;
-	const { step } = options;
+	const { step, includeDeletions, includeFileTypeChanged, includeUnknown, includeUnmerged } = options;
 	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
 		const base = await (from ?? getMergeBase({ step }));
 		const currentSha = await (through ?? getCurrentSha({ step }));
 
 		const isMain = base === currentSha;
 		const isCleanState = await isClean({ step });
-		const diffFilter = `ACMR${includeDeletions ? 'D' : ''}`;
+		const diffFilter = `ACMR${includeDeletions ? 'D' : ''}${includeFileTypeChanged ? 'T' : ''}${includeUnmerged ? 'U' : ''}${includeUnknown ? 'X' : ''}`;
 		const fileNameFormat = includeDeletions ? '--name-status' : '--name-only';
 
 		const uncleanArgs = ['diff', fileNameFormat, '-z', '--diff-filter', diffFilter];
@@ -244,7 +257,7 @@ export async function getModifiedFilesByStatus(
 ): Promise<ModifiedByStatus> {
 	const { step } = options;
 	return stepWrapper({ step, name: 'Get modified files by status' }, async (step) => {
-		const files = await getModifiedFiles(modified, options, true);
+		const files = await getModifiedFiles(modified, options);
 
 		const modifiedByType: ModifiedByStatus = {
 			modified: [],
@@ -252,6 +265,9 @@ export async function getModifiedFilesByStatus(
 			copied: [],
 			renamed: [],
 			deleted: [],
+			fileTypeChanged: [],
+			unmerged: [],
+			unknown: [],
 		};
 
 		let opPtr = 0;
@@ -287,9 +303,18 @@ export async function getModifiedFilesByStatus(
 				case 'D':
 					modifiedByType.deleted.push(files[filePtr]);
 					break;
+				case 'T':
+					modifiedByType.fileTypeChanged.push(files[filePtr]);
+					break;
+				case 'U':
+					modifiedByType.unmerged.push(files[filePtr]);
+					break;
+				case 'X':
+					modifiedByType.unknown.push(files[filePtr]);
+					break;
 				default:
 					step.warn(
-						`Unknown file diff operation ${operation} detected. This file ${files[filePtr]} will not be included in the results.`,
+						`Unknown file status, "${operation}". Please report this to https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug%2Ctriage&projects=&template=01-bug-report.yml.`,
 					);
 			}
 

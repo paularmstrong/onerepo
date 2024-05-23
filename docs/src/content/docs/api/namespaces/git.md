@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<cabfb7b52732a63d448d39633f6e35ec>> -->
+<!-- @generated SignedSource<<9906909fa1daefb5bddda6a968027853>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -158,6 +158,10 @@ Disallowed when `staged: true`
 
 ```ts
 type Options: {
+  includeDeletions: boolean;
+  includeFileTypeChanged: boolean;
+  includeUnknown: boolean;
+  includeUnmerged: boolean;
   step: LogStep;
 };
 ```
@@ -165,6 +169,34 @@ type Options: {
 Generic options passed to all Git operations.
 
 #### Type declaration
+
+##### includeDeletions?
+
+```ts
+optional includeDeletions: boolean;
+```
+
+Whether or not to include files that were deleted
+
+##### includeFileTypeChanged?
+
+```ts
+optional includeFileTypeChanged: boolean;
+```
+
+Whether or not to include files whose type changed ()
+
+##### includeUnknown?
+
+```ts
+optional includeUnknown: boolean;
+```
+
+##### includeUnmerged?
+
+```ts
+optional includeUnmerged: boolean;
+```
 
 ##### step?
 
@@ -296,7 +328,7 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-function getModifiedFiles(modified?, options?, includeDeletions?): Promise<string[]>;
+function getModifiedFiles(modified?, options?): Promise<string[]>;
 ```
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -309,11 +341,10 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 
 **Parameters:**
 
-| Parameter           | Type                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------ |
-| `modified`?         | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
-| `options`?          | [`Options`](#options)                                                                |
-| `includeDeletions`? | `boolean`                                                                            |
+| Parameter   | Type                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------ |
+| `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
+| `options`?  | [`Options`](#options)                                                                |
 
 **Returns:** `Promise`\<`string`[]\>  
 **Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
