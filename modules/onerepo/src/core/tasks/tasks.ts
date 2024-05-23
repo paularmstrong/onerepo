@@ -126,7 +126,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	const modifiedOpts = staged
 		? { staged: true, step: setupStep }
 		: { from: fromRef, through: throughRef, step: setupStep };
-	const allFiles = await git.getModifiedFiles(modifiedOpts, { step: setupStep }, true);
+	const allFiles = await git.getModifiedFiles(modifiedOpts, { step: setupStep, includeDeletions: true });
 	const files = allFiles.filter((file) => !ignore.some((ignore) => minimatch(file, ignore)));
 
 	if (!files.length && !workspaceNames.length) {
