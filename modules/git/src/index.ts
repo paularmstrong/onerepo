@@ -18,31 +18,6 @@ export type Options = {
 	 * Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 	 */
 	step?: LogStep;
-	/**
-	 * Whether or not to include files that were deleted
-	 */
-	includeDeletions?: boolean;
-	/**
-	 * Whether or not to include files whose type changed ()
-	 */
-	includeFileTypeChanged?: boolean;
-	includeUnmerged?: boolean;
-	includeUnknown?: boolean;
-};
-
-/**
- * This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found here
- * https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203
- */
-type ModifiedByStatus = {
-	added: Array<string>;
-	copied: Array<string>;
-	modified: Array<string>;
-	deleted: Array<string>;
-	renamed: Array<string>;
-	fileTypeChanged: Array<string>;
-	unmerged: Array<string>;
-	unknown: Array<string>;
 };
 
 /**
@@ -162,7 +137,18 @@ export async function isClean(options: Options = {}) {
 	});
 }
 
-export type ModifiedFromThrough = {
+export type ModifiedBaseOptions<ByStatus extends boolean = false> = {
+	/**
+	 * By default, this function will not return `deleted` and `unmerged` files unless either `allStatus` or `byStatus` is set to `true`
+	 */
+	allStatus?: boolean;
+	/**
+	 * Return modified files categorized by the {@link ModifiedByStatus | type of modification} (added, deleted, modified, etc)
+	 */
+	byStatus?: ByStatus;
+};
+
+export type ModifiedFromThrough<ByStatus extends boolean> = ModifiedBaseOptions<ByStatus> & {
 	/**
 	 * Git ref for start (exclusive) to get list of modified files
 	 */
@@ -177,7 +163,7 @@ export type ModifiedFromThrough = {
 	through?: string;
 };
 
-export type ModifiedStaged = {
+export type ModifiedStaged<ByStatus extends boolean> = ModifiedBaseOptions<ByStatus> & {
 	/**
 	 * Disallowed when `staged: true`
 	 */
@@ -193,138 +179,157 @@ export type ModifiedStaged = {
 };
 
 /**
- * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
- * Modified files include files that were added, copied, modified, and renamed. if you wish to include deleted files pass true to `includeDeletions`.
+ * This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found in the official git documentation for [git-diff](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203).
+ */
+export type ModifiedByStatus = {
+	/**
+	 * Git status `A`: addition of a file
+	 */
+	added: Array<string>;
+	/**
+	 * Git status `C`: copy of a file into a new one
+	 */
+	copied: Array<string>;
+	/**
+	 * Git status `D`: deletion of a file
+	 */
+	deleted: Array<string>;
+	/**
+	 * Git status `M`: modification of the contents or mode of a file
+	 */
+	modified: Array<string>;
+	/**
+	 * Git status `R`: renaming of a file
+	 */
+	renamed: Array<string>;
+	/**
+	 * Git status `T`: change in the type of the file (regular file, symbolic link or submodule)
+	 */
+	fileTypeChanged: Array<string>;
+	/**
+	 * Git status `U`: "unknown" change type (most probably a bug, please report it)
+	 */
+	unmerged: Array<string>;
+	/**
+	 * Git status `X`: addition of a file
+	 */
+	unknown: Array<string>;
+};
+
+/**
+ * Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will use merge-base determination to get the changes to the working tree using `git diff` and `git diff-tree`.
+ *
+ * By default, this function will not return `deleted` and `unmerged` files. If you wish to include files with those statuses, set the option `allStatus: true` or get a map of all files by status using `byStatus: true`.
  *
  * ```ts
  * const changesSinceMergeBase = await git.getModifiedFiles();
- * const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
+ * const betweenRefs = await git.getModifiedFiles({ from: 'v1.2.3', through: 'v2.0.0' });
  * ```
- */
-export async function getModifiedFiles(modified: ModifiedStaged | ModifiedFromThrough = {}, options: Options = {}) {
-	const { from, staged, through } = modified;
-	const { step, includeDeletions, includeFileTypeChanged, includeUnknown, includeUnmerged } = options;
-	return stepWrapper({ step, name: 'Get modified files' }, async (step) => {
-		const base = await (from ?? getMergeBase({ step }));
-		const currentSha = await (through ?? getCurrentSha({ step }));
-
-		const isMain = base === currentSha;
-		const isCleanState = await isClean({ step });
-		const diffFilter = `ACMR${includeDeletions ? 'D' : ''}${includeFileTypeChanged ? 'T' : ''}${includeUnmerged ? 'U' : ''}${includeUnknown ? 'X' : ''}`;
-		const fileNameFormat = includeDeletions ? '--name-status' : '--name-only';
-
-		const uncleanArgs = ['diff', fileNameFormat, '-z', '--diff-filter', diffFilter];
-		uncleanArgs.push(!staged ? base : '--cached');
-		const cleanMainArgs = [
-			'diff-tree',
-			'-r',
-			'-z',
-			fileNameFormat,
-			'--no-commit-id',
-			'--diff-filter',
-			diffFilter,
-			isMain ? `${currentSha}^` : base,
-			isMain ? currentSha : 'HEAD',
-		];
-
-		const [modified] = await run({
-			name: 'Getting modified files',
-			cmd: 'git',
-			args: !isCleanState && !from && !through ? uncleanArgs : cleanMainArgs,
-			runDry: true,
-			step,
-		});
-
-		return modified
-			.replace(/\\u0000$/, '')
-			.split('\u0000')
-			.filter(Boolean) as Array<string>;
-	});
-}
-
-/**
- * Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
- * Modified files are returned in an object grouped by the operation that was performed on them according to git.
+ *
+ * Get modified files categorized by modification type:
  *
  * ```ts
- * const changesSinceMergeBase = await git.getModifiedFilesByStatus();
- * const betweenRefs = await git.getModifiedFilesByStatus('v1.2.3', 'v2.0.0');
+ * const allChanges = await git.getModifiedFiles({ byStatus: true });
+ * ```
+ *
+ * Will result in `allChanges` equal to an object containing arrays of strings:
+ * ```ts
+ * {
+ * 	added: [/* ... *\/],
+ * 	copied: [/* ... *\/],
+ * 	modified: [/* ... *\/],
+ * 	deleted: [/* ... *\/],
+ * 	renamed: [/* ... *\/],
+ * 	fileTypeChanged: [/* ... *\/],
+ * 	unmerged: [/* ... *\/],
+ * 	unknown: [/* ... *\/],
+ * }
  * ```
  */
-export async function getModifiedFilesByStatus(
-	modified: ModifiedStaged | ModifiedFromThrough = {},
+export async function getModifiedFiles<ByStatus extends boolean = false>(
+	modified: ModifiedStaged<ByStatus> | ModifiedFromThrough<ByStatus> = {},
 	options: Options = {},
-): Promise<ModifiedByStatus> {
+): Promise<ByStatus extends true ? ModifiedByStatus : Array<string>> {
+	const { from, staged, through, allStatus, byStatus } = modified;
 	const { step } = options;
-	return stepWrapper({ step, name: 'Get modified files by status' }, async (step) => {
-		const files = await getModifiedFiles(modified, options);
+	return stepWrapper(
+		{ step, name: 'Get modified files' },
+		async (step): Promise<ByStatus extends true ? ModifiedByStatus : Array<string>> => {
+			const base = await (from ?? getMergeBase({ step }));
+			const currentSha = await (through ?? getCurrentSha({ step }));
 
-		const modifiedByType: ModifiedByStatus = {
-			modified: [],
-			added: [],
-			copied: [],
-			renamed: [],
-			deleted: [],
-			fileTypeChanged: [],
-			unmerged: [],
-			unknown: [],
-		};
+			const isMain = base === currentSha;
+			const isCleanState = await isClean({ step });
+			const diffFilter = `ACMRTX${allStatus || byStatus ? 'DU' : ''}`;
+			const fileNameFormat = byStatus ? '--name-status' : '--name-only';
 
-		let opPtr = 0;
-		let filePtr = 1;
+			const uncleanArgs = ['diff', fileNameFormat, '-z', '--diff-filter', diffFilter];
+			uncleanArgs.push(!staged ? base : '--cached');
+			const cleanMainArgs = [
+				'diff-tree',
+				'-r',
+				'-z',
+				fileNameFormat,
+				'--no-commit-id',
+				'--diff-filter',
+				diffFilter,
+				isMain ? `${currentSha}^` : base,
+				isMain ? currentSha : 'HEAD',
+			];
 
-		if (files.length === 0) {
-			step.warn('No modified files detected.');
-			return modifiedByType;
-		}
+			const [modified] = await run({
+				name: 'Getting modified files',
+				cmd: 'git',
+				args: !isCleanState && !from && !through ? uncleanArgs : cleanMainArgs,
+				runDry: true,
+				step,
+			});
 
-		if (files.length % 2 !== 0 || files.length < 2) {
-			step.warn('File diff response from Github is in an unexpected format.');
-			return modifiedByType;
-		}
+			const results = modified
+				.replace(/\\u0000$/, '')
+				.split('\u0000')
+				.filter(Boolean) as Array<string>;
 
-		const iterations = files.length / 2;
-		for (let x = 0; x < iterations; x++) {
-			const operation = files[opPtr];
-
-			switch (operation) {
-				case 'A':
-					modifiedByType.added.push(files[filePtr]);
-					break;
-				case 'C':
-					modifiedByType.copied.push(files[filePtr]);
-					break;
-				case 'M':
-					modifiedByType.modified.push(files[filePtr]);
-					break;
-				case 'R':
-					modifiedByType.renamed.push(files[filePtr]);
-					break;
-				case 'D':
-					modifiedByType.deleted.push(files[filePtr]);
-					break;
-				case 'T':
-					modifiedByType.fileTypeChanged.push(files[filePtr]);
-					break;
-				case 'U':
-					modifiedByType.unmerged.push(files[filePtr]);
-					break;
-				case 'X':
-					modifiedByType.unknown.push(files[filePtr]);
-					break;
-				default:
-					step.warn(
-						`Unknown file status, "${operation}". Please report this to https://github.com/paularmstrong/onerepo/issues/new?assignees=&labels=bug%2Ctriage&projects=&template=01-bug-report.yml.`,
-					);
+			if (!byStatus) {
+				// @ts-expect-error
+				return results;
 			}
 
-			opPtr += 2;
-			filePtr += 2;
-		}
+			if (results.length % 2 !== 0) {
+				throw new Error('Unable to parse modified files.');
+			}
 
-		return modifiedByType;
-	});
+			const modifiedByType: ModifiedByStatus = {
+				modified: [],
+				added: [],
+				copied: [],
+				renamed: [],
+				deleted: [],
+				fileTypeChanged: [],
+				unmerged: [],
+				unknown: [],
+			};
+
+			for (let i = 0; i < results.length; i += 2) {
+				modifiedByType[statusToKey[results[i]] ?? 'unknown'].push(results[i + 1]);
+			}
+
+			// @ts-expect-error
+			return modifiedByType;
+		},
+	);
 }
+
+const statusToKey: Record<string, keyof ModifiedByStatus> = {
+	A: 'added',
+	C: 'copied',
+	M: 'modified',
+	R: 'renamed',
+	D: 'deleted',
+	T: 'fileTypeChanged',
+	U: 'unmerged',
+	X: 'unknown',
+};
 
 /**
  * Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
