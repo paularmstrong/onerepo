@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<9906909fa1daefb5bddda6a968027853>> -->
+<!-- @generated SignedSource<<9536060d5c8ed93a7f6964871cddc736>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -74,10 +74,134 @@ To restore the unstaged changes, call [\`restoreUnstaged()\`](#restoreunstaged).
 
 ## Type Aliases
 
-### ModifiedFromThrough
+### ModifiedBaseOptions\<ByStatus\>
 
 ```ts
-type ModifiedFromThrough: {
+type ModifiedBaseOptions<ByStatus>: {
+  allStatus: boolean;
+  byStatus: ByStatus;
+};
+```
+
+#### Type Parameters
+
+| Type Parameter                 | Default type |
+| ------------------------------ | ------------ |
+| `ByStatus` _extends_ `boolean` | `false`      |
+
+#### Type declaration
+
+##### allStatus?
+
+```ts
+optional allStatus: boolean;
+```
+
+By default, this function will not return `deleted` and `unmerged` files unless either `allStatus` or `byStatus` is set to `true`
+
+##### byStatus?
+
+```ts
+optional byStatus: ByStatus;
+```
+
+Return modified files categorized by the [type of modification](#modifiedbystatus) (added, deleted, modified, etc)
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
+---
+
+### ModifiedByStatus
+
+```ts
+type ModifiedByStatus: {
+  added: string[];
+  copied: string[];
+  deleted: string[];
+  fileTypeChanged: string[];
+  modified: string[];
+  renamed: string[];
+  unknown: string[];
+  unmerged: string[];
+};
+```
+
+This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found in the official git documentation for [git-diff](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203).
+
+#### Type declaration
+
+##### added
+
+```ts
+added: string[];
+```
+
+Git status `A`: addition of a file
+
+##### copied
+
+```ts
+copied: string[];
+```
+
+Git status `C`: copy of a file into a new one
+
+##### deleted
+
+```ts
+deleted: string[];
+```
+
+Git status `D`: deletion of a file
+
+##### fileTypeChanged
+
+```ts
+fileTypeChanged: string[];
+```
+
+Git status `T`: change in the type of the file (regular file, symbolic link or submodule)
+
+##### modified
+
+```ts
+modified: string[];
+```
+
+Git status `M`: modification of the contents or mode of a file
+
+##### renamed
+
+```ts
+renamed: string[];
+```
+
+Git status `R`: renaming of a file
+
+##### unknown
+
+```ts
+unknown: string[];
+```
+
+Git status `X`: addition of a file
+
+##### unmerged
+
+```ts
+unmerged: string[];
+```
+
+Git status `U`: "unknown" change type (most probably a bug, please report it)
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
+---
+
+### ModifiedFromThrough\<ByStatus\>
+
+```ts
+type ModifiedFromThrough<ByStatus>: ModifiedBaseOptions<ByStatus> & {
   from: string;
   staged: false;
   through: string;
@@ -110,14 +234,20 @@ optional through: string;
 
 Git ref for end (inclusive) to get list of modified files
 
+#### Type Parameters
+
+| Type Parameter                 |
+| ------------------------------ |
+| `ByStatus` _extends_ `boolean` |
+
 **Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
-### ModifiedStaged
+### ModifiedStaged\<ByStatus\>
 
 ```ts
-type ModifiedStaged: {
+type ModifiedStaged<ByStatus>: ModifiedBaseOptions<ByStatus> & {
   from: never;
   staged: true;
   through: never;
@@ -150,6 +280,12 @@ optional through: never;
 
 Disallowed when `staged: true`
 
+#### Type Parameters
+
+| Type Parameter                 |
+| ------------------------------ |
+| `ByStatus` _extends_ `boolean` |
+
 **Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
@@ -158,10 +294,6 @@ Disallowed when `staged: true`
 
 ```ts
 type Options: {
-  includeDeletions: boolean;
-  includeFileTypeChanged: boolean;
-  includeUnknown: boolean;
-  includeUnmerged: boolean;
   step: LogStep;
 };
 ```
@@ -169,34 +301,6 @@ type Options: {
 Generic options passed to all Git operations.
 
 #### Type declaration
-
-##### includeDeletions?
-
-```ts
-optional includeDeletions: boolean;
-```
-
-Whether or not to include files that were deleted
-
-##### includeFileTypeChanged?
-
-```ts
-optional includeFileTypeChanged: boolean;
-```
-
-Whether or not to include files whose type changed ()
-
-##### includeUnknown?
-
-```ts
-optional includeUnknown: boolean;
-```
-
-##### includeUnmerged?
-
-```ts
-optional includeUnmerged: boolean;
-```
 
 ##### step?
 
@@ -328,51 +432,53 @@ const mergeBase = await getMergeBase();
 ### getModifiedFiles()
 
 ```ts
-function getModifiedFiles(modified?, options?): Promise<string[]>;
+function getModifiedFiles<ByStatus>(modified?, options?): Promise<ByStatus extends true ? ModifiedByStatus : string[]>;
 ```
 
-Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
-Modified files include files that were added, copied, modified, and renamed. if you wish to include deleted files pass true to `includeDeletions`.
+Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will use merge-base determination to get the changes to the working tree using `git diff` and `git diff-tree`.
+
+By default, this function will not return `deleted` and `unmerged` files. If you wish to include files with those statuses, set the option `allStatus: true` or get a map of all files by status using `byStatus: true`.
 
 ```ts
 const changesSinceMergeBase = await git.getModifiedFiles();
-const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
+const betweenRefs = await git.getModifiedFiles({ from: 'v1.2.3', through: 'v2.0.0' });
 ```
+
+Get modified files categorized by modification type:
+
+```ts
+const allChanges = await git.getModifiedFiles({ byStatus: true });
+```
+
+Will result in `allChanges` equal to an object containing arrays of strings:
+
+```ts
+{
+	added: [/* ... */],
+	copied: [/* ... */],
+	modified: [/* ... */],
+	deleted: [/* ... */],
+	renamed: [/* ... */],
+	fileTypeChanged: [/* ... */],
+	unmerged: [/* ... */],
+	unknown: [/* ... */],
+}
+```
+
+#### Type Parameters
+
+| Type Parameter                 | Default type |
+| ------------------------------ | ------------ |
+| `ByStatus` _extends_ `boolean` | `false`      |
 
 **Parameters:**
 
-| Parameter   | Type                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------ |
-| `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
-| `options`?  | [`Options`](#options)                                                                |
+| Parameter   | Type                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `modified`? | [`ModifiedStaged`](#modifiedstagedbystatus)\<`ByStatus`\> \| [`ModifiedFromThrough`](#modifiedfromthroughbystatus)\<`ByStatus`\> |
+| `options`?  | [`Options`](#options)                                                                                                            |
 
-**Returns:** `Promise`\<`string`[]\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
----
-
-### getModifiedFilesByStatus()
-
-```ts
-function getModifiedFilesByStatus(modified?, options?): Promise<ModifiedByStatus>;
-```
-
-Get a map of the currently modified files sorted by status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
-Modified files are returned in an object grouped by the operation that was performed on them according to git.
-
-```ts
-const changesSinceMergeBase = await git.getModifiedFilesByStatus();
-const betweenRefs = await git.getModifiedFilesByStatus('v1.2.3', 'v2.0.0');
-```
-
-**Parameters:**
-
-| Parameter   | Type                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------ |
-| `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
-| `options`?  | [`Options`](#options)                                                                |
-
-**Returns:** `Promise`\<`ModifiedByStatus`\>  
+**Returns:** `Promise`\<`ByStatus` _extends_ `true` ? [`ModifiedByStatus`](#modifiedbystatus) : `string`[]\>  
 **Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
