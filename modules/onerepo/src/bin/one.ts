@@ -81,10 +81,12 @@ async function getSetupAndRun() {
 	const app = setup(configRoot, config).catch((e: unknown) => {
 		process.stderr.write(`${'='.repeat(Math.min(process.stderr.columns, 120))}
   Unable to configure oneRepo in your working directory (${configRoot});
+	This is likely NOT a bug within oneRepo, but somewhere in the local repository’s commands
+	or one of the dependencies within the commands.
   Check your configuration & commands for syntax errors and ensure node_modules are installed.
 ${'⎯'.repeat(Math.min(process.stderr.columns, 120))}
 
-  ${e?.toString().replace(/\n/g, '\n  ')}
+  ${(e as Error)?.stack?.replace(/\n/g, '\n  ') ?? e?.toString().replace(/\n/g, '\n  ')}
 
 ${'='.repeat(Math.min(process.stderr.columns, 120))}`);
 		process.exit(1);
