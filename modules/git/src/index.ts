@@ -277,7 +277,7 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 				isMain ? currentSha : 'HEAD',
 			];
 
-			const [modified] = await run({
+			const [modifiedResults] = await run({
 				name: 'Getting modified files',
 				cmd: 'git',
 				args: !isCleanState && !from && !through ? uncleanArgs : cleanMainArgs,
@@ -285,14 +285,13 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 				step,
 			});
 
-			const results = modified
+			const results = modifiedResults
 				.replace(/\\u0000$/, '')
 				.split('\u0000')
 				.filter(Boolean) as Array<string>;
 
 			if (!byStatus) {
-				// @ts-expect-error
-				return results;
+				return <ByStatus extends true ? ModifiedByStatus : Array<string>>results;
 			}
 
 			if (results.length % 2 !== 0) {
@@ -314,8 +313,7 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 				modifiedByType[statusToKey[results[i]] ?? 'unknown'].push(results[i + 1]);
 			}
 
-			// @ts-expect-error
-			return modifiedByType;
+			return <ByStatus extends true ? ModifiedByStatus : Array<string>>modifiedByType;
 		},
 	);
 }
