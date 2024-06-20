@@ -280,7 +280,7 @@ function singleTaskToSpec(
 		cmd === '$0' && logger.verbosity ? `-${'v'.repeat(logger.verbosity)}` : '',
 	].filter(Boolean) as Array<string>;
 
-	const name = `${command.replace(/^\$0 /, `${cliName} `)} (${workspace.name})`;
+	const name = `${command.replace(/^\$0 /, `${cliName} `)}${!workspace.isRoot ? ` (${workspace.name})` : ''}`;
 
 	let fn: PromiseFn | undefined;
 	if (cmd === '$0') {
