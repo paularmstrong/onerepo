@@ -18,7 +18,7 @@ export const Pnpm = {
 		return batch(
 			processes.map((proc) => ({
 				...proc,
-				cmd: 'pnpm',
+				cmd,
 				args: ['exec', proc.cmd, ...(proc.args ?? [])],
 			})),
 		);
@@ -27,7 +27,7 @@ export const Pnpm = {
 	dedupe: async () => {
 		await run({
 			name: 'Dedupe dependencies',
-			cmd: 'yapnpmrn',
+			cmd,
 			args: ['dedupe'],
 		});
 	},
@@ -141,7 +141,7 @@ export const Pnpm = {
 	run: async (opts) => {
 		return await run({
 			...opts,
-			cmd: 'pnpm',
+			cmd,
 			args: ['exec', opts.cmd, ...(opts.args ?? [])],
 		});
 	},

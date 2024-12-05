@@ -315,6 +315,19 @@ describe('PNPm', () => {
 		});
 	});
 
+	describe('dedupe', () => {
+		test('Runs dedupe', async () => {
+			await manager.dedupe();
+
+			expect(subprocess.run).toHaveBeenCalledWith(
+				expect.objectContaining({
+					cmd: 'pnpm',
+					args: ['dedupe'],
+				}),
+			);
+		});
+	});
+
 	describe('remove', () => {
 		test('Removes single packages', async () => {
 			await manager.remove('tacos');
