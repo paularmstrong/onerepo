@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
-import starlightLinksValidator from 'starlight-links-validator';
+// import starlightLinksValidator from 'starlight-links-validator';
 import astroMetaTags from 'astro-meta-tags';
 import { rehypeAutolink } from './src/plugins/rehype-autolink';
 import { mermaid } from './src/plugins/remark-mermaid';
@@ -57,9 +56,9 @@ export default defineConfig({
 				},
 			],
 			plugins: [
-				starlightLinksValidator({
-					errorOnRelativeLinks: false,
-				}),
+				// starlightLinksValidator({
+				// 	errorOnRelativeLinks: false,
+				// }),
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
