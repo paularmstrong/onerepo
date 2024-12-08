@@ -2847,6 +2847,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/trusted-types@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@types/trusted-types@npm:2.0.7"
+  checksum: 8e4202766a65877efcf5d5a41b7dd458480b36195e580a3b1085ad21e948bc417d55d6f8af1fd2a7ad008015d4117d5fdfe432731157da3c68678487174e4ba3
+  languageName: node
+  linkType: hard
+
 "@types/ungap__structured-clone@npm:^1.0.0":
   version: 1.2.0
   resolution: "@types/ungap__structured-clone@npm:1.2.0"
@@ -5560,9 +5567,14 @@ __metadata:
   linkType: hard
 
 "dompurify@npm:^3.0.5":
-  version: 3.0.8
-  resolution: "dompurify@npm:3.0.8"
-  checksum: cac660ccae15a9603f06a85344da868a4c3732d8b57f7998de0f421eb4b9e67d916be52e9bb2a57b2f95b49e994cc50bcd06bb87f2cb2849cf058bdf15266237
+  version: 3.2.2
+  resolution: "dompurify@npm:3.2.2"
+  dependencies:
+    "@types/trusted-types": ^2.0.7
+  dependenciesMeta:
+    "@types/trusted-types":
+      optional: true
+  checksum: e4831baa447cc7ed4350ede29f7ec4d2614a59287b6916f3691d287dd4a1c45eb3ce9cb26058edf37b3f2648bbf0a3ca5fb3b74c2f78bdcf6ebb7716c2f14252
   languageName: node
   linkType: hard
 
