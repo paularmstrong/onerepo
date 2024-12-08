@@ -37,7 +37,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<b98dcaaf91970ae36c20dd6b3195de11>> -->
+<!-- @generated SignedSource<<c81848f28daa37273d49f35ec5b6dd7d>> -->
 
 Common and reusable command-line option builders.
 
@@ -67,7 +67,7 @@ Threshold of number of files until we fall-back and swap to Workspace locations.
 100;
 ```
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
@@ -103,7 +103,7 @@ Limit to only changes that are currently staged. This cannot be used with `from`
 optional through: never;
 ```
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
@@ -141,17 +141,17 @@ optional through: string;
 
 Git ref to calculate changes _inclusively_ _through_.
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ## Builders
 
 ### withAffected()
 
 ```ts
-withAffected<T>(yargs): Yargs<T & WithAffected>
+function withAffected<T>(yargs): Yargs<T & WithAffected>;
 ```
 
-Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected), [`builders.getFilepaths`](#getfilepaths), and [`builders.getGetWorkspaces`](#getworkspaces).
+Adds the following input arguments to command [\`Handler\`](../../#handlercommandargv). Typically used in conjunction with getters like [\`builders.getAffected\`](#getaffected), [\`builders.getFilepaths\`](#getfilepaths), and [\`builders.getGetWorkspaces\`](#getworkspaces).
 
 - `--affected`
 - `--from-ref`
@@ -165,30 +165,30 @@ See [`WithAffected`](#withaffected-1) for type safety.
 export const builder = (yargs) => builders.withAffected(yargs);
 ```
 
-**Type parameters:**
+#### Type Parameters
 
-| Type parameter |
-| :------------- |
+| Type Parameter |
+| -------------- |
 | `T`            |
 
 **Parameters:**
 
 | Parameter | Type           |
-| :-------- | :------------- |
+| --------- | -------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
 **Returns:** `Yargs`\<`T` & [`WithAffected`](#withaffected-1)\>  
-**Source:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts)
+**Defined in:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts)
 
 ---
 
 ### withAllInputs()
 
 ```ts
-withAllInputs(yargs): Yargs<WithAllInputs>
+function withAllInputs(yargs): Yargs<WithAllInputs>;
 ```
 
-Helper to chain all of [`builders.withAffected`](#withaffected), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces) on a [`Builder`](../../#buildercommandargv).
+Helper to chain all of [\`builders.withAffected\`](#withaffected), [\`builders.withFiles\`](#withfiles), and [\`builders.withWorkspaces\`](#withworkspaces) on a [\`Builder\`](../../#buildercommandargv).
 
 ```js title="commands/mycommand.js"
 export const builder = (yargs) => builders.withAllInputs(yargs);
@@ -197,21 +197,21 @@ export const builder = (yargs) => builders.withAllInputs(yargs);
 **Parameters:**
 
 | Parameter | Type                                           |
-| :-------- | :--------------------------------------------- |
+| --------- | ---------------------------------------------- |
 | `yargs`   | `Yargs`\<[`DefaultArgv`](../../#defaultargv)\> |
 
 **Returns:** `Yargs`\<[`WithAllInputs`](#withallinputs-1)\>  
-**Source:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts)
+**Defined in:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts)
 
 ---
 
 ### withFiles()
 
 ```ts
-withFiles<T>(yargs): Yargs<T & WithFiles>
+function withFiles<T>(yargs): Yargs<T & WithFiles>;
 ```
 
-Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getFilepaths`](#getfilepaths).
+Adds the following input arguments to command [\`Handler\`](../../#handlercommandargv). Typically used in conjunction with getters like [\`builders.getFilepaths\`](#getfilepaths).
 
 - `--files`
 
@@ -221,54 +221,54 @@ See [`WithFiles`](#withfiles-1) for type safety.
 export const builder = (yargs) => builders.withFiles(yargs);
 ```
 
-**Type parameters:**
+#### Type Parameters
 
-| Type parameter |
-| :------------- |
+| Type Parameter |
+| -------------- |
 | `T`            |
 
 **Parameters:**
 
 | Parameter | Type           |
-| :-------- | :------------- |
+| --------- | -------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
 **Returns:** `Yargs`\<`T` & [`WithFiles`](#withfiles-1)\>  
-**Source:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts)
+**Defined in:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts)
 
 ---
 
 ### withWorkspaces()
 
 ```ts
-withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>
+function withWorkspaces<T>(yargs): Yargs<T & WithWorkspaces>;
 ```
 
-Adds the following input arguments to command [`Handler`](../../#handlercommandargv). Typically used in conjunction with getters like [`builders.getAffected`](#getaffected) [`builders.getWorkspaces`](#getworkspaces).
+Adds the following input arguments to command [\`Handler\`](../../#handlercommandargv). Typically used in conjunction with getters like [\`builders.getAffected\`](#getaffected) [\`builders.getWorkspaces\`](#getworkspaces).
 
 - `--all`
 - `--workspaces`
 
-See [`builders.WithWorkspaces`](#withworkspaces-1) for type safety.
+See [\`builders.WithWorkspaces\`](#withworkspaces-1) for type safety.
 
 ```js title="commands/mycommand.js"
 export const builder = (yargs) => builders.withWorkspaces(yargs);
 ```
 
-**Type parameters:**
+#### Type Parameters
 
-| Type parameter |
-| :------------- |
+| Type Parameter |
+| -------------- |
 | `T`            |
 
 **Parameters:**
 
 | Parameter | Type           |
-| :-------- | :------------- |
+| --------- | -------------- |
 | `yargs`   | `Yargs`\<`T`\> |
 
 **Returns:** `Yargs`\<`T` & [`WithWorkspaces`](#withworkspaces-1)\>  
-**Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
+**Defined in:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
 
 ---
 
@@ -283,7 +283,7 @@ type WithAffected: {
 };
 ```
 
-To be paired with the [`builders.withAffected`](#withaffected). Adds types for arguments parsed.
+To be paired with the [\`builders.withAffected\`](#withaffected). Adds types for arguments parsed.
 
 ```ts title="commands/mycommand.ts"
 type Argv = builders.WithAffected & {
@@ -327,7 +327,7 @@ optional through-ref: string;
 
 Git ref to calculate changes _inclusively_ _through_.
 
-**Source:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts)
+**Defined in:** [modules/builders/src/with-affected.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-affected.ts)
 
 ---
 
@@ -337,7 +337,7 @@ Git ref to calculate changes _inclusively_ _through_.
 type WithAllInputs: WithAffected & WithFiles & WithWorkspaces;
 ```
 
-Helper to include all of [`builders.withAffected`](#withaffected), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces) on builder [`Argv`](../../#argvcommandargv).
+Helper to include all of [\`builders.withAffected\`](#withaffected), [\`builders.withFiles\`](#withfiles), and [\`builders.withWorkspaces\`](#withworkspaces) on builder [\`Argv\`](../../#argvcommandargv).
 
 ```ts title="commands/mycommand.ts"
 type Argv = builders.WithAllInputs & {
@@ -347,7 +347,7 @@ type Argv = builders.WithAllInputs & {
 export const builder: Builder<Argv> = (yargs) => builders.withAllInputs(yargs);
 ```
 
-**Source:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts)
+**Defined in:** [modules/builders/src/with-all-inputs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-all-inputs.ts)
 
 ---
 
@@ -359,7 +359,7 @@ type WithFiles: {
 };
 ```
 
-To be paired with the [`builders.withFiles`](#withfiles). Adds types for arguments parsed.
+To be paired with the [\`builders.withFiles\`](#withfiles). Adds types for arguments parsed.
 
 ```ts title="commands/mycommand.ts"
 type Argv = builders.WithFiles & {
@@ -379,7 +379,7 @@ optional files: string[];
 
 List of filepaths.
 
-**Source:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts)
+**Defined in:** [modules/builders/src/with-files.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-files.ts)
 
 ---
 
@@ -392,7 +392,7 @@ type WithWorkspaces: {
 };
 ```
 
-To be paired with the [`builders.withWorkspaces`](#withworkspaces). Adds types for arguments parsed.
+To be paired with the [\`builders.withWorkspaces\`](#withworkspaces). Adds types for arguments parsed.
 
 ```ts title="commands/mycommand.ts"
 type Argv = builders.WithWorkspaces & {
@@ -420,19 +420,19 @@ optional workspaces: string[];
 
 One or more Workspaces by `name` or `alias` string.
 
-**Source:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
+**Defined in:** [modules/builders/src/with-workspaces.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/with-workspaces.ts)
 
 ## Getters
 
 ### getAffected()
 
 ```ts
-getAffected(graph, __namedParameters?): Promise<Workspace[]>
+function getAffected(graph, __namedParameters?): Promise<Workspace[]>;
 ```
 
 Get a list of the affected Workspaces.
 
-Typically, this should be used from the helpers provided by the command [`Handler`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
+Typically, this should be used from the helpers provided by the command [\`Handler\`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
 
 If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
 
@@ -448,31 +448,28 @@ export const handler: Handler = (argv, { getAffected, logger }) => {
 **Parameters:**
 
 | Parameter            | Type                              |
-| :------------------- | :-------------------------------- |
+| -------------------- | --------------------------------- |
 | `graph`              | [`Graph`](../../#graph)           |
 | `__namedParameters`? | [`GetterOptions`](#getteroptions) |
 
 **Returns:** `Promise`\<[`Workspace`](../../#workspace)[]\>  
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
 ### getFilepaths()
 
 ```ts
-getFilepaths(
-   graph,
-   argv,
-__namedParameters?): Promise<string[]>
+function getFilepaths(graph, argv, __namedParameters?): Promise<string[]>;
 ```
 
-Get a list of filepaths based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
+Get a list of filepaths based on the input arguments made available with the builders [\`builders.withAffected\`](#withaffected), [\`builders.withAllInputs\`](#withallinputs), [\`builders.withFiles\`](#withfiles), and [\`builders.withWorkspaces\`](#withworkspaces).
 
 When providing `--workspaces <names>`, the paths will be paths to the requested Workspaces, not individual files.
 
-Typically, this should be used from the helpers provided by the command handler’s [`HandlerExtra`](../../#handlerextra), in which case the first argument has been scoped for you already.
+Typically, this should be used from the helpers provided by the command handler’s [\`HandlerExtra\`](../../#handlerextra), in which case the first argument has been scoped for you already.
 
-When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading [subprocess `run`](../../#run-1) arguments. When the threshold is hit, this function will swap to return the set of parent Workspace locations for the affected file lists.
+When using this function to get affected filenames, a soft threshold is provided at 100 files. This is a safeguard against overloading [subprocess \`run\`](../../#run-1) arguments. When the threshold is hit, this function will swap to return the set of parent Workspace locations for the affected file lists.
 
 ```ts
 export const handler: Handler = (argv, { getFilepaths, logger }) => {
@@ -486,7 +483,7 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 **Parameters:**
 
 | Parameter            | Type                                      |
-| :------------------- | :---------------------------------------- |
+| -------------------- | ----------------------------------------- |
 | `graph`              | [`Graph`](../../#graph)                   |
 | `argv`               | [`WithAllInputs`](#withallinputs-1)       |
 | `__namedParameters`? | [`FileGetterOptions`](#filegetteroptions) |
@@ -495,22 +492,19 @@ export const handler: Handler = (argv, { getFilepaths, logger }) => {
 **See also:**
 !HandlerExtra
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
 ### getWorkspaces()
 
 ```ts
-getWorkspaces(
-   graph,
-   argv,
-__namedParameters?): Promise<Workspace[]>
+function getWorkspaces(graph, argv, __namedParameters?): Promise<Workspace[]>;
 ```
 
-Get a list of Workspaces based on the input arguments made available with the builders [`builders.withAffected`](#withaffected), [`builders.withAllInputs`](#withallinputs), [`builders.withFiles`](#withfiles), and [`builders.withWorkspaces`](#withworkspaces).
+Get a list of Workspaces based on the input arguments made available with the builders [\`builders.withAffected\`](#withaffected), [\`builders.withAllInputs\`](#withallinputs), [\`builders.withFiles\`](#withfiles), and [\`builders.withWorkspaces\`](#withworkspaces).
 
-Typically, this should be used from the helpers provided by the command [`Handler`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
+Typically, this should be used from the helpers provided by the command [\`Handler\`](../../#handlercommandargv), in which case the first argument has been scoped for you already.
 
 If the root Workspace is included in the list, all Workspaces will be presumed affected and returned.
 
@@ -526,13 +520,13 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 **Parameters:**
 
 | Parameter            | Type                                |
-| :------------------- | :---------------------------------- |
+| -------------------- | ----------------------------------- |
 | `graph`              | [`Graph`](../../#graph)             |
 | `argv`               | [`WithAllInputs`](#withallinputs-1) |
 | `__namedParameters`? | [`GetterOptions`](#getteroptions)   |
 
 **Returns:** `Promise`\<[`Workspace`](../../#workspace)[]\>  
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
@@ -542,7 +536,7 @@ export const handler: Handler = (argv, { getWorkspaces, logger }) => {
 type Argv: WithAllInputs;
 ```
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 ---
 
@@ -573,6 +567,6 @@ optional step: LogStep;
 
 Optional logger step to avoid creating a new
 
-**Source:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
+**Defined in:** [modules/builders/src/getters.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/builders/src/getters.ts)
 
 <!-- end-onerepo-sentinel -->

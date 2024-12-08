@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<1665a5998f94c28ec13035a22848de34>> -->
+<!-- @generated SignedSource<<c287018a8ce4b37238ab786e0e6c0da9>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -24,7 +24,7 @@ Special handlers for managing complex queries and manipulation of the git reposi
 
 #### Constructors
 
-##### new StagingWorkflow(options)
+##### new StagingWorkflow()
 
 ```ts
 new StagingWorkflow(options): StagingWorkflow
@@ -32,14 +32,14 @@ new StagingWorkflow(options): StagingWorkflow
 
 **Parameters:**
 
-| Parameter        | Type                      | Description                            |
-| :--------------- | :------------------------ | :------------------------------------- |
-| `options`        | `Object`                  | -                                      |
-| `options.graph`  | [`Graph`](../../#graph)   | The repository Graph                   |
-| `options.logger` | [`Logger`](../../#logger) | Logger instance to use for all actions |
+| Parameter        | Type                                                                         | Description                            |
+| ---------------- | ---------------------------------------------------------------------------- | -------------------------------------- |
+| `options`        | \{ `graph`: [`Graph`](../../#graph); `logger`: [`Logger`](../../#logger); \} | -                                      |
+| `options.graph`  | [`Graph`](../../#graph)                                                      | The repository Graph                   |
+| `options.logger` | [`Logger`](../../#logger)                                                    | Logger instance to use for all actions |
 
 **Returns:** [`StagingWorkflow`](#stagingworkflow)  
-**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
 
 #### Methods
 
@@ -49,12 +49,12 @@ new StagingWorkflow(options): StagingWorkflow
 restoreUnstaged(): Promise<void>
 ```
 
-Restores the unstaged changes previously backed up by [`saveUnstaged()`](#saveunstaged).
+Restores the unstaged changes previously backed up by [\`saveUnstaged()\`](#saveunstaged).
 
 This command will go through a series of attempts to ressurect upon failure, eventually throwing an error if unstaged changes cannot be reapplied.
 
 **Returns:** `Promise`\<`void`\>  
-**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
 
 ##### saveUnstaged()
 
@@ -67,10 +67,10 @@ Backup any unstaged changes, whether that's full files or parts of files. This w
 1. A patch file in the `.git/` directory
 2. A git stash
 
-To restore the unstaged changes, call [`restoreUnstaged()`](#restoreunstaged).
+To restore the unstaged changes, call [\`restoreUnstaged()\`](#restoreunstaged).
 
 **Returns:** `Promise`\<`void`\>  
-**Source:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
 
 ## Type Aliases
 
@@ -110,7 +110,7 @@ optional through: string;
 
 Git ref for end (inclusive) to get list of modified files
 
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
@@ -150,7 +150,7 @@ optional through: never;
 
 Disallowed when `staged: true`
 
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
@@ -174,7 +174,7 @@ optional step: LogStep;
 
 Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
@@ -197,17 +197,17 @@ optional immediately: boolean;
 Set whether to immediately add to the git index or defer until process shutdown
 
 **Default:** `false`  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ## Functions
 
 ### flushUpdateIndex()
 
 ```ts
-flushUpdateIndex(options?): Promise<void>
+function flushUpdateIndex(options?): Promise<void>;
 ```
 
-Write all pending files added using [`updateIndex()`](#updateindex) to the git index.
+Write all pending files added using [\`updateIndex()\`](#updateindex) to the git index.
 
 ```ts
 await git.flushUpdateIndex();
@@ -216,18 +216,18 @@ await git.flushUpdateIndex();
 **Parameters:**
 
 | Parameter  | Type                  |
-| :--------- | :-------------------- |
+| ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### getBranch()
 
 ```ts
-getBranch(options?): Promise<string>
+function getBranch(options?): Promise<string>;
 ```
 
 Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
@@ -239,18 +239,18 @@ const currentBranch = await git.getBranch();
 **Parameters:**
 
 | Parameter  | Type                  |
-| :--------- | :-------------------- |
+| ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### getCurrentSha()
 
 ```ts
-getCurrentSha(options?): Promise<string>
+function getCurrentSha(options?): Promise<string>;
 ```
 
 Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
@@ -262,18 +262,18 @@ const sha = await git.getCurrentSha();
 **Parameters:**
 
 | Parameter  | Type                  |
-| :--------- | :-------------------- |
+| ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### getMergeBase()
 
 ```ts
-getMergeBase(options?): Promise<string>
+function getMergeBase(options?): Promise<string>;
 ```
 
 Determine the git ref for merging the current working branch, sha, or ref, whichever that is. This function does a bunch of internal checks to determine the where the most likely point of forking happened.
@@ -285,18 +285,18 @@ const mergeBase = await getMergeBase();
 **Parameters:**
 
 | Parameter  | Type                  |
-| :--------- | :-------------------- |
+| ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### getModifiedFiles()
 
 ```ts
-getModifiedFiles(modified?, options?): Promise<string[]>
+function getModifiedFiles(modified?, options?): Promise<string[]>;
 ```
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will current merge-base determination to best get the change to the working tree using `git diff` and `git diff-tree`.
@@ -309,19 +309,19 @@ const betweenRefs = await git.getModifiedFiles('v1.2.3', 'v2.0.0');
 **Parameters:**
 
 | Parameter   | Type                                                                                 |
-| :---------- | :----------------------------------------------------------------------------------- |
+| ----------- | ------------------------------------------------------------------------------------ |
 | `modified`? | [`ModifiedStaged`](#modifiedstaged) \| [`ModifiedFromThrough`](#modifiedfromthrough) |
 | `options`?  | [`Options`](#options)                                                                |
 
 **Returns:** `Promise`\<`string`[]\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### isClean()
 
 ```ts
-isClean(options?): Promise<boolean>
+function isClean(options?): Promise<boolean>;
 ```
 
 Check if the current git working state is clean.
@@ -336,23 +336,23 @@ if (!isClean) {
 **Parameters:**
 
 | Parameter  | Type                  |
-| :--------- | :-------------------- |
+| ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
 **Returns:** `Promise`\<`boolean`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 ---
 
 ### updateIndex()
 
 ```ts
-updateIndex(paths, options?): Promise<string | undefined>
+function updateIndex(paths, options?): Promise<string | undefined>;
 ```
 
 Add filepaths to the git index. Equivalent to `git add [...files]`. By default, this method will track the files that need to be added to the git index. It will only add files immediately if given the `immediately` option.
 
-Use [`flushUpdateIndex()`](#flushupdateindex) to write all tracked files the git index. This method is automatically called during the oneRepo command shutdown process, so you may not ever need to call this.
+Use [\`flushUpdateIndex()\`](#flushupdateindex) to write all tracked files the git index. This method is automatically called during the oneRepo command shutdown process, so you may not ever need to call this.
 
 It is best to avoid immediately adding items to the git index to avoid race conditions which can drop git into a bad state, requiring users to manually delete their `.git/index.lock` file before continuing.
 
@@ -363,11 +363,11 @@ await git.updateIndex(['tacos.ts']);
 **Parameters:**
 
 | Parameter  | Type                                        |
-| :--------- | :------------------------------------------ |
+| ---------- | ------------------------------------------- |
 | `paths`    | `string` \| `string`[]                      |
 | `options`? | [`UpdateIndexOptions`](#updateindexoptions) |
 
 **Returns:** `Promise`\<`string` \| `undefined`\>  
-**Source:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 <!-- end-onerepo-sentinel -->

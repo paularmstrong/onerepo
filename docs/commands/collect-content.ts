@@ -204,6 +204,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const sourceFixed = contents
 				.replace(/^#+ Returns[^#]+/gm, '')
 				.replace(/^#+ Source\n\n[^\n]+/gm, '')
+				.replace(/^#+ Defined in\n\n[^\n]+/gm, '')
 				.replace(/\n\n#+ Default\n\n([^\n]+)/gm, '\n- **Default:** $1\n')
 				// fix URLs to not point to /name.md
 				.replace(new RegExp(`${shortName}.md#`, 'g'), '#');

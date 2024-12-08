@@ -44,17 +44,19 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<99821749245e1bb74fee202aacd4a73d>> */}
+{/* @generated SignedSource<<75cb6cad3866eda2bb2d76965b654a2e>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
-- **Type:** `Object`
+- **Type:** `object`
 
 Setup configuration for the root of the repository.
 
-| Type parameter                                | Value  |
-| :-------------------------------------------- | :----- |
-| `CustomLifecycles` extends `string` \| `void` | `void` |
+### Type Parameters
+
+| Type Parameter                                  | Default type |
+| ----------------------------------------------- | ------------ |
+| `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
 
 #### root
 
@@ -64,18 +66,22 @@ Must be set to `true` in order to denote that this is the root of the repository
 
 #### changes?
 
-- **Type:** `Object`
+> `optional` **changes**: `object`
 
-#### changes.filenames?
+##### Type declaration
 
-- **Type:** `"hash"` \| `"human"`
+##### changes.filenames?
+
+> `optional` **filenames**: `"hash"` \| `"human"`
+
 - **Default:** `'hash'`
 
 To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
 
-#### changes.prompts?
+##### changes.prompts?
 
-- **Type:** `"guided"` \| `"semver"`
+> `optional` **prompts**: `"guided"` \| `"semver"`
+
 - **Default:** `'guided'`
 
 Change the prompt question & answer style when adding change entries.
@@ -83,9 +89,12 @@ Change the prompt question & answer style when adding change entries.
 - `'guided'`: Gives more detailed explanations when release types.
 - `'semver'`: A simple choice list of semver release types.
 
-#### changes.formatting?
+##### changes.formatting?
 
-- **Type:** `Object`
+> `optional` **formatting**: `object`
+
+##### Type declaration
+
 - **Default:** `{}`
 
 Override some formatting strings in generated changelog files.
@@ -103,9 +112,10 @@ export default {
 };
 ```
 
-#### changes.formatting.commit?
+##### changes.formatting.commit?
 
-- **Type:** `string`
+> `optional` **commit**: `string`
+
 - **Default:** `'(${ref.short})'`
 
 Format how the commit ref will appear at the end of the first line of each change entry.
@@ -116,9 +126,10 @@ Available replacement strings:
 | `${ref.short}` | 8-character version of the commit ref |
 | `${ref}` | Full commit ref |
 
-#### changes.formatting.footer?
+##### changes.formatting.footer?
 
-- **Type:** `string`
+> `optional` **footer**: `string`
+
 - **Default:** `'_View git logs for full change list._'`
 
 Format the footer at the end of each version in the generated changelog files.
@@ -134,7 +145,8 @@ Available replacement strings:
 
 #### codeowners?
 
-- **Type:** `Record`\<`string`, `string`[]\>
+> `optional` **codeowners**: `Record`\<`string`, `string`[]\>
+
 - **Default:** `{}`
 
 Map of paths to array of owners.
@@ -153,13 +165,16 @@ export default {
 
 #### commands?
 
-- **Type:** `Object`
+> `optional` **commands**: `object`
 
 Configuration for custom commands.
 
-#### commands.directory?
+##### Type declaration
 
-- **Type:** `string` \| `false`
+##### commands.directory?
+
+> `optional` **directory**: `string` \| `false`
+
 - **Default:** `'commands'`
 
 A string to use as filepaths to subcommands. We'll look for commands in all Workspaces using this string. If any are found, they'll be available from the CLI.
@@ -178,9 +193,10 @@ Given the preceding configuration, commands will be searched for within the `com
 - `<root>/commands/*`
 - `<root>/<workspaces>/commands/*`
 
-#### commands.ignore?
+##### commands.ignore?
 
-- **Type:** `RegExp`
+> `optional` **ignore**: `RegExp`
+
 - **Default:** `/(/__\w+__/|\.test\.|\.spec\.|\.config\.)/`
 
 Prevent reading matched files in the `commands.directory` as commands.
@@ -198,11 +214,14 @@ export default {
 
 #### dependencies?
 
-- **Type:** `Object`
+> `optional` **dependencies**: `object`
 
-#### dependencies.mode?
+##### Type declaration
 
-- **Type:** `"strict"` \| `"loose"` \| `"off"`
+##### dependencies.mode?
+
+> `optional` **mode**: `"strict"` \| `"loose"` \| `"off"`
+
 - **Default:** `'loose'`
 
 The dependency mode will be used for node module dependency management and verification.
@@ -211,16 +230,18 @@ The dependency mode will be used for node module dependency management and verif
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
 - `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-#### dependencies.dedupe?
+##### dependencies.dedupe?
 
-- **Type:** `boolean`
+> `optional` **dedupe**: `boolean`
+
 - **Default:** `true`
 
 When modifying dependencies using the `one dependencies` command, a `dedupe` will automatically be run to reduce duplicate package versions that overlap the requested ranges. Set this to `false` to disable this behavior.
 
 #### head?
 
-- **Type:** `string`
+> `optional` **head**: `string`
+
 - **Default:** `'main'`
 
 The default branch of your repo? Probably `main`, but it might be something else, so it's helpful to put that here so that we can determine changed files accurately.
@@ -234,7 +255,8 @@ export default {
 
 #### ignore?
 
-- **Type:** `string`[]
+> `optional` **ignore**: `string`[]
+
 - **Default:** `[]`
 
 Array of fileglobs to ignore when calculating the changed Workspaces.
@@ -256,7 +278,8 @@ export default {
 
 #### meta?
 
-- **Type:** `Record`\<`string`, `unknown`\>
+> `optional` **meta**: `Record`\<`string`, `unknown`\>
+
 - **Default:** `{}`
 
 A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
@@ -272,7 +295,8 @@ export default {
 
 #### plugins?
 
-- **Type:** `Plugin`[]
+> `optional` **plugins**: `Plugin`[]
+
 - **Default:** `[]`
 
 Add shared commands and extra handlers. See the [official plugin list](https://onerepo.tools/plugins/) for more information.
@@ -286,25 +310,29 @@ export default {
 
 #### tasks?
 
-- **Type:** `TaskConfig`\<`CustomLifecycles`\>
+> `optional` **tasks**: `TaskConfig`\<`CustomLifecycles`\>
+
 - **Default:** `{}`
 
 Globally defined tasks per lifecycle. Tasks defined here will be assumed to run for all changes, regardless of affected Workspaces. Refer to the [`tasks` command](https://onerepo.tools/core/tasks/) specifications for details and examples.
 
 #### taskConfig?
 
-- **Type:** `Object`
+> `optional` **taskConfig**: `object`
 
 Optional extra configuration for `tasks`.
 
-#### taskConfig.lifecycles?
+##### Type declaration
 
-- **Type:** `CustomLifecycles`[]
+##### taskConfig.lifecycles?
+
+> `optional` **lifecycles**: `CustomLifecycles`[]
+
 - **Default:** `[]`
 
 Additional `task` lifecycles to make available.
 
-See Lifecycle | `Lifecycle` for a list of pre-configured lifecycles.
+See Lifecycle \| \`Lifecycle\` for a list of pre-configured lifecycles.
 
 ```ts title="onerepo.config.ts"
 export default {
@@ -315,9 +343,10 @@ export default {
 };
 ```
 
-#### taskConfig.stashUnstaged?
+##### taskConfig.stashUnstaged?
 
-- **Type:** `CustomLifecycles` extends `string` ? `Lifecycle` \| `CustomLifecycles` : `Lifecycle`[]
+> `optional` **stashUnstaged**: `CustomLifecycles` _extends_ `string` ? `Lifecycle` \| `CustomLifecycles` : `Lifecycle`[]
+
 - **Default:** `['pre-commit']`
 
 Stash unstaged changes before running these tasks and re-apply them after the task has completed.
@@ -333,31 +362,38 @@ export default {
 
 #### templateDir?
 
-- **Type:** `string`
+> `optional` **templateDir**: `string`
+
 - **Default:** `'./config/templates'`
 
 Folder path for [`generate` command’s](https://onerepo.tools/core/generate/) templates.
 
 #### validation?
 
-- **Type:** `Object`
+> `optional` **validation**: `object`
 
-#### validation.schema?
+##### Type declaration
 
-- **Type:** `string` \| `null`
+##### validation.schema?
+
+> `optional` **schema**: `string` \| `null`
+
 - **Default:** `undefined`
 
 File path for custom Graph and configuration file validation schema.
 
 #### vcs?
 
-- **Type:** `Object`
+> `optional` **vcs**: `object`
 
 Version control system settings.
 
-#### vcs.autoSyncHooks?
+##### Type declaration
 
-- **Type:** `boolean`
+##### vcs.autoSyncHooks?
+
+> `optional` **autoSyncHooks**: `boolean`
+
 - **Default:** `false`
 
 Automatically set and sync oneRepo-managed git hooks. Change the directory for your git hooks with the [`vcs.hooksPath`](#vcshookspath) setting. Refer to the [Git hooks documentation](https://onerepo.tools/core/hooks/) to learn more.
@@ -371,9 +407,10 @@ export default {
 };
 ```
 
-#### vcs.hooksPath?
+##### vcs.hooksPath?
 
-- **Type:** `string`
+> `optional` **hooksPath**: `string`
+
 - **Default:** `'.hooks'`
 
 Modify the default git hooks path for the repository. This will automatically be synchronized via `one hooks sync` unless explicitly disabled by setting [`vcs.autoSyncHooks`](#vcsautosynchooks) to `false`.
@@ -387,9 +424,10 @@ export default {
 };
 ```
 
-#### vcs.provider?
+##### vcs.provider?
 
-- **Type:** `"github"` \| `"gitlab"` \| `"bitbucket"` \| `"gitea"`
+> `optional` **provider**: `"github"` \| `"gitlab"` \| `"bitbucket"` \| `"gitea"`
+
 - **Default:** `'github'`
 
 The provider will be factored in to various commands, like `CODEOWNERS` generation.
@@ -405,10 +443,15 @@ export default {
 
 #### visualizationUrl?
 
-- **Type:** `string`
+> `optional` **visualizationUrl**: `string`
+
 - **Default:** `'https://onerepo.tools/visualize/'`
 
 Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
+
+### Defined in
+
+config-root.d.ts:7
 
 {/* end-usage-typedoc-root */}
 
@@ -448,19 +491,22 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-workspace */}
-{/* @generated SignedSource<<d27f0bf3825d6602f2be44d2397a74fd>> */}
+{/* @generated SignedSource<<8b56cc891b653b7dffe00fe29b9b2f46>> */}
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
-- **Type:** `Object`
+- **Type:** `object`
 
-| Type parameter                                | Value  |
-| :-------------------------------------------- | :----- |
-| `CustomLifecycles` extends `string` \| `void` | `void` |
+### Type Parameters
+
+| Type Parameter                                  | Default type |
+| ----------------------------------------------- | ------------ |
+| `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
 
 #### codeowners?
 
-- **Type:** `Record`\<`string`, `string`[]\>
+> `optional` **codeowners**: `Record`\<`string`, `string`[]\>
+
 - **Default:** `{}`.
 
 Map of paths to array of owners.
@@ -478,13 +524,15 @@ export default {
 
 #### commands?
 
-- **Type:** `Object`
+> `optional` **commands**: `object`
 
 Configuration for custom commands. To configure the commands directory, see [`RootConfig` `commands.directory`](#commandsdirectory).
 
-#### commands.passthrough
+##### Type declaration
 
-- **Type:** `Record`\<`string`, `Object`\>
+##### commands.passthrough
+
+- **Type:** `Record`\<`string`, \{ `description`: `string`; `command`: `string`; \}\>
 - **Default:** `{}`
 
 Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by Workspace. Passthrough commands _must_ have helpful descriptions.
@@ -502,7 +550,8 @@ export default {
 
 #### meta?
 
-- **Type:** `Record`\<`string`, `unknown`\>
+> `optional` **meta**: `Record`\<`string`, `unknown`\>
+
 - **Default:** `{}`
 
 A place to put any custom information or configuration. A helpful space for you to extend Workspace configurations for your own custom commands.
@@ -517,7 +566,8 @@ export default {
 
 #### tasks?
 
-- **Type:** `TaskConfig`\<`CustomLifecycles`\>
+> `optional` **tasks**: `TaskConfig`\<`CustomLifecycles`\>
+
 - **Default:** `{}`
 
 Tasks for this Workspace. These will be merged with global tasks and any other affected Workspace tasks. Refer to the [`tasks` command](/core/tasks/) specifications for details and examples.
@@ -525,5 +575,9 @@ Tasks for this Workspace. These will be merged with global tasks and any other a
 :::tip[Merging tasks]
 Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
 :::
+
+### Defined in
+
+config-workspace.d.ts:5
 
 {/* end-usage-typedoc-workspace */}
