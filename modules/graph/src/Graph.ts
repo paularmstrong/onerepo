@@ -328,7 +328,7 @@ export class Graph {
 			try {
 				const found = this.getByLocation(location);
 				workspaces.add(found);
-			} catch (e) {
+			} catch {
 				// pass
 			}
 		});

@@ -272,7 +272,7 @@ function getActualRoot(root: string) {
 				return path.dirname(newRoot.toString().trim());
 			}
 			throw new Error('Not a valid worktree');
-		} catch (e) {
+		} catch {
 			throw new Error(
 				`\nPlease change your working directory to a valid worktree or the repo root to continue:\n $ cd ${root}\n\n`,
 			);

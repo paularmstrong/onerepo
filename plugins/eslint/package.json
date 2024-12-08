@@ -30,11 +30,11 @@
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8.56.2",
+		"@types/eslint": "^8.56.12",
 		"eslint": "^8.56.0",
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",
-		"typescript": "^5.3.3"
+		"typescript": "^5.7.2"
 	},
 	"peerDependencies": {
 		"eslint": "^8",

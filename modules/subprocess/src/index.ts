@@ -153,7 +153,9 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 		const subprocess = start(options);
 
 		subprocess.on('error', (error) => {
-			!options.skipFailures && step.error(error);
+			if (!options.skipFailures) {
+				step.error(error);
+			}
 			return Promise.resolve()
 				.then(() => {
 					logger.unpause();
@@ -277,7 +279,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 	return new Promise((resolve, reject) => {
 		try {
 			execSync('sudo -n true &> /dev/null');
-		} catch (e) {
+		} catch {
 			step.warn('Sudo permissions are required to continue!');
 			step.warn(options.reason ?? 'If prompted, please type your password and hit [RETURN].');
 			step.debug(`Sudo permissions are being requested to run the following:

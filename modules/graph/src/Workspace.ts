@@ -104,7 +104,7 @@ export class Workspace {
 	 * @return Map of modules to their version.
 	 */
 	get dependencies(): Record<string, string> {
-		return { ...this.#packageJson.dependencies } || {};
+		return { ...this.#packageJson.dependencies };
 	}
 
 	/**
@@ -113,7 +113,7 @@ export class Workspace {
 	 * @return Map of modules to their version.
 	 */
 	get devDependencies(): Record<string, string> {
-		return { ...this.#packageJson.devDependencies } || {};
+		return { ...this.#packageJson.devDependencies };
 	}
 
 	/**
@@ -122,7 +122,7 @@ export class Workspace {
 	 * @return Map of modules to their version.
 	 */
 	get peerDependencies(): Record<string, string> {
-		return { ...this.#packageJson.peerDependencies } || {};
+		return { ...this.#packageJson.peerDependencies };
 	}
 
 	/**

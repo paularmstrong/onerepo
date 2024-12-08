@@ -40,7 +40,7 @@ Arguments for passthrough commands meant for the underlying command must be sent
 									addWorkspace(yargs, ws, commandDirectory, visitor);
 								}
 								return yargs.demandCommand(1, `Please enter a command to run in the ${ws.name} Workspace.`);
-							} catch (e) {
+							} catch {
 								//pass
 							}
 						}

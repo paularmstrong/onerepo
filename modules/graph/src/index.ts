@@ -65,7 +65,7 @@ function getPackageJson<T extends PackageJson = PackageJson>(cwd: string): { fil
 		PackageCache.set(filePath, json);
 
 		return { filePath, json };
-	} catch (e) {
+	} catch {
 		return { filePath, json: { name: 'onerepo-temp' } as T };
 	}
 }

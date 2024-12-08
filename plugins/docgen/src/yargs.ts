@@ -373,6 +373,7 @@ export class Yargs {
 			type: `${option.type}`,
 		};
 
+		/* eslint-disable @typescript-eslint/no-unused-expressions */
 		option.alias && this.alias(key, option.alias);
 		option.array && this.array(key);
 		option.boolean && this.boolean(key);
@@ -383,6 +384,7 @@ export class Yargs {
 		option.string && this.string(key);
 
 		option.normalize && option.default && this.default(key, option.default);
+		/* eslint-enable @typescript-eslint/no-unused-expressions */
 
 		// Reset because this takes precedence
 		if (option.type) {
@@ -392,6 +394,7 @@ export class Yargs {
 		this.demandOption(key, option.demand || option.required || option.require || option.demandOption);
 		this.deprecateOption(key, option.deprecate || option.deprecated);
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		option.choices && this.choices(key, option.choices);
 	}
 

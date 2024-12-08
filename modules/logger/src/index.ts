@@ -67,7 +67,9 @@ export async function stepWrapper<T>(
 
 	const out = await fn(step);
 
-	!inputStep && (await step.end());
+	if (!inputStep) {
+		await step.end();
+	}
 
 	return out;
 }

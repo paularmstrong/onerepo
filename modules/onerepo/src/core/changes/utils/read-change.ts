@@ -27,7 +27,7 @@ export async function readChange(filepath: string, options: { step?: LogStep } =
 		try {
 			const data = yaml.load(matches[1]) as { type: ReleaseType };
 			return { ...data, content: matches[2], ref, filepath };
-		} catch (e) {
+		} catch {
 			step.error(`Not valid change file: "${filepath}"`);
 			return null;
 		}

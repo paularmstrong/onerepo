@@ -25,7 +25,7 @@
 		"typedoc": "^0.27.3",
 		"typedoc-plugin-markdown": "^4.3.2",
 		"typedoc-plugin-remark": "^1.1.1",
-		"typescript": "^5.3.3"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "^3.1.1",

@@ -126,7 +126,7 @@ function loadConfig(configPath: string) {
 	try {
 		const config: Config = jiti(configPath);
 		return config;
-	} catch (e) {
+	} catch {
 		throw new Error(`Invalid configuration found at ${configPath}`);
 	}
 }

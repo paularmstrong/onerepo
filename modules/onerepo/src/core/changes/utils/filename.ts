@@ -15,7 +15,7 @@ export async function getFilename(
 				// eslint-disable-next-line import/no-extraneous-dependencies
 				const { humanId } = await import('human-id');
 				return humanId({ separator: '-', capitalize: false });
-			} catch (e) {
+			} catch {
 				step.warn('Please install "human-id" to use "human" readable filenames for changes.');
 				step.warn(`\u0000\n> one dependencies add --workspace=${graph.root.name} --dev=human-id\n\u0000`);
 			}
