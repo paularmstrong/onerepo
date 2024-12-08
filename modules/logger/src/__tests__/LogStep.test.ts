@@ -70,8 +70,8 @@ describe('LogStep', () => {
 
 		expect(out).toEqual(
 			` ┌ tacos
- │ [36m[1mLOG[22m[39m hellooooo
- └ [32m✔[39m [2m0ms[22m
+ │ ${pc.cyan(pc.bold('LOG'))} hellooooo
+ └ ${pc.green('✔')} ${pc.dim('0ms')}
 `,
 		);
 	});
@@ -206,7 +206,7 @@ describe('LogStep', () => {
  │info
  │log
  │debug
- └ [31m✘[39m [2m0ms[22m
+ └ ${pc.red('✘')} ${pc.dim('0ms')}
 `);
 	});
 
