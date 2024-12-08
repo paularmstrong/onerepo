@@ -234,7 +234,7 @@ export class StagingWorkflow {
 					runDry: true,
 					step,
 				});
-			} catch (e) {
+			} catch {
 				try {
 					await run({
 						name: 'Retry restoring unstaged changes with 3way merge',
@@ -243,7 +243,7 @@ export class StagingWorkflow {
 						runDry: true,
 						step,
 					});
-				} catch (e) {
+				} catch {
 					step.error('Unable to restore unstaged changes due to merge conflict.');
 					await run({
 						name: 'Reset to HEAD',
@@ -259,7 +259,7 @@ export class StagingWorkflow {
 				}
 			}
 
-			await remove(this.#patchFilePath), { step };
+			await remove(this.#patchFilePath, { step });
 		} else {
 			await applyStash();
 		}

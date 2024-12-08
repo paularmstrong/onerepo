@@ -39,7 +39,7 @@ export async function verifyDependencies(
 							}
 							version = local.version ?? version;
 						}
-					} catch (e) {
+					} catch {
 						// not a local workspace
 					}
 					dependencyStep.log(`Checking ${name}@${dependencies[name]} intersects ${version}`);

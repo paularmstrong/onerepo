@@ -24,7 +24,7 @@
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@onerepo/plugin-vitest": "workspace:^",
-		"@types/eslint": "^8.56.2",
+		"@types/eslint": "^8.56.12",
 		"esbuild": "^0.20.0",
 		"eslint": "^8.56.0",
 		"glob": "^10.1.0",
@@ -33,7 +33,7 @@
 		"jiti": "^1.21.0",
 		"onerepo": "workspace:^",
 		"prettier": "^3.4.2",
-		"typescript": "^5.3.3",
+		"typescript": "^5.7.2",
 		"vitest": "^2.1.8"
 	},
 	"engines": {

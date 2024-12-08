@@ -29,7 +29,7 @@
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"typescript": "^5.3.3"
+		"typescript": "^5.7.2"
 	},
 	"engines": {
 		"node": "^18 || ^20"

@@ -212,7 +212,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	try {
 		await batch(parallelTasks.flat(1).map((task) => task.fn ?? task));
-	} catch (e) {
+	} catch {
 		// continue so all tasks run
 	}
 
@@ -223,7 +223,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				continue;
 			}
 			await run(task);
-		} catch (e) {
+		} catch {
 			// continue so all tasks run
 		}
 	}

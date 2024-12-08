@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<410c0165ebad0dfc9e3fe215497dade8>> -->
+<!-- @generated SignedSource<<dd325a452315206896fb4a3403b1ecd0>> -->
 
 ## Variables
 
@@ -3291,13 +3291,13 @@ new BatchError(errors, options?): BatchError
 
 | Property             | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                                                                                            |
 | -------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:24                                                                  |
+| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26                                                                  |
 | `errors`             | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                  | -                         | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts) |
 | `message`            | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077                                                                         |
 | `name`               | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076                                                                         |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:28                                                                              |
+| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98                                                                              |
 | `stack?`             | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078                                                                         |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:30                                                                              |
+| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100                                                                             |
 
 #### Methods
 
@@ -3322,7 +3322,7 @@ Create .stack property on a target object
 
 `Error.captureStackTrace`
 
-**Defined in:** node_modules/@types/node/globals.d.ts:21
+**Defined in:** node_modules/@types/node/globals.d.ts:91
 
 ---
 
@@ -3359,12 +3359,12 @@ new SubprocessError(message, options?): SubprocessError
 
 | Property             | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                           |
 | -------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | ---------------------------------------------------- |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:24 |
+| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26 |
 | `message`            | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077        |
 | `name`               | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076        |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:28             |
+| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98             |
 | `stack?`             | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078        |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:30             |
+| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100            |
 
 #### Methods
 
@@ -3389,7 +3389,7 @@ Create .stack property on a target object
 
 `Error.captureStackTrace`
 
-**Defined in:** node_modules/@types/node/globals.d.ts:21
+**Defined in:** node_modules/@types/node/globals.d.ts:91
 
 ---
 

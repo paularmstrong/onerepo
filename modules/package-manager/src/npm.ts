@@ -42,7 +42,7 @@ export const Npm = {
 			});
 
 			return JSON.parse(data) as NpmInfo;
-		} catch (e) {
+		} catch {
 			return null;
 		}
 	},
@@ -67,7 +67,7 @@ export const Npm = {
 				runDry: true,
 			});
 			return true;
-		} catch (e) {
+		} catch {
 			return false;
 		}
 	},
@@ -120,7 +120,7 @@ export const Npm = {
 				if (ws && ws.version && versions.includes(ws.version)) {
 					publishable.delete(ws);
 				}
-			} catch (e) {
+			} catch {
 				// no catch
 			}
 		}

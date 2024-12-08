@@ -171,7 +171,7 @@ export async function lstat(filename: string, options: Options = {}) {
 		try {
 			const stat = await fsLstat(filename);
 			return stat;
-		} catch (e) {
+		} catch {
 			return null;
 		}
 	});
@@ -402,7 +402,7 @@ async function format(filename: string, contents: string, options: Options = {})
 			if ('default' in prettier) {
 				prettier = prettier.default;
 			}
-		} catch (e) {
+		} catch {
 			return contents;
 		}
 		try {
@@ -412,7 +412,7 @@ async function format(filename: string, contents: string, options: Options = {})
 			if (info.inferredParser === null || info.ignored) {
 				return contents;
 			}
-		} catch (e) {
+		} catch {
 			return contents;
 		}
 		const config = await prettier.resolveConfig(filename);

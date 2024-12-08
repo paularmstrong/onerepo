@@ -90,7 +90,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 
 		removals.push(workspace.resolve('dist'));
 
-		esmFiles.size &&
+		if (esmFiles.size) {
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
@@ -103,8 +103,9 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 					`--format=${'type' in workspace.packageJson && workspace.packageJson.type === 'module' ? 'esm' : 'cjs'}`,
 				],
 			});
+		}
 
-		cjsFiles.size &&
+		if (cjsFiles.size) {
 			buildProcs.push({
 				name: `Build ${workspace.name}`,
 				cmd: esbuildBin,
@@ -116,6 +117,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 					'--out-extension:.js=.cjs',
 				],
 			});
+		}
 
 		bins.forEach(([dir, src], name) => {
 			buildProcs.push({

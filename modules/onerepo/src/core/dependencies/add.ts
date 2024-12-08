@@ -173,7 +173,7 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 			const local = graph.getByName(name);
 			version = local.version || 'workspace:^';
 			isInternal = true;
-		} catch (e) {
+		} catch {
 			// no-op
 		}
 

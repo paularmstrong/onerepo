@@ -93,7 +93,7 @@ export async function getMergeBase(options: Options = {}) {
 			if (base) {
 				return base;
 			}
-		} catch (e) {
+		} catch {
 			// don't worry about it
 		}
 
