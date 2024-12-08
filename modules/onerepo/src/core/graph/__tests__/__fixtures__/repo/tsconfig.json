@@ -1,4 +1,4 @@
 {
 	// TSCONFIGS support CJSON!
-	"extends": "bar",
+	"extends": "bar"
 }

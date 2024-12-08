@@ -1,33 +1,33 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
+		"outDir": "./dist/"
 	},
 	"include": ["./**/*"],
 	"references": [
 		{
-			"path": "../git",
+			"path": "../git"
 		},
 		{
-			"path": "../graph",
+			"path": "../graph"
 		},
 		{
-			"path": "../package-manager",
+			"path": "../package-manager"
 		},
 		{
-			"path": "../subprocess",
+			"path": "../subprocess"
 		},
 		{
-			"path": "../file",
+			"path": "../file"
 		},
 		{
-			"path": "../logger",
+			"path": "../logger"
 		},
 		{
-			"path": "../../internal/vitest-config",
+			"path": "../../internal/vitest-config"
 		},
 		{
-			"path": "../../internal/jest-config",
-		},
-	],
+			"path": "../../internal/jest-config"
+		}
+	]
 }

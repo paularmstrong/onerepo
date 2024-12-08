@@ -274,7 +274,7 @@ async function prompt(requested: Requested, mode: Args['mode'], graph: Graph, st
 			? version!
 			: /^\d/.test(toInstall!)
 				? `${mode === 'loose' ? '^' : ''}${coerce(toInstall)!.version}`
-				: coerce(toInstall)?.version ?? toInstall!;
+				: (coerce(toInstall)?.version ?? toInstall!);
 
 		choices[name] = toInstall;
 	}
