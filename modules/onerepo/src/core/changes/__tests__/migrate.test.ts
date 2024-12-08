@@ -9,6 +9,21 @@ import * as migrate from '../migrate';
 const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
 const { run } = getCommand(migrate, graph);
 
+vi.mock('glob', async (requireActual) => {
+	const actual = await requireActual();
+	const mocked = {};
+	for (const [key, val] of Object.entries(actual as Record<string, unknown>)) {
+		if (typeof val === 'function') {
+			// @ts-ignore
+			mocked[key] = vi.fn(val);
+		} else {
+			// @ts-ignore
+			mocked[key] = actual[key];
+		}
+	}
+	return mocked;
+});
+
 describe('migrate changes', () => {
 	beforeEach(() => {
 		vi.spyOn(Date, 'now').mockReturnValue(1706903142100);
