@@ -92,7 +92,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 			const svg = document.createElement('svg');
 			svg.id = 'mermaid-' + Math.round(Math.random() * 100000);
 			graph.appendChild(svg);
-			mermaid.render(svg.id, content).then((result) => {
+			mermaid.render(svg.id, content.replace(/(%0A)+/g, '\n')).then((result) => {
 				graph.innerHTML = result.svg;
 			});
 		}
@@ -104,4 +104,4 @@ const isVisualizer = Astro.props.slug === 'visualize';
 	}
 </script>
 
-<script data-goatcounter="https://onerepo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script is:inline data-goatcounter="https://onerepo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

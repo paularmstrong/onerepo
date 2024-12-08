@@ -7,6 +7,7 @@ const escapeMap: Record<string, string> = {
 	'>': '&gt;',
 	'"': '&quot;',
 	"'": '&#39;',
+	'\n': '%0A',
 };
 
 const escapeHtml = (str: string) => str.replace(/[&<>"']/g, (c) => escapeMap[c] ?? c);

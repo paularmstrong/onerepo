@@ -1,7 +1,7 @@
+// @ts-nocheck
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
-import sitemap from '@astrojs/sitemap';
 import starlightLinksValidator from 'starlight-links-validator';
 import astroMetaTags from 'astro-meta-tags';
 import { rehypeAutolink } from './src/plugins/rehype-autolink';
@@ -18,31 +18,6 @@ export default defineConfig({
 		enabled: true,
 	},
 	integrations: [
-		astroMetaTags(),
-		sitemap({
-			filter: (page) => page !== 'https://onerepo.tools/visualize/',
-			serialize(item) {
-				if (/\/concepts\//.test(item.url)) {
-					return { ...item, priority: 0.7 };
-				}
-				if (/\/docs\//.test(item.url)) {
-					return { ...item, priority: 0.9 };
-				}
-				if (/\/core\//.test(item.url)) {
-					return { ...item, priority: 0.8 };
-				}
-				if (/\/plugins\//.test(item.url)) {
-					return { ...item, priority: 0.5 };
-				}
-				if (/\/api\//.test(item.url)) {
-					return { ...item, priority: 0.1 };
-				}
-				if (/\/changelogs\//.test(item.url)) {
-					return { ...item, priority: 0.2 };
-				}
-				return item;
-			},
-		}),
 		starlight({
 			title: 'oneRepo',
 			defaultLocale: 'root',
@@ -113,5 +88,6 @@ export default defineConfig({
 				baseUrl: 'https://github.com/paularmstrong/onerepo/edit/main/docs',
 			},
 		}),
+		astroMetaTags(),
 	],
 });
