@@ -44,12 +44,12 @@ Check out our very own source level [example](example/) generated directly from 
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<55b85567e8384d6dc408bf1c024e7f68>> */}
+{/* @generated SignedSource<<9b847ec5a1fb60fd74a1bd5a66f31900>> */}
 
 ### docgen()
 
 ```ts
-docgen(opts): Plugin
+function docgen(opts): Plugin;
 ```
 
 Include the `eslint` plugin in your oneRepo plugin setup:
@@ -65,7 +65,7 @@ export default {
 #### Parameters
 
 | Parameter | Type                  |
-| :-------- | :-------------------- |
+| --------- | --------------------- |
 | `opts`    | [`Options`](#options) |
 
 ### Options
@@ -140,7 +140,7 @@ If `outFile` is also set, the generated documentation will be written out.
 optional safeWrite: boolean;
 ```
 
-Set to true to amend content to the given file using the file.writeSafe | `file.writeSafe` method.
+Set to true to amend content to the given file using the file.writeSafe \| \`file.writeSafe\` method.
 
 {/* end-install-typedoc */}
 
