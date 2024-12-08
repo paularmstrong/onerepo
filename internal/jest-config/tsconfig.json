@@ -1,8 +1,8 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
+		"outDir": "./dist/"
 	},
 	"include": ["./**/*"],
-	"references": [],
+	"references": []
 }

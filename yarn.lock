@@ -58,17 +58,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/compiler@npm:^1.5.5":
-  version: 1.8.2
-  resolution: "@astrojs/compiler@npm:1.8.2"
-  checksum: 1d55879f8f7aadcad02f19353c085d4e74d5f9cd0d873c600e31ad58928e80d6ab7d6e80b997e2fecabd697f69b0ae166acac58178b833d2d8051a2e35800dc2
-  languageName: node
-  linkType: hard
-
-"@astrojs/compiler@npm:^2.0.0, @astrojs/compiler@npm:^2.4.0, @astrojs/compiler@npm:^2.5.3":
-  version: 2.5.3
-  resolution: "@astrojs/compiler@npm:2.5.3"
-  checksum: 6ebc7ba52809f3b498e9a52fffd6fa2857a5a754f2501d14bf9d995e8bd23e35ee0d1cef60aa3cc4d27d75d689c9f23f2a14fa50915669b88a037c1f9f8e4d16
+"@astrojs/compiler@npm:^2.0.0, @astrojs/compiler@npm:^2.4.0, @astrojs/compiler@npm:^2.5.3, @astrojs/compiler@npm:^2.9.1":
+  version: 2.10.3
+  resolution: "@astrojs/compiler@npm:2.10.3"
+  checksum: 73a6fea1465a2a845a35bed139189e5886730f4bea44292c64cc7cab0747b9ce517ce3380d258d6008148cdb855b6200b0fdc9546961fb113920fc2d7e8d3539
   languageName: node
   linkType: hard
 
@@ -1230,7 +1223,7 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@types/prettier": ^3.0.0
-    prettier-plugin-astro: ^0.13.0
+    prettier-plugin-astro: ^0.14.1
   peerDependencies:
     prettier: ^2 || ^3
   languageName: unknown
@@ -1764,7 +1757,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/logger": 1.0.3
     jiti: ^1.21.0
-    prettier: ^3.0.0
+    prettier: ^3.4.2
   peerDependencies:
     prettier: ^2 || ^3
   languageName: unknown
@@ -1972,7 +1965,7 @@ __metadata:
     jest: ^29.5.0
     jiti: ^1.21.0
     onerepo: "workspace:^"
-    prettier: ^3.0.0
+    prettier: ^3.4.2
     typescript: ^5.3.3
     vitest: ^1.2.2
   bin:
@@ -2595,14 +2588,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:*, @types/estree@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@types/estree@npm:1.0.0"
-  checksum: 910d97fb7092c6738d30a7430ae4786a38542023c6302b95d46f49420b797f21619cdde11fa92b338366268795884111c2eb10356e4bd2c8ad5b92941e9e6443
-  languageName: node
-  linkType: hard
-
-"@types/estree@npm:1.0.5":
+"@types/estree@npm:*, @types/estree@npm:1.0.5, @types/estree@npm:^1.0.0":
   version: 1.0.5
   resolution: "@types/estree@npm:1.0.5"
   checksum: dd8b5bed28e6213b7acd0fb665a84e693554d850b0df423ac8076cc3ad5823a6bc26b0251d080bdc545af83179ede51dd3f6fa78cad2c46ed1f29624ddf3e41a
@@ -11619,18 +11605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.14, postcss@npm:^8.4.21, postcss@npm:^8.4.35":
-  version: 8.4.35
-  resolution: "postcss@npm:8.4.35"
-  dependencies:
-    nanoid: ^3.3.7
-    picocolors: ^1.0.0
-    source-map-js: ^1.0.2
-  checksum: cf3c3124d3912a507603f6d9a49b3783f741075e9aa73eb592a6dd9194f9edab9d20a8875d16d137d4f779fe7b6fbd1f5727e39bfd1c3003724980ee4995e1da
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.4.38":
+"postcss@npm:^8.4.14, postcss@npm:^8.4.21, postcss@npm:^8.4.35, postcss@npm:^8.4.38":
   version: 8.4.38
   resolution: "postcss@npm:8.4.38"
   dependencies:
@@ -11689,23 +11664,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-astro@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "prettier-plugin-astro@npm:0.13.0"
+"prettier-plugin-astro@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "prettier-plugin-astro@npm:0.14.1"
   dependencies:
-    "@astrojs/compiler": ^1.5.5
+    "@astrojs/compiler": ^2.9.1
     prettier: ^3.0.0
     sass-formatter: ^0.7.6
-  checksum: fd6114a817f8d5217932f44dc5b6f647f8607c7a296e018c981cc6d8fd7eae65f77f29fcab9e0913520125af76168238563b4a51dae7431cbb0324b9b203b04b
+  checksum: 7cd6b03c65fac8329328a7f56168b596c846dfd282e4b2dbf597d2e731bcf463a2fba73ef0f0c8196713d96c3a04b744dd5e89f185028951e0354150202b3870
   languageName: node
   linkType: hard
 
-"prettier@npm:*, prettier@npm:^3.0.0":
-  version: 3.3.3
-  resolution: "prettier@npm:3.3.3"
+"prettier@npm:*, prettier@npm:^3.0.0, prettier@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "prettier@npm:3.4.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: bc8604354805acfdde6106852d14b045bb20827ad76a5ffc2455b71a8257f94de93f17f14e463fe844808d2ccc87248364a5691488a3304f1031326e62d9276e
+  checksum: 061c84513db62d3944c8dc8df36584dad82883ce4e49efcdbedd8703dce5b173c33fd9d2a4e1725d642a3b713c932b55418342eaa347479bc4a9cca114a04cd0
   languageName: node
   linkType: hard
 
@@ -12809,14 +12784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "source-map-js@npm:1.0.2"
-  checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
-  languageName: node
-  linkType: hard
-
-"source-map-js@npm:^1.2.0":
+"source-map-js@npm:^1.0.2, source-map-js@npm:^1.2.0":
   version: 1.2.0
   resolution: "source-map-js@npm:1.2.0"
   checksum: 791a43306d9223792e84293b00458bf102a8946e7188f3db0e4e22d8d530b5f80a4ce468eb5ec0bf585443ad55ebbd630bf379c98db0b1f317fd902500217f97

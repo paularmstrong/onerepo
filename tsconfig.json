@@ -1,82 +1,82 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
+		"outDir": "./dist/"
 	},
 	"include": ["./bin/*", "./commands/**/*", "./*"],
 	"exclude": ["./commands/__tests__/__fixtures__"],
 	"references": [
 		{
-			"path": "docs",
+			"path": "docs"
 		},
 		{
-			"path": "internal/eslint-plugin",
+			"path": "internal/eslint-plugin"
 		},
 		{
-			"path": "internal/jest-config",
+			"path": "internal/jest-config"
 		},
 		{
-			"path": "internal/prettier-config",
+			"path": "internal/prettier-config"
 		},
 		{
-			"path": "internal/vitest-config",
+			"path": "internal/vitest-config"
 		},
 		{
-			"path": "modules/builders",
+			"path": "modules/builders"
 		},
 		{
-			"path": "modules/eslint-formatter",
+			"path": "modules/eslint-formatter"
 		},
 		{
-			"path": "modules/file",
+			"path": "modules/file"
 		},
 		{
-			"path": "modules/git",
+			"path": "modules/git"
 		},
 		{
-			"path": "modules/github-action",
+			"path": "modules/github-action"
 		},
 		{
-			"path": "modules/graph",
+			"path": "modules/graph"
 		},
 		{
-			"path": "modules/logger",
+			"path": "modules/logger"
 		},
 		{
-			"path": "modules/onerepo",
+			"path": "modules/onerepo"
 		},
 		{
-			"path": "modules/package-manager",
+			"path": "modules/package-manager"
 		},
 		{
-			"path": "modules/subprocess",
+			"path": "modules/subprocess"
 		},
 		{
-			"path": "modules/test-cli",
+			"path": "modules/test-cli"
 		},
 		{
-			"path": "modules/yargs",
+			"path": "modules/yargs"
 		},
 		{
-			"path": "plugins/docgen",
+			"path": "plugins/docgen"
 		},
 		{
-			"path": "plugins/eslint",
+			"path": "plugins/eslint"
 		},
 		{
-			"path": "plugins/jest",
+			"path": "plugins/jest"
 		},
 		{
-			"path": "plugins/performance-writer",
+			"path": "plugins/performance-writer"
 		},
 		{
-			"path": "plugins/prettier",
+			"path": "plugins/prettier"
 		},
 		{
-			"path": "plugins/typescript",
+			"path": "plugins/typescript"
 		},
 		{
-			"path": "plugins/vitest",
-		},
-	],
+			"path": "plugins/vitest"
+		}
+	]
 }

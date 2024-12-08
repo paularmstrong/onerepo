@@ -11,6 +11,6 @@
 		"@types/prettier": "^3.0.0"
 	},
 	"dependencies": {
-		"prettier-plugin-astro": "^0.13.0"
+		"prettier-plugin-astro": "^0.14.1"
 	}
 }

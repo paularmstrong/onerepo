@@ -84,7 +84,7 @@ export const Pnpm = {
 		await batch(
 			workspaces.map((ws) => {
 				const pre = prerelease(ws.version!);
-				const thisTag = pre && pre[0] ? `${pre[0]}` : tag ?? 'latest';
+				const thisTag = pre && pre[0] ? `${pre[0]}` : (tag ?? 'latest');
 				return {
 					name: `Publish ${ws.name}`,
 					cmd,

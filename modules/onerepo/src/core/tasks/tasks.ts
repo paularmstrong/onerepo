@@ -271,7 +271,7 @@ function singleTaskToSpec(
 	config: Config,
 ): ExtendedRunSpec {
 	const command = typeof task === 'string' ? task : task.cmd;
-	const meta = typeof task !== 'string' ? task.meta ?? {} : {};
+	const meta = typeof task !== 'string' ? (task.meta ?? {}) : {};
 	const [cmd, ...args] = command.replace('${workspaces}', wsNames.join(' ')).split(' ');
 
 	const passthrough = [

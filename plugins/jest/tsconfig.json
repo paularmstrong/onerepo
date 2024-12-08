@@ -2,45 +2,45 @@
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
 		"outDir": "./dist/",
-		"types": ["node", "@types/jest"],
+		"types": ["node", "@types/jest"]
 	},
 	"include": ["./**/*"],
 	"references": [
 		{
-			"path": "../../modules/onerepo",
+			"path": "../../modules/onerepo"
 		},
 		{
-			"path": "../../modules/test-cli",
+			"path": "../../modules/test-cli"
 		},
 		{
-			"path": "../../modules/yargs",
+			"path": "../../modules/yargs"
 		},
 		{
-			"path": "../../modules/builders",
+			"path": "../../modules/builders"
 		},
 		{
-			"path": "../../modules/git",
+			"path": "../../modules/git"
 		},
 		{
-			"path": "../../modules/graph",
+			"path": "../../modules/graph"
 		},
 		{
-			"path": "../../modules/package-manager",
+			"path": "../../modules/package-manager"
 		},
 		{
-			"path": "../../modules/subprocess",
+			"path": "../../modules/subprocess"
 		},
 		{
-			"path": "../../modules/file",
+			"path": "../../modules/file"
 		},
 		{
-			"path": "../../modules/logger",
+			"path": "../../modules/logger"
 		},
 		{
-			"path": "../../internal/vitest-config",
+			"path": "../../internal/vitest-config"
 		},
 		{
-			"path": "../../internal/jest-config",
-		},
-	],
+			"path": "../../internal/jest-config"
+		}
+	]
 }

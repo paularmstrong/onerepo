@@ -29,5 +29,5 @@ export function getConfig(require: NodeRequire, cwd: string = process.cwd()) {
 		}
 	}
 
-	return { config, configRoot: configRoot !== '/' ? configRoot : lastKnownPossibleRoot ?? configRoot };
+	return { config, configRoot: configRoot !== '/' ? configRoot : (lastKnownPossibleRoot ?? configRoot) };
 }
