@@ -37,7 +37,7 @@
 		"hast-util-to-string": "^3.0.0",
 		"hastscript": "^8.0.0",
 		"js-base64": "^3.7.7",
-		"mermaid": "10.8.0",
+		"mermaid": "10.9.3",
 		"pako": "^2.1.0",
 		"rehype": "^13.0.1",
 		"rehype-mermaid": "^2.1.0",
