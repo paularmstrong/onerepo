@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { minimatch } from 'minimatch';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import * as builders from '@onerepo/builders';
@@ -259,7 +259,7 @@ function taskToSpecs(
 	];
 }
 
-const jiti = initJiti(process.cwd(), { interopDefault: true });
+const jiti = createJiti(process.cwd(), { interopDefault: true });
 
 function singleTaskToSpec(
 	cliName: string,
@@ -288,10 +288,10 @@ function singleTaskToSpec(
 			const step = logger.createStep(name, { writePrefixes: false });
 			const subLogger = bufferSubLogger(step);
 			const { yargs } = await setup({
-				require: jiti,
+				require: jiti as unknown as NodeRequire,
 				root: graph.root.location,
 				config,
-				yargs: createYargs([...args, ...passthrough], undefined, jiti),
+				yargs: createYargs([...args, ...passthrough], undefined, jiti as unknown as NodeRequire),
 				corePlugins,
 				logger: subLogger.logger,
 			});

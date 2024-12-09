@@ -1,4 +1,4 @@
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { glob } from 'glob';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
@@ -53,7 +53,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	// esbuild cannot import json files correctly unless bundling externals
 	// Just as well, AJV doesn't properly document its exported files for ESM verification
 	// So for a myriad of reasons, this needs to be a runtime requires
-	const require = initJiti(import.meta.url, { interopDefault: true });
+	const require = createJiti(import.meta.url, { interopDefault: true });
 	const draft7 = require('ajv/dist/refs/json-schema-draft-07.json');
 
 	const ajv = new Ajv({ allErrors: true });
