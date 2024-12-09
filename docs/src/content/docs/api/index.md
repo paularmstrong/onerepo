@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<dd325a452315206896fb4a3403b1ecd0>> -->
+<!-- @generated SignedSource<<c688d123e5bf9dec0d324cdaef30d82a>> -->
 
 ## Variables
 
@@ -1953,7 +1953,6 @@ end: () => Promise<void>;
 logger: Logger;
 ```
 
-**<span class="tag danger">Alpha</span>**  
 **Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
 
 ---
