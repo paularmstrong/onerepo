@@ -3,3 +3,4 @@
 .vite/
 src/api/*
 usage/*
+.astro/*
