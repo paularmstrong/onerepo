@@ -2337,16 +2337,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagefind/darwin-arm64@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@pagefind/darwin-arm64@npm:1.0.4"
+"@pagefind/darwin-arm64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@pagefind/darwin-arm64@npm:1.2.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pagefind/darwin-x64@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@pagefind/darwin-x64@npm:1.0.4"
+"@pagefind/darwin-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@pagefind/darwin-x64@npm:1.2.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -2358,23 +2358,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagefind/linux-arm64@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@pagefind/linux-arm64@npm:1.0.4"
+"@pagefind/linux-arm64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@pagefind/linux-arm64@npm:1.2.0"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pagefind/linux-x64@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@pagefind/linux-x64@npm:1.0.4"
+"@pagefind/linux-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@pagefind/linux-x64@npm:1.2.0"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@pagefind/windows-x64@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@pagefind/windows-x64@npm:1.0.4"
+"@pagefind/windows-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@pagefind/windows-x64@npm:1.2.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -11436,14 +11436,14 @@ __metadata:
   linkType: hard
 
 "pagefind@npm:^1.0.3":
-  version: 1.0.4
-  resolution: "pagefind@npm:1.0.4"
+  version: 1.2.0
+  resolution: "pagefind@npm:1.2.0"
   dependencies:
-    "@pagefind/darwin-arm64": 1.0.4
-    "@pagefind/darwin-x64": 1.0.4
-    "@pagefind/linux-arm64": 1.0.4
-    "@pagefind/linux-x64": 1.0.4
-    "@pagefind/windows-x64": 1.0.4
+    "@pagefind/darwin-arm64": 1.2.0
+    "@pagefind/darwin-x64": 1.2.0
+    "@pagefind/linux-arm64": 1.2.0
+    "@pagefind/linux-x64": 1.2.0
+    "@pagefind/windows-x64": 1.2.0
   dependenciesMeta:
     "@pagefind/darwin-arm64":
       optional: true
@@ -11457,7 +11457,7 @@ __metadata:
       optional: true
   bin:
     pagefind: lib/runner/bin.cjs
-  checksum: f851e977424c596119364c4bf6e192711a403557712bd9ca11e0aa4b2c45ecfa5a4a7cf1499970124931471c26a27663f28b5b16f30783fd3a63bac3d8d1e7b2
+  checksum: d684ae40c041d23704bda7367cb697c8d910bede1ae193cfcbec087b182dcd510aeee15e645641d34c9413f3463c2f14d7e0be0a0ea8290b0908d70e3222fcbc
   languageName: node
   linkType: hard
 
