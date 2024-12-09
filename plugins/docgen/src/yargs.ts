@@ -1,5 +1,5 @@
 import path from 'path';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { globSync } from 'glob';
 import type {
 	BuilderCallback,
@@ -81,7 +81,7 @@ export interface Docs {
 	usage: Array<string>;
 }
 
-const require = initJiti(process.cwd(), { interopDefault: true });
+const require = createJiti(process.cwd(), { interopDefault: true });
 
 export class Yargs {
 	_logger: LogStep;

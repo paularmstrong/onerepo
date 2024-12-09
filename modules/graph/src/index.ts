@@ -3,7 +3,7 @@ import path from 'node:path';
 import yaml from 'js-yaml';
 import type { PackageJson } from '@onerepo/package-manager';
 import { getLockfile, getPackageManagerName } from '@onerepo/package-manager';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { Graph } from './Graph';
 
 export * from './Graph';
@@ -22,7 +22,7 @@ const PackageCache = new Map<string, PackageJson>();
  * @group Graph
  */
 export function getGraph(workingDir: string = process.cwd()) {
-	const jiti = initJiti(workingDir, { interopDefault: true });
+	const jiti = createJiti(workingDir, { interopDefault: true }) as unknown as NodeRequire;
 	const { filePath, json } = getRootPackageJson(workingDir);
 	const pkgmanager = getPackageManagerName(filePath, json.packageManager);
 	let workspaces = json.workspaces ?? [];

@@ -1,5 +1,5 @@
 import createYargs from 'yargs/yargs';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import type { Logger } from '@onerepo/logger';
 import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Graph } from '@onerepo/graph';
@@ -20,7 +20,7 @@ import type { Lifecycle } from '../../types';
  * @param logger Optional {@link Logger} instance. Defaults to the current `Logger` (usually there is only one).
  */
 export async function runTasks(lifecycle: Lifecycle, args: Array<string>, graph: Graph, logger: Logger = getLogger()) {
-	const jiti = initJiti(graph.root.location, { interopDefault: true });
+	const jiti = createJiti(graph.root.location, { interopDefault: true }) as unknown as NodeRequire;
 
 	// IMPORTANT: this needs to be async-imported to avoid potential circular imports
 	const { tasks } = await import('.');

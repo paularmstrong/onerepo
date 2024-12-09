@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 
 /**
  * Important note: this file is only necessary for the oneRepo source repository
@@ -12,6 +12,6 @@ import initJiti from 'jiti';
  * the `one` CLI to point to this file.
  */
 
-const jiti = initJiti(import.meta.url, { interopDefault: true });
+const jiti = createJiti(import.meta.url, { interopDefault: true });
 
 jiti('onerepo/src/bin/one.ts');
