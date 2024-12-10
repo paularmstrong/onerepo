@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { minimatch } from 'minimatch';
 import { stepWrapper } from '@onerepo/logger';
+import type { ModifiedFromThrough, ModifiedStaged } from '@onerepo/git';
 import { getModifiedFiles } from '@onerepo/git';
 import type { Graph, Workspace } from '@onerepo/graph';
 import type { LogStep } from '@onerepo/logger';
@@ -213,7 +214,7 @@ export async function getFilepaths(
 
 		if ('affected' in argv && argv.affected) {
 			if (!workspaces.length) {
-				let opts: Parameters<typeof getModifiedFiles>[0];
+				let opts: ModifiedFromThrough<false> | ModifiedStaged<false>;
 				if (staged || argv.staged) {
 					opts = { staged: true };
 				} else {
