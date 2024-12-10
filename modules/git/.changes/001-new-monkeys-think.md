@@ -2,5 +2,4 @@
 type: minor
 ---
 
-Added a git utility method to get modified files and bucket them based on the modification operation.
-Updated tasks command to use the new git getModifiedByStatus method so deleted files are included as changes when generating tasks.
+Use a new option in `git.getModifiedFiles` to return all files mapped by status instead of only added & modified files as an array: `git.getModifiedFiles({ byStatus: true })`.
