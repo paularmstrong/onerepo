@@ -7,14 +7,13 @@ sidebar:
   order: 1
 ---
 
-import Tabs from '../../../components/Tabs.astro';
-import { TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Root configuration
 
 oneRepo configuration files can be any flavor of JavaScript or TypeScript, as long as they are parseable and have a valid `default` export. The only requirement for your repository's root config is that `root` must be set to `true`:
 
-<Tabs group="jsflavor">
+<Tabs syncKey="jsflavor">
   <TabItem label="ES Module">
 ```ts title="./onerepo.config.js" ins={2}
 export default {
@@ -459,7 +458,7 @@ config-root.d.ts:7
 
 Workspace configuration files are not required unless a workspace has explicit `tasks`, `codeowners`, or other needs. Workspace configuration files share the same name and format as the root configuration and are able to be any flavor of JavaScript or TypeScript:
 
-<Tabs group="jsflavor">
+<Tabs syncKey="jsflavor">
   <TabItem label="ES Module">
 ```ts title="./<workspace>/onerepo.config.js"
 export default {

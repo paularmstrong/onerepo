@@ -5,8 +5,7 @@ sidebar:
   order: 0
 ---
 
-import { FileTree, TabItem } from '@astrojs/starlight/components';
-import Tabs from '../../../components/Tabs.astro';
+import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
 Modern software dependency graphs are complex and brittle. The following Graph shows a theoretical problem that we may currently face between our own internal and external dependencies.
 
@@ -85,7 +84,7 @@ flowchart RL
 
 When package managers are configured as monorepos, they follow an array of glob patterns to determine where to find other source-level `package.json` files for determining install dependencies for the repository.
 
-<Tabs>
+<Tabs syncKey="pkgmanager">
   <TabItem label="npm">
 
     npm is configured using the [`workspaces`](https://docs.npmjs.com/cli/v10/using-npm/workspaces) field in the root `package.json`:
@@ -99,7 +98,7 @@ When package managers are configured as monorepos, they follow an array of glob 
     ```
 
   </TabItem>
-  <TabItem label="Yarn">
+  <TabItem label="yarn">
 
     Yarn, like npm, uses the [`workspaces`](https://yarnpkg.com/features/workspaces) field in the root `package.json`, but also enables additional features, like the `workspace:` protocol, focused installs, and parallel execution. It is recommended to set Yarn to use install modules using the [node-modules linker](https://yarnpkg.com/configuration/yarnrc#nodeLinker) to avoid compatibility issues
     .

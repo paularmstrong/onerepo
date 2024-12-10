@@ -27,8 +27,7 @@ hero:
 import Aurora from '../../components/Aurora.astro';
 import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
 import LinkCard from '../../components/LinkCard.astro';
-import { Steps, TabItem } from '@astrojs/starlight/components';
-import Tabs from '../../components/Tabs.astro';
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Aurora bands={40} />
 
@@ -103,7 +102,7 @@ Logging output from every command and tool in oneRepo is carefully grouped, docu
 
     First, install oneRepo's `one` command into your path:
 
-    <Tabs group="pkgmanager">
+    <Tabs syncKey="pkgmanager">
 
         <TabItem label="npm">
 

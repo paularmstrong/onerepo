@@ -8,8 +8,7 @@ meta:
   stability: stable
 ---
 
-import { TabItem } from '@astrojs/starlight/components';
-import Tabs from '../../../components/Tabs.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Let oneRepo handle running TypeScript across Workspaces.
 
@@ -17,7 +16,7 @@ Avoid potential mistakes when using [project references](https://www.typescriptl
 
 ## Installation
 
-<Tabs group="pkgmanager">
+<Tabs syncKey="pkgmanager">
   <TabItem label="npm">
 
     ```sh title="Install via npm"

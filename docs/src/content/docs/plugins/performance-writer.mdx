@@ -8,8 +8,7 @@ meta:
   stability: experimental
 ---
 
-import { TabItem } from '@astrojs/starlight/components';
-import Tabs from '../../../components/Tabs.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 This is a usable example plugin to demonstrate how to build your own telemetry and performance tracing plugin using the oneRepo plugin API and internal performance entries.
 
@@ -21,7 +20,7 @@ oneRepo does not send metrics, telemetry, or any other information anywhere – 
 
 ## Installation
 
-<Tabs group="pkgmanager">
+<Tabs syncKey="pkgmanager">
   <TabItem label="npm">
 
     ```sh title="Install via npm"
