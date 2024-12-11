@@ -1,5 +1,36 @@
 # onerepo
 
+## 1.2.0
+
+### Minor changes
+
+- Use a new option in `git.getModifiedFiles` to return all files mapped by status instead of only added & modified files as an array: `git.getModifiedFiles({ byStatus: true })`. ([a2942ed](https://github.com/paularmstrong/onerepo/commit/a2942ede514a65f5d09ff4595ca8bb616a83c5e5))
+- Adds support for the `pre-push` git hook in `tasks` lifecycles. ([0c9a5d5](https://github.com/paularmstrong/onerepo/commit/0c9a5d50b02cee2346dca99baca177469563c65c))
+
+### Patch changes
+
+- Fixed `one dependencies` commands that require deduping when using `pnpm`. ([9895235](https://github.com/paularmstrong/onerepo/commit/98952352d3c32adf853657e46e14f12fe1737992))
+- Ensures `deleted` files and other git status types other than `add` and `modified` are evaluated when running `one tasks`. ([9895235](https://github.com/paularmstrong/onerepo/commit/98952352d3c32adf853657e46e14f12fe1737992))
+- Updated internal/third-party typescript definitions ([e5fb5fa](https://github.com/paularmstrong/onerepo/commit/e5fb5fa0e9fbe6ff18c2d993cb22119a3908df73))
+- Internal test changes to support Vitest 2 ([f3d116d](https://github.com/paularmstrong/onerepo/commit/f3d116d4a846c9f21051b01370caec80526ef2c0))
+- Internal formatting changes due to Prettier upgrade. ([f8cb805](https://github.com/paularmstrong/onerepo/commit/f8cb80550ceabdce6ff6c13bf22466a59e694b0f))
+- Clarify bootstrap configuration errors to include the full stack trace. ([4b0ac6c](https://github.com/paularmstrong/onerepo/commit/4b0ac6cbcabe9988597b0fc055d73b4a7c88b85e))
+- Minor typo/grammar updates for `change` command CLI options. ([afbf0a7](https://github.com/paularmstrong/onerepo/commit/afbf0a7980d54960b54a0f27956ce421a9723c92))
+
+### Dependencies updated
+
+- @onerepo/test-cli@1.0.4
+- @onerepo/yargs@1.0.4
+- @onerepo/builders@1.0.4
+- @onerepo/git@1.1.0
+- @onerepo/graph@1.0.4
+- @onerepo/package-manager@1.0.4
+- @onerepo/subprocess@1.0.4
+- @onerepo/file@1.0.4
+- @onerepo/logger@1.0.4
+
+> View the full changelog: [a117f2a...9895235](https://github.com/paularmstrong/onerepo/compare/a117f2a8326b148de98fcffefc37e6ad46edcb87...98952352d3c32adf853657e46e14f12fe1737992)
+
 ## 1.1.2
 
 ### Dependencies updated

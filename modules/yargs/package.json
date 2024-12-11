@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/yargs",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,9 +21,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/builders": "1.0.3",
-		"@onerepo/logger": "1.0.3",
-		"@onerepo/subprocess": "1.0.3",
+		"@onerepo/builders": "1.0.4",
+		"@onerepo/logger": "1.0.4",
+		"@onerepo/subprocess": "1.0.4",
 		"semver": "^7.5.4"
 	},
 	"devDependencies": {
