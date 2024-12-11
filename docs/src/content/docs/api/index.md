@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<9281bff381f5db4f1897a14260a36b1f>> -->
+<!-- @generated SignedSource<<92ce5a44b23f28ad813ea18c6901870d>> -->
 
 ## Namespaces
 
@@ -1904,9 +1904,9 @@ await step.en();
 
 **Parameters:**
 
-| Parameter | Type                  |
-| :-------- | :-------------------- |
-| `step`    | [`LogStep`](#logstep) |
+| Parameter | Type                                |
+| :-------- | :---------------------------------- |
+| `step`    | [`LogStep`](#logstep) \| `Writable` |
 
 **Returns:** ```ts
 {
@@ -2079,7 +2079,7 @@ set verbosity(verbosity): void
 ##### end()
 
 ```ts
-end(): this
+end(callback?): this
 ```
 
 Signal the end of this step. After this method is called, it will no longer accept any more logs of any variety and will be removed from the parent Logger's queue.
@@ -2091,6 +2091,12 @@ const myStep = logger.createStep('My step');
 // do work
 myStep.end();
 ```
+
+**Parameters:**
+
+| Parameter   | Type         |
+| :---------- | :----------- |
+| `callback`? | () => `void` |
 
 **Returns:** `this`
 
@@ -2288,16 +2294,16 @@ write(
 Write directly to the step's stream, bypassing any formatting and verbosity filtering.
 
 :::caution[Advanced]
-Since [LogStep](#logstep) implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+Since [LogStep](#logstep) implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex) in `objectMode`, it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
 :::
 
 **Parameters:**
 
-| Parameter   | Type                |
-| :---------- | :------------------ |
-| `chunk`     | `any`               |
-| `encoding`? | `BufferEncoding`    |
-| `cb`?       | (`error`) => `void` |
+| Parameter   | Type                       |
+| :---------- | :------------------------- |
+| `chunk`     | `string` \| `LoggedBuffer` |
+| `encoding`? | `BufferEncoding`           |
+| `cb`?       | (`error`) => `void`        |
 
 **Returns:** `boolean`
 
@@ -2424,12 +2430,13 @@ await step.end();
 
 **Parameters:**
 
-| Parameter             | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| :-------------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`                | `string`  | The name to be written and wrapped around any output logged to this new step.                                                                                                                                                                                                                                                                                                                              |
-| `opts`?               | `Object`  | -                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `opts.description`?   | `string`  | Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.<br /><br />Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail. |
-| `opts.writePrefixes`? | `boolean` | **Deprecated**<br />This option no longer does anything and will be removed in v2.0.0                                                                                                                                                                                                                                                                                                                      |
+| Parameter             | Type                        | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| :-------------------- | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                | `string`                    | The name to be written and wrapped around any output logged to this new step.                                                                                                                                                                                                                                                                                                                              |
+| `opts`?               | `Object`                    | -                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `opts.description`?   | `string`                    | Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.<br /><br />Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail. |
+| `opts.verbosity`?     | [`Verbosity`](#verbosity-2) | Override the default logger verbosity. Any changes while this step is running to the default logger will result in this step’s verbosity changing as well.                                                                                                                                                                                                                                                 |
+| `opts.writePrefixes`? | `boolean`                   | **Deprecated**<br />This option no longer does anything and will be removed in v2.0.0                                                                                                                                                                                                                                                                                                                      |
 
 **Returns:** [`LogStep`](#logstep)  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
@@ -2459,9 +2466,18 @@ logger.unpause();
 unpause(): void
 ```
 
-Unpause the logger and resume writing buffered logs to the output stream. See [`logger.pause()`](#pause) for more information.
+Unpause the logger and uncork writing buffered logs to the output stream. See [`logger.pause()`](#pause) for more information.
 
 **Returns:** `void`  
+**Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
+##### waitForClear()
+
+```ts
+waitForClear(): Promise<boolean>
+```
+
+**Returns:** `Promise`\<`boolean`\>  
 **Source:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 #### Logging

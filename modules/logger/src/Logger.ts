@@ -1,6 +1,5 @@
 import type { Writable } from 'node:stream';
 import { destroyCurrent, setCurrent } from './global';
-import type { LogStepOptions } from './LogStep';
 import { LogStep } from './LogStep';
 import { LogStepToString } from './transforms/LogStepToString';
 import { LogProgress } from './transforms/LogProgress';
@@ -83,7 +82,7 @@ export class Logger {
 
 		if (this.#defaultLogger) {
 			this.#defaultLogger.verbosity = this.#verbosity;
-			this.#activate(this.#defaultLogger);
+			// this.#activate(this.#defaultLogger);
 		}
 
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
@@ -180,12 +179,16 @@ export class Logger {
 			 */
 			description?: string;
 			/**
+			 * Override the default logger verbosity. Any changes while this step is running to the default logger will result in this step’s verbosity changing as well.
+			 */
+			verbosity?: Verbosity;
+			/**
 			 * @deprecated This option no longer does anything and will be removed in v2.0.0
 			 */
 			writePrefixes?: boolean;
 		} = {},
 	) {
-		const step = new LogStep({ name, verbosity: this.#verbosity, description: opts.description });
+		const step = new LogStep({ name, verbosity: opts.verbosity ?? this.#verbosity, description: opts.description });
 		this.#steps.push(step);
 		step.on('end', () => this.#onEnd(step));
 
@@ -348,47 +351,44 @@ export class Logger {
 		this.#defaultLogger.timing(start, end);
 	}
 
+	async waitForClear() {
+		return await new Promise<boolean>((resolve) => {
+			setImmediate(() => {
+				resolve(this.#steps.length === 0);
+			});
+		});
+	}
+
 	/**
 	 * @internal
 	 */
 	async end() {
 		this.unpause();
 
-		await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				setImmediate(() => {
-					resolve();
-				});
-			});
-		});
-
-		this.#defaultLogger.uncork();
-		for (const step of this.#steps) {
-			this.#defaultLogger.warn(
-				`Step "${step.name}" did not finish before command shutdown. Fix this issue by updating this command to call \`step.end();\` at the appropriate time.`,
-			);
-			await this.#onEnd(step);
+		const now = Date.now();
+		while ((await this.waitForClear()) === false) {
+			if (Date.now() - now > 100) {
+				const openStep = this.#steps[0];
+				if (openStep) {
+					openStep.error(
+						'Did not complete before command shutdown. Fix this issue by updating this command to call `step.end();` at the appropriate time.',
+					);
+					openStep.end();
+				}
+			}
+			continue;
 		}
 
+		this.#activate(this.#defaultLogger);
+		this.#defaultLogger.uncork();
 		await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				setImmediate(() => {
-					resolve();
-				});
-			});
-		});
-
-		this.#defaultLogger.end();
-
-		await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				setImmediate(() => {
-					resolve();
-				});
+			this.#defaultLogger.end(() => {
+				resolve();
 			});
 		});
 
 		this.#defaultLogger.unpipe();
+
 		destroyCurrent();
 		showCursor();
 	}
@@ -411,9 +411,12 @@ export class Logger {
 		hideCursor();
 
 		if (!step.name || !(this.#stream as typeof process.stderr).isTTY) {
-			step.pipe(new LogStepToString()).pipe(this.#stream);
+			step.pipe(new LogStepToString()).pipe(this.#stream as Writable);
 		} else {
-			step.pipe(new LogStepToString()).pipe(new LogProgress()).pipe(this.#stream);
+			step
+				.pipe(new LogStepToString())
+				.pipe(new LogProgress())
+				.pipe(this.#stream as Writable);
 		}
 		step.isPiped = true;
 	}
@@ -438,9 +441,9 @@ export class Logger {
 
 		this.#defaultLogger.uncork();
 
-		// if (step.hasError && process.env.GITHUB_RUN_ID) {
-		// 	this.error('The previous step has errors.');
-		// }
+		if (step.hasError && process.env.GITHUB_RUN_ID) {
+			this.error('The previous step has errors.');
+		}
 
 		// Remove this step
 		this.#steps.splice(index, 1);
@@ -462,9 +465,9 @@ export class Logger {
 	};
 
 	#setState = (step: LogStep) => {
-		this.#defaultLogger.hasError = this.#defaultLogger.hasError || step.hasError;
-		this.#defaultLogger.hasWarning = this.#defaultLogger.hasWarning || step.hasWarning;
-		this.#defaultLogger.hasInfo = this.#defaultLogger.hasInfo || step.hasInfo;
-		this.#defaultLogger.hasLog = this.#defaultLogger.hasLog || step.hasLog;
+		this.#defaultLogger.hasError = step.hasError || this.#defaultLogger.hasError;
+		this.#defaultLogger.hasWarning = step.hasWarning || this.#defaultLogger.hasWarning;
+		this.#defaultLogger.hasInfo = step.hasInfo || this.#defaultLogger.hasInfo;
+		this.#defaultLogger.hasLog = step.hasLog || this.#defaultLogger.hasLog;
 	};
 }

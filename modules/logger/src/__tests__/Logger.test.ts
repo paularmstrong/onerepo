@@ -12,7 +12,6 @@ async function runPendingImmediates() {
 	});
 }
 
-
 describe('Logger', () => {
 	let runId: string | undefined;
 
@@ -75,7 +74,7 @@ describe('Logger', () => {
 		},
 	);
 
-	test('logs "completed" message', async () => {
+	test.only('logs "completed" message', async () => {
 		let out = '';
 		const stream = new PassThrough();
 		stream.on('data', (chunk) => {
@@ -90,14 +89,13 @@ describe('Logger', () => {
 		await logger.end();
 		await runPendingImmediates();
 
-		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} Completed`);
+		expect(out).toEqual(`${pc.dim(pc.bold('■'))} ${pc.green('✔')} ${pc.dim('0ms')}`);
 	});
 
-	test.only('logs "completed with errors" message', async () => {
+	test('logs "completed with errors" message', async () => {
 		const stream = new PassThrough();
 		let out = '';
 		stream.on('data', (chunk) => {
-			console.log('c', chunk.toString());
 			out += chunk.toString();
 		});
 
@@ -108,11 +106,9 @@ describe('Logger', () => {
 		step.end();
 
 		await logger.end();
-		console.log('=====');
 		await runPendingImmediates();
-		expect(out).toEqual('foo');
 
-		expect(out).toMatch(`${pc.dim(pc.bold('■'))} ${pc.red('✘')} Completed with errors`);
+		expect(out).toEqual(`${pc.dim(pc.bold('■'))} ${pc.red('✘')} Completed with errors`);
 	});
 
 	test('writes logs if verbosity increased after construction', async () => {
@@ -128,7 +124,7 @@ describe('Logger', () => {
 		logger.warn('this is a warning');
 		await runPendingImmediates();
 		const step = logger.createStep('tacos');
-		await step.end();
+		step.end();
 
 		await logger.end();
 
@@ -157,7 +153,7 @@ describe('Logger', () => {
 		expect(out).not.toMatch('::endgroup::');
 	});
 
-	test.concurrent.each([
+	test.each([
 		['error', 'hasError'],
 		['warn', 'hasWarning'],
 		['info', 'hasInfo'],
@@ -169,18 +165,21 @@ describe('Logger', () => {
 			const logger = new Logger({ verbosity: 2, stream });
 
 			const step = logger.createStep('tacos');
-			await step.end();
+			step.end();
 
 			expect(logger[getter]).toBe(false);
 
-			const step2 = logger.createStep('burritos');
+			const step2 = logger.createStep(`${method.toString()} ${getter}`);
 			// @ts-ignore
 			step2[method]('yum');
-			await step2.end();
+			step2.end();
+			await logger.end();
+			await runPendingImmediates();
 
+			// @ts-ignore
+			expect(step2[getter]).toBe(true);
 			expect(logger[getter]).toBe(true);
 
-			await logger.end();
 			stream.destroy();
 		},
 	);

@@ -9,8 +9,8 @@ import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
-import type { Verbosity } from '@onerepo/logger';
-import { Logger, getLogger } from '@onerepo/logger';
+import type { Verbosity, Logger } from '@onerepo/logger';
+import { getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { flushUpdateIndex } from '@onerepo/git';
@@ -113,7 +113,7 @@ export async function setup({
 	process.env.ONEREPO_HEAD_BRANCH = head;
 	process.env.ONEREPO_DRY_RUN = 'false';
 
-	const graph = await (inputGraph || getGraph(process.env.ONEREPO_ROOT));
+	const graph = inputGraph || getGraph(process.env.ONEREPO_ROOT);
 
 	const yargs = setupYargs(yargsInstance.scriptName('one'), { graph, logger });
 	yargs
@@ -198,16 +198,13 @@ export async function setup({
 			const logger = getLogger();
 			// Enforce the initial verbosity, in case it was modified
 			logger.verbosity = argv.verbosity as Verbosity;
+
+			await shutdown(argv);
 			await logger.end();
 
 			if (logger.hasError) {
 				process.exitCode = 1;
 			}
-
-			// Register a new logger on the  top of the stack to silence output so that shutdown handlers to not write any output
-			const silencedLogger = new Logger({ verbosity: 0 });
-			await shutdown(argv);
-			await silencedLogger.end();
 		},
 	};
 }
