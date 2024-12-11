@@ -1,6 +1,6 @@
 {
 	"name": "@onerepo/git",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,9 +21,9 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/file": "1.0.3",
-		"@onerepo/logger": "1.0.3",
-		"@onerepo/subprocess": "1.0.3"
+		"@onerepo/file": "1.0.4",
+		"@onerepo/logger": "1.0.4",
+		"@onerepo/subprocess": "1.0.4"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

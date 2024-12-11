@@ -1,5 +1,23 @@
 # @onerepo/builders
 
+## 1.0.4
+
+### Patch changes
+
+- Includes more file statuses in `getFilepaths` and determining workspace changes. ([a2942ed](https://github.com/paularmstrong/onerepo/commit/a2942ede514a65f5d09ff4595ca8bb616a83c5e5))
+- Internal formatting changes due to Prettier upgrade. ([f8cb805](https://github.com/paularmstrong/onerepo/commit/f8cb80550ceabdce6ff6c13bf22466a59e694b0f))
+
+### Dependencies updated
+
+- @onerepo/git@1.1.0
+- @onerepo/graph@1.0.4
+- @onerepo/package-manager@1.0.4
+- @onerepo/subprocess@1.0.4
+- @onerepo/file@1.0.4
+- @onerepo/logger@1.0.4
+
+> View the full changelog: [a117f2a...9895235](https://github.com/paularmstrong/onerepo/compare/a117f2a8326b148de98fcffefc37e6ad46edcb87...98952352d3c32adf853657e46e14f12fe1737992)
+
 ## 1.0.3
 
 ### Dependencies updated

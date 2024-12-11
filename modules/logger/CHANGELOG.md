@@ -1,5 +1,15 @@
 # @onerepo/logger
 
+## 1.0.4
+
+### Patch changes
+
+- Updated internal/third-party typescript definitions ([e5fb5fa](https://github.com/paularmstrong/onerepo/commit/e5fb5fa0e9fbe6ff18c2d993cb22119a3908df73))
+- Internal test changes to support Vitest 2 ([f3d116d](https://github.com/paularmstrong/onerepo/commit/f3d116d4a846c9f21051b01370caec80526ef2c0))
+- Internal formatting changes due to Prettier upgrade. ([f8cb805](https://github.com/paularmstrong/onerepo/commit/f8cb80550ceabdce6ff6c13bf22466a59e694b0f))
+
+> View the full changelog: [a117f2a...9895235](https://github.com/paularmstrong/onerepo/compare/a117f2a8326b148de98fcffefc37e6ad46edcb87...98952352d3c32adf853657e46e14f12fe1737992)
+
 ## 1.0.3
 
 > View the full changelog: [c8234dc...9359c78](https://github.com/paularmstrong/onerepo/compare/c8234dc79f7b7f40ca42167d41a6a6f4126c5286...9359c78e4da54e0402ad6a4bf5890a8a71972c8e)

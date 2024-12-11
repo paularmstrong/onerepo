@@ -1,5 +1,25 @@
 # @onerepo/test-cli
 
+## 1.0.4
+
+### Patch changes
+
+- Updated internal/third-party typescript definitions ([e5fb5fa](https://github.com/paularmstrong/onerepo/commit/e5fb5fa0e9fbe6ff18c2d993cb22119a3908df73))
+- Internal formatting changes due to Prettier upgrade. ([f8cb805](https://github.com/paularmstrong/onerepo/commit/f8cb80550ceabdce6ff6c13bf22466a59e694b0f))
+
+### Dependencies updated
+
+- @onerepo/yargs@1.0.4
+- @onerepo/builders@1.0.4
+- @onerepo/git@1.1.0
+- @onerepo/graph@1.0.4
+- @onerepo/package-manager@1.0.4
+- @onerepo/subprocess@1.0.4
+- @onerepo/file@1.0.4
+- @onerepo/logger@1.0.4
+
+> View the full changelog: [a117f2a...9895235](https://github.com/paularmstrong/onerepo/compare/a117f2a8326b148de98fcffefc37e6ad46edcb87...98952352d3c32adf853657e46e14f12fe1737992)
+
 ## 1.0.3
 
 ### Dependencies updated
