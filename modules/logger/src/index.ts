@@ -1,7 +1,7 @@
+import type { Writable } from 'node:stream';
 import { Transform } from 'node:stream';
 import restoreCursorDefault from 'restore-cursor';
 import { Logger } from './Logger';
-// import { LogStep } from './LogStep';
 import { destroyCurrent, getCurrent, setCurrent } from './global';
 import type { LogStep } from './LogStep';
 import { prefix } from './transforms/LogStepToString';
@@ -95,12 +95,12 @@ export async function stepWrapper<T>(
  * @alpha
  * @group Logger
  */
-export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
+export function bufferSubLogger(step: Writable | LogStep): { logger: Logger; end: () => Promise<void> } {
 	const logger = getLogger();
 	const stream = new Buffered();
 	const subLogger = new Logger({ verbosity: logger.verbosity, stream, captureAll: true });
 
-	stream.pipe(step);
+	stream.pipe(step as Writable);
 
 	return {
 		logger: subLogger,

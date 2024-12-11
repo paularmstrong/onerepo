@@ -5,23 +5,26 @@ import { ensureNewline, stringify } from '../utils/string';
 
 export class LogStepToString extends Transform {
 	constructor() {
-		super({ decodeStrings: false });
+		super({ decodeStrings: false, objectMode: true });
 	}
 
 	_transform(
-		chunk: Buffer,
+		chunk: LoggedBuffer | string,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		encoding = 'utf8',
 		callback: () => void,
 	) {
 		try {
-			const data = JSON.parse(chunk.toString()) as LoggedBuffer;
-			// console.log(data);
-			if (typeMinVerbosity[data.type] <= data.verbosity) {
-				this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents), data.hasError)}`));
+			if (typeof chunk === 'string') {
+				this.push(chunk);
+			} else {
+				const data = chunk as LoggedBuffer;
+				if (typeMinVerbosity[data.type] <= data.verbosity) {
+					this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents), data.hasError)}`));
+				}
 			}
 		} catch (e) {
-			this.push(chunk);
+			this.push(JSON.stringify(chunk));
 		}
 		callback();
 	}
