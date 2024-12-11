@@ -1,16 +1,15 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
+import Button from './Button.astro';
 ---
 
 <div class="vis-container">
 	<div class="container">
 		<div class="controls not-content">
-			<button id="help">Help</button>
+			<Button variant="minimal" id="help" iconPlacement="start" icon="information">Help</Button>
+			<Button variant="minimal" id="reset-zoom" iconPlacement="start" icon="magnifier">Reset zoom</Button>
 
-			<button id="reset-zoom">Reset zoom</button>
-
-			{
-				/*<fieldset>
+			<!-- <fieldset>
 				<legend>Dependencies</legend>
 				<label>
 					<input type="checkbox" class="switch" value="3" name="dependencies" checked switch />
@@ -23,11 +22,10 @@ import { Icon } from '@astrojs/starlight/components';
 				</label>
 
 				<label>
-					<input type="checkbox" class="switch" value="1" name="dependencies" switch />
+					<input type="checkbox" class="switch" value="1" name="dependencies" checked switch />
 					Peer
 				</label>
-			</fieldset> */
-			}
+			</fieldset> -->
 		</div>
 	</div>
 
@@ -57,7 +55,7 @@ import { Icon } from '@astrojs/starlight/components';
 				<li>Click an individual Workspace node to lock the highlight. Click anywhere else to unlock the highlight.</li>
 			</ul>
 			<form method="dialog">
-				<button>OK</button>
+				<Button role="button" type="submit" variant="primary">Okay</Button>
 			</form>
 		</div>
 	</dialog>
@@ -90,7 +88,7 @@ import { Icon } from '@astrojs/starlight/components';
 		<h2>Error</h2>
 		<p id="error-description"></p>
 		<form method="dialog">
-			<button>OK</button>
+			<Button variant="primary">OK</Button>
 		</form>
 	</div>
 </dialog>

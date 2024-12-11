@@ -40,6 +40,17 @@ function decodeToDag(datastring: string) {
 	return dag;
 }
 
+function getZoomFit() {
+	const bbox = viz.node()!.getBBox();
+	const parent = group.node().parentElement;
+	const { clientWidth: fullWidth, clientHeight: fullHeight } = parent;
+	const { width, height, x, y } = bbox;
+	const midX = x + width / 2;
+	const midY = y + height / 2;
+	const scale = 0.95 / Math.max(width / fullWidth, height / fullHeight);
+	return zoomIdentity.translate(fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY).scale(scale);
+}
+
 function renderGraph(graph: graphlib.Graph) {
 	renderer(viz, graph);
 
@@ -53,17 +64,14 @@ function renderGraph(graph: graphlib.Graph) {
 		}),
 	);
 
-	const parent = group.node().parentElement;
-	const { clientWidth: fullWidth, clientHeight: fullHeight } = parent;
-	const { width, height, x, y } = bbox;
-	const midX = x + width / 2;
-	const midY = y + height / 2;
-	const scale = 0.95 / Math.max(width / fullWidth, height / fullHeight);
-	const zoomFit = zoomIdentity.translate(fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY).scale(scale);
-	zoomBehavior.transform(viz, zoomFit);
+	zoomBehavior.transform(viz, getZoomFit());
 	document.querySelector('#reset-zoom')?.addEventListener('click', () => {
-		zoomBehavior.transform(viz, zoomFit);
+		zoomBehavior.transform(viz, getZoomFit());
 	});
+	const obs = new ResizeObserver(() => {
+		zoomBehavior.transform(viz, getZoomFit());
+	});
+	obs.observe(group.node().parentElement);
 
 	viz.selectAll('.label-container').attr('rx', 6).attr('ry', 6);
 
@@ -200,7 +208,7 @@ function getGraph(dag: ReturnType<typeof Graph>): graphlib.Graph {
 				{ v: target, w: source },
 				{
 					labeloffset: -10,
-					label: weight === 2 ? 'devDependency' : 'dependency',
+					label: weight === 2 ? 'dev' : weight === 1 ? 'peer' : 'dependency',
 					curve: curveBasis,
 					style: weight === 3 ? undefined : `stroke-dasharray: ${weight === 2 ? '5,5' : '1,2'}`,
 				},
