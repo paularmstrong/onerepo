@@ -59,7 +59,7 @@ export class LogStep extends Duplex {
 	 */
 	constructor(options: LogStepOptions) {
 		const { description, name, verbosity } = options;
-		super({ decodeStrings: false });
+		super({ decodeStrings: false, objectMode: true });
 		this.#verbosity = verbosity;
 
 		this.#startMark = name || `${performance.now()}`;
@@ -75,14 +75,13 @@ export class LogStep extends Duplex {
 	 * Write directly to the step's stream, bypassing any formatting and verbosity filtering.
 	 *
 	 * :::caution[Advanced]
-	 * Since {@link LogStep} implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+	 * Since {@link LogStep} implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex) in `objectMode`, it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
 	 * :::
 	 *
 	 * @group Logging
 	 */
 	write(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		chunk: any,
+		chunk: LoggedBuffer | string,
 		encoding?: BufferEncoding,
 		cb?: (error: Error | null | undefined) => void,
 	): boolean;
@@ -90,11 +89,7 @@ export class LogStep extends Duplex {
 	/**
 	 * @internal
 	 */
-	write(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		chunk: any,
-		cb?: (error: Error | null | undefined) => void,
-	): boolean;
+	write(chunk: LoggedBuffer | string, cb?: (error: Error | null | undefined) => void): boolean;
 
 	write(
 		// @ts-expect-error
@@ -131,16 +126,12 @@ export class LogStep extends Duplex {
 	}
 
 	#write(type: LineType, contents: unknown) {
-		this.write(
-			Buffer.from(
-				JSON.stringify({
-					type,
-					contents: stringify(contents),
-					group: this.name,
-					verbosity: this.#verbosity,
-				} satisfies LoggedBuffer),
-			),
-		);
+		this.write({
+			type,
+			contents: stringify(contents),
+			group: this.name,
+			verbosity: this.#verbosity,
+		} satisfies LoggedBuffer);
 	}
 
 	set verbosity(verbosity: Verbosity) {
@@ -178,8 +169,8 @@ export class LogStep extends Duplex {
 	/**
 	 * @internal
 	 */
-	set hasInfo(hasWarning: boolean) {
-		this.#hasInfo = this.#hasInfo || hasWarning;
+	set hasInfo(hasInfo: boolean) {
+		this.#hasInfo = this.#hasInfo || hasInfo;
 	}
 
 	/**
@@ -224,7 +215,7 @@ export class LogStep extends Duplex {
 	 * @group Logging
 	 */
 	error(contents: unknown) {
-		this.#hasError = true;
+		this.hasError = true;
 		this.#write('error', contents);
 	}
 
@@ -249,7 +240,7 @@ export class LogStep extends Duplex {
 	 * @group Logging
 	 */
 	warn(contents: unknown) {
-		this.#hasWarning = true;
+		this.hasWarning = true;
 		this.#write('warn', contents);
 	}
 
@@ -273,7 +264,7 @@ export class LogStep extends Duplex {
 	 * @group Logging
 	 */
 	info(contents: unknown) {
-		this.#hasInfo = true;
+		this.hasInfo = true;
 		this.#write('info', contents);
 	}
 
@@ -297,7 +288,7 @@ export class LogStep extends Duplex {
 	 * @group Logging
 	 */
 	log(contents: unknown) {
-		this.#hasLog = true;
+		this.hasLog = true;
 		this.#write('log', contents);
 	}
 
@@ -364,7 +355,7 @@ export class LogStep extends Duplex {
 	 * myStep.end();
 	 * ```
 	 */
-	end() {
+	end(callback?: () => void) {
 		// Makes calling `.end()` multiple times safe.
 		// TODO: make this unnecessary
 		if (this.writableEnded) {
@@ -379,18 +370,17 @@ export class LogStep extends Duplex {
 			!startMark || process.env.NODE_ENV === 'test' ? 0 : Math.round(endMark.startTime - startMark.startTime);
 		const contents = this.name
 			? pc.dim(`${duration}ms`)
-			: `Completed${this.#hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
+			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
 
 		return super.end(
-			Buffer.from(
-				JSON.stringify({
-					type: 'end',
-					contents: stringify(contents),
-					group: this.name,
-					hasError: this.#hasError,
-					verbosity: this.#verbosity,
-				} satisfies LoggedBuffer),
-			),
+			{
+				type: 'end',
+				contents: stringify(contents),
+				group: this.name,
+				hasError: this.#hasError,
+				verbosity: this.#verbosity,
+			} satisfies LoggedBuffer,
+			callback,
 		);
 	}
 }

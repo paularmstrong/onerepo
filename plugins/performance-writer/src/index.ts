@@ -97,7 +97,7 @@ export function performanceWriter(opts: Options = {}): PluginObject {
 
 		shutdown: async () => {
 			const logger = getLogger();
-			const step = logger.createStep('Report metrics');
+			const step = logger.createStep('Report metrics', { verbosity: 0 });
 			observer.disconnect();
 
 			const measures = performance.getEntriesByType('measure');
@@ -111,7 +111,7 @@ export function performanceWriter(opts: Options = {}): PluginObject {
 			}
 
 			await file.write(outFile, JSON.stringify(measures), { step });
-			await step.end();
+			step.end();
 		},
 	};
 }

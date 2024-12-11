@@ -303,7 +303,7 @@ function singleTaskToSpec(
 			await yargs.parse();
 			await subLogger.end();
 
-			await step.end();
+			step.end();
 			return ['', ''];
 		};
 	}
