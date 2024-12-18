@@ -146,7 +146,7 @@ class Buffered extends Transform {
 				.toString()
 				.trim()
 				.split('\n')
-				.map((line) => (line.startsWith(prefix.end) ? `${line}` : ` │ ${line.trim()}`))
+				.map((line) => `│ ${line.trim()}`)
 				.join('\n')}\n`,
 		);
 		callback();

@@ -43,7 +43,7 @@ export class LogStepToString extends Transform {
 		}
 		return output
 			.split('\n')
-			.map((line) => ` ${group ? '│ ' : ''}${prefix[type]}${line}`)
+			.map((line) => `${group ? '│ ' : ''}${prefix[type]}${line}`)
 			.join('\n');
 	}
 }
@@ -60,8 +60,8 @@ const typeMinVerbosity: Record<LineType, number> = {
 
 export const prefix: Record<LineType, string> = {
 	timing: pc.red('⏳'),
-	start: ' ┌ ',
-	end: ' └ ',
+	start: '┌ ',
+	end: '└ ',
 	error: pc.red(pc.bold('ERR ')),
 	warn: pc.yellow(pc.bold('WRN ')),
 	log: pc.cyan(pc.bold('LOG ')),
