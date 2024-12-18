@@ -169,11 +169,11 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		}
 	}
 
-	await buildableStep.end();
+	buildableStep.end();
 
 	const removeStep = logger.createStep('Clean previous build directories');
 	await Promise.all(removals.map((dir) => file.remove(dir, { step: removeStep })));
-	await removeStep.end();
+	removeStep.end();
 
 	await batch([...buildProcs, ...typesProcs]);
 	await Promise.all(postCopy.map((fn) => fn()));

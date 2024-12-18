@@ -134,7 +134,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		if (list) {
 			process.stdout.write(JSON.stringify({ parallel: [], serial: [] }));
 		}
-		await setupStep.end();
+		setupStep.end();
 		if (staged) {
 			await stagingWorkflow.restoreUnstaged();
 		}
@@ -180,7 +180,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	}
 
 	if (list) {
-		await setupStep.end();
+		setupStep.end();
 		const step = logger.createStep('Listing tasks');
 		const all = {
 			parallel: parallelTasks,
@@ -196,19 +196,20 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				return value;
 			}),
 		);
-		await step.end();
+		step.end();
 		return;
 	}
 
 	if (!hasTasks) {
 		setupStep.info(`No tasks to run`);
-		await setupStep.end();
+		setupStep.end();
 		if (staged) {
 			await stagingWorkflow.restoreUnstaged();
 		}
 		return;
+	} else {
+		setupStep.end();
 	}
-	await setupStep.end();
 
 	try {
 		await batch(parallelTasks.flat(1).map((task) => task.fn ?? task));
