@@ -115,7 +115,7 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 			detail: { description: 'Spawned subprocess', subprocess: { ...withoutLogger, opts } },
 		});
 
-		if (options.opts?.stdio === 'inherit') {
+		if (!logger.captureAll && options.opts?.stdio === 'inherit') {
 			logger.pause();
 		}
 
@@ -132,13 +132,11 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 		${JSON.stringify(withoutLogger, null, 2)}\n`,
 			);
 
-			return Promise.resolve()
-				.then(() => {
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					resolve([out.trim(), err.trim()]);
-				});
+			if (!inputStep) {
+				step.end();
+			}
+
+			return resolve([out.trim(), err.trim()]);
 		}
 
 		if (inputStep) {
@@ -150,20 +148,24 @@ export async function run(options: RunSpec): Promise<[string, string]> {
 ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process.cwd()}\n`,
 		);
 
-		const subprocess = start(options);
+		const subprocess = start({
+			...options,
+			opts: {
+				...options.opts,
+				env: { ...options.opts?.env, FORCE_COLOR: !process.env.NO_COLOR ? '1' : undefined },
+				stdio: logger.captureAll ? 'pipe' : options.opts?.stdio,
+			},
+		});
 
 		subprocess.on('error', (error) => {
 			if (!options.skipFailures) {
 				step.error(error);
 			}
-			return Promise.resolve()
-				.then(() => {
-					logger.unpause();
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					reject(error);
-				});
+			logger.unpause();
+			if (!inputStep) {
+				step.end();
+			}
+			return reject(error);
 		});
 
 		if (subprocess.stdout && subprocess.stderr) {
@@ -195,23 +197,24 @@ ${JSON.stringify(withoutLogger, null, 2)}\n${process.env.ONEREPO_ROOT ?? process
 				const error = new SubprocessError(`${sortedOut || code}`);
 				step.error(sortedOut.trim());
 				step.error(`Process exited with code ${code}`);
-				return (!inputStep ? step.end() : Promise.resolve()).then(() => {
-					logger.unpause();
-					reject(error);
-				});
+				if (!inputStep) {
+					step.end();
+				}
+
+				logger.unpause();
+				reject(error);
+				return;
 			}
 
 			if (inputStep) {
 				step.timing(`onerepo_start_Subprocess: ${options.name}`, `onerepo_end_Subprocess: ${options.name}`);
 			}
 
-			return Promise.resolve()
-				.then(() => {
-					return !inputStep ? step.end() : Promise.resolve();
-				})
-				.then(() => {
-					resolve([out.trim(), err.trim()]);
-				});
+			if (!inputStep) {
+				step.end();
+			}
+
+			return resolve([out.trim(), err.trim()]);
 		});
 	});
 }
@@ -272,7 +275,7 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 				`DRY-RUN command:
     sudo ${commandString}\n`,
 		);
-		await step.end();
+		step.end();
 		return ['', ''];
 	}
 
@@ -304,12 +307,9 @@ export async function sudo(options: Omit<RunSpec, 'opts'> & { reason?: string })
 				logger.log(stdout);
 				logger.log(stderr);
 
-				return Promise.resolve()
-					.then(() => {
-						logger.unpause();
-						return step.end();
-					})
-					.then(() => resolve([stdout, stderr]));
+				logger.unpause();
+				step.end();
+				resolve([stdout, stderr]);
 			},
 		);
 	});
@@ -380,19 +380,17 @@ export async function batch(
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
-		function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
-			return runner()
-				.then((output) => {
-					results[index] = output;
-				})
-				.catch((e) => {
-					failing = true;
-					results[index] = e;
-				})
-				.finally(() => {
-					completed += 1;
-					runNextTask();
-				});
+		async function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
+			try {
+				const output = await runner();
+				results[index] = output;
+			} catch (e) {
+				failing = true;
+				results[index] = e as Error;
+			} finally {
+				completed += 1;
+				runNextTask();
+			}
 		}
 
 		function runNextTask() {

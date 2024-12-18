@@ -36,7 +36,7 @@ describe('handler', () => {
 	beforeEach(() => {
 		out = '';
 		vi.spyOn(process.stdout, 'write').mockImplementation((content) => {
-			out += content.toString();
+			out += (content as string).toString();
 			return true;
 		});
 		vi.spyOn(subprocess, 'run').mockResolvedValue(['', '']);
@@ -245,7 +245,7 @@ describe('handler', () => {
 						args: ['"deployroot"'],
 						cmd: 'echo',
 						meta: { name: 'fixture-root', slug: 'fixture-root' },
-						name: 'echo "deployroot" (fixture-root)',
+						name: 'echo "deployroot"',
 						opts: { cwd: '.' },
 					},
 				],
@@ -284,7 +284,7 @@ describe('handler', () => {
 						args: ['"deployroot"'],
 						cmd: 'echo',
 						meta: { name: 'fixture-root', slug: 'fixture-root' },
-						name: 'echo "deployroot" (fixture-root)',
+						name: 'echo "deployroot"',
 						opts: { cwd: '.' },
 					},
 				],

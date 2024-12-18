@@ -52,6 +52,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 			'typedoc-plugin-markdown',
 			'--useCodeBlocks',
 			'true',
+			'--excludeExternals',
 			'--entryFileName',
 			'index.md',
 			'--options',

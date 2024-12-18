@@ -21,8 +21,8 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"log-update": "^5.0.1",
-		"picocolors": "^1.0.0"
+		"picocolors": "^1.0.0",
+		"restore-cursor": "^5.0.0"
 	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",

@@ -31,9 +31,7 @@ export const install: Plugin = function install() {
 			}
 
 			const logger = getLogger();
-			const oVerbosity = logger.verbosity;
-			logger.verbosity = 2;
-			const step = logger.createStep('Version mismatch detected!');
+			const step = logger.createStep('Version mismatch detected!', { verbosity: 2 });
 
 			const bar = '⎯'.repeat(Math.min(process.stderr.columns, 70));
 			if (
@@ -61,8 +59,7 @@ ${bar}
 
 ${bar}`);
 			}
-			await step.end();
-			logger.verbosity = oVerbosity;
+			step.end();
 		},
 	};
 };
