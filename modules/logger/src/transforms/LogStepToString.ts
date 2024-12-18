@@ -23,7 +23,7 @@ export class LogStepToString extends Transform {
 					this.push(ensureNewline(`${this.#prefix(data.type, data.group, stringify(data.contents), data.hasError)}`));
 				}
 			}
-		} catch (e) {
+		} catch {
 			this.push(JSON.stringify(chunk));
 		}
 		callback();
