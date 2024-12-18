@@ -43,13 +43,12 @@ describe('Logger', () => {
 			const logger = new Logger({ verbosity, stream });
 
 			const logs = {
-				info: `${pc.blue(pc.bold('INFO'))} some information`,
-				error: `${pc.red(pc.bold('ERR'))} an error`,
-				warn: `${pc.yellow(pc.bold('WRN'))} a warning`,
-				// log: `${pc.cyan(pc.bold('LOG'))} a log`,
-				log: ' a log',
-				debug: `${pc.magenta(pc.bold('DBG'))} a debug`,
-				timing: `${pc.red('⏳')} foo → bar: 0ms`,
+				info: ` ${pc.blue(pc.bold('INFO '))} some information`,
+				error: ` ${pc.red(pc.bold('ERR '))} an error`,
+				warn: ` ${pc.yellow(pc.bold('WRN '))} a warning`,
+				log: ` ${pc.cyan(pc.bold('LOG '))} a log`,
+				debug: ` ${pc.magenta(pc.bold('DBG '))} a debug`,
+				timing: ` ${pc.red('⏳')} foo → bar: 0ms`,
 			};
 
 			logger.info('some information');
@@ -74,7 +73,7 @@ describe('Logger', () => {
 		},
 	);
 
-	test.only('logs "completed" message', async () => {
+	test('logs "completed" message', async () => {
 		let out = '';
 		const stream = new PassThrough();
 		stream.on('data', (chunk) => {
