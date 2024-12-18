@@ -9,13 +9,13 @@ export class LogStepToString extends Transform {
 	}
 
 	_transform(
-		chunk: LoggedBuffer | string,
+		chunk: LoggedBuffer | string | Buffer,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		encoding = 'utf8',
 		callback: () => void,
 	) {
 		try {
-			if (typeof chunk === 'string') {
+			if (typeof chunk === 'string' || Buffer.isBuffer(chunk)) {
 				this.push(chunk);
 			} else {
 				const data = chunk as LoggedBuffer;

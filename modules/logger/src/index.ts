@@ -1,4 +1,4 @@
-import type { Writable } from 'node:stream';
+import type { Writable, TransformOptions } from 'node:stream';
 import { Transform } from 'node:stream';
 import restoreCursorDefault from 'restore-cursor';
 import { Logger } from './Logger';
@@ -73,7 +73,7 @@ export async function stepWrapper<T>(
 	const out = await fn(step);
 
 	if (!inputStep) {
-		await step.end();
+		step.end();
 	}
 
 	return out;
@@ -95,21 +95,24 @@ export async function stepWrapper<T>(
  * @alpha
  * @group Logger
  */
-export function bufferSubLogger(step: Writable | LogStep): { logger: Logger; end: () => Promise<void> } {
-	const logger = getLogger();
-	const stream = new Buffered();
-	const subLogger = new Logger({ verbosity: logger.verbosity, stream, captureAll: true });
-
+export function bufferSubLogger(step: LogStep): { logger: Logger; end: () => Promise<void> } {
+	const stream = new Buffered() as Transform;
 	stream.pipe(step as Writable);
+
+	const subLogger = new Logger({ verbosity: step.verbosity, stream, captureAll: true });
 
 	return {
 		logger: subLogger,
 		async end() {
+			// TODO: this promise/immediate may not be necessary
 			await new Promise<void>((resolve) => {
 				setImmediate(async () => {
 					stream.unpipe();
 					stream.destroy();
-					resolve();
+					if (subLogger.hasError) {
+						step.hasError = true;
+					}
+					return resolve();
 				});
 			});
 		},
@@ -119,6 +122,19 @@ export function bufferSubLogger(step: Writable | LogStep): { logger: Logger; end
 export const restoreCursor = restoreCursorDefault;
 
 class Buffered extends Transform {
+	constructor(opts?: TransformOptions) {
+		super(opts);
+		// We're going to be adding many listeners to this transform. This prevents warnings about _potential_ memory leaks
+		// However, we're (hopefully) managing piping, unpiping, and destroying the streams correctly in the Logger
+		this.setMaxListeners(0);
+	}
+
+	// TODO: The buffered logger seems to have its `end()` method automatically called after the first step
+	// is ended. This is a complete mystery, but hacking it to not end saves it from prematurely closing
+	// before unpipe+destroy is called.
+	// @ts-expect-error
+	end() {}
+
 	_transform(
 		chunk: Buffer,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -133,6 +149,11 @@ class Buffered extends Transform {
 				.map((line) => (line.startsWith(prefix.end) ? `${line}` : ` │ ${line.trim()}`))
 				.join('\n')}\n`,
 		);
+		callback();
+	}
+
+	_final(callback: () => void) {
+		this.push(null);
 		callback();
 	}
 }

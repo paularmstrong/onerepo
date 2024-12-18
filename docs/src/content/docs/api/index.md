@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<da4901dc5b23734e153c0d43dfd87069>> -->
+<!-- @generated SignedSource<<3b431ee622378acb8cc3deb839b56336>> -->
 
 ## Variables
 
@@ -1953,9 +1953,9 @@ await step.en();
 
 **Parameters:**
 
-| Parameter | Type                                |
-| --------- | ----------------------------------- |
-| `step`    | [`LogStep`](#logstep) \| `Writable` |
+| Parameter | Type                  |
+| --------- | --------------------- |
+| `step`    | [`LogStep`](#logstep) |
 
 **Returns:** ```ts
 {
@@ -2056,6 +2056,12 @@ If the current terminal is a TTY, output will be buffered and asynchronous steps
 
 See [\`HandlerExtra\`](#handlerextra) for access the the global Logger instance.
 
+#### Properties
+
+| Property | Type     | Defined in                                                                                                      |
+| -------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| `id`     | `string` | [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts) |
+
 #### Accessors
 
 ##### captureAll
@@ -2133,7 +2139,7 @@ get verbosity(): Verbosity
 
 Get the logger's verbosity level
 
-**Returns:** [`Verbosity`](#verbosity-2)
+**Returns:** [`Verbosity`](#verbosity-1)
 
 ###### Set Signature
 
@@ -2147,7 +2153,7 @@ Applies the new verbosity to the main logger and any future steps.
 
 | Parameter | Type                        |
 | --------- | --------------------------- |
-| `value`   | [`Verbosity`](#verbosity-2) |
+| `value`   | [`Verbosity`](#verbosity-1) |
 
 **Returns:** `void`  
 **Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
@@ -2184,9 +2190,9 @@ await step.end();
 | Parameter             | Type                                                                                                 | Description                                                                                                                                                                                                                                                                                                                                                                                     |
 | --------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`                | `string`                                                                                             | The name to be written and wrapped around any output logged to this new step.                                                                                                                                                                                                                                                                                                                   |
-| `opts`?               | \{ `description`: `string`; `verbosity`: [`Verbosity`](#verbosity-2); `writePrefixes`: `boolean`; \} | -                                                                                                                                                                                                                                                                                                                                                                                               |
+| `opts`?               | \{ `description`: `string`; `verbosity`: [`Verbosity`](#verbosity-1); `writePrefixes`: `boolean`; \} | -                                                                                                                                                                                                                                                                                                                                                                                               |
 | `opts.description`?   | `string`                                                                                             | Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step. Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail. |
-| `opts.verbosity`?     | [`Verbosity`](#verbosity-2)                                                                          | Override the default logger verbosity. Any changes while this step is running to the default logger will result in this step’s verbosity changing as well.                                                                                                                                                                                                                                      |
+| `opts.verbosity`?     | [`Verbosity`](#verbosity-1)                                                                          | Override the default logger verbosity. Any changes while this step is running to the default logger will result in this step’s verbosity changing as well.                                                                                                                                                                                                                                      |
 | `opts.writePrefixes`? | `boolean`                                                                                            | **Deprecated** This option no longer does anything and will be removed in v2.0.0                                                                                                                                                                                                                                                                                                                |
 
 **Returns:** [`LogStep`](#logstep)  
@@ -2452,6 +2458,12 @@ myStep.end();
 
 - `Duplex`
 
+#### Properties
+
+| Property    | Type                        | Defined in                                                                                                        |
+| ----------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `verbosity` | [`Verbosity`](#verbosity-1) | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
+
 #### Accessors
 
 ##### hasError
@@ -2504,23 +2516,6 @@ get hasWarning(): boolean
 Whether this step has logged a warning message.
 
 **Returns:** `boolean`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
-
-##### verbosity
-
-###### Set Signature
-
-```ts
-set verbosity(verbosity): void
-```
-
-**Parameters:**
-
-| Parameter   | Type                        |
-| ----------- | --------------------------- |
-| `verbosity` | [`Verbosity`](#verbosity-2) |
-
-**Returns:** `void`  
 **Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 #### Methods

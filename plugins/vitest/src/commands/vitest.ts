@@ -46,7 +46,7 @@ export const builder: Builder<Args> = (yargs) =>
 export const handler: Handler<Args> = async function handler(argv, { getWorkspaces, graph }) {
 	const { '--': other = [], affected, config, inspect, watch, workspaces } = argv;
 
-	const args: Array<string> = ['--config', config];
+	const args: Array<string> = ['--config', config, '--clearScreen=false'];
 
 	const wOther = other.indexOf('-w');
 	const watchOther = other.indexOf('--watch');

@@ -378,19 +378,17 @@ export async function batch(
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
 		logger.debug(`Running ${tasks.length} processes with max parallelism ${maxParallel}`);
-		function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
-			return runner()
-				.then((output) => {
-					results[index] = output;
-				})
-				.catch((e) => {
-					failing = true;
-					results[index] = e;
-				})
-				.finally(() => {
-					completed += 1;
-					runNextTask();
-				});
+		async function runTask(runner: () => Promise<[string, string]>, index: number): Promise<void> {
+			try {
+				const output = await runner();
+				results[index] = output;
+			} catch (e) {
+				failing = true;
+				results[index] = e as Error;
+			} finally {
+				completed += 1;
+				runNextTask();
+			}
 		}
 
 		function runNextTask() {

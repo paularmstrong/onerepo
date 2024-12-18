@@ -1,4 +1,5 @@
-import type { Writable } from 'node:stream';
+import type { Duplex, Transform, Writable } from 'node:stream';
+import { randomUUID } from 'node:crypto';
 import { destroyCurrent, setCurrent } from './global';
 import { LogStep } from './LogStep';
 import { LogStepToString } from './transforms/LogStepToString';
@@ -39,7 +40,7 @@ export class Logger {
 	#defaultLogger: LogStep;
 	#steps: Array<LogStep> = [];
 	#verbosity: Verbosity = 0;
-	#stream: Writable | LogStep;
+	#stream: Writable | Duplex | Transform | LogStep;
 
 	#hasError = false;
 	#hasWarning = false;
@@ -47,6 +48,8 @@ export class Logger {
 	#hasLog = false;
 
 	#captureAll = false;
+
+	id: string;
 
 	/**
 	 * @internal
@@ -56,6 +59,7 @@ export class Logger {
 		this.#stream = options.stream ?? process.stderr;
 		this.#captureAll = !!options.captureAll;
 		this.verbosity = options.verbosity;
+		this.id = randomUUID();
 
 		setCurrent(this);
 	}
@@ -396,16 +400,12 @@ export class Logger {
 	#activate(step: LogStep) {
 		const activeStep = this.#steps.find((step) => step.isPiped);
 
-		if (activeStep) {
+		if (activeStep || step.isPiped) {
 			return;
 		}
 
 		if (step !== this.#defaultLogger && !this.#defaultLogger.isPaused()) {
 			this.#defaultLogger.cork();
-		}
-
-		if (step.isPiped) {
-			return;
 		}
 
 		hideCursor();
@@ -434,10 +434,8 @@ export class Logger {
 		this.#setState(step);
 
 		step.unpipe();
-		step.destroy();
 		step.isPiped = false;
-		// step.destroy();
-		// await step.flush();
+		step.destroy();
 
 		this.#defaultLogger.uncork();
 
@@ -453,12 +451,12 @@ export class Logger {
 		}
 
 		await new Promise<void>((resolve) => {
+			// setTimeout(() => {
 			setImmediate(() => {
-				setImmediate(() => {
-					this.#defaultLogger.cork();
-					resolve();
-				});
+				this.#defaultLogger.cork();
+				resolve();
 			});
+			// }, 60);
 		});
 
 		this.#activate(this.#steps[0]);

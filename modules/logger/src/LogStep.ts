@@ -45,9 +45,9 @@ export class LogStep extends Duplex {
 	 * @internal
 	 */
 	isPiped: boolean = false;
+	verbosity: Verbosity;
 
 	#startMark: string;
-	#verbosity: Verbosity;
 
 	#hasError: boolean = false;
 	#hasWarning: boolean = false;
@@ -60,7 +60,7 @@ export class LogStep extends Duplex {
 	constructor(options: LogStepOptions) {
 		const { description, name, verbosity } = options;
 		super({ decodeStrings: false, objectMode: true });
-		this.#verbosity = verbosity;
+		this.verbosity = verbosity;
 
 		this.#startMark = name || `${performance.now()}`;
 		performance.mark(`onerepo_start_${this.#startMark}`, {
@@ -108,7 +108,7 @@ export class LogStep extends Duplex {
 	 * @internal
 	 */
 	_write(
-		chunk: string | Buffer,
+		chunk: string | LoggedBuffer,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		encoding = 'utf8',
 		callback: () => void,
@@ -130,12 +130,8 @@ export class LogStep extends Duplex {
 			type,
 			contents: stringify(contents),
 			group: this.name,
-			verbosity: this.#verbosity,
+			verbosity: this.verbosity,
 		} satisfies LoggedBuffer);
-	}
-
-	set verbosity(verbosity: Verbosity) {
-		this.#verbosity = verbosity;
 	}
 
 	/**
@@ -378,7 +374,7 @@ export class LogStep extends Duplex {
 				contents: stringify(contents),
 				group: this.name,
 				hasError: this.#hasError,
-				verbosity: this.#verbosity,
+				verbosity: this.verbosity,
 			} satisfies LoggedBuffer,
 			callback,
 		);
