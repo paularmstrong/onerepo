@@ -16,7 +16,7 @@ export class LogProgress extends Transform {
 		clearTimeout(this.#updaterTimeout);
 		this.#updaterTimeout = setTimeout(() => {
 			// this.push(new Error().stack);
-			this.write(` └ ${frames[this.#frame % frames.length]}`);
+			this.write(`└ ${frames[this.#frame % frames.length]}`);
 			this.#written = true;
 			this.#frame += 1;
 			// this.#runUpdater();
