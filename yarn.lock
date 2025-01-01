@@ -150,9 +150,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-remark@npm:6.0.0, @astrojs/markdown-remark@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@astrojs/markdown-remark@npm:6.0.0"
+"@astrojs/markdown-remark@npm:6.0.1, @astrojs/markdown-remark@npm:^6.0.0":
+  version: 6.0.1
+  resolution: "@astrojs/markdown-remark@npm:6.0.1"
   dependencies:
     "@astrojs/prism": 3.2.0
     github-slugger: ^2.0.0
@@ -173,7 +173,7 @@ __metadata:
     unist-util-visit: ^5.0.0
     unist-util-visit-parents: ^6.0.1
     vfile: ^6.0.3
-  checksum: 86861f4572041b4ff154270ad6899bfe186366b91307edf8b46e16fac2fa6b8537fbc0e423ee6049ed339ceb13e8b98fa263215343bbdd4f5f1d0bf9e5f0d2cb
+  checksum: d95c33a42aac6c03468f71e5f4a6442e78856605ac3801598e9e0e35542ddaf9b19f94b82d5fa3b82acc8720791341dbbddc3ca6a9279e400a3a8e03cd130c73
   languageName: node
   linkType: hard
 
@@ -202,10 +202,10 @@ __metadata:
   linkType: hard
 
 "@astrojs/mdx@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@astrojs/mdx@npm:4.0.1"
+  version: 4.0.3
+  resolution: "@astrojs/mdx@npm:4.0.3"
   dependencies:
-    "@astrojs/markdown-remark": 6.0.0
+    "@astrojs/markdown-remark": 6.0.1
     "@mdx-js/mdx": ^3.1.0
     acorn: ^8.14.0
     es-module-lexer: ^1.5.4
@@ -220,7 +220,7 @@ __metadata:
     vfile: ^6.0.3
   peerDependencies:
     astro: ^5.0.0
-  checksum: 88569477f6d87fd18b63afba7b46fec519bdf0024ea2876ce06d0584f75e6d9a79179498be568075f7ba47c7afb3d28f990fb25ec35649ce68ac35094b99d3c2
+  checksum: f215df4aea3f34a412ec9b1fb29e83929d5ce1a7d2122751dd2e5a21f1e5ed6930826978856b2f2d7418f6b89b0ae4b787947f66cad949123560d6118941da90
   languageName: node
   linkType: hard
 
@@ -254,13 +254,14 @@ __metadata:
   linkType: hard
 
 "@astrojs/starlight@npm:^0.29.2":
-  version: 0.29.2
-  resolution: "@astrojs/starlight@npm:0.29.2"
+  version: 0.29.3
+  resolution: "@astrojs/starlight@npm:0.29.3"
   dependencies:
     "@astrojs/mdx": ^3.1.3
     "@astrojs/sitemap": ^3.1.6
     "@pagefind/default-ui": ^1.0.3
     "@types/hast": ^3.0.4
+    "@types/js-yaml": ^4.0.9
     "@types/mdast": ^4.0.4
     astro-expressive-code: ^0.38.3
     bcp-47: ^2.1.0
@@ -282,7 +283,7 @@ __metadata:
     vfile: ^6.0.2
   peerDependencies:
     astro: ^4.14.0
-  checksum: 2f5a3ebf6cceaacd0b4f2f7bda4443c3c681c80b1b98838e29e446816ef217eb0c3b7da3fd03ea4e6af0050180655b88b513351a601f9534d8ef784febec6ee2
+  checksum: d21acf02e689686d58bd679c03b59caf8657b126b7bbee09d0baf9c1f77332e2218ce2b782e74deccd72c4f573feeb3cbcd292125fd66ed6efaab1f616116086
   languageName: node
   linkType: hard
 
@@ -4108,8 +4109,8 @@ __metadata:
   linkType: hard
 
 "astro@npm:^4.16.17":
-  version: 4.16.17
-  resolution: "astro@npm:4.16.17"
+  version: 4.16.18
+  resolution: "astro@npm:4.16.18"
   dependencies:
     "@astrojs/compiler": ^2.10.3
     "@astrojs/internal-helpers": 0.4.1
@@ -4179,7 +4180,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: faafb1d7889fc5ce63c76fb1f29d100641dfc50404cbc803c002038bc559108419520dfd4f4875d44c1918ddf59c3326e344f07229edcd8c70e12afa363b37c2
+  checksum: 1412cc290302e18d2763b69f3a000818bdcd2c4b4e551b58a76b492279d27369750aee5b67efa2a31ba126a438cd898e95c6fb5fe1b166b9f6300e4bc9e82413
   languageName: node
   linkType: hard
 
