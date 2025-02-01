@@ -13873,8 +13873,8 @@ __metadata:
   linkType: hard
 
 "typedoc@npm:^0.27.4":
-  version: 0.27.4
-  resolution: "typedoc@npm:0.27.4"
+  version: 0.27.6
+  resolution: "typedoc@npm:0.27.6"
   dependencies:
     "@gerrit0/mini-shiki": ^1.24.0
     lunr: ^2.3.9
@@ -13885,7 +13885,7 @@ __metadata:
     typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x
   bin:
     typedoc: bin/typedoc
-  checksum: d95fce13f35394eef23cefa37cd70901415e85fc9f6ebffc7d4682ad9c9f1125074305d856849c9b631782144f977a4818e6ab77236c86dce3643a5a621d92c5
+  checksum: 1a8ac5dd636406fa0bcd4a1e9801d72896256c531c09a56207f991b62b7d4ceb336050a8933a3aba0239da6df5da3436e51c86776043501b6e9483aa0b31e69f
   languageName: node
   linkType: hard
 
