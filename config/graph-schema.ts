@@ -158,8 +158,8 @@ export default {
 					properties: {
 						node: {
 							type: 'string',
-							const: '^18 || ^20',
-							errorMessage: 'oneRepo only suppiorts "node": "^18 || ^20"',
+							const: '^18 || ^20 || ^22',
+							errorMessage: 'oneRepo only supports "node": "^18 || ^20 || ^22"',
 						},
 					},
 					required: ['node'],

@@ -37,7 +37,7 @@
 		"vitest": "^2.1.8"
 	},
 	"engines": {
-		"node": "^18 || ^20"
+		"node": "^18 || ^20 || ^22"
 	},
 	"resolutions": {
 		"@astrojs/starlight@^0.21.0": "patch:@astrojs/starlight@npm%3A0.21.0#./.yarn/patches/@astrojs-starlight-npm-0.21.0-f537baa752.patch"
