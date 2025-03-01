@@ -39,13 +39,15 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<ccbab0f743403e0910a43a1dfa52f21a>> */}
+{/* @generated SignedSource<<ab2325c79e7a25064cdfd6403fee7977>> */}
 
 ### eslint()
 
 ```ts
 function eslint(opts): Plugin;
 ```
+
+Defined in: [index.ts:48](https://github.com/paularmstrong/onerepo/blob/b5121b5a0f205525e364c3effa18e63e2715264a/plugins/eslint/src/index.ts)
 
 Include the `eslint` plugin in your oneRepo plugin setup:
 
@@ -66,13 +68,15 @@ export default {
 ### Options
 
 ```ts
-type Options: {
-  extensions: string[];
-  githubAnnotate: boolean;
-  name: string | string[];
-  warnings: boolean;
+type Options = {
+	extensions: string[];
+	githubAnnotate: boolean;
+	name: string | string[];
+	warnings: boolean;
 };
 ```
+
+Defined in: [index.ts:17](https://github.com/paularmstrong/onerepo/blob/b5121b5a0f205525e364c3effa18e63e2715264a/plugins/eslint/src/index.ts)
 
 Options for configuring the ESLint plugin for oneRepo.
 
