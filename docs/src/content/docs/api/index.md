@@ -4,7 +4,15 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<c688d123e5bf9dec0d324cdaef30d82a>> -->
+<!-- @generated SignedSource<<c4798d6d5b7eb143827b54c8a0dc5290>> -->
+
+## Namespaces
+
+| Namespace                        | Description                                                                                   |
+| -------------------------------- | --------------------------------------------------------------------------------------------- |
+| [builders](namespaces/builders/) | Common and reusable command-line option builders.                                             |
+| [file](namespaces/file/)         | File manipulation functions.                                                                  |
+| [git](namespaces/git/)           | Special handlers for managing complex queries and manipulation of the git repository's state. |
 
 ## Variables
 
@@ -21,8 +29,10 @@ const defaultConfig: Required<RootConfig>;
 ### Argv\<CommandArgv\>
 
 ```ts
-type Argv<CommandArgv>: Arguments<CommandArgv & DefaultArgv>;
+type Argv<CommandArgv> = Arguments<CommandArgv & DefaultArgv>;
 ```
+
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 Helper for combining local parsed arguments along with the default arguments provided by the oneRepo command module.
 
@@ -32,15 +42,15 @@ Helper for combining local parsed arguments along with the default arguments pro
 | -------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `CommandArgv`  | `object`     | Arguments that will be parsed for this command, always a union with [\`DefaultArgv\`](#defaultargv) and [\`PositionalArgv\`](#positionalargv). |
 
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
-
 ---
 
 ### Builder()\<CommandArgv\>
 
 ```ts
-type Builder<CommandArgv>: (yargs) => Yargv<CommandArgv>;
+type Builder<CommandArgv> = (yargs) => Yargv<CommandArgv>;
 ```
+
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 Option argument parser for the given command. See [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for more, but note that only the object variant is not accepted – only function variants will be accepted in oneRepo commands.
 
@@ -76,14 +86,12 @@ export const builder: Builder<Argv> = (yargs) =>
 - [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
 - Common extensions via the [\`builders\`](namespaces/builders/) namespace.
 
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
-
 ---
 
 ### DefaultArgv
 
 ```ts
-type DefaultArgv: {
+type DefaultArgv = {
   dry-run: boolean;
   quiet: boolean;
   skip-engine-check: boolean;
@@ -91,7 +99,8 @@ type DefaultArgv: {
 };
 ```
 
-Default arguments provided globally for all commands. These arguments are included by when using [\`Builder\`](#buildercommandargv) and [\`Handler\`](#handlercommandargv).
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)  
+**Default:** arguments provided globally for all commands. These arguments are included by when using [\`Builder\`](#buildercommandargv) and [\`Handler\`](#handlercommandargv).
 
 #### Type declaration
 
@@ -135,16 +144,17 @@ verbosity: number;
 
 Verbosity level for the Logger. See Logger.verbosity for more information.
 
-**Default:** `3`  
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
+**Default:** `3`
 
 ---
 
 ### Handler()\<CommandArgv\>
 
 ```ts
-type Handler<CommandArgv>: (argv, extra) => Promise<void>;
+type Handler<CommandArgv> = (argv, extra) => Promise<void>;
 ```
+
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 Command handler that includes oneRepo tools like `graph`, `logger`, and more. This function is type-safe if `Argv` is correctly passed through to the type definition.
 
@@ -178,22 +188,22 @@ export const handler: Handler<Argv> = (argv, { logger }) => {
 - [Yargs `.command(module)`](http://yargs.js.org/docs/#api-reference-commandmodule) for general usage.
 - [\`HandlerExtra\`](#handlerextra) for extended extra arguments provided above and beyond the scope of Yargs.
 
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
-
 ---
 
 ### HandlerExtra
 
 ```ts
-type HandlerExtra: {
-  config: Required<RootConfig>;
-  getAffected: (opts?) => Promise<Workspace[]>;
-  getFilepaths: (opts?) => Promise<string[]>;
-  getWorkspaces: (opts?) => Promise<Workspace[]>;
-  graph: Graph;
-  logger: Logger;
+type HandlerExtra = {
+	config: Required<RootConfig>;
+	getAffected: (opts?) => Promise<Workspace[]>;
+	getFilepaths: (opts?) => Promise<string[]>;
+	getWorkspaces: (opts?) => Promise<Workspace[]>;
+	graph: Graph;
+	logger: Logger;
 };
 ```
+
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 Commands in oneRepo extend beyond what Yargs is able to provide by adding a second argument to the handler.
 
@@ -286,7 +296,7 @@ This is a wrapped implementation of [\`builders.getWorkspaces\`](namespaces/buil
 graph: Graph;
 ```
 
-The full monorepo [\`Graph\`](#graph).
+The full monorepo [\`Graph\`](#graph-1).
 
 ##### logger
 
@@ -294,22 +304,22 @@ The full monorepo [\`Graph\`](#graph).
 logger: Logger;
 ```
 
-Standard [\`Logger\`](#logger). This should _always_ be used in place of `console.log` methods unless you have
+Standard [\`Logger\`](#logger-1). This should _always_ be used in place of `console.log` methods unless you have
 a specific need to write to standard out differently.
-
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 ---
 
 ### PositionalArgv
 
 ```ts
-type PositionalArgv: {
+type PositionalArgv = {
   _: (string | number)[];
   --: string[];
   $0: string;
 };
 ```
+
+**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
 
 Always present in Builder and Handler arguments as parsed by Yargs.
 
@@ -339,15 +349,15 @@ $0: string;
 
 The script name or node command. Similar to `process.argv[1]`
 
-**Defined in:** [modules/yargs/src/yargs.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/yargs/src/yargs.ts)
-
 ## Config
 
 ### Config\<CustomLifecycles\>
 
 ```ts
-type Config<CustomLifecycles>: RootConfig<CustomLifecycles> | WorkspaceConfig<CustomLifecycles>;
+type Config<CustomLifecycles> = RootConfig<CustomLifecycles> | WorkspaceConfig<CustomLifecycles>;
 ```
+
+**Defined in:** [modules/onerepo/src/types/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/index.ts)
 
 Picks the correct config type between `RootConfig` and `WorkspaceConfig` based on whether the `root` property is set. Use this to help ensure your configs do not have any incorrect keys or values.
 
@@ -381,75 +391,75 @@ export default {
 | ----------------------------------------------- | ------------ |
 | `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
 
-**Defined in:** [modules/onerepo/src/types/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/index.ts)
-
 ---
 
 ### Lifecycle
 
 ```ts
-type Lifecycle:
-  | "pre-commit"
-  | "post-commit"
-  | "post-checkout"
-  | "pre-merge"
-  | "post-merge"
-  | "pre-push"
-  | "build"
-  | "pre-deploy"
-  | "pre-publish"
-  | "post-publish";
+type Lifecycle =
+	| 'pre-commit'
+	| 'post-commit'
+	| 'post-checkout'
+	| 'pre-merge'
+	| 'post-merge'
+	| 'pre-push'
+	| 'build'
+	| 'pre-deploy'
+	| 'pre-publish'
+	| 'post-publish';
 ```
 
-oneRepo comes with a pre-configured list of common lifecycles for grouping [tasks](/core/tasks/).
-
 **Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
+
+oneRepo comes with a pre-configured list of common lifecycles for grouping [tasks](/core/tasks/).
 
 ---
 
 ### RootConfig\<CustomLifecycles\>
 
 ```ts
-type RootConfig<CustomLifecycles>: {
-  changes: {
-     filenames: "hash" | "human";
-     formatting: {
-        commit: string;
-        footer: string;
-       };
-     prompts: "guided" | "semver";
-    };
-  codeowners: Record<string, string[]>;
-  commands: {
-     directory: string | false;
-     ignore: RegExp;
-    };
-  dependencies: {
-     dedupe: boolean;
-     mode: "strict" | "loose" | "off";
-    };
-  head: string;
-  ignore: string[];
-  meta: Record<string, unknown>;
-  plugins: Plugin[];
-  root: true;
-  taskConfig: {
-     lifecycles: CustomLifecycles[];
-     stashUnstaged: CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle[];
-    };
-  tasks: TaskConfig<CustomLifecycles>;
-  templateDir: string;
-  validation: {
-     schema: string | null;
-    };
-  vcs: {
-     autoSyncHooks: boolean;
-     hooksPath: string;
-     provider: "github" | "gitlab" | "bitbucket" | "gitea";
-    };
-  visualizationUrl: string;
+type RootConfig<CustomLifecycles> = {
+	changes: {
+		filenames: 'hash' | 'human';
+		formatting: {
+			commit: string;
+			footer: string;
+		};
+		prompts: 'guided' | 'semver';
+	};
+	codeowners: Record<string, string[]>;
+	commands: {
+		directory: string | false;
+		ignore: RegExp;
+	};
+	dependencies: {
+		dedupe: boolean;
+		mode: 'strict' | 'loose' | 'off';
+	};
+	head: string;
+	ignore: string[];
+	meta: Record<string, unknown>;
+	plugins: Plugin[];
+	root: true;
+	taskConfig: {
+		lifecycles: CustomLifecycles[];
+		stashUnstaged: CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle[];
+	};
+	tasks: TaskConfig<CustomLifecycles>;
+	templateDir: string;
+	validation: {
+		schema: string | null;
+	};
+	vcs: {
+		autoSyncHooks: boolean;
+		hooksPath: string;
+		provider: 'github' | 'gitlab' | 'bitbucket' | 'gitea';
+	};
+	visualizationUrl: string;
 };
 ```
+
+**Defined in:** [modules/onerepo/src/types/config-root.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-root.ts)
 
 Setup configuration for the root of the repository.
 
@@ -936,29 +946,31 @@ optional visualizationUrl: string;
 
 Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 
-**Defined in:** [modules/onerepo/src/types/config-root.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-root.ts)
-
 ---
 
 ### Task
 
 ```ts
-type Task: string | TaskDef | string[];
+type Task = string | TaskDef | string[];
 ```
+
+**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
 
 A Task can either be a string or [\`TaskDef\`](#taskdef) object with extra options, or an array of strings. If provided as an array of strings, each command will be run sequentially, waiting for the previous to succeed. If one command fails, the rest in the sequence will not be run.
 
 To run sequences of commands with `match` and `meta` information, you can pass an array of strings to the `cmd` property of a [\`TaskDef\`](#taskdef).
-
-**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
 
 ---
 
 ### TaskConfig\<CustomLifecycles\>
 
 ```ts
-type TaskConfig<CustomLifecycles>: Partial<Record<CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle, Tasks>>;
+type TaskConfig<CustomLifecycles> = Partial<
+	Record<CustomLifecycles extends string ? Lifecycle | CustomLifecycles : Lifecycle, Tasks>
+>;
 ```
+
+**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
 
 #### Type Parameters
 
@@ -966,19 +978,19 @@ type TaskConfig<CustomLifecycles>: Partial<Record<CustomLifecycles extends strin
 | ----------------------------------------------- | ------------ |
 | `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
 
-**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
-
 ---
 
 ### TaskDef
 
 ```ts
-type TaskDef: {
-  cmd: string | string[];
-  match: string | string[];
-  meta: Record<string, unknown>;
+type TaskDef = {
+	cmd: string | string[];
+	match: string | string[];
+	meta: Record<string, unknown>;
 };
 ```
+
+**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
 
 Tasks can optionally include meta information or only be run if the configured `match` glob string matches the modified files. If no files match, the individual task will not be run.
 
@@ -1028,18 +1040,18 @@ optional meta: Record<string, unknown>;
 
 Extra information that will be provided only when listing tasks with the `--list` option from the `tasks` command. This object is helpful when creating a matrix of runners with GitHub actions or similar CI pipelines.
 
-**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
-
 ---
 
 ### Tasks
 
 ```ts
-type Tasks: {
-  parallel: Task[];
-  serial: Task[];
+type Tasks = {
+	parallel: Task[];
+	serial: Task[];
 };
 ```
+
+**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
 
 Individual [\`Task\`](#task)s in any [\`Lifecycle\`](#lifecycle) may be grouped to run either serial (one after the other) or in parallel (multiple at the same time).
 
@@ -1057,25 +1069,28 @@ optional parallel: Task[];
 optional serial: Task[];
 ```
 
-**Defined in:** [modules/onerepo/src/types/tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/tasks.ts)
-
 ---
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
 ```ts
-type WorkspaceConfig<CustomLifecycles>: {
-  codeowners: Record<string, string[]>;
-  commands: {
-     passthrough: Record<string, {
-        command: string;
-        description: string;
-       }>;
-    };
-  meta: Record<string, unknown>;
-  tasks: TaskConfig<CustomLifecycles>;
+type WorkspaceConfig<CustomLifecycles> = {
+	codeowners: Record<string, string[]>;
+	commands: {
+		passthrough: Record<
+			string,
+			{
+				command: string;
+				description: string;
+			}
+		>;
+	};
+	meta: Record<string, unknown>;
+	tasks: TaskConfig<CustomLifecycles>;
 };
 ```
+
+**Defined in:** [modules/onerepo/src/types/config-workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-workspace.ts)
 
 #### Type Parameters
 
@@ -1177,8 +1192,6 @@ Tasks for this Workspace. These will be merged with global tasks and any other a
 Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
 :::
 
-**Defined in:** [modules/onerepo/src/types/config-workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/config-workspace.ts)
-
 ## Graph
 
 ### getGraph()
@@ -1187,7 +1200,9 @@ Each modified Workspace or Workspace that is affected by another Workspace's mod
 function getGraph(workingDir?): Graph;
 ```
 
-Get the [\`Graph\`](#graph) given a particular root working directory. If the working directory is not a monorepo's root, an empty `Graph` will be given in its place.
+**Defined in:** [modules/graph/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts)
+
+Get the [\`Graph\`](#graph-1) given a particular root working directory. If the working directory is not a monorepo's root, an empty `Graph` will be given in its place.
 
 ```ts
 const graph = getGraph(process.cwd());
@@ -1200,12 +1215,13 @@ assert.ok(graph.isRoot);
 | ------------- | -------- |
 | `workingDir`? | `string` |
 
-**Returns:** [`Graph`](#graph)  
-**Defined in:** [modules/graph/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/index.ts)
+**Returns:** [`Graph`](#graph-1)
 
 ---
 
 ### Graph
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 The oneRepo Graph is a representation of the entire repository’s [\`Workspaces\`](#workspace) and how they depend upon each other. Most commonly, you will want to use the Graph to get lists of Workspaces that either depend on some input or are dependencies thereof:
 
@@ -1228,14 +1244,15 @@ The `Graph` also includes various helpers for determining workspaces based on fi
 get packageManager(): PackageManager
 ```
 
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+
 Get the [PackageManager](#packagemanager-1) that this Graph depends on. This object allows you to run many common package management commands safely, agnostic of any particular flavor of package management. Works with npm, Yarn, and pnpm.
 
 ```ts
 await graph.packageManager.install();
 ```
 
-**Returns:** [`PackageManager`](#packagemanager-1)  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`PackageManager`](#packagemanager-1)
 
 ##### root
 
@@ -1244,6 +1261,8 @@ await graph.packageManager.install();
 ```ts
 get root(): Workspace
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 This returns the [\`Workspace\`](#workspace) that is at the root of the repository.
 
@@ -1254,8 +1273,7 @@ const root = graph.root;
 root.isRoot === true;
 ```
 
-**Returns:** [`Workspace`](#workspace)  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)
 
 ##### workspaces
 
@@ -1265,6 +1283,8 @@ root.isRoot === true;
 get workspaces(): Workspace[]
 ```
 
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+
 Get a list of all [\`Workspaces\`](#workspace) that are part of the repository {@Link Graph | `Graph`}.
 
 ```ts
@@ -1273,8 +1293,7 @@ for (const workspace of graph.workspaces) {
 }
 ```
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 #### Methods
 
@@ -1283,6 +1302,8 @@ for (const workspace of graph.workspaces) {
 ```ts
 affected<T>(source, type?): Workspace[]
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Get a list of [\`Workspaces\`](#workspace) that will be affected by the given source(s). This is equivalent to `graph.dependents(sources, true)`. See also [\`dependents\`](#dependents).
 
@@ -1306,8 +1327,7 @@ assert.isEqual(dependents, affecteed);
 | `source`  | `T` \| `T`[]          | -                                           |
 | `type`?   | [`DepType`](#deptype) | Filter the dependents to a dependency type. |
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 ##### dependencies()
 
@@ -1318,7 +1338,9 @@ dependencies<T>(
    type?): Workspace[]
 ```
 
-Get all dependency [\`Workspaces\`](#workspace) of one or more input Workspaces or qualified names of Workspaces. This not only returns the direct dependencies, but all dependencies throughout the entire [\`Graph\`](#graph). This returns the opposite result of [\`dependents\`](#dependents).
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+
+Get all dependency [\`Workspaces\`](#workspace) of one or more input Workspaces or qualified names of Workspaces. This not only returns the direct dependencies, but all dependencies throughout the entire [\`Graph\`](#graph-1). This returns the opposite result of [\`dependents\`](#dependents).
 
 ```ts
 for (const workspace of graph.dependencies('tacos')) {
@@ -1340,8 +1362,7 @@ for (const workspace of graph.dependencies('tacos')) {
 | `includeSelf`? | `boolean`             | Whether to include the `Workspaces` for the input `sources` in the return array.                       |
 | `type`?        | [`DepType`](#deptype) | Filter the dependencies to a dependency type.                                                          |
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 ##### dependents()
 
@@ -1352,7 +1373,9 @@ dependents<T>(
    type?): Workspace[]
 ```
 
-Get all dependent [\`Workspaces\`](#workspace) of one or more input Workspaces or qualified names of Workspaces. This not only returns the direct dependents, but all dependents throughout the entire [\`Graph\`](#graph). This returns the opposite result of [\`dependencies\`](#dependencies).
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+
+Get all dependent [\`Workspaces\`](#workspace) of one or more input Workspaces or qualified names of Workspaces. This not only returns the direct dependents, but all dependents throughout the entire [\`Graph\`](#graph-1). This returns the opposite result of [\`dependencies\`](#dependencies-1).
 
 ```ts
 for (const workspace of graph.dependents('tacos')) {
@@ -1374,14 +1397,15 @@ for (const workspace of graph.dependents('tacos')) {
 | `includeSelf`? | `boolean`             | Whether to include the `Workspaces` for the input `sources` in the return array. |
 | `type`?        | [`DepType`](#deptype) | Filter the dependents to a dependency type.                                      |
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 ##### getAllByLocation()
 
 ```ts
 getAllByLocation(locations): Workspace[]
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Get all Workspaces given an array of filepaths.
 
@@ -1395,14 +1419,15 @@ const workspaces = graph.getAllByLocation([__dirname, 'file:///foo/bar']);
 | ----------- | ---------- | ------------------------------------------------------------- |
 | `locations` | `string`[] | A list of filepath strings. May be file URLs or string paths. |
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 ##### getAllByName()
 
 ```ts
 getAllByName(names): Workspace[]
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Get a list of [\`Workspaces\`](#workspace) by string names.
 
@@ -1416,14 +1441,15 @@ const workspaces = graph.getAllByName(['tacos', 'burritos']);
 | --------- | ---------- | -------------------------------------------------------------------------------- |
 | `names`   | `string`[] | A list of Workspace [\`name\`](#name)s or any available [\`aliases\`](#aliases). |
 
-**Returns:** [`Workspace`](#workspace)[]  
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
+**Returns:** [`Workspace`](#workspace)[]
 
 ##### getByLocation()
 
 ```ts
 getByLocation(location): Workspace
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Get the equivalent [\`Workspace\`](#workspace) for a filepath. This can be any location within a `Workspace`, not just its root.
 
@@ -1448,13 +1474,13 @@ graph.getByLocation(import.meta.url);
 
 `Error` if no Workspace can be found.
 
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
-
 ##### getByName()
 
 ```ts
 getByName(name): Workspace
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Get a [\`Workspace\`](#workspace) by string name.
 
@@ -1474,11 +1500,11 @@ const workspace = graph.getByName('my-cool-package');
 
 `Error` if no Workspace exists with the given input `name`.
 
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
-
 ---
 
 ### Workspace
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 #### Accessors
 
@@ -1490,11 +1516,12 @@ const workspace = graph.getByName('my-cool-package');
 get aliases(): string[]
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Allow custom array of aliases.
 If the fully qualified package name is scoped, this will include the un-scoped name
 
-**Returns:** `string`[]  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `string`[]
 
 ##### codeowners
 
@@ -1504,21 +1531,26 @@ If the fully qualified package name is scoped, this will include the un-scoped n
 get codeowners(): Required<Record<string, string[]>>
 ```
 
-**Returns:** `Required`\<`Record`\<`string`, `string`[]\>\>  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)  
+**Returns:** `Required`\<`Record`\<`string`, `string`[]\>\>
 
 ##### config
 
 ###### Get Signature
 
 ```ts
-get config(): Required<RootConfig | WorkspaceConfig>
+get config(): Required<
+  | RootConfig
+| WorkspaceConfig>
 ```
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Get the Workspace's configuration
 
-**Returns:** `Required`\<[`RootConfig`](#rootconfigcustomlifecycles) \| [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)\>  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `Required`\<
+\| [`RootConfig`](#rootconfigcustomlifecycles)
+\| [`WorkspaceConfig`](#workspaceconfigcustomlifecycles)\>
 
 ##### dependencies
 
@@ -1528,13 +1560,13 @@ Get the Workspace's configuration
 get dependencies(): Record<string, string>
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Get the `package.json` defined production dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
-
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### description
 
@@ -1544,10 +1576,11 @@ Map of modules to their version.
 get description(): undefined | string
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Canonical to the `package.json` `"description"` field.
 
-**Returns:** `undefined` \| `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `undefined` \| `string`
 
 ##### devDependencies
 
@@ -1557,13 +1590,13 @@ Canonical to the `package.json` `"description"` field.
 get devDependencies(): Record<string, string>
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Get the `package.json` defined development dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
-
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### isRoot
 
@@ -1573,10 +1606,11 @@ Map of modules to their version.
 get isRoot(): boolean
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Whether or not this Workspace is the root of the repository / Graph.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `boolean`
 
 ##### location
 
@@ -1586,10 +1620,11 @@ Whether or not this Workspace is the root of the repository / Graph.
 get location(): string
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Absolute path on the current filesystem to the Workspace.
 
-**Returns:** `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `string`
 
 ##### main
 
@@ -1599,8 +1634,8 @@ Absolute path on the current filesystem to the Workspace.
 get main(): string
 ```
 
-**Returns:** `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)  
+**Returns:** `string`
 
 ##### name
 
@@ -1610,10 +1645,11 @@ get main(): string
 get name(): string
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 The full `name` of the Workspace, as defined in its `package.json`
 
-**Returns:** `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `string`
 
 ##### packageJson
 
@@ -1623,10 +1659,11 @@ The full `name` of the Workspace, as defined in its `package.json`
 get packageJson(): PackageJson
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 A full deep copy of the `package.json` file for the Workspace. Modifications to this object will not be preserved on the Workspace.
 
-**Returns:** [`PackageJson`](#packagejson-1)  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** [`PackageJson`](#packagejson-1)
 
 ##### peerDependencies
 
@@ -1636,13 +1673,13 @@ A full deep copy of the `package.json` file for the Workspace. Modifications to 
 get peerDependencies(): Record<string, string>
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Get the `package.json` defined peer dependencies for the Workspace.
 
 **Returns:** `Record`\<`string`, `string`\>
 
 Map of modules to their version.
-
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### private
 
@@ -1652,10 +1689,11 @@ Map of modules to their version.
 get private(): boolean
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 If a Workspace `package.json` is set to `private: true`, it will not be available to publish through NPM or other package management registries.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `boolean`
 
 ##### publishablePackageJson
 
@@ -1664,6 +1702,8 @@ If a Workspace `package.json` is set to `private: true`, it will not be availabl
 ```ts
 get publishablePackageJson(): null | PublicPackageJson
 ```
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Get a version of the Workspace's `package.json` that is meant for publishing.
 
@@ -1685,8 +1725,7 @@ To take advantage of this, configure your `package.json` root level to point to 
 }
 ```
 
-**Returns:** `null` \| [`PublicPackageJson`](#publicpackagejson)  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `null` \| [`PublicPackageJson`](#publicpackagejson)
 
 ##### scope
 
@@ -1696,10 +1735,11 @@ To take advantage of this, configure your `package.json` root level to point to 
 get scope(): string
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Get module name scope if there is one, eg `@onerepo`
 
-**Returns:** `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `string`
 
 ##### tasks
 
@@ -1709,13 +1749,13 @@ Get module name scope if there is one, eg `@onerepo`
 get tasks(): Partial<Record<Lifecycle, Tasks>>
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+
 Get the task configuration as defined in the `onerepo.config.js` file at the root of the Workspace.
 
-**Returns:** `Partial`\<`Record`\<[`Lifecycle`](#lifecycle), [`Tasks`](#tasks)\>\>
+**Returns:** `Partial`\<`Record`\<[`Lifecycle`](#lifecycle), [`Tasks`](#tasks-1)\>\>
 
 If a config does not exist, an empty object will be given.
-
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 ##### version
 
@@ -1725,8 +1765,8 @@ If a config does not exist, an empty object will be given.
 get version(): undefined | string
 ```
 
-**Returns:** `undefined` \| `string`  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)  
+**Returns:** `undefined` \| `string`
 
 #### Methods
 
@@ -1736,20 +1776,22 @@ get version(): undefined | string
 getCodeowners(filepath): string[]
 ```
 
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)  
 **Parameters:**
 
 | Parameter  | Type     |
 | ---------- | -------- |
 | `filepath` | `string` |
 
-**Returns:** `string`[]  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `string`[]
 
 ##### getTasks()
 
 ```ts
 getTasks(lifecycle): Required<Tasks>
 ```
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Get a list of Workspace tasks for the given lifecycle
 
@@ -1759,14 +1801,15 @@ Get a list of Workspace tasks for the given lifecycle
 | ----------- | -------- |
 | `lifecycle` | `string` |
 
-**Returns:** `Required`\<[`Tasks`](#tasks)\>  
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
+**Returns:** `Required`\<[`Tasks`](#tasks-1)\>
 
 ##### relative()
 
 ```ts
 relative(to): string
 ```
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Get the relative path of an absolute path to the Workspace’s location root
 
@@ -1784,13 +1827,13 @@ const relativePath = workspace.relative('/some/absolute/path');
 
 Relative path to the workspace’s root location.
 
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
-
 ##### resolve()
 
 ```ts
 resolve(...pathSegments): string
 ```
+
+**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Resolve a full filepath within the Workspace given the path segments. Similar to Node.js's [path.resolve()](https://nodejs.org/dist/latest-v18.x/docs/api/path.html#pathresolvepaths).
 
@@ -1808,8 +1851,6 @@ const main = workspace.resolve(workspace.main);
 
 Absolute path based on the input path segments
 
-**Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
-
 ---
 
 ### DependencyType
@@ -1821,6 +1862,8 @@ const DependencyType: {
 	PROD: 3;
 };
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 #### Type declaration
 
@@ -1848,34 +1891,36 @@ readonly PROD: 3;
 
 Production dependency (defined in `dependencies` of `package.json`)
 
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
-
 ---
 
 ### DepType
 
 ```ts
-type DepType: 1 | 2 | 3;
+type DepType = 1 | 2 | 3;
 ```
+
+**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
 
 Dependency type value.
 
 **See also:**
 [\`DependencyType\`](#dependencytype)
 
-**Defined in:** [modules/graph/src/Graph.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Graph.ts)
-
 ---
 
 ### GraphSchemaValidators
 
 ```ts
-type GraphSchemaValidators: Record<string, Record<string, Schema & {
+type GraphSchemaValidators = Record<string, Record<string,
+  | Schema & {
   $required: boolean;
- } | (workspace, graph) => Schema & {
+ }
+  | (workspace, graph) => Schema & {
   $required: boolean;
 }>>;
 ```
+
+**Defined in:** [modules/onerepo/src/core/graph/schema.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/graph/schema.ts)
 
 Definition for `graph verify` JSON schema validators.
 
@@ -1898,8 +1943,6 @@ export default {
 } satisfies GraphSchemaValidators;
 ```
 
-**Defined in:** [modules/onerepo/src/core/graph/schema.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/graph/schema.ts)
-
 ## Logger
 
 ### bufferSubLogger()
@@ -1911,6 +1954,7 @@ function bufferSubLogger(step): {
 };
 ```
 
+**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)  
 **<span class="tag danger">Alpha</span>**
 
 Create a new Logger instance that has its output buffered up to a LogStep.
@@ -1953,8 +1997,6 @@ end: () => Promise<void>;
 logger: Logger;
 ```
 
-**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
-
 ---
 
 ### getLogger()
@@ -1962,6 +2004,8 @@ logger: Logger;
 ```ts
 function getLogger(opts?): Logger;
 ```
+
+**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
 
 This gets the logger singleton for use across all of oneRepo and its commands.
 
@@ -1979,8 +2023,7 @@ export const handler: Handler = (argv, { logger }) => {
 | --------- | ---------------------------------------------- |
 | `opts`?   | `Partial`\<[`LoggerOptions`](#loggeroptions)\> |
 
-**Returns:** [`Logger`](#logger)  
-**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
+**Returns:** [`Logger`](#logger-1)
 
 ---
 
@@ -1989,6 +2032,8 @@ export const handler: Handler = (argv, { logger }) => {
 ```ts
 function stepWrapper<T>(options, fn): Promise<T>;
 ```
+
+**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
 
 For cases where multiple processes need to be completed, but should be joined under a single [\`LogStep\`](#logstep) to avoid too much noisy output, this safely wraps an asynchronous function and handles step creation and completion, unless a `step` override is given.
 
@@ -2015,12 +2060,13 @@ export async function exists(filename: string, { step }: Options = {}) {
 | `options.step`? | [`LogStep`](#logstep)                                  |
 | `fn`            | (`step`) => `Promise`\<`T`\>                           |
 
-**Returns:** `Promise`\<`T`\>  
-**Defined in:** [modules/logger/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/index.ts)
+**Returns:** `Promise`\<`T`\>
 
 ---
 
 ### Logger
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 The oneRepo logger helps build commands and capture output from spawned subprocess in a way that's both delightful to the end user and includes easy to scan and follow output.
 
@@ -2040,10 +2086,11 @@ See [\`HandlerExtra\`](#handlerextra) for access the the global Logger instance.
 get hasError(): boolean
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Whether or not an error has been sent to the logger or any of its steps. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in the `Logger` or any `Step` instance.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `boolean`
 
 ##### hasInfo
 
@@ -2053,10 +2100,11 @@ Whether or not an error has been sent to the logger or any of its steps. This is
 get hasInfo(): boolean
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Whether or not an info message has been sent to the logger or any of its steps.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `boolean`
 
 ##### hasLog
 
@@ -2066,10 +2114,11 @@ Whether or not an info message has been sent to the logger or any of its steps.
 get hasLog(): boolean
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Whether or not a log message has been sent to the logger or any of its steps.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `boolean`
 
 ##### hasWarning
 
@@ -2079,10 +2128,11 @@ Whether or not a log message has been sent to the logger or any of its steps.
 get hasWarning(): boolean
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Whether or not a warning has been sent to the logger or any of its steps.
 
-**Returns:** `boolean`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `boolean`
 
 ##### verbosity
 
@@ -2092,9 +2142,11 @@ Whether or not a warning has been sent to the logger or any of its steps.
 get verbosity(): Verbosity
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Get the logger's verbosity level
 
-**Returns:** [`Verbosity`](#verbosity-1)
+**Returns:** [`Verbosity`](#verbosity-3)
 
 ###### Set Signature
 
@@ -2102,16 +2154,17 @@ Get the logger's verbosity level
 set verbosity(value): void
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Recursively applies the new verbosity to the logger and all of its active steps.
 
 **Parameters:**
 
 | Parameter | Type                        |
 | --------- | --------------------------- |
-| `value`   | [`Verbosity`](#verbosity-1) |
+| `value`   | [`Verbosity`](#verbosity-3) |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `void`
 
 ##### writable
 
@@ -2121,8 +2174,8 @@ Recursively applies the new verbosity to the logger and all of its active steps.
 get writable(): boolean
 ```
 
-**Returns:** `boolean`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)  
+**Returns:** `boolean`
 
 #### Methods
 
@@ -2131,6 +2184,8 @@ get writable(): boolean
 ```ts
 createStep(name, __namedParameters?): LogStep
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Create a sub-step, [\`LogStep\`](#logstep), for the logger. This and any other step will be tracked and required to finish before exit.
 
@@ -2148,14 +2203,15 @@ await step.end();
 | `__namedParameters`?               | \{ `writePrefixes`: `boolean`; \} | -                                                                             |
 | `__namedParameters.writePrefixes`? | `boolean`                         | -                                                                             |
 
-**Returns:** [`LogStep`](#logstep)  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** [`LogStep`](#logstep)
 
 ##### pause()
 
 ```ts
 pause(write?): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 When the terminal is a TTY, steps are automatically animated with a progress indicator. There are times when it's necessary to stop this animation, like when needing to capture user input from `stdin`. Call the `pause()` method before requesting input and [\`logger.unpause()\`](#unpause) when complete.
 
@@ -2173,8 +2229,7 @@ logger.unpause();
 | --------- | --------- |
 | `write`?  | `boolean` |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `void`
 
 ##### unpause()
 
@@ -2182,10 +2237,11 @@ logger.unpause();
 unpause(): void
 ```
 
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+
 Unpause the logger and resume writing buffered logs to `stderr`. See [\`logger.pause()\`](#pause) for more information.
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
+**Returns:** `void`
 
 #### Logging
 
@@ -2194,6 +2250,8 @@ Unpause the logger and resume writing buffered logs to `stderr`. See [\`logger.p
 ```ts
 debug(contents): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Extra debug logging when verbosity greater than or equal to 4.
 
@@ -2217,13 +2275,13 @@ logger.debug(() => bigArray.map((item) => item.name));
 **See also:**
 [\`debug()\`](#debug-1) This is a pass-through for the main step’s [\`debug()\`](#debug-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ##### error()
 
 ```ts
 error(contents): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Log an error. This will cause the root logger to include an error and fail a command.
 
@@ -2247,13 +2305,13 @@ logger.error(() => bigArray.map((item) => item.name));
 **See also:**
 [\`error()\`](#error-1) This is a pass-through for the main step’s [\`error()\`](#error-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ##### info()
 
 ```ts
 info(contents): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Should be used to convey information or instructions through the log, will log when verbositu >= 1
 
@@ -2277,13 +2335,13 @@ logger.info(() => bigArray.map((item) => item.name));
 **See also:**
 [\`info()\`](#info-1) This is a pass-through for the main step’s [\`info()\`](#info-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ##### log()
 
 ```ts
 log(contents): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 General logging information. Useful for light informative debugging. Recommended to use sparingly.
 
@@ -2307,13 +2365,13 @@ logger.log(() => bigArray.map((item) => item.name));
 **See also:**
 [\`log()\`](#log-1) This is a pass-through for the main step’s [\`log()\`](#log-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ##### timing()
 
 ```ts
 timing(start, end): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
 
@@ -2328,13 +2386,13 @@ Log timing information between two [Node.js performance mark names](https://node
 **See also:**
 [\`timing()\`](#timing-1) This is a pass-through for the main step’s [\`timing()\`](#timing-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ##### warn()
 
 ```ts
 warn(contents): void
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Log a warning. Does not have any effect on the command run, but will be called out.
 
@@ -2358,11 +2416,11 @@ logger.warn(() => bigArray.map((item) => item.name));
 **See also:**
 [\`warn()\`](#warn-1) This is a pass-through for the main step’s [\`warn()\`](#warn-1) method.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ---
 
 ### LogStep
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Log steps should only be created via the [\`logger.createStep()\`](#createstep) method.
 
@@ -2374,12 +2432,12 @@ await step.end();
 
 #### Properties
 
-| Property     | Type      | Description                                                                                                                                                                     | Defined in                                                                                                        |
-| ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `hasError`   | `boolean` | Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step. | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
-| `hasInfo`    | `boolean` | Whether or not an info message has been sent to this step.                                                                                                                      | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
-| `hasLog`     | `boolean` | Whether or not a log message has been sent to this step.                                                                                                                        | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
-| `hasWarning` | `boolean` | Whether or not a warning has been sent to this step.                                                                                                                            | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
+| Property                               | Type      | Description                                                                                                                                                                     | Defined in                                                                                                        |
+| -------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| <a id="haserror-1"></a> `hasError`     | `boolean` | Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step. | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
+| <a id="hasinfo-1"></a> `hasInfo`       | `boolean` | Whether or not an info message has been sent to this step.                                                                                                                      | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
+| <a id="haslog-1"></a> `hasLog`         | `boolean` | Whether or not a log message has been sent to this step.                                                                                                                        | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
+| <a id="haswarning-1"></a> `hasWarning` | `boolean` | Whether or not a warning has been sent to this step.                                                                                                                            | [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts) |
 
 #### Methods
 
@@ -2389,14 +2447,15 @@ await step.end();
 end(): Promise<void>
 ```
 
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+
 Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
 
 ```ts
 await step.end();
 ```
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `Promise`\<`void`\>
 
 #### Logging
 
@@ -2405,6 +2464,8 @@ await step.end();
 ```ts
 debug(contents): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Extra debug logging when verbosity greater than or equal to 4.
 
@@ -2424,14 +2485,15 @@ step.debug(() => bigArray.map((item) => item.name));
 | ---------- | --------- | -------------------------------------------------------------------- |
 | `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ##### error()
 
 ```ts
 error(contents): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Log an error. This will cause the root logger to include an error and fail a command.
 
@@ -2451,14 +2513,15 @@ step.error(() => bigArray.map((item) => item.name));
 | ---------- | --------- | -------------------------------------------------------------------- |
 | `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ##### info()
 
 ```ts
 info(contents): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
 
@@ -2478,14 +2541,15 @@ step.info(() => bigArray.map((item) => item.name));
 | ---------- | --------- | -------------------------------------------------------------------- |
 | `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ##### log()
 
 ```ts
 log(contents): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 General logging information. Useful for light informative debugging. Recommended to use sparingly.
 
@@ -2505,14 +2569,15 @@ step.log(() => bigArray.map((item) => item.name));
 | ---------- | --------- | -------------------------------------------------------------------- |
 | `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ##### timing()
 
 ```ts
 timing(start, end): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
 
@@ -2523,14 +2588,15 @@ Log timing information between two [Node.js performance mark names](https://node
 | `start`   | `string` | A `PerformanceMark` entry name |
 | `end`     | `string` | A `PerformanceMark` entry name |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ##### warn()
 
 ```ts
 warn(contents): void
 ```
+
+**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
 
 Log a warning. Does not have any effect on the command run, but will be called out.
 
@@ -2550,19 +2616,20 @@ step.warn(() => bigArray.map((item) => item.name));
 | ---------- | --------- | -------------------------------------------------------------------- |
 | `contents` | `unknown` | Any value that can be converted to a string for writing to `stderr`. |
 
-**Returns:** `void`  
-**Defined in:** [modules/logger/src/LogStep.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/LogStep.ts)
+**Returns:** `void`
 
 ---
 
 ### LoggerOptions
 
 ```ts
-type LoggerOptions: {
-  stream: Writable;
-  verbosity: Verbosity;
+type LoggerOptions = {
+	stream: Writable;
+	verbosity: Verbosity;
 };
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 #### Type declaration
 
@@ -2582,21 +2649,15 @@ verbosity: Verbosity;
 
 Control how much and what kind of output the Logger will provide.
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ---
 
 ### Verbosity
 
 ```ts
-type Verbosity:
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5;
+type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
 ```
+
+**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
 
 Control the verbosity of the log output
 
@@ -2609,8 +2670,6 @@ Control the verbosity of the log output
 | `>= 4` | Debug       | `logger.debug()` will be included                |
 | `>= 5` | Timing      | Extra performance timing metrics will be written |
 
-**Defined in:** [modules/logger/src/Logger.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/logger/src/Logger.ts)
-
 ## Package management
 
 ### getLockfile()
@@ -2618,6 +2677,8 @@ Control the verbosity of the log output
 ```ts
 function getLockfile(cwd): string | null;
 ```
+
+**Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
 
 Get the absolute path for the package manager's lock file for this repository.
 
@@ -2627,8 +2688,7 @@ Get the absolute path for the package manager's lock file for this repository.
 | --------- | -------- |
 | `cwd`     | `string` |
 
-**Returns:** `string` \| `null`  
-**Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
+**Returns:** `string` \| `null`
 
 ---
 
@@ -2638,6 +2698,8 @@ Get the absolute path for the package manager's lock file for this repository.
 function getPackageManager(type): PackageManager;
 ```
 
+**Defined in:** [modules/package-manager/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/index.ts)
+
 Get the [\`PackageManager\`](#packagemanager-1) for the given package manager type (NPM, PNPm, or Yarn)
 
 **Parameters:**
@@ -2646,8 +2708,7 @@ Get the [\`PackageManager\`](#packagemanager-1) for the given package manager ty
 | --------- | ------------------------------- |
 | `type`    | `"yarn"` \| `"pnpm"` \| `"npm"` |
 
-**Returns:** [`PackageManager`](#packagemanager-1)  
-**Defined in:** [modules/package-manager/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/index.ts)
+**Returns:** [`PackageManager`](#packagemanager-1)
 
 ---
 
@@ -2656,6 +2717,8 @@ Get the [\`PackageManager\`](#packagemanager-1) for the given package manager ty
 ```ts
 function getPackageManagerName(cwd, fromPkgJson?): 'npm' | 'pnpm' | 'yarn';
 ```
+
+**Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
 
 Get the package manager for the current working directory with _some_ confidence
 
@@ -2666,14 +2729,15 @@ Get the package manager for the current working directory with _some_ confidence
 | `cwd`          | `string` | Current working directory. Should be the root of the module/repository.       |
 | `fromPkgJson`? | `string` | Value as defined in a package.json file, typically the `packageManager` value |
 
-**Returns:** `"npm"` \| `"pnpm"` \| `"yarn"`  
-**Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
+**Returns:** `"npm"` \| `"pnpm"` \| `"yarn"`
 
 ---
 
 ### PackageManager
 
-Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [\`Graph\`](#graph) & [\`Workspace\`](#workspace)s.
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+
+Implementation details for all package managers. This interface defines a subset of common methods typically needed when interacting with a monorepo and its dependency [\`Graph\`](#graph-1) & [\`Workspace\`](#workspace)s.
 
 #### Methods
 
@@ -2682,6 +2746,8 @@ Implementation details for all package managers. This interface defines a subset
 ```ts
 add(packages, opts?): Promise<void>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Add one or more packages from external registries
 
@@ -2693,14 +2759,15 @@ Add one or more packages from external registries
 | `opts`?     | \{ `dev`: `boolean`; \} | Various options to pass while installing the packages            |
 | `opts.dev`? | `boolean`               | Set to true to install as a `devDependency`. **Default** `false` |
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`void`\>
 
 ##### batch()
 
 ```ts
 batch(processes): Promise<(Error | [string, string])[]>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Batch commands from npm packages as a batch of subprocesses using the package manager. Alternative to batching with `npm exec` and compatible APIs.
 
@@ -2710,11 +2777,9 @@ Batch commands from npm packages as a batch of subprocesses using the package ma
 | ----------- | ----------------------- |
 | `processes` | [`RunSpec`](#runspec)[] |
 
-**Returns:** `Promise`\<(`Error` \| [`string`, `string`])[]\>  
+**Returns:** `Promise`\<(`Error` \| \[`string`, `string`\])[]\>  
 **See also:**
 [\`batch\`](#batch) for general subprocess batching.
-
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 ##### dedupe()
 
@@ -2722,16 +2787,19 @@ Batch commands from npm packages as a batch of subprocesses using the package ma
 dedupe(): Promise<void>
 ```
 
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+
 Reduce duplication in the package tree by checking overlapping ranges.
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`void`\>
 
 ##### info()
 
 ```ts
 info(name, opts?): Promise<null | NpmInfo>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Get standard information about a package
 
@@ -2742,14 +2810,15 @@ Get standard information about a package
 | `name`    | `string`                           |
 | `opts`?   | `Partial`\<[`RunSpec`](#runspec)\> |
 
-**Returns:** `Promise`\<`null` \| [`NpmInfo`](#npminfo)\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`null` \| [`NpmInfo`](#npminfo)\>
 
 ##### install()
 
 ```ts
 install(cwd?): Promise<string>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Install current dependencies as listed in the package manager's lock file
 
@@ -2759,14 +2828,15 @@ Install current dependencies as listed in the package manager's lock file
 | --------- | -------- |
 | `cwd`?    | `string` |
 
-**Returns:** `Promise`\<`string`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`string`\>
 
 ##### loggedIn()
 
 ```ts
 loggedIn(opts?): Promise<boolean>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Check if the current user is logged in to the external registry
 
@@ -2778,14 +2848,15 @@ Check if the current user is logged in to the external registry
 | `opts.registry`? | `string`                                       | The base URL of your NPM registry. PNPM and NPM ignore scope and look up per-registry.                                                              |
 | `opts.scope`?    | `string`                                       | When using Yarn, lookups are done by registry configured by scope. This value must be included if you have separate registries for separate scopes. |
 
-**Returns:** `Promise`\<`boolean`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`boolean`\>
 
 ##### publish()
 
 ```ts
 publish<T>(opts): Promise<void>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Publish Workspaces to the external registry
 
@@ -2806,14 +2877,15 @@ Publish Workspaces to the external registry
 | `opts.tag`?       | `string`                                                                                                              | If you ask npm to install a package and don't tell it a specific version, then it will install the specified tag. **Default** `'latest'`                                        |
 | `opts.workspaces` | `T`[]                                                                                                                 | Workspaces to publish. If not provided or empty array, only the given Workspace at `cwd` will be published. This type is generally compatible with [\`Workspace\`](#workspace). |
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`void`\>
 
 ##### publishable()
 
 ```ts
 publishable<T>(workspaces): Promise<T[]>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Filter Workspaces to the set of those that are actually publishable. This will check both whether the package is not marked as "private" and if the current version is not in the external registry.
 
@@ -2829,14 +2901,15 @@ Filter Workspaces to the set of those that are actually publishable. This will c
 | ------------ | ----- | ------------------------------------------------------- |
 | `workspaces` | `T`[] | List of compatible [\`Workspace\`](#workspace) objects. |
 
-**Returns:** `Promise`\<`T`[]\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`T`[]\>
 
 ##### remove()
 
 ```ts
 remove(packages): Promise<void>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Remove one or more packages.
 
@@ -2846,14 +2919,15 @@ Remove one or more packages.
 | ---------- | ---------------------- | ----------------------------- |
 | `packages` | `string` \| `string`[] | One or more packages, by name |
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
+**Returns:** `Promise`\<`void`\>
 
 ##### run()
 
 ```ts
 run(opts): Promise<[string, string]>
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 Run a command from an npm package as a subprocess using the package manager. Alternative to `npm exec` and compatible APIs.
 
@@ -2863,24 +2937,24 @@ Run a command from an npm package as a subprocess using the package manager. Alt
 | --------- | --------------------- |
 | `opts`    | [`RunSpec`](#runspec) |
 
-**Returns:** `Promise`\<[`string`, `string`]\>  
+**Returns:** `Promise`\<\[`string`, `string`\]\>  
 **See also:**
 [\`batch\`](#batch) for general subprocess running.
-
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 ---
 
 ### MinimalWorkspace
 
 ```ts
-type MinimalWorkspace: {
-  location: string;
-  name: string;
-  private: boolean;
-  version: string;
+type MinimalWorkspace = {
+	location: string;
+	name: string;
+	private: boolean;
+	version: string;
 };
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 #### Type declaration
 
@@ -2908,14 +2982,12 @@ optional private: boolean;
 optional version: string;
 ```
 
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
-
 ---
 
 ### NpmInfo
 
 ```ts
-type NpmInfo: {
+type NpmInfo = {
   dependencies: Record<string, string>;
   dist-tags: {
    [key: string]: string;   latest: string;
@@ -2927,6 +2999,8 @@ type NpmInfo: {
   versions: string[];
 };
 ```
+
+**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
 
 #### Type declaration
 
@@ -2948,7 +3022,9 @@ dist-tags: {
 
 ###### Index Signature
 
-\[`key`: `string`\]: `string`
+```ts
+[key: string]: string
+```
 
 ###### dist-tags.latest
 
@@ -2986,14 +3062,14 @@ version: string;
 versions: string[];
 ```
 
-**Defined in:** [modules/package-manager/src/methods.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/methods.ts)
-
 ## Plugins
 
 ### Plugin
 
 ```ts
-type Plugin: PluginObject | (config, graph) => PluginObject;
+type Plugin =
+  | PluginObject
+  | (config, graph) => PluginObject;
 ```
 
 **Defined in:** [modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts)
@@ -3003,19 +3079,24 @@ type Plugin: PluginObject | (config, graph) => PluginObject;
 ### PluginObject
 
 ```ts
-type PluginObject: {
-  shutdown: (argv) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
-  startup: (argv) => Promise<void> | void;
-  yargs: (yargs, visitor) => Yargs;
+type PluginObject = {
+	shutdown: (argv) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
+	startup: (argv) => Promise<void> | void;
+	yargs: (yargs, visitor) => Yargs;
 };
 ```
+
+**Defined in:** [modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts)
 
 #### Type declaration
 
 ##### shutdown()?
 
 ```ts
-optional shutdown: (argv) => Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
+optional shutdown: (argv) =>
+  | Promise<Record<string, unknown> | void>
+  | Record<string, unknown>
+  | void;
 ```
 
 Runs just before the application process is exited. Allows returning data that will be merged with all other shutdown handlers.
@@ -3026,7 +3107,9 @@ Runs just before the application process is exited. Allows returning data that w
 | --------- | ----------------------------------------------------------- |
 | `argv`    | [`Argv`](#argvcommandargv)\<[`DefaultArgv`](#defaultargv)\> |
 
-**Returns:** `Promise`\<`Record`\<`string`, `unknown`\> \| `void`\> \| `Record`\<`string`, `unknown`\> \| `void`
+**Returns:** \| `Promise`\<`Record`\<`string`, `unknown`\> \| `void`\>
+\| `Record`\<`string`, `unknown`\>
+\| `void`
 
 ##### startup()?
 
@@ -3062,8 +3145,7 @@ It is important to ensure every command passed through the `visitor` to enable a
 | `yargs`   | `Yargs`                                                 |
 | `visitor` | `NonNullable`\<`RequireDirectoryOptions`\[`"visit"`\]\> |
 
-**Returns:** `Yargs`  
-**Defined in:** [modules/onerepo/src/types/plugin.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/types/plugin.ts)
+**Returns:** `Yargs`
 
 ## Subprocess
 
@@ -3072,6 +3154,8 @@ It is important to ensure every command passed through the `visitor` to enable a
 ```ts
 function batch(processes, options?): Promise<([string, string] | Error)[]>;
 ```
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 Batch multiple subprocesses, similar to `Promise.all`, but only run as many processes at a time fulfilling N-1 cores. If there are more processes than cores, as each process finishes, a new process will be picked to run, ensuring maximum CPU usage at all times.
 
@@ -3100,7 +3184,7 @@ expect(results).toEqual([
 | `processes` | ([`RunSpec`](#runspec) \| [`PromiseFn`](#promisefn))[] |
 | `options`?  | [`BatchOptions`](#batchoptions)                        |
 
-**Returns:** `Promise`\<([`string`, `string`] \| `Error`)[]\>
+**Returns:** `Promise`\<(\[`string`, `string`\] \| `Error`)[]\>
 
 #### Throws
 
@@ -3109,8 +3193,6 @@ expect(results).toEqual([
 **See also:**
 [\`PackageManager.batch\`](#batch) to safely batch executables exposed from third party modules.
 
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
-
 ---
 
 ### run()
@@ -3118,6 +3200,8 @@ expect(results).toEqual([
 ```ts
 function run(options): Promise<[string, string]>;
 ```
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 Spawn a process and capture its `stdout` and `stderr` through a Logger Step. Most oneRepo commands will consist of at least one [\`run()\`](#run-1) or [\`batch()\`](#batch-1) processes.
 
@@ -3165,7 +3249,7 @@ await run({
 | --------- | --------------------- |
 | `options` | [`RunSpec`](#runspec) |
 
-**Returns:** `Promise`\<[`string`, `string`]\>
+**Returns:** `Promise`\<\[`string`, `string`\]\>
 
 A promise with an array of `[stdout, stderr]`, as captured from the command run.
 
@@ -3176,8 +3260,6 @@ A promise with an array of `[stdout, stderr]`, as captured from the command run.
 **See also:**
 [\`PackageManager.run\`](#run) to safely run executables exposed from third party modules.
 
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
-
 ---
 
 ### runTasks()
@@ -3186,6 +3268,7 @@ A promise with an array of `[stdout, stderr]`, as captured from the command run.
 function runTasks(lifecycle, args, graph, logger?): Promise<void>;
 ```
 
+**Defined in:** [modules/onerepo/src/core/tasks/run-tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/tasks/run-tasks.ts)  
 **<span class="tag danger">Alpha</span>**
 
 Run Lifecycle tasks in commands other than the `one tasks` command. Use this function when you have a command triggering a Lifecycle in non-standard ways.
@@ -3196,15 +3279,14 @@ await runTasks('pre-publish', ['-w', 'my-workspace'], graph);
 
 **Parameters:**
 
-| Parameter   | Type                      | Description                                                                                        |
-| ----------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
-| `lifecycle` | [`Lifecycle`](#lifecycle) | The individual Lifecycle to trigger.                                                               |
-| `args`      | `string`[]                | Array of string arguments as if passed in from the command-line.                                   |
-| `graph`     | [`Graph`](#graph)         | The current repository [Graph](#graph).                                                            |
-| `logger`?   | [`Logger`](#logger)       | Optional [Logger](#logger) instance. Defaults to the current `Logger` (usually there is only one). |
+| Parameter   | Type                      | Description                                                                                          |
+| ----------- | ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `lifecycle` | [`Lifecycle`](#lifecycle) | The individual Lifecycle to trigger.                                                                 |
+| `args`      | `string`[]                | Array of string arguments as if passed in from the command-line.                                     |
+| `graph`     | [`Graph`](#graph-1)       | The current repository [Graph](#graph-1).                                                            |
+| `logger`?   | [`Logger`](#logger-1)     | Optional [Logger](#logger-1) instance. Defaults to the current `Logger` (usually there is only one). |
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/onerepo/src/core/tasks/run-tasks.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/tasks/run-tasks.ts)
+**Returns:** `Promise`\<`void`\>
 
 ---
 
@@ -3214,6 +3296,8 @@ await runTasks('pre-publish', ['-w', 'my-workspace'], graph);
 function start(options): ChildProcess;
 ```
 
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+
 Start a subprocess. For use when control over watching the stdout and stderr or long-running processes that are not expected to complete without SIGINT/SIGKILL.
 
 **Parameters:**
@@ -3222,8 +3306,7 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 | --------- | ------------------------------------------------------- |
 | `options` | `Omit`\<[`RunSpec`](#runspec), `"name"` \| `"runDry"`\> |
 
-**Returns:** `ChildProcess`  
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+**Returns:** `ChildProcess`
 
 ---
 
@@ -3232,6 +3315,8 @@ Start a subprocess. For use when control over watching the stdout and stderr or 
 ```ts
 function sudo(options): Promise<[string, string]>;
 ```
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 This function is similar to `run`, but can request and run with elevated `sudo` permissions. This function should not be used unless you absolutely _know_ that you will need to spawn an executable with elevated permissions.
 
@@ -3252,12 +3337,13 @@ await sudo({
 | --------- | --------------------------------------------------------------------- |
 | `options` | `Omit`\<[`RunSpec`](#runspec), `"opts"`\> & \{ `reason`: `string`; \} |
 
-**Returns:** `Promise`\<[`string`, `string`]\>  
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+**Returns:** `Promise`\<\[`string`, `string`\]\>
 
 ---
 
 ### BatchError
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 #### Extends
 
@@ -3271,6 +3357,7 @@ await sudo({
 new BatchError(errors, options?): BatchError
 ```
 
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                                                  |
@@ -3282,21 +3369,21 @@ new BatchError(errors, options?): BatchError
 
 ###### Overrides
 
-`Error.constructor`
-
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+```ts
+Error.constructor;
+```
 
 #### Properties
 
-| Property             | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                                                                                            |
-| -------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26                                                                  |
-| `errors`             | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                  | -                         | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts) |
-| `message`            | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077                                                                         |
-| `name`               | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076                                                                         |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98                                                                              |
-| `stack?`             | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078                                                                         |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100                                                                             |
+| Property                                            | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                                                                                            |
+| --------------------------------------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| <a id="cause"></a> `cause?`                         | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26                                                                  |
+| <a id="errors"></a> `errors`                        | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                  | -                         | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts) |
+| <a id="message"></a> `message`                      | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077                                                                         |
+| <a id="name-3"></a> `name`                          | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076                                                                         |
+| <a id="preparestacktrace"></a> `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98                                                                              |
+| <a id="stack"></a> `stack?`                         | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078                                                                         |
+| <a id="stacktracelimit"></a> `stackTraceLimit`      | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100                                                                             |
 
 #### Methods
 
@@ -3305,6 +3392,8 @@ new BatchError(errors, options?): BatchError
 ```ts
 static captureStackTrace(targetObject, constructorOpt?): void
 ```
+
+**Defined in:** node_modules/@types/node/globals.d.ts:91
 
 Create .stack property on a target object
 
@@ -3319,13 +3408,15 @@ Create .stack property on a target object
 
 ###### Inherited from
 
-`Error.captureStackTrace`
-
-**Defined in:** node_modules/@types/node/globals.d.ts:91
+```ts
+Error.captureStackTrace;
+```
 
 ---
 
 ### SubprocessError
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 #### Extends
 
@@ -3339,6 +3430,7 @@ Create .stack property on a target object
 new SubprocessError(message, options?): SubprocessError
 ```
 
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type           |
@@ -3350,20 +3442,20 @@ new SubprocessError(message, options?): SubprocessError
 
 ###### Overrides
 
-`Error.constructor`
-
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+```ts
+Error.constructor;
+```
 
 #### Properties
 
-| Property             | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                           |
-| -------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | ---------------------------------------------------- |
-| `cause?`             | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26 |
-| `message`            | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077        |
-| `name`               | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076        |
-| `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98             |
-| `stack?`             | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078        |
-| `stackTraceLimit`    | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100            |
+| Property                                              | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                           |
+| ----------------------------------------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | ---------------------------------------------------- |
+| <a id="cause-1"></a> `cause?`                         | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26 |
+| <a id="message-1"></a> `message`                      | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077        |
+| <a id="name-4"></a> `name`                            | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076        |
+| <a id="preparestacktrace-1"></a> `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98             |
+| <a id="stack-1"></a> `stack?`                         | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078        |
+| <a id="stacktracelimit-1"></a> `stackTraceLimit`      | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100            |
 
 #### Methods
 
@@ -3372,6 +3464,8 @@ new SubprocessError(message, options?): SubprocessError
 ```ts
 static captureStackTrace(targetObject, constructorOpt?): void
 ```
+
+**Defined in:** node_modules/@types/node/globals.d.ts:91
 
 Create .stack property on a target object
 
@@ -3386,19 +3480,21 @@ Create .stack property on a target object
 
 ###### Inherited from
 
-`Error.captureStackTrace`
-
-**Defined in:** node_modules/@types/node/globals.d.ts:91
+```ts
+Error.captureStackTrace;
+```
 
 ---
 
 ### BatchOptions
 
 ```ts
-type BatchOptions: {
-  maxParallel: number;
+type BatchOptions = {
+	maxParallel: number;
 };
 ```
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 Options for running [\`batch()\`](#batch-1) subprocesses.
 
@@ -3412,35 +3508,36 @@ optional maxParallel: number;
 
 The absolute maximum number of subprocesses to batch. This amount will always be limited by the number of CPUs/cores available on the current machine.
 
-**Default:** `deterministic` Number of CPUs - 1  
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+**Default:** `deterministic` Number of CPUs - 1
 
 ---
 
 ### PromiseFn()
 
 ```ts
-type PromiseFn: () => Promise<[string, string]>;
+type PromiseFn = () => Promise<[string, string]>;
 ```
 
-**Returns:** `Promise`\<[`string`, `string`]\>  
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)  
+**Returns:** `Promise`\<\[`string`, `string`\]\>
 
 ---
 
 ### RunSpec
 
 ```ts
-type RunSpec: {
-  args: string[];
-  cmd: string;
-  name: string;
-  opts: SpawnOptions;
-  runDry: boolean;
-  skipFailures: boolean;
-  step: LogStep;
+type RunSpec = {
+	args: string[];
+	cmd: string;
+	name: string;
+	opts: SpawnOptions;
+	runDry: boolean;
+	skipFailures: boolean;
+	step: LogStep;
 };
 ```
+
+**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
 
 The core configuration for [\`run\`](#run-1), [\`start\`](#start), [\`sudo\`](#sudo), and [\`batch\`](#batch-1) subprocessing.
 
@@ -3516,8 +3613,6 @@ optional step: LogStep;
 
 Pass a custom [\`LogStep\`](#logstep) to bundle this process input & output into another step instead of creating a new one.
 
-**Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
-
 ## package.json
 
 ### getPublishablePackageJson()
@@ -3525,6 +3620,8 @@ Pass a custom [\`LogStep\`](#logstep) to bundle this process input & output into
 ```ts
 function getPublishablePackageJson(input): PublicPackageJson;
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 Return a deep copy of a `package.json` suitabkle for publishing. Moves all non-standard `publishConfig` keys to the root of the `package.json` and deletes `devDependencies`.
 
@@ -3534,52 +3631,60 @@ Return a deep copy of a `package.json` suitabkle for publishing. Moves all non-s
 | --------- | ----------------------------------------- |
 | `input`   | [`PublicPackageJson`](#publicpackagejson) |
 
-**Returns:** [`PublicPackageJson`](#publicpackagejson)  
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
+**Returns:** [`PublicPackageJson`](#publicpackagejson)
 
 ---
 
 ### BasePackageJson
 
 ```ts
-type BasePackageJson: {
-  alias: string[];
-  author: string | Person;
-  bin: string | Record<string, string>;
-  bugs: {
-     email: string;
-     url: string;
-    };
-  bundleDependencies: string[];
-  contributors: (Person | string)[];
-  dependencies: Record<string, string>;
-  description: string;
-  devDependencies: Record<string, string>;
-  engines: Record<string, string>;
-  exports: Record<string, string | {
-     default: string;
-     import: string;
-     require: string;
-     types: string;
-    }>;
-  files: string[];
-  homepage: string;
-  keywords: string[];
-  license: string;
-  main: string;
-  name: string;
-  optionalDependencies: string[];
-  os: string[];
-  overrides: Record<string, string>;
-  packageManager: string;
-  peerDependencies: Record<string, string>;
-  peerDependenciesMeta: Record<string, {
-     optional: boolean;
-    }>;
-  scripts: Record<string, string>;
-  version: string;
+type BasePackageJson = {
+	alias: string[];
+	author: string | Person;
+	bin: string | Record<string, string>;
+	bugs: {
+		email: string;
+		url: string;
+	};
+	bundleDependencies: string[];
+	contributors: (Person | string)[];
+	dependencies: Record<string, string>;
+	description: string;
+	devDependencies: Record<string, string>;
+	engines: Record<string, string>;
+	exports: Record<
+		string,
+		| string
+		| {
+				default: string;
+				import: string;
+				require: string;
+				types: string;
+		  }
+	>;
+	files: string[];
+	homepage: string;
+	keywords: string[];
+	license: string;
+	main: string;
+	name: string;
+	optionalDependencies: string[];
+	os: string[];
+	overrides: Record<string, string>;
+	packageManager: string;
+	peerDependencies: Record<string, string>;
+	peerDependenciesMeta: Record<
+		string,
+		{
+			optional: boolean;
+		}
+	>;
+	scripts: Record<string, string>;
+	version: string;
 };
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 #### Type declaration
 
@@ -3589,7 +3694,7 @@ type BasePackageJson: {
 optional alias: string[];
 ```
 
-Enable's the [\`Graph\`](#graph) to look up [\`Workspace\`](#workspace)s by shorter names or common [\`aliases\`](#aliases) used by teams. This enables much short command-line execution. See [\`Graph.getByName\`](#getbyname) and [\`Graph.getAllByName\`](#getallbyname).
+Enable's the [\`Graph\`](#graph-1) to look up [\`Workspace\`](#workspace)s by shorter names or common [\`aliases\`](#aliases) used by teams. This enables much short command-line execution. See [\`Graph.getByName\`](#getbyname) and [\`Graph.getAllByName\`](#getallbyname).
 
 ##### author?
 
@@ -3665,7 +3770,9 @@ optional engines: Record<string, string>;
 ##### exports?
 
 ```ts
-optional exports: Record<string, string | {
+optional exports: Record<string,
+  | string
+  | {
   default: string;
   import: string;
   require: string;
@@ -3761,14 +3868,12 @@ optional scripts: Record<string, string>;
 optional version: string;
 ```
 
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
-
 ---
 
 ### PackageJson
 
 ```ts
-type PackageJson: PrivatePackageJson | PublicPackageJson;
+type PackageJson = PrivatePackageJson | PublicPackageJson;
 ```
 
 **Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
@@ -3778,12 +3883,14 @@ type PackageJson: PrivatePackageJson | PublicPackageJson;
 ### Person
 
 ```ts
-type Person: {
-  email: string;
-  name: string;
-  url: string;
+type Person = {
+	email: string;
+	name: string;
+	url: string;
 };
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 #### Type declaration
 
@@ -3805,19 +3912,19 @@ optional name: string;
 optional url: string;
 ```
 
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
-
 ---
 
 ### PrivatePackageJson
 
 ```ts
-type PrivatePackageJson: {
-  license: "UNLICENSED";
-  private: true;
-  workspaces: string[];
- } & BasePackageJson;
+type PrivatePackageJson = {
+	license: 'UNLICENSED';
+	private: true;
+	workspaces: string[];
+} & BasePackageJson;
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 #### Type declaration
 
@@ -3839,19 +3946,19 @@ private: true;
 optional workspaces: string[];
 ```
 
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
-
 ---
 
 ### PublicPackageJson
 
 ```ts
-type PublicPackageJson: {
-  private: false;
-  publishConfig: PublishConfig;
-  workspaces: never;
- } & BasePackageJson;
+type PublicPackageJson = {
+	private: false;
+	publishConfig: PublishConfig;
+	workspaces: never;
+} & BasePackageJson;
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 #### Type declaration
 
@@ -3873,26 +3980,31 @@ optional publishConfig: PublishConfig;
 optional workspaces: never;
 ```
 
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
-
 ---
 
 ### PublishConfig
 
 ```ts
-type PublishConfig: {
-[key: string]: unknown;   bin: string | Record<string, string>;
-  exports: Record<string, string | {
-     default: string;
-     import: string;
-     require: string;
-     types: string;
-    }>;
-  main: string;
-  module: string;
-  typings: string;
+type PublishConfig = {
+	[key: string]: unknown;
+	bin: string | Record<string, string>;
+	exports: Record<
+		string,
+		| string
+		| {
+				default: string;
+				import: string;
+				require: string;
+				types: string;
+		  }
+	>;
+	main: string;
+	module: string;
+	typings: string;
 };
 ```
+
+**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
 
 The `publishConfig` should follow [NPM's guidelines](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#publishconfig), apart from the possible defined extra keys here. Anything defined here will be merged back to the root of the `package.json` at publish time.
 
@@ -3916,7 +4028,9 @@ Use these keys to help differentiate between your repository's source-dependency
 
 #### Index Signature
 
-\[`key`: `string`\]: `unknown`
+```ts
+[key: string]: unknown
+```
 
 ##### bin?
 
@@ -3927,7 +4041,9 @@ optional bin: string | Record<string, string>;
 ##### exports?
 
 ```ts
-optional exports: Record<string, string | {
+optional exports: Record<string,
+  | string
+  | {
   default: string;
   import: string;
   require: string;
@@ -3952,15 +4068,5 @@ optional module: string;
 ```ts
 optional typings: string;
 ```
-
-**Defined in:** [modules/package-manager/src/package-json.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/package-json.ts)
-
-## Namespaces
-
-| Namespace                        | Description                                                                                   |
-| -------------------------------- | --------------------------------------------------------------------------------------------- |
-| [builders](namespaces/builders/) | Common and reusable command-line option builders.                                             |
-| [file](namespaces/file/)         | File manipulation functions.                                                                  |
-| [git](namespaces/git/)           | Special handlers for managing complex queries and manipulation of the git repository's state. |
 
 <!-- end-onerepo-sentinel -->

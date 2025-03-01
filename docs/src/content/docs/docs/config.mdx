@@ -43,11 +43,13 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<75cb6cad3866eda2bb2d76965b654a2e>> */}
+{/* @generated SignedSource<<cc7b20bfab47baae5a8d07464cfa2112>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
 - **Type:** `object`
+
+Defined in: config-root.d.ts:7
 
 Setup configuration for the root of the repository.
 
@@ -448,10 +450,6 @@ export default {
 
 Override the URL used to visualize the Graph. The Graph data will be attached the the `g` query parameter as a JSON string of the DAG, compressed using zLib deflate.
 
-### Defined in
-
-config-root.d.ts:7
-
 {/* end-usage-typedoc-root */}
 
 ## Workspace configurations
@@ -490,11 +488,13 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-workspace */}
-{/* @generated SignedSource<<8b56cc891b653b7dffe00fe29b9b2f46>> */}
+{/* @generated SignedSource<<50c6de5753561790ff810ec61950c599>> */}
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
 - **Type:** `object`
+
+Defined in: config-workspace.d.ts:5
 
 ### Type Parameters
 
@@ -574,9 +574,5 @@ Tasks for this Workspace. These will be merged with global tasks and any other a
 :::tip[Merging tasks]
 Each modified Workspace or Workspace that is affected by another Workspace's modifications will have its tasks evaluated and merged into the full set of tasks for each given lifecycle run. Check the [Tasks reference](/core/tasks/) to learn more.
 :::
-
-### Defined in
-
-config-workspace.d.ts:5
 
 {/* end-usage-typedoc-workspace */}

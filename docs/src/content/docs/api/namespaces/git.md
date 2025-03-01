@@ -14,13 +14,15 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<9536060d5c8ed93a7f6964871cddc736>> -->
+<!-- @generated SignedSource<<6dbf6ee4d2405c1b8470160c31472773>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
 ## Classes
 
 ### StagingWorkflow
+
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
 
 #### Constructors
 
@@ -30,16 +32,16 @@ Special handlers for managing complex queries and manipulation of the git reposi
 new StagingWorkflow(options): StagingWorkflow
 ```
 
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)  
 **Parameters:**
 
-| Parameter        | Type                                                                         | Description                            |
-| ---------------- | ---------------------------------------------------------------------------- | -------------------------------------- |
-| `options`        | \{ `graph`: [`Graph`](../../#graph); `logger`: [`Logger`](../../#logger); \} | -                                      |
-| `options.graph`  | [`Graph`](../../#graph)                                                      | The repository Graph                   |
-| `options.logger` | [`Logger`](../../#logger)                                                    | Logger instance to use for all actions |
+| Parameter        | Type                                                                             | Description                            |
+| ---------------- | -------------------------------------------------------------------------------- | -------------------------------------- |
+| `options`        | \{ `graph`: [`Graph`](../../#graph-1); `logger`: [`Logger`](../../#logger-1); \} | -                                      |
+| `options.graph`  | [`Graph`](../../#graph-1)                                                        | The repository Graph                   |
+| `options.logger` | [`Logger`](../../#logger-1)                                                      | Logger instance to use for all actions |
 
-**Returns:** [`StagingWorkflow`](#stagingworkflow)  
-**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Returns:** [`StagingWorkflow`](#stagingworkflow)
 
 #### Methods
 
@@ -49,18 +51,21 @@ new StagingWorkflow(options): StagingWorkflow
 restoreUnstaged(): Promise<void>
 ```
 
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+
 Restores the unstaged changes previously backed up by [\`saveUnstaged()\`](#saveunstaged).
 
 This command will go through a series of attempts to ressurect upon failure, eventually throwing an error if unstaged changes cannot be reapplied.
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Returns:** `Promise`\<`void`\>
 
 ##### saveUnstaged()
 
 ```ts
 saveUnstaged(): Promise<void>
 ```
+
+**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
 
 Backup any unstaged changes, whether that's full files or parts of files. This will result in the git status only including what was already in the stage. All other changes will be backed up to:
 
@@ -69,19 +74,20 @@ Backup any unstaged changes, whether that's full files or parts of files. This w
 
 To restore the unstaged changes, call [\`restoreUnstaged()\`](#restoreunstaged).
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
+**Returns:** `Promise`\<`void`\>
 
 ## Type Aliases
 
 ### ModifiedBaseOptions\<ByStatus\>
 
 ```ts
-type ModifiedBaseOptions<ByStatus>: {
-  allStatus: boolean;
-  byStatus: ByStatus;
+type ModifiedBaseOptions<ByStatus> = {
+	allStatus: boolean;
+	byStatus: ByStatus;
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 #### Type Parameters
 
@@ -107,24 +113,24 @@ optional byStatus: ByStatus;
 
 Return modified files categorized by the [type of modification](#modifiedbystatus) (added, deleted, modified, etc)
 
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
 ---
 
 ### ModifiedByStatus
 
 ```ts
-type ModifiedByStatus: {
-  added: string[];
-  copied: string[];
-  deleted: string[];
-  fileTypeChanged: string[];
-  modified: string[];
-  renamed: string[];
-  unknown: string[];
-  unmerged: string[];
+type ModifiedByStatus = {
+	added: string[];
+	copied: string[];
+	deleted: string[];
+	fileTypeChanged: string[];
+	modified: string[];
+	renamed: string[];
+	unknown: string[];
+	unmerged: string[];
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found in the official git documentation for [git-diff](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203).
 
@@ -194,19 +200,19 @@ unmerged: string[];
 
 Git status `U`: "unknown" change type (most probably a bug, please report it)
 
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
 ---
 
 ### ModifiedFromThrough\<ByStatus\>
 
 ```ts
-type ModifiedFromThrough<ByStatus>: ModifiedBaseOptions<ByStatus> & {
-  from: string;
-  staged: false;
-  through: string;
+type ModifiedFromThrough<ByStatus> = ModifiedBaseOptions<ByStatus> & {
+	from: string;
+	staged: false;
+	through: string;
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 #### Type declaration
 
@@ -240,19 +246,19 @@ Git ref for end (inclusive) to get list of modified files
 | ------------------------------ |
 | `ByStatus` _extends_ `boolean` |
 
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
 ---
 
 ### ModifiedStaged\<ByStatus\>
 
 ```ts
-type ModifiedStaged<ByStatus>: ModifiedBaseOptions<ByStatus> & {
-  from: never;
-  staged: true;
-  through: never;
+type ModifiedStaged<ByStatus> = ModifiedBaseOptions<ByStatus> & {
+	from: never;
+	staged: true;
+	through: never;
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 #### Type declaration
 
@@ -286,17 +292,17 @@ Disallowed when `staged: true`
 | ------------------------------ |
 | `ByStatus` _extends_ `boolean` |
 
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
 ---
 
 ### Options
 
 ```ts
-type Options: {
-  step: LogStep;
+type Options = {
+	step: LogStep;
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Generic options passed to all Git operations.
 
@@ -310,17 +316,17 @@ optional step: LogStep;
 
 Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
-
 ---
 
 ### UpdateIndexOptions
 
 ```ts
-type UpdateIndexOptions: Options & {
-  immediately: boolean;
+type UpdateIndexOptions = Options & {
+	immediately: boolean;
 };
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 #### Type declaration
 
@@ -332,8 +338,7 @@ optional immediately: boolean;
 
 Set whether to immediately add to the git index or defer until process shutdown
 
-**Default:** `false`  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Default:** `false`
 
 ## Functions
 
@@ -342,6 +347,8 @@ Set whether to immediately add to the git index or defer until process shutdown
 ```ts
 function flushUpdateIndex(options?): Promise<void>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Write all pending files added using [\`updateIndex()\`](#updateindex) to the git index.
 
@@ -355,8 +362,7 @@ await git.flushUpdateIndex();
 | ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`void`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`void`\>
 
 ---
 
@@ -365,6 +371,8 @@ await git.flushUpdateIndex();
 ```ts
 function getBranch(options?): Promise<string>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Get the name of the current branch. Equivalent to `git rev-parse --abbrev-ref HEAD`.
 
@@ -378,8 +386,7 @@ const currentBranch = await git.getBranch();
 | ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`string`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`string`\>
 
 ---
 
@@ -388,6 +395,8 @@ const currentBranch = await git.getBranch();
 ```ts
 function getCurrentSha(options?): Promise<string>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Get the current sha ref. This is equivalent to `git rev-parse HEAD`.
 
@@ -401,8 +410,7 @@ const sha = await git.getCurrentSha();
 | ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`string`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`string`\>
 
 ---
 
@@ -411,6 +419,8 @@ const sha = await git.getCurrentSha();
 ```ts
 function getMergeBase(options?): Promise<string>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Determine the git ref for merging the current working branch, sha, or ref, whichever that is. This function does a bunch of internal checks to determine the where the most likely point of forking happened.
 
@@ -424,8 +434,7 @@ const mergeBase = await getMergeBase();
 | ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`string`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`string`\>
 
 ---
 
@@ -434,6 +443,8 @@ const mergeBase = await getMergeBase();
 ```ts
 function getModifiedFiles<ByStatus>(modified?, options?): Promise<ByStatus extends true ? ModifiedByStatus : string[]>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Get a map of the currently modified files based on their status. If `from` and `through` are not provided, this will use merge-base determination to get the changes to the working tree using `git diff` and `git diff-tree`.
 
@@ -473,13 +484,12 @@ Will result in `allChanges` equal to an object containing arrays of strings:
 
 **Parameters:**
 
-| Parameter   | Type                                                                                                                             |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `modified`? | [`ModifiedStaged`](#modifiedstagedbystatus)\<`ByStatus`\> \| [`ModifiedFromThrough`](#modifiedfromthroughbystatus)\<`ByStatus`\> |
-| `options`?  | [`Options`](#options)                                                                                                            |
+| Parameter   | Type                                                                                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `modified`? | \| [`ModifiedStaged`](#modifiedstagedbystatus)\<`ByStatus`\> \| [`ModifiedFromThrough`](#modifiedfromthroughbystatus)\<`ByStatus`\> |
+| `options`?  | [`Options`](#options)                                                                                                               |
 
-**Returns:** `Promise`\<`ByStatus` _extends_ `true` ? [`ModifiedByStatus`](#modifiedbystatus) : `string`[]\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`ByStatus` _extends_ `true` ? [`ModifiedByStatus`](#modifiedbystatus) : `string`[]\>
 
 ---
 
@@ -488,6 +498,8 @@ Will result in `allChanges` equal to an object containing arrays of strings:
 ```ts
 function isClean(options?): Promise<boolean>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Check if the current git working state is clean.
 
@@ -504,8 +516,7 @@ if (!isClean) {
 | ---------- | --------------------- |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`boolean`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`boolean`\>
 
 ---
 
@@ -514,6 +525,8 @@ if (!isClean) {
 ```ts
 function updateIndex(paths, options?): Promise<string | undefined>;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Add filepaths to the git index. Equivalent to `git add [...files]`. By default, this method will track the files that need to be added to the git index. It will only add files immediately if given the `immediately` option.
 
@@ -532,7 +545,6 @@ await git.updateIndex(['tacos.ts']);
 | `paths`    | `string` \| `string`[]                      |
 | `options`? | [`UpdateIndexOptions`](#updateindexoptions) |
 
-**Returns:** `Promise`\<`string` \| `undefined`\>  
-**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+**Returns:** `Promise`\<`string` \| `undefined`\>
 
 <!-- end-onerepo-sentinel -->

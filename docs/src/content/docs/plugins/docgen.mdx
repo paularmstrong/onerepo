@@ -43,13 +43,15 @@ Check out our very own source level [example](example/) generated directly from 
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<9b847ec5a1fb60fd74a1bd5a66f31900>> */}
+{/* @generated SignedSource<<945cb92c821ffbe7fe30b72f4314aebe>> */}
 
 ### docgen()
 
 ```ts
 function docgen(opts): Plugin;
 ```
+
+Defined in: [index.ts:73](https://github.com/paularmstrong/onerepo/blob/b5121b5a0f205525e364c3effa18e63e2715264a/plugins/docgen/src/index.ts)
 
 Include the `eslint` plugin in your oneRepo plugin setup:
 
@@ -70,14 +72,16 @@ export default {
 ### Options
 
 ```ts
-type Options: {
-  format: "markdown" | "json";
-  name: string | string[];
-  outFile: string;
-  outWorkspace: string;
-  safeWrite: boolean;
+type Options = {
+	format: 'markdown' | 'json';
+	name: string | string[];
+	outFile: string;
+	outWorkspace: string;
+	safeWrite: boolean;
 };
 ```
+
+Defined in: [index.ts:25](https://github.com/paularmstrong/onerepo/blob/b5121b5a0f205525e364c3effa18e63e2715264a/plugins/docgen/src/index.ts)
 
 Full configuration options for the Docgen core command.
 
