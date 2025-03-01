@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<7a34f21e83069c1d24652e72b61f2741>> -->
+<!-- @generated SignedSource<<5fc8c1eca7211c6a10d6e42bbbbd1522>> -->
 
 File manipulation functions.
 
@@ -284,7 +284,7 @@ Checks whether a file is signed _without_ verifying the signature.
 ### lstat()
 
 ```ts
-function lstat(filename, options?): Promise<Stats | null>;
+function lstat(filename, options?): Promise<null | Stats>;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
@@ -298,7 +298,7 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 | `filename` | `string`              |
 | `options`? | [`Options`](#options) |
 
-**Returns:** `Promise`\<`Stats` \| `null`\>
+**Returns:** `Promise`\<`null` \| `Stats`\>
 
 If the `filename` does not exist, `null` will be returned instead of a Stats object.
 
@@ -425,7 +425,7 @@ const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc
 ### readSafe()
 
 ```ts
-function readSafe(filename, options?): Promise<[string | null, string]>;
+function readSafe(filename, options?): Promise<[null | string, string]>;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
@@ -443,7 +443,7 @@ const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel
 | `filename` | `string`                              |
 | `options`? | [`ReadSafeOptions`](#readsafeoptions) |
 
-**Returns:** `Promise`\<\[`string` \| `null`, `string`\]\>
+**Returns:** `Promise`\<\[`null` \| `string`, `string`\]\>
 
 ---
 

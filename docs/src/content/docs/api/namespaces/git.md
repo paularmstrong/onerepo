@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6dbf6ee4d2405c1b8470160c31472773>> -->
+<!-- @generated SignedSource<<3b36f84fb2226da38e6e59530bb408c9>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -523,7 +523,7 @@ if (!isClean) {
 ### updateIndex()
 
 ```ts
-function updateIndex(paths, options?): Promise<string | undefined>;
+function updateIndex(paths, options?): Promise<undefined | string>;
 ```
 
 **Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
@@ -545,6 +545,6 @@ await git.updateIndex(['tacos.ts']);
 | `paths`    | `string` \| `string`[]                      |
 | `options`? | [`UpdateIndexOptions`](#updateindexoptions) |
 
-**Returns:** `Promise`\<`string` \| `undefined`\>
+**Returns:** `Promise`\<`undefined` \| `string`\>
 
 <!-- end-onerepo-sentinel -->

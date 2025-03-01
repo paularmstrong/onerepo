@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<c4798d6d5b7eb143827b54c8a0dc5290>> -->
+<!-- @generated SignedSource<<ddfd5e415633916642b3a33871dc054b>> -->
 
 ## Namespaces
 
@@ -1746,14 +1746,14 @@ Get module name scope if there is one, eg `@onerepo`
 ###### Get Signature
 
 ```ts
-get tasks(): Partial<Record<Lifecycle, Tasks>>
+get tasks(): Partial
 ```
 
 **Defined in:** [modules/graph/src/Workspace.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/graph/src/Workspace.ts)
 
 Get the task configuration as defined in the `onerepo.config.js` file at the root of the Workspace.
 
-**Returns:** `Partial`\<`Record`\<[`Lifecycle`](#lifecycle), [`Tasks`](#tasks-1)\>\>
+**Returns:** `Partial`
 
 If a config does not exist, an empty object will be given.
 
@@ -2675,7 +2675,7 @@ Control the verbosity of the log output
 ### getLockfile()
 
 ```ts
-function getLockfile(cwd): string | null;
+function getLockfile(cwd): null | string;
 ```
 
 **Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
@@ -2688,7 +2688,7 @@ Get the absolute path for the package manager's lock file for this repository.
 | --------- | -------- |
 | `cwd`     | `string` |
 
-**Returns:** `string` \| `null`
+**Returns:** `null` \| `string`
 
 ---
 
@@ -2715,7 +2715,7 @@ Get the [\`PackageManager\`](#packagemanager-1) for the given package manager ty
 ### getPackageManagerName()
 
 ```ts
-function getPackageManagerName(cwd, fromPkgJson?): 'npm' | 'pnpm' | 'yarn';
+function getPackageManagerName(cwd, fromPkgJson?): 'yarn' | 'pnpm' | 'npm';
 ```
 
 **Defined in:** [modules/package-manager/src/get-package-manager.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/package-manager/src/get-package-manager.ts)
@@ -2729,7 +2729,7 @@ Get the package manager for the current working directory with _some_ confidence
 | `cwd`          | `string` | Current working directory. Should be the root of the module/repository.       |
 | `fromPkgJson`? | `string` | Value as defined in a package.json file, typically the `packageManager` value |
 
-**Returns:** `"npm"` \| `"pnpm"` \| `"yarn"`
+**Returns:** `"yarn"` \| `"pnpm"` \| `"npm"`
 
 ---
 
@@ -3152,7 +3152,7 @@ It is important to ensure every command passed through the `visitor` to enable a
 ### batch()
 
 ```ts
-function batch(processes, options?): Promise<([string, string] | Error)[]>;
+function batch(processes, options?): Promise<(Error | [string, string])[]>;
 ```
 
 **Defined in:** [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts)
@@ -3184,7 +3184,7 @@ expect(results).toEqual([
 | `processes` | ([`RunSpec`](#runspec) \| [`PromiseFn`](#promisefn))[] |
 | `options`?  | [`BatchOptions`](#batchoptions)                        |
 
-**Returns:** `Promise`\<(\[`string`, `string`\] \| `Error`)[]\>
+**Returns:** `Promise`\<(`Error` \| \[`string`, `string`\])[]\>
 
 #### Throws
 
