@@ -12209,7 +12209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-mdx@npm:^3.0.0, remark-mdx@npm:^3.0.1":
+"remark-mdx@npm:^3.0.0, remark-mdx@npm:^3.1.0":
   version: 3.1.0
   resolution: "remark-mdx@npm:3.1.0"
   dependencies:
@@ -13858,17 +13858,18 @@ __metadata:
   linkType: hard
 
 "typedoc-plugin-remark@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "typedoc-plugin-remark@npm:1.1.1"
+  version: 1.2.4
+  resolution: "typedoc-plugin-remark@npm:1.2.4"
   dependencies:
     remark: ^15.0.1
     remark-frontmatter: ^5.0.0
     remark-gfm: ^4.0.0
-    remark-mdx: ^3.0.1
+    remark-mdx: ^3.1.0
     to-vfile: ^8.0.0
+    unist-util-visit: ^5.0.0
   peerDependencies:
-    typedoc-plugin-markdown: ">=4.3.0"
-  checksum: beaf989a65cee91407298d20968ff00d8146e027e41fd93fc9d52f57f13e2102155a290b3c3f23eb48a28658566c737fa87906011b908517d8422c218049d14f
+    typedoc-plugin-markdown: ">=4.4.1"
+  checksum: 9e23256346e18b3622ab54aed90e6b83eef481ec3650807f1561961fa8044ebe64589207e854c8b9441326bb9bda8867656a1ba4c6a383ffe55fb6fc39eaaf6d
   languageName: node
   linkType: hard
 
