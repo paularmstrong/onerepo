@@ -202,6 +202,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 				step: pluginTypedoc,
 			});
 			const sourceFixed = contents
+				.replace(/onerepo\/blob\/([^/]+)\/plugins/g, 'onerepo/blob/main/plugins')
 				.replace(/^#+ Returns[^#]+/gm, '')
 				.replace(/^#+ Source\n\n[^\n]+/gm, '')
 				.replace(/^#+ Defined in\n\n[^\n]+/gm, '')
