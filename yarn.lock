@@ -4223,15 +4223,15 @@ __metadata:
   linkType: hard
 
 "astro-og-canvas@npm:^0.5.5":
-  version: 0.5.5
-  resolution: "astro-og-canvas@npm:0.5.5"
+  version: 0.5.6
+  resolution: "astro-og-canvas@npm:0.5.6"
   dependencies:
     canvaskit-wasm: ^0.39.1
     deterministic-object-hash: ^2.0.2
     entities: ^4.4.0
   peerDependencies:
     astro: ^3.0.0 || ^4.0.0 || ^5.0.0
-  checksum: 9f34ff01635a711681fa88e938aa8123abeabe5e9435370d2ce5d53ebaaec3b6fc65d0c2c3bb79bc1bcb5612db713b8c4ba19b127fddff06cc1ea45c9d0758b4
+  checksum: fb6dfd78c67cc45ffbe06e2ef85b66aa38444ed37d29946f1a4997a3e654051996d93a838c6203e912e441a750741d16bb3cbba53060936159b6fb644c136b1e
   languageName: node
   linkType: hard
 
