@@ -14952,8 +14952,8 @@ __metadata:
   linkType: hard
 
 "typedoc-plugin-remark@npm:^1.1.1":
-  version: 1.2.4
-  resolution: "typedoc-plugin-remark@npm:1.2.4"
+  version: 1.3.0
+  resolution: "typedoc-plugin-remark@npm:1.3.0"
   dependencies:
     remark: ^15.0.1
     remark-frontmatter: ^5.0.0
@@ -14962,8 +14962,8 @@ __metadata:
     to-vfile: ^8.0.0
     unist-util-visit: ^5.0.0
   peerDependencies:
-    typedoc-plugin-markdown: ">=4.4.1"
-  checksum: 9e23256346e18b3622ab54aed90e6b83eef481ec3650807f1561961fa8044ebe64589207e854c8b9441326bb9bda8867656a1ba4c6a383ffe55fb6fc39eaaf6d
+    typedoc-plugin-markdown: ">=4.5.0"
+  checksum: 998fd4f0a7245c01aec4e9f2437775b7e6f89d0bcab6322f52fb8a16db6985576ac6b91983ce1865ccf1ebcee6c80e23ffd03c7818245dbde58b3d2f7723d52f
   languageName: node
   linkType: hard
 
