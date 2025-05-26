@@ -1,5 +1,5 @@
 import createYargs from 'yargs/yargs';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import type { Config, CorePlugins } from '../types';
 import { changes } from '../core/changes';
 import { codeowners } from '../core/codeowners';
@@ -21,12 +21,17 @@ export type { App } from './setup';
  */
 export async function setup(root: string, config: Config) {
 	performance.mark('onerepo_start_Program');
-	const jiti = initJiti(process.cwd(), { interopDefault: true });
+	const jiti = createJiti(process.cwd(), { interopDefault: true });
 	return await internalSetup({
 		require: jiti,
 		root,
 		config,
-		yargs: createYargs(process.argv.slice(2), process.cwd(), jiti),
+		yargs: createYargs(
+			process.argv.slice(2),
+			process.cwd(),
+			// @ts-expect-error yargs only accepts NodeRequire
+			jiti,
+		),
 		corePlugins,
 	});
 }

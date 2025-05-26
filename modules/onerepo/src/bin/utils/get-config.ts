@@ -1,11 +1,12 @@
 import path from 'node:path';
+import type { Jiti } from 'jiti/lib/types';
 import type { RootConfig } from '../../types';
 
 /**
  * Gets the configuration file and dirname of the file starting at the process.cwd() and working upward until hitting the root of the filesystem.
  * If not found, will return undefined.
  */
-export function getConfig(require: NodeRequire, cwd: string = process.cwd()) {
+export function getConfig(require: NodeJS.Require | Jiti, cwd: string = process.cwd()) {
 	// Find a root config starting at the current working directory, looking upward toward filesystem root
 	let configRoot = cwd;
 	let config: RootConfig | undefined;

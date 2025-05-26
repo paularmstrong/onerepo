@@ -1,4 +1,4 @@
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { glob } from 'glob';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
@@ -53,8 +53,8 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 	// esbuild cannot import json files correctly unless bundling externals
 	// Just as well, AJV doesn't properly document its exported files for ESM verification
 	// So for a myriad of reasons, this needs to be a runtime requires
-	const require = initJiti(import.meta.url, { interopDefault: true });
-	const draft7 = require('ajv/dist/refs/json-schema-draft-07.json');
+	const jiti = createJiti(import.meta.url, { interopDefault: true });
+	const draft7 = await import('ajv/dist/refs/json-schema-draft-07.json', { with: { type: 'json' } });
 
 	const ajv = new Ajv({ allErrors: true });
 	ajv.addMetaSchema(draft7);
@@ -65,8 +65,8 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 
 	logger.debug(`Getting custom schema '${customSchema}'`);
 	if (customSchema) {
-		const custom = require(customSchema);
-		availableSchema = importSchema(availableSchema, custom.default ?? custom);
+		const custom = await jiti.import<GraphSchemaValidators>(customSchema, { default: true });
+		availableSchema = importSchema(availableSchema, custom);
 	}
 
 	for (const workspace of graph.workspaces) {
@@ -105,7 +105,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				if (file.endsWith('json')) {
 					contents = await readJson(workspace.resolve(file), 'r', { jsonc: true, step: schemaStep });
 				} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
-					contents = require(workspace.resolve(file));
+					contents = await jiti.import(workspace.resolve(file));
 				} else if (minimatch(file, '**/*.{yml,yaml}')) {
 					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
 					contents = yaml.load(rawContents) as Record<string, unknown>;
