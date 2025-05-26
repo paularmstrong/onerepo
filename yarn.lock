@@ -3867,16 +3867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.0, acorn@npm:^8.14.0, acorn@npm:^8.2.4, acorn@npm:^8.9.0":
-  version: 8.14.0
-  resolution: "acorn@npm:8.14.0"
-  bin:
-    acorn: bin/acorn
-  checksum: 8755074ba55fff94e84e81c72f1013c2d9c78e973c31231c8ae505a5f966859baf654bddd75046bffd73ce816b149298977fff5077a3033dedba0ae2aad152d4
-  languageName: node
-  linkType: hard
-
-"acorn@npm:^8.14.1":
+"acorn@npm:^8.0.0, acorn@npm:^8.14.0, acorn@npm:^8.14.1, acorn@npm:^8.2.4, acorn@npm:^8.9.0":
   version: 8.14.1
   resolution: "acorn@npm:8.14.1"
   bin:
@@ -8095,6 +8086,25 @@ __metadata:
   linkType: hard
 
 "hast-util-to-html@npm:^9.0.0, hast-util-to-html@npm:^9.0.1, hast-util-to-html@npm:^9.0.3, hast-util-to-html@npm:^9.0.4":
+  version: 9.0.5
+  resolution: "hast-util-to-html@npm:9.0.5"
+  dependencies:
+    "@types/hast": ^3.0.0
+    "@types/unist": ^3.0.0
+    ccount: ^2.0.0
+    comma-separated-tokens: ^2.0.0
+    hast-util-whitespace: ^3.0.0
+    html-void-elements: ^3.0.0
+    mdast-util-to-hast: ^13.0.0
+    property-information: ^7.0.0
+    space-separated-tokens: ^2.0.0
+    stringify-entities: ^4.0.0
+    zwitch: ^2.0.4
+  checksum: 1ebd013ad340cf646ea944100427917747f69543800e79b2186521dc29c205b4fe75d8062f3eddedf6d66f6180ca06fe127b9e53ff15a8f3579e36637ca43e16
+  languageName: node
+  linkType: hard
+
+"hast-util-to-html@npm:^9.0.0, hast-util-to-html@npm:^9.0.1, hast-util-to-html@npm:^9.0.3, hast-util-to-html@npm:^9.0.5":
   version: 9.0.5
   resolution: "hast-util-to-html@npm:9.0.5"
   dependencies:
