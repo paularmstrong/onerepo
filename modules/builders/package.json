@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@onerepo/git": "1.1.0",
 		"@onerepo/logger": "1.0.4",
-		"minimatch": "^9.0.3"
+		"minimatch": "^10.0.1"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
