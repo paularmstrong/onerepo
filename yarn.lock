@@ -2076,7 +2076,7 @@ __metadata:
     "@types/d3": ^7.4.3
     "@types/pako": ^2.0.3
     astro: ^4.16.17
-    astro-meta-tags: ^0.3.1
+    astro-meta-tags: ^0.3.2
     astro-og-canvas: ^0.5.5
     d3: ^7.9.0
     dagre-d3-es: ^7.0.11
@@ -4157,12 +4157,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-meta-tags@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "astro-meta-tags@npm:0.3.1"
+"astro-meta-tags@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "astro-meta-tags@npm:0.3.2"
   peerDependencies:
     astro: ^4.0.0 || ^5.0.0-beta.0
-  checksum: ffb41f5e9ec745f7fbf8ea6946697a96bac169b9035246abb8537dcfe7f8c2d7efa1c7cd69380463000e8ec99a46d9c4cda449d593f82b597eb3bed57a15a63b
+  checksum: 967e33787229f776388ce4f3638d508443a0545cffea800d4996068a437a4346a601cbb7e6d563f1147c3f7e3ea30c2d393933386d93efcae20644698e4686ee
   languageName: node
   linkType: hard
 
