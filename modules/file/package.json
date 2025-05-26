@@ -22,7 +22,7 @@
 	],
 	"dependencies": {
 		"@onerepo/logger": "1.0.4",
-		"jiti": "^1.21.0"
+		"jiti": "^2.4.2"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

@@ -5,6 +5,7 @@ import { getPackageManager, getPackageManagerName } from '@onerepo/package-manag
 import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { PackageManager, PackageJson } from '@onerepo/package-manager';
+import type { Jiti } from 'jiti/lib/types';
 import { Workspace } from './Workspace';
 
 /**
@@ -88,13 +89,18 @@ export class Graph {
 	 * Separate map for aliases to locations to ensure the Graph only uses fully qualified names
 	 */
 	#nameByAlias: Map<string, string> = new Map();
-	#require: typeof require;
+	#require: NodeJS.Require | Jiti;
 	#packageManager: PackageManager;
 
 	/**
 	 * @internal
 	 */
-	constructor(location: string, packageJson: PackageJson, workspaces: Array<string>, moduleRequire = require) {
+	constructor(
+		location: string,
+		packageJson: PackageJson,
+		workspaces: Array<string>,
+		moduleRequire: NodeJS.Require | Jiti = require,
+	) {
 		this.#require = moduleRequire;
 		this.#rootLocation = location;
 		this.#addWorkspace(location, packageJson);

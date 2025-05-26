@@ -25,7 +25,7 @@
 		"defaults": "^3.0.0",
 		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
-		"jiti": "^1.21.0",
+		"jiti": "^2.4.2",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^9.0.3"
 	},

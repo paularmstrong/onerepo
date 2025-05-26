@@ -4,6 +4,7 @@ import { minimatch } from 'minimatch';
 import type { Tasks, TaskConfig, WorkspaceConfig, RootConfig } from 'onerepo';
 import { getPublishablePackageJson } from '@onerepo/package-manager';
 import type { PackageJson } from '@onerepo/package-manager';
+import type { Jiti } from 'jiti/lib/types';
 
 const defaultConfig: Required<WorkspaceConfig> = {
 	codeowners: {},
@@ -22,13 +23,18 @@ export class Workspace {
 	#location: string;
 	#rootLocation: string;
 	#tasks: TaskConfig | null = null;
-	#require: typeof require;
+	#require: NodeJS.Require | Jiti;
 	#config?: Required<WorkspaceConfig | RootConfig>;
 
 	/**
 	 * @internal
 	 */
-	constructor(rootLocation: string, location: string, packageJson: PackageJson, moduleRequire = require) {
+	constructor(
+		rootLocation: string,
+		location: string,
+		packageJson: PackageJson,
+		moduleRequire: NodeJS.Require | Jiti = require,
+	) {
 		this.#require = moduleRequire;
 		this.#rootLocation = rootLocation;
 		this.#location = location;
@@ -138,7 +144,8 @@ export class Workspace {
 	get config(): Required<WorkspaceConfig | RootConfig> {
 		if (!this.#config) {
 			try {
-				const config = this.#require(this.resolve('onerepo.config'));
+				let config = this.#require(this.resolve('onerepo.config'));
+				config = config.default ?? config;
 				if (this.isRoot) {
 					this.#config = config as Required<RootConfig>;
 				} else {

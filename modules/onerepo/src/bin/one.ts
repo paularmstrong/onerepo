@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import createYargs from 'yargs/yargs';
 import { Graph, internalSetup, noRepoPlugins } from '..';
 import pkg from '../../package.json';
@@ -26,7 +26,7 @@ process.emitWarning = (warning, ...args) => {
 // @ts-ignore cannot use symbol on global in ts
 globalThis[Symbol.for('onerepo_installed_version')] = pkg.version;
 
-export const jiti = initJiti(process.cwd(), { interopDefault: true });
+export const jiti = createJiti(process.cwd(), { interopDefault: true });
 
 /**
  * Fall back on running `one` in global mode.

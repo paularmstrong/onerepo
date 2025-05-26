@@ -2,13 +2,14 @@ import { createHash } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import type { Jiti } from 'jiti/lib/types';
 import { getLockfile, getLogger, Graph, file } from '../..';
 
 /**
  * Attempt to run the `install` command for the local package manager.
  * Bypass with env vars CI and ONEREPO_USE_HOOKS="0"
  */
-export async function updateNodeModules(configRoot: string, require: NodeRequire) {
+export async function updateNodeModules(configRoot: string, require: NodeJS.Require | Jiti) {
 	// Don't do this in CI or if the user does not like things auto-running
 	if (process.env.CI || process.env.ONEREPO_USE_HOOKS === '0') {
 		return;

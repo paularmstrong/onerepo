@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os';
 import { existsSync } from 'node:fs';
 import { chmod as fsChmod, cp, lstat as fsLstat, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import { stepWrapper } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
 import { signFile, signingToken } from './signing';
@@ -395,7 +395,7 @@ function escapeRegExp(str: string) {
 async function format(filename: string, contents: string, options: Options = {}) {
 	const { step } = options;
 	return stepWrapper({ step, name: `Format ${normalizefilepath(filename)}` }, async (step) => {
-		const jiti = initJiti(process.cwd(), { interopDefault: true });
+		const jiti = createJiti(process.cwd(), { interopDefault: true });
 		let prettier;
 		try {
 			prettier = jiti('prettier');

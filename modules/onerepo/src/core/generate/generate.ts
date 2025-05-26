@@ -1,5 +1,5 @@
 import path from 'node:path';
-import initJiti from 'jiti';
+import { createJiti } from 'jiti';
 import pc from 'picocolors';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
@@ -120,7 +120,7 @@ export interface Config<T extends Answers = Record<string, unknown>> {
 	prompts?: QuestionCollection<T>;
 }
 
-const jiti = initJiti(process.cwd(), { interopDefault: true });
+const jiti = createJiti(process.cwd(), { interopDefault: true });
 
 function loadConfig(configPath: string) {
 	try {
