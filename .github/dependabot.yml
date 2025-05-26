@@ -5,7 +5,7 @@ updates:
     rebase-strategy: auto
     schedule:
       interval: monthly
-    versioning-strategy: lockfile-only
+    versioning-strategy: increase
     labels:
       - dependencies
     open-pull-requests-limit: 15
