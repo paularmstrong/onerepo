@@ -40,7 +40,7 @@
 		"pako": "^2.1.0",
 		"rehype": "^13.0.2",
 		"rehype-mermaid": "^3.0.0",
-		"starlight-links-validator": "^0.13.4",
+		"starlight-links-validator": "^0.16.0",
 		"unist-util-visit": "^5.0.0"
 	}
 }
