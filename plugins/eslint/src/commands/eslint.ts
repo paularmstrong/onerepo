@@ -1,7 +1,9 @@
 import path from 'node:path';
+import { glob } from 'glob';
 import ignore from 'ignore';
 import { git, file, builders } from 'onerepo';
-import type { Builder, Handler } from 'onerepo';
+import type { Builder, Handler, Logger, Workspace } from 'onerepo';
+import type { ConfigArray, default as tseslint } from 'typescript-eslint';
 
 export const command = ['eslint', 'lint'];
 
@@ -10,7 +12,6 @@ export const description = 'Run eslint across files and Workspaces.';
 type Args = builders.WithAllInputs & {
 	add?: boolean;
 	cache: boolean;
-	extensions?: Array<string>;
 	fix: boolean;
 	'github-annotate': boolean;
 	pretty: boolean;
@@ -34,11 +35,6 @@ export const builder: Builder<Args> = (yargs) =>
 			type: 'boolean',
 			default: true,
 			description: 'Apply auto-fixes if possible',
-		})
-		.option('extensions', {
-			description: 'Make ESLint check files given these extensions.',
-			type: 'array',
-			string: true,
 		})
 		.option('pretty', {
 			type: 'boolean',
@@ -69,13 +65,24 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		all,
 		cache,
 		'dry-run': isDry,
-		extensions,
 		fix,
 		'github-annotate': github,
 		pretty,
 		warnings,
 		'--': passthrough = [],
 	} = argv;
+
+	const setup = logger.createStep('Syncing projects');
+	const root = await getEslintConfig(graph.root, logger);
+	if (!root) {
+		throw new Error('No root eslint configuration found.');
+	}
+
+	const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, logger)))).filter(
+		(res) => !!res,
+	);
+
+	await setup.end();
 
 	let filteredPaths: Array<string> = [];
 	if (!all) {
@@ -91,17 +98,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 			const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
 			const matcher = ignore().add(ignores);
 			filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
-
-			if (extensions && extensions.length) {
-				filteredPaths = filteredPaths.filter((filepath) => {
-					const ext = path.extname(filepath);
-					if (!ext) {
-						return true;
-					}
-
-					return extensions.includes(ext.replace(/^\./, ''));
-				});
-			}
 		}
 
 		await ignoreStep.end();
@@ -113,9 +109,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 
 	const args = [pretty ? '--color' : '--no-color'];
-	if (extensions && extensions.length) {
-		args.push('--ext', extensions.join(','));
-	}
+
 	if (!(passthrough.includes('-f') || passthrough.includes('--format'))) {
 		args.push('--format', 'onerepo');
 	}
@@ -163,3 +157,19 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		await git.updateIndex(filteredPaths);
 	}
 };
+
+async function getEslintConfig(ws: Workspace, logger: Logger): Promise<[Workspace, ConfigArray] | null> {
+	const config = await glob('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location });
+	if (config.length > 1) {
+		throw new Error(`Too many eslint configuration files found in "${ws.name}". Please reduce to one.`);
+	}
+
+	if (!config[0]) {
+		return null;
+	}
+
+	logger.info(path.join(ws.location, config[0]));
+
+	const res = (await import(path.join(ws.location, config[0]))) as ConfigArray;
+	return [ws, res];
+}

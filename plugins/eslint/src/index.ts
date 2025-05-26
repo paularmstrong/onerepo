@@ -8,17 +8,13 @@ import * as cmd from './commands/eslint';
  * export default {
  * 	plugins: [
  * 		eslint({
- * 			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs']
+ * 			name: ['lint', 'eslint'],
  * 		}),
  * 	],
  * };
  * ```
  */
 export type Options = {
-	/**
-	 * List of file extensions (without the `.`) that ESLint should operate across. Omit this if using the new [flat configuration](https://eslint.org/docs/latest/use/configure/configuration-files-new).
-	 */
-	extensions?: Array<string>;
 	/**
 	 * The name of the eslint command. You might change this to `'lint'` or `['lint', 'eslint']` to keep things more familiar for most developers.
 	 */
@@ -62,9 +58,6 @@ export function eslint(opts: Options = {}): Plugin {
 					const y = builder(yargs)
 						.usage(`$0 ${Array.isArray(name) ? name[0] : name} [options...]`)
 						.default('github-annotate', opts.githubAnnotate ?? true);
-					if (opts.extensions) {
-						y.default('extensions', opts.extensions);
-					}
 					if (typeof opts.warnings === 'boolean') {
 						y.default('warnings', opts.warnings);
 					}

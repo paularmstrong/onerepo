@@ -134,7 +134,7 @@ function options(cmd: Docs, includeGlobal: boolean = false): Array<Node> {
 					...optPosTable('opt', advanced),
 					html('</details>'),
 					// prettier is mixing tabs & spaces :(
-					// eslint-disable-next-line
+					 
 				]
 			: []),
 	];

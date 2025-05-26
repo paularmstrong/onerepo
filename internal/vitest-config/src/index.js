@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
+ 
 import { defineProject as vitestDefineProject } from 'vitest/config';
 
 // defineWorkspace provides a nice type hinting DX
