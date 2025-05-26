@@ -24,6 +24,7 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "1.0.4",
+		"glob": "^11.0.2",
 		"ignore": "^5.3.1"
 	},
 	"devDependencies": {
@@ -31,13 +32,14 @@
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"@types/eslint": "^8.56.12",
-		"eslint": "^8.56.0",
+		"eslint": "^9.27.0",
 		"jiti": "^2.4.2",
 		"onerepo": "workspace:^",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.32.1"
 	},
 	"peerDependencies": {
-		"eslint": "^8",
+		"eslint": "^9",
 		"onerepo": "^1"
 	},
 	"engines": {
