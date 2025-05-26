@@ -2077,7 +2077,7 @@ __metadata:
     "@types/pako": ^2.0.3
     astro: ^4.16.17
     astro-meta-tags: ^0.3.1
-    astro-og-canvas: ^0.5.5
+    astro-og-canvas: ^0.7.0
     d3: ^7.9.0
     dagre-d3-es: ^7.0.11
     eslint: ^8.56.0
@@ -4166,16 +4166,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-og-canvas@npm:^0.5.5":
-  version: 0.5.6
-  resolution: "astro-og-canvas@npm:0.5.6"
+"astro-og-canvas@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "astro-og-canvas@npm:0.7.0"
   dependencies:
     canvaskit-wasm: ^0.39.1
     deterministic-object-hash: ^2.0.2
     entities: ^4.4.0
   peerDependencies:
     astro: ^3.0.0 || ^4.0.0 || ^5.0.0
-  checksum: fb6dfd78c67cc45ffbe06e2ef85b66aa38444ed37d29946f1a4997a3e654051996d93a838c6203e912e441a750741d16bb3cbba53060936159b6fb644c136b1e
+  checksum: 8f2e6af0a10967bd4f205be39dc7eb71f625c5a6b5e0270b756af4482d284cc97730a1ee233a53adaecb6ba74ee74b65c95f8a5756b287c22d17d098078b831d
   languageName: node
   linkType: hard
 
