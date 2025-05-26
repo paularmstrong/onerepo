@@ -21,6 +21,7 @@ updates:
       docs:
         patterns:
           - 'astro'
+          - '*astro*'
           - '@astrojs/*'
           - 'tailwindcss'
           - 'postcss'

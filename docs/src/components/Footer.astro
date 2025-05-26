@@ -7,7 +7,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 
 {
 	!isHomepage && !isVisualizer ? (
-		<Default {...(Astro.props as any)}>
+		<Default>
 			<slot />
 		</Default>
 	) : null

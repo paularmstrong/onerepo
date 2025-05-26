@@ -1,7 +1,7 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
 
-const meta = 'meta' in Astro.props.entry.data ? Astro.props.entry.data.meta : null;
+const meta = 'meta' in Astro.locals.starlightRoute.entry.data ? Astro.locals.starlightRoute.entry.data.meta : null;
 const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental' | 'deprecated', string> = {
 	stable: 'success',
 	unstable: 'danger',
@@ -10,9 +10,9 @@ const stabilityColor: Record<'stable' | 'unstable' | 'preview' | 'experimental' 
 	deprecated: '',
 };
 
-const { title } = Astro.props.entry.data;
+const { title } = Astro.locals.starlightRoute.entry.data;
 
-const isVisualizer = Astro.props.slug === 'visualize';
+const isVisualizer = Astro.locals.starlightRoute.slug === 'visualize';
 
 const isPlugin = title.startsWith('@onerepo/plugin-');
 ---
@@ -21,7 +21,7 @@ const isPlugin = title.startsWith('@onerepo/plugin-');
 	isVisualizer ? null : (
 		<Fragment>
 			<h1 data-tacos id="_top">
-				{Astro.props.entry.data.title}
+				{Astro.locals.starlightRoute.entry.data.title}
 			</h1>
 			{meta ? (
 				<ul class="tags">
