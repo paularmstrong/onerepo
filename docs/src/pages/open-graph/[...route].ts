@@ -3,6 +3,7 @@ import { OGImageRoute } from 'astro-og-canvas';
 
 const collectionEntries = await getCollection('docs');
 const pages = Object.fromEntries(
+	// @ts-expect-error TODO: this was working…
 	collectionEntries.map(({ slug, data }: { slug: string; data: unknown }) => [slug, data]),
 );
 
