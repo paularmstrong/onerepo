@@ -7,6 +7,6 @@
 	],
 	"dependencies": {
 		"@types/jest": "^29.5.14",
-		"@types/node": "^20.17.9"
+		"@types/node": "^22.15.21"
 	}
 }
