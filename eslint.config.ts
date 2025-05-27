@@ -9,6 +9,7 @@ export default tseslint.config(
 	{
 		ignores: [
 			'**/dist',
+			'**/fixtures',
 			'**/.yarn',
 			'*.tsbuildinfo',
 			// start-synced-ignores

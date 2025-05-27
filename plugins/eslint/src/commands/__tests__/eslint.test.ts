@@ -6,7 +6,7 @@ import * as Eslint from '../eslint';
 
 const { build, run, graph } = getCommand(Eslint);
 
-async function mockFn(requireActual) {
+async function mockFn(requireActual: () => Promise<unknown>) {
 	const actual = await requireActual();
 	const mocked = {};
 	for (const [key, val] of Object.entries(actual as Record<string, unknown>)) {
@@ -53,7 +53,11 @@ describe('handler', () => {
 			}
 			return [];
 		});
-		vi.spyOn(jiti, 'createJiti').mockReturnValue({ import: async () => [{}] });
+		vi.spyOn(jiti, 'createJiti').mockReturnValue({
+			import: async () =>
+				// @ts-expect-error mock: unsure what's going on here
+				[{}],
+		});
 	});
 
 	test('can run across all files', async () => {
