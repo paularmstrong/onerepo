@@ -53,7 +53,6 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const cjsFiles = new Set<string>();
 		const bins = new Map<string, [string, string]>();
 
-		 
 		function addFile(filepath: string) {
 			if (filepath.endsWith('.cjs')) {
 				cjsFiles.add(filepath);
