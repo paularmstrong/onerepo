@@ -12,6 +12,9 @@
 		"modules/*",
 		"plugins/*"
 	],
+	"dependencies": {
+		"jiti": "^2.4.2"
+	},
 	"devDependencies": {
 		"@internal/eslint-plugin": "workspace:^",
 		"@internal/jest-config": "workspace:^",
@@ -24,15 +27,16 @@
 		"@onerepo/plugin-prettier": "workspace:^",
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@onerepo/plugin-vitest": "workspace:^",
-		"esbuild": "^0.20.0",
+		"@onerepo/test-cli": "workspace:^",
+		"esbuild": "^0.25.4",
 		"eslint": "^9.27.0",
 		"glob": "^10.1.0",
 		"human-id": "^4.1.0",
 		"jest": "^29.7.0",
-		"jiti": "^2.4.2",
 		"onerepo": "workspace:^",
 		"prettier": "^3.4.2",
 		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.32.1",
 		"vitest": "^3.1.4"
 	},
 	"engines": {

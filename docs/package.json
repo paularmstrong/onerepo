@@ -22,7 +22,8 @@
 		"typedoc": "^0.28.5",
 		"typedoc-plugin-markdown": "^4.6.4",
 		"typedoc-plugin-remark": "^2.0.1",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.32.1"
 	},
 	"dependencies": {
 		"@expressive-code/plugin-collapsible-sections": "^0.41.2",

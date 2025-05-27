@@ -29,7 +29,7 @@
 		"eslint": "^9.27.0"
 	},
 	"peerDependencies": {
-		"eslint": "^8"
+		"eslint": "^8 || ^9"
 	},
 	"engines": {
 		"node": "^18 || ^20 || ^22"
