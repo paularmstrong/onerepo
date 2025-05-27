@@ -45,7 +45,7 @@ export const builder: Builder<Args> = (yargs) =>
 			alias: ['warn'],
 			type: 'boolean',
 			description: 'Report warnings from ESLint.',
-			default: true,
+			default: false,
 		})
 		.option('github-annotate', {
 			description: 'Annotate files in GitHub with errors when failing lint checks in GitHub Actions',
@@ -89,16 +89,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		const ignoreStep = logger.createStep('Filtering ignored files');
 
 		const paths = await getFilepaths({ step: ignoreStep });
-		if (paths.includes('.')) {
-			filteredPaths = ['.'];
-		} else {
-			const ignoreFile = graph.root.resolve('.eslintignore');
-			const hasIgnores = await file.exists(ignoreFile, { step: ignoreStep });
-			const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
-			const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
-			const matcher = ignore().add(ignores);
-			filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
-		}
+		filteredPaths = paths.includes('.') ? ['.'] : paths;
 
 		await ignoreStep.end();
 	}
@@ -167,8 +158,6 @@ async function getEslintConfig(ws: Workspace, logger: Logger): Promise<[Workspac
 	if (!config[0]) {
 		return null;
 	}
-
-	logger.info(path.join(ws.location, config[0]));
 
 	const res = (await import(path.join(ws.location, config[0]))) as ConfigArray;
 	return [ws, res];
