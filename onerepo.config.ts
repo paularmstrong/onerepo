@@ -38,7 +38,7 @@ export default {
 		}),
 		jest(),
 		vitest(),
-		eslint({ extensions: ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs', 'astro'] }),
+		eslint({}),
 		prettier(),
 		typescript({ tsconfig: 'tsconfig.json', useProjectReferences: true }),
 		performanceWriter(),
