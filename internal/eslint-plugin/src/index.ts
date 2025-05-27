@@ -19,7 +19,7 @@ export const rootConfig = tseslint.config(
 			'import/no-relative-packages': 'error',
 			'import/no-extraneous-dependencies': [
 				'error',
-				{ devDependencies: ['**/*.test.ts', '**/commands/*', '**/*.config.*', 'vitest.*'] },
+				{ devDependencies: ['**/*.test.ts', '**/commands/*', '**/*.config.*', '**/vitest.*'] },
 			],
 			'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 			'import/newline-after-import': 'error',
