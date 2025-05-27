@@ -80,7 +80,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	if (!root) {
 		throw new Error('No root eslint configuration found.');
 	}
-	const [, rootConfig] = root;
+	const [, rootConfigLocation, rootConfig] = root;
 
 	const configs = (
 		await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, logger, jiti)))
@@ -88,16 +88,20 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 	let imports = '';
 	let wsConfigs = '';
+	const ignores = [];
 	for (const [ws, loc, config] of configs) {
 		const name = ws.aliases[0] ?? ws.name.replace(/[^a-zA-Z]/g, '');
-		imports += `import ${name} from './${graph.root.relative(ws.resolve('eslint.config'))}';\n`;
+		imports += `import ${name} from '${ws.name}/eslint.config';\n`;
 		wsConfigs += `{ files: ['./${graph.root.relative(ws.location)}/**'], extends: [...${name}] },\n`;
+		for (const ig of config[0].ignores ?? []) {
+			ignores.push(`'${graph.root.relative(ws.location)}/${ig}'`);
+		}
 	}
-	await file.writeSafe(rootConfig, imports.trim(), { sentinel: 'synced-imports', step: setup });
-	await file.writeSafe(rootConfig, wsConfigs, {
-		sentinel: 'synced-workspaces',
-		step: setup,
-	});
+	await file.writeSafe(rootConfigLocation, imports.trim(), { sentinel: 'synced-imports', step: setup });
+	await file.writeSafe(rootConfigLocation, wsConfigs, { sentinel: 'synced-workspaces', step: setup });
+	if (ignores.length) {
+		await file.writeSafe(rootConfigLocation, ignores.join(', '), { sentinel: 'synced-ignores', step: setup });
+	}
 
 	await setup.end();
 
