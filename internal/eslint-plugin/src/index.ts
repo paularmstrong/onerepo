@@ -1,18 +1,21 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import pluginImport from 'eslint-plugin-import';
+import pluginUnusedImports from 'eslint-plugin-unused-imports';
 
 export const rootConfig = tseslint.config(
 	eslint.configs.recommended,
 	tseslint.configs.recommended,
 	pluginImport.flatConfigs.errors,
 	{
+		plugins: { 'unused-imports': pluginUnusedImports },
 		rules: {
 			'no-console': 'error',
 			'no-undef': 'off', // @typescript-eslint/no-unused-vars
 			indent: 'off', // Prettier is used for this
 			'global-require': 'error',
 			'no-mixed-spaces-and-tabs': 'off', // Prettier
+			'no-unused-vars': 'off',
 
 			'import/first': 'error',
 			'import/no-cycle': ['error', { maxDepth: 2 }],
@@ -47,6 +50,8 @@ export const rootConfig = tseslint.config(
 			'@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
 			'@typescript-eslint/no-invalid-void-type': 'off',
 			'@typescript-eslint/no-dynamic-delete': 'off',
+
+			'unused-imports/no-unused-imports': 'error',
 		},
 		settings: {
 			'import/resolver': {
