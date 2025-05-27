@@ -1473,6 +1473,7 @@ __metadata:
     eslint-import-resolver-typescript: ^4.4.1
     eslint-plugin-import: ^2.31.0
     eslint-plugin-jest: ^28.11.0
+    eslint-plugin-unused-imports: ^4.1.4
     typescript: ^5.7.2
     typescript-eslint: ^8.32.1
   peerDependencies:
@@ -6732,6 +6733,19 @@ __metadata:
     jest:
       optional: true
   checksum: 8d0bcb213372f2fc0f8a9cfb3bb93d9e649733be51c989835bd7b0e229eca64ba6d9cb4741f46c3546f8adfad0bac56ba8555fe636015f2de9758c3c1a02c759
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-unused-imports@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "eslint-plugin-unused-imports@npm:4.1.4"
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+    eslint: ^9.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+  checksum: 1f4ce3e3972699345513840f3af1b783033dbc3a3e85b62ce12b3f6a89fd8c92afe46d0c00af40bacb14465445983ba0ccc326a6fd5132553061fb0e47bcba19
   languageName: node
   linkType: hard
 

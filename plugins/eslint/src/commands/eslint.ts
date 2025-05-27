@@ -1,9 +1,8 @@
 import path from 'node:path';
 import { glob } from 'glob';
-import ignore from 'ignore';
 import { git, file, builders } from 'onerepo';
-import type { Builder, Handler, Logger, Workspace } from 'onerepo';
-import type { ConfigArray, default as tseslint } from 'typescript-eslint';
+import type { Builder, Handler, Workspace } from 'onerepo';
+import type { ConfigArray } from 'typescript-eslint';
 import type { Jiti } from 'jiti/lib/types';
 import { createJiti } from 'jiti';
 
@@ -76,20 +75,20 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 	const setup = logger.createStep('Syncing projects');
 	const jiti = createJiti(graph.root.location);
-	const root = await getEslintConfig(graph.root, logger, jiti);
+	const root = await getEslintConfig(graph.root, jiti);
 	if (!root) {
 		throw new Error('No root eslint configuration found.');
 	}
-	const [, rootConfigLocation, rootConfig] = root;
+	const [, rootConfigLocation] = root;
 
-	const configs = (
-		await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, logger, jiti)))
-	).filter((res) => !!res);
+	const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, jiti)))).filter(
+		(res) => !!res,
+	);
 
 	let imports = '';
 	let wsConfigs = '';
 	const ignores = [];
-	for (const [ws, loc, config] of configs) {
+	for (const [ws, , config] of configs) {
 		const name = ws.aliases[0] ?? ws.name.replace(/[^a-zA-Z]/g, '');
 		imports += `import ${name} from '${ws.name}/eslint.config';\n`;
 		wsConfigs += `{ files: ['./${graph.root.relative(ws.location)}/**'], extends: [...${name}] },\n`;
@@ -170,11 +169,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 };
 
-async function getEslintConfig(
-	ws: Workspace,
-	logger: Logger,
-	importer: Jiti,
-): Promise<[Workspace, string, ConfigArray] | null> {
+async function getEslintConfig(ws: Workspace, importer: Jiti): Promise<[Workspace, string, ConfigArray] | null> {
 	const config = await glob('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location });
 	if (config.length > 1) {
 		throw new Error(`Too many eslint configuration files found in "${ws.name}". Please reduce to one.`);
