@@ -12,6 +12,10 @@
 	"homepage": "https://onerepo.tools/plugins/eslint/",
 	"type": "module",
 	"main": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./config": "./src/config.ts"
+	},
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",
@@ -25,7 +29,8 @@
 	"dependencies": {
 		"eslint-formatter-onerepo": "1.0.4",
 		"glob": "^10.1.0",
-		"ignore": "^5.3.1"
+		"ignore": "^5.3.1",
+		"jiti": "^2.4.2"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
@@ -33,7 +38,6 @@
 		"@onerepo/test-cli": "workspace:^",
 		"@types/eslint": "^8.56.12",
 		"eslint": "^9.27.0",
-		"jiti": "^2.4.2",
 		"onerepo": "workspace:^",
 		"typescript": "^5.7.2",
 		"typescript-eslint": "^8.32.1"

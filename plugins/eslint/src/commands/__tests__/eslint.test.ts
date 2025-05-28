@@ -1,6 +1,4 @@
 import * as onerepo from 'onerepo';
-import * as glob from 'glob';
-import * as jiti from 'jiti';
 import { getCommand } from '@onerepo/test-cli';
 import * as Eslint from '../eslint';
 
@@ -46,20 +44,6 @@ describe('builder', () => {
 });
 
 describe('handler', () => {
-	beforeEach(() => {
-		vi.spyOn(glob, 'glob').mockImplementation(async (str) => {
-			if (typeof str === 'string' && str.startsWith('eslint.config')) {
-				return ['eslint.config.ts'];
-			}
-			return [];
-		});
-		vi.spyOn(jiti, 'createJiti').mockReturnValue({
-			import: async () =>
-				// @ts-expect-error mock: unsure what's going on here
-				[{}],
-		});
-	});
-
 	test('can run across all files', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 
