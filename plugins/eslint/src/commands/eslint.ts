@@ -1,10 +1,5 @@
-import path from 'node:path';
-import { glob } from 'glob';
-import { git, file, builders } from 'onerepo';
-import type { Builder, Handler, Workspace } from 'onerepo';
-import type { ConfigArray } from 'typescript-eslint';
-import type { Jiti } from 'jiti/lib/types';
-import { createJiti } from 'jiti';
+import { git, builders } from 'onerepo';
+import type { Builder, Handler } from 'onerepo';
 
 export const command = ['eslint', 'lint'];
 
@@ -73,37 +68,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		'--': passthrough = [],
 	} = argv;
 
-	const setup = logger.createStep('Syncing projects');
-	const jiti = createJiti(graph.root.location);
-	const root = await getEslintConfig(graph.root, jiti);
-	if (!root) {
-		throw new Error('No root eslint configuration found.');
-	}
-	const [, rootConfigLocation] = root;
-
-	const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, jiti)))).filter(
-		(res) => !!res,
-	);
-
-	let imports = '';
-	let wsConfigs = '';
-	const ignores = [];
-	for (const [ws, , config] of configs) {
-		const name = ws.aliases[0] ?? ws.name.replace(/[^a-zA-Z]/g, '');
-		imports += `import ${name} from '${ws.name}/eslint.config';\n`;
-		wsConfigs += `{ files: ['./${graph.root.relative(ws.location)}/**'], extends: [...${name}] },\n`;
-		for (const ig of config[0].ignores ?? []) {
-			ignores.push(`'${graph.root.relative(ws.location)}/${ig}'`);
-		}
-	}
-	await file.writeSafe(rootConfigLocation, imports.trim(), { sentinel: 'synced-imports', step: setup });
-	await file.writeSafe(rootConfigLocation, wsConfigs, { sentinel: 'synced-workspaces', step: setup });
-	if (ignores.length) {
-		await file.writeSafe(rootConfigLocation, ignores.join(', '), { sentinel: 'synced-ignores', step: setup });
-	}
-
-	await setup.end();
-
 	let filteredPaths: Array<string> = [];
 	if (!all) {
 		const filesStep = logger.createStep('Getting files');
@@ -140,6 +104,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		cmd: 'eslint',
 		args: [...args, ...(all ? ['.'] : filteredPaths), ...passthrough],
 		opts: {
+			cwd: graph.root.location,
 			env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: github ? 'true' : 'false' },
 		},
 		step: runStep,
@@ -168,17 +133,3 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		await git.updateIndex(filteredPaths);
 	}
 };
-
-async function getEslintConfig(ws: Workspace, importer: Jiti): Promise<[Workspace, string, ConfigArray] | null> {
-	const config = await glob('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location });
-	if (config.length > 1) {
-		throw new Error(`Too many eslint configuration files found in "${ws.name}". Please reduce to one.`);
-	}
-
-	if (!config[0]) {
-		return null;
-	}
-
-	const res = await importer.import<ConfigArray>(path.join(ws.location, config[0]));
-	return [ws, path.join(ws.location, config[0]), res];
-}

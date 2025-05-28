@@ -6,8 +6,7 @@ import tacos from 'fixture-tacos/eslint.config';
 //
 export default [
 	// start-synced-workspaces
-	{ files: ['./modules/burritos/**'], extends: [...burritos] },
-	{ files: ['./modules/tacos/**'], extends: [...tacos] },
-
-	// end-synced-workspaces
+{ files: ['./modules/burritos/**'], extends: [...burritos] },
+{ files: ['./modules/tacos/**'], extends: [...tacos] },
+// end-synced-workspaces
 ];
