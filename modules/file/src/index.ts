@@ -273,6 +273,13 @@ export async function remove(pathname: string, options: Options = {}) {
 
 const commentStyle: Record<string, [string, string]> = {
 	'.js': ['// ', ''],
+	'.jsx': ['// ', ''],
+	'.cjs': ['// ', ''],
+	'.mjs': ['// ', ''],
+	'.ts': ['// ', ''],
+	'.cts': ['// ', ''],
+	'.mts': ['// ', ''],
+	'.tsx': ['// ', ''],
 	'.md': ['<!-- ', ' -->'],
 	'.mdx': ['{/* ', ' */}'],
 	'.html': ['<!-- ', ' -->'],
@@ -339,8 +346,8 @@ export async function writeSafe(filename: string, contents: string, options: Wri
 		const writeContent = `${start}\n${finalContents}\n${end}`;
 		const output =
 			match !== null
-				? fileContents.replace(`${start}\n${match}\n${end}`, () => writeContent)
-				: `${fileContents.trimEnd()}\n\n${writeContent}\n`;
+				? fileContents.replace(`${start}${match}${end}`, () => writeContent)
+				: `${fileContents.trimEnd()}\n${writeContent}\n`;
 
 		return await write(filename, output, { step });
 	});
@@ -377,8 +384,8 @@ export async function readSafe(filename: string, options: ReadSafeOptions = {}):
 
 			const [start, end] = getSentinels(filename, sentinel);
 
-			const matches = fileContents.match(new RegExp(`${escapeRegExp(start)}\n(.*)\n${escapeRegExp(end)}`, 'ms'));
-			step.debug(matches);
+			const re = new RegExp(`${escapeRegExp(start)}(.*)${escapeRegExp(end)}`, 'ms');
+			const matches = fileContents.match(re);
 
 			return [matches && matches.length ? matches[1] : null, fileContents];
 		},

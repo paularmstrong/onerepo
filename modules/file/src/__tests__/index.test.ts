@@ -15,7 +15,6 @@ describe('file', () => {
 			expect(fs.writeFile).toHaveBeenCalledWith(
 				'tacos.txt',
 				`
-
 # start-onerepo-sentinel
 add some contents
 # end-onerepo-sentinel
@@ -32,7 +31,6 @@ add some contents
 			expect(fs.writeFile).toHaveBeenCalledWith(
 				'tacos.txt',
 				`original contents
-
 # start-onerepo-sentinel
 add some contents
 # end-onerepo-sentinel
@@ -58,6 +56,28 @@ add some contents
 # start-onerepo-sentinel
 this is new
 # end-onerepo-sentinel
+`,
+			);
+		});
+
+		test('replaces previous content with whitespace before sentinel', async () => {
+			vi.spyOn(fsSync, 'existsSync').mockReturnValue(true);
+			vi.spyOn(fs, 'readFile').mockResolvedValue(`const foo = {
+	// start-onerepo-sentinel
+	old: 'old',
+	// end-onerepo-sentinel
+};
+`);
+
+			await file.writeSafe('tacos.ts', "	new: 'new'");
+
+			expect(fs.writeFile).toHaveBeenCalledWith(
+				'tacos.ts',
+				`const foo = {
+	// start-onerepo-sentinel
+	new: 'new',
+	// end-onerepo-sentinel
+};
 `,
 			);
 		});
@@ -114,7 +134,6 @@ this is new
 			expect(fs.writeFile).toHaveBeenCalledWith(
 				'tacos.txt',
 				`
-
 # start-onerepo-sentinel
 # @generated SignedSource<<520142a648f037d8cb84834de6aef586>>
 
@@ -157,7 +176,7 @@ add some contents
 
 			const [portion, contents] = await file.readSafe('tacos.txt');
 
-			expect(portion).toEqual('add some contents');
+			expect(portion).toEqual('\nadd some contents\n');
 			expect(contents).toEqual(original);
 		});
 
@@ -173,7 +192,7 @@ add some contents
 
 			const [portion, contents] = await file.readSafe('tacos.txt', { sentinel: 'tacos' });
 
-			expect(portion).toEqual('add some contents');
+			expect(portion).toEqual('\nadd some contents\n');
 			expect(contents).toEqual(original);
 		});
 
@@ -189,7 +208,7 @@ add some contents
 
 			const [portion, contents] = await file.readSafe('tacos.mdx');
 
-			expect(portion).toEqual('add some contents');
+			expect(portion).toEqual('\nadd some contents\n');
 			expect(contents).toEqual(original);
 		});
 	});
