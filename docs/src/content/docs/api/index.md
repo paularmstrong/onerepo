@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<ddfd5e415633916642b3a33871dc054b>> -->
+<!-- @generated SignedSource<<f9fae94d1275e4bf2d2a624af7d28baf>> -->
 
 ## Namespaces
 
@@ -3375,42 +3375,9 @@ Error.constructor;
 
 #### Properties
 
-| Property                                            | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                                                                                            |
-| --------------------------------------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| <a id="cause"></a> `cause?`                         | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26                                                                  |
-| <a id="errors"></a> `errors`                        | `public` | (`string` \| [`SubprocessError`](#subprocesserror))[]  | -                                                                                                                  | -                         | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts) |
-| <a id="message"></a> `message`                      | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077                                                                         |
-| <a id="name-3"></a> `name`                          | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076                                                                         |
-| <a id="preparestacktrace"></a> `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98                                                                              |
-| <a id="stack"></a> `stack?`                         | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078                                                                         |
-| <a id="stacktracelimit"></a> `stackTraceLimit`      | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100                                                                             |
-
-#### Methods
-
-##### captureStackTrace()
-
-```ts
-static captureStackTrace(targetObject, constructorOpt?): void
-```
-
-**Defined in:** node_modules/@types/node/globals.d.ts:91
-
-Create .stack property on a target object
-
-**Parameters:**
-
-| Parameter         | Type       |
-| ----------------- | ---------- |
-| `targetObject`    | `object`   |
-| `constructorOpt`? | `Function` |
-
-**Returns:** `void`
-
-###### Inherited from
-
-```ts
-Error.captureStackTrace;
-```
+| Property                     | Type                                                  | Defined in                                                                                                            |
+| ---------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| <a id="errors"></a> `errors` | (`string` \| [`SubprocessError`](#subprocesserror))[] | [modules/subprocess/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/subprocess/src/index.ts) |
 
 ---
 
@@ -3444,44 +3411,6 @@ new SubprocessError(message, options?): SubprocessError
 
 ```ts
 Error.constructor;
-```
-
-#### Properties
-
-| Property                                              | Modifier | Type                                                   | Description                                                                                                        | Inherited from            | Defined in                                           |
-| ----------------------------------------------------- | -------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | ---------------------------------------------------- |
-| <a id="cause-1"></a> `cause?`                         | `public` | `unknown`                                              | -                                                                                                                  | `Error.cause`             | node_modules/typescript/lib/lib.es2022.error.d.ts:26 |
-| <a id="message-1"></a> `message`                      | `public` | `string`                                               | -                                                                                                                  | `Error.message`           | node_modules/typescript/lib/lib.es5.d.ts:1077        |
-| <a id="name-4"></a> `name`                            | `public` | `string`                                               | -                                                                                                                  | `Error.name`              | node_modules/typescript/lib/lib.es5.d.ts:1076        |
-| <a id="preparestacktrace-1"></a> `prepareStackTrace?` | `static` | (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any` | Optional override for formatting stack traces **See** https://v8.dev/docs/stack-trace-api#customizing-stack-traces | `Error.prepareStackTrace` | node_modules/@types/node/globals.d.ts:98             |
-| <a id="stack-1"></a> `stack?`                         | `public` | `string`                                               | -                                                                                                                  | `Error.stack`             | node_modules/typescript/lib/lib.es5.d.ts:1078        |
-| <a id="stacktracelimit-1"></a> `stackTraceLimit`      | `static` | `number`                                               | -                                                                                                                  | `Error.stackTraceLimit`   | node_modules/@types/node/globals.d.ts:100            |
-
-#### Methods
-
-##### captureStackTrace()
-
-```ts
-static captureStackTrace(targetObject, constructorOpt?): void
-```
-
-**Defined in:** node_modules/@types/node/globals.d.ts:91
-
-Create .stack property on a target object
-
-**Parameters:**
-
-| Parameter         | Type       |
-| ----------------- | ---------- |
-| `targetObject`    | `object`   |
-| `constructorOpt`? | `Function` |
-
-**Returns:** `void`
-
-###### Inherited from
-
-```ts
-Error.captureStackTrace;
 ```
 
 ---

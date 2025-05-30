@@ -1,6 +1,7 @@
 module.exports = {
 	enumMembersFormat: 'table',
 	excludeInternal: true,
+	excludeExternals: true,
 	excludePrivate: true,
 	expandObjects: true,
 	githubPages: false,
