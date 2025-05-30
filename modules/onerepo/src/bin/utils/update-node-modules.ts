@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 import { getLockfile, getLogger, Graph, file } from '../..';
 
 /**

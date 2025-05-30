@@ -11,7 +11,7 @@
 		"isolatedModules": false,
 		"lib": ["esnext"],
 		"module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"skipLibCheck": true,

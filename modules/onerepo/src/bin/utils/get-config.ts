@@ -1,5 +1,5 @@
 import path from 'node:path';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 import type { RootConfig } from '../../types';
 
 /**
