@@ -13,7 +13,7 @@ import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { flushUpdateIndex } from '@onerepo/git';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
 import pkg from '../../package.json';
 

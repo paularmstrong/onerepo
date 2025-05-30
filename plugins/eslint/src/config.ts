@@ -4,7 +4,7 @@ import { getGraph } from 'onerepo';
 import type { ConfigArray } from 'typescript-eslint';
 import { createJiti } from 'jiti';
 import { globSync } from 'glob';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 
 const graph = getGraph(process.cwd());
 const jiti = createJiti(process.cwd());

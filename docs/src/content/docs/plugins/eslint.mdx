@@ -70,10 +70,10 @@ This plugin solves some of the flat config short-comings by automatically spread
 
    export default onerepoEslint(
    	tseslint.config(
-    	{ ignores: ['**/dist']	 },
-    	eslint.configs.recommended,
-    	tseslint.configs.recommended,
-    )
+   		{ ignores: ['**/dist'] },
+   		eslint.configs.recommended,
+   		tseslint.configs.recommended,
+   	),
    );
    ```
 
@@ -85,16 +85,12 @@ This plugin solves some of the flat config short-comings by automatically spread
    import tseslint from 'typescript-eslint';
    import pluginAstro from 'eslint-plugin-astro';
 
-   export default tseslint.config(
-   	{ ignores: '.astro/**' },
-   	...pluginAstro.configs.recommended,
-   	{
-   		rules: {
-    		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
-    	}
-   	}
-   );
-   ````
+   export default tseslint.config({ ignores: '.astro/**' }, ...pluginAstro.configs.recommended, {
+   	rules: {
+   		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
+   	},
+   });
+   ```
 
 </Steps>
 
@@ -221,7 +217,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-eslint */}
-{/* @generated SignedSource<<8c1ba95f48e2963cc10413a04bbcc55c>> */}
+{/* @generated SignedSource<<3dd9fc973a054f43a99688a2671501e1>> */}
 
 ### `one eslint`
 
@@ -239,12 +235,11 @@ one eslint [options...]
 | `--affected`         | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`          | `boolean`                  | Run across all Workspaces                                                                                                                                                   |
 | `--cache`            | `boolean`, default: `true` | Use cache if available                                                                                                                                                      |
-| `--extensions`       | `array`                    | Make ESLint check files given these extensions.                                                                                                                             |
 | `--files, -f`        | `array`                    | Determine Workspaces from specific files                                                                                                                                    |
 | `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                                                                                                |
 | `--pretty`           | `boolean`, default: `true` | Control ESLint’s `--color` flag.                                                                                                                                            |
 | `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--warnings, --warn` | `boolean`, default: `true` | Report warnings from ESLint.                                                                                                                                                |
+| `--warnings, --warn` | `boolean`                  | Report warnings from ESLint.                                                                                                                                                |
 | `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
 <details>
