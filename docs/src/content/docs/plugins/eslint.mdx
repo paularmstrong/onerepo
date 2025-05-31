@@ -97,7 +97,7 @@ This plugin solves some of the flat config short-comings by automatically spread
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<1b0fc84a3d738db808a8aebad87545e1>> */}
+{/* @generated SignedSource<<915d24a8cd2baa98e299cf711509afdd>> */}
 
 ### eslint()
 
@@ -125,7 +125,6 @@ export default {
 
 ```ts
 type Options = {
-	extensions?: string[];
 	githubAnnotate?: boolean;
 	name?: string | string[];
 	warnings?: boolean;
@@ -138,21 +137,13 @@ Options for configuring the ESLint plugin for oneRepo.
 export default {
 	plugins: [
 		eslint({
-			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs'],
+			name: ['lint', 'eslint'],
 		}),
 	],
 };
 ```
 
 #### Properties
-
-##### extensions?
-
-```ts
-optional extensions: string[];
-```
-
-List of file extensions (without the `.`) that ESLint should operate across. Omit this if using the new [flat configuration](https://eslint.org/docs/latest/use/configure/configuration-files-new).
 
 ##### githubAnnotate?
 

@@ -29,14 +29,14 @@
 		"@onerepo/plugin-vitest": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild": "^0.25.4",
-		"eslint": "^9.27.0",
+		"eslint": "^9.28.0",
 		"glob": "^10.1.0",
 		"human-id": "^4.1.0",
 		"jest": "^29.7.0",
 		"onerepo": "workspace:^",
 		"prettier": "^3.4.2",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.32.1",
+		"typescript-eslint": "^8.33.0",
 		"vitest": "^3.1.4"
 	},
 	"engines": {
