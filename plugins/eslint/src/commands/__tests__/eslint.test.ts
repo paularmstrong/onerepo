@@ -54,6 +54,7 @@ describe('handler', () => {
 				cmd: 'eslint',
 				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '--quiet', '.'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -85,6 +86,7 @@ describe('handler', () => {
 					'modules/tacos',
 				],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -101,6 +103,7 @@ describe('handler', () => {
 				cmd: 'eslint',
 				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--quiet', '.'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -117,6 +120,7 @@ describe('handler', () => {
 				cmd: 'eslint',
 				args: ['--color', '--format', 'onerepo', '--fix', '--quiet', '.'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -134,6 +138,7 @@ describe('handler', () => {
 				cmd: 'eslint',
 				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '--quiet', 'bar.js'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -200,6 +205,7 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'false' },
 				},
 			}),
