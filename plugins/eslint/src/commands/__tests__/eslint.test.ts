@@ -1,9 +1,25 @@
-import path from 'node:path';
 import * as onerepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
 import * as Eslint from '../eslint';
 
 const { build, run, graph } = getCommand(Eslint);
+
+async function mockFn(requireActual: () => Promise<unknown>) {
+	const actual = await requireActual();
+	const mocked = {};
+	for (const [key, val] of Object.entries(actual as Record<string, unknown>)) {
+		if (typeof val === 'function') {
+			// @ts-ignore
+			mocked[key] = vi.fn(val);
+		} else {
+			// @ts-ignore
+			mocked[key] = actual[key];
+		}
+	}
+	return mocked;
+}
+vi.mock('glob', mockFn);
+vi.mock('jiti', mockFn);
 
 describe('builder', () => {
 	test('sets --staged to true when --add is true', async () => {
@@ -36,34 +52,9 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '.'],
+				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '--quiet', '.'],
 				opts: {
-					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
-				},
-			}),
-		);
-	});
-
-	test('passes --ext if configured', async () => {
-		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-
-		await run('--all --extensions=mjs,cjs,ts');
-
-		expect(graph.packageManager.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'eslint',
-				args: [
-					'--color',
-					'--ext',
-					'mjs,cjs,ts',
-					'--format',
-					'onerepo',
-					'--cache',
-					'--cache-strategy=content',
-					'--fix',
-					'.',
-				],
-				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -90,10 +81,12 @@ describe('handler', () => {
 					'--cache',
 					'--cache-strategy=content',
 					'--fix',
+					'--quiet',
 					'modules/burritos',
 					'modules/tacos',
 				],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -108,8 +101,9 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '.'],
+				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--quiet', '.'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -124,142 +118,27 @@ describe('handler', () => {
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--fix', '.'],
+				args: ['--color', '--format', 'onerepo', '--fix', '--quiet', '.'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
 		);
 	});
 
-	test('filters unapproved extensions', async () => {
-		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-
-		await expect(run('--extensions mjs js -f foo.xd -f bar.js')).resolves.toBeTruthy();
-
-		expect(graph.packageManager.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'eslint',
-				args: [
-					'--color',
-					'--ext',
-					'mjs,js',
-					'--format',
-					'onerepo',
-					'--cache',
-					'--cache-strategy=content',
-					'--fix',
-					'bar.js',
-				],
-				opts: {
-					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
-				},
-			}),
-		);
-	});
-
-	test('filters with .eslintignore', async () => {
-		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
-		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
-# ignore the comment
-bar/**/*
-`);
-		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
-			// @ts-ignore mock
-			{ isDirectory: () => false },
-		);
-		await expect(run('-f foo.js -f bar/baz/bop.js')).resolves.toBeTruthy();
-
-		expect(onerepo.file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
-
-		expect(graph.packageManager.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
-				opts: {
-					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
-				},
-			}),
-		);
-	});
-
-	test('filtering works with absolute paths', async () => {
-		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
-		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
-# ignore the comment
-bar/**/*
-`);
-		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
-			// @ts-ignore mock
-			{ isDirectory: () => false },
-		);
-		await expect(
-			run(`-f ${path.join(graph.root.location, 'foo.js')} -f ${path.join(graph.root.location, 'bar/baz/bop.js')}`),
-		).resolves.toBeTruthy();
-
-		expect(onerepo.file.exists).toHaveBeenCalledWith(expect.stringMatching(/\.eslintignore$/), expect.any(Object));
-
-		expect(graph.packageManager.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', 'foo.js'],
-				opts: {
-					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
-				},
-			}),
-		);
-	});
-
-	test('skips filtering when "." is included', async () => {
-		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
-		// switch the handler getFilepaths() to return ['.'] by overloading with too many files
-		vi.spyOn(onerepo.git, 'getModifiedFiles').mockResolvedValue(
-			new Array(1000).fill(0).map((v, i) => `${i.toString().padStart(4, '0')}.js`),
-		);
-		vi.spyOn(onerepo.file, 'exists').mockResolvedValue(true);
-		vi.spyOn(onerepo.file, 'read').mockResolvedValue(`
-# ignore the comment
-bar/**/*
-`);
-		vi.spyOn(onerepo.file, 'lstat').mockResolvedValue(
-			// @ts-ignore mock
-			{ isDirectory: () => false },
-		);
-		await expect(run('')).resolves.toBeTruthy();
-
-		expect(onerepo.file.exists).not.toHaveBeenCalled();
-
-		expect(graph.packageManager.run).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cmd: 'eslint',
-				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '.'],
-			}),
-		);
-	});
-
-	test('updates the git index for filtered paths with --add', async () => {
+	test('updates the git index with --add', async () => {
 		vi.spyOn(graph.packageManager, 'run').mockResolvedValue(['', '']);
 		vi.spyOn(onerepo.git, 'updateIndex').mockResolvedValue('');
 
-		await expect(run('--extensions mjs js -f foo.xd -f bar.js --add')).resolves.toBeTruthy();
+		await expect(run('-f bar.js --add')).resolves.toBeTruthy();
 
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				cmd: 'eslint',
-				args: [
-					'--color',
-					'--ext',
-					'mjs,js',
-					'--format',
-					'onerepo',
-					'--cache',
-					'--cache-strategy=content',
-					'--fix',
-					'bar.js',
-				],
+				args: ['--color', '--format', 'onerepo', '--cache', '--cache-strategy=content', '--fix', '--quiet', 'bar.js'],
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'true' },
 				},
 			}),
@@ -326,6 +205,7 @@ bar/**/*
 		expect(graph.packageManager.run).toHaveBeenCalledWith(
 			expect.objectContaining({
 				opts: {
+					cwd: graph.root.location,
 					env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: 'false' },
 				},
 			}),

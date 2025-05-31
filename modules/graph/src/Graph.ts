@@ -5,7 +5,7 @@ import { getPackageManager, getPackageManagerName } from '@onerepo/package-manag
 import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { PackageManager, PackageJson } from '@onerepo/package-manager';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 import { Workspace } from './Workspace';
 
 /**

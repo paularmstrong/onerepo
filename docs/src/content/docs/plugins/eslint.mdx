@@ -8,7 +8,7 @@ meta:
   stability: stable
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Installation
 
@@ -36,10 +36,68 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
   </TabItem>
 </Tabs>
 
+### Flat configs & monorepos
+
+Eslint 9 moved from a multi-rc/cascading config system to [flat configs](https://eslint.org/blog/2022/08/new-config-system-part-2/). As welcome of a change this was, it broke one of the fundamental tenets of monorepos: as much as possible for a workspace should be contained within the workspace and should not pollute the global scope.
+
+With the flat configuration format, either all rules need to be hard coded into the root configuration file or developers need to know to manually export their workspace configurations and import them directly into the flat config.
+
+This plugin solves some of the flat config short-comings by automatically spreading eslint configs from workspaces into the root config.
+
+<Steps>
+
+1. **Create a root config**
+
+   This will be your monorepo-wide configuration. All global plugins and rules should be set here.
+
+   ```ts title="eslint.config.ts"
+   import eslint from '@eslint/js';
+   import tseslint from 'typescript-eslint';
+
+   export default tseslint.config(
+   	{ ignores: ['**/dist'] },
+   	eslint.configs.recommended,
+   	tseslint.configs.recommended,
+   );
+   ```
+
+2. **Wrap your root config**
+
+   ```ts title="eslint-config.ts" ins={3,5,11}
+   import eslint from '@eslint/js';
+   import tseslint from 'typescript-eslint';
+   import onerepoEslint from '@onerepo/plugin-eslint/config';
+
+   export default onerepoEslint(
+   	tseslint.config(
+   		{ ignores: ['**/dist'] },
+   		eslint.configs.recommended,
+   		tseslint.configs.recommended,
+   	),
+   );
+   ```
+
+3. **Add Workspace configs**
+
+   You can now create ESLint flat configs in each workspace as if they were the root of your workspace and each workspace will be merged into the repository’s root config with the appropriate file selectors and ignores set — resulting in a single "flat config" as read by ESLint that will prevent individual Workspace rules from conflicting with each other.
+
+   ```ts title="my-workspace/eslint-config.ts"
+   import tseslint from 'typescript-eslint';
+   import pluginAstro from 'eslint-plugin-astro';
+
+   export default tseslint.config({ ignores: '.astro/**' }, ...pluginAstro.configs.recommended, {
+   	rules: {
+   		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
+   	},
+   });
+   ```
+
+</Steps>
+
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<56d098651949a6cda96265363312f4f9>> */}
+{/* @generated SignedSource<<29eb162ec36b1f5966063065e1245213>> */}
 
 ### eslint()
 
@@ -47,7 +105,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 function eslint(opts): Plugin;
 ```
 
-Defined in: [index.ts:48](https://github.com/paularmstrong/onerepo/blob/main/plugins/eslint/src/index.ts)
+Defined in: [index.ts:44](https://github.com/paularmstrong/onerepo/blob/main/plugins/eslint/src/index.ts)
 
 Include the `eslint` plugin in your oneRepo plugin setup:
 
@@ -69,7 +127,6 @@ export default {
 
 ```ts
 type Options = {
-	extensions: string[];
 	githubAnnotate: boolean;
 	name: string | string[];
 	warnings: boolean;
@@ -84,21 +141,13 @@ Options for configuring the ESLint plugin for oneRepo.
 export default {
 	plugins: [
 		eslint({
-			extensions: ['ts', 'tsx', 'astro', 'js', 'cjs', 'mjs'],
+			name: ['lint', 'eslint'],
 		}),
 	],
 };
 ```
 
 #### Type declaration
-
-##### extensions?
-
-```ts
-optional extensions: string[];
-```
-
-List of file extensions (without the `.`) that ESLint should operate across. Omit this if using the new [flat configuration](https://eslint.org/docs/latest/use/configure/configuration-files-new).
 
 ##### githubAnnotate?
 
@@ -163,7 +212,7 @@ export default {
 ## Commands
 
 {/* start-auto-generated-from-cli-eslint */}
-{/* @generated SignedSource<<8c1ba95f48e2963cc10413a04bbcc55c>> */}
+{/* @generated SignedSource<<3dd9fc973a054f43a99688a2671501e1>> */}
 
 ### `one eslint`
 
@@ -181,12 +230,11 @@ one eslint [options...]
 | `--affected`         | `boolean`                  | Select all affected Workspaces. If no other inputs are chosen, this will default to `true`.                                                                                 |
 | `--all, -a`          | `boolean`                  | Run across all Workspaces                                                                                                                                                   |
 | `--cache`            | `boolean`, default: `true` | Use cache if available                                                                                                                                                      |
-| `--extensions`       | `array`                    | Make ESLint check files given these extensions.                                                                                                                             |
 | `--files, -f`        | `array`                    | Determine Workspaces from specific files                                                                                                                                    |
 | `--fix`              | `boolean`, default: `true` | Apply auto-fixes if possible                                                                                                                                                |
 | `--pretty`           | `boolean`, default: `true` | Control ESLint’s `--color` flag.                                                                                                                                            |
 | `--staged`           | `boolean`                  | Use files on the git stage to calculate affected files or Workspaces. When unset or `--no-staged`, changes will be calculated from the entire branch, since its fork point. |
-| `--warnings, --warn` | `boolean`, default: `true` | Report warnings from ESLint.                                                                                                                                                |
+| `--warnings, --warn` | `boolean`                  | Report warnings from ESLint.                                                                                                                                                |
 | `--workspaces, -w`   | `array`                    | List of Workspace names to run against                                                                                                                                      |
 
 <details>

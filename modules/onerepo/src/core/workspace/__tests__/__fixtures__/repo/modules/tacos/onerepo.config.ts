@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-relative-packages
-import type { Config } from '../../../../../../../types';
+import type { Config } from 'onerepo/src/types';
 
 export default {
 	commands: {
