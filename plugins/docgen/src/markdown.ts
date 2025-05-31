@@ -133,8 +133,6 @@ function options(cmd: Docs, includeGlobal: boolean = false): Array<Node> {
 					html('<summary>Advanced options</summary>'),
 					...optPosTable('opt', advanced),
 					html('</details>'),
-					// prettier is mixing tabs & spaces :(
-					 
 				]
 			: []),
 	];
