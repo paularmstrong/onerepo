@@ -38,8 +38,8 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "1.0.4",
-		"glob": "^10.1.0",
-		"ignore": "^5.3.1",
+		"glob": "^11.0.2",
+		"ignore": "^7.0.5",
 		"jiti": "^2.4.2"
 	},
 	"devDependencies": {
