@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<6e0589abae1fafa374c55f4bf9bc38b2>> -->
+<!-- @generated SignedSource<<6946d513fa05d1f7ac15deb685600887>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -35,11 +35,11 @@ new StagingWorkflow(options): StagingWorkflow;
 **Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)  
 **Parameters:**
 
-| Parameter        | Type                                                                                     | Description                            |
-| ---------------- | ---------------------------------------------------------------------------------------- | -------------------------------------- |
-| `options`        | \{ `graph`: [`Graph`](../../../../#graph); `logger`: [`Logger`](../../../../#logger); \} | -                                      |
-| `options.graph`  | [`Graph`](../../../../#graph)                                                            | The repository Graph                   |
-| `options.logger` | [`Logger`](../../../../#logger)                                                          | Logger instance to use for all actions |
+| Parameter        | Type                                                                               | Description                            |
+| ---------------- | ---------------------------------------------------------------------------------- | -------------------------------------- |
+| `options`        | \{ `graph`: [`Graph`](../../../#graph); `logger`: [`Logger`](../../../#logger); \} | -                                      |
+| `options.graph`  | [`Graph`](../../../#graph)                                                         | The repository Graph                   |
+| `options.logger` | [`Logger`](../../../#logger)                                                       | Logger instance to use for all actions |
 
 **Returns:** [`StagingWorkflow`](#stagingworkflow)
 
