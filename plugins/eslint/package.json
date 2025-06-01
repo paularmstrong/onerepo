@@ -21,8 +21,14 @@
 		"main": "./dist/index.js",
 		"typings": "./dist/src/index.d.ts",
 		"exports": {
-			".": "./dist/index.js",
-			"./config": "./dist/config.js"
+			".": {
+				"types": "./dist/src/index.d.ts",
+				"import": "./dist/index.js"
+			},
+			"./config": {
+				"types": "./dist/src/config.d.ts",
+				"import": "./dist/config.js"
+			}
 		}
 	},
 	"files": [
