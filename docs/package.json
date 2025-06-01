@@ -15,7 +15,7 @@
 		"astro-og-canvas": "^0.7.0",
 		"eslint": "^8.56.0",
 		"eslint-plugin-astro": "^0.31.4",
-		"glob": "^10.1.0",
+		"glob": "^11.0.2",
 		"netlify-plugin-csp-generator": "^1.6.1",
 		"onerepo": "1.2.0",
 		"postcss": "^8.4.49",
@@ -28,11 +28,11 @@
 		"@expressive-code/plugin-collapsible-sections": "^0.41.2",
 		"d3": "^7.9.0",
 		"dagre-d3-es": "^7.0.11",
-		"graph-data-structure": "^3.2.0",
+		"graph-data-structure": "^4.5.0",
 		"js-base64": "^3.7.7",
-		"mermaid": "11.4.1",
+		"mermaid": "11.6.0",
 		"pako": "^2.1.0",
-		"starlight-links-validator": "^0.13.4",
+		"starlight-links-validator": "^0.16.0",
 		"unist-util-visit": "^5.0.0"
 	}
 }
