@@ -25,7 +25,7 @@
 		"@onerepo/plugin-typescript": "workspace:^",
 		"@onerepo/plugin-vitest": "workspace:^",
 		"@types/eslint": "^8.56.12",
-		"esbuild": "^0.25.4",
+		"esbuild": "^0.25.5",
 		"eslint": "^8.56.0",
 		"glob": "^10.1.0",
 		"human-id": "^4.1.0",
