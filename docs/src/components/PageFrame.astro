@@ -1,7 +1,7 @@
 ---
 import Default from '@astrojs/starlight/components/PageFrame.astro';
 
-const isVisualizer = Astro.props.slug === 'visualize';
+const isVisualizer = Astro.locals.starlightRoute.entry.slug === 'visualize';
 ---
 
 {

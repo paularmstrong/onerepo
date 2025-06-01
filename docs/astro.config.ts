@@ -32,10 +32,10 @@ export default defineConfig({
 				replacesTitle: true,
 			},
 			customCss: ['./src/custom.css'],
-			social: {
-				github: 'https://github.com/paularmstrong/onerepo',
-				discord: 'https://onerepo.tools/discord/',
-			},
+			social: [
+				{ icon: 'github', label: 'Github', href: 'https://github.com/paularmstrong/onerepo' },
+				{ icon: 'discord', label: 'Discord', href: 'https://onerepo.tools/discord/' },
+			],
 			titleDelimiter: '🚀',
 			sidebar: [
 				{ label: 'Core concepts', autogenerate: { directory: 'concepts' } },

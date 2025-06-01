@@ -1,8 +1,8 @@
 ---
 import Default from '@astrojs/starlight/components/Footer.astro';
 
-const isHomepage = Astro.props.slug === '';
-const isVisualizer = Astro.props.slug === 'visualize';
+const isHomepage = Astro.locals.starlightRoute.entry.slug === '';
+const isVisualizer = Astro.locals.starlightRoute.entry.slug === 'visualize';
 ---
 
 {
