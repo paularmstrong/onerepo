@@ -25,7 +25,7 @@
 		"@onerepo/graph": "1.0.4",
 		"@onerepo/logger": "1.0.4",
 		"@onerepo/yargs": "1.0.4",
-		"yargs": "^17.6.2"
+		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",

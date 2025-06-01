@@ -24,7 +24,7 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "1.0.4",
-		"ignore": "^5.3.1"
+		"ignore": "^7.0.5"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
