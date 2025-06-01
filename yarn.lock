@@ -1218,13 +1218,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-free@npm:^6.0.0":
-  version: 6.5.1
-  resolution: "@fortawesome/fontawesome-free@npm:6.5.1"
-  checksum: 8905de0ad0cab9b6c4a3503267d96c9b34df703d3e1331e18f37f775722eaef9e93a55ead53cca6f5a68559c7cbc77dfd871e75a7932b2a54dfa99352b5dc7d3
-  languageName: node
-  linkType: hard
-
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -2008,20 +2001,12 @@ __metadata:
     eslint-plugin-astro: ^0.31.4
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
-    hast-util-from-html: ^2.0.3
-    hast-util-to-string: ^3.0.1
-    hastscript: ^9.0.0
     js-base64: ^3.7.7
     mermaid: 11.4.1
     netlify-plugin-csp-generator: ^1.6.1
     onerepo: 1.2.0
     pako: ^2.1.0
     postcss: ^8.4.49
-    rehype: ^13.0.2
-    rehype-autolink-headings: ^7.1.0
-    rehype-mermaid: ^3.0.0
-    rehype-slug: ^6.0.0
-    remark-toc: ^9.0.0
     starlight-links-validator: ^0.13.4
     typedoc: ^0.27.4
     typedoc-plugin-markdown: ^4.3.2
@@ -3255,13 +3240,6 @@ __metadata:
   version: 2.0.7
   resolution: "@types/trusted-types@npm:2.0.7"
   checksum: 8e4202766a65877efcf5d5a41b7dd458480b36195e580a3b1085ad21e948bc417d55d6f8af1fd2a7ad008015d4117d5fdfe432731157da3c68678487174e4ba3
-  languageName: node
-  linkType: hard
-
-"@types/ungap__structured-clone@npm:^1.0.0":
-  version: 1.2.0
-  resolution: "@types/ungap__structured-clone@npm:1.2.0"
-  checksum: 5399cfc129ecae2986fbe223fdf8f443c27a628e0d24e1be0fd3d041d643e9a041be54d9b9511fdf36279e7a3cb4c9d72493f30d75fdcde52efa3ac9dc0ebb1e
   languageName: node
   linkType: hard
 
@@ -7813,29 +7791,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hast-util-from-dom@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "hast-util-from-dom@npm:5.0.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-    hastscript: ^8.0.0
-    web-namespaces: ^2.0.0
-  checksum: bf8f96c480a598b42156227be2210bbb7a08da519ae4d57814385c8560b01e2b6b5fbde2afce808ce7ba7c5cd172822d4285b8f5edde2d13089bc9c3177c0d09
-  languageName: node
-  linkType: hard
-
-"hast-util-from-html-isomorphic@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "hast-util-from-html-isomorphic@npm:2.0.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-    hast-util-from-dom: ^5.0.0
-    hast-util-from-html: ^2.0.0
-    unist-util-remove-position: ^5.0.0
-  checksum: a98d02890bd1b5a804a1b2aaacd0332a6563f2a8df620450e38ab8962728cda0485cd29435824840621d1e653943776864e912d78d24cce6a7f484011ee7cef0
-  languageName: node
-  linkType: hard
-
 "hast-util-from-html@npm:2.0.1":
   version: 2.0.1
   resolution: "hast-util-from-html@npm:2.0.1"
@@ -7886,15 +7841,6 @@ __metadata:
   dependencies:
     "@types/hast": ^3.0.0
   checksum: 3e515e95432c6251eefeb5aade4b9626f033d3ac0020e2f64aa38afbb345c7bb0c5d541fba6c53367245d7f5b555dc3c86543cd8231879d272cb0912808dfc19
-  languageName: node
-  linkType: hard
-
-"hast-util-heading-rank@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "hast-util-heading-rank@npm:3.0.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-  checksum: e5ce4ec9e8017b24ab72702fa0dd401ec6eaf32574120d71c2aa4e8e0f43829dba2e291f49d305a47e8d65b82a9c5adad7985385dc5bc8370f8cec7c8f9313d3
   languageName: node
   linkType: hard
 
@@ -8077,7 +8023,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hast-util-to-string@npm:^3.0.0, hast-util-to-string@npm:^3.0.1":
+"hast-util-to-string@npm:^3.0.0":
   version: 3.0.1
   resolution: "hast-util-to-string@npm:3.0.1"
   dependencies:
@@ -8086,7 +8032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hast-util-to-text@npm:^4.0.0, hast-util-to-text@npm:^4.0.1, hast-util-to-text@npm:^4.0.2":
+"hast-util-to-text@npm:^4.0.1, hast-util-to-text@npm:^4.0.2":
   version: 4.0.2
   resolution: "hast-util-to-text@npm:4.0.2"
   dependencies:
@@ -10433,21 +10379,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-toc@npm:^7.0.0":
-  version: 7.1.0
-  resolution: "mdast-util-toc@npm:7.1.0"
-  dependencies:
-    "@types/mdast": ^4.0.0
-    "@types/ungap__structured-clone": ^1.0.0
-    "@ungap/structured-clone": ^1.0.0
-    github-slugger: ^2.0.0
-    mdast-util-to-string: ^4.0.0
-    unist-util-is: ^6.0.0
-    unist-util-visit: ^5.0.0
-  checksum: f3f9f1c856548f685f798357bb362ad01a8fc9bb585644c3198a5adcfa42b5712b185d7d86f4360f1b1ca1e8c6781f5e55f8cab5052282b5594ed829c26c1fca
-  languageName: node
-  linkType: hard
-
 "mdn-data@npm:2.12.2":
   version: 2.12.2
   resolution: "mdn-data@npm:2.12.2"
@@ -10476,22 +10407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid-isomorphic@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "mermaid-isomorphic@npm:3.0.0"
-  dependencies:
-    "@fortawesome/fontawesome-free": ^6.0.0
-    mermaid: ^11.0.0
-  peerDependencies:
-    playwright: 1
-  peerDependenciesMeta:
-    playwright:
-      optional: true
-  checksum: bb7e8cebfdd93b46107f4a846cc6fb419bf7e2fdb1a9cc2c0062bac918a6156fba7345744cc93a433f42551e34f79632b9a5815376b933aeb855a8fb9061d2ee
-  languageName: node
-  linkType: hard
-
-"mermaid@npm:11.4.1, mermaid@npm:^11.0.0":
+"mermaid@npm:11.4.1":
   version: 11.4.1
   resolution: "mermaid@npm:11.4.1"
   dependencies:
@@ -11034,15 +10950,6 @@ __metadata:
   version: 2.1.0
   resolution: "mimic-fn@npm:2.1.0"
   checksum: d2421a3444848ce7f84bd49115ddacff29c15745db73f54041edc906c14b131a38d05298dae3081667627a59b2eb1ca4b436ff2e1b80f69679522410418b478a
-  languageName: node
-  linkType: hard
-
-"mini-svg-data-uri@npm:^1.0.0":
-  version: 1.4.4
-  resolution: "mini-svg-data-uri@npm:1.4.4"
-  bin:
-    mini-svg-data-uri: cli.js
-  checksum: 997f1fbd8d59a70f03761e18626d335197a3479cb9d1ff75678e4b64b864d32a0b8fc18115eabde035e5299b8b4a354a78e57dd6ac10f9d604162a6170898d09
   languageName: node
   linkType: hard
 
@@ -12435,20 +12342,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rehype-autolink-headings@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "rehype-autolink-headings@npm:7.1.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-    "@ungap/structured-clone": ^1.0.0
-    hast-util-heading-rank: ^3.0.0
-    hast-util-is-element: ^3.0.0
-    unified: ^11.0.0
-    unist-util-visit: ^5.0.0
-  checksum: 546fb14ffac628a4bfa8cf7549a2b94d921e392393441d602154ca3131549737bf21af6fddcd15abb4f50272ca9a90dad8bd66e7122e58bea85e81e79dce793a
-  languageName: node
-  linkType: hard
-
 "rehype-expressive-code@npm:^0.41.2":
   version: 0.41.2
   resolution: "rehype-expressive-code@npm:0.41.2"
@@ -12465,28 +12358,6 @@ __metadata:
     "@types/hast": ^3.0.0
     hast-util-format: ^1.0.0
   checksum: fd520a1278c258f99e8f3df486164813733cf571c371d97a61d64b28b14808f209bb39ed2cbba0340fcce6c941433419a131f0a72d00a907f3b99a20705be448
-  languageName: node
-  linkType: hard
-
-"rehype-mermaid@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "rehype-mermaid@npm:3.0.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-    hast-util-from-html-isomorphic: ^2.0.0
-    hast-util-to-text: ^4.0.0
-    mermaid-isomorphic: ^3.0.0
-    mini-svg-data-uri: ^1.0.0
-    space-separated-tokens: ^2.0.0
-    unified: ^11.0.0
-    unist-util-visit-parents: ^6.0.0
-    vfile: ^6.0.0
-  peerDependencies:
-    playwright: 1
-  peerDependenciesMeta:
-    playwright:
-      optional: true
-  checksum: b969882c1fdbebafba9c87f821ae7ef3f3713bd7366297efb8d3e114c5534ef5d459397bc63ef6033291c6654f8e60f5c5aed4deee1890a1220ef2ae4d347af3
   languageName: node
   linkType: hard
 
@@ -12520,19 +12391,6 @@ __metadata:
     "@types/hast": ^3.0.0
     hast-util-to-estree: ^3.0.0
   checksum: d3d544ad4a18485ec6b03a194b40473f96e2169c63d6a8ee3ce9af5e87b946c308fb9549b53e010c7dd39740337e387bb1a8856ce1b47f3e957b696f1d5b2d0c
-  languageName: node
-  linkType: hard
-
-"rehype-slug@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "rehype-slug@npm:6.0.0"
-  dependencies:
-    "@types/hast": ^3.0.0
-    github-slugger: ^2.0.0
-    hast-util-heading-rank: ^3.0.0
-    hast-util-to-string: ^3.0.0
-    unist-util-visit: ^5.0.0
-  checksum: 0e13ec558eb142d14a6daeab21bbef7c9230bfabec45987e15a24283650226eae3898ad162b8cb29ee39a8bce536bcc013eeab7dc6faa0295b0e91612a8c9f6e
   languageName: node
   linkType: hard
 
@@ -12652,16 +12510,6 @@ __metadata:
     mdast-util-to-markdown: ^2.0.0
     unified: ^11.0.0
   checksum: 59e07460eb629d6c3b3c0f438b0b236e7e6858fd5ab770303078f5a556ec00354d9c7fb9ef6d5f745a4617ac7da1ab618b170fbb4dac120e183fecd9cc86bce6
-  languageName: node
-  linkType: hard
-
-"remark-toc@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "remark-toc@npm:9.0.0"
-  dependencies:
-    "@types/mdast": ^4.0.0
-    mdast-util-toc: ^7.0.0
-  checksum: 2d167713ac1a064990296aece847a387ea79b998383ab64c455c05672403ed51574bbbd079aa967d904170dfee4035dd7b84b0eb28a01f9c7e93778a0e57c3c9
   languageName: node
   linkType: hard
 
