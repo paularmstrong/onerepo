@@ -4,11 +4,9 @@
 		"outDir": "./dist",
 		"noEmit": false,
 		"composite": true,
-		"emitDeclarationOnly": true,
-		"types": ["node"],
-		"module": "ES2022"
+		"emitDeclarationOnly": true
 	},
-	"include": ["./**/*"],
+	"include": [".astro/types.d.ts", "./**/*"],
 	"exclude": ["dist/**/*"],
 	"references": [
 		{

@@ -1,7 +1,7 @@
 ---
 import Default from '@astrojs/starlight/components/PageFrame.astro';
 
-const isVisualizer = Astro.props.slug === 'visualize';
+const isVisualizer = Astro.locals.starlightRoute.entry.slug === 'visualize';
 ---
 
 {
@@ -13,7 +13,7 @@ const isVisualizer = Astro.props.slug === 'visualize';
 			<slot />
 		</div>
 	) : (
-		<Default {...(Astro.props as any)}>
+		<Default>
 			<span slot="header">
 				<slot name="header" />
 			</span>
