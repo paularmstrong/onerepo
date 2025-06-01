@@ -19,7 +19,11 @@
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",
-		"typings": "./dist/src/index.d.ts"
+		"typings": "./dist/src/index.d.ts",
+		"exports": {
+			".": "./dist/index.js",
+			"./config": "./dist/config.js"
+		}
 	},
 	"files": [
 		"./dist/**/*",
