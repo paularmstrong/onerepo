@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<5fc8c1eca7211c6a10d6e42bbbbd1522>> -->
+<!-- @generated SignedSource<<58f2eb34dbab5726f2ba3d492fb38a7d>> -->
 
 File manipulation functions.
 
@@ -24,7 +24,7 @@ File manipulation functions.
 
 ```ts
 type Options = {
-	step: LogStep;
+	step?: LogStep;
 };
 ```
 
@@ -32,13 +32,15 @@ type Options = {
 
 Generic options for file functions
 
-#### Type declaration
+#### Properties
 
 ##### step?
 
 ```ts
 optional step: LogStep;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
@@ -49,7 +51,7 @@ Pass a Logger Step to pipe all logs and output to that instead.
 
 ```ts
 type ReadJsonOptions = {
-	jsonc: boolean;
+	jsonc?: boolean;
 } & Options;
 ```
 
@@ -71,20 +73,22 @@ Parse the file as JSONC (JSON with comments).
 
 ```ts
 type ReadSafeOptions = {
-	sentinel: string;
-	step: LogStep;
+	sentinel?: string;
+	step?: LogStep;
 };
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-#### Type declaration
+#### Properties
 
 ##### sentinel?
 
 ```ts
 optional sentinel: string;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Unique string to use as a start and end sentinel for the contents
 
@@ -93,6 +97,8 @@ Unique string to use as a start and end sentinel for the contents
 ```ts
 optional step: LogStep;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
@@ -113,20 +119,22 @@ type SigningStatus = 'valid' | 'invalid' | 'unsigned';
 
 ```ts
 type WriteOptions = {
-	sign: boolean;
-	step: LogStep;
+	sign?: boolean;
+	step?: LogStep;
 };
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-#### Type declaration
+#### Properties
 
 ##### sign?
 
 ```ts
 optional sign: boolean;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Optionally sign the contents for future verification.
 
@@ -135,6 +143,8 @@ Optionally sign the contents for future verification.
 ```ts
 optional step: LogStep;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
@@ -145,21 +155,23 @@ Pass a Logger Step to pipe all logs and output to that instead.
 
 ```ts
 type WriteSafeOptions = {
-	sentinel: string;
-	sign: boolean;
-	step: LogStep;
+	sentinel?: string;
+	sign?: boolean;
+	step?: LogStep;
 };
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-#### Type declaration
+#### Properties
 
 ##### sentinel?
 
 ```ts
 optional sentinel: string;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Unique string to use as a start and end sentinel for the contents
 
@@ -169,6 +181,8 @@ Unique string to use as a start and end sentinel for the contents
 optional sign: boolean;
 ```
 
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
+
 Optionally sign the contents for future verification.
 
 ##### step?
@@ -176,6 +190,8 @@ Optionally sign the contents for future verification.
 ```ts
 optional step: LogStep;
 ```
+
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
 Avoid creating a new step in output for each function.
 Pass a Logger Step to pipe all logs and output to that instead.
@@ -202,7 +218,7 @@ await file.chmod('/foo', 'a+x');
 | ---------- | --------------------- |
 | `filename` | `string`              |
 | `mode`     | `string` \| `number`  |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -230,7 +246,7 @@ await file.copy('/path/to/in/', '/path/to/out/');
 | ---------- | --------------------- |
 | `input`    | `string`              |
 | `output`   | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -255,7 +271,7 @@ await file.exists('/path/to/file.ts');
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `filename` | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`boolean`\>
 
@@ -296,7 +312,7 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `filename` | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`null` \| `Stats`\>
 
@@ -330,7 +346,7 @@ const dir = await file.makeTempDir('tacos-');
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `prefix`   | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>
 
@@ -355,7 +371,7 @@ await file.mkdirp('/path/to/something');
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `pathname` | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -380,8 +396,8 @@ const contents = await file.read('/path/to/file/');
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `filename` | `string`              |
-| `flag`?    | `OpenMode`            |
-| `options`? | [`Options`](#options) |
+| `flag?`    | `OpenMode`            |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>
 
@@ -415,8 +431,8 @@ const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc
 | Parameter  | Type                                  |
 | ---------- | ------------------------------------- |
 | `filename` | `string`                              |
-| `flag`?    | `OpenMode`                            |
-| `options`? | [`ReadJsonOptions`](#readjsonoptions) |
+| `flag?`    | `OpenMode`                            |
+| `options?` | [`ReadJsonOptions`](#readjsonoptions) |
 
 **Returns:** `Promise`\<`T`\>
 
@@ -441,7 +457,7 @@ const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel
 | Parameter  | Type                                  |
 | ---------- | ------------------------------------- |
 | `filename` | `string`                              |
-| `options`? | [`ReadSafeOptions`](#readsafeoptions) |
+| `options?` | [`ReadSafeOptions`](#readsafeoptions) |
 
 **Returns:** `Promise`\<\[`null` \| `string`, `string`\]\>
 
@@ -466,7 +482,7 @@ await file.remove('/path/to/something');
 | Parameter  | Type                  |
 | ---------- | --------------------- |
 | `pathname` | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -497,7 +513,7 @@ if (currentContents !== (await signContents(filename, contents))) {
 | ---------- | --------------------- |
 | `filename` | `string`              |
 | `contents` | `string`              |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`any`\>
 
@@ -545,7 +561,7 @@ await file.write('/path/to/out/', '# hello!');
 | ---------- | ------------------------------- |
 | `filename` | `string`                        |
 | `contents` | `string`                        |
-| `options`? | [`WriteOptions`](#writeoptions) |
+| `options?` | [`WriteOptions`](#writeoptions) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -579,7 +595,7 @@ await file.writeSafe('/path/to/out/', '# hello', { signed: true });
 | ---------- | --------------------------------------- |
 | `filename` | `string`                                |
 | `contents` | `string`                                |
-| `options`? | [`WriteSafeOptions`](#writesafeoptions) |
+| `options?` | [`WriteSafeOptions`](#writesafeoptions) |
 
 **Returns:** `Promise`\<`void`\>
 

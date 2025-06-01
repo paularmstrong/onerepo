@@ -39,15 +39,13 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<0ce61f1bcd754e0966015db98c4e13c5>> */}
+{/* @generated SignedSource<<ea5218aa7467196d192d392ebd495b8a>> */}
 
 ### prettier()
 
 ```ts
 function prettier(opts): Plugin;
 ```
-
-Defined in: [index.ts:46](https://github.com/paularmstrong/onerepo/blob/main/plugins/prettier/src/index.ts)
 
 Include the `prettier` plugin in your oneRepo plugin setup:
 
@@ -69,13 +67,11 @@ export default {
 
 ```ts
 type Options = {
-	githubAnnotate: boolean;
-	name: string | string[];
-	useCache: boolean;
+	githubAnnotate?: boolean;
+	name?: string | string[];
+	useCache?: boolean;
 };
 ```
-
-Defined in: [index.ts:17](https://github.com/paularmstrong/onerepo/blob/main/plugins/prettier/src/index.ts)
 
 Options for configuring the Prettier plugin for oneRepo.
 
@@ -89,7 +85,7 @@ export default {
 };
 ```
 
-#### Type declaration
+#### Properties
 
 ##### githubAnnotate?
 

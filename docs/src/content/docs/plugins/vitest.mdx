@@ -78,15 +78,13 @@ Vitest supports Workspaces with a little extra configuration than you may by use
 ## Configuration
 
 {/* start-install-typedoc */}
-{/* @generated SignedSource<<687f436b4d2b094093f105d930dfad63>> */}
+{/* @generated SignedSource<<9ed28f4dd80f4339b12de322c02b75f0>> */}
 
 ### vitest()
 
 ```ts
 function vitest(opts): PluginObject;
 ```
-
-Defined in: [index.ts:60](https://github.com/paularmstrong/onerepo/blob/main/plugins/vitest/src/index.ts)
 
 Include the `vitest` plugin in your oneRepo plugin setup:
 
@@ -108,12 +106,10 @@ export default {
 
 ```ts
 type Options = {
-	config: string;
-	name: string | string[];
+	config?: string;
+	name?: string | string[];
 };
 ```
-
-Defined in: [index.ts:17](https://github.com/paularmstrong/onerepo/blob/main/plugins/vitest/src/index.ts)
 
 Options for configuring the Vitest plugin for oneRepo.
 
@@ -127,7 +123,7 @@ export default {
 };
 ```
 
-#### Type declaration
+#### Properties
 
 ##### config?
 
