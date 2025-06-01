@@ -204,7 +204,6 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			const sourceFixed = contents
 				.replace(/onerepo\/blob\/([^/]+)\/plugins/g, 'onerepo/blob/main/plugins')
 				.replace(/^#+ Returns[^#]+/gm, '')
-				.replace(/^#+ Source\n\n[^\n]+/gm, '')
 				.replace(/^Defined in[^\n]+\n/gm, '')
 				.replace(/\n\n#+ Default\n\n([^\n]+)/gm, '\n- **Default:** $1\n')
 				// fix URLs to not point to /name.md
@@ -230,14 +229,11 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			await file.writeSafe(
 				docs.resolve(`src/content/docs/docs/config.mdx`),
 				contents
-					.replace(/#+ Config[.\n]*/, '')
-					.replace(/#+ Type parameters[.\n]*/, '')
-					.replace(/#+ Type declaration[.\n]*/, '')
+					.replace(/#+ Config\n*/, '')
 					.replace(/^##/gm, '#')
 					.replace(/^## /gm, '### ')
-					.replace(/^#+ Source\n\n[^\n]+/gm, '')
-					.replace(/\n\n#+ Default\n\n([^\n]+)/gm, '\n- **Default:** $1\n')
-					.replace(/^> \*\*[^:]+: /gm, '- **Type:** '),
+					.replace(/^Defined in[^\n]+\n/gm, '')
+					.replace(/\n\n#+ Default\n\n([^\n]+)/gm, '\n- **Default:** $1\n'),
 				{ step: coreDocsTwo, sentinel: `usage-typedoc-${name}`, sign: true },
 			);
 		}
