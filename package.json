@@ -30,7 +30,7 @@
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild": "^0.25.4",
 		"eslint": "^9.28.0",
-		"glob": "^10.1.0",
+		"glob": "^11.0.2",
 		"human-id": "^4.1.0",
 		"jest": "^29.7.0",
 		"onerepo": "workspace:^",
