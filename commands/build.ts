@@ -66,6 +66,22 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			addFile(main);
 		}
 
+		if (workspace.packageJson.exports) {
+			if (typeof workspace.packageJson.exports === 'string') {
+				const exports = workspace.resolve(workspace.packageJson.exports);
+				addFile(exports);
+			} else if (typeof workspace.packageJson.exports === 'object') {
+				for (const key in workspace.packageJson.exports) {
+					const item = workspace.packageJson.exports[key];
+					const output = typeof item === 'string' ? item : (item?.default ?? item?.import ?? item?.require);
+					if (output) {
+						const exports = workspace.resolve(output);
+						addFile(exports);
+					}
+				}
+			}
+		}
+
 		if (await file.exists(workspace.resolve('src/fixtures'), { step: buildableStep })) {
 			postCopy.push(() => file.copy(workspace.resolve('src/fixtures'), workspace.resolve('dist/fixtures')));
 		}
