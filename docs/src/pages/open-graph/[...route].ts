@@ -7,7 +7,7 @@ const pages = Object.fromEntries(collectionEntries.map(({ id, data }: { id: stri
 export const { getStaticPaths, GET } = OGImageRoute({
 	param: 'route',
 	pages,
-	getImageOptions: (path, page) => ({
+	getImageOptions: (_path, page) => ({
 		title: page.title,
 		description: page.description,
 		logo: {
