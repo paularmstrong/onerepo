@@ -53,7 +53,6 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		const cjsFiles = new Set<string>();
 		const bins = new Map<string, [string, string]>();
 
-		// eslint-disable-next-line no-inner-declarations
 		function addFile(filepath: string) {
 			if (filepath.endsWith('.cjs')) {
 				cjsFiles.add(filepath);
@@ -65,6 +64,22 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 		if (workspace.packageJson.main) {
 			const main = workspace.resolve(workspace.packageJson.main);
 			addFile(main);
+		}
+
+		if (workspace.packageJson.exports) {
+			if (typeof workspace.packageJson.exports === 'string') {
+				const exports = workspace.resolve(workspace.packageJson.exports);
+				addFile(exports);
+			} else if (typeof workspace.packageJson.exports === 'object') {
+				for (const key in workspace.packageJson.exports) {
+					const item = workspace.packageJson.exports[key];
+					const output = typeof item === 'string' ? item : (item?.default ?? item?.import ?? item?.require);
+					if (output) {
+						const exports = workspace.resolve(output);
+						addFile(exports);
+					}
+				}
+			}
 		}
 
 		if (await file.exists(workspace.resolve('src/fixtures'), { step: buildableStep })) {

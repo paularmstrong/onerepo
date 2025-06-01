@@ -4,7 +4,7 @@ import path from 'node:path';
 export default {
 	name: 'Command',
 	description: 'Create a repo-local command',
-	outDir: ({ name }) => path.join(fileURLToPath(import.meta.url), '..', '..', '..', '..', 'commands'),
+	outDir: () => path.join(fileURLToPath(import.meta.url), '..', '..', '..', '..', 'commands'),
 	prompts: [
 		{
 			name: 'name',

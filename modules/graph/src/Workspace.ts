@@ -4,7 +4,7 @@ import { minimatch } from 'minimatch';
 import type { Tasks, TaskConfig, WorkspaceConfig, RootConfig } from 'onerepo';
 import { getPublishablePackageJson } from '@onerepo/package-manager';
 import type { PackageJson } from '@onerepo/package-manager';
-import type { Jiti } from 'jiti/lib/types';
+import type { Jiti } from 'jiti';
 
 const defaultConfig: Required<WorkspaceConfig> = {
 	codeowners: {},

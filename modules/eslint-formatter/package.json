@@ -26,10 +26,10 @@
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
-		"eslint": "^8.56.0"
+		"eslint": "^9.28.0"
 	},
 	"peerDependencies": {
-		"eslint": "^8"
+		"eslint": "^8 || ^9"
 	},
 	"engines": {
 		"node": "^18 || ^20 || ^22"

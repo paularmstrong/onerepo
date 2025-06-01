@@ -1,6 +1,4 @@
-import path from 'node:path';
-import ignore from 'ignore';
-import { git, file, builders } from 'onerepo';
+import { git, builders } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
 export const command = ['eslint', 'lint'];
@@ -10,7 +8,6 @@ export const description = 'Run eslint across files and Workspaces.';
 type Args = builders.WithAllInputs & {
 	add?: boolean;
 	cache: boolean;
-	extensions?: Array<string>;
 	fix: boolean;
 	'github-annotate': boolean;
 	pretty: boolean;
@@ -35,11 +32,6 @@ export const builder: Builder<Args> = (yargs) =>
 			default: true,
 			description: 'Apply auto-fixes if possible',
 		})
-		.option('extensions', {
-			description: 'Make ESLint check files given these extensions.',
-			type: 'array',
-			string: true,
-		})
 		.option('pretty', {
 			type: 'boolean',
 			default: true,
@@ -49,7 +41,7 @@ export const builder: Builder<Args> = (yargs) =>
 			alias: ['warn'],
 			type: 'boolean',
 			description: 'Report warnings from ESLint.',
-			default: true,
+			default: false,
 		})
 		.option('github-annotate', {
 			description: 'Annotate files in GitHub with errors when failing lint checks in GitHub Actions',
@@ -69,7 +61,6 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		all,
 		cache,
 		'dry-run': isDry,
-		extensions,
 		fix,
 		'github-annotate': github,
 		pretty,
@@ -79,32 +70,12 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 
 	let filteredPaths: Array<string> = [];
 	if (!all) {
-		const ignoreStep = logger.createStep('Filtering ignored files');
+		const filesStep = logger.createStep('Getting files');
 
-		const paths = await getFilepaths({ step: ignoreStep });
-		if (paths.includes('.')) {
-			filteredPaths = ['.'];
-		} else {
-			const ignoreFile = graph.root.resolve('.eslintignore');
-			const hasIgnores = await file.exists(ignoreFile, { step: ignoreStep });
-			const rawIgnores = await (hasIgnores ? file.read(ignoreFile, 'r', { step: ignoreStep }) : '');
-			const ignores = rawIgnores.split('\n').filter((line) => Boolean(line.trim()) && !line.trim().startsWith('#'));
-			const matcher = ignore().add(ignores);
-			filteredPaths = matcher.filter(paths.map((p) => (path.isAbsolute(p) ? graph.root.relative(p) : p)));
+		const paths = await getFilepaths({ step: filesStep });
+		filteredPaths = paths.includes('.') ? ['.'] : paths;
 
-			if (extensions && extensions.length) {
-				filteredPaths = filteredPaths.filter((filepath) => {
-					const ext = path.extname(filepath);
-					if (!ext) {
-						return true;
-					}
-
-					return extensions.includes(ext.replace(/^\./, ''));
-				});
-			}
-		}
-
-		await ignoreStep.end();
+		await filesStep.end();
 	}
 
 	if (!all && !filteredPaths.length) {
@@ -113,9 +84,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 	}
 
 	const args = [pretty ? '--color' : '--no-color'];
-	if (extensions && extensions.length) {
-		args.push('--ext', extensions.join(','));
-	}
+
 	if (!(passthrough.includes('-f') || passthrough.includes('--format'))) {
 		args.push('--format', 'onerepo');
 	}
@@ -135,6 +104,7 @@ export const handler: Handler<Args> = async function handler(argv, { getFilepath
 		cmd: 'eslint',
 		args: [...args, ...(all ? ['.'] : filteredPaths), ...passthrough],
 		opts: {
+			cwd: graph.root.location,
 			env: { ONEREPO_ESLINT_GITHUB_ANNOTATE: github ? 'true' : 'false' },
 		},
 		step: runStep,

@@ -12,10 +12,24 @@
 	"homepage": "https://onerepo.tools/plugins/eslint/",
 	"type": "module",
 	"main": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./config": "./src/config.ts"
+	},
 	"publishConfig": {
 		"access": "public",
 		"main": "./dist/index.js",
-		"typings": "./dist/src/index.d.ts"
+		"typings": "./dist/src/index.d.ts",
+		"exports": {
+			".": {
+				"types": "./dist/src/index.d.ts",
+				"import": "./dist/index.js"
+			},
+			"./config": {
+				"types": "./dist/src/config.d.ts",
+				"import": "./dist/config.js"
+			}
+		}
 	},
 	"files": [
 		"./dist/**/*",
@@ -24,20 +38,22 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "1.0.4",
-		"ignore": "^5.3.1"
+		"glob": "^10.1.0",
+		"ignore": "^5.3.1",
+		"jiti": "^2.4.2"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
-		"@types/eslint": "^8.56.12",
-		"eslint": "^8.56.0",
-		"jiti": "^2.4.2",
+		"@types/eslint": "^9.6.1",
+		"eslint": "^9.28.0",
 		"onerepo": "workspace:^",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.33.0"
 	},
 	"peerDependencies": {
-		"eslint": "^8",
+		"eslint": "^9",
 		"onerepo": "^1"
 	},
 	"engines": {
