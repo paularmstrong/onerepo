@@ -38,7 +38,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### Flat configs & monorepos
 
-Eslint 9 moved from a multi-rc/cascading config system to [flat configs](https://eslint.org/blog/2022/08/new-config-system-part-2/). As welcome of a change this was, it broke one of the fundamental tenets of monorepos: as much as possible for a workspace should be contained within the workspace and should not pollute the global scope.
+Eslint 9 moved from a multi-RC/cascading config system to [flat configs](https://eslint.org/blog/2022/08/new-config-system-part-2/). As welcome of a change this was, it broke one of the fundamental tenets of monorepos: **Workspace-specific configurations should be contained within the Workspace’s root and should not pollute outside itself in the global scope.**
 
 With the flat configuration format, either all rules need to be hard coded into the root configuration file or developers need to know to manually export their workspace configurations and import them directly into the flat config.
 
@@ -50,47 +50,113 @@ This plugin solves some of the flat config short-comings by automatically spread
 
    This will be your monorepo-wide configuration. All global plugins and rules should be set here.
 
+   <Tabs syncKey="jsflavor">
+ <TabItem label="ES Module">
+   ```ts title="eslint.config.js"
+   import eslint from '@eslint/js';
+
+   export default [
+   { ignores: ['**/dist'] },
+   eslint.configs.recommended,
+   ];
+
+   ````
+   </TabItem>
+
+   <TabItem label="TypeScript">
    ```ts title="eslint.config.ts"
    import eslint from '@eslint/js';
    import tseslint from 'typescript-eslint';
 
    export default tseslint.config(
-   	{ ignores: ['**/dist'] },
-   	eslint.configs.recommended,
-   	tseslint.configs.recommended,
+     { ignores: ['**/dist'] },
+     eslint.configs.recommended,
+     tseslint.configs.recommended,
    );
-   ```
+   ````
+
+    </TabItem>
+</Tabs>
 
 2. **Wrap your root config**
 
-   ```ts title="eslint-config.ts" ins={3,5,11}
+   <Tabs syncKey="jsflavor">
+ <TabItem label="ES Module">
+   ```ts title="eslint.config.js" ins={2,4,7}
+   import eslint from '@eslint/js';
+   import onerepoEslint from '@onerepo/plugin-eslint/config';
+
+   export default onerepoEslint(
+   { ignores: ['**/dist'] },
+   eslint.configs.recommended,
+   );
+
+   ````
+   </TabItem>
+
+   <TabItem label="TypeScript">
+   ```ts title="eslint.config.ts" ins={3,5,11}
    import eslint from '@eslint/js';
    import tseslint from 'typescript-eslint';
    import onerepoEslint from '@onerepo/plugin-eslint/config';
 
    export default onerepoEslint(
-   	tseslint.config(
-   		{ ignores: ['**/dist'] },
-   		eslint.configs.recommended,
-   		tseslint.configs.recommended,
-   	),
+     tseslint.config(
+       { ignores: ['**/dist'] },
+       eslint.configs.recommended,
+       tseslint.configs.recommended,
+     )
    );
-   ```
+   ````
+
+    </TabItem>
+</Tabs>
+
+   This wrapper is optional in general, but required if you would like to have make Workspace-specific configurations that will not bleed across their own boundaries and affect other Workspaces.
 
 3. **Add Workspace configs**
 
    You can now create ESLint flat configs in each workspace as if they were the root of your workspace and each workspace will be merged into the repository’s root config with the appropriate file selectors and ignores set — resulting in a single "flat config" as read by ESLint that will prevent individual Workspace rules from conflicting with each other.
 
+   <Tabs syncKey="jsflavor">
+ <TabItem label="ES Module">
+   ```ts title="my-workspace/eslint-config.js"
+   import tseslint from 'typescript-eslint';
+   import pluginAstro from 'eslint-plugin-astro';
+
+   export default [
+   { ignores: '.astro/\*_' },
+   ...pluginAstro.configs.recommended,
+   {
+   rules: {
+   'import/no-unresolved': ['error', { ignore: ['astro:_'] }],
+   },
+   }
+   ];
+
+   ````
+   </TabItem>
+
+   <TabItem label="TypeScript">
    ```ts title="my-workspace/eslint-config.ts"
    import tseslint from 'typescript-eslint';
    import pluginAstro from 'eslint-plugin-astro';
 
-   export default tseslint.config({ ignores: '.astro/**' }, ...pluginAstro.configs.recommended, {
-   	rules: {
-   		'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
-   	},
-   });
-   ```
+   export default tseslint.config(
+     { ignores: '.astro/**' },
+     ...pluginAstro.configs.recommended,
+     {
+       rules: {
+         'import/no-unresolved': ['error', { ignore: ['astro:*'] }],
+       },
+     }
+   );
+   ````
+
+    </TabItem>
+</Tabs>
+
+   Notice that file paths and ignores are _relative_ to the Workspace. When the `onerepoEslint` wrapper is applied to the repository’s root `eslint.config`, all file paths will be appropriately resolved to only affect files within the given Workspace. This prevents any rules and configurations from unintentionally bleeding across to other Workspaces.
 
 </Steps>
 
