@@ -2009,7 +2009,7 @@ __metadata:
     postcss: ^8.4.49
     starlight-links-validator: ^0.13.4
     typedoc: ^0.27.4
-    typedoc-plugin-markdown: ^4.3.2
+    typedoc-plugin-markdown: ^4.6.4
     typedoc-plugin-remark: ^1.1.1
     typescript: ^5.7.2
     unist-util-visit: ^5.0.0
@@ -14175,12 +14175,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^4.3.2":
-  version: 4.4.2
-  resolution: "typedoc-plugin-markdown@npm:4.4.2"
+"typedoc-plugin-markdown@npm:^4.6.4":
+  version: 4.6.4
+  resolution: "typedoc-plugin-markdown@npm:4.6.4"
   peerDependencies:
-    typedoc: 0.27.x
-  checksum: 07b04e5aba3b7e1772a22f348645df9e41983f483da4315c6dedd9bdf0d19bfcf72ff088b4896c2ace38827e47efb7b1519a7636e0eead994077ed81129983a0
+    typedoc: 0.28.x
+  checksum: 80d42801874c495d426fdce7189e6dc922d27ea4af242f10d125a8f6e61f54e37d50aea964dfbb6dc27b3481c838661cc5f85b3cc223a4287a74aa30e4f7a602
   languageName: node
   linkType: hard
 
