@@ -269,42 +269,21 @@ header {
 	filter: drop-shadow(0 0 3rem var(--overlay-blurple));
 }
 
-.sl-markdown-content .anchor-link {
-	color: var(--sl-color-gray-3);
-}
-.sl-markdown-content .anchor-link:hover,
-.sl-markdown-content .anchor-link:focus {
-	color: var(--sl-color-text-accent);
-}
-.sl-markdown-content .heading-wrapper svg {
-	display: inline;
-	width: var(--icon-size);
-}
-
-@media (hover: hover) {
-	.sl-markdown-content .anchor-link {
-		opacity: 0;
-	}
-}
-.sl-markdown-content .heading-wrapper:hover > .anchor-link,
-.sl-markdown-content .anchor-link:focus {
-	opacity: 1;
-}
-
-.sl-markdown-content .heading-wrapper {
-	display: flex;
+.sl-markdown-content .sl-heading-wrapper h1,
+.sl-markdown-content .sl-heading-wrapper h2,
+.sl-markdown-content .sl-heading-wrapper h3,
+.sl-markdown-content .sl-heading-wrapper h4,
+.sl-markdown-content .sl-heading-wrapper h5,
+.sl-markdown-content .sl-heading-wrapper h6 {
+	display: inline-flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	align-items: baseline;
+	align-items: center;
 	gap: var(--icon-spacing);
-}
-.sl-markdown-content .heading-wrapper > :first-child,
-.sl-markdown-content .anchor-link {
-	margin: 0;
 }
 
 /* Increase heading  */
-.sl-markdown-content :not(.heading-wrapper) + :is(.heading-wrapper):not(:where(.not-content *)) {
+.sl-markdown-content :not(.sl-heading-wrapper) + :is(.sl-heading-wrapper):not(:where(.not-content *)) {
 	margin-block-start: 3rem;
 }
 
