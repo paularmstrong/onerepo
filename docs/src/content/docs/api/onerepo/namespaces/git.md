@@ -14,7 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<3b36f84fb2226da38e6e59530bb408c9>> -->
+<!-- @generated SignedSource<<6946d513fa05d1f7ac15deb685600887>> -->
 
 Special handlers for managing complex queries and manipulation of the git repository's state.
 
@@ -26,20 +26,20 @@ Special handlers for managing complex queries and manipulation of the git reposi
 
 #### Constructors
 
-##### new StagingWorkflow()
+##### Constructor
 
 ```ts
-new StagingWorkflow(options): StagingWorkflow
+new StagingWorkflow(options): StagingWorkflow;
 ```
 
 **Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)  
 **Parameters:**
 
-| Parameter        | Type                                                                             | Description                            |
-| ---------------- | -------------------------------------------------------------------------------- | -------------------------------------- |
-| `options`        | \{ `graph`: [`Graph`](../../#graph-1); `logger`: [`Logger`](../../#logger-1); \} | -                                      |
-| `options.graph`  | [`Graph`](../../#graph-1)                                                        | The repository Graph                   |
-| `options.logger` | [`Logger`](../../#logger-1)                                                      | Logger instance to use for all actions |
+| Parameter        | Type                                                                               | Description                            |
+| ---------------- | ---------------------------------------------------------------------------------- | -------------------------------------- |
+| `options`        | \{ `graph`: [`Graph`](../../../#graph); `logger`: [`Logger`](../../../#logger); \} | -                                      |
+| `options.graph`  | [`Graph`](../../../#graph)                                                         | The repository Graph                   |
+| `options.logger` | [`Logger`](../../../#logger)                                                       | Logger instance to use for all actions |
 
 **Returns:** [`StagingWorkflow`](#stagingworkflow)
 
@@ -48,7 +48,7 @@ new StagingWorkflow(options): StagingWorkflow
 ##### restoreUnstaged()
 
 ```ts
-restoreUnstaged(): Promise<void>
+restoreUnstaged(): Promise<void>;
 ```
 
 **Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
@@ -62,7 +62,7 @@ This command will go through a series of attempts to ressurect upon failure, eve
 ##### saveUnstaged()
 
 ```ts
-saveUnstaged(): Promise<void>
+saveUnstaged(): Promise<void>;
 ```
 
 **Defined in:** [modules/git/src/workflow.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/workflow.ts)
@@ -82,8 +82,8 @@ To restore the unstaged changes, call [\`restoreUnstaged()\`](#restoreunstaged).
 
 ```ts
 type ModifiedBaseOptions<ByStatus> = {
-	allStatus: boolean;
-	byStatus: ByStatus;
+	allStatus?: boolean;
+	byStatus?: ByStatus;
 };
 ```
 
@@ -95,13 +95,15 @@ type ModifiedBaseOptions<ByStatus> = {
 | ------------------------------ | ------------ |
 | `ByStatus` _extends_ `boolean` | `false`      |
 
-#### Type declaration
+#### Properties
 
 ##### allStatus?
 
 ```ts
 optional allStatus: boolean;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 By default, this function will not return `deleted` and `unmerged` files unless either `allStatus` or `byStatus` is set to `true`
 
@@ -110,6 +112,8 @@ By default, this function will not return `deleted` and `unmerged` files unless 
 ```ts
 optional byStatus: ByStatus;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Return modified files categorized by the [type of modification](#modifiedbystatus) (added, deleted, modified, etc)
 
@@ -134,13 +138,15 @@ type ModifiedByStatus = {
 
 This type defines the different statuses of files when running a git-diff. More information around the file statuses can be found in the official git documentation for [git-diff](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt-git-diff-filesltpatterngt82308203).
 
-#### Type declaration
+#### Properties
 
 ##### added
 
 ```ts
 added: string[];
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Git status `A`: addition of a file
 
@@ -150,6 +156,8 @@ Git status `A`: addition of a file
 copied: string[];
 ```
 
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
 Git status `C`: copy of a file into a new one
 
 ##### deleted
@@ -157,6 +165,8 @@ Git status `C`: copy of a file into a new one
 ```ts
 deleted: string[];
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Git status `D`: deletion of a file
 
@@ -166,6 +176,8 @@ Git status `D`: deletion of a file
 fileTypeChanged: string[];
 ```
 
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
 Git status `T`: change in the type of the file (regular file, symbolic link or submodule)
 
 ##### modified
@@ -173,6 +185,8 @@ Git status `T`: change in the type of the file (regular file, symbolic link or s
 ```ts
 modified: string[];
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Git status `M`: modification of the contents or mode of a file
 
@@ -182,6 +196,8 @@ Git status `M`: modification of the contents or mode of a file
 renamed: string[];
 ```
 
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
 Git status `R`: renaming of a file
 
 ##### unknown
@@ -189,6 +205,8 @@ Git status `R`: renaming of a file
 ```ts
 unknown: string[];
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Git status `X`: addition of a file
 
@@ -198,6 +216,8 @@ Git status `X`: addition of a file
 unmerged: string[];
 ```
 
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
+
 Git status `U`: "unknown" change type (most probably a bug, please report it)
 
 ---
@@ -206,9 +226,9 @@ Git status `U`: "unknown" change type (most probably a bug, please report it)
 
 ```ts
 type ModifiedFromThrough<ByStatus> = ModifiedBaseOptions<ByStatus> & {
-	from: string;
-	staged: false;
-	through: string;
+	from?: string;
+	staged?: false;
+	through?: string;
 };
 ```
 
@@ -252,9 +272,9 @@ Git ref for end (inclusive) to get list of modified files
 
 ```ts
 type ModifiedStaged<ByStatus> = ModifiedBaseOptions<ByStatus> & {
-	from: never;
+	from?: never;
 	staged: true;
-	through: never;
+	through?: never;
 };
 ```
 
@@ -298,7 +318,7 @@ Disallowed when `staged: true`
 
 ```ts
 type Options = {
-	step: LogStep;
+	step?: LogStep;
 };
 ```
 
@@ -306,13 +326,15 @@ type Options = {
 
 Generic options passed to all Git operations.
 
-#### Type declaration
+#### Properties
 
 ##### step?
 
 ```ts
 optional step: LogStep;
 ```
+
+**Defined in:** [modules/git/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/git/src/index.ts)
 
 Avoid creating a new step in output for each function. Pass a Logger Step to pipe all logs and output to that instead.
 
@@ -322,7 +344,7 @@ Avoid creating a new step in output for each function. Pass a Logger Step to pip
 
 ```ts
 type UpdateIndexOptions = Options & {
-	immediately: boolean;
+	immediately?: boolean;
 };
 ```
 
@@ -360,7 +382,7 @@ await git.flushUpdateIndex();
 
 | Parameter  | Type                  |
 | ---------- | --------------------- |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`void`\>
 
@@ -384,7 +406,7 @@ const currentBranch = await git.getBranch();
 
 | Parameter  | Type                  |
 | ---------- | --------------------- |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>
 
@@ -408,7 +430,7 @@ const sha = await git.getCurrentSha();
 
 | Parameter  | Type                  |
 | ---------- | --------------------- |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>
 
@@ -432,7 +454,7 @@ const mergeBase = await getMergeBase();
 
 | Parameter  | Type                  |
 | ---------- | --------------------- |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`string`\>
 
@@ -484,10 +506,10 @@ Will result in `allChanges` equal to an object containing arrays of strings:
 
 **Parameters:**
 
-| Parameter   | Type                                                                                                                                |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `modified`? | \| [`ModifiedStaged`](#modifiedstagedbystatus)\<`ByStatus`\> \| [`ModifiedFromThrough`](#modifiedfromthroughbystatus)\<`ByStatus`\> |
-| `options`?  | [`Options`](#options)                                                                                                               |
+| Parameter   | Type                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| `modified?` | \| [`ModifiedStaged`](#modifiedstaged)\<`ByStatus`\> \| [`ModifiedFromThrough`](#modifiedfromthrough)\<`ByStatus`\> |
+| `options?`  | [`Options`](#options)                                                                                               |
 
 **Returns:** `Promise`\<`ByStatus` _extends_ `true` ? [`ModifiedByStatus`](#modifiedbystatus) : `string`[]\>
 
@@ -514,7 +536,7 @@ if (!isClean) {
 
 | Parameter  | Type                  |
 | ---------- | --------------------- |
-| `options`? | [`Options`](#options) |
+| `options?` | [`Options`](#options) |
 
 **Returns:** `Promise`\<`boolean`\>
 
@@ -543,7 +565,7 @@ await git.updateIndex(['tacos.ts']);
 | Parameter  | Type                                        |
 | ---------- | ------------------------------------------- |
 | `paths`    | `string` \| `string`[]                      |
-| `options`? | [`UpdateIndexOptions`](#updateindexoptions) |
+| `options?` | [`UpdateIndexOptions`](#updateindexoptions) |
 
 **Returns:** `Promise`\<`undefined` \| `string`\>
 

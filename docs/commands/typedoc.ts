@@ -78,7 +78,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 				/modules\/([^/]+)\/dist\/src\/(.*)\.d\.ts:?(\d+)?/g,
 				'[modules/$1/src/$2.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/$1/src/$2.ts)',
 			)
-			.replace(/\.\.\//g, '../../')
+			.replace(/\.\.\/\.\.\//g, '../../../')
 			.replace(/index\.md(#[^)]+)?/g, '$1')
 			.replace(/\(([\w-]+)\.md(#[^)]+)?/g, '($2')
 			.replace(/\/([\w-]+)\.md(#[^)]+)?/g, '/$1/$2')

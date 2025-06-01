@@ -43,13 +43,11 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-root */}
-{/* @generated SignedSource<<cc7b20bfab47baae5a8d07464cfa2112>> */}
+{/* @generated SignedSource<<6e1d72fccfe9ec1fd0c6fe6181fca602>> */}
 
 ### RootConfig\<CustomLifecycles\>
 
-- **Type:** `object`
-
-Defined in: config-root.d.ts:7
+> **RootConfig**\<`CustomLifecycles`\> = `object`
 
 Setup configuration for the root of the repository.
 
@@ -59,9 +57,11 @@ Setup configuration for the root of the repository.
 | ----------------------------------------------- | ------------ |
 | `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
 
+### Properties
+
 #### root
 
-- **Type:** `true`
+> **root**: `true`
 
 Must be set to `true` in order to denote that this is the root of the repository.
 
@@ -69,9 +69,7 @@ Must be set to `true` in order to denote that this is the root of the repository
 
 > `optional` **changes**: `object`
 
-##### Type declaration
-
-##### changes.filenames?
+##### filenames?
 
 > `optional` **filenames**: `"hash"` \| `"human"`
 
@@ -79,7 +77,7 @@ Must be set to `true` in order to denote that this is the root of the repository
 
 To generate human-readable unique filenames for change files, ensure [human-id](https://www.npmjs.com/package/human-id) is installed.
 
-##### changes.prompts?
+##### prompts?
 
 > `optional` **prompts**: `"guided"` \| `"semver"`
 
@@ -90,11 +88,9 @@ Change the prompt question & answer style when adding change entries.
 - `'guided'`: Gives more detailed explanations when release types.
 - `'semver'`: A simple choice list of semver release types.
 
-##### changes.formatting?
+##### formatting?
 
 > `optional` **formatting**: `object`
-
-##### Type declaration
 
 - **Default:** `{}`
 
@@ -113,7 +109,7 @@ export default {
 };
 ```
 
-##### changes.formatting.commit?
+##### formatting.commit?
 
 > `optional` **commit**: `string`
 
@@ -127,7 +123,7 @@ Available replacement strings:
 | `${ref.short}` | 8-character version of the commit ref |
 | `${ref}` | Full commit ref |
 
-##### changes.formatting.footer?
+##### formatting.footer?
 
 > `optional` **footer**: `string`
 
@@ -170,9 +166,7 @@ export default {
 
 Configuration for custom commands.
 
-##### Type declaration
-
-##### commands.directory?
+##### directory?
 
 > `optional` **directory**: `string` \| `false`
 
@@ -194,7 +188,7 @@ Given the preceding configuration, commands will be searched for within the `com
 - `<root>/commands/*`
 - `<root>/<workspaces>/commands/*`
 
-##### commands.ignore?
+##### ignore?
 
 > `optional` **ignore**: `RegExp`
 
@@ -217,9 +211,7 @@ export default {
 
 > `optional` **dependencies**: `object`
 
-##### Type declaration
-
-##### dependencies.mode?
+##### mode?
 
 > `optional` **mode**: `"strict"` \| `"loose"` \| `"off"`
 
@@ -231,7 +223,7 @@ The dependency mode will be used for node module dependency management and verif
 - `loose`: Reused third-party dependencies will be required to have semantic version overlap across unique branches of the Graph.
 - `strict`: Versions of all dependencies across each discrete Workspace dependency tree must be strictly equal.
 
-##### dependencies.dedupe?
+##### dedupe?
 
 > `optional` **dedupe**: `boolean`
 
@@ -323,9 +315,7 @@ Globally defined tasks per lifecycle. Tasks defined here will be assumed to run 
 
 Optional extra configuration for `tasks`.
 
-##### Type declaration
-
-##### taskConfig.lifecycles?
+##### lifecycles?
 
 > `optional` **lifecycles**: `CustomLifecycles`[]
 
@@ -344,7 +334,7 @@ export default {
 };
 ```
 
-##### taskConfig.stashUnstaged?
+##### stashUnstaged?
 
 > `optional` **stashUnstaged**: `CustomLifecycles` _extends_ `string` ? `Lifecycle` \| `CustomLifecycles` : `Lifecycle`[]
 
@@ -373,9 +363,7 @@ Folder path for [`generate` command’s](https://onerepo.tools/core/generate/) t
 
 > `optional` **validation**: `object`
 
-##### Type declaration
-
-##### validation.schema?
+##### schema?
 
 > `optional` **schema**: `string` \| `null`
 
@@ -389,9 +377,7 @@ File path for custom Graph and configuration file validation schema.
 
 Version control system settings.
 
-##### Type declaration
-
-##### vcs.autoSyncHooks?
+##### autoSyncHooks?
 
 > `optional` **autoSyncHooks**: `boolean`
 
@@ -408,7 +394,7 @@ export default {
 };
 ```
 
-##### vcs.hooksPath?
+##### hooksPath?
 
 > `optional` **hooksPath**: `string`
 
@@ -425,7 +411,7 @@ export default {
 };
 ```
 
-##### vcs.provider?
+##### provider?
 
 > `optional` **provider**: `"github"` \| `"gitlab"` \| `"bitbucket"` \| `"gitea"`
 
@@ -488,19 +474,19 @@ module.exports = {
 </Tabs>
 
 {/* start-usage-typedoc-workspace */}
-{/* @generated SignedSource<<50c6de5753561790ff810ec61950c599>> */}
+{/* @generated SignedSource<<755d4c99a1fa9e598f413b64a976bf3c>> */}
 
 ### WorkspaceConfig\<CustomLifecycles\>
 
-- **Type:** `object`
-
-Defined in: config-workspace.d.ts:5
+> **WorkspaceConfig**\<`CustomLifecycles`\> = `object`
 
 ### Type Parameters
 
 | Type Parameter                                  | Default type |
 | ----------------------------------------------- | ------------ |
 | `CustomLifecycles` _extends_ `string` \| `void` | `void`       |
+
+### Properties
 
 #### codeowners?
 
@@ -527,11 +513,10 @@ export default {
 
 Configuration for custom commands. To configure the commands directory, see [`RootConfig` `commands.directory`](#commandsdirectory).
 
-##### Type declaration
+##### passthrough
 
-##### commands.passthrough
+> **passthrough**: `Record`\<`string`, \{ `description`: `string`; `command?`: `string`; \}\>
 
-- **Type:** `Record`\<`string`, \{ `description`: `string`; `command`: `string`; \}\>
 - **Default:** `{}`
 
 Enable commands from installed dependencies. Similar to running `npx <command>`, but pulled into the oneRepo CLI and able to be limited by Workspace. Passthrough commands _must_ have helpful descriptions.
