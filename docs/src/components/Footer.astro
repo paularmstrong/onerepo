@@ -7,7 +7,7 @@ const isVisualizer = Astro.locals.starlightRoute.entry.slug === 'visualize';
 
 {
 	!isHomepage && !isVisualizer ? (
-		<Default {...(Astro.props as any)}>
+		<Default>
 			<slot />
 		</Default>
 	) : null
