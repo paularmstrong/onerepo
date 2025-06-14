@@ -28,6 +28,6 @@
 		"@internal/tsconfig": "workspace:^"
 	},
 	"engines": {
-		"node": "^18 || ^20 || ^22"
+		"node": "^20.19.0 || ^22.10.0 || ^24"
 	}
 }

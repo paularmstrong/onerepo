@@ -472,7 +472,7 @@ Directly use Node.js APIs or third-party `child_process` spawning.
 
 </div>
 
-oneRepo includes advanced child process spawning via the [`run`](/api/#run) and [`batch`](/api/#batch) functions. These async functions work like Node.js [`child_process.spawn`](https://nodejs.org/docs/latest-v18.x/api/child_process.html#child_processspawncommand-args-options), but are promise-based asynchronous functions that handle redirecting and buffering output as well as failure tracking for you. These should be used in favor of the direct Node.js builtins.
+oneRepo includes advanced child process spawning via the [`run`](/api/#run) and [`batch`](/api/#batch) functions. These async functions work like Node.js [`child_process.spawn`](https://nodejs.org/docs/latest-v22.x/api/child_process.html#child_processspawncommand-args-options), but are promise-based asynchronous functions that handle redirecting and buffering output as well as failure tracking for you. These should be used in favor of the direct Node.js builtins.
 
 If the command you're trying to run is installed by a third party node module through your package manager (NPM, Yarn, or pNPM), you are encouraged to use [`graph.packageManager.run`](/api/#packagemanager) and [`graph.packageManager.batch`](/api/#packagemanager) functions. These will determine the correct install path to the executable and avoid potential issues across package manager install locations.
 
