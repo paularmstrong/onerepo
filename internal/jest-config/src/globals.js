@@ -5,7 +5,10 @@ global.vi = new Proxy(
 	{},
 	{
 		get(target, property) {
-			return jest[property].bind(jest);
+			if (typeof jest[property] === 'function') {
+				return jest[property].bind(jest);
+			}
+			return jest[property];
 		},
 	},
 );
