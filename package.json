@@ -40,7 +40,7 @@
 		"vitest": "^3.1.4"
 	},
 	"engines": {
-		"node": "^18 || ^20 || ^22"
+		"node": "^20.19.0 || ^22.10.0 || ^24"
 	},
 	"resolutions": {
 		"@astrojs/starlight@^0.21.0": "patch:@astrojs/starlight@npm%3A0.21.0#./.yarn/patches/@astrojs-starlight-npm-0.21.0-f537baa752.patch"
