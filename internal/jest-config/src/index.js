@@ -18,7 +18,6 @@ export function makeConfig(config) {
 		clearMocks: true,
 		resetMocks: true,
 		restoreMocks: true,
-		moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'],
 		...rest,
 		coveragePathIgnorePatterns: [
 			'/__fixtures__/',
