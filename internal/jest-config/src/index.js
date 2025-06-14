@@ -32,9 +32,12 @@ export function makeConfig(config) {
 		modulePathIgnorePatterns: ['fixtures'],
 		setupFiles: [localPath('globals.js')],
 		testPathIgnorePatterns: ['/dist/'],
-		transformIgnorePatterns: ['/node_modules/(?!(inquirer|log-update))/', ...(config.transformIgnorePatterns ?? [])],
+		transformIgnorePatterns: [
+			'/node_modules/(?!(inquirer|log-update|yargs|yargs-parser))/',
+			...(config.transformIgnorePatterns ?? []),
+		],
 		transform: {
-			'\\.[jt]sx?$': ['esbuild-jest', { sourcemap: true }],
+			'\\.m?[jt]sx?$': ['esbuild-jest', { sourcemap: true }],
 			...config.transform,
 		},
 		watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
