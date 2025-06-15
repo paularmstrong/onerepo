@@ -1,26 +1,11 @@
-import type { Writable } from 'node:stream';
-import { createLogUpdate } from 'log-update';
-import type logUpdate from 'log-update';
-import { LogStep } from './LogStep';
+import type { Duplex, Transform, Writable } from 'node:stream';
+import { randomUUID } from 'node:crypto';
 import { destroyCurrent, setCurrent } from './global';
-
-type LogUpdate = typeof logUpdate;
-
-/**
- * Control the verbosity of the log output
- *
- * | Value  | What           | Description                                      |
- * | ------ | -------------- | ------------------------------------------------ |
- * | `<= 0` | Silent         | No output will be read or written.               |
- * | `>= 1` | Error, Info    |                                                  |
- * | `>= 2` | Warnings       |                                                  |
- * | `>= 3` | Log            |                                                  |
- * | `>= 4` | Debug          | `logger.debug()` will be included                |
- * | `>= 5` | Timing         | Extra performance timing metrics will be written |
- *
- * @group Logger
- */
-export type Verbosity = 0 | 1 | 2 | 3 | 4 | 5;
+import { LogStep } from './LogStep';
+import { LogStepToString } from './transforms/LogStepToString';
+import { LogProgress } from './transforms/LogProgress';
+import { hideCursor, showCursor } from './utils/cursor';
+import type { Verbosity } from './types';
 
 /**
  * @group Logger
@@ -33,10 +18,12 @@ export type LoggerOptions = {
 	/**
 	 * Advanced – override the writable stream in order to pipe logs elsewhere. Mostly used for dependency injection for `@onerepo/test-cli`.
 	 */
-	stream?: Writable;
+	stream?: Writable | LogStep;
+	/**
+	 * @experimental
+	 */
+	captureAll?: boolean;
 };
-
-const frames: Array<string> = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 
 /**
  * The oneRepo logger helps build commands and capture output from spawned subprocess in a way that's both delightful to the end user and includes easy to scan and follow output.
@@ -53,41 +40,35 @@ export class Logger {
 	#defaultLogger: LogStep;
 	#steps: Array<LogStep> = [];
 	#verbosity: Verbosity = 0;
-	#updater: LogUpdate;
-	#frame = 0;
-	#stream: Writable;
-
-	#paused = false;
-	#updaterTimeout: NodeJS.Timeout | undefined;
+	#stream: Writable | Duplex | Transform | LogStep;
 
 	#hasError = false;
 	#hasWarning = false;
 	#hasInfo = false;
 	#hasLog = false;
 
+	#captureAll = false;
+
+	id: string;
+
 	/**
 	 * @internal
 	 */
 	constructor(options: LoggerOptions) {
-		this.verbosity = options.verbosity;
-
+		this.#defaultLogger = new LogStep({ name: '', verbosity: options.verbosity });
 		this.#stream = options.stream ?? process.stderr;
-		this.#updater = createLogUpdate(this.#stream);
-
-		this.#defaultLogger = new LogStep('', {
-			onEnd: this.#onEnd,
-			onMessage: this.#onMessage,
-			verbosity: this.verbosity,
-			stream: this.#stream,
-		});
-
-		if (this.#stream === process.stderr && process.stderr.isTTY && process.env.NODE_ENV !== 'test') {
-			process.nextTick(() => {
-				this.#runUpdater();
-			});
-		}
+		this.#captureAll = !!options.captureAll;
+		this.verbosity = options.verbosity;
+		this.id = randomUUID();
 
 		setCurrent(this);
+	}
+
+	/**
+	 * @experimental
+	 */
+	get captureAll() {
+		return this.#captureAll;
 	}
 
 	/**
@@ -98,14 +79,14 @@ export class Logger {
 	}
 
 	/**
-	 * Recursively applies the new verbosity to the logger and all of its active steps.
+	 * Applies the new verbosity to the main logger and any future steps.
 	 */
 	set verbosity(value: Verbosity) {
 		this.#verbosity = Math.max(0, value) as Verbosity;
 
 		if (this.#defaultLogger) {
 			this.#defaultLogger.verbosity = this.#verbosity;
-			this.#defaultLogger.activate(true);
+			// this.#activate(this.#defaultLogger);
 		}
 
 		this.#steps.forEach((step) => (step.verbosity = this.#verbosity));
@@ -119,37 +100,42 @@ export class Logger {
 	 * Whether or not an error has been sent to the logger or any of its steps. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in the `Logger` or any `Step` instance.
 	 */
 	get hasError() {
-		return this.#hasError;
+		return this.#defaultLogger.hasError;
 	}
 
 	/**
 	 * Whether or not a warning has been sent to the logger or any of its steps.
 	 */
 	get hasWarning() {
-		return this.#hasWarning;
+		return this.#defaultLogger.hasWarning;
 	}
 
 	/**
 	 * Whether or not an info message has been sent to the logger or any of its steps.
 	 */
 	get hasInfo() {
-		return this.#hasInfo;
+		return this.#defaultLogger.hasInfo;
 	}
 
 	/**
 	 * Whether or not a log message has been sent to the logger or any of its steps.
 	 */
 	get hasLog() {
-		return this.#hasLog;
+		return this.#defaultLogger.hasLog;
 	}
 
 	/**
 	 * @internal
 	 */
-	set stream(stream: Writable) {
+	set stream(stream: Writable | LogStep) {
 		this.#stream = stream;
-		this.#updater.clear();
-		this.#updater = createLogUpdate(this.#stream);
+	}
+
+	/**
+	 * @internal
+	 */
+	get stream() {
+		return this.#stream;
 	}
 
 	/**
@@ -163,41 +149,17 @@ export class Logger {
 	 * logger.unpause();
 	 * ```
 	 */
-	pause(write: boolean = true) {
-		this.#paused = true;
-		clearTimeout(this.#updaterTimeout);
-		if (write) {
-			this.#writeSteps();
-		}
+	pause() {
+		this.#stream.cork();
+		showCursor();
 	}
 
 	/**
-	 * Unpause the logger and resume writing buffered logs to `stderr`. See {@link Logger#pause | `logger.pause()`} for more information.
+	 * Unpause the logger and uncork writing buffered logs to the output stream. See {@link Logger#pause | `logger.pause()`} for more information.
 	 */
 	unpause() {
-		this.#updater.clear();
-		this.#paused = false;
-		this.#runUpdater();
-	}
-
-	#runUpdater() {
-		if (this.#paused) {
-			return;
-		}
-		this.#updaterTimeout = setTimeout(() => {
-			this.#writeSteps();
-			this.#frame += 1;
-			this.#runUpdater();
-		}, 80);
-	}
-
-	#writeSteps() {
-		if (process.env.NODE_ENV === 'test' || this.verbosity <= 0) {
-			return;
-		}
-		this.#updater(
-			this.#steps.map((step) => [...step.status, ` └ ${frames[this.#frame % frames.length]}`].join('\n')).join('\n'),
-		);
+		this.#stream.uncork();
+		hideCursor();
 	}
 
 	/**
@@ -211,17 +173,65 @@ export class Logger {
 	 *
 	 * @param name The name to be written and wrapped around any output logged to this new step.
 	 */
-	createStep(name: string, { writePrefixes }: { writePrefixes?: boolean } = {}) {
-		const step = new LogStep(name, {
-			onEnd: this.#onEnd,
-			onMessage: this.#onMessage,
-			verbosity: this.verbosity,
-			stream: this.#stream,
-			writePrefixes,
-		});
+	createStep(
+		name: string,
+		opts: {
+			/**
+			 * Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.
+			 *
+			 * Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail.
+			 */
+			description?: string;
+			/**
+			 * Override the default logger verbosity. Any changes while this step is running to the default logger will result in this step’s verbosity changing as well.
+			 */
+			verbosity?: Verbosity;
+			/**
+			 * @deprecated This option no longer does anything and will be removed in v2.0.0
+			 */
+			writePrefixes?: boolean;
+		} = {},
+	) {
+		const step = new LogStep({ name, verbosity: opts.verbosity ?? this.#verbosity, description: opts.description });
 		this.#steps.push(step);
+		step.on('end', () => this.#onEnd(step));
+
 		this.#activate(step);
 		return step;
+	}
+
+	/**
+	 * Write directly to the Logger's output stream, bypassing any formatting and verbosity filtering.
+	 *
+	 * :::caution[Advanced]
+	 * Since {@link LogStep} implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex), it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+	 * :::
+	 *
+	 * @group Logging
+	 * @see {@link LogStep.write | `LogStep.write`}.
+	 */
+	write(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		chunk: any,
+		encoding?: BufferEncoding,
+		cb?: (error: Error | null | undefined) => void,
+	): boolean;
+
+	/**
+	 * @internal
+	 */
+	write(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		chunk: any,
+		cb?: (error: Error | null | undefined) => void,
+	): boolean;
+
+	write(
+		// @ts-expect-error
+		...args
+	) {
+		// @ts-expect-error
+		return super.write(...args);
 	}
 
 	/**
@@ -234,15 +244,15 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 	 *
 	 * ```ts
-	 * logger.info(() => bigArray.map((item) => item.name));
+	 * logger.info(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
-	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#info | `info()`} This is a pass-through for the main step’s {@link LogStep#info | `info()`} method.
 	 */
 	info(contents: unknown) {
+		this.#hasInfo = true;
 		this.#defaultLogger.info(contents);
 	}
 
@@ -256,14 +266,15 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
 	 *
 	 * ```ts
-	 * logger.error(() => bigArray.map((item) => item.name));
+	 * logger.error(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#error | `error()`} This is a pass-through for the main step’s {@link LogStep#error | `error()`} method.
 	 */
 	error(contents: unknown) {
+		this.#hasError = true;
 		this.#defaultLogger.error(contents);
 	}
 
@@ -277,14 +288,15 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
 	 *
 	 * ```ts
-	 * logger.warn(() => bigArray.map((item) => item.name));
+	 * logger.warn(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#warn | `warn()`} This is a pass-through for the main step’s {@link LogStep#warn | `warn()`} method.
 	 */
 	warn(contents: unknown) {
+		this.#hasWarning = true;
 		this.#defaultLogger.warn(contents);
 	}
 
@@ -298,14 +310,15 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
 	 *
 	 * ```ts
-	 * logger.log(() => bigArray.map((item) => item.name));
+	 * logger.log(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#log | `log()`} This is a pass-through for the main step’s {@link LogStep#log | `log()`} method.
 	 */
 	log(contents: unknown) {
+		this.#hasLog = true;
 		this.#defaultLogger.log(contents);
 	}
 
@@ -319,11 +332,11 @@ export class Logger {
 	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
 	 *
 	 * ```ts
-	 * logger.debug(() => bigArray.map((item) => item.name));
+	 * logger.debug(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
 	 * ```
 	 *
 	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
+	 * @param contents Any value that can be converted to a string for writing to `stderr`. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
 	 * @see {@link LogStep#debug | `debug()`} This is a pass-through for the main step’s {@link LogStep#debug | `debug()`} method.
 	 */
 	debug(contents: unknown) {
@@ -342,47 +355,74 @@ export class Logger {
 		this.#defaultLogger.timing(start, end);
 	}
 
+	async waitForClear() {
+		return await new Promise<boolean>((resolve) => {
+			setImmediate(() => {
+				resolve(this.#steps.length === 0);
+			});
+		});
+	}
+
 	/**
 	 * @internal
 	 */
 	async end() {
-		this.pause(false);
-		clearTimeout(this.#updaterTimeout);
+		this.unpause();
 
-		for (const step of this.#steps) {
-			this.#activate(step);
-			step.warn(
-				'Step did not finish before command shutdown. Fix this issue by updating this command to `await step.end();` at the appropriate time.',
-			);
-			await step.end();
+		const now = Date.now();
+		while ((await this.waitForClear()) === false) {
+			if (Date.now() - now > 100) {
+				const openStep = this.#steps[0];
+				if (openStep) {
+					openStep.error(
+						'Did not complete before command shutdown. Fix this issue by updating this command to call `step.end();` at the appropriate time.',
+					);
+					openStep.end();
+				}
+			}
+			continue;
 		}
 
-		await this.#defaultLogger.end();
-		await this.#defaultLogger.flush();
+		this.#activate(this.#defaultLogger);
+		this.#defaultLogger.uncork();
+		await new Promise<void>((resolve) => {
+			this.#defaultLogger.end(() => {
+				resolve();
+			});
+		});
+
+		this.#defaultLogger.unpipe();
+
 		destroyCurrent();
+		showCursor();
 	}
 
 	#activate(step: LogStep) {
-		const activeStep = this.#steps.find((step) => step.active);
-		if (activeStep) {
-			return;
-		}
-		if (step !== this.#defaultLogger && this.#defaultLogger.active) {
-			this.#defaultLogger.deactivate();
-		}
+		const activeStep = this.#steps.find((step) => step.isPiped);
 
-		if (!(this.#stream === process.stderr && process.stderr.isTTY)) {
-			step.activate();
+		if (activeStep || step.isPiped) {
 			return;
 		}
 
-		setImmediate(() => {
-			step.activate();
-		});
+		if (step !== this.#defaultLogger && !this.#defaultLogger.isPaused()) {
+			this.#defaultLogger.cork();
+		}
+
+		hideCursor();
+
+		if (!step.name || !(this.#stream as typeof process.stderr).isTTY) {
+			step.pipe(new LogStepToString()).pipe(this.#stream as Writable);
+		} else {
+			step
+				.pipe(new LogStepToString())
+				.pipe(new LogProgress())
+				.pipe(this.#stream as Writable);
+		}
+		step.isPiped = true;
 	}
 
 	#onEnd = async (step: LogStep) => {
-		if (step === this.#defaultLogger) {
+		if (step === this.#defaultLogger || !step.isPiped) {
 			return;
 		}
 
@@ -391,45 +431,41 @@ export class Logger {
 			return;
 		}
 
-		this.#updater.clear();
-		await step.flush();
+		this.#setState(step);
 
-		this.#defaultLogger.activate(true);
+		step.unpipe();
+		step.isPiped = false;
+		step.destroy();
+
+		this.#defaultLogger.uncork();
 
 		if (step.hasError && process.env.GITHUB_RUN_ID) {
 			this.error('The previous step has errors.');
 		}
 
+		// Remove this step
+		this.#steps.splice(index, 1);
+
+		if (this.#steps.length < 1) {
+			return;
+		}
+
 		await new Promise<void>((resolve) => {
+			// setTimeout(() => {
 			setImmediate(() => {
-				setImmediate(() => {
-					this.#defaultLogger.deactivate();
-					resolve();
-				});
+				this.#defaultLogger.cork();
+				resolve();
 			});
+			// }, 60);
 		});
 
-		this.#steps.splice(index, 1);
-		this.#activate(this.#steps[0] ?? this.#defaultLogger);
+		this.#activate(this.#steps[0]);
 	};
 
-	#onMessage = (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => {
-		switch (type) {
-			case 'error':
-				this.#hasError = true;
-				this.#defaultLogger.hasError = true;
-				break;
-			case 'warn':
-				this.#hasWarning = true;
-				break;
-			case 'info':
-				this.#hasInfo = true;
-				break;
-			case 'log':
-				this.#hasLog = true;
-				break;
-			default:
-			// no default
-		}
+	#setState = (step: LogStep) => {
+		this.#defaultLogger.hasError = step.hasError || this.#defaultLogger.hasError;
+		this.#defaultLogger.hasWarning = step.hasWarning || this.#defaultLogger.hasWarning;
+		this.#defaultLogger.hasInfo = step.hasInfo || this.#defaultLogger.hasInfo;
+		this.#defaultLogger.hasLog = step.hasLog || this.#defaultLogger.hasLog;
 	};
 }

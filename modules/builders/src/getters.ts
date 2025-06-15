@@ -91,7 +91,7 @@ export function getAffected(graph: Graph, { from, ignore, staged, step, through 
 			return graph.workspaces;
 		}
 
-		return await graph.affected(Array.from(workspaces));
+		return graph.affected(Array.from(workspaces));
 	});
 }
 
@@ -144,7 +144,7 @@ export async function getWorkspaces(
 			} else {
 				const names = workspaces.map((ws) => ws.name);
 				step.log(() => `\`affected\` requested from • ${names.join('\n • ')}`);
-				workspaces = await graph.affected(names);
+				workspaces = graph.affected(names);
 			}
 		}
 
@@ -237,7 +237,7 @@ export async function getFilepaths(
 				}
 			} else {
 				step.log('`affected` requested from Workspaces');
-				const affected = await graph.affected(argv.workspaces!);
+				const affected = graph.affected(argv.workspaces!);
 				paths.push(...affected.map((ws) => ws.location));
 			}
 		}
