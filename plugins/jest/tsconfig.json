@@ -1,8 +1,7 @@
 {
 	"extends": "@internal/tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "./dist/",
-		"types": ["node", "@types/jest"]
+		"outDir": "./dist/"
 	},
 	"include": ["./**/*"],
 	"references": [

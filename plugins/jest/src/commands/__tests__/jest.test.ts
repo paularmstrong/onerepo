@@ -4,23 +4,14 @@ import * as Jest from '../jest';
 
 const { run } = getCommand(Jest);
 
-jest.mock('onerepo', () => ({
-	__esModule: true,
-	...jest.requireActual('onerepo'),
-	git: {
-		__esModule: true,
-		...jest.requireActual('@onerepo/git'),
-	},
-}));
-
 describe('handler', () => {
 	beforeEach(() => {
-		jest.spyOn(onerepo, 'run').mockResolvedValue(['', '']);
+		vi.spyOn(onerepo, 'run').mockResolvedValue(['', '']);
 	});
 
 	test('runs files related to changes by default', async () => {
-		jest.spyOn(onerepo.git, 'isClean').mockResolvedValue(true);
-		jest.spyOn(onerepo.git, 'getMergeBase').mockResolvedValue('tacobase');
+		vi.spyOn(onerepo.git, 'isClean').mockResolvedValue(true);
+		vi.spyOn(onerepo.git, 'getMergeBase').mockResolvedValue('tacobase');
 		await run('');
 
 		expect(onerepo.run).toHaveBeenCalledWith(
@@ -60,8 +51,8 @@ describe('handler', () => {
 	});
 
 	test('can run the node inspector/debugger', async () => {
-		jest.spyOn(onerepo.git, 'isClean').mockResolvedValue(true);
-		jest.spyOn(onerepo.git, 'getMergeBase').mockResolvedValue('burritobase');
+		vi.spyOn(onerepo.git, 'isClean').mockResolvedValue(true);
+		vi.spyOn(onerepo.git, 'getMergeBase').mockResolvedValue('burritobase');
 
 		await run('--inspect');
 

@@ -2175,8 +2175,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-jest@workspace:plugins/jest"
   dependencies:
-    "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
     typescript: ^5.7.2
@@ -2296,7 +2296,7 @@ __metadata:
     "@onerepo/logger": 1.0.4
     "@onerepo/yargs": 1.0.4
     typescript: ^5.7.2
-    yargs: ^17.6.2
+    yargs: ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -5060,6 +5060,17 @@ __metadata:
     strip-ansi: ^6.0.1
     wrap-ansi: ^7.0.0
   checksum: 79648b3b0045f2e285b76fb2e24e207c6db44323581e421c3acbd0e86454cba1b37aea976ab50195a49e7384b871e6dfb2247ad7dec53c02454ac6497394cb56
+  languageName: node
+  linkType: hard
+
+"cliui@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "cliui@npm:9.0.1"
+  dependencies:
+    string-width: ^7.2.0
+    strip-ansi: ^7.1.0
+    wrap-ansi: ^9.0.0
+  checksum: 143879ae462bf76822f341bf40979f0225fdba8dde6dfe429018b13396fd0532752cc2a809ac48cecc0ea189406184ad7568c0af44eea73d2ac3b432c4c6431f
   languageName: node
   linkType: hard
 
@@ -11594,8 +11605,8 @@ __metadata:
     picocolors: ^1.0.0
     semver: ^7.5.4
     typescript: ^5.7.2
-    yargs: ^17.6.2
-    yargs-parser: ^21.1.1
+    yargs: ^18.0.0
+    yargs-parser: ^22.0.0
     yargs-unparser: ^2.0.0
   bin:
     one: ./src/bin/one.ts
@@ -15563,6 +15574,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^22.0.0":
+  version: 22.0.0
+  resolution: "yargs-parser@npm:22.0.0"
+  checksum: 55df0d94f3f9f933f1349f244ddf72a6978a9d5a972b69332965cdfd5ec849ff26386965512f4179065b0573cc6e8df33ca44334958a892c47fedae08a967c99
+  languageName: node
+  linkType: hard
+
 "yargs-unparser@npm:^2.0.0":
   version: 2.0.0
   resolution: "yargs-unparser@npm:2.0.0"
@@ -15575,7 +15593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.6.2, yargs@npm:^17.7.2":
+"yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
@@ -15587,6 +15605,20 @@ __metadata:
     y18n: ^5.0.5
     yargs-parser: ^21.1.1
   checksum: 73b572e863aa4a8cbef323dd911d79d193b772defd5a51aab0aca2d446655216f5002c42c5306033968193bdbf892a7a4c110b0d77954a7fdf563e653967b56a
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "yargs@npm:18.0.0"
+  dependencies:
+    cliui: ^9.0.1
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    string-width: ^7.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^22.0.0
+  checksum: a7cf1b97cb4e81c059f78fd32a4160505d421ecdce5409f5e3840fdcc4c982885fc645b44af961eab94d673cb46f81207d831aa87862246907ffacf45884976a
   languageName: node
   linkType: hard
 

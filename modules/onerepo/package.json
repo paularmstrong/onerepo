@@ -52,8 +52,8 @@
 		"minimatch": "^9.0.3",
 		"picocolors": "^1.0.0",
 		"semver": "^7.5.4",
-		"yargs": "^17.6.2",
-		"yargs-parser": "^21.1.1",
+		"yargs": "^18.0.0",
+		"yargs-parser": "^22.0.0",
 		"yargs-unparser": "^2.0.0"
 	},
 	"devDependencies": {

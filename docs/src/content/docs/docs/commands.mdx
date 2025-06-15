@@ -577,7 +577,11 @@ one my-command --all
 
 ### Automated tests
 
-Avoiding writing tooling that is easily mis-interpreted and prone to breaking by writing functional tests around your custom commands. The oneRepo suite includes the ability to set up a mock environment to run commands with CLI flags and assert on their behaviors within both [Jest](https://jestjs.io) and [Vitest](https://vitest.dev).
+Avoiding writing tooling that is easily mis-interpreted and prone to breaking by writing functional tests around your custom commands. The oneRepo suite includes the ability to set up a mock environment to run commands with CLI flags and assert on their behaviors within [Vitest](https://vitest.dev).
+
+:::caution[Jest]
+Jest may not be suitable for testing commands due to Jest’s poor ES Module support. This project used to support it, but maintenance overhead became too costly. We will accept PRs that bring back support if it can be proven to work correctly.
+:::
 
 To get started, install the `@onerepo/test-cli` package as a development dependency:
 
