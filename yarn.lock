@@ -2175,8 +2175,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@onerepo/plugin-jest@workspace:plugins/jest"
   dependencies:
-    "@internal/jest-config": "workspace:^"
     "@internal/tsconfig": "workspace:^"
+    "@internal/vitest-config": "workspace:^"
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
     typescript: ^5.7.2
