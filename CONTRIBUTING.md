@@ -16,7 +16,7 @@ Use the [Feature Request issue template](https://github.com/paularmstrong/onerep
 
 Ensure you have the following before beginning:
 
-- ✅ Using a supported version of Node.js (`^18 || ^20 || ^22`).
+- ✅ Using a supported version of Node.js (`^20.19.0 || ^22.10.0 || ^24`).
 - ✅ Node.js’s [corepack](https://nodejs.org/docs/latest-v20.x/api/corepack.html#corepack) is enabled.
 - ✅ The `oneRepo` CLI is [installed](/docs/getting-started/#quick-start).
 - ✅ Forked and cloned the [repository](https://github.com/paularmstrong/onerepo).
