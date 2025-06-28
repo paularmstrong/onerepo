@@ -1,5 +1,31 @@
 # @onerepo/yargs
 
+## 2.0.0
+
+### Major changes
+
+- Dropped Node 18 support. Minimum Node versions are now `^20.19.0 || ^22.10.0 || ^24`. ([ace1053](https://github.com/paularmstrong/onerepo/commit/ace1053c60cbc9a6079314d4abc598b014d776c1))
+
+### Minor changes
+
+- Officially support Node 22 ([2e662a9](https://github.com/paularmstrong/onerepo/commit/2e662a9c7a27709fd92caecc6547012040d162c4))
+
+### Patch changes
+
+- Updates build dependency "esbuild". ([9092312](https://github.com/paularmstrong/onerepo/commit/909231235ac5ae065978656e51777e9a40e91e37))
+
+### Dependencies updated
+
+- @onerepo/builders@2.0.0
+- @onerepo/git@2.0.0
+- @onerepo/graph@2.0.0
+- @onerepo/package-manager@2.0.0
+- @onerepo/subprocess@2.0.0
+- @onerepo/file@2.0.0
+- @onerepo/logger@2.0.0
+
+> View the full changelog: [04603c7...ca223bb](https://github.com/paularmstrong/onerepo/compare/04603c746ee744e5072af47c7210637a468cf751...ca223bb574ae16ea7aaee17804fde24fdf40bd36)
+
 ## 1.0.4
 
 ### Patch changes
