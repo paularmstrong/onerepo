@@ -1,5 +1,37 @@
 # onerepo
 
+## 2.0.0
+
+### Major changes
+
+- Functional testing custom oneRepo commands is no longer supported through Jest. Please consider Vitest instead. ([ca223bb](https://github.com/paularmstrong/onerepo/commit/ca223bb574ae16ea7aaee17804fde24fdf40bd36))
+- Dropped Node 18 support. Minimum Node versions are now `^20.19.0 || ^22.10.0 || ^24`. ([ace1053](https://github.com/paularmstrong/onerepo/commit/ace1053c60cbc9a6079314d4abc598b014d776c1))
+
+### Minor changes
+
+- Upgrades Yargs to [v18.0.0](https://github.com/yargs/yargs/releases/tag/v18.0.0) ([ca223bb](https://github.com/paularmstrong/onerepo/commit/ca223bb574ae16ea7aaee17804fde24fdf40bd36))
+- Officially support Node 22 ([2e662a9](https://github.com/paularmstrong/onerepo/commit/2e662a9c7a27709fd92caecc6547012040d162c4))
+
+### Patch changes
+
+- Internal-only type and formatting updates. ([35af90a](https://github.com/paularmstrong/onerepo/commit/35af90aad3a5301853a6232d9aee6119b02f8188))
+- Updates build dependency "esbuild". ([9092312](https://github.com/paularmstrong/onerepo/commit/909231235ac5ae065978656e51777e9a40e91e37))
+- Update internal typescript resolution package (Jiti) ([29c6af1](https://github.com/paularmstrong/onerepo/commit/29c6af1ad519ae7bd3ca3eb445ad34313909fc62))
+
+### Dependencies updated
+
+- @onerepo/test-cli@2.0.0
+- @onerepo/yargs@2.0.0
+- @onerepo/builders@2.0.0
+- @onerepo/git@2.0.0
+- @onerepo/graph@2.0.0
+- @onerepo/package-manager@2.0.0
+- @onerepo/subprocess@2.0.0
+- @onerepo/file@2.0.0
+- @onerepo/logger@2.0.0
+
+> View the full changelog: [04603c7...ca223bb](https://github.com/paularmstrong/onerepo/compare/04603c746ee744e5072af47c7210637a468cf751...ca223bb574ae16ea7aaee17804fde24fdf40bd36)
+
 ## 1.2.0
 
 ### Minor changes

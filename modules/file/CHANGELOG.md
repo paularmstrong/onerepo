@@ -1,5 +1,28 @@
 # @onerepo/file
 
+## 2.0.0
+
+### Major changes
+
+- Dropped Node 18 support. Minimum Node versions are now `^20.19.0 || ^22.10.0 || ^24`. ([ace1053](https://github.com/paularmstrong/onerepo/commit/ace1053c60cbc9a6079314d4abc598b014d776c1))
+
+### Minor changes
+
+- Officially support Node 22 ([2e662a9](https://github.com/paularmstrong/onerepo/commit/2e662a9c7a27709fd92caecc6547012040d162c4))
+
+### Patch changes
+
+- Removes some extra whitespace added with `file.writeSafe()`. ([88e19a5](https://github.com/paularmstrong/onerepo/commit/88e19a5c89c0baee236d90cc2ba681bbc8218e67))
+- Adds comment syntax for more JavaScript and TypeScript files when using `file.writeSafe()`. ([88e19a5](https://github.com/paularmstrong/onerepo/commit/88e19a5c89c0baee236d90cc2ba681bbc8218e67))
+- Updates build dependency "esbuild". ([9092312](https://github.com/paularmstrong/onerepo/commit/909231235ac5ae065978656e51777e9a40e91e37))
+- Update internal typescript resolution package (Jiti) ([29c6af1](https://github.com/paularmstrong/onerepo/commit/29c6af1ad519ae7bd3ca3eb445ad34313909fc62))
+
+### Dependencies updated
+
+- @onerepo/logger@2.0.0
+
+> View the full changelog: [04603c7...ca223bb](https://github.com/paularmstrong/onerepo/compare/04603c746ee744e5072af47c7210637a468cf751...ca223bb574ae16ea7aaee17804fde24fdf40bd36)
+
 ## 1.0.4
 
 ### Patch changes
