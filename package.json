@@ -34,7 +34,7 @@
 		"human-id": "^4.1.0",
 		"jest": "^30.0.0",
 		"onerepo": "workspace:^",
-		"prettier": "^3.4.2",
+		"prettier": "^3.6.2",
 		"typescript": "^5.7.2",
 		"typescript-eslint": "^8.33.0",
 		"vitest": "^3.1.4"
