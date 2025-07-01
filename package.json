@@ -30,13 +30,13 @@
 		"@onerepo/test-cli": "workspace:^",
 		"esbuild": "^0.25.4",
 		"eslint": "^9.28.0",
-		"glob": "^10.1.0",
+		"glob": "^11.0.3",
 		"human-id": "^4.1.0",
 		"jest": "^30.0.0",
 		"onerepo": "workspace:^",
 		"prettier": "^3.4.2",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.33.0",
+		"typescript-eslint": "^8.35.1",
 		"vitest": "^3.1.4"
 	},
 	"engines": {

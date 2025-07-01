@@ -38,8 +38,8 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "2.0.0",
-		"glob": "^10.1.0",
-		"ignore": "^5.3.1",
+		"glob": "^11.0.3",
+		"ignore": "^7.0.5",
 		"jiti": "^2.4.2"
 	},
 	"devDependencies": {
@@ -50,7 +50,7 @@
 		"eslint": "^9.28.0",
 		"onerepo": "workspace:^",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.33.0"
+		"typescript-eslint": "^8.35.1"
 	},
 	"peerDependencies": {
 		"eslint": "^9",
