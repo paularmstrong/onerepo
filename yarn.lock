@@ -2038,7 +2038,7 @@ __metadata:
     netlify-plugin-csp-generator: ^1.6.1
     onerepo: 2.0.0
     pako: ^2.1.0
-    postcss: ^8.4.49
+    postcss: ^8.5.6
     starlight-links-validator: ^0.13.4
     typedoc: ^0.28.5
     typedoc-plugin-markdown: ^4.6.4
@@ -12121,7 +12121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.14, postcss@npm:^8.4.38, postcss@npm:^8.4.49, postcss@npm:^8.5.3":
+"postcss@npm:^8.4.14, postcss@npm:^8.4.38, postcss@npm:^8.5.3":
   version: 8.5.4
   resolution: "postcss@npm:8.5.4"
   dependencies:
@@ -12129,6 +12129,17 @@ __metadata:
     picocolors: ^1.1.1
     source-map-js: ^1.2.1
   checksum: 7ede5eb54aa56767a61541f13ca9994ce56d93340bc3c99328c741e5cc6c0024510e31667be108e3d29e5189d434ae8476c820e8c0ce90cf942d8a2faf1eb876
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.6":
+  version: 8.5.6
+  resolution: "postcss@npm:8.5.6"
+  dependencies:
+    nanoid: ^3.3.11
+    picocolors: ^1.1.1
+    source-map-js: ^1.2.1
+  checksum: 20f3b5d673ffeec2b28d65436756d31ee33f65b0a8bedb3d32f556fbd5973be38c3a7fb5b959a5236c60a5db7b91b0a6b14ffaac0d717dce1b903b964ee1c1bb
   languageName: node
   linkType: hard
 
