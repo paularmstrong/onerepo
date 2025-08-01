@@ -30,7 +30,7 @@
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"typescript": "^5.7.2"
+		"typescript": "^5.9.2"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.10.0 || ^24"
