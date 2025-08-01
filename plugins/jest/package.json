@@ -27,7 +27,7 @@
 		"@internal/vitest-config": "workspace:^",
 		"@onerepo/test-cli": "workspace:^",
 		"onerepo": "workspace:^",
-		"typescript": "^5.7.2"
+		"typescript": "^5.9.2"
 	},
 	"peerDependencies": {
 		"jest": ">=29",
