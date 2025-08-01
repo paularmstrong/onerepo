@@ -5,10 +5,10 @@
 	"main": "./src/index.js",
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"@types/jest": "^29.5.14",
+		"@types/jest": "^30.0.0",
 		"esbuild": "^0.25.4",
 		"esbuild-jest": "^0.5.0",
-		"jest": "^30.0.0"
+		"jest": "^30.0.5"
 	},
 	"peerDependencies": {
 		"jest": "^30"
