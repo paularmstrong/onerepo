@@ -24,7 +24,7 @@
 		"@astrojs/mdx": "^4.3.0",
 		"@astrojs/starlight": "^0.34.3",
 		"@expressive-code/plugin-collapsible-sections": "^0.41.2",
-		"astro": "^5.8.1",
+		"astro": "^5.12.8",
 		"astro-meta-tags": "^0.3.2",
 		"astro-og-canvas": "^0.7.0",
 		"d3": "^7.9.0",
