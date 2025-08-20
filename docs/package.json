@@ -31,7 +31,7 @@
 		"dagre-d3-es": "^7.0.11",
 		"graph-data-structure": "^3.2.0",
 		"js-base64": "^3.7.7",
-		"mermaid": "11.4.1",
+		"mermaid": "11.10.0",
 		"pako": "^2.1.0",
 		"starlight-links-validator": "^0.13.4",
 		"unist-util-visit": "^5.0.0"
