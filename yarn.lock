@@ -2023,7 +2023,7 @@ __metadata:
     "@expressive-code/plugin-collapsible-sections": ^0.41.2
     "@internal/tsconfig": "workspace:^"
     "@types/d3": ^7.4.3
-    "@types/pako": ^2.0.3
+    "@types/pako": ^2.0.4
     astro: ^5.8.1
     astro-meta-tags: ^0.3.2
     astro-og-canvas: ^0.7.0
@@ -3199,10 +3199,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pako@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@types/pako@npm:2.0.3"
-  checksum: 0746dd5d29eccf5b2e6cceb3ccb093851219e78bd2e2e20d25757e247987139e061e5d4ba37cb5295493f06e3c683c74f8876011cd8a3f3748a09244fbc841d9
+"@types/pako@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@types/pako@npm:2.0.4"
+  checksum: 7e7b090c27cdbed4a8c21f7dfa466ad1c6b5c29afbcaaa24b35e83803d2b6b6cd552060060d8832058cf3809787baaab47a6a974b69d75a2a2dc59d21b607ee8
   languageName: node
   linkType: hard
 
@@ -11584,7 +11584,7 @@ __metadata:
     "@types/ejs": ^3.1.5
     "@types/inquirer": ^9.0.7
     "@types/js-yaml": ^4.0.9
-    "@types/pako": ^2.0.3
+    "@types/pako": ^2.0.4
     "@types/semver": ^7.5.8
     "@types/unist": ^3.0.3
     "@types/yargs": ^17.0.33
