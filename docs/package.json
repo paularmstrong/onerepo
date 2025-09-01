@@ -13,7 +13,7 @@
 		"netlify-plugin-csp-generator": "^1.6.1",
 		"onerepo": "2.0.0",
 		"postcss": "^8.4.49",
-		"typedoc": "^0.28.5",
+		"typedoc": "^0.28.12",
 		"typedoc-plugin-markdown": "^4.6.4",
 		"typedoc-plugin-remark": "^2.0.1",
 		"typescript": "^5.7.2",
