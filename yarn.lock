@@ -2041,7 +2041,7 @@ __metadata:
     postcss: ^8.4.49
     starlight-links-validator: ^0.13.4
     typedoc: ^0.28.5
-    typedoc-plugin-markdown: ^4.6.4
+    typedoc-plugin-markdown: ^4.8.1
     typedoc-plugin-remark: ^2.0.1
     typescript: ^5.7.2
     typescript-eslint: ^8.33.0
@@ -14218,12 +14218,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^4.6.4":
-  version: 4.6.4
-  resolution: "typedoc-plugin-markdown@npm:4.6.4"
+"typedoc-plugin-markdown@npm:^4.8.1":
+  version: 4.8.1
+  resolution: "typedoc-plugin-markdown@npm:4.8.1"
   peerDependencies:
     typedoc: 0.28.x
-  checksum: 80d42801874c495d426fdce7189e6dc922d27ea4af242f10d125a8f6e61f54e37d50aea964dfbb6dc27b3481c838661cc5f85b3cc223a4287a74aa30e4f7a602
+  checksum: 5a8a78728d6c0831292591d0f0e3594818d7c616a977b2164fc2d4744828644e8bceeea2ab62d4a376671337c9b87392a4192d1022008c0a3504df6f2971d2d4
   languageName: node
   linkType: hard
 
