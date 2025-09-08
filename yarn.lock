@@ -57,7 +57,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/install-pkg@npm:^1.0.0":
+"@antfu/install-pkg@npm:^1.1.0":
   version: 1.1.0
   resolution: "@antfu/install-pkg@npm:1.1.0"
   dependencies:
@@ -67,10 +67,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/utils@npm:^8.1.0":
-  version: 8.1.1
-  resolution: "@antfu/utils@npm:8.1.1"
-  checksum: 42ded916c4ff7f45a2f462eb020c801d24f2eee830cba4dbeef5a8bb774b6af22238f0c3efdbcb068296eb948aa13bdc32169186e261c99aae13c12360c02580
+"@antfu/utils@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "@antfu/utils@npm:9.2.0"
+  checksum: 6633223e9c367b8b653ae97e3c8e34c42a76272e3681c08977e2e8d71463d20d2b4627723b0e3e23ad00474e4a940b141d2acffc8a7a3c67e94ab6ffd7f9519c
   languageName: node
   linkType: hard
 
@@ -1225,19 +1225,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/utils@npm:^2.1.33":
-  version: 2.3.0
-  resolution: "@iconify/utils@npm:2.3.0"
+"@iconify/utils@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@iconify/utils@npm:3.0.1"
   dependencies:
-    "@antfu/install-pkg": ^1.0.0
-    "@antfu/utils": ^8.1.0
+    "@antfu/install-pkg": ^1.1.0
+    "@antfu/utils": ^9.2.0
     "@iconify/types": ^2.0.0
-    debug: ^4.4.0
-    globals: ^15.14.0
+    debug: ^4.4.1
+    globals: ^15.15.0
     kolorist: ^1.8.0
-    local-pkg: ^1.0.0
+    local-pkg: ^1.1.1
     mlly: ^1.7.4
-  checksum: b723397c09bdfd116c907db714fd1cd65119283e06d008502d9389593b14520c7084474b2e0b0bae2d46eabc3be2146ab02fba81c9ad199a33b6f1394e23890c
+  checksum: 28854a2db8933fd00fb8d2121515330e0af8a4fac868dfc4ec488112fa27ec52f824b4725f998f6117bf7f8bddeb05fe9e15bcb3cc60e6a03c5981730ab67c05
   languageName: node
   linkType: hard
 
@@ -2034,7 +2034,7 @@ __metadata:
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
     js-base64: ^3.7.7
-    mermaid: 11.10.0
+    mermaid: 11.11.0
     netlify-plugin-csp-generator: ^1.6.1
     onerepo: 2.0.0
     pako: ^2.1.0
@@ -7634,7 +7634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.0.0, globals@npm:^15.14.0":
+"globals@npm:^15.0.0, globals@npm:^15.15.0":
   version: 15.15.0
   resolution: "globals@npm:15.15.0"
   checksum: a2a92199a112db00562a2f85eeef2a7e3943e171f7f7d9b17dfa9231e35fd612588f3c199d1509ab1757273467e413b08c80424cf6e399e96acdaf93deb3ee88
@@ -9962,14 +9962,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-pkg@npm:^1.0.0":
-  version: 1.1.1
-  resolution: "local-pkg@npm:1.1.1"
+"local-pkg@npm:^1.1.1":
+  version: 1.1.2
+  resolution: "local-pkg@npm:1.1.2"
   dependencies:
     mlly: ^1.7.4
-    pkg-types: ^2.0.1
-    quansync: ^0.2.8
-  checksum: 523c6ecc67e783986cf1b0aa3372a07e3bdf5ff56d3fd00b15b2be598c6677d921e2be79170471fafa15a0de82ff88972782d81cdce9271c2b2f9b02a9f144bc
+    pkg-types: ^2.3.0
+    quansync: ^0.2.11
+  checksum: 69ee8af3236a5f65e17cdcc1e835167d1ff661be42735a39c5d0a2e91252744835a2cb3184a02cbb4275f299955a7e3c4bf7711e9e7b81dd8e0d39bb46375034
   languageName: node
   linkType: hard
 
@@ -10187,12 +10187,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^16.0.0":
-  version: 16.2.0
-  resolution: "marked@npm:16.2.0"
+"marked@npm:^15.0.7":
+  version: 15.0.12
+  resolution: "marked@npm:15.0.12"
   bin:
     marked: bin/marked.js
-  checksum: a7c6c7d8c21970e06d6157c858a971ded9a36dec5aba1849fc0824fe374f4ebb3cd2e3b8dfce85e1e5f8a26adc13aa785635fc024324bd5af1625d49f4fee6fe
+  checksum: 2ac72fc0bc7ecb47de246e396c7054d311f55379957e4e01796c12d196cb84480e8d53e54948f957a078f9166692fea8b0309fc597f26f855573e7ba5c1ec7eb
   languageName: node
   linkType: hard
 
@@ -10503,12 +10503,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid@npm:11.10.0":
-  version: 11.10.0
-  resolution: "mermaid@npm:11.10.0"
+"mermaid@npm:11.11.0":
+  version: 11.11.0
+  resolution: "mermaid@npm:11.11.0"
   dependencies:
     "@braintree/sanitize-url": ^7.0.4
-    "@iconify/utils": ^2.1.33
+    "@iconify/utils": ^3.0.1
     "@mermaid-js/parser": ^0.6.2
     "@types/d3": ^7.4.3
     cytoscape: ^3.29.3
@@ -10522,12 +10522,12 @@ __metadata:
     katex: ^0.16.22
     khroma: ^2.1.0
     lodash-es: ^4.17.21
-    marked: ^16.0.0
+    marked: ^15.0.7
     roughjs: ^4.6.6
     stylis: ^4.3.6
     ts-dedent: ^2.2.0
     uuid: ^11.1.0
-  checksum: 1af6acfb6aed4efc494d26fda6f3e4a5fe4c07a2885ad50be127d6f0408bb9b68ab96e383bf870a93a6ae4d7e7d98470ce87eb7aa71269cf0efa854e398cc97c
+  checksum: c7005dc4c10ea6f048c132626a38f9a729259490a38e3d926f54359627d71a7842d7650fc387698278512627831626ed8d02a90f95ccd93ea698dbb2944f3288
   languageName: node
   linkType: hard
 
@@ -12060,14 +12060,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pkg-types@npm:^2.0.1":
-  version: 2.2.0
-  resolution: "pkg-types@npm:2.2.0"
+"pkg-types@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "pkg-types@npm:2.3.0"
   dependencies:
     confbox: ^0.2.2
     exsolve: ^1.0.7
     pathe: ^2.0.3
-  checksum: cdb3a4c88c93232bbad2e41cd7ca0f9e2e22acc4f16ad5a313736aacccb68ee157a0c1af81c2d7269744e716b9f6b01b3ad7b8abf0eb8b3e12c1f7d2c47c7597
+  checksum: 33c30b442662a0f2b62fd16f39ae2beeb4cdf3511699e574765b7451e179937847de6e696bbab50bfbd41d2c2e4a99b61ebc7078abf91ea8573a7f16cc11d26a
   languageName: node
   linkType: hard
 
@@ -12295,7 +12295,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quansync@npm:^0.2.8":
+"quansync@npm:^0.2.11":
   version: 0.2.11
   resolution: "quansync@npm:0.2.11"
   checksum: af484ed433f752c092d278232f68a6643e2cf0193f95ec60c84245e1f3662ef64da90f8fb1bc57dd407362ff181f246a9304ba53725dd7122f45c4a839f85a61
