@@ -1,433 +1,382 @@
-import { performance } from 'node:perf_hooks';
-import type { Writable } from 'node:stream';
+import { Duplex } from 'node:stream';
 import pc from 'picocolors';
-import { LogBuffer } from './LogBuffer';
+import { stringify } from './utils/string';
+import type { LineType, LoggedBuffer, Verbosity } from './types';
 
-type StepOptions = {
-	verbosity: number;
-	onEnd: (step: LogStep) => Promise<void>;
-	onMessage: (type: 'error' | 'warn' | 'info' | 'log' | 'debug') => void;
-	stream?: Writable;
+/**
+ * @group Logger
+ */
+export type LogStepOptions = {
+	/**
+	 * Wraps all step output within the name provided for the step.
+	 */
+	name: string;
+	/**
+	 * Optionally include extra information for performance tracing on this step. This description will be passed through to the [`performanceMark.detail`](https://nodejs.org/docs/latest-v20.x/api/perf_hooks.html#performancemarkdetail) recorded internally for this step.
+	 *
+	 * Use a [Performance Writer plugin](https://onerepo.tools/plugins/performance-writer/) to read and work with this detail.
+	 */
 	description?: string;
-	writePrefixes?: boolean;
-};
-
-const prefix = {
-	FAIL: pc.red('✘'),
-	SUCCESS: pc.green('✔'),
-	TIMER: pc.red('⏳'),
-	START: pc.dim(pc.bold('▶︎')),
-	END: pc.dim(pc.bold('■')),
-	ERR: pc.red(pc.bold('ERR')),
-	WARN: pc.yellow(pc.bold('WRN')),
-	LOG: pc.cyan(pc.bold('LOG')),
-	DBG: pc.magenta(pc.bold('DBG')),
-	INFO: pc.blue(pc.bold('INFO')),
+	/**
+	 * The verbosity for this step, inherited from its parent {@link Logger}.
+	 */
+	verbosity: Verbosity;
 };
 
 /**
- * Log steps should only be created via the {@link Logger#createStep | `logger.createStep()`} method.
+ * LogSteps are an enhancement of [Node.js duplex streams](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex) that enable writing contextual messages to the program's output.
+ *
+ * Always create steps using the {@link Logger.createStep | `logger.createStep()`} method so that they are properly tracked and linked to the parent logger. Creating a LogStep directly may result in errors and unintentional side effects.
  *
  * ```ts
- * const step = logger.createStep('Do some work');
- * // ... long task with a bunch of potential output
- * await step.end();
+ * const myStep = logger.createStep();
+ * // Do work
+ * myStep.info('Did some work');
+ * myStep.end();
  * ```
- *
  * @group Logger
  */
-export class LogStep {
-	#name: string;
-	#verbosity: number;
-	#buffer: LogBuffer;
-	#stream: Writable;
-	#active = false;
-	#onEnd: StepOptions['onEnd'];
-	#onMessage: StepOptions['onMessage'];
-	#lastThree: Array<string> = [];
-	#writing: boolean = false;
-	#writePrefixes: boolean = true;
+export class LogStep extends Duplex {
+	/**
+	 * @internal
+	 */
+	name?: string;
+	/**
+	 * @internal
+	 */
+	isPiped: boolean = false;
+	verbosity: Verbosity;
+
 	#startMark: string;
 
-	/**
-	 * Whether or not an error has been sent to the step. This is not necessarily indicative of uncaught thrown errors, but solely on whether `.error()` has been called in this step.
-	 */
-	hasError = false;
-	/**
-	 * Whether or not a warning has been sent to this step.
-	 */
-	hasWarning = false;
-	/**
-	 * Whether or not an info message has been sent to this step.
-	 */
-	hasInfo = false;
-	/**
-	 * Whether or not a log message has been sent to this step.
-	 */
-	hasLog = false;
+	#hasError: boolean = false;
+	#hasWarning: boolean = false;
+	#hasInfo: boolean = false;
+	#hasLog: boolean = false;
 
 	/**
 	 * @internal
 	 */
-	constructor(name: string, { onEnd, onMessage, verbosity, stream, description, writePrefixes }: StepOptions) {
+	constructor(options: LogStepOptions) {
+		const { description, name, verbosity } = options;
+		super({ decodeStrings: false, objectMode: true });
+		this.verbosity = verbosity;
+
 		this.#startMark = name || `${performance.now()}`;
 		performance.mark(`onerepo_start_${this.#startMark}`, {
 			detail: description,
 		});
-		this.#verbosity = verbosity;
-		this.#name = name;
-		this.#onEnd = onEnd;
-		this.#onMessage = onMessage;
-		this.#buffer = new LogBuffer({});
-		this.#stream = stream ?? process.stderr;
-		this.#writePrefixes = writePrefixes ?? true;
 
-		if (this.name) {
-			if (process.env.GITHUB_RUN_ID) {
-				this.#writeStream(`::group::${this.name}\n`);
-			}
-			this.#writeStream(this.#prefixStart(this.name));
-		}
+		this.name = name;
+		this.#write('start', name);
 	}
 
 	/**
-	 * @internal
-	 */
-	get writable() {
-		return this.#stream.writable && this.#buffer.writable;
-	}
-
-	/**
-	 * @internal
-	 */
-	get name() {
-		return this.#name;
-	}
-
-	/**
-	 * @internal
-	 */
-	get active() {
-		return this.#active;
-	}
-
-	/**
-	 * While buffering logs, returns the status line and last 3 lines of buffered output.
+	 * Write directly to the step's stream, bypassing any formatting and verbosity filtering.
 	 *
-	 * @internal
-	 */
-	get status(): Array<string> {
-		return [this.#prefixStart(this.name), ...this.#lastThree];
-	}
-
-	/**
-	 * @internal
-	 */
-	set verbosity(verbosity: number) {
-		this.#verbosity = verbosity;
-	}
-
-	/**
-	 * @internal
-	 */
-	get verbosity() {
-		return this.#verbosity;
-	}
-
-	/**
-	 * Activate a step. This is typically only called from within the root `Logger` instance and should not be done manually.
+	 * :::caution[Advanced]
+	 * Since {@link LogStep} implements a [Node.js duplex stream](https://nodejs.org/docs/latest-v20.x/api/stream.html#class-streamduplex) in `objectMode`, it is possible to use internal `write`, `read`, `pipe`, and all other available methods, but may not be fully recommended.
+	 * :::
 	 *
+	 * @group Logging
+	 */
+	write(
+		chunk: LoggedBuffer | string,
+		encoding?: BufferEncoding,
+		cb?: (error: Error | null | undefined) => void,
+	): boolean;
+
+	/**
 	 * @internal
 	 */
-	activate(enableWrite = !('isTTY' in this.#stream && this.#stream.isTTY)) {
-		if (this.#active && this.#writing === enableWrite) {
-			return;
-		}
+	write(chunk: LoggedBuffer | string, cb?: (error: Error | null | undefined) => void): boolean;
 
-		this.#active = true;
-
-		if (enableWrite) {
-			this.#enableWrite();
-		}
+	write(
+		// @ts-expect-error
+		...args
+	) {
+		// @ts-expect-error
+		return super.write(...args);
 	}
 
 	/**
 	 * @internal
 	 */
-	deactivate() {
-		if (!this.#active) {
-			return;
-		}
+	_read() {}
 
-		this.#active = false;
-		if (this.#writing) {
-			this.#buffer.cork();
-			this.#writing = false;
-		}
-	}
-
-	#enableWrite() {
-		if (this.#writing) {
-			return;
-		}
-
-		if (this.verbosity <= 0) {
-			this.#writing = false;
-			return;
-		}
-
-		if (this.#buffer.writableCorked) {
-			this.#buffer.uncork();
-			this.#writing = true;
-			return;
-		}
-
-		this.#buffer.pipe(this.#stream);
-		this.#buffer.read();
-		this.#writing = true;
+	/**
+	 * @internal
+	 */
+	_write(
+		chunk: string | LoggedBuffer,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		encoding = 'utf8',
+		callback: () => void,
+	) {
+		this.push(chunk);
+		callback();
 	}
 
 	/**
-	 * Finish this step and flush all buffered logs. Once a step is ended, it will no longer accept any logging output and will be effectively removed from the base logger. Consider this method similar to a destructor or teardown.
+	 * @internal
+	 */
+	_final(callback: () => void) {
+		this.push(null);
+		callback();
+	}
+
+	#write(type: LineType, contents: unknown) {
+		this.write({
+			type,
+			contents: stringify(contents),
+			group: this.name,
+			verbosity: this.verbosity,
+		} satisfies LoggedBuffer);
+	}
+
+	/**
+	 * @internal
+	 */
+	set hasError(hasError: boolean) {
+		this.#hasError = this.#hasError || hasError;
+	}
+
+	/**
+	 * Whether this step has logged an error message.
+	 */
+	get hasError() {
+		return this.#hasError;
+	}
+
+	/**
+	 * @internal
+	 */
+	set hasWarning(hasWarning: boolean) {
+		this.#hasWarning = this.#hasWarning || hasWarning;
+	}
+
+	/**
+	 * Whether this step has logged a warning message.
+	 */
+	get hasWarning() {
+		return this.#hasWarning;
+	}
+
+	/**
+	 * @internal
+	 */
+	set hasInfo(hasInfo: boolean) {
+		this.#hasInfo = this.#hasInfo || hasInfo;
+	}
+
+	/**
+	 * Whether this step has logged an info-level message.
+	 */
+	get hasInfo() {
+		return this.#hasInfo;
+	}
+
+	/**
+	 * @internal
+	 */
+	set hasLog(hasLog: boolean) {
+		this.#hasLog = this.#hasLog || hasLog;
+	}
+
+	/**
+	 * Whether this step has logged a log-level message.
+	 */
+	get hasLog() {
+		return this.#hasLog;
+	}
+
+	/**
+	 * Log an error message for this step. Any error log will cause the entire command run in oneRepo to fail and exit with code `1`. Error messages will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 1 or greater – even if not written, the command will still fail and include an exit code.
+	 *
 	 *
 	 * ```ts
-	 * await step.end();
+	 * const step = logger.createStep('My step');
+	 * step.error('This message will be recorded and written out as an "ERR" labeled message');
+	 * step.end();
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
+	 *
+	 * ```ts
+	 * step.error(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
+	 * ```
+	 *
+	 * @param contents Any value may be logged as an error, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
+	 *
+	 * @group Logging
+	 */
+	error(contents: unknown) {
+		this.hasError = true;
+		this.#write('error', contents);
+	}
+
+	/**
+	 * Log a warning message for this step. Warnings will _not_ cause oneRepo commands to fail. Warning messages will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 2 or greater.
+	 *
+	 *
+	 * ```ts
+	 * const step = logger.createStep('My step');
+	 * step.warn('This message will be recorded and written out as a "WRN" labeled message');
+	 * step.end();
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
+	 *
+	 * ```ts
+	 * step.warn(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
+	 * ```
+	 *
+	 * @param contents Any value may be logged as a warning, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
+	 *
+	 * @group Logging
+	 */
+	warn(contents: unknown) {
+		this.hasWarning = true;
+		this.#write('warn', contents);
+	}
+
+	/**
+	 * Log an informative message for this step. Info messages will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 1 or greater.
+	 *
+	 * ```ts
+	 * const step = logger.createStep('My step');
+	 * step.info('This message will be recorded and written out as an "INFO" labeled message');
+	 * step.end();
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * step.info(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
+	 * ```
+	 *
+	 * @param contents Any value may be logged as info, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
+	 *
+	 * @group Logging
+	 */
+	info(contents: unknown) {
+		this.hasInfo = true;
+		this.#write('info', contents);
+	}
+
+	/**
+	 * Log a message for this step. Log messages will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 3 or greater.
+	 *
+	 * ```ts
+	 * const step = logger.createStep('My step');
+	 * step.log('This message will be recorded and written out as an "LOG" labeled message');
+	 * step.end();
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
+	 *
+	 * ```ts
+	 * step.log(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
+	 * ```
+	 *
+	 * @param contents Any value may be logged, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
+	 *
+	 * @group Logging
+	 */
+	log(contents: unknown) {
+		this.hasLog = true;
+		this.#write('log', contents);
+	}
+
+	/**
+	 * Log a debug message for this step. Debug messages will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 4 or greater.
+	 *
+	 * ```ts
+	 * const step = logger.createStep('My step');
+	 * step.debug('This message will be recorded and written out as an "DBG" labeled message');
+	 * step.end();
+	 * ```
+	 *
+	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
+	 *
+	 * ```ts
+	 * step.debug(() => bigArray.map((item) => `- ${item.name}`).join('\n'));
+	 * ```
+	 *
+	 * @param contents Any value may be logged as a debug message, but will be stringified upon output. If a function is given with no arguments, the function will be executed and its response will be stringified for output.
+	 *
+	 * @group Logging
+	 */
+	debug(contents: unknown) {
+		this.#write('debug', contents);
+	}
+
+	/**
+	 * Log extra performance timing information.
+	 *
+	 * Timing information will only be written to the program output if the {@link Logger.verbosity | `verbosity`} is set to 5.
+	 *
+	 * ```ts
+	 * const myStep = logger.createStep('My step');
+	 * performance.mark('start');
+	 * // do work
+	 * performance.mark('end');
+	 * myStep.timing('start', 'end');
+	 * myStep.end();
+	 * ```
+	 *
+	 * @group Logging
+	 */
+	timing(start: string, end: string) {
+		const [startMark] = performance.getEntriesByName(start);
+		const [endMark] = performance.getEntriesByName(end);
+		if (!startMark || !endMark) {
+			this.warn(`Unable to log timing. Missing either mark ${start} → ${end}`);
+			return;
+		}
+		this.#write(
+			'timing',
+			`${startMark.name} → ${endMark.name}: ${Math.round(endMark.startTime - startMark.startTime)}ms`,
+		);
+	}
+
+	/**
+	 * Signal the end of this step. After this method is called, it will no longer accept any more logs of any variety and will be removed from the parent Logger's queue.
+	 *
+	 * Failure to call this method will result in a warning and potentially fail oneRepo commands. It is important to ensure that each step is cleanly ended before returning from commands.
+	 *
+	 * ```ts
+	 * const myStep = logger.createStep('My step');
+	 * // do work
+	 * myStep.end();
 	 * ```
 	 */
-	async end() {
+	end(callback?: () => void) {
+		// Makes calling `.end()` multiple times safe.
+		// TODO: make this unnecessary
+		if (this.writableEnded) {
+			throw new Error(`Called step.end() multiple times on step "${this.name}"`);
+		}
+
 		const endMark = performance.mark(`onerepo_end_${this.#startMark}`);
 		const [startMark] = performance.getEntriesByName(`onerepo_start_${this.#startMark}`);
 
 		// TODO: jest.useFakeTimers does not seem to be applying to performance correctly
 		const duration =
 			!startMark || process.env.NODE_ENV === 'test' ? 0 : Math.round(endMark.startTime - startMark.startTime);
-		const text = this.name
+		const contents = this.name
 			? pc.dim(`${duration}ms`)
 			: `Completed${this.hasError ? ' with errors' : ''} ${pc.dim(`${duration}ms`)}`;
-		this.#writeStream(ensureNewline(this.#prefixEnd(`${this.hasError ? prefix.FAIL : prefix.SUCCESS} ${text}`)));
-		if (this.name && process.env.GITHUB_RUN_ID) {
-			this.#writeStream('::endgroup::\n');
-		}
 
-		return this.#onEnd(this);
+		return super.end(
+			{
+				type: 'end',
+				contents: stringify(contents),
+				group: this.name,
+				hasError: this.#hasError,
+				verbosity: this.verbosity,
+			} satisfies LoggedBuffer,
+			callback,
+		);
 	}
-
-	/**
-	 * @internal
-	 */
-	async flush(): Promise<void> {
-		this.#active = true;
-		this.#enableWrite();
-
-		// if not writable, then we can't actually flush/end anything
-		if (!this.#buffer.writable) {
-			return;
-		}
-
-		await new Promise<void>((resolve) => {
-			setImmediate(() => {
-				resolve();
-			});
-		});
-
-		// Unpipe the buffer, helps with memory/gc
-		// But do it after a tick (above) otherwise the buffer may not be done flushing to stream
-		this.#buffer.unpipe();
-	}
-
-	/**
-	 * Log an informative message. Should be used when trying to convey information with a user that is important enough to always be returned.
-	 *
-	 * ```ts
-	 * step.info('Log this content when verbosity is >= 1');
-	 * ```
-	 *
-	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
-	 *
-	 * ```ts
-	 * step.info(() => bigArray.map((item) => item.name));
-	 * ```
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 */
-	info(contents: unknown) {
-		this.#onMessage('info');
-		this.hasInfo = true;
-		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(prefix.INFO, stringify(contents)));
-		}
-	}
-
-	/**
-	 * Log an error. This will cause the root logger to include an error and fail a command.
-	 *
-	 * ```ts
-	 * step.error('Log this content when verbosity is >= 1');
-	 * ```
-	 *
-	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged error:
-	 *
-	 * ```ts
-	 * step.error(() => bigArray.map((item) => item.name));
-	 * ```
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 */
-	error(contents: unknown) {
-		this.#onMessage('error');
-		this.hasError = true;
-		if (this.verbosity >= 1) {
-			this.#writeStream(this.#prefix(prefix.ERR, stringify(contents)));
-		}
-	}
-
-	/**
-	 * Log a warning. Does not have any effect on the command run, but will be called out.
-	 *
-	 * ```ts
-	 * step.warn('Log this content when verbosity is >= 2');
-	 * ```
-	 *
-	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged warning:
-	 *
-	 * ```ts
-	 * step.warn(() => bigArray.map((item) => item.name));
-	 * ```
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 */
-	warn(contents: unknown) {
-		this.#onMessage('warn');
-		this.hasWarning = true;
-		if (this.verbosity >= 2) {
-			this.#writeStream(this.#prefix(prefix.WARN, stringify(contents)));
-		}
-	}
-
-	/**
-	 * General logging information. Useful for light informative debugging. Recommended to use sparingly.
-	 *
-	 * ```ts
-	 * step.log('Log this content when verbosity is >= 3');
-	 * ```
-	 *
-	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged information:
-	 *
-	 * ```ts
-	 * step.log(() => bigArray.map((item) => item.name));
-	 * ```
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 */
-	log(contents: unknown) {
-		this.#onMessage('log');
-		this.hasLog = true;
-		if (this.verbosity >= 3) {
-			this.#writeStream(this.#prefix(this.name ? prefix.LOG : '', stringify(contents)));
-		}
-	}
-
-	/**
-	 * Extra debug logging when verbosity greater than or equal to 4.
-	 *
-	 * ```ts
-	 * step.debug('Log this content when verbosity is >= 4');
-	 * ```
-	 *
-	 * If a function with zero arguments is passed, the function will be executed before writing. This is helpful for avoiding extra work in the event that the verbosity is not actually high enough to render the logged debug information:
-	 *
-	 * ```ts
-	 * step.debug(() => bigArray.map((item) => item.name));
-	 * ```
-	 *
-	 * @group Logging
-	 * @param contents Any value that can be converted to a string for writing to `stderr`.
-	 */
-	debug(contents: unknown) {
-		this.#onMessage('debug');
-		if (this.verbosity >= 4) {
-			this.#writeStream(this.#prefix(prefix.DBG, stringify(contents)));
-		}
-	}
-
-	/**
-	 * Log timing information between two [Node.js performance mark names](https://nodejs.org/dist/latest-v18.x/docs/api/perf_hooks.html#performancemarkname-options).
-	 *
-	 * @group Logging
-	 * @param start A `PerformanceMark` entry name
-	 * @param end A `PerformanceMark` entry name
-	 */
-	timing(start: string, end: string) {
-		if (this.verbosity >= 5) {
-			const [startMark] = performance.getEntriesByName(start);
-			const [endMark] = performance.getEntriesByName(end);
-			if (!startMark || !endMark) {
-				this.warn(`Unable to log timing. Missing either mark ${start} → ${end}`);
-				return;
-			}
-			this.#writeStream(
-				this.#prefix(prefix.TIMER, `${start} → ${end}: ${Math.round(endMark.startTime - startMark.startTime)}ms`),
-			);
-		}
-	}
-
-	#writeStream(line: string) {
-		this.#buffer.write(ensureNewline(line));
-		if (this.#active) {
-			const lines = line.split('\n');
-			const lastThree = lines.slice(-3);
-			this.#lastThree.push(...lastThree.map(pc.dim));
-			this.#lastThree.splice(0, this.#lastThree.length - 3);
-		}
-	}
-
-	#prefixStart(output: string) {
-		return ` ${this.name ? '┌' : prefix.START} ${output}`;
-	}
-
-	#prefix(prefix: string, output: string) {
-		return output
-			.split('\n')
-			.map((line) => ` ${this.name ? '│' : ''}${this.#writePrefixes ? ` ${prefix} ` : ''}${line}`)
-			.join('\n');
-	}
-
-	#prefixEnd(output: string) {
-		return ` ${this.name ? '└' : prefix.END} ${output}`;
-	}
-}
-
-function stringify(item: unknown): string {
-	if (typeof item === 'string') {
-		return item.replace(/^\n+/, '').replace(/\n*$/g, '');
-	}
-
-	if (
-		Array.isArray(item) ||
-		(typeof item === 'object' && item !== null && item.constructor === Object) ||
-		item === null
-	) {
-		return JSON.stringify(item, null, 2);
-	}
-
-	if (item instanceof Date) {
-		return item.toISOString();
-	}
-
-	if (typeof item === 'function' && item.length === 0) {
-		return stringify(item());
-	}
-
-	return `${String(item)}`;
-}
-
-function ensureNewline(str: string): string {
-	if (/^\S*$/.test(str)) {
-		return '';
-	}
-	return str.endsWith('\n') ? str : str.replace(/\n*$/g, '\n');
 }

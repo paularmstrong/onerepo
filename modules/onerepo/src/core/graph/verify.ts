@@ -9,6 +9,7 @@ import type { AnySchema } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph, Workspace } from '@onerepo/graph';
+import type { LogStep } from '@onerepo/logger';
 import { verifyDependencies } from '../dependencies/utils/verify-dependencies';
 import { epilogue } from '../dependencies/verify';
 import { defaultValidators } from './schema';
@@ -87,7 +88,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				if (required && files.length === 0) {
 					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
 					schemaStep.error(msg);
-					writeGithubError(msg);
+					writeGithubError(schemaStep, msg);
 				}
 				for (const file of files) {
 					if (!(file in map)) {
@@ -119,12 +120,12 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
 					ajv.errors?.forEach((err) => {
 						schemaStep.error(`  ↳ ${err.message}`);
-						writeGithubError(err.message, graph.root.relative(workspace.resolve(file)));
+						writeGithubError(schemaStep, err.message, graph.root.relative(workspace.resolve(file)));
 					});
 				}
 			}
 		}
-		await schemaStep.end();
+		schemaStep.end();
 	}
 };
 
@@ -146,8 +147,8 @@ const splitChar = '\u200b';
 
 type ExtendedSchema = AnySchema & { $required?: boolean };
 
-function writeGithubError(message: string | undefined, filename?: string) {
+function writeGithubError(step: LogStep, message: string | undefined, filename?: string) {
 	if (process.env.GITHUB_RUN_ID) {
-		process.stderr.write(`::error${filename ? ` file=${filename}` : ''}::${message}\n`);
+		step.write(`::error${filename ? ` file=${filename}` : ''}::${message}\n`);
 	}
 }

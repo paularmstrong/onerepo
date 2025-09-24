@@ -1,15 +1,9 @@
 import type { Logger } from './Logger';
 
-const sym = Symbol.for('onerepo_loggers');
+const loggers: Array<Logger> = [];
 
 function getLoggers(): Array<Logger> {
-	// @ts-ignore Cannot type symbol as key on global
-	if (!global[sym]) {
-		// @ts-ignore
-		global[sym] = [];
-	}
-	// @ts-ignore
-	return global[sym];
+	return loggers;
 }
 
 export function getCurrent() {
