@@ -23,17 +23,17 @@
 	"dependencies": {
 		"@onerepo/package-manager": "2.0.0",
 		"defaults": "^3.0.0",
-		"glob": "^10.1.0",
-		"graph-data-structure": "^3.2.0",
-		"jiti": "^2.4.2",
+		"glob": "^11.0.3",
+		"graph-data-structure": "^4.5.0",
+		"jiti": "^2.6.1",
 		"js-yaml": "^4.1.0",
-		"minimatch": "^9.0.3"
+		"minimatch": "^10.0.3"
 	},
 	"devDependencies": {
 		"@internal/jest-config": "workspace:^",
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"typescript": "^5.7.2"
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.10.0 || ^24"
