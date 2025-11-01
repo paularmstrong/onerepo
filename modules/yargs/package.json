@@ -24,7 +24,7 @@
 		"@onerepo/builders": "2.0.0",
 		"@onerepo/logger": "2.0.0",
 		"@onerepo/subprocess": "2.0.0",
-		"semver": "^7.5.4"
+		"semver": "^7.7.3"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
