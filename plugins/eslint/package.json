@@ -38,7 +38,7 @@
 	],
 	"dependencies": {
 		"eslint-formatter-onerepo": "2.0.0",
-		"glob": "^10.1.0",
+		"glob": "^11.1.0",
 		"ignore": "^5.3.1",
 		"jiti": "^2.4.2"
 	},
