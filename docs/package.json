@@ -9,7 +9,7 @@
 		"@types/pako": "^2.0.3",
 		"eslint": "^9.28.0",
 		"eslint-plugin-astro": "^1.3.1",
-		"glob": "^10.1.0",
+		"glob": "^10.5.0",
 		"netlify-plugin-csp-generator": "^1.6.1",
 		"onerepo": "2.0.0",
 		"postcss": "^8.4.49",

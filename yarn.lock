@@ -1999,7 +1999,7 @@ __metadata:
     dagre-d3-es: ^7.0.11
     eslint: ^9.28.0
     eslint-plugin-astro: ^1.3.1
-    glob: ^10.1.0
+    glob: ^10.5.0
     graph-data-structure: ^3.2.0
     js-base64: ^3.7.7
     mermaid: 11.4.1
@@ -2050,7 +2050,7 @@ __metadata:
   dependencies:
     "@actions/core": ^1.10.1
     "@internal/tsconfig": "workspace:^"
-    glob: ^10.1.0
+    glob: ^10.5.0
     onerepo: "workspace:^"
   languageName: unknown
   linkType: soft
@@ -2064,7 +2064,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/package-manager": 2.0.0
     defaults: ^3.0.0
-    glob: ^10.1.0
+    glob: ^10.5.0
     graph-data-structure: ^3.2.0
     jiti: ^2.4.2
     js-yaml: ^4.1.0
@@ -2104,7 +2104,7 @@ __metadata:
   dependencies:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
-    glob: ^10.1.0
+    glob: ^10.5.0
     jiti: ^2.4.2
     mdast-builder: ^1.1.1
     onerepo: "workspace:^"
@@ -2127,7 +2127,7 @@ __metadata:
     "@types/eslint": ^9.6.1
     eslint: ^9.28.0
     eslint-formatter-onerepo: 2.0.0
-    glob: ^10.1.0
+    glob: ^10.5.0
     ignore: ^5.3.1
     jiti: ^2.4.2
     onerepo: "workspace:^"
@@ -2230,7 +2230,7 @@ __metadata:
     "@onerepo/test-cli": "workspace:^"
     esbuild: ^0.25.4
     eslint: ^9.28.0
-    glob: ^10.1.0
+    glob: ^10.5.0
     human-id: ^4.1.0
     jest: ^30.1.2
     jiti: ^2.4.2
@@ -7497,7 +7497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^10.1.0, glob@npm:^10.3.10, glob@npm:^10.4.1":
+"glob@npm:^10.3.10, glob@npm:^10.4.1":
   version: 10.4.5
   resolution: "glob@npm:10.4.5"
   dependencies:
@@ -7510,6 +7510,22 @@ __metadata:
   bin:
     glob: dist/esm/bin.mjs
   checksum: 0bc725de5e4862f9f387fd0f2b274baf16850dcd2714502ccf471ee401803997983e2c05590cb65f9675a3c6f2a58e7a53f9e365704108c6ad3cbf1d60934c4a
+  languageName: node
+  linkType: hard
+
+"glob@npm:^10.5.0":
+  version: 10.5.0
+  resolution: "glob@npm:10.5.0"
+  dependencies:
+    foreground-child: ^3.1.0
+    jackspeak: ^3.1.2
+    minimatch: ^9.0.4
+    minipass: ^7.1.2
+    package-json-from-dist: ^1.0.0
+    path-scurry: ^1.11.1
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: cda96c074878abca9657bd984d2396945cf0d64283f6feeb40d738fe2da642be0010ad5210a1646244a5fc3511b0cab5a374569b3de5a12b8a63d392f18c6043
   languageName: node
   linkType: hard
 
@@ -11466,7 +11482,7 @@ __metadata:
     cliui: ^8.0.1
     defaults: ^3.0.0
     ejs: ^3.1.8
-    glob: ^10.1.0
+    glob: ^10.5.0
     graph-data-structure: ^3.2.0
     human-id: ^4.1.0
     ignore: ^5.3.1
