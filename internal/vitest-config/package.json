@@ -5,10 +5,10 @@
 	"main": "./src/index.js",
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
-		"vitest": "^3.1.4"
+		"vitest": "^4.0.17"
 	},
 	"peerDependencies": {
-		"vitest": "^3"
+		"vitest": "^4"
 	},
 	"dependencies": {
 		"@vitest/coverage-v8": "^3.1.4"
