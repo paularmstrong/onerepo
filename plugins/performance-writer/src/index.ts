@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { PerformanceMeasure } from 'node:perf_hooks';
-import { performance, PerformanceObserver } from 'node:perf_hooks';
+import { performance, PerformanceObserver, PerformanceMark } from 'node:perf_hooks';
 import { getLogger, file } from 'onerepo';
 import type { PluginObject } from 'onerepo';
 
@@ -67,16 +67,20 @@ export function performanceWriter(opts: Options = {}): PluginObject {
 
 					let detail: Record<string, unknown> = { argv };
 
-					if (typeof startMark.detail === 'string') {
-						detail.description = startMark.detail;
-					} else if (startMark.detail) {
-						detail = { ...detail, ...startMark.detail };
+					if (startMark instanceof PerformanceMark) {
+						if (typeof startMark.detail === 'string') {
+							detail.description = startMark.detail;
+						} else if (startMark.detail) {
+							detail = { ...detail, ...startMark.detail };
+						}
 					}
 
-					if (typeof entry.detail === 'string') {
-						detail.description = `${detail.description ? `${detail.description} ` : ''}${entry.detail}`;
-					} else if (entry.detail) {
-						detail = { ...detail, ...entry.detail };
+					if (entry instanceof PerformanceMark) {
+						if (typeof entry.detail === 'string') {
+							detail.description = `${detail.description ? `${detail.description} ` : ''}${entry.detail}`;
+						} else if (entry.detail) {
+							detail = { ...detail, ...entry.detail };
+						}
 					}
 
 					measures.push(
