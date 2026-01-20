@@ -7,7 +7,7 @@ import type { Serialized } from 'graph-data-structure';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
 import { run } from '@onerepo/subprocess';
-import pkg from '../../../package.json';
+import pkg from '../../../package.json' with { type: 'json' };
 
 export const command = 'show';
 

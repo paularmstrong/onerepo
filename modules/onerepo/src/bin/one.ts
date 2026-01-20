@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { createJiti } from 'jiti';
 import createYargs from 'yargs/yargs';
-import { Graph, internalSetup, noRepoPlugins } from '..';
-import pkg from '../../package.json';
-import { updateNodeModules } from './utils/update-node-modules';
-import { getConfig } from './utils/get-config';
+import { Graph, internalSetup, noRepoPlugins } from '../index.ts';
+import pkg from '../../package.json' with { type: 'json' };
+import { updateNodeModules } from './utils/update-node-modules.ts';
+import { getConfig } from './utils/get-config.ts';
 
 // Suppress Node experimental warnings.
 const { emitWarning } = process;
@@ -26,19 +25,21 @@ process.emitWarning = (warning, ...args) => {
 // @ts-ignore cannot use symbol on global in ts
 globalThis[Symbol.for('onerepo_installed_version')] = pkg.version;
 
-export const jiti = createJiti(process.cwd(), { interopDefault: true });
-
 /**
  * Fall back on running `one` in global mode.
  * This enables non-repo functions like `create` and `install`.
  */
 async function runGlobal() {
 	const root = path.join(`${process.env.HOME}`, '.onerepo');
-	const require = createRequire(__filename);
+	const require = createRequire(import.meta.url);
+
+	const graph = new Graph(root, 'yarn');
+	await graph.construct({ name: 'onerepo-bin', private: true }, []);
+
 	const { run } = await internalSetup({
 		require,
 		root,
-		graph: new Graph(root, { name: 'onerepo-bin', private: true }, [], require),
+		graph,
 		config: {
 			// Pretend we're in a root anyway
 			root: true,
@@ -58,7 +59,7 @@ async function runGlobal() {
  * Run oneRepo, hopefully finding a monorepo in the cwd
  */
 async function getSetupAndRun() {
-	const { config, configRoot } = getConfig(jiti, process.cwd());
+	const { config, configRoot } = await getConfig(process.cwd());
 
 	if (configRoot === '/' || !config) {
 		return runGlobal();
@@ -66,7 +67,8 @@ async function getSetupAndRun() {
 
 	let setup;
 	try {
-		setup = jiti('onerepo').setup;
+		// eslint-disable-next-line import/no-extraneous-dependencies
+		setup = (await import('onerepo')).setup;
 	} catch (e) {
 		// @ts-ignore
 		if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') {
@@ -75,7 +77,7 @@ async function getSetupAndRun() {
 		throw e;
 	}
 
-	await updateNodeModules(configRoot, jiti);
+	await updateNodeModules(configRoot);
 
 	// Use the cwd-local version of onerepo, assuming it exists
 	const app = setup(configRoot, config).catch((e: unknown) => {

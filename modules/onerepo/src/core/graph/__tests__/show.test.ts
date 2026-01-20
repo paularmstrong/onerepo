@@ -3,7 +3,7 @@ import * as os from 'node:os';
 import * as subprocess from '@onerepo/subprocess';
 import { getGraph } from '@onerepo/graph';
 import { getCommand } from '@onerepo/test-cli';
-import * as Show from '../show';
+import * as Show from '../show.ts';
 
 vi.mock('node:os');
 // Mock the version, since that's included in the output
@@ -13,7 +13,7 @@ vi.mock('../../../../package.json', () => ({
 	},
 }));
 
-const { run } = getCommand(Show);
+const { run } = await getCommand(Show);
 
 function processStdoutSpy() {
 	let out = '';
@@ -36,7 +36,7 @@ describe('graph show', () => {
 
 		test('deflates using zlib', async () => {
 			const spy = processStdoutSpy();
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--all', { graph });
 
 			const expected =
@@ -50,7 +50,7 @@ describe('graph show', () => {
 			['linux', 'xdg-open'],
 		])('can auto-open the URL on %s using %s ', async (plat, tool) => {
 			vi.spyOn(os, 'platform').mockReturnValue(plat as NodeJS.Platform);
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--all --open', { graph });
 
 			const expected =
@@ -66,7 +66,7 @@ describe('graph show', () => {
 
 		test('can override the URL base', async () => {
 			const spy = processStdoutSpy();
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--all --url=https://example.com', { graph });
 
 			const expected =
@@ -80,7 +80,7 @@ describe('graph show', () => {
 		test('writes a json Graph to stdout', async () => {
 			const spy = processStdoutSpy();
 
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--format=json --all', { graph });
 
 			expect(JSON.parse(spy.out)).toEqual({
@@ -92,7 +92,7 @@ describe('graph show', () => {
 		test('writes json Graph to stdout for input set', async () => {
 			const spy = processStdoutSpy();
 
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--format=json -w fixture-tacos', { graph });
 
 			expect(JSON.parse(spy.out)).toEqual({
@@ -106,7 +106,7 @@ describe('graph show', () => {
 		test('writes a mermaid Graph to stdout', async () => {
 			const spy = processStdoutSpy();
 
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--format=mermaid --all', { graph });
 
 			expect(spy.out.trim()).toEqual(
@@ -122,7 +122,7 @@ describe('graph show', () => {
 		test('writes mermaid Graph to stdout for input set', async () => {
 			const spy = processStdoutSpy();
 
-			const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+			const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 			await run('--format=mermaid -w fixture-tacos', { graph });
 
 			expect(spy.out.trim()).toEqual(

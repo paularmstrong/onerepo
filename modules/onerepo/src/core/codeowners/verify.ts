@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { read, signContents, verifySignature } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Providers } from './get-codeowners';
-import { codeownersFilepath, getCodeownersContents } from './get-codeowners';
+import { codeownersFilepath, getCodeownersContents } from './get-codeowners.ts';
 
 export const command = 'verify';
 

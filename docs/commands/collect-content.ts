@@ -239,6 +239,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 		}
 		await coreDocsTwo.end();
 
+		await run({
+			name: 'Format files',
+			cmd: $0,
+			args: ['format', '-f', docs.resolve('src/content/docs')],
+		});
+
 		if (add) {
 			await git.updateIndex(docs.resolve('src/content/docs/core'));
 			await git.updateIndex(docs.resolve('src/content/docs/plugins'));

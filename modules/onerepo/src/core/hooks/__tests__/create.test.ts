@@ -2,9 +2,9 @@ import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import { LogStep } from '@onerepo/logger';
-import * as Create from '../create';
+import * as Create from '../create.ts';
 
-const { run, graph } = getCommand(Create);
+const { run, graph } = await getCommand(Create);
 
 describe('hooks create', () => {
 	beforeEach(() => {

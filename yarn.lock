@@ -2258,8 +2258,7 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     "@onerepo/logger": "npm:2.0.0"
-    jiti: "npm:^2.4.2"
-    prettier: "npm:^3.4.2"
+    prettier: "npm:^3.8.0"
   peerDependencies:
     prettier: ^2 || ^3
   languageName: unknown
@@ -2300,7 +2299,6 @@ __metadata:
     defaults: "npm:^3.0.0"
     glob: "npm:^10.1.0"
     graph-data-structure: "npm:^3.2.0"
-    jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
     minimatch: "npm:^9.0.3"
     typescript: "npm:^5.7.2"
@@ -2339,7 +2337,6 @@ __metadata:
     "@internal/tsconfig": "workspace:^"
     "@internal/vitest-config": "workspace:^"
     glob: "npm:^10.1.0"
-    jiti: "npm:^2.4.2"
     mdast-builder: "npm:^1.1.1"
     onerepo: "workspace:^"
     remark-gfm: "npm:^4.0.0"
@@ -2363,7 +2360,6 @@ __metadata:
     eslint-formatter-onerepo: "npm:2.0.0"
     glob: "npm:^10.1.0"
     ignore: "npm:^5.3.1"
-    jiti: "npm:^2.4.2"
     onerepo: "workspace:^"
     typescript: "npm:^5.7.2"
     typescript-eslint: "npm:^8.33.0"
@@ -2467,9 +2463,9 @@ __metadata:
     glob: "npm:^10.1.0"
     human-id: "npm:^4.1.0"
     jest: "npm:^30.2.0"
-    jiti: "npm:^2.4.2"
+    jiti: "npm:^2.6.1"
     onerepo: "workspace:^"
-    prettier: "npm:^3.4.2"
+    prettier: "npm:^3.8.0"
     typescript: "npm:^5.7.2"
     typescript-eslint: "npm:^8.33.0"
     vitest: "npm:^4.0.17"
@@ -9867,12 +9863,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "jiti@npm:2.4.2"
+"jiti@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "jiti@npm:2.6.1"
   bin:
     jiti: lib/jiti-cli.mjs
-  checksum: 10/e2b07eb2e3fbb245e29ad288dddecab31804967fc84d5e01d39858997d2743b5e248946defcecf99272275a00284ecaf7ec88b8c841331324f0c946d8274414b
+  checksum: 10/8cd72c5fd03a0502564c3f46c49761090f6dadead21fa191b73535724f095ad86c2fa89ee6fe4bc3515337e8d406cc8fb2d37b73fa0c99a34584bac35cd4a4de
   languageName: node
   linkType: hard
 
@@ -11856,7 +11852,6 @@ __metadata:
     human-id: "npm:^4.1.0"
     ignore: "npm:^5.3.1"
     inquirer: "npm:^9.1.4"
-    jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
     minimatch: "npm:^9.0.3"
     picocolors: "npm:^1.0.0"
@@ -12407,7 +12402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:*, prettier@npm:^3.0.0, prettier@npm:^3.4.2, prettier@npm:^3.5.0":
+"prettier@npm:*, prettier@npm:^3.0.0, prettier@npm:^3.5.0, prettier@npm:^3.8.0":
   version: 3.8.0
   resolution: "prettier@npm:3.8.0"
   bin:

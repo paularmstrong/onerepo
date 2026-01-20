@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { createJiti } from 'jiti';
+import { createRequire } from 'node:module';
 import pc from 'picocolors';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
@@ -67,8 +67,8 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	} else {
 		template = templates.find(
 			({ value: { config, dir } }) =>
-				type.toLowerCase() === config.name.toLowerCase() ||
-				type.toLowerCase() === dir.split('/')[dir.split('/').length - 1].toLowerCase(),
+				type.toLowerCase() === config.name?.toLowerCase() ||
+				type.toLowerCase() === dir?.split('/')[dir.split('/').length - 1]?.toLowerCase(),
 		)?.value;
 	}
 
@@ -120,11 +120,11 @@ export interface Config<T extends Answers = Record<string, unknown>> {
 	prompts?: QuestionCollection<T>;
 }
 
-const jiti = createJiti(process.cwd(), { interopDefault: true });
+const require = createRequire(process.cwd());
 
 function loadConfig(configPath: string) {
 	try {
-		const config: Config = jiti(configPath);
+		const config: Config = require(configPath);
 		return config;
 	} catch {
 		throw new Error(`Invalid configuration found at ${configPath}`);

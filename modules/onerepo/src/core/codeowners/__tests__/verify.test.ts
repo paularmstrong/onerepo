@@ -1,12 +1,16 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import * as Verify from '../verify';
-import { location } from '../get-codeowners';
+import * as Verify from '../verify.ts';
+import { location } from '../get-codeowners.ts';
 
-const { run, graph } = getCommand(Verify, getGraph(path.join(__dirname, '__fixtures__/repo')));
+const { run, graph } = await getCommand(
+	Verify,
+	await getGraph(path.join(fileURLToPath(import.meta.url), '../__fixtures__/repo')),
+);
 
 describe('codeowners verify', () => {
 	test.each(Object.entries(location))('verifies %s from %s', async (provider, location) => {

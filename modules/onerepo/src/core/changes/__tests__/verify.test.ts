@@ -2,10 +2,10 @@ import path from 'node:path';
 import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
-import * as verify from '../verify';
+import * as verify from '../verify.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
-const { run } = getCommand(verify, graph);
+const graph = await getGraph(path.join(__dirname, '__fixtures__/with-entries'));
+const { run } = await getCommand(verify, graph);
 
 describe('verify', () => {
 	test('fails with missing change entries', async () => {

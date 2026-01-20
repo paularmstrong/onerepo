@@ -1,5 +1,5 @@
 import path from 'path';
-import { getPackageManagerName } from '../get-package-manager';
+import { getPackageManagerName } from '../get-package-manager.ts';
 
 describe('getPackageManagerName', () => {
 	let ua: string | undefined;

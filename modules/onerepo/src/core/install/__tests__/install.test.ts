@@ -4,13 +4,13 @@ import { getCommand } from '@onerepo/test-cli';
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { LogStep } from '@onerepo/logger';
-import * as Install from '../install';
-import pkg from '../../../../package.json';
+import * as Install from '../install.ts';
+import pkg from '../../../../package.json' with { type: 'json' };
 
 vi.mock('@onerepo/subprocess');
 vi.mock('@onerepo/file');
 
-const { build, run } = getCommand(Install);
+const { build, run } = await getCommand(Install);
 
 describe('builder', () => {
 	test('sets location to homedir/.onerepo', async () => {
@@ -77,7 +77,7 @@ describe('handler', () => {
 		);
 
 		expect(file.write).toHaveBeenCalledWith(
-			path.join(location, 'onerepo.config.js'),
+			path.join(location, 'onerepo.config.ts'),
 			`
 export default {
 	root: true,

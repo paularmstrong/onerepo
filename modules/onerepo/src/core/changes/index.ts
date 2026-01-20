@@ -1,11 +1,11 @@
 import type { Plugin } from '../../types';
-import * as Add from './add';
-import * as Migrate from './migrate';
-import * as Publish from './publish';
-import * as Show from './show';
-import * as Snapshot from './snapshot';
-import * as Verify from './verify';
-import * as Version from './version';
+import * as Add from './add.ts';
+import * as Migrate from './migrate.ts';
+import * as Publish from './publish.ts';
+import * as Show from './show.ts';
+import * as Snapshot from './snapshot.ts';
+import * as Verify from './verify.ts';
+import * as Version from './version.ts';
 
 export const changes: Plugin = function codeowners(config) {
 	const command = ['change', 'changes', 'changesets'];

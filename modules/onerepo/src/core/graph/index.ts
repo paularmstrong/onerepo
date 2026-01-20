@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { Plugin } from '../../types';
-import * as Show from './show';
-import * as Verify from './verify';
+import * as Show from './show.ts';
+import * as Verify from './verify.ts';
 
 export const graph: Plugin = function graph(opts) {
 	let resolvedSchema: string;
@@ -50,4 +50,4 @@ export const graph: Plugin = function graph(opts) {
 
 const noop = () => {};
 
-export type { GraphSchemaValidators } from './schema';
+export type { GraphSchemaValidators } from './schema.ts';

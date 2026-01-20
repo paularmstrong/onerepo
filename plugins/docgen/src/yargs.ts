@@ -1,5 +1,5 @@
 import path from 'path';
-import { createJiti } from 'jiti';
+import { createRequire } from 'module';
 import { globSync } from 'glob';
 import type {
 	BuilderCallback,
@@ -30,21 +30,21 @@ export interface Positional {
 export type Positionals = Record<string, Positional>;
 
 export interface Option {
-	aliases: Array<string>;
+	aliases?: Array<string>;
 	choices?: Choices;
 	conflicts?: Array<string>;
-	default: unknown;
-	deprecated: string | boolean;
-	description: string | false;
-	global: boolean;
-	group: string;
-	hidden: boolean;
+	default?: unknown;
+	deprecated?: string | boolean;
+	description?: string | false;
+	global?: boolean;
+	group?: string;
+	hidden?: boolean;
 	implied?: Array<string>;
-	name: string;
-	nargs: number;
-	normalize: boolean;
-	required: boolean;
-	type: string;
+	name?: string;
+	nargs?: number;
+	normalize?: boolean;
+	required?: boolean;
+	type?: string;
 }
 
 export type Options = Record<string, Option>;
@@ -81,7 +81,7 @@ export interface Docs {
 	usage: Array<string>;
 }
 
-const require = createJiti(process.cwd(), { interopDefault: true });
+const require = createRequire(process.cwd());
 
 export class Yargs {
 	_logger: LogStep;
@@ -279,7 +279,7 @@ export class Yargs {
 
 	default(key: string, value: unknown) {
 		if (key in this.#options && value !== undefined) {
-			const normalized = this.#options[key].normalize ? path.relative(this._filePath, value as string) : value;
+			const normalized = this.#options[key]?.normalize ? path.relative(this._filePath, value as string) : value;
 			this.#options[key] = { ...this.#options[key], default: normalized };
 		}
 	}
@@ -481,6 +481,7 @@ function sorter<T>(options: Record<string, T>) {
 
 	const sorted: Record<string, T> = {};
 	for (const key of sortedKeys) {
+		// @ts-ignore this isn't that important
 		sorted[key] = options[key];
 	}
 	return sorted;

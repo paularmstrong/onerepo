@@ -1,6 +1,6 @@
 import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
-import { readChange } from '../read-change';
+import { readChange } from '../read-change.ts';
 
 describe('readChange', () => {
 	beforeEach(() => {

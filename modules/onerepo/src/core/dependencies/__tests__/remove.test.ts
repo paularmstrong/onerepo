@@ -4,9 +4,9 @@ import * as file from '@onerepo/file';
 import { getGraph } from '@onerepo/graph';
 import { getCommand } from '@onerepo/test-cli';
 import { LogStep } from '@onerepo/logger';
-import * as Remove from '../remove';
+import * as Remove from '../remove.ts';
 
-const { run } = getCommand(Remove);
+const { run } = await getCommand(Remove);
 
 describe('remove', () => {
 	beforeEach(() => {
@@ -15,7 +15,7 @@ describe('remove', () => {
 	});
 
 	test('can remove dependency from one workspace', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const install = vi.spyOn(graph.packageManager, 'install');
 
 		await expect(run('-w fixture-tacos -d tortillas', { graph })).resolves.toBeTruthy();
@@ -39,7 +39,7 @@ describe('remove', () => {
 	});
 
 	test('can remove dependency from all workspaces', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await expect(run('-a -d tortillas', { graph })).resolves.toBeTruthy();
 
@@ -75,7 +75,7 @@ describe('remove', () => {
 	});
 
 	test('dedupes', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		const install = vi.spyOn(graph.packageManager, 'install');
 		const dedupe = vi.spyOn(graph.packageManager, 'dedupe');
 

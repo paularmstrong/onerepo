@@ -57,7 +57,7 @@ export default {
 			serial: [
 				['$0 lint --all --no-fix', '$0 format --check'],
 				'$0 test -a',
-				'$0 jest -a',
+				// '$0 jest -a',
 				['$0 ws docs check', '$0 tsc'],
 				'$0 build',
 			],

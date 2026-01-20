@@ -1,7 +1,7 @@
 import type { RequireDirectoryOptions } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
-import type { RootConfig } from './config-root';
+import type { RootConfig } from './config-root.ts';
 
 /**
  * @group Plugins

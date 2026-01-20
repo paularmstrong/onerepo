@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { Plugin } from '../../types';
-import * as cmd from './generate';
+import * as cmd from './generate.ts';
 
 export const generate: Plugin = function generate(opts) {
 	if (path.isAbsolute(opts.templateDir)) {

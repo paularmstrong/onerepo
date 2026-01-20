@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
-import * as show from '../show';
+import * as show from '../show.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
-const { run } = getCommand(show, graph);
+const graph = await getGraph(path.join(__dirname, '__fixtures__/with-entries'));
+const { run } = await getCommand(show, graph);
 
 describe('show changes', () => {
 	test('adds change files', async () => {

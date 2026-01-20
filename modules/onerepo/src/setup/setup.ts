@@ -13,9 +13,8 @@ import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { flushUpdateIndex } from '@onerepo/git';
-import type { Jiti } from 'jiti';
-import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
-import pkg from '../../package.json';
+import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types/index.ts';
+import pkg from '../../package.json' with { type: 'json' };
 
 export const defaultConfig: Required<RootConfig> = {
 	root: true,
@@ -95,7 +94,7 @@ export async function setup({
 	logger: inputLogger,
 }: {
 	graph?: Graph;
-	require?: NodeJS.Require | Jiti;
+	require?: NodeJS.Require;
 	root: string;
 	config: Config;
 	yargs: Yargv;
@@ -113,7 +112,7 @@ export async function setup({
 	process.env.ONEREPO_HEAD_BRANCH = head;
 	process.env.ONEREPO_DRY_RUN = 'false';
 
-	const graph = inputGraph || getGraph(process.env.ONEREPO_ROOT);
+	const graph = inputGraph || (await getGraph(process.env.ONEREPO_ROOT));
 
 	const yargs = setupYargs(yargsInstance.scriptName('one'), { graph, logger });
 	yargs
@@ -226,7 +225,7 @@ export async function setup({
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
 function patchCommandDir(
-	require: NodeJS.Require | Jiti,
+	require: NodeJS.Require,
 	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
 	commandDir: Yargs['commandDir'],
 ) {

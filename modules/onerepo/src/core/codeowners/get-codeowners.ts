@@ -8,7 +8,7 @@ export function getCodeowners(graph: Graph) {
 			if (!(relativePath in result)) {
 				result[relativePath] = [];
 			}
-			result[relativePath].push(...owners);
+			result[relativePath]?.push(...owners);
 		}
 	}
 

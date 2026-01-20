@@ -44,7 +44,7 @@ export async function verifyDependencies(
 					}
 					dependencyStep.log(`Checking ${name}@${dependencies[name]} intersects ${version}`);
 
-					if (!version.startsWith('workspace:') && !dependencies[name].startsWith('workspace:')) {
+					if (dependencies[name] && !version.startsWith('workspace:') && !dependencies[name].startsWith('workspace:')) {
 						if (valid(coerce(version))) {
 							if (mode === 'loose' && !intersects(version, dependencies[name])) {
 								message = `Dependency "${name}@${dependencies[name]}" does not intersect "${version}" as is required by Workspace dependency "${dependency.name}"`;
@@ -86,7 +86,7 @@ function getLocation(contents: string, search: string) {
 	const before = contents.substring(0, index);
 	const lines = before.split('\n');
 	const line = lines.length;
-	const startColumn = lines[lines.length - 1].length;
+	const startColumn = lines[lines.length - 1]?.length ?? 0;
 
 	return { startLine: line, endLine: line, startColumn, endColumn: startColumn + search.length };
 }

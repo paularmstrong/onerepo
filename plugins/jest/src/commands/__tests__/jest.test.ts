@@ -1,8 +1,8 @@
 import { getCommand } from '@onerepo/test-cli';
 import * as onerepo from 'onerepo';
-import * as Jest from '../jest';
+import * as Jest from '../jest.ts';
 
-const { run } = getCommand(Jest);
+const { run } = await getCommand(Jest);
 
 describe('handler', () => {
 	beforeEach(() => {

@@ -36,6 +36,9 @@ export default function stripJsonComments(jsonString: string) {
 
 	for (let index = 0; index < jsonString.length; index++) {
 		const currentCharacter = jsonString[index];
+		if (!currentCharacter) {
+			continue;
+		}
 		const nextCharacter = jsonString[index + 1];
 
 		if (!isInsideComment && currentCharacter === '"') {

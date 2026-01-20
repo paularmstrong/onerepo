@@ -30,7 +30,7 @@ export function makeConfig(config) {
 			'^prettier$': localPath('mocks/prettier.js'),
 		},
 		modulePathIgnorePatterns: ['fixtures'],
-		setupFiles: [localPath('globals.js')],
+		setupFiles: [localPath('globals.cjs')],
 		testPathIgnorePatterns: ['/dist/'],
 		transformIgnorePatterns: [
 			'/node_modules/(?!(inquirer|log-update|yargs|yargs-parser))/',
@@ -41,5 +41,6 @@ export function makeConfig(config) {
 			...config.transform,
 		},
 		watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
+		extensionsToTreatAsEsm: ['.ts'],
 	};
 }

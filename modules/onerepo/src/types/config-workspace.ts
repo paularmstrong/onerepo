@@ -1,4 +1,4 @@
-import type { TaskConfig } from './tasks';
+import type { TaskConfig } from './tasks.ts';
 
 /**
  * @group Config

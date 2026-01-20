@@ -1,6 +1,6 @@
 import * as fsSync from 'node:fs';
 import * as fs from 'node:fs/promises';
-import * as file from '..';
+import * as file from '../index.ts';
 
 vi.mock('node:fs');
 vi.mock('node:fs/promises');
@@ -75,8 +75,8 @@ this is new
 				'tacos.ts',
 				`const foo = {
 	// start-onerepo-sentinel
-	new: 'new',
-	// end-onerepo-sentinel
+	new: 'new'
+// end-onerepo-sentinel
 };
 `,
 			);

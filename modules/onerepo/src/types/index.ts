@@ -1,5 +1,5 @@
-import type { RootConfig } from './config-root';
-import type { WorkspaceConfig } from './config-workspace';
+import type { RootConfig } from './config-root.ts';
+import type { WorkspaceConfig } from './config-workspace.ts';
 
 /**
  * Picks the correct config type between `RootConfig` and `WorkspaceConfig` based on whether the `root` property is set. Use this to help ensure your configs do not have any incorrect keys or values.
@@ -33,7 +33,7 @@ export type Config<CustomLifecycles extends string | void = void> =
 	| RootConfig<CustomLifecycles>
 	| WorkspaceConfig<CustomLifecycles>;
 
-export * from './plugin';
-export * from './config-root';
-export * from './config-workspace';
-export * from './tasks';
+export * from './plugin.ts';
+export * from './config-root.ts';
+export * from './config-workspace.ts';
+export * from './tasks.ts';

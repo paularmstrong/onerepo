@@ -1,6 +1,6 @@
 {
 	"name": "pnpm",
 	"private": true,
-	"type": "commonjs",
+	"type": "module",
 	"packageManager": "pnpm@7.4.5"
 }

@@ -7,7 +7,7 @@ import type { Builder, Handler } from '@onerepo/yargs';
 import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
 import { withAffected, withWorkspaces } from '@onerepo/builders';
 import type { ReleaseType } from 'semver';
-import { getFilename } from './utils/filename';
+import { getFilename } from './utils/filename.ts';
 
 export const command = ['add', '$0'];
 
@@ -157,7 +157,7 @@ ${pc.dim(
 			...currentFiles.reduce((memo, filename) => {
 				const matches = filename.match(/^(\d+)-/);
 				if (matches && matches.length > 1) {
-					memo.push(parseInt(matches[1], 10));
+					memo.push(parseInt(matches[1] ?? '', 10));
 				}
 				return memo;
 			}, [] as Array<number>),

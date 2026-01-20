@@ -187,16 +187,15 @@ export const handler: Handler<Argv> = async (argv, { logger }) => {
 
 	await write(path.join(outdir, 'package.json'), JSON.stringify(outPackageJson, null, 2));
 
-	const isTS = Boolean(plugins.find(({ name }) => name === '@onerepo/plugin-typescript'));
 	await write(
-		path.join(outdir, `onerepo.config.${isTS ? 'ts' : 'js'}`),
-		`${isTS ? "import type { Config } from 'onerepo';" : ''}
+		path.join(outdir, 'onerepo.config.ts'),
+		`import type { Config } from 'onerepo';
 ${plugins.map(({ name }) => `import { ${pluginFn(name)} } from '${name}';`).join('\n')}
 
 export default {
 	root: true,
 	plugins: [${plugins.map(({ name }) => `${pluginFn(name)}()`).join(', ')}],
-}${isTS ? ' satisfies Config' : ''};
+} satisfies Config;
 `,
 	);
 

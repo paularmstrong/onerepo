@@ -1,10 +1,10 @@
-import { Logger } from './Logger';
+import { Logger } from './Logger.ts';
 import type { LogStep } from './LogStep';
-import { destroyCurrent, getCurrent, setCurrent } from './global';
-import { LogBuffer } from './LogBuffer';
+import { destroyCurrent, getCurrent, setCurrent } from './global.ts';
+import { LogBuffer } from './LogBuffer.ts';
 
-export * from './Logger';
-export * from './LogStep';
+export * from './Logger.ts';
+export * from './LogStep.ts';
 
 /**
  * This gets the logger singleton for use across all of oneRepo and its commands.

@@ -3,8 +3,8 @@
  *
  * @module
  */
-export * from './getters';
-export * from './with-affected';
-export * from './with-all-inputs';
-export * from './with-files';
-export * from './with-workspaces';
+export * from './getters.ts';
+export * from './with-affected.ts';
+export * from './with-all-inputs.ts';
+export * from './with-files.ts';
+export * from './with-workspaces.ts';

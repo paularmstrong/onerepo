@@ -1,5 +1,5 @@
 import * as subprocess from '@onerepo/subprocess';
-import { Yarn as manager } from '../yarn';
+import { Yarn as manager } from '../yarn.ts';
 
 describe('Yarn', () => {
 	beforeEach(() => {

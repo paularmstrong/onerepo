@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
-import * as Show from '../show';
+import * as Show from '../show.ts';
 
-const { run } = getCommand(Show, getGraph(path.join(__dirname, '__fixtures__/repo')));
+const { run } = await getCommand(Show, await getGraph(path.join(__dirname, '__fixtures__/repo')));
 
 describe('codeowners show', () => {
 	test('shows the codeowners for the given files', async () => {

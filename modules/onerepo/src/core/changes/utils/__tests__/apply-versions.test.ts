@@ -2,9 +2,9 @@ import path from 'node:path';
 import * as file from '@onerepo/file';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import { applyVersions } from '../apply-versions';
+import { applyVersions } from '../apply-versions.ts';
 
-const graph = getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
+const graph = await getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
 const lettuce = graph.getByName('lettuce');
 const tacos = graph.getByName('tacos');
 const cheese = graph.getByName('cheese');

@@ -2,9 +2,9 @@ import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import * as subprocess from '@onerepo/subprocess';
 import { LogStep } from '@onerepo/logger';
-import * as Init from '../init';
+import * as Init from '../init.ts';
 
-const { run, graph } = getCommand(Init);
+const { run, graph } = await getCommand(Init);
 
 describe('hooks init', () => {
 	beforeEach(() => {

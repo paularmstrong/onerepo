@@ -3,11 +3,10 @@ import path from 'node:path';
 import yaml from 'js-yaml';
 import type { PackageJson } from '@onerepo/package-manager';
 import { getLockfile, getPackageManagerName } from '@onerepo/package-manager';
-import { createJiti } from 'jiti';
-import { Graph } from './Graph';
+import { Graph } from './Graph.ts';
 
-export * from './Graph';
-export * from './Workspace';
+export * from './Graph.ts';
+export * from './Workspace.ts';
 
 const PackageCache = new Map<string, PackageJson>();
 
@@ -15,14 +14,13 @@ const PackageCache = new Map<string, PackageJson>();
  * Get the {@link Graph | `Graph`} given a particular root working directory. If the working directory is not a monorepo's root, an empty `Graph` will be given in its place.
  *
  * ```ts
- * const graph = getGraph(process.cwd());
+ * const graph = await getGraph(process.cwd());
  * assert.ok(graph.isRoot);
  * ```
  *
  * @group Graph
  */
-export function getGraph(workingDir: string = process.cwd()) {
-	const jiti = createJiti(workingDir, { interopDefault: true });
+export async function getGraph(workingDir: string = process.cwd()) {
 	const { filePath, json } = getRootPackageJson(workingDir);
 	const pkgmanager = getPackageManagerName(filePath, json.packageManager);
 	let workspaces = json.workspaces ?? [];
@@ -35,7 +33,9 @@ export function getGraph(workingDir: string = process.cwd()) {
 		}
 	}
 
-	return new Graph(workingDir, json as PackageJson, workspaces, jiti);
+	const graph = new Graph(workingDir, pkgmanager);
+	await graph.construct(json, workspaces);
+	return graph;
 }
 
 /**

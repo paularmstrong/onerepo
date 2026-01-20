@@ -3,9 +3,9 @@ import inquirer from 'inquirer';
 import pc from 'picocolors';
 import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
-import * as Generate from '../generate';
+import * as Generate from '../generate.ts';
 
-const { run: mainRun, graph } = getCommand(Generate);
+const { run: mainRun, graph } = await getCommand(Generate);
 
 function run(cmd: string) {
 	return mainRun(`${cmd} --templates-dir=${path.join(__dirname, '__fixtures__')}`);

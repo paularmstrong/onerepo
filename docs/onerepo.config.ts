@@ -6,7 +6,7 @@ export default {
 			start: { description: 'Start the Astro dev server.', command: 'astro dev --host' },
 			build: { description: 'Build the documentation site for production.', command: 'astro build' },
 			check: { description: 'Check Astro pages for errors.', command: 'astro check' },
-			astro: { description: 'Run Astro directly.' },
+			astro: { description: 'Run Astro directly.', command: 'astro' },
 		},
 	},
 	tasks: {

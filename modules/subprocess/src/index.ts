@@ -104,6 +104,7 @@ export type RunSpec = {
  * @see {@link PackageManager.run | `PackageManager.run`} to safely run executables exposed from third party modules.
  */
 export async function run(options: RunSpec): Promise<[string, string]> {
+	// @ts-ignore TS7030: Not all code paths return a value.
 	return new Promise((resolve, reject) => {
 		const logger = getLogger();
 		const { runDry = false, step: inputStep, ...withoutLogger } = options;

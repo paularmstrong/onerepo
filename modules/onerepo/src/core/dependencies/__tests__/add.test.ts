@@ -5,9 +5,9 @@ import inquirer from 'inquirer';
 import { getGraph } from '@onerepo/graph';
 import { getCommand } from '@onerepo/test-cli';
 import { LogStep } from '@onerepo/logger';
-import * as Add from '../add';
+import * as Add from '../add.ts';
 
-const { run } = getCommand(Add);
+const { run } = await getCommand(Add);
 
 describe('add', () => {
 	beforeEach(() => {
@@ -17,7 +17,7 @@ describe('add', () => {
 	});
 
 	test('can install a dependency', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(graph.packageManager, 'install');
 		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
 			// @ts-ignore
@@ -36,7 +36,7 @@ describe('add', () => {
 	});
 
 	test('lets you choose', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(inquirer, 'prompt').mockResolvedValueOnce({ lettuce: '^1.5.6' });
 		vi.spyOn(graph.packageManager, 'install');
 		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
@@ -57,7 +57,7 @@ describe('add', () => {
 	});
 
 	test('does not get all workspaces when installing in root workspace', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(graph.packageManager, 'install');
 		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
 			// @ts-ignore
@@ -78,7 +78,7 @@ describe('add', () => {
 	});
 
 	test('can cancel if trying to add prod deps to root workspace', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(graph.packageManager, 'install');
 		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
 			// @ts-ignore
@@ -94,7 +94,7 @@ describe('add', () => {
 	});
 
 	test('can fix prod deps to dev when adding to root workspace', async () => {
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 		vi.spyOn(graph.packageManager, 'install');
 		vi.spyOn(graph.packageManager, 'info').mockResolvedValue(
 			// @ts-ignore

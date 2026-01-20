@@ -3,10 +3,10 @@ import { getCommand } from '@onerepo/test-cli';
 import * as file from '@onerepo/file';
 import * as git from '@onerepo/git';
 import { getGraph } from '@onerepo/graph';
-import * as Sync from '../sync';
-import { location } from '../get-codeowners';
+import * as Sync from '../sync.ts';
+import { location } from '../get-codeowners.ts';
 
-const { run, graph } = getCommand(Sync, getGraph(path.join(__dirname, '__fixtures__/repo')));
+const { run, graph } = await getCommand(Sync, await getGraph(path.join(__dirname, '__fixtures__/repo')));
 
 describe('codeowners sync', () => {
 	test.each(Object.entries(location))('writes codeowners for %s to %s', async (provider, location) => {

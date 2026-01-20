@@ -1,5 +1,5 @@
 import * as subprocess from '@onerepo/subprocess';
-import { hooks } from '..';
+import { hooks } from '../index.ts';
 
 describe('shutdown handler', () => {
 	let CI: string | undefined, ONEREPO_USE_HOOKS: string | undefined;

@@ -9,14 +9,14 @@ import { tmpdir } from 'node:os';
 import { existsSync } from 'node:fs';
 import { chmod as fsChmod, cp, lstat as fsLstat, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import type { OpenMode } from 'node:fs';
-import { createJiti } from 'jiti';
+import { createRequire } from 'node:module';
 import { stepWrapper } from '@onerepo/logger';
 import type { LogStep } from '@onerepo/logger';
-import { signFile, signingToken } from './signing';
-import stripJsonComments from './utils/strip-json-comments';
+import { signFile, signingToken } from './signing.ts';
+import stripJsonComments from './utils/strip-json-comments.ts';
 
-export { isSigned, verifySignature } from './signing';
-export type { SigningStatus } from './signing';
+export { isSigned, verifySignature } from './signing.ts';
+export type { SigningStatus } from './signing.ts';
 
 /**
  * Common file manipulation functions.
@@ -67,8 +67,7 @@ export async function signContents(filename: string, contents: string, options: 
 	const { step } = options;
 	const relativeFilename = normalizefilepath(filename);
 	return stepWrapper({ step, name: `Get signed contents of ${relativeFilename}` }, async (step) => {
-		const ext = path.extname(filename);
-		const [startComment, endComment] = ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
+		const [startComment, endComment] = getComments(filename);
 		const finalContents = signFile(`${startComment}${signingToken}${endComment}\n\n${contents}`);
 
 		return await format(filename, finalContents, { step });
@@ -288,14 +287,13 @@ const fallbackCommentStyle = ['# ', ''];
 
 function getComments(filename: string) {
 	const ext = path.extname(filename);
-	return ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
+	return ext in commentStyle ? commentStyle[ext]! : fallbackCommentStyle;
 }
 
 const defaultSentinel = 'onerepo-sentinel';
 
 function getSentinels(filename: string, sentinel: string) {
-	const ext = path.extname(filename);
-	const [startComment, endComment] = ext in commentStyle ? commentStyle[ext] : fallbackCommentStyle;
+	const [startComment, endComment] = getComments(filename);
 	const start = `${startComment}start-${sentinel}${endComment}`;
 	const end = `${startComment}end-${sentinel}${endComment}`;
 	return [start, end];
@@ -382,12 +380,12 @@ export async function readSafe(filename: string, options: ReadSafeOptions = {}):
 				fileContents = await read(filename, 'r', { step });
 			}
 
-			const [start, end] = getSentinels(filename, sentinel);
+			const [start = '', end = ''] = getSentinels(filename, sentinel);
 
 			const re = new RegExp(`${escapeRegExp(start)}(.*)${escapeRegExp(end)}`, 'ms');
 			const matches = fileContents.match(re);
 
-			return [matches && matches.length ? matches[1] : null, fileContents];
+			return [matches && matches.length ? `${matches[1]}` : null, fileContents];
 		},
 	);
 }
@@ -402,10 +400,9 @@ function escapeRegExp(str: string) {
 async function format(filename: string, contents: string, options: Options = {}) {
 	const { step } = options;
 	return stepWrapper({ step, name: `Format ${normalizefilepath(filename)}` }, async (step) => {
-		const jiti = createJiti(process.cwd(), { interopDefault: true });
 		let prettier;
 		try {
-			prettier = jiti('prettier');
+			prettier = createRequire(process.cwd())('prettier');
 			if ('default' in prettier) {
 				prettier = prettier.default;
 			}

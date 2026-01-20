@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import { file, git, run } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
@@ -20,7 +21,7 @@ export const builder: Builder<Argv> = (yargs) =>
 
 export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { add, $0 } = argv;
-	const docs = graph.getByLocation(__dirname);
+	const docs = graph.getByLocation(path.dirname(fileURLToPath(import.meta.url)));
 
 	const [bin] = await run({
 		name: 'Get bin',
@@ -95,6 +96,12 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	}
 
 	await fixFiles.end();
+
+	await run({
+		name: 'Format files',
+		cmd: $0,
+		args: ['format', '-f', docs.resolve('src/content/docs/api'), '--no-cache'],
+	});
 
 	if (add) {
 		await git.updateIndex(docs.resolve('src/content/docs/api'));

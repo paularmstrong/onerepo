@@ -84,7 +84,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 			if (!(await git.isClean())) {
 				args.push('--onlyChanged');
 			} else {
-				args.push('--changedSince', await git.getMergeBase());
+				args.push('--changedSince', (await git.getMergeBase()) ?? 'head');
 			}
 		} else if (all) {
 			args.push('.');

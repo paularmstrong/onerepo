@@ -4,10 +4,10 @@ import * as file from '@onerepo/file';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import * as migrate from '../migrate';
+import * as migrate from '../migrate.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
-const { run } = getCommand(migrate, graph);
+const graph = await getGraph(path.join(__dirname, '__fixtures__/with-entries'));
+const { run } = await getCommand(migrate, graph);
 
 vi.mock('glob', async (requireActual) => {
 	const actual = await requireActual();

@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { git, file, corePlugins, internalSetup } from 'onerepo';
 import type { Builder, Handler, Plugin } from 'onerepo';
-import { toMarkdown } from './markdown';
-import { Yargs } from './yargs';
-import type { Docs } from './yargs';
+import { toMarkdown } from './markdown.ts';
+import { Yargs } from './yargs.ts';
+import type { Docs } from './yargs.ts';
 
 /**
  * Full configuration options for the Docgen core command.

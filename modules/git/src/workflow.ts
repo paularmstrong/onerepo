@@ -10,7 +10,7 @@ const skipHooks = ['-c', 'core.hooksPath=/dev/null'];
 const processRenames = (files: Array<string>, includeRenameFrom: boolean = true) =>
 	files.reduce((flattened, file) => {
 		if (/\x00/.test(file)) {
-			const [to, from] = file.split(/\x00/);
+			const [to = '', from = ''] = file.split(/\x00/);
 			if (includeRenameFrom) {
 				flattened.push(from);
 			}

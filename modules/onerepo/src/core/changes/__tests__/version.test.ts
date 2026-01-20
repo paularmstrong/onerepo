@@ -2,11 +2,11 @@ import path from 'node:path';
 import inquirer from 'inquirer';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
-import * as version from '../version';
-import * as utils from '../utils';
+import * as version from '../version.ts';
+import * as utils from '../utils/index.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
-const { run } = getCommand(version, graph);
+const graph = await getGraph(path.join(__dirname, '__fixtures__/with-entries'));
+const { run } = await getCommand(version, graph);
 const tacos = graph.getByName('tacos');
 const lettuce = graph.getByName('lettuce');
 

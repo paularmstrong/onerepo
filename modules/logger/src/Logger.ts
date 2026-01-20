@@ -1,8 +1,8 @@
 import type { Writable } from 'node:stream';
 import { createLogUpdate } from 'log-update';
 import type logUpdate from 'log-update';
-import { LogStep } from './LogStep';
-import { destroyCurrent, setCurrent } from './global';
+import { LogStep } from './LogStep.ts';
+import { destroyCurrent, setCurrent } from './global.ts';
 
 type LogUpdate = typeof logUpdate;
 

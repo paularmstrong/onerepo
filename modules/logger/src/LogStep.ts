@@ -1,7 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import type { Writable } from 'node:stream';
 import pc from 'picocolors';
-import { LogBuffer } from './LogBuffer';
+import { LogBuffer } from './LogBuffer.ts';
 
 type StepOptions = {
 	verbosity: number;

@@ -47,7 +47,6 @@
 		"graph-data-structure": "^3.2.0",
 		"ignore": "^5.3.1",
 		"inquirer": "^9.1.4",
-		"jiti": "^2.4.2",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^9.0.3",
 		"picocolors": "^1.0.0",
@@ -73,6 +72,6 @@
 		"typescript": "^5.7.2"
 	},
 	"engines": {
-		"node": "^20.19.0 || ^22.10.0 || ^24"
+		"node": "^24"
 	}
 }

@@ -1,8 +1,8 @@
 import * as onerepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
-import * as Eslint from '../eslint';
+import * as Eslint from '../eslint.ts';
 
-const { build, run, graph } = getCommand(Eslint);
+const { build, run, graph } = await getCommand(Eslint);
 
 async function mockFn(requireActual: () => Promise<unknown>) {
 	const actual = await requireActual();

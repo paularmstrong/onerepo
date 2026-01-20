@@ -17,6 +17,7 @@ export const rootConfig = tseslint.config(
 			'no-mixed-spaces-and-tabs': 'off', // Prettier
 			'no-unused-vars': 'off',
 
+			'import/extensions': ['error', 'ignorePackages'],
 			'import/first': 'error',
 			'import/no-cycle': ['error', { maxDepth: 2 }],
 			'import/no-relative-packages': 'error',

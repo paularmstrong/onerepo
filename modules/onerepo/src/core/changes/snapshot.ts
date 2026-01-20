@@ -6,13 +6,13 @@ import { readJson, write } from '@onerepo/file';
 import { getCurrentSha } from '@onerepo/git';
 import type { PublicPackageJson } from '@onerepo/package-manager';
 import { getPublishablePackageJson } from '@onerepo/package-manager';
-import { runTasks } from '../tasks/run-tasks';
-import { confirmClean } from './utils/confirm-clean';
-import { requestVersioned } from './utils/request-versioned';
-import { getVersionable } from './utils/get-versionable';
-import { requestedOkay } from './version';
-import { requestOtp } from './utils/request-otp';
-import { applyVersions } from './utils/apply-versions';
+import { runTasks } from '../tasks/run-tasks.ts';
+import { confirmClean } from './utils/confirm-clean.ts';
+import { requestVersioned } from './utils/request-versioned.ts';
+import { getVersionable } from './utils/get-versionable.ts';
+import { requestedOkay } from './version.ts';
+import { requestOtp } from './utils/request-otp.ts';
+import { applyVersions } from './utils/apply-versions.ts';
 
 export const command = ['snapshot', 'snap'];
 

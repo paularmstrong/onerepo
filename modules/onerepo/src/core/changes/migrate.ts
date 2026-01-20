@@ -3,7 +3,7 @@ import yaml from 'js-yaml';
 import { read, write } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { batch } from '@onerepo/subprocess';
-import { getFilename } from './utils/filename';
+import { getFilename } from './utils/filename.ts';
 
 export const command = ['migrate'];
 
@@ -37,7 +37,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 					if (!matches) {
 						throw new Error(`File is not valid changeset: ${filepath}`);
 					}
-					return [matches[1], matches[2]];
+					return [matches[1] || '', matches[2] || ''];
 				}),
 		),
 	);

@@ -1,5 +1,5 @@
 import * as subprocess from '@onerepo/subprocess';
-import { Npm as manager } from '../npm';
+import { Npm as manager } from '../npm.ts';
 
 describe('NPM', () => {
 	beforeEach(() => {

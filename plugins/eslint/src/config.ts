@@ -2,13 +2,10 @@ import path from 'node:path';
 import type { Workspace } from 'onerepo';
 import { getGraph } from 'onerepo';
 import type { ConfigArray } from 'typescript-eslint';
-import { createJiti } from 'jiti';
 import { globSync } from 'glob';
-import type { Jiti } from 'jiti';
 
-const graph = getGraph(process.cwd());
-const jiti = createJiti(process.cwd());
-const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws, jiti)))).filter(
+const graph = await getGraph(process.cwd());
+const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws)))).filter(
 	(res) => !!res,
 );
 
@@ -20,9 +17,9 @@ export default function onerepoEslint(config: ConfigArray): ConfigArray {
 			memo.push(...ignores.map((i) => graph.root.relative(ws.resolve(i))));
 		}
 		return memo;
-	}, config[0].ignores ?? []);
+	}, config[0]?.ignores ?? []);
 
-	if (config[0].ignores) {
+	if (config[0]?.ignores) {
 		config[0].ignores = ignores;
 	} else {
 		config.unshift({ ignores });
@@ -49,7 +46,7 @@ export default function onerepoEslint(config: ConfigArray): ConfigArray {
 	return out;
 }
 
-async function getEslintConfig(ws: Workspace, importer: Jiti): Promise<[Workspace, ConfigArray] | null> {
+async function getEslintConfig(ws: Workspace): Promise<[Workspace, ConfigArray] | null> {
 	const config = globSync('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location });
 	if (config.length > 1) {
 		throw new Error(`Too many eslint configuration files found in "${ws.name}". Please reduce to one.`);
@@ -59,6 +56,6 @@ async function getEslintConfig(ws: Workspace, importer: Jiti): Promise<[Workspac
 		return null;
 	}
 
-	const res = await importer.import<ConfigArray>(path.join(ws.location, config[0]));
+	const res = (await import(path.join(ws.location, config[0]))) as ConfigArray;
 	return [ws, res];
 }
