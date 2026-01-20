@@ -1435,7 +1435,7 @@ __metadata:
     eslint-plugin-import: ^2.31.0
     eslint-plugin-jest: ^28.12.0
     eslint-plugin-unused-imports: ^4.1.4
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     typescript-eslint: ^8.33.0
   peerDependencies:
     eslint: ^9
@@ -1991,7 +1991,7 @@ __metadata:
     "@expressive-code/plugin-collapsible-sections": ^0.41.2
     "@internal/tsconfig": "workspace:^"
     "@types/d3": ^7.4.3
-    "@types/pako": ^2.0.3
+    "@types/pako": ^2.0.4
     astro: ^5.8.1
     astro-meta-tags: ^0.3.2
     astro-og-canvas: ^0.7.0
@@ -2011,7 +2011,7 @@ __metadata:
     typedoc: ^0.28.5
     typedoc-plugin-markdown: ^4.6.4
     typedoc-plugin-remark: ^2.0.1
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     typescript-eslint: ^8.33.0
     unist-util-visit: ^5.0.0
   languageName: unknown
@@ -2069,7 +2069,7 @@ __metadata:
     jiti: ^2.4.2
     js-yaml: ^4.1.0
     minimatch: ^9.0.3
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   languageName: unknown
   linkType: soft
 
@@ -2082,7 +2082,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     log-update: ^5.0.1
     picocolors: ^1.0.0
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   languageName: unknown
   linkType: soft
 
@@ -2094,7 +2094,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/subprocess": 2.0.0
     semver: ^7.5.4
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   languageName: unknown
   linkType: soft
 
@@ -2131,7 +2131,7 @@ __metadata:
     ignore: ^5.3.1
     jiti: ^2.4.2
     onerepo: "workspace:^"
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     typescript-eslint: ^8.33.0
   peerDependencies:
     eslint: ^9
@@ -2147,7 +2147,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   peerDependencies:
     jest: ">=29"
     onerepo: ^1
@@ -2176,7 +2176,7 @@ __metadata:
     "@onerepo/test-cli": "workspace:^"
     ignore: ^5.3.1
     onerepo: "workspace:^"
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   peerDependencies:
     onerepo: ^1
     prettier: ^2 || ^3
@@ -2205,7 +2205,7 @@ __metadata:
     "@internal/vitest-config": "workspace:^"
     "@onerepo/test-cli": "workspace:^"
     onerepo: "workspace:^"
-    typescript: ^5.7.2
+    typescript: ^5.9.3
   peerDependencies:
     onerepo: ^1
     vitest: ^0 || ^1 || ^2 || ^3
@@ -2236,7 +2236,7 @@ __metadata:
     jiti: ^2.4.2
     onerepo: "workspace:^"
     prettier: ^3.4.2
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     typescript-eslint: ^8.33.0
     vitest: ^3.1.4
   bin:
@@ -2263,7 +2263,7 @@ __metadata:
     "@onerepo/graph": 2.0.0
     "@onerepo/logger": 2.0.0
     "@onerepo/yargs": 2.0.0
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     yargs: ^18.0.0
   languageName: unknown
   linkType: soft
@@ -2276,7 +2276,7 @@ __metadata:
     "@onerepo/builders": 2.0.0
     "@onerepo/logger": 2.0.0
     "@onerepo/subprocess": 2.0.0
-    "@types/yargs": ^17.0.33
+    "@types/yargs": ^17.0.34
     semver: ^7.5.4
   languageName: unknown
   linkType: soft
@@ -3160,10 +3160,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pako@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@types/pako@npm:2.0.3"
-  checksum: 0746dd5d29eccf5b2e6cceb3ccb093851219e78bd2e2e20d25757e247987139e061e5d4ba37cb5295493f06e3c683c74f8876011cd8a3f3748a09244fbc841d9
+"@types/pako@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@types/pako@npm:2.0.4"
+  checksum: 7e7b090c27cdbed4a8c21f7dfa466ad1c6b5c29afbcaaa24b35e83803d2b6b6cd552060060d8832058cf3809787baaab47a6a974b69d75a2a2dc59d21b607ee8
   languageName: node
   linkType: hard
 
@@ -3265,6 +3265,15 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "*"
   checksum: ee013f257472ab643cb0584cf3e1ff9b0c44bca1c9ba662395300a7f1a6c55fa9d41bd40ddff42d99f5d95febb3907c9ff600fbcb92dadbec22c6a76de7e1236
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^17.0.34":
+  version: 17.0.34
+  resolution: "@types/yargs@npm:17.0.34"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: 8f39dad7e345236b1c92ddc20dcee74b01d5322639054fe0c494b3d870ce0d784f8fd6ed81f5d010671625ae95b216ac9df13662c079afd112503b0ffd949e5e
   languageName: node
   linkType: hard
 
@@ -11458,10 +11467,10 @@ __metadata:
     "@types/ejs": ^3.1.5
     "@types/inquirer": ^9.0.7
     "@types/js-yaml": ^4.0.9
-    "@types/pako": ^2.0.3
+    "@types/pako": ^2.0.4
     "@types/semver": ^7.5.8
     "@types/unist": ^3.0.3
-    "@types/yargs": ^17.0.33
+    "@types/yargs": ^17.0.34
     "@types/yargs-unparser": ^2.0.3
     ajv: ^8.12.0
     ajv-errors: ^3.0.0
@@ -11478,7 +11487,7 @@ __metadata:
     minimatch: ^9.0.3
     picocolors: ^1.0.0
     semver: ^7.5.4
-    typescript: ^5.7.2
+    typescript: ^5.9.3
     yargs: ^18.0.0
     yargs-parser: ^22.0.0
     yargs-unparser: ^2.0.0
@@ -14150,23 +14159,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.7.2":
-  version: 5.8.3
-  resolution: "typescript@npm:5.8.3"
+"typescript@npm:^5.9.3":
+  version: 5.9.3
+  resolution: "typescript@npm:5.9.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: cb1d081c889a288b962d3c8ae18d337ad6ee88a8e81ae0103fa1fecbe923737f3ba1dbdb3e6d8b776c72bc73bfa6d8d850c0306eed1a51377d2fccdfd75d92c4
+  checksum: 0d0ffb84f2cd072c3e164c79a2e5a1a1f4f168e84cb2882ff8967b92afe1def6c2a91f6838fb58b168428f9458c57a2ba06a6737711fdd87a256bbe83e9a217f
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.7.2#~builtin<compat/typescript>":
-  version: 5.8.3
-  resolution: "typescript@patch:typescript@npm%3A5.8.3#~builtin<compat/typescript>::version=5.8.3&hash=ad5954"
+"typescript@patch:typescript@^5.9.3#~builtin<compat/typescript>":
+  version: 5.9.3
+  resolution: "typescript@patch:typescript@npm%3A5.9.3#~builtin<compat/typescript>::version=5.9.3&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1b503525a88ff0ff5952e95870971c4fb2118c17364d60302c21935dedcd6c37e6a0a692f350892bafcef6f4a16d09073fe461158547978d2f16fbe4cb18581c
+  checksum: 8bb8d86819ac86a498eada254cad7fb69c5f74778506c700c2a712daeaff21d3a6f51fd0d534fe16903cb010d1b74f89437a3d02d4d0ff5ca2ba9a4660de8497
   languageName: node
   linkType: hard
 
