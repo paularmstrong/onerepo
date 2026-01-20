@@ -217,6 +217,8 @@ Commands may be nested for organization purposes. Nesting can help create a logi
 
 In this example, let's make our new branch command accessible by running `one branch new` and set up the plumbing for more sub-commands of `branch` in the future.
 
+{/* prettier-ignore-start */}
+
 <Steps>
 
 1. **Add a parent command**
@@ -249,8 +251,8 @@ In this example, let's make our new branch command accessible by running `one br
 
    We should now have a file tree that looks like this:
 
-   <FileTree>
 
+   <FileTree>
    - commands/
      - branch/
        - new.ts
@@ -326,6 +328,8 @@ In this example, let's make our new branch command accessible by running `one br
    Just like with the previous `commands/branch/new.ts` command file. We can continue adding commands to the `commands/branch` directory and they will automatically become sub-commands of `one branch`.
 
 </Steps>
+
+{/* prettier-ignore-end */}
 
 ## Best practices
 
