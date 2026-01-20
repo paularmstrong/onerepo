@@ -3,7 +3,7 @@
 	"type": "module",
 	"private": true,
 	"devDependencies": {
-		"@astrojs/check": "^0.9.4",
+		"@astrojs/check": "^0.9.6",
 		"@internal/tsconfig": "workspace:^",
 		"@types/d3": "^7.4.3",
 		"@types/pako": "^2.0.3",
@@ -20,20 +20,20 @@
 		"typescript-eslint": "^8.33.0"
 	},
 	"dependencies": {
-		"@astrojs/markdown-remark": "^6.3.2",
-		"@astrojs/mdx": "^4.3.0",
-		"@astrojs/starlight": "^0.34.3",
-		"@expressive-code/plugin-collapsible-sections": "^0.41.2",
-		"astro": "^5.8.1",
-		"astro-meta-tags": "^0.3.2",
-		"astro-og-canvas": "^0.7.0",
+		"@astrojs/markdown-remark": "^6.3.10",
+		"@astrojs/mdx": "^4.3.13",
+		"@astrojs/starlight": "^0.37.3",
+		"@expressive-code/plugin-collapsible-sections": "^0.41.6",
+		"astro": "^5.16.11",
+		"astro-meta-tags": "^0.4.0",
+		"astro-og-canvas": "^0.10.0",
 		"d3": "^7.9.0",
 		"dagre-d3-es": "^7.0.11",
 		"graph-data-structure": "^3.2.0",
 		"js-base64": "^3.7.7",
 		"mermaid": "11.4.1",
 		"pako": "^2.1.0",
-		"starlight-links-validator": "^0.13.4",
+		"starlight-links-validator": "^0.19.2",
 		"unist-util-visit": "^5.0.0"
 	}
 }
