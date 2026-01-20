@@ -2119,7 +2119,7 @@ __metadata:
     glob: ^10.1.0
     graph-data-structure: ^3.2.0
     jiti: ^2.4.2
-    js-yaml: ^4.1.0
+    js-yaml: ^4.1.1
     minimatch: ^9.0.3
     typescript: ^5.7.2
   languageName: unknown
@@ -9629,6 +9629,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-yaml@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "js-yaml@npm:4.1.1"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: ea2339c6930fe048ec31b007b3c90be2714ab3e7defcc2c27ebf30c74fd940358f29070b4345af0019ef151875bf3bc3f8644bea1bab0372652b5044813ac02d
+  languageName: node
+  linkType: hard
+
 "jsdom@npm:^16.4.0":
   version: 16.7.0
   resolution: "jsdom@npm:16.7.0"
@@ -11566,7 +11577,7 @@ __metadata:
     ignore: ^5.3.1
     inquirer: ^9.1.4
     jiti: ^2.4.2
-    js-yaml: ^4.1.0
+    js-yaml: ^4.1.1
     minimatch: ^9.0.3
     picocolors: ^1.0.0
     semver: ^7.5.4
