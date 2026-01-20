@@ -2,9 +2,11 @@ import { getCollection } from 'astro:content';
 import { OGImageRoute } from 'astro-og-canvas';
 
 const collectionEntries = await getCollection('docs');
-const pages = Object.fromEntries(collectionEntries.map(({ id, data }: { id: string; data: unknown }) => [id, data]));
+const pages = Object.fromEntries(
+	collectionEntries.map(({ id, data }: { id: string; data: unknown }) => [id, data]),
+) as Record<string, { title: string; description: string }>;
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute<{ title: string; description: string }>({
 	param: 'route',
 	pages,
 	getImageOptions: (_path, page) => ({
