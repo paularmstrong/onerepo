@@ -1,4 +1,4 @@
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import { git, builders } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
@@ -25,7 +25,7 @@ export const builder: Builder<Args> = (yargs) =>
 export const handler: Handler<Args> = async function handler(argv, { graph }) {
 	const workspace = graph.getByName('github-action');
 
-	const files = await glob('*.ts', { cwd: workspace.resolve('src') });
+	const files = await Array.fromAsync(glob('*.ts', { cwd: workspace.resolve('src') }));
 	const procs = files.map((file) => ({
 		name: `Build ${file}`,
 		cmd: 'esbuild',

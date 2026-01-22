@@ -1,6 +1,6 @@
+import { glob } from 'node:fs/promises';
 import type { ReleaseType as SemverReleaseType } from 'semver';
 import { inc, prerelease } from 'semver';
-import { glob } from 'glob';
 import type { Graph, Workspace } from '@onerepo/graph';
 import { run } from '@onerepo/subprocess';
 import type { LogStep } from '@onerepo/logger';
@@ -33,7 +33,7 @@ export async function getVersionable(graph: Graph, options: VersionOptions = {})
 			const fromRef = await getLastVersion(workspace, { step });
 			const throughRef = await getCurrentSha({ step });
 
-			const changes = await glob('.changes/*.md', { cwd: workspace.location });
+			const changes = await Array.fromAsync(glob('.changes/*.md', { cwd: workspace.location }));
 			versionable.set(
 				workspace,
 				await getVersionPlan(workspace, changes, fromRef ?? '', throughRef, { ...options, step }),

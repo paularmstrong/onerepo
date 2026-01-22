@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import { file, git, run } from 'onerepo';
 import type { Builder, Handler } from 'onerepo';
 
@@ -69,10 +69,10 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 		},
 	});
 
-	const outFiles = await glob('**/*.md', { cwd: tmp });
+	const outFiles = glob('**/*.md', { cwd: tmp });
 
 	const fixFiles = logger.createStep('Fix doc URLs');
-	for (const doc of outFiles) {
+	for await (const doc of outFiles) {
 		const contents = await file.read(path.join(tmp, doc), 'r', { step: fixFiles });
 		const out = contents
 			.replace(

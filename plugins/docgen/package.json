@@ -22,7 +22,6 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"glob": "^10.1.0",
 		"mdast-builder": "^1.1.1",
 		"remark-gfm": "^4.0.0",
 		"remark-parse": "^11.0.0",

@@ -1,7 +1,6 @@
-import path from 'node:path';
-import { createRequire } from 'node:module';
+import path, { dirname } from 'node:path';
+import { glob } from 'node:fs/promises';
 import pc from 'picocolors';
-import { glob } from 'glob';
 import inquirer from 'inquirer';
 import { render } from 'ejs';
 import * as file from '@onerepo/file';
@@ -36,16 +35,17 @@ export const builder: Builder<Args> = (yargs) =>
 
 export const handler: Handler<Args> = async function handler(argv, { graph, logger }) {
 	const { 'template-dir': templateDir, type } = argv;
-	const templateConfigs = await glob('*/.onegen.{js,cjs,mjs}', { cwd: templateDir });
+	const templateConfigs = glob('*/.onegen.{ts,js,mjs,cjs,cts}', { cwd: templateDir });
 	const templates = [];
 
-	for (const name of templateConfigs) {
-		const dir = path.join(templateDir, name);
-		const config = loadConfig(dir);
+	for await (const name of templateConfigs) {
+		const configFile = path.join(templateDir, name);
+		let config = await import(configFile);
+		config = config.default ?? config;
 		const resolvedName = config.name ?? name.split('/')[0];
 		templates.push({
 			name: `${resolvedName} ${pc.dim(config.description ?? '')}`,
-			value: { config: { name: resolvedName, ...config }, dir: dir.split('/.onegen')[0] },
+			value: { config: { name: resolvedName, ...config }, dir: dirname(configFile) },
 		});
 	}
 
@@ -79,28 +79,24 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 		return;
 	}
 
-	const {
-		config: { outDir, prompts },
-		dir,
-	} = template;
+	const { config, dir } = template;
+	const { outDir, prompts } = config.default ?? config;
 
 	logger.pause();
-
 	const vars = await (prompts ? inquirer.prompt(prompts) : {});
-
 	logger.unpause();
 
-	const files = await glob('**/!(.onegen.*)', { cwd: dir, dot: true, nodir: true });
+	const files = glob('**/!(.onegen.*)', { cwd: dir, withFileTypes: true, exclude: (file) => file.isDirectory() });
 	let possiblyCreatesWorkspace = false;
 
 	const renderStep = logger.createStep('Render files');
-	for (const filepath of files) {
-		const fullpath = path.join(dir, filepath);
+	for await (const filedirent of files) {
+		const fullpath = path.join(dir, filedirent.name);
 		let contents = await file.read(fullpath, 'r', { step: renderStep });
 		if (fullpath.endsWith('.ejs')) {
 			contents = render(contents, vars);
 		}
-		const outFile = render(filepath, vars).replace(/\.ejs$/, '');
+		const outFile = render(filedirent.name, vars).replace(/\.ejs$/, '');
 		possiblyCreatesWorkspace = possiblyCreatesWorkspace || outFile.endsWith('package.json');
 		await file.write(path.join(outDir(vars), outFile), contents, {
 			step: renderStep,
@@ -113,20 +109,12 @@ export const handler: Handler<Args> = async function handler(argv, { graph, logg
 	}
 };
 
-export interface Config<T extends Answers = Record<string, unknown>> {
+/**
+ *
+ */
+export interface TemplateConfig<T extends Answers = Record<string, unknown>> {
 	name?: string;
 	description?: string;
 	outDir: (vars: T) => string;
 	prompts?: QuestionCollection<T>;
-}
-
-const require = createRequire(process.cwd());
-
-function loadConfig(configPath: string) {
-	try {
-		const config: Config = require(configPath);
-		return config;
-	} catch {
-		throw new Error(`Invalid configuration found at ${configPath}`);
-	}
 }

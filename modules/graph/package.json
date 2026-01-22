@@ -23,7 +23,6 @@
 	"dependencies": {
 		"@onerepo/package-manager": "2.0.0",
 		"defaults": "^3.0.0",
-		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^9.0.3"

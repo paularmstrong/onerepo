@@ -1,6 +1,6 @@
+import { glob } from 'node:fs/promises';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import { glob } from 'glob';
 import { write } from '@onerepo/file';
 import { getModifiedFiles, updateIndex } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
@@ -151,7 +151,7 @@ ${pc.dim(
 	const files: Array<string> = [];
 	for (const workspaceName of chosen as Array<string>) {
 		const workspace = graph.getByName(workspaceName);
-		const currentFiles = await glob('*.md', { cwd: workspace.resolve('.changes') });
+		const currentFiles = await Array.fromAsync(glob('*.md', { cwd: workspace.resolve('.changes') }));
 		const highestIndex = Math.max(
 			-1,
 			...currentFiles.reduce((memo, filename) => {

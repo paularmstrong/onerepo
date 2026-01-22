@@ -1,8 +1,8 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { glob } from 'node:fs/promises';
+import { globSync } from 'node:fs';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
-import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { PackageManager, PackageJson } from '@onerepo/package-manager';
 import type { RootConfig, WorkspaceConfig } from 'onerepo';

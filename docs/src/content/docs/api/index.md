@@ -4,7 +4,7 @@ description: Full API documentation for oneRepo.
 ---
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<dd41a71239d56e891775371f7dda6eda>> -->
+<!-- @generated SignedSource<<b073302158caf85ddb9829bdbefccfec>> -->
 
 ## Namespaces
 
@@ -1325,6 +1325,59 @@ run(opts): Promise<[string, string]>;
 | `opts`    | [`RunSpec`](#runspec) |
 
 **Returns:** `Promise`\<\[`string`, `string`\]\>
+
+---
+
+### TemplateConfig\<T\>
+
+**Defined in:** [modules/onerepo/src/core/generate/generate.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/generate.ts)
+
+#### Type Parameters
+
+| Type Parameter          | Default type                    |
+| ----------------------- | ------------------------------- |
+| `T` _extends_ `Answers` | `Record`\<`string`, `unknown`\> |
+
+#### Properties
+
+##### description?
+
+```ts
+optional description: string;
+```
+
+**Defined in:** [modules/onerepo/src/core/generate/generate.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/generate.ts)
+
+##### name?
+
+```ts
+optional name: string;
+```
+
+**Defined in:** [modules/onerepo/src/core/generate/generate.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/generate.ts)
+
+##### outDir()
+
+```ts
+outDir: (vars) => string;
+```
+
+**Defined in:** [modules/onerepo/src/core/generate/generate.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/generate.ts)  
+**Parameters:**
+
+| Parameter | Type |
+| --------- | ---- |
+| `vars`    | `T`  |
+
+**Returns:** `string`
+
+##### prompts?
+
+```ts
+optional prompts: QuestionCollection<T>;
+```
+
+**Defined in:** [modules/onerepo/src/core/generate/generate.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/onerepo/src/core/generate/generate.ts)
 
 ## Type Aliases
 

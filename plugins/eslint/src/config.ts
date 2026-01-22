@@ -1,8 +1,8 @@
 import path from 'node:path';
+import { glob } from 'node:fs/promises';
 import type { Workspace } from 'onerepo';
 import { getGraph } from 'onerepo';
 import type { ConfigArray } from 'typescript-eslint';
-import { globSync } from 'glob';
 
 const graph = await getGraph(process.cwd());
 const configs = (await Promise.all(graph.workspaces.map((ws) => !ws.isRoot && getEslintConfig(ws)))).filter(
@@ -47,7 +47,7 @@ export default function onerepoEslint(config: ConfigArray): ConfigArray {
 }
 
 async function getEslintConfig(ws: Workspace): Promise<[Workspace, ConfigArray] | null> {
-	const config = globSync('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location });
+	const config = await Array.fromAsync(glob('eslint.config.{js,mjs,cjs,ts,mts,cts}', { cwd: ws.location }));
 	if (config.length > 1) {
 		throw new Error(`Too many eslint configuration files found in "${ws.name}". Please reduce to one.`);
 	}

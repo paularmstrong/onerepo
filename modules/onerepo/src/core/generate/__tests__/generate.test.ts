@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
 import { getCommand } from '@onerepo/test-cli';
@@ -7,30 +8,31 @@ import * as Generate from '../generate.ts';
 
 const { run: mainRun, graph } = await getCommand(Generate);
 
+const dirname = path.join(fileURLToPath(import.meta.url), '..');
+
 function run(cmd: string) {
-	return mainRun(`${cmd} --templates-dir=${path.join(__dirname, '__fixtures__')}`);
+	return mainRun(`${cmd} --templates-dir=${path.join(dirname, '__fixtures__')}`);
 }
 
-function templateInput(name: 'app' | 'module' = 'app') {
+async function templateInput(name: 'app' | 'module' = 'app') {
 	return {
-		dir: path.join(__dirname, '__fixtures__', name),
-		// eslint-disable-next-line
-		config: require(path.join(__dirname, '__fixtures__', name, '.onegen.cjs')),
+		dir: path.join(dirname, '__fixtures__', name),
+		config: await import(path.join(dirname, '__fixtures__', name, '.onegen.cjs')),
 	};
 }
 
 describe('handler', () => {
-	beforeEach(() => {
+	beforeEach(async () => {
 		vi.spyOn(graph.packageManager, 'install').mockResolvedValue('lockfile');
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
-			templateInput: templateInput('app'),
+			templateInput: await templateInput('app'),
 		});
 		vi.spyOn(file, 'write').mockResolvedValue();
 		vi.spyOn(file, 'exists').mockResolvedValue(true);
 	});
 
 	test('will prompt for type', async () => {
-		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: templateInput('app'), name: 'burritos' });
+		vi.spyOn(inquirer, 'prompt').mockResolvedValue({ templateInput: await templateInput('app'), name: 'burritos' });
 		await run('');
 
 		expect(inquirer.prompt).toHaveBeenCalledWith([
@@ -44,7 +46,7 @@ describe('handler', () => {
 
 	test('can have custom prompts', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
-			templateInput: templateInput('module'),
+			templateInput: await templateInput('module'),
 			name: 'burritos',
 			description: 'yum',
 		});
@@ -63,7 +65,7 @@ describe('handler', () => {
 
 	test('can have a custom name/description', async () => {
 		vi.spyOn(inquirer, 'prompt').mockResolvedValue({
-			templateInput: templateInput('module'),
+			templateInput: await templateInput('module'),
 			name: 'burritos',
 			description: 'yum',
 		});

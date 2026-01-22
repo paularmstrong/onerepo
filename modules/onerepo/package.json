@@ -43,7 +43,6 @@
 		"cliui": "^8.0.1",
 		"defaults": "^3.0.0",
 		"ejs": "^3.1.8",
-		"glob": "^10.1.0",
 		"graph-data-structure": "^3.2.0",
 		"ignore": "^5.3.1",
 		"inquirer": "^9.1.4",

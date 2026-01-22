@@ -1,11 +1,10 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, globSync, statSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import defaults from 'defaults';
-import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
@@ -232,13 +231,14 @@ function patchCommandDir(
 	return function (this: Yargs, pathname: string) {
 		const files = globSync(
 			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
-			{
-				nodir: true,
-			},
 		);
 		this.commandDir = patchCommandDir(require, options, commandDir);
 
 		for (const file of files) {
+			const stats = statSync(file);
+			if (stats.isDirectory()) {
+				continue;
+			}
 			if (typeof options.exclude === 'function') {
 				if (options.exclude(file)) {
 					continue;

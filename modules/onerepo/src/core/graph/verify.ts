@@ -1,4 +1,4 @@
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
 import { read, readJson } from '@onerepo/file';
@@ -77,17 +77,17 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 			// Check if this schema applies to this workspace
 			if (minimatch(relativePath, locGlob)) {
 				// get all files according to the schema in the workspace
-				const files = await glob(fileGlob, { cwd: workspace.location });
-				if (required && files.length === 0) {
-					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
-					schemaStep.error(msg);
-					writeGithubError(msg);
-				}
-				for (const file of files) {
+				const files = glob(fileGlob, { cwd: workspace.location });
+				for await (const file of files) {
 					if (!(file in map)) {
 						map[file] = [];
 					}
 					map[file]?.push(schemaKey);
+				}
+				if (required && Object.keys(map).length === 0) {
+					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
+					schemaStep.error(msg);
+					writeGithubError(msg);
 				}
 			}
 		}
