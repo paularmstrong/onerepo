@@ -144,7 +144,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 					`--outdir=${workspace.resolve('dist', dir)}`,
 					'--platform=node',
 					'--format=esm',
-					"--banner:js=const require = (await import('node:module')).createRequire(import.meta.url);const __filename = (await import('node:url')).fileURLToPath(import.meta.url);const __dirname = (await import('node:path')).dirname(__filename);",
+					"--banner:js=const require = (await import('node:module')).createRequire(import.meta.url);",
 				],
 			});
 		});
