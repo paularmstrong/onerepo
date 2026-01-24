@@ -32,31 +32,22 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 <Aurora bands={40} />
 
 <CardGrid stagger>
-
-    <Card title="Easy to use" icon="information">
-
-    	Well [documented](/plugins/docgen/example/) and easy to use <abbr title="command-line interface">CLI</abbr> with tab completion with `--help` always available.
-
-    </Card>
-
-    <Card title="Smart" icon="star">
-
-    	Automatic change determination with minimal configuration.
-
-    </Card>
-
-    <Card title="Safe & strict" icon="approve-check-circle">
-
-    	Avoid common pitfalls and mistakes when working in a monorepo with [Workspace validation](/core/graph/#verifying-configurations).
-
-    </Card>
-
-    <Card title="Extendable" icon="puzzle">
-
-    	Includes [first-party plugins](/plugins/) and a robust extendable architecture to customize to your team’s needs.
-
-    </Card>
-
+	<Card title="Easy to use" icon="information">
+		Well [documented](/plugins/docgen/example/) and easy to use{' '}
+		<abbr title="command-line interface">CLI</abbr> with tab completion with `--help` always
+		available.
+	</Card>
+	<Card title="Smart" icon="star">
+		Automatic change determination with minimal configuration.
+	</Card>
+	<Card title="Safe & strict" icon="approve-check-circle">
+		Avoid common pitfalls and mistakes when working in a monorepo with [Workspace
+		validation](/core/graph/#verifying-configurations).
+	</Card>
+	<Card title="Extendable" icon="puzzle">
+		Includes [first-party plugins](/plugins/) and a robust extendable architecture to customize to
+		your team’s needs.
+	</Card>
 </CardGrid>
 
 ## What's a monorepo?
@@ -96,37 +87,47 @@ Logging output from every command and tool in oneRepo is carefully grouped, docu
 
 ## Install and get started now
 
+{/* prettier-ignore-start */}
+
 <Steps>
 
 1.  **Install the CLI**
 
     First, install oneRepo's `one` command into your path:
-
+  
     <Tabs syncKey="pkgmanager">
-
-        <TabItem label="npm">
-
-        	```sh title="Install via npm"
-        	npx --package=onerepo one install
-        	```
-
-        </TabItem>
-
-        <TabItem label="yarn">
-
-        	```sh title="Install via Yarn"
-        	yarn dlx --package=onerepo one install
-        	```
-
-        </TabItem>
-
-        <TabItem label="pnpm">
-
-        	```sh title="Install via pnpm"
-        	pnpm --package=onerepo dlx one install
-        	```
-
-        </TabItem>
+      
+      <TabItem label="npm">
+      
+        ```sh title="Install via npm"
+        npm exec one install
+        ```
+    
+      </TabItem>
+    
+      <TabItem label="yarn">
+    
+        ```sh title="Install via Yarn"
+        yarn one install
+        ```
+        
+      </TabItem>
+    
+      <TabItem label="pnpm">
+    
+        ```sh title="Install via pnpm"
+        pnpm one install
+        ```
+        
+      </TabItem>
+    
+      <TabItem label="mise-en-place">
+      
+        ```sh title="Install via Mise"
+        mise use npm:onerepo
+        ```
+        
+      </TabItem>
 
     </Tabs>
 
@@ -142,6 +143,8 @@ Logging output from every command and tool in oneRepo is carefully grouped, docu
     You're nearly done. Follow the in-prompt instructions or continue on with the [getting started guide](/docs/getting-started/).
 
 </Steps>
+
+{/* prettier-ignore-end */}
 
 ## Helpful links
 

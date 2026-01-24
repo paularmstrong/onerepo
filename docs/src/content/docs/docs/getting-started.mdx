@@ -42,6 +42,14 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
     </TabItem>
 
+    <TabItem label="mise-en-place">
+
+   ```sh title="Install via Mise"
+   mise use npm:onerepo
+   ```
+
+    </TabItem>
+
    </Tabs>
 
 2. **Create your oneRepo**
@@ -213,29 +221,37 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
     <Tabs syncKey="pkgmanager">
 
-     <TabItem label="npm">
+      <TabItem label="npm">
 
-    ```sh title="Install via npm"
-    npm exec one install
-    ```
+        ```sh title="Install via npm"
+        npm exec one install
+        ```
 
      </TabItem>
 
      <TabItem label="yarn">
 
-    ```sh title="Install via Yarn"
-    yarn one install
-    ```
+        ```sh title="Install via Yarn"
+        yarn one install
+        ```
 
      </TabItem>
 
      <TabItem label="pnpm">
 
-    ```sh title="Install via pnpm"
-    pnpm one install
-    ```
+        ```sh title="Install via pnpm"
+        pnpm one install
+        ```
 
      </TabItem>
+
+      <TabItem label="mise-en-place">
+
+        ```sh title="Install via Mise"
+        mise use npm:onerepo
+        ```
+
+      </TabItem>
 
     </Tabs>
 
