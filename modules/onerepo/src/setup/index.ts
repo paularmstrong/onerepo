@@ -1,37 +1,32 @@
+import { createRequire } from 'node:module';
 import createYargs from 'yargs/yargs';
-import { createJiti } from 'jiti';
 import type { Config, CorePlugins } from '../types';
-import { changes } from '../core/changes';
-import { codeowners } from '../core/codeowners';
-import { create } from '../core/create';
-import { dependencies } from '../core/dependencies';
-import { generate } from '../core/generate';
-import { graph } from '../core/graph';
-import { hooks } from '../core/hooks';
-import { install } from '../core/install';
-import { tasks } from '../core/tasks';
-import { workspace } from '../core/workspace';
-import { defaultConfig, setup as internalSetup } from './setup';
+import { changes } from '../core/changes/index.ts';
+import { codeowners } from '../core/codeowners/index.ts';
+import { create } from '../core/create/index.ts';
+import { dependencies } from '../core/dependencies/index.ts';
+import { generate } from '../core/generate/index.ts';
+import { graph } from '../core/graph/index.ts';
+import { hooks } from '../core/hooks/index.ts';
+import { install } from '../core/install/index.ts';
+import { tasks } from '../core/tasks/index.ts';
+import { workspace } from '../core/workspace/index.ts';
+import { defaultConfig, setup as internalSetup } from './setup.ts';
 
-export type { GraphSchemaValidators } from '../core/graph';
-export type { App } from './setup';
+export type { GraphSchemaValidators } from '../core/graph/index.ts';
+export type { App } from './setup.ts';
 
 /**
  * @internal
  */
 export async function setup(root: string, config: Config) {
 	performance.mark('onerepo_start_Program');
-	const jiti = createJiti(process.cwd(), { interopDefault: true });
+	const require = createRequire(process.cwd());
 	return await internalSetup({
-		require: jiti,
+		require,
 		root,
 		config,
-		yargs: createYargs(
-			process.argv.slice(2),
-			process.cwd(),
-			// @ts-expect-error yargs only accepts NodeRequire
-			jiti,
-		),
+		yargs: createYargs(process.argv.slice(2), process.cwd(), require),
 		corePlugins,
 	});
 }

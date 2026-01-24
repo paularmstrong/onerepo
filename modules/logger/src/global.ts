@@ -1,4 +1,4 @@
-import type { Logger } from './Logger';
+import type { Logger } from './Logger.ts';
 
 const sym = Symbol.for('onerepo_loggers');
 

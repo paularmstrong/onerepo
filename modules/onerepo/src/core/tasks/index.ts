@@ -1,5 +1,5 @@
-import type { Plugin, RootConfig } from '../../types';
-import * as cmd from './tasks';
+import type { Plugin, RootConfig } from '../../types/index.ts';
+import * as cmd from './tasks.ts';
 
 export const tasks: Plugin = function tasks(config: Required<RootConfig>) {
 	return {

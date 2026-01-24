@@ -17,7 +17,7 @@ import remarkParser from 'remark-parse';
 import stringify from 'remark-stringify';
 import { unified } from 'unified';
 import type { Node } from 'unist';
-import type { Docs, Option, Positional } from './yargs';
+import type { Docs, Option, Positional } from './yargs.ts';
 
 const parser = unified().use(remarkParser);
 const parse = parser.parse.bind(parser);
@@ -218,7 +218,9 @@ function typeAndDefault(opt: Option | Positional): Array<Node> {
 				memo.push(inlineCode(`"${c}"`));
 				return memo;
 			}, [] as Array<Node>)
-		: [inlineCode(opt.type)];
+		: opt.type
+			? [inlineCode(opt.type)]
+			: [];
 	if (opt.default) {
 		nodes.push(text(', default: '), inlineCode(JSON.stringify(opt.default)));
 	}

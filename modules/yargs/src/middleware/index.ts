@@ -1,3 +1,3 @@
-export * from './environment';
-export * from './sudo-check';
-export * from './engine-check';
+export * from './environment.ts';
+export * from './sudo-check.ts';
+export * from './engine-check.ts';

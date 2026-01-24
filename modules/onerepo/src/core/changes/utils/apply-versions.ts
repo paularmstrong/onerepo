@@ -3,7 +3,7 @@ import { write } from '@onerepo/file';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
 import type { PackageJson } from '@onerepo/package-manager';
-import type { VersionPlan } from './get-versionable';
+import type { VersionPlan } from './get-versionable.ts';
 
 export async function applyVersions(
 	toVersion: Array<Workspace>,
@@ -19,20 +19,20 @@ export async function applyVersions(
 				updates[ws.name] = ws.packageJson;
 			}
 			const newVersion = plan.get(ws)!.version;
-			updates[ws.name].version = newVersion;
+			updates[ws.name]!.version = newVersion;
 
 			for (const dep of graph.dependents(ws)) {
-				if (ws.name in dep.dependencies && !dep.dependencies[ws.name].startsWith('workspace')) {
+				if (ws.name in dep.dependencies && !dep.dependencies[ws.name]?.startsWith('workspace')) {
 					if (!(dep.name in updates)) {
 						updates[dep.name] = dep.packageJson;
 					}
-					updates[dep.name].dependencies![ws.name] = newVersion;
+					updates[dep.name]!.dependencies![ws.name] = newVersion;
 				}
-				if (ws.name in dep.devDependencies && !dep.devDependencies[ws.name].startsWith('workspace')) {
+				if (ws.name in dep.devDependencies && !dep.devDependencies[ws.name]?.startsWith('workspace')) {
 					if (!(dep.name in updates)) {
 						updates[dep.name] = dep.packageJson;
 					}
-					updates[dep.name].devDependencies![ws.name] = newVersion;
+					updates[dep.name]!.devDependencies![ws.name] = newVersion;
 				}
 			}
 		}

@@ -1,15 +1,13 @@
 import path from 'path';
-import { createJiti } from 'jiti';
-import { getRootPackageJson } from '..';
-import { DependencyType, Graph } from '../Graph';
-
-const require = createJiti(process.cwd(), { interopDefault: true });
+import { getRootPackageJson } from '../index.ts';
+import { DependencyType, Graph } from '../Graph.ts';
 
 describe('Graph', () => {
 	test('bucket', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 		expect(repo.dependencies('burritos').map(({ name }) => name)).toEqual(['lettuce']);
 		expect(repo.dependencies('lettuce')).toEqual([]);
 		expect(repo.dependencies().map(({ name }) => name)).toEqual(['tacos', 'burritos', 'lettuce', 'fixture-root']);
@@ -18,8 +16,9 @@ describe('Graph', () => {
 	test('cannot reuse an alias', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'reused-alias');
 		const result = getRootPackageJson(location);
+		const graph = new Graph(location, 'npm');
 
-		expect(() => new Graph(location, result.json, result.json.workspaces!, require)).toThrow(
+		expect(() => graph.construct(result.json, result.json.workspaces!)).rejects.toThrow(
 			new Error('Cannot add alias "leaf" for spinach because it is already used for lettuce.'),
 		);
 	});
@@ -27,7 +26,8 @@ describe('Graph', () => {
 	test('can get all dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies()).toEqual([
 			expect.objectContaining({ name: 'tacos' }),
@@ -40,7 +40,8 @@ describe('Graph', () => {
 	test('can get isolated dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies('tacos')).toEqual([expect.objectContaining({ name: 'lettuce' })]);
 	});
@@ -48,7 +49,8 @@ describe('Graph', () => {
 	test('can get all dependents', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependents()).toEqual([
 			expect.objectContaining({ name: 'lettuce' }),
@@ -61,7 +63,8 @@ describe('Graph', () => {
 	test('can get isolated dependents', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependents('lettuce')).toEqual([
 			expect.objectContaining({ name: 'tacos' }),
@@ -72,7 +75,8 @@ describe('Graph', () => {
 	test('can get all prod dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies(undefined, true, DependencyType.DEV).map((w) => w.name)).toEqual([
 			'tacos',
@@ -85,7 +89,8 @@ describe('Graph', () => {
 	test('can get prod-only isolated dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies('tacos', true, DependencyType.PROD).map((w) => w.name)).toEqual(['tacos']);
 		expect(repo.dependencies('burritos', true, DependencyType.PROD).map((w) => w.name)).toEqual([
@@ -97,7 +102,8 @@ describe('Graph', () => {
 	test('can get prod-only isolated dependents', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependents('lettuce', true, DependencyType.PROD).map((w) => w.name)).toEqual(['lettuce', 'burritos']);
 	});
@@ -105,7 +111,8 @@ describe('Graph', () => {
 	test('can get all dev dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies(undefined, true, DependencyType.DEV).map((w) => w.name)).toEqual([
 			'tacos',
@@ -118,7 +125,8 @@ describe('Graph', () => {
 	test('can get dev-only isolated dependencies', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependencies('burritos', true, DependencyType.DEV).map((w) => w.name)).toEqual(['burritos']);
 		expect(repo.dependencies('tacos', true, DependencyType.DEV).map((w) => w.name)).toEqual(['tacos', 'lettuce']);
@@ -127,7 +135,8 @@ describe('Graph', () => {
 	test('can get dev-only isolated dependents', async () => {
 		const location = path.join(__dirname, '__fixtures__', 'repo');
 		const result = getRootPackageJson(location);
-		const repo = new Graph(location, result.json, result.json.workspaces!, require);
+		const repo = new Graph(location, 'npm');
+		await repo.construct(result.json, result.json.workspaces!);
 
 		expect(repo.dependents('burritos', true, DependencyType.DEV).map((w) => w.name)).toEqual(['burritos']);
 		expect(repo.dependents('lettuce', true, DependencyType.DEV).map((w) => w.name)).toEqual(['lettuce', 'tacos']);

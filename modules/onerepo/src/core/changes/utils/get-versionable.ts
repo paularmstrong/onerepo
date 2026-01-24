@@ -1,12 +1,12 @@
+import { glob } from 'node:fs/promises';
 import type { ReleaseType as SemverReleaseType } from 'semver';
 import { inc, prerelease } from 'semver';
-import { glob } from 'glob';
 import type { Graph, Workspace } from '@onerepo/graph';
 import { run } from '@onerepo/subprocess';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
 import { getCurrentSha } from '@onerepo/git';
-import { readChange } from './read-change';
+import { readChange } from './read-change.ts';
 
 export type ReleaseType = 'major' | 'minor' | 'patch';
 export type ChangeEntry = { type: ReleaseType; content: string; ref: string; filepath: string };
@@ -33,7 +33,7 @@ export async function getVersionable(graph: Graph, options: VersionOptions = {})
 			const fromRef = await getLastVersion(workspace, { step });
 			const throughRef = await getCurrentSha({ step });
 
-			const changes = await glob('.changes/*.md', { cwd: workspace.location });
+			const changes = await Array.fromAsync(glob('.changes/*.md', { cwd: workspace.location }));
 			versionable.set(
 				workspace,
 				await getVersionPlan(workspace, changes, fromRef ?? '', throughRef, { ...options, step }),
@@ -96,11 +96,11 @@ async function getVersionPlan(
 	let type: keyof typeof levelToNum = 'patch';
 	const entries: Array<ChangeEntry> = [];
 	for (const result of results) {
-		if (!result) {
-			continue;
+		if (result?.content) {
+			type = numToLevel[Math.max(levelToNum[result.type], levelToNum[type]) as keyof typeof numToLevel]!;
+			// @ts-expect-error content is guaranteed by the conditional
+			entries.push(result);
 		}
-		type = numToLevel[Math.max(levelToNum[result.type], levelToNum[type]) as keyof typeof numToLevel];
-		entries.push(result);
 	}
 
 	const [rawLogs] = await run({
@@ -121,7 +121,7 @@ async function getVersionPlan(
 	const logs = rawLogs
 		.split('\u0000')
 		.map((str) => {
-			const [ref, subject] = str.split('\u0003\u0002');
+			const [ref = '', subject = ''] = str.split('\u0003\u0002');
 			return { ref, subject };
 		})
 		.filter(({ subject }) => !!subject);

@@ -1,6 +1,6 @@
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { minimatch } from 'minimatch';
-import { createJiti } from 'jiti';
 import { batch, run } from '@onerepo/subprocess';
 import * as git from '@onerepo/git';
 import * as builders from '@onerepo/builders';
@@ -11,15 +11,15 @@ import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Logger } from '@onerepo/logger';
 import createYargs from 'yargs/yargs';
 import { StagingWorkflow } from '@onerepo/git';
-import { setup } from '../../setup/setup';
-import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../types';
-import { changes } from '../changes';
-import { codeowners } from '../codeowners';
-import { dependencies } from '../dependencies';
-import { generate } from '../generate';
-import { graph } from '../graph';
-import { hooks } from '../hooks';
-import { workspace } from '../workspace';
+import { setup } from '../../setup/setup.ts';
+import type { Config, CorePlugins, Lifecycle, Task, TaskDef } from '../../types/index.ts';
+import { changes } from '../changes/index.ts';
+import { codeowners } from '../codeowners/index.ts';
+import { dependencies } from '../dependencies/index.ts';
+import { generate } from '../generate/index.ts';
+import { graph } from '../graph/index.ts';
+import { hooks } from '../hooks/index.ts';
+import { workspace } from '../workspace/index.ts';
 
 const corePlugins: CorePlugins = [changes, codeowners, dependencies, generate, graph, hooks, workspace];
 
@@ -172,7 +172,7 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	}
 
 	if (shard) {
-		const [shardNum, total] = shard.split('/').map((n) => parseInt(n, 10));
+		const [shardNum = 1, total = 1] = shard.split('/').map((n) => parseInt(n, 10));
 		serialTasks = shardTasks(serialTasks, shardNum, total);
 		setupStep.debug(serialTasks);
 		parallelTasks = shardTasks(parallelTasks, shardNum, total);
@@ -211,12 +211,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 	await setupStep.end();
 
 	try {
-		await batch(parallelTasks.flat(1).map((task) => task.fn ?? task));
+		await batch(parallelTasks?.flat(1).map((task) => task.fn ?? task) ?? []);
 	} catch {
 		// continue so all tasks run
 	}
 
-	for (const task of serialTasks.flat(1).map((task) => task.fn ?? task)) {
+	for (const task of (serialTasks?.flat(1) ?? []).map((task) => task.fn ?? task)) {
 		try {
 			if (typeof task === 'function') {
 				await task();
@@ -259,7 +259,7 @@ function taskToSpecs(
 	];
 }
 
-const jiti = createJiti(process.cwd(), { interopDefault: true });
+const require = createRequire(process.cwd());
 
 function singleTaskToSpec(
 	cliName: string,
@@ -288,15 +288,10 @@ function singleTaskToSpec(
 			const step = logger.createStep(name, { writePrefixes: false });
 			const subLogger = bufferSubLogger(step);
 			const { yargs } = await setup({
-				require: jiti,
+				require: require,
 				root: graph.root.location,
 				config,
-				yargs: createYargs(
-					[...args, ...passthrough],
-					undefined,
-					// @ts-expect-error Yargs only accepts NodeJS.Require
-					jiti,
-				),
+				yargs: createYargs([...args, ...passthrough], undefined, require),
 				corePlugins,
 				logger: subLogger.logger,
 			});
@@ -310,7 +305,7 @@ function singleTaskToSpec(
 
 	return {
 		name,
-		cmd: cmd === '$0' ? workspace.relative(process.argv[1]) : cmd,
+		cmd: cmd === '$0' ? workspace.relative(process.argv[1] ?? 'one') : (cmd ?? 'one'),
 		args: [...args, ...passthrough],
 		opts: { cwd: graph.root.relative(workspace.location) || '.' },
 		meta: {

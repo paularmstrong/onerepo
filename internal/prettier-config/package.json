@@ -1,7 +1,7 @@
 {
 	"name": "@internal/prettier-config",
 	"private": true,
-	"type": "commonjs",
+	"type": "module",
 	"main": "./src/index.cjs",
 	"peerDependencies": {
 		"prettier": "^2 || ^3"

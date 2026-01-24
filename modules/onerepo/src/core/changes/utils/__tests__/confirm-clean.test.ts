@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import * as git from '@onerepo/git';
-import { confirmClean } from '../confirm-clean';
+import { confirmClean } from '../confirm-clean.ts';
 
 describe('confirmClean', () => {
 	describe('when not clean', () => {

@@ -2,7 +2,7 @@ import { chmod, write } from '@onerepo/file';
 import { run } from '@onerepo/subprocess';
 import type { Builder, Handler } from '@onerepo/yargs';
 
-export const command = ['init', 'sync'];
+export const command = ['init', 'sync'] as const;
 
 export const description = 'Initialize and sync git hook settings for this repository.';
 

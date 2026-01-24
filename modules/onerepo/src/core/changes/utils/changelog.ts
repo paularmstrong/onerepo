@@ -2,8 +2,8 @@ import type { Graph, Workspace } from '@onerepo/graph';
 import { exists, read, remove, write } from '@onerepo/file';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
-import type { RootConfig } from '../../../types';
-import type { ChangeEntry, ReleaseType, VersionPlan } from './get-versionable';
+import type { RootConfig } from '../../../types/index.ts';
+import type { ChangeEntry, ReleaseType, VersionPlan } from './get-versionable.ts';
 
 type Formatting = Required<Required<RootConfig>['changes']>['formatting'];
 

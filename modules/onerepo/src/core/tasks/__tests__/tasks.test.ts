@@ -3,9 +3,9 @@ import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import * as subprocess from '@onerepo/subprocess';
-import * as Tasks from '../tasks';
+import * as Tasks from '../tasks.ts';
 
-const { build, run } = getCommand(Tasks);
+const { build, run } = await getCommand(Tasks);
 
 describe('builder', () => {
 	test('requires --lifecycle', async () => {
@@ -48,7 +48,7 @@ describe('handler', () => {
 
 	test('lists tasks for the given lifecycle', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-commit --list', { graph });
 		expect(JSON.parse(out)).toEqual({
@@ -62,7 +62,7 @@ describe('handler', () => {
 
 	test('includes meta information on task list', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-merge --list', { graph });
 		expect(JSON.parse(out)).toEqual({
@@ -82,7 +82,7 @@ describe('handler', () => {
 
 	test('returns no tasks if all files were ignored', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('-c pre-commit --list --ignore "modules/tacos/**/*"', { graph });
 
@@ -94,7 +94,7 @@ describe('handler', () => {
 			'modules/tacos/src/index.ts',
 			'modules/burritos/src/index.ts',
 		]);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('-c post-commit --list --ignore "modules/tacos/**/*"', { graph });
 
@@ -118,7 +118,7 @@ describe('handler', () => {
 			'modules/tacos/src/index.ts',
 			'modules/burritos/src/index.ts',
 		]);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('-c pre-merge --list', { graph });
 
@@ -155,7 +155,7 @@ describe('handler', () => {
 			'modules/tacos/src/index.ts',
 			'modules/burritos/src/index.ts',
 		]);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('-c build --list', { graph });
 
@@ -164,7 +164,7 @@ describe('handler', () => {
 
 	test('includes tasks that match across workspaces', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/burritos/src/index.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('-c pre-publish --list', { graph });
 
@@ -186,7 +186,7 @@ describe('handler', () => {
 
 	test('can use multiple matchers', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['modules/tacos/foo']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'multi-match'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'multi-match'));
 
 		await run('-c pre-merge --list', { graph });
 
@@ -235,7 +235,7 @@ describe('handler', () => {
 
 	test('runs all Workspaces if the root is affected', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-deploy --list', { graph });
 		expect(JSON.parse(out)).toEqual({
@@ -274,7 +274,7 @@ describe('handler', () => {
 
 	test('can shard the tasks', async () => {
 		vi.spyOn(git, 'getModifiedFiles').mockResolvedValue(['root.ts']);
-		const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+		const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 		await run('--lifecycle pre-deploy --list --shard=1/2', { graph });
 		expect(JSON.parse(out)).toEqual({

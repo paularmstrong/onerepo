@@ -1,9 +1,9 @@
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import yaml from 'js-yaml';
 import { read, write } from '@onerepo/file';
 import type { Builder, Handler } from '@onerepo/yargs';
 import { batch } from '@onerepo/subprocess';
-import { getFilename } from './utils/filename';
+import { getFilename } from './utils/filename.ts';
 
 export const command = ['migrate'];
 
@@ -27,7 +27,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 	const { filenames: filenameMethod } = argv;
 	const setup = logger.createStep('Gathering information');
 
-	const changesetFiles = await glob('.changeset/*.md', { cwd: graph.root.location });
+	const changesetFiles = await Array.fromAsync(glob('.changeset/*.md', { cwd: graph.root.location }));
 
 	const changesetFileContents = await batch(
 		changesetFiles.map(
@@ -37,7 +37,7 @@ export const handler: Handler<Argv> = async (argv, { graph, logger }) => {
 					if (!matches) {
 						throw new Error(`File is not valid changeset: ${filepath}`);
 					}
-					return [matches[1], matches[2]];
+					return [matches[1] || '', matches[2] || ''];
 				}),
 		),
 	);

@@ -160,7 +160,7 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 		let name: string = '';
 		let version: string = '';
 		let isInternal = false;
-		const [nameOrBlank, versionOrName, versionOrBlank] = inputDep.split('@');
+		const [nameOrBlank = '', versionOrName = '', versionOrBlank = ''] = inputDep.split('@');
 		if (inputDep.startsWith('@')) {
 			name = `@${versionOrName}`;
 			version = versionOrBlank;
@@ -187,7 +187,7 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 
 	function add(name: string, version: string, ws: Workspace, type: 'prod' | 'dev' | 'peer') {
 		if (
-			requested[name].requested &&
+			requested[name]?.requested &&
 			valid(coerce(requested[name].requested)) &&
 			!intersects(requested[name].requested!, version)
 		) {
@@ -196,21 +196,21 @@ function getVersions(input: Array<string>, graph: Graph, tree: Array<Workspace>,
 			);
 			requested[name].requested = undefined;
 		}
-		if (!(version in requested[name].found)) {
+		if (requested[name] && !(version in requested[name].found)) {
 			requested[name].found[version] = [];
 		}
-		requested[name].found[version].push({ ws: ws.name, type });
+		requested[name]?.found[version]?.push({ ws: ws.name, type });
 	}
 
 	for (const ws of tree) {
 		for (const name of requestedNames) {
-			if (name in ws.dependencies) {
+			if (name in ws.dependencies && ws.dependencies[name]) {
 				add(name, ws.dependencies[name], ws, 'prod');
 			}
-			if (name in ws.devDependencies) {
+			if (name in ws.devDependencies && ws.dependencies[name]) {
 				add(name, ws.dependencies[name], ws, 'dev');
 			}
-			if (name in ws.peerDependencies) {
+			if (name in ws.peerDependencies && ws.dependencies[name]) {
 				add(name, ws.dependencies[name], ws, 'peer');
 			}
 		}
@@ -225,7 +225,7 @@ async function prompt(requested: Requested, mode: Args['mode'], graph: Graph, st
 	const questions = Object.entries(requested).map(([name, data]) => {
 		const foundVersions = Object.keys(data.found);
 		if (foundVersions.length === 1) {
-			choices[name] = foundVersions[0];
+			choices[name] = foundVersions[0]!;
 			return false;
 		}
 
@@ -287,7 +287,9 @@ function sortDeps(deps: Record<string, string>) {
 		.sort()
 		.reduce(
 			(memo, key) => {
-				memo[key] = deps[key];
+				if (deps[key]) {
+					memo[key] = deps[key];
+				}
 				return memo;
 			},
 			{} as Record<string, string>,

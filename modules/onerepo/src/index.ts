@@ -7,8 +7,9 @@ export * as git from '@onerepo/git';
 export * as file from '@onerepo/file';
 export * as builders from '@onerepo/builders';
 
-export * from './setup';
-export * from './types';
+export * from './setup/index.ts';
+export * from './types/index.ts';
 export * from '@onerepo/graph';
 
-export { runTasks } from './core/tasks/run-tasks';
+export { runTasks } from './core/tasks/run-tasks.ts';
+export type { TemplateConfig } from './core/generate/generate.ts';

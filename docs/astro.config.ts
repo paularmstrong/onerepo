@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 // import starlightLinksValidator from 'starlight-links-validator';
 import astroMetaTags from 'astro-meta-tags';
-import { mermaid } from './src/plugins/remark-mermaid';
+import { mermaid } from './src/plugins/remark-mermaid.ts';
 
 export default defineConfig({
 	trailingSlash: 'always',

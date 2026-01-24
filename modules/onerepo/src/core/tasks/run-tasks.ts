@@ -1,9 +1,9 @@
+import { createRequire } from 'node:module';
 import createYargs from 'yargs/yargs';
-import { createJiti } from 'jiti';
 import type { Logger } from '@onerepo/logger';
 import { bufferSubLogger, getLogger } from '@onerepo/logger';
 import type { Graph } from '@onerepo/graph';
-import { setup } from '../../setup/setup';
+import { setup } from '../../setup/setup.ts';
 import type { Lifecycle } from '../../types';
 
 /**
@@ -20,23 +20,18 @@ import type { Lifecycle } from '../../types';
  * @param logger Optional {@link Logger} instance. Defaults to the current `Logger` (usually there is only one).
  */
 export async function runTasks(lifecycle: Lifecycle, args: Array<string>, graph: Graph, logger: Logger = getLogger()) {
-	const jiti = createJiti(graph.root.location, { interopDefault: true });
+	const require = createRequire(graph.root.location);
 
 	// IMPORTANT: this needs to be async-imported to avoid potential circular imports
-	const { tasks } = await import('.');
+	const { tasks } = await import('./index.ts');
 
 	const step = logger.createStep(`Run ${lifecycle} tasks`, { writePrefixes: false });
 	const subLogger = bufferSubLogger(step);
 	const { yargs: postYargs } = await setup({
-		require: jiti,
+		require: require,
 		root: graph.root.location,
 		config: graph.root.config,
-		yargs: createYargs(
-			['tasks', '--lifecycle', lifecycle, ...args],
-			graph.root.location,
-			// @ts-expect-error Yargs only accepts NodeJS.Require
-			jiti,
-		),
+		yargs: createYargs(['tasks', '--lifecycle', lifecycle, ...args], graph.root.location, require),
 		corePlugins: [tasks],
 		logger: subLogger.logger,
 	});

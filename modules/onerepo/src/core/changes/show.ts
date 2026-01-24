@@ -5,7 +5,7 @@ import { withWorkspaces } from '@onerepo/builders';
 import type { Workspace } from '@onerepo/graph';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { VersionPlan } from './utils';
-import { buildChangelog, getVersionable } from './utils';
+import { buildChangelog, getVersionable } from './utils/index.ts';
 
 export const command = ['show'];
 

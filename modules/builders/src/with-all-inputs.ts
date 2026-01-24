@@ -1,10 +1,10 @@
 import type { DefaultArgv, Yargs } from '@onerepo/yargs';
-import { withAffected } from './with-affected';
-import { withFiles } from './with-files';
-import { withWorkspaces } from './with-workspaces';
-import type { WithAffected } from './with-affected';
-import type { WithFiles } from './with-files';
-import type { WithWorkspaces } from './with-workspaces';
+import { withAffected } from './with-affected.ts';
+import { withFiles } from './with-files.ts';
+import { withWorkspaces } from './with-workspaces.ts';
+import type { WithAffected } from './with-affected.ts';
+import type { WithFiles } from './with-files.ts';
+import type { WithWorkspaces } from './with-workspaces.ts';
 
 /**
  * Helper to chain all of {@link !builders.withAffected | `builders.withAffected`}, {@link !builders.withFiles | `builders.withFiles`}, and {@link !builders.withWorkspaces | `builders.withWorkspaces`} on a {@link !Builder | `Builder`}.

@@ -1,7 +1,7 @@
 import type { Plugin } from 'onerepo';
-import * as Add from './add';
-import * as Remove from './remove';
-import * as Verify from './verify';
+import * as Add from './add.ts';
+import * as Remove from './remove.ts';
+import * as Verify from './verify.ts';
 
 export const dependencies: Plugin = function dependencies(opts) {
 	const name = ['dependencies', 'dependency', 'deps', 'dep'];

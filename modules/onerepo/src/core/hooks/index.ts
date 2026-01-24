@@ -1,7 +1,7 @@
 import { start } from '@onerepo/subprocess';
 import type { Plugin } from '../../types';
-import * as Create from './create';
-import * as Init from './init';
+import * as Create from './create.ts';
+import * as Init from './init.ts';
 
 export const hooks: Plugin = function hooks(config) {
 	return {
@@ -38,7 +38,7 @@ export const hooks: Plugin = function hooks(config) {
 			}
 
 			start({
-				cmd: process.argv[1],
+				cmd: process.argv[1] ?? 'one',
 				args: ['hooks', Init.command[0]],
 				opts: {
 					detached: true,

@@ -3,10 +3,10 @@ import * as file from '@onerepo/file';
 import type { Workspace } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import { consumeChangelogs } from '../changelog';
+import { consumeChangelogs } from '../changelog.ts';
 import type { VersionPlan } from '../get-versionable';
 
-const graph = getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
+const graph = await getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
 const lettuce = graph.getByName('lettuce');
 const tacos = graph.getByName('tacos');
 

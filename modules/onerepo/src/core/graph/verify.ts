@@ -1,5 +1,4 @@
-import { createJiti } from 'jiti';
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import { minimatch } from 'minimatch';
 import yaml from 'js-yaml';
 import { read, readJson } from '@onerepo/file';
@@ -9,10 +8,11 @@ import type { AnySchema } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { Graph, Workspace } from '@onerepo/graph';
-import { verifyDependencies } from '../dependencies/utils/verify-dependencies';
-import { epilogue } from '../dependencies/verify';
-import { defaultValidators } from './schema';
-import type { GraphSchemaValidators } from './schema';
+import draft7 from 'ajv/dist/refs/json-schema-draft-07.json' with { type: 'json' };
+import { verifyDependencies } from '../dependencies/utils/verify-dependencies.ts';
+import { epilogue } from '../dependencies/verify.ts';
+import { defaultValidators } from './schema.ts';
+import type { GraphSchemaValidators } from './schema.ts';
 
 export const command = 'verify';
 
@@ -50,12 +50,6 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		await verifyDependencies(mode, graph, graph.workspaces, logger);
 	}
 
-	// esbuild cannot import json files correctly unless bundling externals
-	// Just as well, AJV doesn't properly document its exported files for ESM verification
-	// So for a myriad of reasons, this needs to be a runtime requires
-	const jiti = createJiti(import.meta.url, { interopDefault: true });
-	const draft7 = await import('ajv/dist/refs/json-schema-draft-07.json', { with: { type: 'json' } });
-
 	const ajv = new Ajv({ allErrors: true });
 	ajv.addMetaSchema(draft7);
 	ajvErrors(ajv);
@@ -65,7 +59,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 
 	logger.debug(`Getting custom schema '${customSchema}'`);
 	if (customSchema) {
-		const custom = await jiti.import<GraphSchemaValidators>(customSchema, { default: true });
+		const custom = (await import(customSchema)).default as GraphSchemaValidators;
 		availableSchema = importSchema(availableSchema, custom);
 	}
 
@@ -78,22 +72,22 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 		for (const schemaKey of Object.keys(availableSchema)) {
 			const rawSchema = availableSchema[schemaKey];
 			const schema = typeof rawSchema === 'function' ? rawSchema(workspace, graph) : rawSchema;
-			const required = schema.$required;
-			const [locGlob, fileGlob] = schemaKey.split(splitChar);
+			const required = schema?.$required;
+			const [locGlob = '', fileGlob = ''] = schemaKey.split(splitChar);
 			// Check if this schema applies to this workspace
 			if (minimatch(relativePath, locGlob)) {
 				// get all files according to the schema in the workspace
-				const files = await glob(fileGlob, { cwd: workspace.location });
-				if (required && files.length === 0) {
-					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
-					schemaStep.error(msg);
-					writeGithubError(msg);
-				}
-				for (const file of files) {
+				const files = glob(fileGlob, { cwd: workspace.location });
+				for await (const file of files) {
 					if (!(file in map)) {
 						map[file] = [];
 					}
-					map[file].push(schemaKey);
+					map[file]?.push(schemaKey);
+				}
+				if (required && Object.keys(map).length === 0) {
+					const msg = `❓ Missing required file matching pattern "${schemaKey.split(splitChar)[1]}"`;
+					schemaStep.error(msg);
+					writeGithubError(msg);
 				}
 			}
 		}
@@ -105,7 +99,7 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				if (file.endsWith('json')) {
 					contents = await readJson(workspace.resolve(file), 'r', { jsonc: true, step: schemaStep });
 				} else if (minimatch(file, '**/*.{js,ts,cjs,mjs}')) {
-					contents = await jiti.import(workspace.resolve(file));
+					contents = await import(workspace.resolve(file));
 				} else if (minimatch(file, '**/*.{yml,yaml}')) {
 					const rawContents: string = await read(workspace.resolve(file), 'r', { step: schemaStep });
 					contents = yaml.load(rawContents) as Record<string, unknown>;
@@ -114,13 +108,15 @@ export const handler: Handler<Argv> = async function handler(argv, { graph, logg
 				}
 
 				const schema = availableSchema[schemaKey];
-				const valid = ajv.validate(typeof schema === 'function' ? schema(workspace, graph) : schema, contents)!;
-				if (!valid) {
-					schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
-					ajv.errors?.forEach((err) => {
-						schemaStep.error(`  ↳ ${err.message}`);
-						writeGithubError(err.message, graph.root.relative(workspace.resolve(file)));
-					});
+				if (schema) {
+					const valid = ajv.validate(typeof schema === 'function' ? schema(workspace, graph) : schema, contents)!;
+					if (!valid) {
+						schemaStep.error(`Errors in ${workspace.resolve(file)}:`);
+						ajv.errors?.forEach((err) => {
+							schemaStep.error(`  ↳ ${err.message}`);
+							writeGithubError(err.message, graph.root.relative(workspace.resolve(file)));
+						});
+					}
 				}
 			}
 		}

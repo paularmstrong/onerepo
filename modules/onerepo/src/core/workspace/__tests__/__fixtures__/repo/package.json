@@ -1,7 +1,7 @@
 {
 	"name": "fixture-root",
 	"private": true,
-	"type": "commonjs",
+	"type": "module",
 	"workspaces": [
 		"modules/*"
 	]

@@ -1,22 +1,24 @@
 import path from 'node:path';
-import type { Jiti } from 'jiti';
-import type { RootConfig } from '../../types';
+import { glob } from 'node:fs/promises';
+import type { RootConfig } from '../../types/index.ts';
 
 /**
  * Gets the configuration file and dirname of the file starting at the process.cwd() and working upward until hitting the root of the filesystem.
  * If not found, will return undefined.
  */
-export function getConfig(require: NodeJS.Require | Jiti, cwd: string = process.cwd()) {
+export async function getConfig(cwd: string = process.cwd()) {
 	// Find a root config starting at the current working directory, looking upward toward filesystem root
 	let configRoot = cwd;
 	let config: RootConfig | undefined;
 	let lastKnownPossibleRoot: string | undefined;
-	while (configRoot && configRoot !== '/') {
+	findRoot: while (configRoot && configRoot !== '/') {
 		try {
-			const { default: conf } = require(path.join(configRoot, `onerepo.config`));
-			config = conf;
-			if (config?.root) {
-				break;
+			const foundFiles = glob('onerepo.config.{ts,js,mjs,cjs,cts}', { cwd: configRoot });
+			for await (const file of foundFiles) {
+				config = (await import(path.join(configRoot, file)))?.default;
+				if (config?.root) {
+					break findRoot;
+				}
 			}
 			configRoot = path.dirname(configRoot);
 			config = undefined;

@@ -1,7 +1,7 @@
 import type { Plugin } from '../../types';
-import * as Show from './show';
-import * as Sync from './sync';
-import * as Verify from './verify';
+import * as Show from './show.ts';
+import * as Sync from './sync.ts';
+import * as Verify from './verify.ts';
 
 export const codeowners: Plugin = function codeowners(options) {
 	return {

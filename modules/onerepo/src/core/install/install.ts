@@ -7,7 +7,7 @@ import { run } from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { getLogger } from '@onerepo/logger';
 import type { Builder, Handler } from '@onerepo/yargs';
-import pkg from '../../../package.json';
+import pkg from '../../../package.json' with { type: 'json' };
 
 export const command = 'install';
 
@@ -99,7 +99,7 @@ Override this check by re-running with "--force".`);
 	);
 
 	await file.write(
-		path.join(location!, 'onerepo.config.js'),
+		path.join(location!, 'onerepo.config.ts'),
 		`
 export default {
 	root: true,

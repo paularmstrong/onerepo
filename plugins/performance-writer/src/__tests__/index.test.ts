@@ -1,6 +1,6 @@
 import { performance } from 'node:perf_hooks';
 import * as onerepo from 'onerepo';
-import { performanceWriter } from '..';
+import { performanceWriter } from '../index.ts';
 
 async function tick() {
 	return new Promise<void>((resolve) => {

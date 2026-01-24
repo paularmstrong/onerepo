@@ -1,9 +1,9 @@
 import { constants } from 'node:fs';
 import { getCommand } from '@onerepo/test-cli';
 import * as onerepo from 'onerepo';
-import * as command from '../typescript';
+import * as command from '../typescript.ts';
 
-const { graph, run } = getCommand(command);
+const { graph, run } = await getCommand(command);
 
 describe('handler', () => {
 	test('includes --pretty', async () => {

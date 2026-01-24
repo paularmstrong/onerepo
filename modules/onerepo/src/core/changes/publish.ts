@@ -4,8 +4,8 @@ import { write } from '@onerepo/file';
 import type { Workspace } from '@onerepo/graph';
 import type { PublishConfig } from '@onerepo/package-manager';
 import type { Builder, Handler } from '@onerepo/yargs';
-import { runTasks } from '../tasks/run-tasks';
-import { requestOtp } from './utils/request-otp';
+import { runTasks } from '../tasks/run-tasks.ts';
+import { requestOtp } from './utils/request-otp.ts';
 
 export const command = ['publish', 'release'];
 
@@ -79,8 +79,8 @@ export const handler: Handler<Args> = async (argv, { getFilepaths, getWorkspaces
 
 	if (!skipAuth) {
 		const isLoggedIn = await graph.packageManager.loggedIn({
-			scope: workspaces[0].scope?.replace(/^@/, ''),
-			registry: workspaces[0].publishablePackageJson!.publishConfig?.registry as string | undefined,
+			scope: workspaces[0]?.scope?.replace(/^@/, ''),
+			registry: workspaces[0]?.publishablePackageJson!.publishConfig?.registry as string | undefined,
 		});
 		if (!isLoggedIn) {
 			setupStep.error(
@@ -105,7 +105,9 @@ export const handler: Handler<Args> = async (argv, { getFilepaths, getWorkspaces
 	const otp = shouldRequestOtp ? await requestOtp() : undefined;
 
 	const publishConfig =
-		'publishConfig' in workspaces[0].packageJson ? (workspaces[0].packageJson.publishConfig as PublishConfig) : {};
+		workspaces[0] && 'publishConfig' in workspaces[0].packageJson
+			? (workspaces[0].packageJson.publishConfig as PublishConfig)
+			: {};
 	await graph.packageManager.publish({
 		access: (publishConfig.access || 'public') as 'restricted' | 'public',
 		workspaces,

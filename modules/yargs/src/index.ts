@@ -1,1 +1,1 @@
-export * from './yargs';
+export * from './yargs.ts';

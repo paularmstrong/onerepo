@@ -2,9 +2,9 @@ import * as subprocess from '@onerepo/subprocess';
 import * as file from '@onerepo/file';
 import { getLogger } from '@onerepo/logger';
 import { getGraph } from '@onerepo/graph';
-import { StagingWorkflow } from '../workflow';
+import { StagingWorkflow } from '../workflow.ts';
 
-const graph = getGraph();
+const graph = await getGraph();
 
 describe('StagingWorkflow', () => {
 	beforeEach(() => {

@@ -6,7 +6,7 @@ import { withAllInputs } from '@onerepo/builders';
 import ignore from 'ignore';
 import cliui from 'cliui';
 import type { Providers } from './get-codeowners';
-import { getCodeowners, providers } from './get-codeowners';
+import { getCodeowners, providers } from './get-codeowners.ts';
 
 export const command = 'show';
 
@@ -63,7 +63,7 @@ export const handler: Handler<Argv> = async (argv, { getFilepaths, graph, logger
 				if (!(filepath in result)) {
 					result[filepath] = [];
 				}
-				result[filepath].push(...owners);
+				result[filepath]?.push(...owners);
 			}
 		}
 	}

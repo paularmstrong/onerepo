@@ -1,11 +1,11 @@
 import path from 'node:path';
 import { getGraph } from '@onerepo/graph';
 import * as git from '@onerepo/git';
-import { getAffected, getFilepaths, getWorkspaces } from '../getters';
+import { getAffected, getFilepaths, getWorkspaces } from '../getters.ts';
 
 vi.mock('@onerepo/git');
 
-const graph = getGraph(path.join(__dirname, '__fixtures__', 'repo'));
+const graph = await getGraph(path.join(__dirname, '__fixtures__', 'repo'));
 
 describe('affected', () => {
 	beforeEach(() => {

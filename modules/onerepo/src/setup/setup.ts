@@ -1,11 +1,10 @@
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, globSync, statSync } from 'node:fs';
 import { lstat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import defaults from 'defaults';
-import { globSync } from 'glob';
 import { commandDirOptions, setupYargs } from '@onerepo/yargs';
 import type { Graph } from '@onerepo/graph';
 import { getGraph } from '@onerepo/graph';
@@ -13,9 +12,8 @@ import { Logger, getLogger } from '@onerepo/logger';
 import type { RequireDirectoryOptions, Argv as Yargv } from 'yargs';
 import type { Argv, DefaultArgv, Yargs } from '@onerepo/yargs';
 import { flushUpdateIndex } from '@onerepo/git';
-import type { Jiti } from 'jiti';
-import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types';
-import pkg from '../../package.json';
+import type { Config, RootConfig, CorePlugins, PluginObject, Plugin } from '../types/index.ts';
+import pkg from '../../package.json' with { type: 'json' };
 
 export const defaultConfig: Required<RootConfig> = {
 	root: true,
@@ -95,7 +93,7 @@ export async function setup({
 	logger: inputLogger,
 }: {
 	graph?: Graph;
-	require?: NodeJS.Require | Jiti;
+	require?: NodeJS.Require;
 	root: string;
 	config: Config;
 	yargs: Yargv;
@@ -113,7 +111,7 @@ export async function setup({
 	process.env.ONEREPO_HEAD_BRANCH = head;
 	process.env.ONEREPO_DRY_RUN = 'false';
 
-	const graph = inputGraph || getGraph(process.env.ONEREPO_ROOT);
+	const graph = inputGraph || (await getGraph(process.env.ONEREPO_ROOT));
 
 	const yargs = setupYargs(yargsInstance.scriptName('one'), { graph, logger });
 	yargs
@@ -226,20 +224,21 @@ export async function setup({
  * https://github.com/tc39/proposal-class-fields/issues/106
  */
 function patchCommandDir(
-	require: NodeJS.Require | Jiti,
+	require: NodeJS.Require,
 	options: RequireDirectoryOptions & { visit: NonNullable<RequireDirectoryOptions['visit']> },
 	commandDir: Yargs['commandDir'],
 ) {
 	return function (this: Yargs, pathname: string) {
 		const files = globSync(
 			`${pathname}${options.recurse ? '/**' : ''}/*${options.extensions ? `.{${options.extensions.join(',')}}` : ''}`,
-			{
-				nodir: true,
-			},
 		);
 		this.commandDir = patchCommandDir(require, options, commandDir);
 
 		for (const file of files) {
+			const stats = statSync(file);
+			if (stats.isDirectory()) {
+				continue;
+			}
 			if (typeof options.exclude === 'function') {
 				if (options.exclude(file)) {
 					continue;

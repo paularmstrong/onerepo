@@ -1,6 +1,6 @@
 import { batch, run } from '@onerepo/subprocess';
 import { prerelease } from 'semver';
-import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods';
+import type { PackageManager, MinimalWorkspace, NpmInfo } from './methods.ts';
 
 const cmd = 'pnpm';
 

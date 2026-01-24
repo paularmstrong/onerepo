@@ -1,0 +1,9 @@
+[tools]
+node = "24"
+
+[hooks]
+postinstall = 'npx corepack enable'
+
+[settings]
+# This must be enabled to make the hooks work
+experimental = true

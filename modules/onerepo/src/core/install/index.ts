@@ -1,8 +1,8 @@
 import { getLogger } from '@onerepo/logger';
 import { eq, gt, lt } from 'semver';
 import type { Plugin } from '../../types';
-import pkg from '../../../package.json';
-import * as cmd from './install';
+import pkg from '../../../package.json' with { type: 'json' };
+import * as cmd from './install.ts';
 
 export const install: Plugin = function install() {
 	return {

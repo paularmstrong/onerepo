@@ -1,5 +1,5 @@
 import type { Plugin } from 'onerepo';
-import * as cmd from './commands/prettier';
+import * as cmd from './commands/prettier.ts';
 
 /**
  * Options for configuring the Prettier plugin for oneRepo.

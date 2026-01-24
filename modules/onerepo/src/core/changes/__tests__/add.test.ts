@@ -5,10 +5,10 @@ import * as git from '@onerepo/git';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
 import { LogStep } from '@onerepo/logger';
-import * as add from '../add';
+import * as add from '../add.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/with-entries'));
-const { run } = getCommand(add, graph);
+const graph = await getGraph(path.join(__dirname, '__fixtures__/with-entries'));
+const { run } = await getCommand(add, graph);
 
 describe('add changes', () => {
 	beforeEach(() => {

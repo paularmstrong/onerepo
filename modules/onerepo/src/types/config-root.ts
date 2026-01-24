@@ -1,5 +1,5 @@
-import type { Lifecycle, TaskConfig } from './tasks';
-import type { Plugin } from './plugin';
+import type { Lifecycle, TaskConfig } from './tasks.ts';
+import type { Plugin } from './plugin.ts';
 
 /**
  * Setup configuration for the root of the repository.

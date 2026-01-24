@@ -1,9 +1,9 @@
 import path from 'node:path';
 import * as humanId from 'human-id';
 import { getGraph } from '@onerepo/graph';
-import { getFilename } from '../filename';
+import { getFilename } from '../filename.ts';
 
-const graph = getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
+const graph = await getGraph(path.join(__dirname, '../../__tests__/__fixtures__/with-entries'));
 
 describe('getFilename', () => {
 	test('generates a hash from the content and date', async () => {

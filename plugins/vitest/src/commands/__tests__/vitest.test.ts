@@ -1,8 +1,8 @@
 import { getCommand } from '@onerepo/test-cli';
 import * as onerepo from 'onerepo';
-import * as Vitest from '../vitest';
+import * as Vitest from '../vitest.ts';
 
-const { run, graph } = getCommand(Vitest);
+const { run, graph } = await getCommand(Vitest);
 
 describe('handler', () => {
 	beforeEach(() => {

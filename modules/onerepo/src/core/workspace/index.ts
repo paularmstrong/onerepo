@@ -2,8 +2,8 @@ import { existsSync, lstatSync } from 'node:fs';
 import type { Workspace } from '@onerepo/graph';
 import type { Builder, Yargs } from '@onerepo/yargs';
 import type { RequireDirectoryOptions } from 'yargs';
-import type { Plugin, WorkspaceConfig } from '../../types';
-import { getHandler } from './passthrough';
+import type { Plugin, WorkspaceConfig } from '../../types/index.ts';
+import { getHandler } from './passthrough.ts';
 
 export const workspace: Plugin = function workspaces(config, graph) {
 	const commandDirectory = config.commands.directory;

@@ -1,5 +1,5 @@
 import type { Plugin } from 'onerepo';
-import * as cmd from './commands/eslint';
+import * as cmd from './commands/eslint.ts';
 
 /**
  * Options for configuring the ESLint plugin for oneRepo.

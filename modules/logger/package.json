@@ -21,7 +21,7 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"log-update": "^5.0.1",
+		"log-update": "^7.0.2",
 		"picocolors": "^1.0.0"
 	},
 	"devDependencies": {
@@ -31,6 +31,6 @@
 		"typescript": "^5.7.2"
 	},
 	"engines": {
-		"node": "^20.19.0 || ^22.10.0 || ^24"
+		"node": "^24"
 	}
 }

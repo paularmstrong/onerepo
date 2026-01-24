@@ -1,7 +1,7 @@
 import { PassThrough } from 'node:stream';
 import pc from 'picocolors';
 import type { LoggerOptions } from '../Logger';
-import { Logger } from '../Logger';
+import { Logger } from '../Logger.ts';
 import type { LogStep } from '../LogStep';
 
 async function runPendingImmediates() {

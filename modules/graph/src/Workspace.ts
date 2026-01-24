@@ -1,19 +1,8 @@
 import path from 'node:path';
-import defaults from 'defaults';
 import { minimatch } from 'minimatch';
 import type { Tasks, TaskConfig, WorkspaceConfig, RootConfig } from 'onerepo';
 import { getPublishablePackageJson } from '@onerepo/package-manager';
 import type { PackageJson } from '@onerepo/package-manager';
-import type { Jiti } from 'jiti';
-
-const defaultConfig: Required<WorkspaceConfig> = {
-	codeowners: {},
-	commands: {
-		passthrough: {},
-	},
-	meta: {},
-	tasks: {},
-};
 
 /**
  * @group Graph
@@ -23,8 +12,7 @@ export class Workspace {
 	#location: string;
 	#rootLocation: string;
 	#tasks: TaskConfig | null = null;
-	#require: NodeJS.Require | Jiti;
-	#config?: Required<WorkspaceConfig | RootConfig>;
+	#config: Required<WorkspaceConfig | RootConfig>;
 
 	/**
 	 * @internal
@@ -33,12 +21,12 @@ export class Workspace {
 		rootLocation: string,
 		location: string,
 		packageJson: PackageJson,
-		moduleRequire: NodeJS.Require | Jiti = require,
+		config: Required<WorkspaceConfig | RootConfig>,
 	) {
-		this.#require = moduleRequire;
 		this.#rootLocation = rootLocation;
 		this.#location = location;
 		this.#packageJson = packageJson;
+		this.#config = config;
 	}
 
 	/**
@@ -88,7 +76,7 @@ export class Workspace {
 	 * Get module name scope if there is one, eg `@onerepo`
 	 */
 	get scope(): string {
-		return this.name.includes('/') ? this.name.split('/')[0] : '';
+		return this.name.includes('/') ? (this.name.split('/')[0] ?? '') : '';
 	}
 
 	/**
@@ -142,23 +130,6 @@ export class Workspace {
 	 * Get the Workspace's configuration
 	 */
 	get config(): Required<WorkspaceConfig | RootConfig> {
-		if (!this.#config) {
-			try {
-				let config = this.#require(this.resolve('onerepo.config'));
-				config = config.default ?? config;
-				if (this.isRoot) {
-					this.#config = config as Required<RootConfig>;
-				} else {
-					this.#config = defaults(config.default ?? config, defaultConfig) as Required<WorkspaceConfig>;
-				}
-			} catch (e) {
-				if (e && (e as NodeJS.ErrnoException).code === 'MODULE_NOT_FOUND') {
-					this.#config = { ...defaultConfig } as Required<WorkspaceConfig>;
-				} else {
-					throw e;
-				}
-			}
-		}
 		return this.#config;
 	}
 
@@ -212,7 +183,7 @@ export class Workspace {
 		const found = Object.keys(this.codeowners ?? {})
 			.reverse()
 			.find((ownerPath) => minimatch(relativePath, ownerPath));
-		return this.codeowners && found ? this.codeowners[found] : [];
+		return this.codeowners && found ? (this.codeowners[found] ?? []) : [];
 	}
 
 	/**

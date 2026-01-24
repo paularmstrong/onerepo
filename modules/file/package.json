@@ -21,18 +21,17 @@
 		"./CHANGELOG.md"
 	],
 	"dependencies": {
-		"@onerepo/logger": "2.0.0",
-		"jiti": "^2.4.2"
+		"@onerepo/logger": "2.0.0"
 	},
 	"devDependencies": {
 		"@internal/tsconfig": "workspace:^",
 		"@internal/vitest-config": "workspace:^",
-		"prettier": "^3.4.2"
+		"prettier": "^3.8.0"
 	},
 	"peerDependencies": {
 		"prettier": "^2 || ^3"
 	},
 	"engines": {
-		"node": "^20.19.0 || ^22.10.0 || ^24"
+		"node": "^24"
 	}
 }

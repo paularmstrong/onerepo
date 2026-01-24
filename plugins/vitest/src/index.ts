@@ -1,5 +1,5 @@
 import type { PluginObject } from 'onerepo';
-import * as cmd from './commands/vitest';
+import * as cmd from './commands/vitest.ts';
 
 /**
  * Options for configuring the Vitest plugin for oneRepo.

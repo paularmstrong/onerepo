@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { getCommand } from '@onerepo/test-cli';
 import { getGraph } from '@onerepo/graph';
-import { builder, getHandler } from '../passthrough';
+import { builder, getHandler } from '../passthrough.ts';
 
-const graph = getGraph(path.join(__dirname, '__fixtures__/repo'));
+const graph = await getGraph(path.join(__dirname, '__fixtures__/repo'));
 
 describe('passthrough', () => {
 	beforeEach(() => {
@@ -11,7 +11,7 @@ describe('passthrough', () => {
 	});
 
 	test('calls the command', async () => {
-		const { run } = getCommand({ builder, handler: getHandler('eat', graph.getByName('fixture-tacos')) }, graph);
+		const { run } = await getCommand({ builder, handler: getHandler('eat', graph.getByName('fixture-tacos')) }, graph);
 
 		await run();
 
@@ -28,7 +28,7 @@ describe('passthrough', () => {
 	});
 
 	test('passes args through', async () => {
-		const { run } = getCommand(
+		const { run } = await getCommand(
 			{ builder, handler: getHandler('eat --tacos', graph.getByName('fixture-tacos')) },
 			graph,
 		);
@@ -49,7 +49,7 @@ describe('passthrough', () => {
 	});
 
 	test('includes passthrough args', async () => {
-		const { run } = getCommand(
+		const { run } = await getCommand(
 			{ builder, handler: getHandler('eat --tacos', graph.getByName('fixture-tacos')) },
 			graph,
 		);

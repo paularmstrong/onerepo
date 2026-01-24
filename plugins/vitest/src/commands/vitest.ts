@@ -68,7 +68,7 @@ export const handler: Handler<Args> = async function handler(argv, { getWorkspac
 	if (!hasNonOptExtraArgs) {
 		if (affected && !workspaces?.length) {
 			const since = await git.getMergeBase();
-			args.push('--changed', since);
+			args.push('--changed', since ?? 'head');
 		} else {
 			const workspaces = await getWorkspaces();
 			workspaces.forEach((ws) => {

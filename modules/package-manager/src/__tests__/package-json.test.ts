@@ -1,5 +1,5 @@
 import type { PublicPackageJson } from '../package-json';
-import { getPublishablePackageJson } from '../package-json';
+import { getPublishablePackageJson } from '../package-json.ts';
 
 describe('Workspace', () => {
 	describe('publishablePackageJson', () => {

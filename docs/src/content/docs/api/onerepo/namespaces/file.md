@@ -14,9 +14,7 @@ All content is auto-generated using a oneRepo command:
 -->
 
 <!-- start-onerepo-sentinel -->
-<!-- @generated SignedSource<<58f2eb34dbab5726f2ba3d492fb38a7d>> -->
-
-File manipulation functions.
+<!-- @generated SignedSource<<cc008d6de5d1ffd5c8a15e706d6d24d9>> -->
 
 ## Type Aliases
 
@@ -30,8 +28,6 @@ type Options = {
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-Generic options for file functions
-
 #### Properties
 
 ##### step?
@@ -41,9 +37,6 @@ optional step: LogStep;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Avoid creating a new step in output for each function.
-Pass a Logger Step to pipe all logs and output to that instead.
 
 ---
 
@@ -64,8 +57,6 @@ type ReadJsonOptions = {
 ```ts
 optional jsonc: boolean;
 ```
-
-Parse the file as JSONC (JSON with comments).
 
 ---
 
@@ -90,8 +81,6 @@ optional sentinel: string;
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-Unique string to use as a start and end sentinel for the contents
-
 ##### step?
 
 ```ts
@@ -99,9 +88,6 @@ optional step: LogStep;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Avoid creating a new step in output for each function.
-Pass a Logger Step to pipe all logs and output to that instead.
 
 ---
 
@@ -136,8 +122,6 @@ optional sign: boolean;
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-Optionally sign the contents for future verification.
-
 ##### step?
 
 ```ts
@@ -145,9 +129,6 @@ optional step: LogStep;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Avoid creating a new step in output for each function.
-Pass a Logger Step to pipe all logs and output to that instead.
 
 ---
 
@@ -173,8 +154,6 @@ optional sentinel: string;
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-Unique string to use as a start and end sentinel for the contents
-
 ##### sign?
 
 ```ts
@@ -182,8 +161,6 @@ optional sign: boolean;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Optionally sign the contents for future verification.
 
 ##### step?
 
@@ -193,9 +170,6 @@ optional step: LogStep;
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
 
-Avoid creating a new step in output for each function.
-Pass a Logger Step to pipe all logs and output to that instead.
-
 ## Functions
 
 ### chmod()
@@ -204,14 +178,7 @@ Pass a Logger Step to pipe all logs and output to that instead.
 function chmod(filename, mode, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Change file permissions
-
-```ts
-await file.chmod('/foo', 'a+x');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -230,16 +197,7 @@ await file.chmod('/foo', 'a+x');
 function copy(input, output, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Copy a file from one location to another.
-
-If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
-
-```ts
-await file.copy('/path/to/in/', '/path/to/out/');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -258,14 +216,7 @@ await file.copy('/path/to/in/', '/path/to/out/');
 function exists(filename, options?): Promise<boolean>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Step-wrapped `fs.existsSync` implementation.
-
-```ts
-await file.exists('/path/to/file.ts');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -283,10 +234,7 @@ await file.exists('/path/to/file.ts');
 function isSigned(contents): boolean;
 ```
 
-**Defined in:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts)
-
-Checks whether a file is signed _without_ verifying the signature.
-
+**Defined in:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts)  
 **Parameters:**
 
 | Parameter  | Type     |
@@ -303,10 +251,7 @@ Checks whether a file is signed _without_ verifying the signature.
 function lstat(filename, options?): Promise<null | Stats>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation](https://nodejs.org/api/fs.html#class-fsstats) for more on how to use the return data.
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -316,15 +261,6 @@ Step-wrapped `fs.lstat` implementation. See the [node.js fs.Stats documentation]
 
 **Returns:** `Promise`\<`null` \| `Stats`\>
 
-If the `filename` does not exist, `null` will be returned instead of a Stats object.
-
-```ts
-const stat = await file.lstat('/path/to/file/');
-if (stat.isDirectory()) {
-	/* ... */
-}
-```
-
 ---
 
 ### makeTempDir()
@@ -333,14 +269,7 @@ if (stat.isDirectory()) {
 function makeTempDir(prefix, options?): Promise<string>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Create a tmp directory in the os tmpdir.
-
-```ts
-const dir = await file.makeTempDir('tacos-');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -358,14 +287,7 @@ const dir = await file.makeTempDir('tacos-');
 function mkdirp(pathname, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Recursively create a directory.
-
-```ts
-await file.mkdirp('/path/to/something');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -383,14 +305,7 @@ await file.mkdirp('/path/to/something');
 function read(filename, flag?, options?): Promise<string>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Read the contents of a file.
-
-```ts
-const contents = await file.read('/path/to/file/');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -410,15 +325,6 @@ function readJson<T>(filename, flag?, options?): Promise<T>;
 ```
 
 **Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Read and parse a JSON files.
-
-Compatible with jsonc by stripping comments before running `JSON.parse()`. Pass `jsonc: true` to the options to enable jsonc.
-
-```ts
-const contents = await file.readJson('/path/to/package.json');
-const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc: true });
-```
 
 #### Type Parameters
 
@@ -444,14 +350,7 @@ const strippedJsonc = await file.readJson('/path/to/tsconfig.json', 'r', { jsonc
 function readSafe(filename, options?): Promise<[null | string, string]>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Read a sentinel-wrapped portion of a file that was previously written with [writeSafe](#writesafe) and return both the wrapped portion as well as the full contents of the file.
-
-```ts
-const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel: 'tacos' });
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                                  |
@@ -469,14 +368,7 @@ const [portion, fullContents] = await file.readSafe('/path/to/file/', { sentinel
 function remove(pathname, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Remove files and folders at a given path. Equivalent to `rm -rf {pathname}`
-
-```ts
-await file.remove('/path/to/something');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -494,19 +386,7 @@ await file.remove('/path/to/something');
 function signContents(filename, contents, options?): Promise<any>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Sign the contents for a given file without writing out. This function is typically useful for manually comparing signed file contents.
-
-```ts
-const filename = graph.root.resolve('README.md');
-const currentContents = await file.read(filename);
-const newContents = generateReadme();
-if (currentContents !== (await signContents(filename, contents))) {
-	logger.error('Contents mismatch');
-}
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                  |
@@ -525,10 +405,7 @@ if (currentContents !== (await signContents(filename, contents))) {
 function verifySignature(contents): SigningStatus;
 ```
 
-**Defined in:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts)
-
-Verify the signature in a signed file.
-
+**Defined in:** [modules/file/src/signing.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/signing.ts)  
 **Parameters:**
 
 | Parameter  | Type     |
@@ -545,16 +422,7 @@ Verify the signature in a signed file.
 function write(filename, contents, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Write to a file. This will attempt use Prettier to format the contents based on the `filename` given. If Prettier does not understand the file’s extension, no changes will be made.
-
-If `--dry-run` or `process.env.ONEREPO_DRY_RUN` is true, no files will be modified.
-
-```ts
-await file.write('/path/to/out/', '# hello!');
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                            |
@@ -573,22 +441,7 @@ await file.write('/path/to/out/', '# hello!');
 function writeSafe(filename, contents, options?): Promise<void>;
 ```
 
-**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)
-
-Safely write contents to a file, wrapped in a start and end sentinel. This allows writing to a file without overwriting the current content of the file – other than that which falls between the start and end sentinel.
-
-Write to `/path/to/out/` between a section denoted by the sentinel `'some-unique-string'` while leaving the rest of the file intact.
-
-```ts
-await file.writeSafe('/path/to/out/', '# hello', { sentinel: 'some-unique-string' });
-```
-
-Write to a section of the file as signed content for verifying later.
-
-```ts
-await file.writeSafe('/path/to/out/', '# hello', { signed: true });
-```
-
+**Defined in:** [modules/file/src/index.ts](https://github.com/paularmstrong/onerepo/blob/main/modules/file/src/index.ts)  
 **Parameters:**
 
 | Parameter  | Type                                    |

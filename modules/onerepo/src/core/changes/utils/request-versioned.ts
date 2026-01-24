@@ -2,7 +2,7 @@ import pc from 'picocolors';
 import type { Graph, Workspace } from '@onerepo/graph';
 import { getLogger } from '@onerepo/logger';
 import inquirer from 'inquirer';
-import type { getVersionable } from './get-versionable';
+import type { getVersionable } from './get-versionable.ts';
 
 export async function requestVersioned(
 	graph: Graph,

@@ -6,8 +6,8 @@ import type { WithWorkspaces } from '@onerepo/builders';
 import { withWorkspaces } from '@onerepo/builders';
 import type { Workspace } from '@onerepo/graph';
 import type { Logger } from '@onerepo/logger';
-import type { VersionPlan } from './utils/get-versionable';
-import { applyVersions, getVersionable, confirmClean, requestVersioned, consumeChangelogs } from './utils';
+import type { VersionPlan } from './utils/get-versionable.ts';
+import { applyVersions, getVersionable, confirmClean, requestVersioned, consumeChangelogs } from './utils/index.ts';
 
 export const command = ['version'];
 

@@ -1,5 +1,5 @@
 import type { Plugin } from 'onerepo';
-import * as cmd from './commands/jest';
+import * as cmd from './commands/jest.ts';
 
 /**
  * Options for configuring the Jest plugin for oneRepo.

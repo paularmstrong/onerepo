@@ -1,7 +1,7 @@
 import type { WithWorkspaces } from '@onerepo/builders';
 import { withWorkspaces } from '@onerepo/builders';
 import type { Builder, Handler } from '@onerepo/yargs';
-import { verifyDependencies } from './utils/verify-dependencies';
+import { verifyDependencies } from './utils/verify-dependencies.ts';
 
 export const command = 'verify';
 

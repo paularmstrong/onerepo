@@ -8,7 +8,7 @@ import { stepWrapper } from '@onerepo/logger';
 import { run } from '@onerepo/subprocess';
 import type { LogStep } from '@onerepo/logger';
 
-export { StagingWorkflow } from './workflow';
+export { StagingWorkflow } from './workflow.ts';
 
 /**
  * Generic options passed to all Git operations.
@@ -264,7 +264,7 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 			const fileNameFormat = byStatus ? '--name-status' : '--name-only';
 
 			const uncleanArgs = ['diff', fileNameFormat, '-z', '--diff-filter', diffFilter];
-			uncleanArgs.push(!staged ? base : '--cached');
+			uncleanArgs.push(!staged && base ? base : '--cached');
 			const cleanMainArgs = [
 				'diff-tree',
 				'-r',
@@ -280,7 +280,7 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 			const [modifiedResults] = await run({
 				name: 'Getting modified files',
 				cmd: 'git',
-				args: !isCleanState && !from && !through ? uncleanArgs : cleanMainArgs,
+				args: !isCleanState && !from && !through ? uncleanArgs : (cleanMainArgs.filter(Boolean) as Array<string>),
 				runDry: true,
 				step,
 			});
@@ -291,7 +291,7 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 				.filter(Boolean) as Array<string>;
 
 			if (!byStatus) {
-				return <ByStatus extends true ? ModifiedByStatus : Array<string>>results;
+				return results as ByStatus extends true ? ModifiedByStatus : Array<string>;
 			}
 
 			if (results.length % 2 !== 0) {
@@ -310,10 +310,10 @@ export async function getModifiedFiles<ByStatus extends boolean = false>(
 			};
 
 			for (let i = 0; i < results.length; i += 2) {
-				modifiedByType[statusToKey[results[i]] ?? 'unknown'].push(results[i + 1]);
+				modifiedByType[(statusToKey[results[i]!] as keyof ModifiedByStatus) ?? 'unknown'].push(results[i + 1]!);
 			}
 
-			return <ByStatus extends true ? ModifiedByStatus : Array<string>>modifiedByType;
+			return modifiedByType as ByStatus extends true ? ModifiedByStatus : Array<string>;
 		},
 	);
 }

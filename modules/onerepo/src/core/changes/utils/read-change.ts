@@ -4,7 +4,7 @@ import { read } from '@onerepo/file';
 import type { LogStep } from '@onerepo/logger';
 import { stepWrapper } from '@onerepo/logger';
 import { run } from '@onerepo/subprocess';
-import type { ReleaseType } from './get-versionable';
+import type { ReleaseType } from './get-versionable.ts';
 
 export async function readChange(filepath: string, options: { step?: LogStep } = {}) {
 	const normFilepath = normalizefilepath(filepath);
@@ -19,7 +19,7 @@ export async function readChange(filepath: string, options: { step?: LogStep } =
 
 		const contents = await read(filepath, 'r', { step });
 		const matches = contents.match(/^---\n(.*)\n---\n+(.*)/ms);
-		if (!matches) {
+		if (!matches || !matches[1]) {
 			step.error(`Not valid change file: "${filepath}"`);
 			return null;
 		}

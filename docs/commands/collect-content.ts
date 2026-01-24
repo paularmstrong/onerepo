@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { glob } from 'glob';
+import { glob } from 'node:fs/promises';
 import { batch, file, builders, run, git } from 'onerepo';
 import type { Builder, Handler, RunSpec } from 'onerepo';
 
@@ -122,10 +122,10 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 
 	if (workspaces.includes(graph.getByName('onerepo'))) {
 		const core = graph.getByName('onerepo');
-		const commands = await glob('*', { cwd: core.resolve('src/core') });
+		const commands = glob('*', { cwd: core.resolve('src/core') });
 
 		const coreDocs = logger.createStep('Getting core docs');
-		for (const cmd of commands) {
+		for await (const cmd of commands) {
 			const outFile = docs.resolve(`src/content/docs/core/${cmd}.mdx`);
 
 			generators.push({
@@ -238,6 +238,12 @@ export const handler: Handler<Argv> = async (argv, { getWorkspaces, graph, logge
 			);
 		}
 		await coreDocsTwo.end();
+
+		await run({
+			name: 'Format files',
+			cmd: $0,
+			args: ['format', '-f', docs.resolve('src/content/docs')],
+		});
 
 		if (add) {
 			await git.updateIndex(docs.resolve('src/content/docs/core'));

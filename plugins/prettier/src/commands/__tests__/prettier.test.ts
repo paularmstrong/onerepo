@@ -2,9 +2,9 @@ import path from 'node:path';
 import * as core from '@actions/core';
 import * as onerepo from 'onerepo';
 import { getCommand } from '@onerepo/test-cli';
-import * as Prettier from '../prettier';
+import * as Prettier from '../prettier.ts';
 
-const { build, graph, run } = getCommand(Prettier);
+const { build, graph, run } = await getCommand(Prettier);
 
 describe('builder', () => {
 	test('sets --staged to true when --add is true', async () => {

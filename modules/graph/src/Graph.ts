@@ -1,12 +1,22 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { readFileSync } from 'node:fs';
+import { glob } from 'node:fs/promises';
+import { globSync } from 'node:fs';
 import { getPackageManager, getPackageManagerName } from '@onerepo/package-manager';
-import { globSync } from 'glob';
 import { Graph as graph } from 'graph-data-structure';
 import type { PackageManager, PackageJson } from '@onerepo/package-manager';
-import type { Jiti } from 'jiti';
-import { Workspace } from './Workspace';
+import type { RootConfig, WorkspaceConfig } from 'onerepo';
+import defaults from 'defaults';
+import { Workspace } from './Workspace.ts';
+
+const defaultConfig: Required<WorkspaceConfig> = {
+	codeowners: {},
+	commands: {
+		passthrough: {},
+	},
+	meta: {},
+	tasks: {},
+};
 
 /**
  * @group Graph
@@ -89,29 +99,31 @@ export class Graph {
 	 * Separate map for aliases to locations to ensure the Graph only uses fully qualified names
 	 */
 	#nameByAlias: Map<string, string> = new Map();
-	#require: NodeJS.Require | Jiti;
 	#packageManager: PackageManager;
 
 	/**
 	 * @internal
 	 */
-	constructor(
-		location: string,
-		packageJson: PackageJson,
-		workspaces: Array<string>,
-		moduleRequire: NodeJS.Require | Jiti = require,
-	) {
-		this.#require = moduleRequire;
+	constructor(location: string, packageManager?: string) {
 		this.#rootLocation = location;
-		this.#addWorkspace(location, packageJson);
+
+		this.#packageManager = getPackageManager(getPackageManagerName(location, packageManager));
+	}
+
+	async construct(packageJson: PackageJson, workspaces: Array<string> = []) {
+		const rootConfig = await this.#getWorkspaceConfig(this.#rootLocation, true);
+		this.#addWorkspace(this.#rootLocation, packageJson, rootConfig);
 
 		for (const pathGlob of workspaces) {
 			const locations = globSync(path.join(pathGlob, 'package.json'), { cwd: this.#rootLocation });
 			for (const pkgLocation of locations.sort()) {
 				const location = path.dirname(pkgLocation);
-				const raw = readFileSync(path.join(this.#rootLocation, pkgLocation), 'utf-8');
-				const packageJson = JSON.parse(raw);
-				this.#addWorkspace(path.join(this.#rootLocation, location), packageJson);
+				const { default: packageJson } = await import(path.join(this.#rootLocation, pkgLocation), {
+					with: { type: 'json' },
+				});
+				const wsLocation = path.join(this.#rootLocation, location);
+				const config = await this.#getWorkspaceConfig(wsLocation);
+				this.#addWorkspace(wsLocation, packageJson, config);
 			}
 		}
 
@@ -120,8 +132,6 @@ export class Graph {
 			this.#addEdges(dependent, workspace.devDependencies, DependencyType.DEV);
 			this.#addEdges(dependent, workspace.peerDependencies, DependencyType.PEER);
 		});
-
-		this.#packageManager = getPackageManager(getPackageManagerName(location, packageJson.packageManager));
 	}
 
 	/**
@@ -391,8 +401,8 @@ export class Graph {
 		return returnGraph;
 	}
 
-	#addWorkspace(location: string, packageJson: PackageJson) {
-		const workspace = new Workspace(this.#rootLocation, location, packageJson, this.#require);
+	#addWorkspace(location: string, packageJson: PackageJson, config: Required<WorkspaceConfig | RootConfig>) {
+		const workspace = new Workspace(this.#rootLocation, location, packageJson, config);
 		this.#byName.set(workspace.name, workspace);
 		workspace.aliases.forEach((alias) => {
 			if (this.#nameByAlias.has(alias)) {
@@ -444,6 +454,31 @@ export class Graph {
 						`Cyclical dependencies are not allowed. Please correct the cycle between ${dependent} and ${dependency}`,
 					);
 				}
+			}
+		}
+	}
+
+	async #getWorkspaceConfig(location: string, isRoot?: boolean) {
+		try {
+			const foundFiles = glob('onerepo.config.{ts,js,mjs,cjs,cts}', { cwd: location });
+			for await (const file of foundFiles) {
+				let config = await import(path.resolve(location, file));
+				config = config.default ?? config;
+				if (isRoot) {
+					return config as Required<RootConfig>;
+				} else {
+					return defaults(config.default ?? config, defaultConfig) as Required<WorkspaceConfig>;
+				}
+			}
+			return { ...defaultConfig };
+		} catch (e) {
+			if (
+				(e && (e as NodeJS.ErrnoException).code === 'MODULE_NOT_FOUND') ||
+				(e as NodeJS.ErrnoException).code === 'ERR_MODULE_NOT_FOUND'
+			) {
+				return { ...defaultConfig } as Required<WorkspaceConfig>;
+			} else {
+				throw e;
 			}
 		}
 	}

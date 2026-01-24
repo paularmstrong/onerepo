@@ -1,13 +1,13 @@
+import { glob } from 'node:fs/promises';
 import inquirer from 'inquirer';
 import pc from 'picocolors';
-import { glob } from 'glob';
 import { write } from '@onerepo/file';
 import { getModifiedFiles, updateIndex } from '@onerepo/git';
 import type { Builder, Handler } from '@onerepo/yargs';
 import type { WithAffected, WithWorkspaces } from '@onerepo/builders';
 import { withAffected, withWorkspaces } from '@onerepo/builders';
 import type { ReleaseType } from 'semver';
-import { getFilename } from './utils/filename';
+import { getFilename } from './utils/filename.ts';
 
 export const command = ['add', '$0'];
 
@@ -151,13 +151,13 @@ ${pc.dim(
 	const files: Array<string> = [];
 	for (const workspaceName of chosen as Array<string>) {
 		const workspace = graph.getByName(workspaceName);
-		const currentFiles = await glob('*.md', { cwd: workspace.resolve('.changes') });
+		const currentFiles = await Array.fromAsync(glob('*.md', { cwd: workspace.resolve('.changes') }));
 		const highestIndex = Math.max(
 			-1,
 			...currentFiles.reduce((memo, filename) => {
 				const matches = filename.match(/^(\d+)-/);
 				if (matches && matches.length > 1) {
-					memo.push(parseInt(matches[1], 10));
+					memo.push(parseInt(matches[1] ?? '', 10));
 				}
 				return memo;
 			}, [] as Array<number>),

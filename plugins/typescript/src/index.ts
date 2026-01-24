@@ -1,5 +1,5 @@
 import type { Plugin } from 'onerepo';
-import * as cmd from './commands/typescript';
+import * as cmd from './commands/typescript.ts';
 
 /**
  * Options for configuring the TypeScript plugin for oneRepo.

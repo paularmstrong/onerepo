@@ -1,11 +1,12 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { getCommand } from '@onerepo/test-cli';
 import * as oneRepo from 'onerepo';
-import * as Build from '../build';
+import * as Build from '../build.ts';
 
-const { run } = getCommand(Build);
+const { run } = await getCommand(Build);
 
-const graph = oneRepo.getGraph(path.join(__dirname, '__fixtures__', 'build'));
+const graph = await oneRepo.getGraph(path.join(fileURLToPath(import.meta.url), '../__fixtures__', 'build'));
 
 describe('handler', () => {
 	beforeEach(async () => {

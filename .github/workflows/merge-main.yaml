@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
 
       - run: yarn
@@ -45,8 +45,6 @@ jobs:
           - ${{ fromJSON(needs.setup.outputs.tasks).parallel }}
           - ${{ fromJSON(needs.setup.outputs.tasks).serial }}
         node:
-          - 20.19.0
-          - 22.12.0
           - 24
     name: v${{ matrix.node }} ${{ join(matrix.task.*.name, ', ') }}
     steps:
@@ -76,7 +74,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
           cache: yarn
           registry-url: https://registry.npmjs.org
 

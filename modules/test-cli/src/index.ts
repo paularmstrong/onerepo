@@ -100,7 +100,7 @@ async function runHandler<R = Record<string, unknown>>(
 	});
 	const logger = new Logger({ verbosity: 5, stream });
 
-	const { builderExtras, graph = getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
+	const { builderExtras, graph = await getGraph(path.join(dirname, 'fixtures', 'repo')) } = extras;
 	const argv = await runBuilder(builder, cmd, graph, builderExtras);
 
 	const wrappedGetAffected = (opts?: Parameters<typeof builders.getAffected>[1]) => builders.getAffected(graph, opts);
@@ -128,7 +128,7 @@ async function runHandler<R = Record<string, unknown>>(
 	return out;
 }
 
-export function getCommand<R = Record<string, unknown>>(
+export async function getCommand<R = Record<string, unknown>>(
 	{
 		builder,
 		handler,
@@ -136,8 +136,9 @@ export function getCommand<R = Record<string, unknown>>(
 		builder: Builder<R>;
 		handler: Handler<R>;
 	},
-	graph: Graph = getGraph(path.join(dirname, 'fixtures', 'repo')),
+	graph?: Graph,
 ) {
+	graph ??= await getGraph(path.join(dirname, 'fixtures', 'repo'));
 	return {
 		build: async (cmd = '', extras?: BuilderExtras) => runBuilder<R>(builder, cmd, graph, extras),
 		graph,
