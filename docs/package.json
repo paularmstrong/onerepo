@@ -22,9 +22,9 @@
 	"dependencies": {
 		"@astrojs/markdown-remark": "^6.3.10",
 		"@astrojs/mdx": "^4.3.13",
-		"@astrojs/starlight": "^0.37.3",
+		"@astrojs/starlight": "^0.37.4",
 		"@expressive-code/plugin-collapsible-sections": "^0.41.6",
-		"astro": "^5.16.11",
+		"astro": "^5.16.15",
 		"astro-meta-tags": "^0.4.0",
 		"astro-og-canvas": "^0.10.0",
 		"d3": "^7.9.0",
