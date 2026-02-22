@@ -2210,7 +2210,7 @@ __metadata:
     "@onerepo/git": "npm:2.0.0"
     "@onerepo/graph": "workspace:^"
     "@onerepo/logger": "npm:2.0.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^10.2.1"
   languageName: unknown
   linkType: soft
 
@@ -2302,7 +2302,7 @@ __metadata:
     graph-data-structure: "npm:^3.2.0"
     jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^10.2.1"
     typescript: "npm:^5.7.2"
   languageName: unknown
   linkType: soft
@@ -4761,6 +4761,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"balanced-match@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "balanced-match@npm:4.0.3"
+  checksum: 10/e9e2177f1eb7db0af2375715e6f992f15d41518921e14f5029de50766ff1b3da824e47e1d5492493e9bb7c743b827e42546cbc260a055b7086e45f54b2b152b9
+  languageName: node
+  linkType: hard
+
 "base-64@npm:^1.0.0":
   version: 1.0.0
   resolution: "base-64@npm:1.0.0"
@@ -4858,6 +4865,15 @@ __metadata:
   dependencies:
     balanced-match: "npm:^1.0.0"
   checksum: 10/a61e7cd2e8a8505e9f0036b3b6108ba5e926b4b55089eeb5550cd04a471fe216c96d4fe7e4c7f995c728c554ae20ddfc4244cad10aef255e72b62930afd233d1
+  languageName: node
+  linkType: hard
+
+"brace-expansion@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "brace-expansion@npm:5.0.2"
+  dependencies:
+    balanced-match: "npm:^4.0.2"
+  checksum: 10/18d382c0919c68f8bb56fbe4a9cb1181a0bf10e6786b5683e586493dfbb517bdcf972f4a3a8d560486627fd9c9c6ecef0a2b8fd454eb6082780307ffd5586251
   languageName: node
   linkType: hard
 
@@ -11298,6 +11314,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimatch@npm:^10.2.1":
+  version: 10.2.2
+  resolution: "minimatch@npm:10.2.2"
+  dependencies:
+    brace-expansion: "npm:^5.0.2"
+  checksum: 10/e135be7b502ac97c02bcee42ccc1c55dc26dbac036c0f4acde69e42fe339d7fb53fae711e57b3546cb533426382ea492c73a073c7f78832e0453d120d48dd015
+  languageName: node
+  linkType: hard
+
 "minimatch@npm:^3.0.4, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
@@ -11316,7 +11341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.3, minimatch@npm:^9.0.4, minimatch@npm:^9.0.5":
+"minimatch@npm:^9.0.4, minimatch@npm:^9.0.5":
   version: 9.0.5
   resolution: "minimatch@npm:9.0.5"
   dependencies:
@@ -11858,7 +11883,7 @@ __metadata:
     inquirer: "npm:^9.1.4"
     jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^10.2.1"
     picocolors: "npm:^1.0.0"
     semver: "npm:^7.5.4"
     typescript: "npm:^5.7.2"
