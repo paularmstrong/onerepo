@@ -38,7 +38,7 @@
 		"@onerepo/package-manager": "2.0.0",
 		"@onerepo/subprocess": "2.0.0",
 		"@onerepo/yargs": "2.0.0",
-		"ajv": "^8.12.0",
+		"ajv": "^8.18.0",
 		"ajv-errors": "^3.0.0",
 		"cliui": "^8.0.1",
 		"defaults": "^3.0.0",
