@@ -2210,7 +2210,7 @@ __metadata:
     "@onerepo/git": "npm:2.0.0"
     "@onerepo/graph": "workspace:^"
     "@onerepo/logger": "npm:2.0.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^9.0.6"
   languageName: unknown
   linkType: soft
 
@@ -2302,7 +2302,7 @@ __metadata:
     graph-data-structure: "npm:^3.2.0"
     jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^9.0.6"
     typescript: "npm:^5.7.2"
   languageName: unknown
   linkType: soft
@@ -4761,6 +4761,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"balanced-match@npm:^4.0.2":
+  version: 4.0.4
+  resolution: "balanced-match@npm:4.0.4"
+  checksum: 10/fb07bb66a0959c2843fc055838047e2a95ccebb837c519614afb067ebfdf2fa967ca8d712c35ced07f2cd26fc6f07964230b094891315ad74f11eba3d53178a0
+  languageName: node
+  linkType: hard
+
 "base-64@npm:^1.0.0":
   version: 1.0.0
   resolution: "base-64@npm:1.0.0"
@@ -4858,6 +4865,15 @@ __metadata:
   dependencies:
     balanced-match: "npm:^1.0.0"
   checksum: 10/a61e7cd2e8a8505e9f0036b3b6108ba5e926b4b55089eeb5550cd04a471fe216c96d4fe7e4c7f995c728c554ae20ddfc4244cad10aef255e72b62930afd233d1
+  languageName: node
+  linkType: hard
+
+"brace-expansion@npm:^5.0.2":
+  version: 5.0.3
+  resolution: "brace-expansion@npm:5.0.3"
+  dependencies:
+    balanced-match: "npm:^4.0.2"
+  checksum: 10/8ba7deae4ca333d52418d2cde3287ac23f44f7330d92c3ecd96a8941597bea8aab02227bd990944d6711dd549bcc6e550fe70be5d94aa02e2fdc88942f480c9b
   languageName: node
   linkType: hard
 
@@ -11316,12 +11332,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.3, minimatch@npm:^9.0.4, minimatch@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "minimatch@npm:9.0.5"
+"minimatch@npm:^9.0.4, minimatch@npm:^9.0.5, minimatch@npm:^9.0.6":
+  version: 9.0.7
+  resolution: "minimatch@npm:9.0.7"
   dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 10/dd6a8927b063aca6d910b119e1f2df6d2ce7d36eab91de83167dd136bb85e1ebff97b0d3de1cb08bd1f7e018ca170b4962479fefab5b2a69e2ae12cb2edc8348
+    brace-expansion: "npm:^5.0.2"
+  checksum: 10/72b9ba4af39f6a89934d56c9cc3bf1d86fb004b00c5e5b3d7f48b004f224005fd2919f52785643b7a18d53fc86f7befc7f25c85ef194cc06708b078682f8c9e5
   languageName: node
   linkType: hard
 
@@ -11858,7 +11874,7 @@ __metadata:
     inquirer: "npm:^9.1.4"
     jiti: "npm:^2.4.2"
     js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^9.0.3"
+    minimatch: "npm:^9.0.6"
     picocolors: "npm:^1.0.0"
     semver: "npm:^7.5.4"
     typescript: "npm:^5.7.2"

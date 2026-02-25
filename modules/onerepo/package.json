@@ -49,7 +49,7 @@
 		"inquirer": "^9.1.4",
 		"jiti": "^2.4.2",
 		"js-yaml": "^4.1.0",
-		"minimatch": "^9.0.3",
+		"minimatch": "^9.0.6",
 		"picocolors": "^1.0.0",
 		"semver": "^7.5.4",
 		"yargs": "^18.0.0",
