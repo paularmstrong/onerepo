@@ -1,48 +1,51 @@
 {
-	"name": "@onerepo/root",
-	"packageManager": "yarn@4.12.0",
-	"private": true,
-	"type": "module",
-	"bin": {
-		"one": "./bin/one.mjs"
-	},
-	"workspaces": [
-		"docs",
-		"internal/*",
-		"modules/*",
-		"plugins/*"
-	],
-	"dependencies": {
-		"jiti": "^2.4.2"
-	},
-	"devDependencies": {
-		"@internal/eslint-plugin": "workspace:^",
-		"@internal/jest-config": "workspace:^",
-		"@internal/prettier-config": "workspace:^",
-		"@internal/tsconfig": "workspace:^",
-		"@onerepo/plugin-docgen": "workspace:^",
-		"@onerepo/plugin-eslint": "workspace:^",
-		"@onerepo/plugin-jest": "workspace:^",
-		"@onerepo/plugin-performance-writer": "workspace:^",
-		"@onerepo/plugin-prettier": "workspace:^",
-		"@onerepo/plugin-typescript": "workspace:^",
-		"@onerepo/plugin-vitest": "workspace:^",
-		"@onerepo/test-cli": "workspace:^",
-		"esbuild": "^0.25.4",
-		"eslint": "^9.28.0",
-		"glob": "^10.1.0",
-		"human-id": "^4.1.0",
-		"jest": "^30.2.0",
-		"onerepo": "workspace:^",
-		"prettier": "^3.4.2",
-		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.33.0",
-		"vitest": "^4.0.17"
-	},
-	"engines": {
-		"node": "^20.19.0 || ^22.10.0 || ^24"
-	},
-	"resolutions": {
-		"@astrojs/starlight@^0.21.0": "patch:@astrojs/starlight@npm%3A0.21.0#./.yarn/patches/@astrojs-starlight-npm-0.21.0-f537baa752.patch"
-	}
+  "name": "@onerepo/root",
+  "packageManager": "yarn@4.12.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "one": "./bin/one.mjs"
+  },
+  "workspaces": [
+    "docs",
+    "internal/*",
+    "modules/*",
+    "plugins/*"
+  ],
+  "dependencies": {
+    "jiti": "^2.4.2"
+  },
+  "devDependencies": {
+    "@internal/eslint-plugin": "workspace:^",
+    "@internal/jest-config": "workspace:^",
+    "@internal/prettier-config": "workspace:^",
+    "@internal/tsconfig": "workspace:^",
+    "@onerepo/plugin-docgen": "workspace:^",
+    "@onerepo/plugin-eslint": "workspace:^",
+    "@onerepo/plugin-jest": "workspace:^",
+    "@onerepo/plugin-performance-writer": "workspace:^",
+    "@onerepo/plugin-prettier": "workspace:^",
+    "@onerepo/plugin-typescript": "workspace:^",
+    "@onerepo/plugin-vitest": "workspace:^",
+    "@onerepo/test-cli": "workspace:^",
+    "esbuild": "^0.25.4",
+    "eslint": "^9.28.0",
+    "glob": "^10.1.0",
+    "human-id": "^4.1.0",
+    "jest": "^30.2.0",
+    "onerepo": "workspace:^",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.33.0",
+    "vitest": "^4.0.17"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.10.0 || ^24"
+  },
+  "resolutions": {
+    "@astrojs/starlight@^0.21.0": "patch:@astrojs/starlight@npm%3A0.21.0#./.yarn/patches/@astrojs-starlight-npm-0.21.0-f537baa752.patch"
+  },
+  "bugs": {
+    "url": "https://github.com/paularmstrong/onerepo/issues"
+  }
 }
