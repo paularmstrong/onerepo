@@ -9,6 +9,9 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/jest"
 	},
+	"bugs": {
+		"url": "https://github.com/paularmstrong/onerepo/issues"
+	},
 	"homepage": "https://onerepo.tools/plugins/vitest/",
 	"type": "module",
 	"main": "./src/index.ts",

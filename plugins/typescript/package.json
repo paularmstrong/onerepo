@@ -9,6 +9,9 @@
 		"url": "git://github.com/paularmstrong/onerepo.git",
 		"directory": "plugins/typescript"
 	},
+	"bugs": {
+		"url": "https://github.com/paularmstrong/onerepo/issues"
+	},
 	"homepage": "https://onerepo.tools/plugins/typescript",
 	"type": "module",
 	"main": "./src/index.ts",
